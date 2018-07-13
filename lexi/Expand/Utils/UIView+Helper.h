@@ -1,0 +1,74 @@
+//
+//  UIView+Helper.h
+//  lexi
+//
+//  Created by FLYang on 2018/6/21.
+//  Copyright © 2018年 taihuoniao. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger, UILayoutCornerRadiusType) {
+    // 全部角都切圆角
+    UILayoutCornerRadiusAll = 0,
+    
+    // 切三个角
+    UILayoutCornerRadiusExceptTopLeft,
+    UILayoutCornerRadiusExceptTopRight,
+    UILayoutCornerRadiusExceptBottomLeft,
+    UILayoutCornerRadiusExceptBottomRight,
+    
+    // 切两个角（同一边）
+    UILayoutCornerRadiusTop,
+    UILayoutCornerRadiusLeft,
+    UILayoutCornerRadiusRight,
+    UILayoutCornerRadiusBottom,
+    
+    // 切一个角
+    UILayoutCornerRadiusTopLeft,
+    UILayoutCornerRadiusTopRight,
+    UILayoutCornerRadiusBottomLeft,
+    UILayoutCornerRadiusBottomRight,
+    
+    // 对角线
+    UILayoutCornerRadiusTopLeftToBottomRight,
+    UILayoutCornerRadiusTopRightToBottomLeft
+};
+
+typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
+    UIViewBorderLineTypeTop,
+    UIViewBorderLineTypeRight,
+    UIViewBorderLineTypeBottom,
+    UIViewBorderLineTypeLeft,
+};
+
+@interface UIView (Helper)
+
+/**
+ 绘制直线
+
+ @param start X 开始位置
+ @param end Y 开始位置
+ @param width 宽度
+ @param color 颜色
+ */
++ (void)drawRectLineStart:(CGPoint)start end:(CGPoint)end width:(CGFloat)width color:(UIColor *)color;
+
+/**
+ 绘制圆角
+
+ @param type 类型
+ @param radius 半径
+ */
+- (void)drawCornerWithType:(UILayoutCornerRadiusType)type radius:(CGFloat)radius;
+
+/**
+ 设置视图的单边框
+
+ @param type 边框类型
+ @param width 宽度
+ @param color 颜色
+ */
+- (void)drawViewBorderType:(UIViewBorderLineType)type width:(CGFloat)width color:(UIColor *)color ;
+
+@end
