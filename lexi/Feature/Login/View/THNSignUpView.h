@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNLoginBaseView.h"
 
-@interface THNSignUpView : UIView
+@protocol THNSignUpViewDelegate <NSObject>
+
+@required
+- (void)thn_signUpSetPassword;
+- (void)thn_showZipCodeList;
+- (void)thn_directLogin;
+
+@end
+
+@interface THNSignUpView : THNLoginBaseView
+
+@property (nonatomic, weak) id <THNSignUpViewDelegate> delegate;
 
 @end

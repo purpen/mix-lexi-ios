@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNLoginBaseView.h"
 
-@interface THNSignInView : UIView
+@interface THNSignInView : THNLoginBaseView
 
 @end

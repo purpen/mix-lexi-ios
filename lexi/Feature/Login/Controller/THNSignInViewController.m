@@ -40,6 +40,7 @@
  */
 - (void)setNavigationBar {
     WEAKSELF;
+    
     [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         [weakSelf dismissViewControllerAnimated:YES completion:nil];

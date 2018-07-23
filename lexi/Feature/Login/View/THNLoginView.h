@@ -11,7 +11,6 @@
 @protocol THNLoginViewDelegate <NSObject>
 
 @required
-
 - (void)thn_loginViewDidSelectSignUpButton:(UIButton *)button;
 - (void)thn_loginViewDidSelectWechatButton:(UIButton *)button;
 - (void)thn_loginViewDidSelectSignInButton:(UIButton *)button;

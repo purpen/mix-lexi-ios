@@ -7,14 +7,10 @@
 //
 
 #import "THNSignUpView.h"
-#import "THNMarco.h"
-#import "THNConst.h"
-#import "UIColor+Extension.h"
-#import "UIView+Helper.h"
-#import "NSString+Helper.h"
-#import <Masonry/Masonry.h>
 #import <YYText/YYText.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNAuthCodeButton.h"
+#import "THNDoneButton.h"
 
 static NSString *const kTitleLabelText      = @"注册";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -27,8 +23,6 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 
 @interface THNSignUpView ()
 
-/// 标题
-@property (nonatomic, strong) UILabel *titleLabel;
 /// 控件容器
 @property (nonatomic, strong) UIView *containerView;
 /// 手机区号
@@ -38,9 +32,9 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 /// 验证码输入框
 @property (nonatomic, strong) UITextField *authCodeTextField;
 /// 获取验证码按钮
-@property (nonatomic, strong) UIButton *authCodeButton;
+@property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
 /// 完成（下一步）按钮
-@property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) THNDoneButton *doneButton;
 /// 已有账号，去登录提示
 @property (nonatomic, strong) YYLabel *signInLabel;
 /// 用户协议提示
@@ -53,40 +47,58 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 @implementation THNSignUpView
 
 - (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
         [self setupViewUI];
     }
     return self;
 }
 
-#pragma mark - event response
-- (void)doneButtonAction:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"下一步，设置密码"];
-}
-
-- (void)authCodeButtonAction:(UIButton *)button {
-    if ([self.phoneTextField.text checkTel]) {
-        [self.authCodeTextField becomeFirstResponder];
-        
-    } else {
+#pragma mark - private methods
+- (void)thn_doneButtonAction {
+    WEAKSELF;
+    
+    if (![weakSelf.phoneTextField.text checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        return;
+    }
+    
+    if (weakSelf.authCodeTextField.text.length < 4) {
+        [SVProgressHUD showInfoWithStatus:@"请输入正确的验证码"];
+        return;
+    }
+    
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPassword)]) {
+        [weakSelf.delegate thn_signUpSetPassword];
     }
 }
 
+#pragma mark - event response
+- (void)authCodeButtonAction:(THNAuthCodeButton *)button {
+    if (![self.phoneTextField.text checkTel]) {
+        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        return;
+    }
+    
+    [self.authCodeTextField becomeFirstResponder];
+    [SVProgressHUD showSuccessWithStatus:@"验证码已发送"];
+    
+    [button thn_countdownStartTime:60 completion:^(THNAuthCodeButton *authCodeButton) {
+        
+    }];
+}
+
 - (void)zipCodeButtonAction:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"选择区号"];
+    if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
+        [self.delegate thn_showZipCodeList];
+    }
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
+    self.title = kTitleLabelText;
     
-    [self addSubview:self.titleLabel];
     [self.containerView addSubview:self.phoneTextField];
     [self.containerView addSubview:self.authCodeTextField];
     [self.containerView addSubview:self.doneButton];
@@ -100,21 +112,14 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 30));
-        make.left.mas_equalTo(20);
-        make.top.mas_equalTo(kDeviceiPhoneX ? 104 : 84);
-    }];
-    
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
-        make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(30);
+        make.top.mas_equalTo(kDeviceiPhoneX ? 164 : 144);
         make.height.mas_equalTo(198);
     }];
     
     self.zipCodeButton.frame = CGRectMake(0, 0, 80, 46);
-    self.authCodeButton.frame = CGRectMake(0, 0, 100, 46);
     
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
@@ -150,16 +155,6 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 }
 
 #pragma mark - getters and setters
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont systemFontOfSize:30 weight:(UIFontWeightSemibold)];
-        _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-        _titleLabel.text = kTitleLabelText;
-    }
-    return _titleLabel;
-}
-
 - (UIView *)containerView {
     if (!_containerView) {
         _containerView = [[UIView alloc] init];
@@ -195,13 +190,9 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     return _phoneTextField;
 }
 
-- (UIButton *)authCodeButton {
+- (THNAuthCodeButton *)authCodeButton {
     if (!_authCodeButton) {
-        _authCodeButton = [[UIButton alloc] init];
-        [_authCodeButton setTitle:kAuthCodeButtonTitle forState:(UIControlStateNormal)];
-        [_authCodeButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
-        _authCodeButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
-        _authCodeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _authCodeButton = [[THNAuthCodeButton alloc] init];
         [_authCodeButton addTarget:self action:@selector(authCodeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _authCodeButton;
@@ -220,19 +211,15 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     return _authCodeTextField;
 }
 
-- (UIButton *)doneButton {
+- (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        _doneButton = [[UIButton alloc] init];
-        [_doneButton setTitle:kDoneButtonTitle forState:(UIControlStateNormal)];
-        [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:(UIControlStateNormal)];
-        _doneButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightSemibold)];
-        _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
-        _doneButton.layer.cornerRadius = 4;
-        _doneButton.layer.shadowOffset = CGSizeMake(0, 10);
-        _doneButton.layer.shadowColor = [UIColor colorWithHexString:kColorMain alpha:0.5].CGColor;
-        _doneButton.layer.shadowOpacity = 0.2;
-        _doneButton.layer.shadowRadius = 4;
-        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        WEAKSELF;
+        
+        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                             withTitle:kDoneButtonTitle
+                                            completion:^{
+                                                [weakSelf thn_doneButtonAction];
+                                            }];
     }
     return _doneButton;
 }
@@ -240,15 +227,20 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 - (YYLabel *)signInLabel {
     if (!_signInLabel) {
         _signInLabel = [[YYLabel alloc] init];
+        
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kSignInText];
         attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
         attText.yy_color = [UIColor colorWithHexString:@"#333333"];
         attText.yy_alignment = NSTextAlignmentCenter;
+        
+        WEAKSELF;
         [attText yy_setTextHighlightRange:NSMakeRange(5, 4)
                                  color:[UIColor colorWithHexString:kColorMain]
                        backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                              tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                 [SVProgressHUD showInfoWithStatus:@"登录账号"];
+                                 if ([weakSelf.delegate respondsToSelector:@selector(thn_directLogin)]) {
+                                     [weakSelf.delegate thn_directLogin];
+                                 }
                              }];
         
         _signInLabel.attributedText = attText;
