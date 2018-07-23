@@ -14,10 +14,13 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - FBRetainCycleDetector (0.1.4)
   - IQKeyboardManager (4.0.13)
   - Masonry (1.1.0)
   - MJExtension (3.0.15)
   - MJRefresh (3.1.15.3)
+  - MLeaksFinder (1.0.0):
+    - FBRetainCycleDetector
   - SDWebImage (4.4.1):
     - SDWebImage/Core (= 4.4.1)
   - SDWebImage/Core (4.4.1)
@@ -31,6 +34,7 @@ DEPENDENCIES:
   - Masonry (~> 1.1.0)
   - MJExtension (~> 3.0.15)
   - MJRefresh (~> 3.1.15.3)
+  - MLeaksFinder
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
   - TYAlertController (~> 1.2.0)
@@ -39,10 +43,12 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - FBRetainCycleDetector
     - IQKeyboardManager
     - Masonry
     - MJExtension
     - MJRefresh
+    - MLeaksFinder
     - SDWebImage
     - SVProgressHUD
     - TYAlertController
@@ -50,15 +56,17 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 3f039575db1b135a20699ad298713b26acec1528
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: af1d0764a3c36e5c69c5b46dc3c588596006ac21
+PODFILE CHECKSUM: cbbb361dd2c40378c1be3697d5e7a5bb1c56c246
 
 COCOAPODS: 1.5.3
