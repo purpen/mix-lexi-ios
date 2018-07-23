@@ -8,8 +8,11 @@
 
 #import "THNSignUpViewController.h"
 #import "THNSignUpView.h"
+#import "THNSetPasswordViewController.h"
+#import "THNSignInViewController.h"
+#import "THNZipCodeViewController.h"
 
-@interface THNSignUpViewController ()
+@interface THNSignUpViewController () <THNSignUpViewDelegate>
 
 @property (nonatomic, strong) THNSignUpView *signUpView;
 
@@ -24,6 +27,23 @@
     [self setupUI];
 }
 
+#pragma mark - custom delegate
+- (void)thn_signUpSetPassword {
+    THNSetPasswordViewController *setPasswordVC = [[THNSetPasswordViewController alloc] init];
+    [self.navigationController pushViewController:setPasswordVC animated:YES];
+}
+
+- (void)thn_showZipCodeList {
+    THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
+    [self presentViewController:zipCodeVC animated:YES completion:nil];
+}
+
+- (void)thn_directLogin {
+    THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+    [self.navigationController pushViewController:signInVC animated:YES];
+}
+
+#pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.signUpView];
 }
@@ -49,6 +69,7 @@
 - (THNSignUpView *)signUpView {
     if (!_signUpView) {
         _signUpView = [[THNSignUpView alloc] init];
+        _signUpView.delegate = self;
     }
     return _signUpView;
 }
