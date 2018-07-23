@@ -11,10 +11,11 @@
 #pragma mark - 导航栏标题
 UIKIT_EXTERN NSString *const kTitleHome;
 UIKIT_EXTERN NSString *const kTitleCart;
-UIKIT_EXTERN NSString *const kTitleInbox;
+UIKIT_EXTERN NSString *const kTitleDiscover;
 UIKIT_EXTERN NSString *const kTitleMyCenter;
 UIKIT_EXTERN NSString *const kTitleSignIn;
 UIKIT_EXTERN NSString *const kTitleSignUp;
+UIKIT_EXTERN NSString *const kTitleInbox;
 UIKIT_EXTERN NSString *const kTitleFindPWD;
 
 #pragma mark - 网络请求

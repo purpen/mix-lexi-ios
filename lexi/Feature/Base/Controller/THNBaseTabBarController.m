@@ -10,7 +10,7 @@
 #import "THNBaseNavigationController.h"
 #import "THNHomeViewController.h"
 #import "THNCartViewController.h"
-#import "THNInboxViewController.h"
+#import "THNDiscoverViewController.h"
 #import "THNMyCenterViewController.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
@@ -19,8 +19,8 @@
 
 @interface THNBaseTabBarController () <UITabBarControllerDelegate> {
     THNHomeViewController       *_homeVC;
+    THNDiscoverViewController   *_discoverVC;
     THNCartViewController       *_cartVC;
-    THNInboxViewController      *_inboxVC;
     THNMyCenterViewController   *_myCenterVC;
 }
 
@@ -69,14 +69,14 @@
  */
 - (void)initTabBarController {
     _homeVC = [[THNHomeViewController alloc] init];
+    _discoverVC = [[THNDiscoverViewController alloc] init];
     _cartVC = [[THNCartViewController alloc] init];
-    _inboxVC = [[THNInboxViewController alloc] init];
     _myCenterVC = [[THNMyCenterViewController alloc] init];
     
-    NSArray *controllerArr = @[_homeVC, _cartVC, _inboxVC, _myCenterVC];
-    NSArray *titleArr = @[@"首页", @"购物车", @"收件箱", @"我的"];
-    NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_cart_default", @"tabbar_inbox_default", @"tabbar_myCenter_default"];
-    NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_cart_selected", @"tabbar_inbox_selected", @"tabbar_myCenter_selected"];
+    NSArray *controllerArr = @[_homeVC, _discoverVC, _cartVC, _myCenterVC];
+    NSArray *titleArr = @[@"首页", @"发现", @"购物车", @"我的"];
+    NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_inbox_default", @"tabbar_cart_default", @"tabbar_myCenter_default"];
+    NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_inbox_selected", @"tabbar_cart_selected", @"tabbar_myCenter_selected"];
     
     [self setChildViewController:controllerArr
                    defaultImages:defaultimageArr
