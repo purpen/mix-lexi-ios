@@ -11,8 +11,9 @@
 #pragma mark - 导航栏标题
 NSString *const kTitleHome          = @"首页";
 NSString *const kTitleCart          = @"购物车";
-NSString *const kTitleInbox         = @"收件箱";
+NSString *const kTitleDiscover      = @"发现";
 NSString *const kTitleMyCenter      = @"我的";
+NSString *const kTitleInbox         = @"收件箱";
 NSString *const kTitleSignIn        = @"登录";
 NSString *const kTitleSignUp        = @"注册";
 NSString *const kTitleFindPWD       = @"找回密码";

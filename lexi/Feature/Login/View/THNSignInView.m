@@ -7,14 +7,11 @@
 //
 
 #import "THNSignInView.h"
-#import "THNMarco.h"
-#import "THNConst.h"
-#import "UIColor+Extension.h"
-#import "UIView+Helper.h"
-#import "NSString+Helper.h"
-#import <Masonry/Masonry.h>
 #import <YYText/YYText.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNPasswordTextField.h"
+#import "THNAuthCodeButton.h"
+#import "THNDoneButton.h"
 
 static NSString *const kTitleLabelText      = @"登录";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -29,8 +26,6 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 
 @interface THNSignInView () <UITextFieldDelegate>
 
-/// 标题
-@property (nonatomic, strong) UILabel *titleLabel;
 /// 登录方式切换
 @property (nonatomic, strong) UISegmentedControl *loginSegmented;
 /// 控件容器
@@ -40,15 +35,13 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 /// 手机号输入框
 @property (nonatomic, strong) UITextField *phoneTextField;
 /// 密码输入框
-@property (nonatomic, strong) UITextField *pwdTextField;
-/// 显示密码
-@property (nonatomic, strong) UIButton *secureButton;
+@property (nonatomic, strong) THNPasswordTextField *pwdTextField;
 /// 验证码输入框
 @property (nonatomic, strong) UITextField *authCodeTextField;
 /// 获取验证码按钮
-@property (nonatomic, strong) UIButton *authCodeButton;
+@property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
 /// 完成（登录）按钮
-@property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) THNDoneButton *doneButton;
 /// 忘记密码按钮
 @property (nonatomic, strong) UIButton *forgetButton;
 /// 已有账号，去登录提示
@@ -57,20 +50,15 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 @property (nonatomic, strong) UILabel *thirdLoginLabel;
 /// 微信登录
 @property (nonatomic, strong) UIButton *wechatButton;
-/// 记录加载控件
+/// 保存加载控件
 @property (nonatomic, strong) NSArray *controlArray;
 
 @end
 
 @implementation THNSignInView
 
-
 - (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
         [self setupViewUI];
     }
@@ -82,13 +70,18 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [SVProgressHUD showInfoWithStatus:@"登录"];
 }
 
-- (void)authCodeButtonAction:(UIButton *)button {
-    if ([self.phoneTextField.text checkTel]) {
-        [self.authCodeTextField becomeFirstResponder];
-        
-    } else {
+- (void)authCodeButtonAction:(THNAuthCodeButton *)button {
+    if (![self.phoneTextField.text checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        return;
     }
+    
+    [SVProgressHUD showSuccessWithStatus:@"验证码已发送"];
+    [self.authCodeTextField becomeFirstResponder];
+    
+    [button thn_countdownStartTime:60 completion:^(THNAuthCodeButton *authCodeButton) {
+        
+    }];
 }
 
 - (void)zipCodeButtonAction:(UIButton *)button {
@@ -134,16 +127,6 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     }
 }
 
-#pragma mark - textField delegate
-/// 直接设置 secureTextEntry 属性有内存泄漏的问题，使用代理进行设置
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if (textField == self.pwdTextField) {
-        textField.secureTextEntry = YES;
-    }
-    
-    return YES;
-}
-
 #pragma mark - private methods
 /**
  切换密码登录
@@ -158,8 +141,8 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
+    self.title = kTitleLabelText;
     
-    [self addSubview:self.titleLabel];
     [self addSubview:self.loginSegmented];
     [self.containerView addSubview:self.phoneTextField];
     [self.containerView addSubview:self.authCodeTextField];
@@ -179,28 +162,20 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 30));
-        make.left.mas_equalTo(20);
-        make.top.mas_equalTo(kDeviceiPhoneX ? 104 : 84);
-    }];
-    
     [self.loginSegmented mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 30));
         make.left.mas_equalTo(20);
-        make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(30);
+        make.top.mas_equalTo(kDeviceiPhoneX ? 164 : 144);
     }];
     
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
-        make.top.mas_equalTo(self.loginSegmented.mas_bottom).with.offset(25);
+        make.top.equalTo(self.loginSegmented.mas_bottom).with.offset(25);
         make.height.mas_equalTo(122);
     }];
     
     self.zipCodeButton.frame = CGRectMake(0, 0, 80, 46);
-    self.authCodeButton.frame = CGRectMake(0, 0, 100, 46);
-    self.secureButton.frame = CGRectMake(0, 0, 46, 46);
     
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
@@ -214,7 +189,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [self.pwdTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(0);
-        make.top.mas_equalTo(self.phoneTextField.mas_bottom).with.offset(30);
+        make.top.equalTo(self.phoneTextField.mas_bottom).with.offset(30);
         make.height.mas_equalTo(46);
     }];
     
@@ -240,14 +215,14 @@ static NSString *const kThirdLoginText      = @"第三方登录";
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.top.mas_equalTo(self.containerView.mas_bottom).with.offset(58);
-        make.height.mas_equalTo(46);
+        make.height.mas_equalTo(45);
     }];
     
     [self.signUpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
-        make.top.equalTo(self.doneButton.mas_bottom).with.offset(20);
-        make.height.mas_equalTo(40);
+        make.top.equalTo(self.doneButton.mas_bottom).with.offset(25);
+        make.height.mas_equalTo(30);
     }];
     
     [self.thirdLoginLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -266,7 +241,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 }
 
 /**
- 绘制 LOGO 分割线
+ 绘制分割线
  */
 - (void)drawRect:(CGRect)rect {
     [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 100))
@@ -281,16 +256,6 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 }
 
 #pragma mark - getters and setters
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont systemFontOfSize:30 weight:(UIFontWeightSemibold)];
-        _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-        _titleLabel.text = kTitleLabelText;
-    }
-    return _titleLabel;
-}
-
 - (UISegmentedControl *)loginSegmented {
     if (!_loginSegmented) {
         _loginSegmented = [[UISegmentedControl alloc] initWithItems:@[@"密码登录", @"动态码登录"]];
@@ -345,38 +310,17 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     return _phoneTextField;
 }
 
-- (UITextField *)pwdTextField {
+- (THNPasswordTextField *)pwdTextField {
     if (!_pwdTextField) {
-        _pwdTextField = [[UITextField alloc] init];
-        _pwdTextField.rightView = self.secureButton;
-        _pwdTextField.rightViewMode = UITextFieldViewModeAlways;
-        _pwdTextField.placeholder = kPwdPlaceholder;
-        _pwdTextField.font = [UIFont systemFontOfSize:18 weight:(UIFontWeightRegular)];
-        _pwdTextField.textColor = [UIColor colorWithHexString:@"#333333"];
-        _pwdTextField.delegate = self;
+        _pwdTextField = [[THNPasswordTextField alloc] init];
+        _pwdTextField.kPlaceholderText = kPwdPlaceholder;
     }
     return _pwdTextField;
 }
 
-- (UIButton *)secureButton {
-    if (!_secureButton) {
-        _secureButton = [[UIButton alloc] init];
-        [_secureButton setImage:[UIImage imageNamed:@"icon_secure_no"] forState:(UIControlStateNormal)];
-        [_secureButton setImage:[UIImage imageNamed:@"icon_secure_yes"] forState:(UIControlStateSelected)];
-        [_secureButton setImageEdgeInsets:(UIEdgeInsetsMake(13, 26, 13, 0))];
-        _secureButton.selected = NO;
-        [_secureButton addTarget:self action:@selector(secureButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
-    }
-    return _secureButton;
-}
-
-- (UIButton *)authCodeButton {
+- (THNAuthCodeButton *)authCodeButton {
     if (!_authCodeButton) {
-        _authCodeButton = [[UIButton alloc] init];
-        [_authCodeButton setTitle:kAuthCodeButtonTitle forState:(UIControlStateNormal)];
-        [_authCodeButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
-        _authCodeButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
-        _authCodeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _authCodeButton = [[THNAuthCodeButton alloc] init];
         [_authCodeButton addTarget:self action:@selector(authCodeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _authCodeButton;
@@ -395,19 +339,13 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     return _authCodeTextField;
 }
 
-- (UIButton *)doneButton {
+- (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        _doneButton = [[UIButton alloc] init];
-        [_doneButton setTitle:kDoneButtonTitle forState:(UIControlStateNormal)];
-        [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:(UIControlStateNormal)];
-        _doneButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightSemibold)];
-        _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
-        _doneButton.layer.cornerRadius = 4;
-        _doneButton.layer.shadowOffset = CGSizeMake(0, 10);
-        _doneButton.layer.shadowColor = [UIColor colorWithHexString:kColorMain alpha:0.5].CGColor;
-        _doneButton.layer.shadowOpacity = 0.2;
-        _doneButton.layer.shadowRadius = 4;
-        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                             withTitle:kDoneButtonTitle
+                                            completion:^{
+                                                [SVProgressHUD showInfoWithStatus:@"登录"];
+                                            }];
     }
     return _doneButton;
 }
@@ -464,6 +402,5 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     }
     return _wechatButton;
 }
-
 
 @end
