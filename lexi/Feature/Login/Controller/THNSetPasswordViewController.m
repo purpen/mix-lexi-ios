@@ -10,6 +10,13 @@
 #import "THNSetPasswordView.h"
 #import "THNNewUserInfoViewController.h"
 
+/// 设置密码 api
+static NSString *const kURLSetPassword      = @"/auth/set_password";
+static NSString *const kParamEmail          = @"email";
+static NSString *const kParamAreaCode       = @"areacode";
+static NSString *const kParamPassword       = @"password";
+static NSString *const kParamAffirmPassword = @"affirm_password";
+
 @interface THNSetPasswordViewController ()
 
 @property (nonatomic, strong) THNSetPasswordView *setPasswordView;
@@ -25,6 +32,43 @@
     [self setupUI];
 }
 
+#pragma mark - network
+- (void)networkPostSetPassword:(NSDictionary *)param {
+    NSLog(@"设置密码的参数：===== %@", param);
+    THNRequest *request = [THNAPI postWithUrlString:kURLSetPassword
+                                  requestDictionary:param
+                                             isSign:NO
+                                           delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, id result) {
+        NSLog(@"设置密码 === %@", result);
+        THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
+        [self.navigationController pushViewController:newUserInfoVC animated:YES];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+#pragma mark - private methods
+/**
+ 获取密码参数
+ */
+- (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
+    if (!self.email.length || !self.areacode.length || !password.length || !affirmPassword.length) {
+        [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
+        return;
+    }
+    
+    NSDictionary *paramDict = @{kParamEmail: self.email,
+                                kParamAreaCode: self.areacode,
+                                kParamPassword: password,
+                                kParamAffirmPassword: affirmPassword};
+    
+    [self networkPostSetPassword:paramDict];
+}
+
+#pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.setPasswordView];
 }
@@ -42,9 +86,8 @@
         
         WEAKSELF;
         
-        _setPasswordView.SetPasswordRegisterBlock = ^{
-            THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-            [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
+        _setPasswordView.SetPasswordRegisterBlock = ^(NSString *password, NSString *affirmPassword) {
+            [weakSelf thn_getPasswordParam:password affirmPassword:affirmPassword];
         };
     }
     return _setPasswordView;
