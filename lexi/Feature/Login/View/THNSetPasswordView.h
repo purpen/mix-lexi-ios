@@ -13,6 +13,6 @@
 /**
  设置完成密码，注册
  */
-@property (nonatomic, copy) void (^SetPasswordRegisterBlock)(void);
+@property (nonatomic, copy) void (^SetPasswordRegisterBlock)(NSString *password, NSString *affirmPassword);
 
 @end

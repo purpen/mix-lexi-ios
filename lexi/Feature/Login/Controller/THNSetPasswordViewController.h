@@ -10,4 +10,14 @@
 
 @interface THNSetPasswordViewController : THNBaseViewController
 
+/**
+ 账号
+ */
+@property (nonatomic, strong) NSString *email;
+
+/**
+ 区号
+ */
+@property (nonatomic, strong) NSString *areacode;
+
 @end
