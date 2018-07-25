@@ -180,6 +180,11 @@
     boderLineLayer.backgroundColor = color.CGColor;
     
     switch (type) {
+        case UIViewBorderLineTypeAll: {
+            boderLineLayer.frame = self.frame;
+        }
+            break;
+            
         case UIViewBorderLineTypeTop: {
             boderLineLayer.frame = CGRectMake(0, 0, self.frame.size.width, width);
         }
