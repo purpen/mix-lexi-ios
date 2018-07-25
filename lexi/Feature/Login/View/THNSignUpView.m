@@ -21,7 +21,9 @@ static NSString *const kDoneButtonTitle     = @"下一步设置密码";
 static NSString *const kSignInText          = @"已有账号？点击登录";
 static NSString *const kProtocolText        = @"注册代表同意乐喜《服务条款》和《隐私条款》";
 
-@interface THNSignUpView ()
+@interface THNSignUpView () {
+    NSString *_verifyCode;
+}
 
 /// 控件容器
 @property (nonatomic, strong) UIView *containerView;
@@ -54,6 +56,15 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     return self;
 }
 
+#pragma mark - public methods
+- (void)thn_setVerifyCode:(NSString *)code {
+    _verifyCode = code;
+}
+
+- (void)thn_setAreaCode:(NSString *)code {
+    [self.zipCodeButton setTitle:code forState:(UIControlStateNormal)];
+}
+
 #pragma mark - private methods
 - (void)thn_doneButtonAction {
     WEAKSELF;
@@ -68,24 +79,55 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPassword)]) {
-        [weakSelf.delegate thn_signUpSetPassword];
+    if (![weakSelf.authCodeTextField.text isEqualToString:_verifyCode]) {
+        [SVProgressHUD showErrorWithStatus:@"验证码错误，请重新输入"];
+        return;
     }
+    
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
+        [weakSelf.delegate thn_signUpSetPasswordWithPhoneNum:[weakSelf getPhoneNum]
+                                                     zipCode:[weakSelf getZipCode]
+                                                  verifyCode:[weakSelf getVerifyCode]];
+    }
+}
+
+/**
+ 获取输入的手机号
+ */
+- (NSString *)getPhoneNum {
+    return self.phoneTextField.text;
+}
+
+/**
+ 获取手机区号
+ */
+- (NSString *)getZipCode {
+    return self.zipCodeButton.titleLabel.text;
+}
+
+/**
+ 获取短信验证码
+ */
+- (NSString *)getVerifyCode {
+    return self.authCodeTextField.text;
 }
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![self.phoneTextField.text checkTel]) {
+    if (![[self getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
-    [self.authCodeTextField becomeFirstResponder];
-    [SVProgressHUD showSuccessWithStatus:@"验证码已发送"];
+    WEAKSELF;
     
-    [button thn_countdownStartTime:60 completion:^(THNAuthCodeButton *authCodeButton) {
-        
-    }];
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
+        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
+                                                zipCode:[weakSelf getZipCode]];
+    }
+
+    [self.authCodeTextField becomeFirstResponder];
+    [button thn_countdownStartTime:60 completion:nil];
 }
 
 - (void)zipCodeButtonAction:(UIButton *)button {
@@ -213,6 +255,7 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        
         WEAKSELF;
         
         _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)

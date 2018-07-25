@@ -10,4 +10,9 @@
 
 @interface THNSetPasswordView : THNLoginBaseView
 
+/**
+ 设置完成密码，注册
+ */
+@property (nonatomic, copy) void (^SetPasswordRegisterBlock)(void);
+
 @end

@@ -10,7 +10,6 @@
 
 @interface UIImage (Helper)
 
-
 /**
  默认从图片中心点开始拉伸图片
  */
@@ -50,5 +49,12 @@
 + (UIImage *)creatQRCodeImageForLinkUrl:(NSString *)url width:(CGFloat)width;
 + (UIImage *)generateQRCodeimagesForCIImage:(CIImage *)ciImage width:(CGFloat)width;
 
+/**
+ 压缩图片
+
+ @param image 原图
+ @return 压缩后的图片
+ */
++ (UIImage *)processImage:(UIImage *)image;
 @end
 
