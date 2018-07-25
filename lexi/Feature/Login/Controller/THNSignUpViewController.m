@@ -53,9 +53,8 @@ static NSString *const kParamVerifyCode     = @"verify_code";
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        
+        NSLog(@"验证码 ==== %@", result);
         NSString *verifyCode = result[@"data"][kResultVerifyCode];
-        NSLog(@"--- %@", verifyCode);
         [self.signUpView thn_setVerifyCode:verifyCode];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -73,8 +72,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSLog(@"==== %@", result);
+        if ([result[@"data"] isKindOfClass:[NSNull class]]) {
+            return ;
+        }
+        NSLog(@"注册验证 ==== %@", result);
         THNSetPasswordViewController *setPasswordVC = [[THNSetPasswordViewController alloc] init];
+        setPasswordVC.areacode = result[@"data"][kParamAreaCode1];
+        setPasswordVC.email = result[@"data"][kParamEmail];
         [self.navigationController pushViewController:setPasswordVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
