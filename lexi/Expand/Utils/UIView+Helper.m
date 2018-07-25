@@ -204,4 +204,48 @@
     [self.layer addSublayer:boderLineLayer];
 }
 
++ (instancetype)viewFromXib {
+    return [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class])owner:nil options:nil]firstObject];
+}
+
+- (void)setViewHeight:(CGFloat)viewHeight {
+    CGRect frame = self.frame;
+    frame.size.height = viewHeight;
+    self.frame = frame;
+}
+
+- (void)setViewWidth:(CGFloat)viewWidth {
+    CGRect frame = self.frame;
+    frame.size.width = viewWidth;
+    self.frame = frame;
+}
+
+- (CGFloat)viewHeight {
+    return self.frame.size.height;
+}
+
+- (CGFloat)viewWidth {
+    return self.frame.size.width;
+}
+
+- (void)setViewX:(CGFloat)viewX {
+    CGRect frame = self.frame;
+    frame.origin.x = viewX;
+    self.frame = frame;
+}
+
+- (CGFloat)viewX {
+    return self.frame.origin.x;
+}
+
+- (void)setViewY:(CGFloat)viewY {
+    CGRect frame = self.frame;
+    frame.origin.y = viewY;
+    self.frame = frame;
+}
+
+- (CGFloat)viewY {
+    return self.frame.origin.y;
+}
+
 @end

@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B686B3E210703DF001E5C48 /* THNHomeSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B3D210703DF001E5C48 /* THNHomeSearchView.m */; };
+		4B686B40210719F2001E5C48 /* THNHomeSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B686B3F210719F2001E5C48 /* THNHomeSearchView.xib */; };
+		4B686B4321074108001E5C48 /* THNSelectButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B4221074108001E5C48 /* THNSelectButtonView.m */; };
+		4B686B4821080976001E5C48 /* THNLivingHallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B4721080976001E5C48 /* THNLivingHallViewController.m */; };
+		4B686B4B21080998001E5C48 /* THNFeaturedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B4A21080998001E5C48 /* THNFeaturedViewController.m */; };
+		4B686B5421082562001E5C48 /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B5321082562001E5C48 /* THNHomeViewController.m */; };
+		4B686B5A210826EE001E5C48 /* THNExploresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B59210826EE001E5C48 /* THNExploresViewController.m */; };
+		4B686B5D21082D24001E5C48 /* THNBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B5C21082D24001E5C48 /* THNBannerView.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
-		D85DA7DD2106030200A36A71 /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA75E2106030100A36A71 /* THNHomeViewController.m */; };
 		D85DA7DE2106030200A36A71 /* THNDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7622106030100A36A71 /* THNDiscoverViewController.m */; };
 		D85DA7DF2106030200A36A71 /* THNInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7662106030100A36A71 /* THNInboxViewController.m */; };
 		D85DA7E02106030200A36A71 /* THNMyCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA76A2106030100A36A71 /* THNMyCenterViewController.m */; };
@@ -65,10 +72,23 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
+		4B686B3C210703DF001E5C48 /* THNHomeSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNHomeSearchView.h; sourceTree = "<group>"; };
+		4B686B3D210703DF001E5C48 /* THNHomeSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNHomeSearchView.m; sourceTree = "<group>"; };
+		4B686B3F210719F2001E5C48 /* THNHomeSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNHomeSearchView.xib; sourceTree = "<group>"; };
+		4B686B4121074108001E5C48 /* THNSelectButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectButtonView.h; sourceTree = "<group>"; };
+		4B686B4221074108001E5C48 /* THNSelectButtonView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectButtonView.m; sourceTree = "<group>"; };
+		4B686B4621080976001E5C48 /* THNLivingHallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallViewController.h; sourceTree = "<group>"; };
+		4B686B4721080976001E5C48 /* THNLivingHallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallViewController.m; sourceTree = "<group>"; };
+		4B686B4921080998001E5C48 /* THNFeaturedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFeaturedViewController.h; sourceTree = "<group>"; };
+		4B686B4A21080998001E5C48 /* THNFeaturedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFeaturedViewController.m; sourceTree = "<group>"; };
+		4B686B5321082562001E5C48 /* THNHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNHomeViewController.m; sourceTree = "<group>"; };
+		4B686B58210826EE001E5C48 /* THNExploresViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNExploresViewController.h; sourceTree = "<group>"; };
+		4B686B59210826EE001E5C48 /* THNExploresViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNExploresViewController.m; sourceTree = "<group>"; };
+		4B686B5B21082D24001E5C48 /* THNBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBannerView.h; sourceTree = "<group>"; };
+		4B686B5C21082D24001E5C48 /* THNBannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBannerView.m; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D85DA75D2106030100A36A71 /* THNHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNHomeViewController.h; sourceTree = "<group>"; };
-		D85DA75E2106030100A36A71 /* THNHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNHomeViewController.m; sourceTree = "<group>"; };
 		D85DA7612106030100A36A71 /* THNDiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDiscoverViewController.h; sourceTree = "<group>"; };
 		D85DA7622106030100A36A71 /* THNDiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDiscoverViewController.m; sourceTree = "<group>"; };
 		D85DA7652106030100A36A71 /* THNInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInboxViewController.h; sourceTree = "<group>"; };
@@ -190,6 +210,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4B686B3A2107035E001E5C48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4B686B3C210703DF001E5C48 /* THNHomeSearchView.h */,
+				4B686B3D210703DF001E5C48 /* THNHomeSearchView.m */,
+				4B686B3F210719F2001E5C48 /* THNHomeSearchView.xib */,
+				4B686B4121074108001E5C48 /* THNSelectButtonView.h */,
+				4B686B4221074108001E5C48 /* THNSelectButtonView.m */,
+				4B686B5B21082D24001E5C48 /* THNBannerView.h */,
+				4B686B5C21082D24001E5C48 /* THNBannerView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B686B3B2107035E001E5C48 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7D44224FF682DC37BFD7E904 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,25 +249,18 @@
 				D85DA76B2106030100A36A71 /* Cart */,
 				D85DA7672106030100A36A71 /* MyCenter */,
 				D85DA7742106030100A36A71 /* Login */,
-				D85DA75A2106030100A36A71 /* Order */,
 				D85DA7632106030100A36A71 /* Inbox */,
 				D85DA76F2106030100A36A71 /* Goods */,
-				D85DA7732106030100A36A71 /* Setting */,
 				D85DA7A52106030100A36A71 /* Share */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
 		};
-		D85DA75A2106030100A36A71 /* Order */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Order;
-			sourceTree = "<group>";
-		};
 		D85DA75B2106030100A36A71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				4B686B3B2107035E001E5C48 /* Model */,
+				4B686B3A2107035E001E5C48 /* View */,
 				D85DA75C2106030100A36A71 /* Controller */,
 			);
 			path = Home;
@@ -236,7 +270,13 @@
 			isa = PBXGroup;
 			children = (
 				D85DA75D2106030100A36A71 /* THNHomeViewController.h */,
-				D85DA75E2106030100A36A71 /* THNHomeViewController.m */,
+				4B686B5321082562001E5C48 /* THNHomeViewController.m */,
+				4B686B4621080976001E5C48 /* THNLivingHallViewController.h */,
+				4B686B4721080976001E5C48 /* THNLivingHallViewController.m */,
+				4B686B4921080998001E5C48 /* THNFeaturedViewController.h */,
+				4B686B4A21080998001E5C48 /* THNFeaturedViewController.m */,
+				4B686B58210826EE001E5C48 /* THNExploresViewController.h */,
+				4B686B59210826EE001E5C48 /* THNExploresViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -324,13 +364,6 @@
 				D85DA7722106030100A36A71 /* THNGoodsInfoViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		D85DA7732106030100A36A71 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Setting;
 			sourceTree = "<group>";
 		};
 		D85DA7742106030100A36A71 /* Login */ = {
@@ -501,19 +534,13 @@
 		D85DA7C92106030100A36A71 /* AppEntry */ = {
 			isa = PBXGroup;
 			children = (
+				D85DA7592106030100A36A71 /* Feature */,
 				D85DA7CA2106030100A36A71 /* AppDelegate.h */,
 				D85DA7CC2106030100A36A71 /* AppDelegate.m */,
 				D85DA7CD2106030100A36A71 /* Info.plist */,
 				D85DA7CB2106030100A36A71 /* main.m */,
 			);
 			path = AppEntry;
-			sourceTree = "<group>";
-		};
-		D85DA7CE2106030100A36A71 /* Vendors */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Vendors;
 			sourceTree = "<group>";
 		};
 		D85DA7CF2106030100A36A71 /* Resource */ = {
@@ -539,16 +566,8 @@
 			children = (
 				D85DA7D62106030100A36A71 /* Constant */,
 				D85DA7DB2106030100A36A71 /* Marco */,
-				D85DA7D52106030100A36A71 /* Plist */,
 			);
 			path = Config;
-			sourceTree = "<group>";
-		};
-		D85DA7D52106030100A36A71 /* Plist */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Plist;
 			sourceTree = "<group>";
 		};
 		D85DA7D62106030100A36A71 /* Constant */ = {
@@ -592,11 +611,9 @@
 			isa = PBXGroup;
 			children = (
 				D85DA7C92106030100A36A71 /* AppEntry */,
-				D85DA7592106030100A36A71 /* Feature */,
 				D85DA7D42106030100A36A71 /* Config */,
 				D85DA7A92106030100A36A71 /* Expand */,
 				D85DA7CF2106030100A36A71 /* Resource */,
-				D85DA7CE2106030100A36A71 /* Vendors */,
 				D8EECACD20D9E7F800BB63F4 /* Main.storyboard */,
 				D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */,
 				D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */,
@@ -664,6 +681,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
+				4B686B40210719F2001E5C48 /* THNHomeSearchView.xib in Resources */,
 				D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */,
 				D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
@@ -738,9 +756,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B686B5421082562001E5C48 /* THNHomeViewController.m in Sources */,
+				4B686B5A210826EE001E5C48 /* THNExploresViewController.m in Sources */,
 				D85DA7F62106030200A36A71 /* THNBaseViewController.m in Sources */,
 				D85DA7DE2106030200A36A71 /* THNDiscoverViewController.m in Sources */,
+				4B686B3E210703DF001E5C48 /* THNHomeSearchView.m in Sources */,
 				D85DA7F42106030200A36A71 /* THNBaseTabBarController.m in Sources */,
+				4B686B5D21082D24001E5C48 /* THNBannerView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
 				D85DA7EA2106030200A36A71 /* THNPasswordTextField.m in Sources */,
 				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
@@ -756,15 +778,17 @@
 				D85DA7DF2106030200A36A71 /* THNInboxViewController.m in Sources */,
 				D85DA7E02106030200A36A71 /* THNMyCenterViewController.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
-				D85DA7DD2106030200A36A71 /* THNHomeViewController.m in Sources */,
 				D85DA7E22106030200A36A71 /* THNGoodsInfoViewController.m in Sources */,
 				D85DA7E42106030200A36A71 /* THNLoginViewController.m in Sources */,
+				4B686B4B21080998001E5C48 /* THNFeaturedViewController.m in Sources */,
 				D85DA7F12106030200A36A71 /* THNLoginView.m in Sources */,
 				D85DA7EC2106030200A36A71 /* THNSignInView.m in Sources */,
 				D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */,
 				D85DA7FC2106030200A36A71 /* NSString+Helper.m in Sources */,
+				4B686B4321074108001E5C48 /* THNSelectButtonView.m in Sources */,
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,
 				D85DA7F22106030200A36A71 /* THNZipCodeTableViewCell.m in Sources */,
+				4B686B4821080976001E5C48 /* THNLivingHallViewController.m in Sources */,
 				D85DA7F32106030200A36A71 /* THNLoginBaseView.m in Sources */,
 				D85DA7E32106030200A36A71 /* THNLoginManager.m in Sources */,
 				D85DA7E52106030200A36A71 /* THNSetPasswordViewController.m in Sources */,
@@ -926,8 +950,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7ET6PJMCHV;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -936,6 +960,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.taihuoniao.lexi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -946,8 +971,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7ET6PJMCHV;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -956,6 +981,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.taihuoniao.lexi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
