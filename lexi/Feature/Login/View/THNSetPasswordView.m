@@ -39,6 +39,18 @@ static NSString *const kDoneButtonTitle         = @"注册";
     return self;
 }
 
+#pragma mark - private methods
+/**
+ 获取密码
+ */
+- (NSString *)getPassword {
+    return self.pwdTextField.text;
+}
+
+- (NSString *)getAffirmPassword {
+    return self.verifyPwdTextField.text;
+}
+
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
     if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
@@ -51,7 +63,7 @@ static NSString *const kDoneButtonTitle         = @"注册";
         return;
     }
     
-    self.SetPasswordRegisterBlock();
+    self.SetPasswordRegisterBlock([self getPassword], [self getAffirmPassword]);
 }
 
 #pragma mark - setup UI
