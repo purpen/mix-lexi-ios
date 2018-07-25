@@ -29,6 +29,11 @@
     return self;
 }
 
+- (void)thn_setAreaCodeInfoModel:(THNAreaCodeModel *)model {
+    self.titleLabel.text = model.name;
+    self.describeLabel.text = model.areacode;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -60,7 +65,6 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-        _titleLabel.text = @"中国大陆";
     }
     return _titleLabel;
 }
@@ -71,7 +75,6 @@
         _describeLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
         _describeLabel.textColor = [UIColor colorWithHexString:@"#949EA6"];
         _describeLabel.textAlignment = NSTextAlignmentRight;
-        _describeLabel.text = @"+86";
     }
     return _describeLabel;
 }

@@ -10,4 +10,9 @@
 
 @interface THNZipCodeViewController : THNBaseViewController
 
+/**
+ 选择的区号
+ */
+@property (nonatomic, copy) void (^SelectAreaCode)(NSString *code);
+
 @end

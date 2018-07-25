@@ -8,6 +8,7 @@
 
 #import "THNSetPasswordViewController.h"
 #import "THNSetPasswordView.h"
+#import "THNNewUserInfoViewController.h"
 
 @interface THNSetPasswordViewController ()
 
@@ -28,10 +29,23 @@
     [self.view addSubview:self.setPasswordView];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.setPasswordView endEditing:YES];
+}
+
 #pragma mark - getters and setters
 - (THNSetPasswordView *)setPasswordView {
     if (!_setPasswordView) {
         _setPasswordView = [[THNSetPasswordView alloc] init];
+        
+        WEAKSELF;
+        
+        _setPasswordView.SetPasswordRegisterBlock = ^{
+            THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
+            [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
+        };
     }
     return _setPasswordView;
 }

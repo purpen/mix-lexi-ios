@@ -171,7 +171,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
-        make.top.equalTo(self.loginSegmented.mas_bottom).with.offset(25);
+        make.top.equalTo(self.loginSegmented.mas_bottom).with.offset(20);
         make.height.mas_equalTo(122);
     }];
     
@@ -208,13 +208,13 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [self.forgetButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 30));
         make.right.mas_equalTo(-15);
-        make.top.equalTo(self.containerView.mas_bottom).with.offset(10);
+        make.top.equalTo(self.containerView.mas_bottom).with.offset(5);
     }];
     
     [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
-        make.top.mas_equalTo(self.containerView.mas_bottom).with.offset(58);
+        make.top.mas_equalTo(self.containerView.mas_bottom).with.offset(55);
         make.height.mas_equalTo(45);
     }];
     
@@ -228,7 +228,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [self.thirdLoginLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 30));
         make.centerX.equalTo(self);
-        make.bottom.equalTo(self.mas_bottom).with.offset(-85);
+        make.bottom.equalTo(self.mas_bottom).with.offset(-70);
     }];
     
     [self.wechatButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -244,13 +244,13 @@ static NSString *const kThirdLoginText      = @"第三方登录";
  绘制分割线
  */
 - (void)drawRect:(CGRect)rect {
-    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 100))
-                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 100))
+    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 85))
+                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 85))
                         width:0.5
                         color:[UIColor colorWithHexString:@"#E9E9E9" alpha:1]];
     
-    [UIView drawRectLineStart:(CGPointMake(100, 175))
-                          end:(CGPointMake(100, 185))
+    [UIView drawRectLineStart:(CGPointMake(100, CGRectGetMinY(self.loginSegmented.frame) + 10))
+                          end:(CGPointMake(100, CGRectGetMaxY(self.loginSegmented.frame) - 10))
                         width:1.0
                         color:[UIColor colorWithHexString:@"#999999"]];
 }

@@ -7,20 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef void(^CloseZipCodeViewBlock)(void);
-typedef void(^SelectedZipCodeBlock)(NSString *zipCode);
+#import "THNAreaCodeModel.h"
 
 @interface THNZipCodeView : UIView
 
 /**
  关闭区号列表
  */
-@property (nonatomic, copy) CloseZipCodeViewBlock CloseZipCodeViewBlock;
+@property (nonatomic, copy) void (^CloseZipCodeViewBlock)(void);
 
 /**
  选中区号
  */
-@property (nonatomic, copy) SelectedZipCodeBlock SelectedZipCodeBlock;
+@property (nonatomic, copy) void (^SelectedZipCodeBlock)(THNAreaCodeModel *model);
+
+/**
+ 设置地区编码
+
+ @param codes 编码列表
+ */
+- (void)thn_setAreaCodes:(NSArray *)codes;
 
 @end
