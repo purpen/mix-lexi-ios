@@ -50,7 +50,10 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
                 [weakSelf setTitle:kAuthCodeRegainTitle forState:UIControlStateNormal];
                 [weakSelf setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
                 weakSelf.enabled = YES;
-                completion(weakSelf);
+                
+                if (completion) {
+                    completion(weakSelf);
+                }
             });
             
         } else {

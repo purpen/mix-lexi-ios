@@ -51,7 +51,7 @@ static NSString *const kDoneButtonTitle         = @"注册";
         return;
     }
     
-    [SVProgressHUD showSuccessWithStatus:@"注册账号"];
+    self.SetPasswordRegisterBlock();
 }
 
 #pragma mark - setup UI

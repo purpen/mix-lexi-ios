@@ -8,6 +8,11 @@
 
 #import "THNZipCodeViewController.h"
 #import "THNZipCodeView.h"
+#import "THNAreaModel.h"
+
+/// 获取手机号地区编码
+static NSString *const kURLAreaCode = @"/auth/area_code";
+static NSString *const kParamStatus = @"status";
 
 @interface THNZipCodeViewController ()
 
@@ -22,9 +27,24 @@
     [super viewDidLoad];
     
     [self setupUI];
+    [self networkGetAreaCode];
 }
 
-#pragma mark - private methods
+#pragma mark - network
+- (void)networkGetAreaCode {
+    THNRequest *request = [THNAPI getWithUrlString:kURLAreaCode
+                                 requestDictionary:@{kParamStatus: @1}
+                                            isSign:NO
+                                          delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, id result) {
+        THNAreaModel *areaModel = [THNAreaModel mj_objectWithKeyValues:result[@"data"]];
+        [self.zipCodeView thn_setAreaCodes:areaModel.area_codes];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    }];
+}
 
 #pragma mark - setup UI
 - (void)setupUI {
@@ -55,9 +75,8 @@
             [weakSelf dismissViewControllerAnimated:YES completion:nil];
         };
         
-        _zipCodeView.SelectedZipCodeBlock = ^(NSString *zipCode) {
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
-            [SVProgressHUD showInfoWithStatus:zipCode];
+        _zipCodeView.SelectedZipCodeBlock = ^(THNAreaCodeModel *model) {
+            weakSelf.SelectAreaCode(model.areacode);
         };
     }
     return _zipCodeView;

@@ -37,14 +37,14 @@
     
     [self addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150, 30));
+        make.size.mas_equalTo(CGSizeMake(250, 30));
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(kDeviceiPhoneX ? 104 : 84);
     }];
     
     [self addSubview:self.subTitleLabel];
     [self.subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150, 12));
+        make.size.mas_equalTo(CGSizeMake(200, 12));
         make.left.mas_equalTo(20);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(20);
     }];
