@@ -402,12 +402,7 @@ static const NSString *kResponseInfoMessage = @"message";
                                             
                                             weakSelf.isRunning = NO;
                                             
-                                            if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                                success(weakSelf, responseObject);
-                                                
-                                            } else {
-                                                [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoStatus][kResponseInfoMessage]];
-                                            }
+                                            success(weakSelf, responseObject);
                                             
                                         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                             

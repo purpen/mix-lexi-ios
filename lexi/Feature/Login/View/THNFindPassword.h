@@ -1,30 +1,27 @@
 //
-//  THNSignInView.h
+//  THNFindPassword.h
 //  lexi
 //
-//  Created by FLYang on 2018/7/13.
+//  Created by FLYang on 2018/7/27.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "THNLoginBaseView.h"
-#import "THNLoginManager.h"
 
-@protocol THNSignInViewDelegate <NSObject>
+
+@protocol THNFindPasswordDelegate <NSObject>
 
 @required
 /**
  去设置密码
  
  @param phoneNum 手机号
- @param areaCode 手机区号
- @param extraParam 附加参数
- @param modeType 登录方式
+ @param zipCode 手机区号
+ @param code 短信验证码
  */
-- (void)thn_signInWithPhoneNum:(NSString *)phoneNum
-                      areaCode:(NSString *)areaCode
-                    extraParam:(NSString *)extraParam
-                 loginModeType:(THNLoginModeType)modeType;
+- (void)thn_setPasswordWithPhoneNum:(NSString *)phoneNum
+                            zipCode:(NSString *)zipCode
+                         verifyCode:(NSString *)code;
 
 /**
  发送验证码
@@ -39,21 +36,12 @@
  */
 - (void)thn_showZipCodeList;
 
-/**
- 忘记密码
- */
-- (void)thn_forgetPassword;
-
-/**
- 去注册
- */
-- (void)thn_goToRegister;
-
 @end
 
-@interface THNSignInView : THNLoginBaseView
 
-@property (nonatomic, weak) id <THNSignInViewDelegate> delegate;
+@interface THNFindPassword : THNLoginBaseView
+
+@property (nonatomic, weak) id <THNFindPasswordDelegate> delegate;
 
 /**
  设置验证码
@@ -71,7 +59,7 @@
 
 /**
  设置错误提示
-
+ 
  @param text 提示文字
  */
 - (void)thn_setErrorHintText:(NSString *)text;

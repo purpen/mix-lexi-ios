@@ -70,7 +70,6 @@ static NSString *const kParamStatus = @"status";
         _zipCodeView = [[THNZipCodeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         
         WEAKSELF;
-        
         _zipCodeView.CloseZipCodeViewBlock = ^{
             [weakSelf dismissViewControllerAnimated:YES completion:nil];
         };

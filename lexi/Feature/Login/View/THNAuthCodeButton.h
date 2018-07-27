@@ -10,8 +10,6 @@
 
 @class THNAuthCodeButton;
 
-typedef void(^AuthCodeButtonCompletion)(THNAuthCodeButton *authCodeButton);
-
 @interface THNAuthCodeButton : UIButton
 
 /**
@@ -20,6 +18,7 @@ typedef void(^AuthCodeButtonCompletion)(THNAuthCodeButton *authCodeButton);
  @param startTime 开始时间
  @param completion 结束后的回调
  */
-- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(AuthCodeButtonCompletion)completion;
+- (void)thn_countdownStartTime:(NSTimeInterval)startTime
+                    completion:(void (^)(THNAuthCodeButton *authCodeButton))completion;
 
 @end

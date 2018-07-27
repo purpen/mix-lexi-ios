@@ -14,6 +14,7 @@
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
 		D82309E22108789A00CDD502 /* THNAreaCodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309E12108789A00CDD502 /* THNAreaCodeModel.m */; };
 		D82309E52108799100CDD502 /* THNAreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309E42108799100CDD502 /* THNAreaModel.m */; };
+		D8463E07210B0BC900193CC3 /* THNFindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D8463E06210B0BC900193CC3 /* THNFindPassword.m */; };
 		D85DA7DD2106030200A36A71 /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA75E2106030100A36A71 /* THNHomeViewController.m */; };
 		D85DA7DE2106030200A36A71 /* THNDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7622106030100A36A71 /* THNDiscoverViewController.m */; };
 		D85DA7DF2106030200A36A71 /* THNInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7662106030100A36A71 /* THNInboxViewController.m */; };
@@ -64,6 +65,7 @@
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D85DA80E2106030200A36A71 /* THNConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D72106030100A36A71 /* THNConst.m */; };
 		D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D82106030100A36A71 /* THNTextConst.m */; };
+		D8D4B737210B223F00BB8A6D /* THNNewPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D4B736210B223F00BB8A6D /* THNNewPasswordViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -85,6 +87,8 @@
 		D82309E12108789A00CDD502 /* THNAreaCodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAreaCodeModel.m; sourceTree = "<group>"; };
 		D82309E32108799100CDD502 /* THNAreaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAreaModel.h; sourceTree = "<group>"; };
 		D82309E42108799100CDD502 /* THNAreaModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAreaModel.m; sourceTree = "<group>"; };
+		D8463E05210B0BC900193CC3 /* THNFindPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFindPassword.h; sourceTree = "<group>"; };
+		D8463E06210B0BC900193CC3 /* THNFindPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFindPassword.m; sourceTree = "<group>"; };
 		D85DA75D2106030100A36A71 /* THNHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNHomeViewController.h; sourceTree = "<group>"; };
 		D85DA75E2106030100A36A71 /* THNHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNHomeViewController.m; sourceTree = "<group>"; };
 		D85DA7612106030100A36A71 /* THNDiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDiscoverViewController.h; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 		D85DA7D92106030100A36A71 /* THNConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNConst.h; sourceTree = "<group>"; };
 		D85DA7DA2106030100A36A71 /* THNTextConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNTextConst.h; sourceTree = "<group>"; };
 		D85DA7DC2106030100A36A71 /* THNMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMarco.h; sourceTree = "<group>"; };
+		D8D4B735210B223F00BB8A6D /* THNNewPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNewPasswordViewController.h; sourceTree = "<group>"; };
+		D8D4B736210B223F00BB8A6D /* THNNewPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNewPasswordViewController.m; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -391,6 +397,10 @@
 				D85DA7812106030100A36A71 /* THNFindPasswordViewController.m */,
 				D85DA77F2106030100A36A71 /* THNLoginViewController.h */,
 				D85DA77A2106030100A36A71 /* THNLoginViewController.m */,
+				D8D4B735210B223F00BB8A6D /* THNNewPasswordViewController.h */,
+				D8D4B736210B223F00BB8A6D /* THNNewPasswordViewController.m */,
+				D82309CF2107083F00CDD502 /* THNNewUserInfoViewController.h */,
+				D82309D02107083F00CDD502 /* THNNewUserInfoViewController.m */,
 				D85DA7842106030100A36A71 /* THNSetPasswordViewController.h */,
 				D85DA77E2106030100A36A71 /* THNSetPasswordViewController.m */,
 				D85DA7792106030100A36A71 /* THNSignInViewController.h */,
@@ -399,8 +409,6 @@
 				D85DA7832106030100A36A71 /* THNSignUpViewController.m */,
 				D85DA77B2106030100A36A71 /* THNZipCodeViewController.h */,
 				D85DA7822106030100A36A71 /* THNZipCodeViewController.m */,
-				D82309CF2107083F00CDD502 /* THNNewUserInfoViewController.h */,
-				D82309D02107083F00CDD502 /* THNNewUserInfoViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -412,10 +420,14 @@
 				D85DA78A2106030100A36A71 /* THNAuthCodeButton.m */,
 				D85DA7942106030100A36A71 /* THNDoneButton.h */,
 				D85DA7872106030100A36A71 /* THNDoneButton.m */,
+				D8463E05210B0BC900193CC3 /* THNFindPassword.h */,
+				D8463E06210B0BC900193CC3 /* THNFindPassword.m */,
 				D85DA78C2106030100A36A71 /* THNLoginBaseView.h */,
 				D85DA7972106030100A36A71 /* THNLoginBaseView.m */,
 				D85DA7982106030100A36A71 /* THNLoginView.h */,
 				D85DA78F2106030100A36A71 /* THNLoginView.m */,
+				D82309D2210708CE00CDD502 /* THNNewUserInfoView.h */,
+				D82309D3210708CE00CDD502 /* THNNewUserInfoView.m */,
 				D85DA7952106030100A36A71 /* THNPasswordTextField.h */,
 				D85DA7862106030100A36A71 /* THNPasswordTextField.m */,
 				D85DA7992106030100A36A71 /* THNSetPasswordView.h */,
@@ -428,8 +440,6 @@
 				D85DA7912106030100A36A71 /* THNZipCodeTableViewCell.m */,
 				D85DA7962106030100A36A71 /* THNZipCodeView.h */,
 				D85DA78D2106030100A36A71 /* THNZipCodeView.m */,
-				D82309D2210708CE00CDD502 /* THNNewUserInfoView.h */,
-				D82309D3210708CE00CDD502 /* THNNewUserInfoView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -811,11 +821,13 @@
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,
 				D82309E22108789A00CDD502 /* THNAreaCodeModel.m in Sources */,
 				D85DA7F22106030200A36A71 /* THNZipCodeTableViewCell.m in Sources */,
+				D8D4B737210B223F00BB8A6D /* THNNewPasswordViewController.m in Sources */,
 				D85DA7F32106030200A36A71 /* THNLoginBaseView.m in Sources */,
 				D85DA7E32106030200A36A71 /* THNLoginManager.m in Sources */,
 				D85DA7E52106030200A36A71 /* THNSetPasswordViewController.m in Sources */,
 				D85DA8092106030200A36A71 /* AppDelegate.m in Sources */,
 				D85DA7FB2106030200A36A71 /* THNRequest.m in Sources */,
+				D8463E07210B0BC900193CC3 /* THNFindPassword.m in Sources */,
 				D85DA8012106030200A36A71 /* UIImage+Helper.m in Sources */,
 				D85DA8062106030200A36A71 /* UIColor+Extension.m in Sources */,
 				D85DA7EE2106030200A36A71 /* THNAuthCodeButton.m in Sources */,
