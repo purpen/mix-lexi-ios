@@ -24,17 +24,17 @@
                                verifyCode:(NSString *)code;
 
 /**
- 打开区号列表
- */
-- (void)thn_showZipCodeList;
-
-/**
  发送验证码
 
  @param phoneNum 手机号
  @param zipCode 手机区号
  */
 - (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode;
+
+/**
+ 打开区号列表
+ */
+- (void)thn_showZipCodeList;
 
 /**
  直接登录
@@ -60,5 +60,12 @@
  @param code 区号
  */
 - (void)thn_setAreaCode:(NSString *)code;
+
+/**
+ 设置错误提示
+ 
+ @param text 提示文字
+ */
+- (void)thn_setErrorHintText:(NSString *)text;
 
 @end

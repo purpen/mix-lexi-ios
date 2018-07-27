@@ -9,25 +9,23 @@
 #import "THNLoginManager.h"
 #import <MJExtension/MJExtension.h>
 #import <SVProgressHUD/SVProgressHUD.h>
-
 #import "THNAPI.h"
 #import "NSString+Helper.h"
 #import "THNTextConst.h"
+#import "THNConst.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 
-/// 请求 URL 拼接地址
-static NSString *const kUrlBusinessLogin    = @"/auth/business_login";
-static NSString *const kUrlExchangeToken    = @"/auth/exchange_token";
-static NSString *const kUrlLogout           = @"/auth/logout";
-
+/// api 拼接地址
+static NSString *const kURLUserLogin    = @"/auth/login";
+static NSString *const kURLDynamicLogin = @"/auth/app_dynamic_login";
+static NSString *const kURLAppRegister  = @"/auth/set_password";
+static NSString *const kURLLogout       = @"/auth/logout";
 /// 请求数据 key
 static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
-static NSString *const kRequestStoreRid     = @"store_rid";
+static NSString *const kRequestFirstLogin   = @"is_first_login";
 static NSString *const kRequestToken        = @"token";
-static NSString *const kRequestAccessToken  = @"access_token";
-static NSString *const kRequestAppKey       = @"app_key";
 
 @implementation THNLoginManager
 
@@ -35,65 +33,69 @@ MJCodingImplementation
 
 #pragma mark - request
 /**
- 商家登录后台
+ 用户登录
  */
-- (void)requestBusinessLogin:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+- (void)requestUserLogin:(NSDictionary *)params modeType:(THNLoginModeType)type completion:(void (^)(id ,NSError *))completion {
     [SVProgressHUD showWithStatus:kTextLoginSigning];
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
-    THNRequest *request = [THNAPI postWithUrlString:kUrlBusinessLogin requestDictionary:params isSign:NO delegate:nil];
+    NSString *postUrl = [self thn_getLoginUrlWithType:type];
+    
+    THNRequest *request = [THNAPI postWithUrlString:postUrl
+                                  requestDictionary:params
+                                             isSign:NO
+                                           delegate:nil];
+    
     [request startRequestSuccess:^(THNRequest *request, id result) {
         NSDictionary *resultData = NULL_TO_NIL(result[kRequestData]);
+        completion(result, nil);
         
         if (!resultData) {
-            [SVProgressHUD showErrorWithStatus:kTextLoginError];
+            [SVProgressHUD dismiss];
             return;
         }
         
         self.token = NULL_TO_NIL(resultData[kRequestToken]);
-        self.storeRid = NULL_TO_NIL(resultData[kRequestStoreRid]);
         self.expirationTime = NULL_TO_NIL(resultData[kRequestExpiration]);
-        self.appKey = @"";
-        self.accessToken = @"";
+        self.isFirstLogin = (BOOL)NULL_TO_NIL(resultData[kRequestFirstLogin]);
         
-        [self saveLoginTime];
-        
-        [self requestExchangeToken:@{@"store_rid": self.storeRid} completion:completion];
+        [self saveLoginInfo];
+        [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextLoginError];
-        
-        completion(error);
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+        [SVProgressHUD dismiss];
+        completion(nil, error);
     }];
 }
 
 /**
- 商家换取授权 Token
+ 注册
  */
-- (void)requestExchangeToken:(NSDictionary *)params completion:(void (^)(NSError *))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kUrlExchangeToken requestDictionary:params isSign:NO delegate:nil];
+- (void)requestUserRegister:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+    [SVProgressHUD show];
+    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister
+                                  requestDictionary:params
+                                             isSign:NO
+                                           delegate:nil];
+    
     [request startRequestSuccess:^(THNRequest *request, id result) {
         NSDictionary *resultData = NULL_TO_NIL(result[kRequestData]);
         
         if (!resultData) {
-            [SVProgressHUD showErrorWithStatus:kTextLoginError];
+            [SVProgressHUD showErrorWithStatus:kTextRegisterError];
             return;
         }
         
-        self.appKey = NULL_TO_NIL(resultData[kRequestAppKey]);
-        self.accessToken = NULL_TO_NIL(resultData[kRequestAccessToken]);
+        [SVProgressHUD dismiss];
+        self.token = NULL_TO_NIL(resultData[kRequestToken]);
+        self.expirationTime = NULL_TO_NIL(resultData[kRequestExpiration]);
         
         [self saveLoginInfo];
-        
         completion(nil);
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextLoginError];
+        [SVProgressHUD showErrorWithStatus:kTextRegisterError];
         
         completion(error);
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }];
 }
 
@@ -102,32 +104,37 @@ MJCodingImplementation
  */
 - (void)requestLogoutCompletion:(void (^)(NSError *))completion {
     [SVProgressHUD show];
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
-    THNRequest *request = [THNAPI postWithUrlString:kUrlLogout requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLLogout
+                                  requestDictionary:nil
+                                             isSign:YES
+                                           delegate:nil];
+    
     [request startRequestSuccess:^(THNRequest *request, id result) {
         [self clearLoginInfo];
         
         [SVProgressHUD dismiss];
         
         completion(nil);
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:kTextLogoutError];
         
         completion(error);
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }];
 }
 
 #pragma mark - method
-- (void)businessLogoutCompletion:(void (^)(NSError *))completion {
-    [self requestLogoutCompletion:completion];
++ (void)userLoginWithParams:(NSDictionary *)params modeType:(THNLoginModeType)type completion:(void (^)(id, NSError *))completion {
+    [[THNLoginManager sharedManager] requestUserLogin:params modeType:type completion:completion];
 }
 
-- (void)businessLoginWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
-    [[THNLoginManager sharedManager] requestBusinessLogin:params completion:completion];
++ (void)userRegisterWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+    [[THNLoginManager sharedManager] requestUserRegister:params completion:completion];
+}
+
++ (void)userLogoutCompletion:(void (^)(NSError *))completion {
+    [[THNLoginManager sharedManager] requestLogoutCompletion:completion];
 }
 
 /**
@@ -150,6 +157,8 @@ MJCodingImplementation
  保存登录信息
  */
 - (void)saveLoginInfo {
+    [self saveLoginTime];
+    
     [NSKeyedArchiver archiveRootObject:self toFile:[[self class] archiveFilePath]];
 }
 
@@ -193,6 +202,30 @@ MJCodingImplementation
  */
 + (NSString *)archiveFilePath {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject stringByAppendingString:NSStringFromClass(self)];
+}
+
+#pragma mark - private methods
+
+/**
+ 根据登录类型获取 api url地址
+
+ @param type 登录类型
+ @return url 拼接地址
+ */
+- (NSString *)thn_getLoginUrlWithType:(THNLoginModeType)type {
+    NSString *postUrl = nil;
+    
+    switch (type) {
+        case THNLoginModeTypePassword:
+            postUrl = kURLUserLogin;
+            break;
+            
+        case THNLoginModeTypeVeriDynamic:
+            postUrl = kURLDynamicLogin;
+            break;
+    }
+    
+    return postUrl;
 }
 
 #pragma mark - shared

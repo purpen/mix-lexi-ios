@@ -11,6 +11,15 @@
 
 @interface THNQiNiuUpload : NSObject
 
-+ (void)uploadQiNiuToken:(NSString *)token image:(UIImage *)image compltion:(void (^)(NSDictionary *))completion;
+/**
+ 上传图片到七牛
+
+ @param params 七牛服务端参数
+ @param image 图片
+ @param completion 上传成功的回调
+ */
++ (void)uploadQiNiuWithParams:(NSDictionary *)params
+                        image:(UIImage *)image
+                    compltion:(void (^)(NSDictionary *result))completion;
 
 @end

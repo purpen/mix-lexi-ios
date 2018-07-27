@@ -1,29 +1,29 @@
 //
-//  THNSetPasswordViewController.m
+//  THNNewPasswordViewController.m
 //  lexi
 //
-//  Created by FLYang on 2018/7/23.
+//  Created by FLYang on 2018/7/27.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNSetPasswordViewController.h"
-#import "THNNewUserInfoViewController.h"
+#import "THNNewPasswordViewController.h"
 #import "THNSetPasswordView.h"
 #import "THNLoginManager.h"
 
 /// 设置密码 api
+static NSString *const kURLModifyPwd        = @"/auth/modify_pwd";
 static NSString *const kParamEmail          = @"email";
 static NSString *const kParamAreaCode       = @"areacode";
 static NSString *const kParamPassword       = @"password";
 static NSString *const kParamAffirmPassword = @"affirm_password";
 
-@interface THNSetPasswordViewController ()
+@interface THNNewPasswordViewController ()
 
 @property (nonatomic, strong) THNSetPasswordView *setPasswordView;
 
 @end
 
-@implementation THNSetPasswordViewController
+@implementation THNNewPasswordViewController
 
 #pragma mark - life cycle
 - (void)viewDidLoad {
@@ -32,29 +32,43 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
     [self setupUI];
 }
 
+#pragma mark - network
+- (void)networdPostNewPasswordWithParam:(NSDictionary *)param {
+    NSLog(@"------- %@", param);
+    [SVProgressHUD show];
+    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd
+                                  requestDictionary:param
+                                             isSign:YES
+                                           delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, id result) {
+        NSLog(@"重置密码成功：%@", result);
+    
+        if ([result[@"success"] isEqualToNumber:@1]) {
+            [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+     
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
 #pragma mark - private methods
 /**
  获取密码参数
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
-    if (!self.email.length || !self.areacode.length || !password.length || !affirmPassword.length) {
+    if (!self.email.length || !password.length || !affirmPassword.length) {
         [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
     NSDictionary *paramDict = @{kParamEmail: self.email,
-                                kParamAreaCode: self.areacode,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [THNLoginManager userRegisterWithParams:paramDict completion:^(NSError *error) {
-        if (error) {
-            return ;
-        }
-        
-        THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-        [self.navigationController pushViewController:newUserInfoVC animated:YES];
-    }];
+    [self networdPostNewPasswordWithParam:paramDict];
 }
 
 #pragma mark - setup UI
@@ -65,7 +79,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 #pragma mark - getters and setters
 - (THNSetPasswordView *)setPasswordView {
     if (!_setPasswordView) {
-        _setPasswordView = [[THNSetPasswordView alloc] initWithType:(THNSetPasswordTypeNew)];
+        _setPasswordView = [[THNSetPasswordView alloc] initWithType:(THNSetPasswordTypeFind)];
         
         WEAKSELF;
         _setPasswordView.SetPasswordRegisterBlock = ^(NSString *password, NSString *affirmPassword) {

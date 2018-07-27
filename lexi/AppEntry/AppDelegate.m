@@ -39,6 +39,8 @@
 }
 
 - (void)thn_loadLoginController {
+    [[THNLoginManager sharedManager] clearLoginInfo];
+    
     if (![THNLoginManager isLogin]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
