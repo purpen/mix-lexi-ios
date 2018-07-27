@@ -8,21 +8,33 @@
 
 #import "THNLoginBaseView.h"
 
-@interface THNNewUserInfoView : THNLoginBaseView
+@protocol THNNewUserInfoViewDelegate <NSObject>
 
-/**
- 头像图片
- */
-- (void)setHeaderImage:(UIImage *)image;
-
+@required
 /**
  确认用户信息
+
+ @param infoParam 信息数据
  */
-@property (nonatomic, copy) void (^NewUserInfoEditDoneBlock)(void);
+- (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam;
 
 /**
  选择头像图片
  */
-@property (nonatomic, copy) void (^NewUserInfoSelectHeaderBlock)(void);
+- (void)thn_setUserInfoSelectHeader;
+
+@end
+
+@interface THNNewUserInfoView : THNLoginBaseView
+
+@property (nonatomic, weak) id <THNNewUserInfoViewDelegate> delegate;
+
+/**
+ 设置头像
+
+ @param image 图片
+ @param idx 上传七牛后的id
+ */
+- (void)setHeaderImage:(UIImage *)image withIdx:(NSInteger)idx;
 
 @end

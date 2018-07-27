@@ -9,21 +9,26 @@
 #import "THNSetPasswordView.h"
 #import "THNPasswordTextField.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNDoneButton.h"
 
-static NSString *const kTitleLabelText          = @"设置密码";
+static NSString *const kTitleNew                = @"设置密码";
+static NSString *const kTitleFind               = @"设置新密码";
 static NSString *const kSubTitleLabelText       = @"8-16位字母和数字组合";
 static NSString *const kPwdPlaceholder          = @"请输入密码";
 static NSString *const kverifyPwdPlaceholder    = @"重复输入密码";
 static NSString *const kDoneButtonTitle         = @"注册";
+static NSString *const kDoneButtonSure          = @"确认";
 
-@interface THNSetPasswordView ()
+@interface THNSetPasswordView () {
+    THNSetPasswordType _setType;
+}
 
 /// 密码输入框
 @property (nonatomic, strong) THNPasswordTextField *pwdTextField;
 /// 验证密码输入框
 @property (nonatomic, strong) THNPasswordTextField *verifyPwdTextField;
 /// 完成（登录）按钮
-@property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) THNDoneButton *doneButton;
 /// 记录加载控件
 @property (nonatomic, strong) NSArray *controlArray;
 
@@ -31,28 +36,30 @@ static NSString *const kDoneButtonTitle         = @"注册";
 
 @implementation THNSetPasswordView
 
+- (instancetype)initWithType:(THNSetPasswordType)type {
+    self = [super init];
+    if (self) {
+        _setType = type;
+        self.title = type == THNSetPasswordTypeNew ? kTitleNew : kTitleFind;
+        [self setupViewUI];
+    }
+    return self;
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _setType = THNSetPasswordTypeNew;
+        self.title = kTitleNew;
         [self setupViewUI];
     }
     return self;
 }
 
 #pragma mark - private methods
-/**
- 获取密码
- */
-- (NSString *)getPassword {
-    return self.pwdTextField.text;
-}
-
-- (NSString *)getAffirmPassword {
-    return self.verifyPwdTextField.text;
-}
-
-#pragma mark - event response
-- (void)doneButtonAction:(UIButton *)button {
+- (void)thn_doneButtonAction {
+    [self endEditing:YES];
+    
     if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
         [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
         return;
@@ -66,10 +73,23 @@ static NSString *const kDoneButtonTitle         = @"注册";
     self.SetPasswordRegisterBlock([self getPassword], [self getAffirmPassword]);
 }
 
+/**
+ 获取密码
+ */
+- (NSString *)getPassword {
+    return self.pwdTextField.text;
+}
+
+/**
+ 获取确认密码
+ */
+- (NSString *)getAffirmPassword {
+    return self.verifyPwdTextField.text;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
-    self.title = kTitleLabelText;
     self.subTitle = kSubTitleLabelText;
     
     [self addSubview:self.pwdTextField];
@@ -103,6 +123,10 @@ static NSString *const kDoneButtonTitle         = @"注册";
 }
 
 #pragma mark - getters and setters
+- (void)setViewTitle:(NSString *)viewTitle {
+    self.title = viewTitle;
+}
+
 - (THNPasswordTextField *)pwdTextField {
     if (!_pwdTextField) {
         _pwdTextField = [[THNPasswordTextField alloc] init];
@@ -119,19 +143,14 @@ static NSString *const kDoneButtonTitle         = @"注册";
     return _verifyPwdTextField;
 }
 
-- (UIButton *)doneButton {
+- (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        _doneButton = [[UIButton alloc] init];
-        [_doneButton setTitle:kDoneButtonTitle forState:(UIControlStateNormal)];
-        [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:(UIControlStateNormal)];
-        _doneButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightSemibold)];
-        _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
-        _doneButton.layer.cornerRadius = 4;
-        _doneButton.layer.shadowOffset = CGSizeMake(0, 10);
-        _doneButton.layer.shadowColor = [UIColor colorWithHexString:kColorMain alpha:0.5].CGColor;
-        _doneButton.layer.shadowOpacity = 0.2;
-        _doneButton.layer.shadowRadius = 4;
-        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        WEAKSELF;
+        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                             withTitle:_setType == THNSetPasswordTypeNew ? kDoneButtonTitle : kDoneButtonSure
+                                            completion:^{
+                                                [weakSelf thn_doneButtonAction];
+                                            }];
     }
     return _doneButton;
 }

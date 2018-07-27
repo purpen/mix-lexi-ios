@@ -10,14 +10,20 @@
 #import <Qiniu/QiniuSDK.h>
 #import "NSString+Helper.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNMarco.h"
 
-static NSString *const kQiNiuToken = @"";
+static NSString *const kResultToken     = @"up_token";
+static NSString *const kResultDirectory = @"directory_id";
+static NSString *const kResultEndPoint  = @"up_endpoint";
+static NSString *const kResultUserId    = @"user_id";
 
 @implementation THNQiNiuUpload
 
-+ (void)uploadQiNiuToken:(NSString *)token image:(UIImage *)image compltion:(void (^)(NSDictionary *))completion {
-    if (!token) {
-        [SVProgressHUD showErrorWithStatus:@"上传 token 错误"];
++ (void)uploadQiNiuWithParams:(NSDictionary *)params image:(UIImage *)image compltion:(void (^)(NSDictionary *))completion {
+    NSString *token = params[kResultToken];
+    
+    if (!token.length) {
+        [SVProgressHUD showErrorWithStatus:@"上传token不存在"];
         return;
     }
     
@@ -26,22 +32,29 @@ static NSString *const kQiNiuToken = @"";
         return;
     }
     
-    QNUploadManager *upManager = [[QNUploadManager alloc] init];
-    NSString *key = [[NSString getTimestamp] stringByAddingPercentEncodingWithAllowedCharacters: \
-                     [NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSString *filePath = [NSString getImagePath:image];
+    NSString *directoryId = [NSString stringWithFormat:@"%zi", [params[kResultDirectory] integerValue]];
+    NSString *userId = [NSString stringWithFormat:@"%zi", [params[kResultUserId] integerValue]];
     
-    [upManager putData:data
-                   key:key
+    QNUploadManager *upManager = [[QNUploadManager alloc] init];
+    QNUploadOption *opt = [[QNUploadOption alloc] initWithMime:nil
+                                               progressHandler:nil
+                                                        params:@{@"x:directory_id": directoryId,
+                                                                 @"x:user_id": userId}
+                                                      checkCrc:YES
+                                            cancellationSignal:nil];
+    
+    [upManager putFile:filePath
+                   key:nil
                  token:token
-              complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+              complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                   if (info.ok) {
                       completion(resp);
                   } else {
                       [SVProgressHUD showErrorWithStatus:@"上传失败"];
                   }
-                  
-              } option:nil];
+              }
+                option:opt];
 }
 
 @end
