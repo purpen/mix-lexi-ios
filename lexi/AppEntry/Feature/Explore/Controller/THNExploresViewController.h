@@ -1,5 +1,5 @@
 //
-//  THNBannerView.h
+//  THNExploresViewController.h
 //  lexi
 //
 //  Created by HongpingRao on 2018/7/25.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface THNBannerView : UIView
+@interface THNExploresViewController : UITableViewController
 
-@property (nonatomic, strong) NSArray *data;
+
 
 @end

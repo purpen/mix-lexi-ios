@@ -1,5 +1,5 @@
 //
-//  THNExploresViewController.h
+//  THNBannerView.h
 //  lexi
 //
 //  Created by HongpingRao on 2018/7/25.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface THNExploresViewController : UIViewController
+@interface THNBannerView : UIView
+
+- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imageArray;
 
 @end
