@@ -56,5 +56,6 @@
  @return 压缩后的图片
  */
 + (UIImage *)processImage:(UIImage *)image;
+
 @end
 

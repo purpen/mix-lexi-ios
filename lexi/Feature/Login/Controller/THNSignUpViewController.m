@@ -16,6 +16,7 @@
 static NSString *const kURLVerifyCode       = @"/users/register_verify_code";
 static NSString *const kParamMobile         = @"mobile";
 static NSString *const kParamAreaCode       = @"area_code";
+static NSString *const kResultData          = @"data";
 static NSString *const kResultVerifyCode    = @"phone_verify_code";
 /// app 注册验证api
 static NSString *const kURLAppRegister      = @"/auth/app_register";
@@ -49,13 +50,14 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, id result) {
-        if ([result[@"data"] isKindOfClass:[NSNull class]]) {
+        NSDictionary *resultData = NULL_TO_NIL(result[kResultData]);
+        
+        if (!resultData) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        NSLog(@"验证码 ==== %@", result);
-        NSString *verifyCode = result[@"data"][kResultVerifyCode];
-        [self.signUpView thn_setVerifyCode:verifyCode];
+        NSLog(@"短信验证码 ==== %@", result);
+        [self.signUpView thn_setVerifyCode:resultData[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
@@ -72,10 +74,15 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, id result) {
-        if ([result[@"data"] isKindOfClass:[NSNull class]]) {
+        if ([result[@"success"] isEqualToNumber:@0]) {
+            [self.signUpView thn_setErrorHintText:result[@"status"][@"message"]];
+            return;
+        }
+        
+        if ([result[kResultData] isKindOfClass:[NSNull class]]) {
             return ;
         }
-        NSLog(@"注册验证 ==== %@", result);
+        
         THNSetPasswordViewController *setPasswordVC = [[THNSetPasswordViewController alloc] init];
         setPasswordVC.areacode = result[@"data"][kParamAreaCode1];
         setPasswordVC.email = result[@"data"][kParamEmail];
@@ -95,9 +102,15 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self networkPostAppRegisterWithParam:paramDict];
 }
 
+- (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
+    NSDictionary *paramDict = @{kParamMobile : phoneNum,
+                                kParamAreaCode: zipCode};
+    
+    [self networkGetVerifyCodeWithParam:paramDict];
+}
+
 - (void)thn_showZipCodeList {
     WEAKSELF;
-    
     THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
     __weak THNZipCodeViewController *weakZipCodeVC = zipCodeVC;
     
@@ -107,13 +120,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     };
     
     [self presentViewController:zipCodeVC animated:YES completion:nil];
-}
-
-- (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
-    NSDictionary *paramDict = @{kParamMobile : phoneNum,
-                                kParamAreaCode: zipCode};
-    
-    [self networkGetVerifyCodeWithParam:paramDict];
 }
 
 - (void)thn_directLogin {
@@ -137,17 +143,10 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  */
 - (void)setNavigationBar {
     WEAKSELF;
-    
     [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [self.signUpView endEditing:YES];
 }
 
 #pragma mark - getters and setters

@@ -21,8 +21,16 @@ static NSString *const kDoneButtonTitle     = @"确认";
 static NSString *const kToolbarItemDone     = @"完成";
 static NSString *const kToolbarItemCancel   = @"取消";
 static NSInteger const kOptionButtonTag     = 1632;
+/// 设置信息上传参数
+static NSString *const kParamAvatarId   = @"avatar_id";
+static NSString *const kParamName       = @"username";
+static NSString *const kParamDate       = @"date";
+static NSString *const kParamGender     = @"gender";
 
-@interface THNNewUserInfoView () <UITextFieldDelegate>
+@interface THNNewUserInfoView () <UITextFieldDelegate> {
+    NSInteger _selectSex; // 0:女生 & 1:男生
+    NSInteger _imagaIdx;  // 图片id
+}
 
 /// 用户头像
 @property (nonatomic, strong) UIImageView *headImageView;
@@ -40,6 +48,7 @@ static NSInteger const kOptionButtonTag     = 1632;
 @property (nonatomic, strong) UIToolbar *dayToolbar;
 /// 性别选择视图
 @property (nonatomic, strong) UIView *sexView;
+@property (nonatomic, strong) UIButton *selectButton;
 /// 完成（确认）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
 
@@ -56,19 +65,87 @@ static NSInteger const kOptionButtonTag     = 1632;
 }
 
 #pragma mark - public methods
-- (void)setHeaderImage:(UIImage *)image {
+- (void)setHeaderImage:(UIImage *)image withIdx:(NSInteger)idx {
+    _imagaIdx = idx;
+
     self.headImageView.image = image;
     self.headImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.cameraButton.hidden = NO;
 }
 
+#pragma mark - private methods
+/**
+ 获取用户设置信息
+ */
+- (NSDictionary *)getUserInfoParam {
+    NSDictionary *infoDict = @{
+                               kParamName: [self getUserNickname],
+                               kParamDate: [self getUserBirthday],
+                               kParamGender: [self getUserGender],
+                               kParamAvatarId: [self getUserAvatarId]};
+    
+    return infoDict;
+}
+
+- (NSString *)getUserNickname {
+    return self.nameTextField.text;
+}
+
+- (NSString *)getUserBirthday {
+    return self.dayTextField.text;
+}
+
+- (NSString *)getUserAvatarId {
+    return _imagaIdx ? [NSString stringWithFormat:@"%zi", _imagaIdx] : @"";
+}
+
+- (NSString *)getUserGender {
+    return _selectSex ? [NSString stringWithFormat:@"%zi", _selectSex] : @"0";
+}
+
 #pragma mark - event response
+- (void)setUserInfoDone {
+    [self endEditing:YES];
+    
+    if (!_imagaIdx) {
+        [SVProgressHUD showInfoWithStatus:kHintLabelText];
+        return;
+    }
+    
+    if (![self getUserNickname].length) {
+        [SVProgressHUD showInfoWithStatus:kNamePlaceholder];
+        return;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
+        [self.delegate thn_setUserInfoEditDoneWithParam:[self getUserInfoParam]];
+    }
+}
+
 - (void)selectedHeadImage:(UITapGestureRecognizer *)tap {
-    self.NewUserInfoSelectHeaderBlock();
+    [self endEditing:YES];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoSelectHeader)]) {
+        [self.delegate thn_setUserInfoSelectHeader];
+    }
 }
 
 - (void)cameraButtonAction:(UIButton *)button {
-    self.NewUserInfoSelectHeaderBlock();
+    [self endEditing:YES];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoSelectHeader)]) {
+        [self.delegate thn_setUserInfoSelectHeader];
+    }
+}
+
+- (void)optionButtonAction:(UIButton *)button {
+    [self endEditing:YES];
+    
+    self.selectButton.selected = NO;
+    button.selected = !button.selected;
+    self.selectButton = button;
+    
+    _selectSex = button.tag - kOptionButtonTag;
 }
 
 - (void)toolbarItemCancel {
@@ -83,10 +160,6 @@ static NSInteger const kOptionButtonTag     = 1632;
     NSString *dayString = [formatter stringFromDate:self.dayDatePicker.date];
     
     self.dayTextField.text = dayString;
-}
-
-- (void)optionButtonAction:(UIButton *)button {
-    button.selected = !button.selected;
 }
 
 #pragma mark - textfield delegate
@@ -305,7 +378,10 @@ static NSInteger const kOptionButtonTag     = 1632;
         [optionButton setImage:[UIImage imageNamed:@"icon_selected_main"] forState:(UIControlStateSelected)];
         [optionButton setImageEdgeInsets:(UIEdgeInsetsMake(0, -8, 0, 0))];
         optionButton.tag = kOptionButtonTag + idx;
-        optionButton.selected = NO;
+        if (idx == 0) {
+            optionButton.selected = YES;
+            self.selectButton = optionButton;
+        }
         
         [optionButton addTarget:self action:@selector(optionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.sexView addSubview:optionButton];
@@ -327,7 +403,7 @@ static NSInteger const kOptionButtonTag     = 1632;
         _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                              withTitle:kDoneButtonTitle
                                             completion:^{
-                                                weakSelf.NewUserInfoEditDoneBlock();
+                                                [weakSelf setUserInfoDone];
                                             }];
     }
     return _doneButton;

@@ -9,16 +9,23 @@
 #import "THNNewUserInfoViewController.h"
 #import "THNNewUserInfoView.h"
 #import "THNPhotoManager.h"
+#import "THNQiNiuUpload.h"
 
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";
 static NSString *const kActionCancelTitle       = @"取消";
-static NSString *const kURLUpToken              = @"/assets/up_token";
+/// 获取七牛token
+static NSString *const kURLUpToken              = @"/assets/user_upload_token";
+/// 首次设置个人信息
+static NSString *const kURLCompleteInfo         = @"/auth/complete_info";
+static NSString *const kResultData              = @"data";
 
-@interface THNNewUserInfoViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface THNNewUserInfoViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, THNNewUserInfoViewDelegate>
 
 /// 用户信息设置视图
 @property (nonatomic, strong) THNNewUserInfoView *newUserInfoView;
+/// 七牛服务端参数
+@property (nonatomic, strong) NSDictionary *qiNiuParams;
 
 @end
 
@@ -33,10 +40,33 @@ static NSString *const kURLUpToken              = @"/assets/up_token";
 
 #pragma mark - network
 - (void)networkGetQiNiuUploadToken {
-    THNRequest *request = [THNAPI getWithUrlString:kURLUpToken requestDictionary:nil isSign:NO delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUpToken
+                                 requestDictionary:nil
+                                            isSign:YES
+                                          delegate:nil];
+    
     [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSLog(@"=== %@", result);
+        self.qiNiuParams = NULL_TO_NIL(result[kResultData]);
         
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+- (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param {
+    NSLog(@"用户信息：%@", param);
+    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo
+                                  requestDictionary:param
+                                             isSign:YES
+                                           delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, id result) {
+        NSLog(@"设置个人信息成功：%@", result);
+        
+        if ([result[@"success"] isEqualToNumber:@1]) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+     
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
@@ -44,42 +74,27 @@ static NSString *const kURLUpToken              = @"/assets/up_token";
 
 #pragma mark - private methods
 /**
- 功能选择表
+ 选择头像照片
  */
-- (void)thn_popupAlertControllerActionSheet {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
-                                                                             message:nil
-                                                                      preferredStyle:(UIAlertControllerStyleActionSheet)];
-    
-    UIAlertAction *takePhotoAction = [UIAlertAction actionWithTitle:kActionTakePhotoTitle
-                                                              style:(UIAlertActionStyleDefault)
-                                                            handler:^(UIAlertAction * _Nonnull action) {
-                                                                
-                                                            }];
-    
-    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:kActionAlbumTitle
-                                                          style:(UIAlertActionStyleDefault)
-                                                        handler:^(UIAlertAction * _Nonnull action) {
-                                                            
-                                                        }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kActionCancelTitle
-                                                           style:(UIAlertActionStyleCancel)
-                                                         handler:nil];
-    
-    [alertController addAction:takePhotoAction];
-    [alertController addAction:albumAction];
-    [alertController addAction:cancelAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 - (void)thn_getSelectImage {
     WEAKSELF;
-    
     [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(UIImage *image) {
-        [weakSelf.newUserInfoView setHeaderImage:image];
+        [SVProgressHUD showWithStatus:@"正在上传"];
+        [THNQiNiuUpload uploadQiNiuWithParams:self.qiNiuParams image:image compltion:^(NSDictionary *result) {
+            NSArray *dataArray = result[@"ids"];
+            [weakSelf.newUserInfoView setHeaderImage:image withIdx:[dataArray[0] integerValue]];
+            [SVProgressHUD dismiss];
+        }];
     }];
+}
+
+#pragma mark - custom delegate
+- (void)thn_setUserInfoSelectHeader {
+     [self thn_getSelectImage];
+}
+
+- (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
+    [self networkPostUserCompleteInfoWithParam:infoParam];
 }
 
 #pragma mark - setup UI
@@ -87,35 +102,20 @@ static NSString *const kURLUpToken              = @"/assets/up_token";
     [self.view addSubview:self.newUserInfoView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setNavigationBar];
-}
-
-/**
- 设置导航栏
- */
-- (void)setNavigationBar {
-    self.navigationBarView.hidden = YES;
-}
-
 #pragma mark - getters and setters
 - (THNNewUserInfoView *)newUserInfoView {
     if (!_newUserInfoView) {
         _newUserInfoView = [[THNNewUserInfoView alloc] init];
-        
-        WEAKSELF;
-        
-        _newUserInfoView.NewUserInfoEditDoneBlock = ^{
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
-        };
-        
-        _newUserInfoView.NewUserInfoSelectHeaderBlock = ^{
-            [weakSelf thn_getSelectImage];
-        };
+        _newUserInfoView.delegate = self;
     }
     return _newUserInfoView;
+}
+
+- (NSDictionary *)qiNiuParams {
+    if (!_qiNiuParams) {
+        _qiNiuParams = [NSDictionary dictionary];
+    }
+    return _qiNiuParams;
 }
 
 @end

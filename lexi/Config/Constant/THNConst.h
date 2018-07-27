@@ -14,6 +14,8 @@ UIKIT_EXTERN NSString *const kDomainBaseUrl;
 #pragma mark - 测试账号
 UIKIT_EXTERN NSString *const kTestEmail;
 UIKIT_EXTERN NSString *const kTestPassword;
+UIKIT_EXTERN NSString *const kTestAppKey;
+UIKIT_EXTERN NSString *const kTestAppSecret;
 
 #pragma mark - App 公共参数
 UIKIT_EXTERN NSInteger const kAppDebug;

@@ -34,7 +34,7 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
     return self;
 }
 
-- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(AuthCodeButtonCompletion)completion {
+- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(void (^)(THNAuthCodeButton *))completion {
     __weak typeof(self) weakSelf = self;
     __block NSInteger remainTime = startTime;
     
