@@ -13,7 +13,13 @@
 
 + (instancetype)sharedManager;
 
+/**
+ 获取系统图片
+
+ @param controller 当前控制器
+ @param completion 完成回调
+ */
 - (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller
-                                   completion:(void(^)(UIImage *image))completion;
+                                   completion:(void(^)(NSData *imageData))completion;
 
 @end

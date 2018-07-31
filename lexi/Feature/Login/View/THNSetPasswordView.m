@@ -15,7 +15,7 @@ static NSString *const kTitleNew                = @"设置密码";
 static NSString *const kTitleFind               = @"设置新密码";
 static NSString *const kSubTitleLabelText       = @"8-16位字母和数字组合";
 static NSString *const kPwdPlaceholder          = @"请输入密码";
-static NSString *const kverifyPwdPlaceholder    = @"重复输入密码";
+static NSString *const kVerifyPwdPlaceholder    = @"重复输入密码";
 static NSString *const kDoneButtonTitle         = @"注册";
 static NSString *const kDoneButtonSure          = @"确认";
 
@@ -46,45 +46,23 @@ static NSString *const kDoneButtonSure          = @"确认";
     return self;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _setType = THNSetPasswordTypeNew;
-        self.title = kTitleNew;
-        [self setupViewUI];
-    }
-    return self;
-}
-
 #pragma mark - private methods
 - (void)thn_doneButtonAction {
-    [self endEditing:YES];
+    WEAKSELF;
     
-    if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
+    [weakSelf endEditing:YES];
+    
+    if (![weakSelf.verifyPwdTextField.text isEqualToString:weakSelf.pwdTextField.text]) {
         [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
         return;
     }
     
-    if (self.pwdTextField.text.length < 8 || self.verifyPwdTextField.text.length < 8) {
+    if (weakSelf.pwdTextField.text.length < 8 || weakSelf.verifyPwdTextField.text.length < 8) {
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
         return;
     }
     
-    self.SetPasswordRegisterBlock([self getPassword], [self getAffirmPassword]);
-}
-
-/**
- 获取密码
- */
-- (NSString *)getPassword {
-    return self.pwdTextField.text;
-}
-
-/**
- 获取确认密码
- */
-- (NSString *)getAffirmPassword {
-    return self.verifyPwdTextField.text;
+    weakSelf.SetPasswordRegisterBlock(weakSelf.pwdTextField.text, weakSelf.verifyPwdTextField.text);
 }
 
 #pragma mark - setup UI
@@ -129,16 +107,14 @@ static NSString *const kDoneButtonSure          = @"确认";
 
 - (THNPasswordTextField *)pwdTextField {
     if (!_pwdTextField) {
-        _pwdTextField = [[THNPasswordTextField alloc] init];
-        _pwdTextField.kPlaceholderText = kPwdPlaceholder;
+        _pwdTextField = [[THNPasswordTextField alloc] initWithPlaceholderText:kPwdPlaceholder];
     }
     return _pwdTextField;
 }
 
 - (THNPasswordTextField *)verifyPwdTextField {
     if (!_verifyPwdTextField) {
-        _verifyPwdTextField = [[THNPasswordTextField alloc] init];
-        _verifyPwdTextField.kPlaceholderText = kverifyPwdPlaceholder;
+        _verifyPwdTextField = [[THNPasswordTextField alloc] initWithPlaceholderText:kVerifyPwdPlaceholder];
     }
     return _verifyPwdTextField;
 }

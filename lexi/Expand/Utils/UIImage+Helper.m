@@ -161,7 +161,7 @@
 }
 
 #pragma mark - 压缩图片
-+ (UIImage *)processImage:(UIImage *)image {
++ (UIImage *)compressImage:(UIImage *)image {
     CGFloat hFactor = image.size.width / [[UIScreen mainScreen] bounds].size.width;
     CGFloat wFactor = image.size.height / [[UIScreen mainScreen] bounds].size.height;
     CGFloat factor = fmaxf(hFactor, wFactor);
@@ -173,6 +173,11 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
++ (NSData *)compressImageToData:(UIImage *)image {
+    UIImage *newImage = [self compressImage:image];
+    return UIImageJPEGRepresentation(newImage, 0.9);
 }
 
 @end

@@ -37,8 +37,8 @@ static NSString *const kParamStatus = @"status";
                                             isSign:NO
                                           delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        THNAreaModel *areaModel = [THNAreaModel mj_objectWithKeyValues:result[@"data"]];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNAreaModel *areaModel = [THNAreaModel mj_objectWithKeyValues:result.data];
         [self.zipCodeView thn_setAreaCodes:areaModel.area_codes];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -57,9 +57,6 @@ static NSString *const kParamStatus = @"status";
     [self setNavigationBar];
 }
 
-/**
- 设置导航栏
- */
 - (void)setNavigationBar {
     self.navigationBarView.hidden = YES;
 }
@@ -67,18 +64,23 @@ static NSString *const kParamStatus = @"status";
 #pragma mark - getters and setters
 - (THNZipCodeView *)zipCodeView {
     if (!_zipCodeView) {
-        _zipCodeView = [[THNZipCodeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _zipCodeView = [[THNZipCodeView alloc] init];
         
         WEAKSELF;
+
         _zipCodeView.CloseZipCodeViewBlock = ^{
             [weakSelf dismissViewControllerAnimated:YES completion:nil];
         };
-        
+
         _zipCodeView.SelectedZipCodeBlock = ^(THNAreaCodeModel *model) {
             weakSelf.SelectAreaCode(model.areacode);
         };
     }
     return _zipCodeView;
+}
+
+- (BOOL)willDealloc {
+    return NO;
 }
 
 @end

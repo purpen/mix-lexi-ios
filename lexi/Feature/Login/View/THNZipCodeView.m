@@ -16,6 +16,7 @@
 
 static NSString *const kTitleText   = @"选择国家与地区";
 static NSString *const kHintText    = @"常用";
+/// tableViewCell id
 static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 
 @interface THNZipCodeView () <UITableViewDelegate, UITableViewDataSource>
