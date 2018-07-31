@@ -73,20 +73,21 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 
 #pragma mark - private methods
 - (void)thn_doneButtonAction {
-    [self endEditing:YES];
-    [self thn_showErrorHint:NO];
+    WEAKSELF;
     
-    if (![[self getPhoneNum] checkTel]) {
+    [weakSelf endEditing:YES];
+    [weakSelf thn_showErrorHint:NO];
+    
+    if (![[weakSelf getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
-    if (![self getVerifyCode].length) {
-        [self thn_setErrorHintText:@"请输入验证码"];
+    if (![weakSelf getVerifyCode].length) {
+        [weakSelf thn_setErrorHintText:@"请输入验证码"];
         return;
     }
     
-    WEAKSELF;
     if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
         [weakSelf.delegate thn_signUpSetPasswordWithPhoneNum:[weakSelf getPhoneNum]
                                                      zipCode:[weakSelf getZipCode]

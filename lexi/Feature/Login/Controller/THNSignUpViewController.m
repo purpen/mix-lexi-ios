@@ -27,6 +27,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 @interface THNSignUpViewController () <THNSignUpViewDelegate>
 
 @property (nonatomic, strong) THNSignUpView *signUpView;
+@property (nonatomic, strong) THNZipCodeViewController *zipCodeVC;
 
 @end
 
@@ -49,15 +50,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                              isSign:NO
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSDictionary *resultData = NULL_TO_NIL(result[kResultData]);
-        
-        if (!resultData) {
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        NSLog(@"短信验证码 ==== %@", result);
-        [self.signUpView thn_setVerifyCode:resultData[kResultVerifyCode]];
+        NSLog(@"短信验证码 ==== %@", result.data);
+        [self.signUpView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
@@ -67,26 +66,25 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 /**
  app 注册验证
  */
-- (void)networkPostAppRegisterWithParam:(NSDictionary *)param {
+- (void)networkPostAppRegisterWithParam:(NSDictionary *)param completion:(void (^)(NSString *areaCode, NSString *email))completion {
     THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister
                                   requestDictionary:param
                                              isSign:NO
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        if ([result[@"success"] isEqualToNumber:@0]) {
-            [self.signUpView thn_setErrorHintText:result[@"status"][@"message"]];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result isSuccess]) {
+            [self.signUpView thn_setErrorHintText:result.statusMessage];
             return;
         }
         
-        if ([result[kResultData] isKindOfClass:[NSNull class]]) {
+        if (![result hasData]) {
             return ;
         }
         
-        THNSetPasswordViewController *setPasswordVC = [[THNSetPasswordViewController alloc] init];
-        setPasswordVC.areacode = result[@"data"][kParamAreaCode1];
-        setPasswordVC.email = result[@"data"][kParamEmail];
-        [self.navigationController pushViewController:setPasswordVC animated:YES];
+        if (completion) {
+            completion(result.data[kParamAreaCode1], result.data[kParamEmail]);
+        }
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
@@ -99,7 +97,12 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                 kParamEmail: phoneNum,
                                 kParamVerifyCode: code};
     
-    [self networkPostAppRegisterWithParam:paramDict];
+    [self networkPostAppRegisterWithParam:paramDict completion:^(NSString *areaCode, NSString *email) {
+        THNSetPasswordViewController *setPasswordVC = [[THNSetPasswordViewController alloc] init];
+        setPasswordVC.areacode = areaCode;
+        setPasswordVC.email = email;
+        [self.navigationController pushViewController:setPasswordVC animated:YES];
+    }];
 }
 
 - (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
@@ -110,16 +113,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)thn_showZipCodeList {
-    WEAKSELF;
-    THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
-    __weak THNZipCodeViewController *weakZipCodeVC = zipCodeVC;
-    
-    weakZipCodeVC.SelectAreaCode = ^(NSString *code) {
-        [weakSelf.signUpView thn_setAreaCode:code];
-        [weakZipCodeVC dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    [self presentViewController:zipCodeVC animated:YES completion:nil];
+    [self presentViewController:self.zipCodeVC animated:YES completion:nil];
 }
 
 - (void)thn_directLogin {
@@ -138,9 +132,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self setNavigationBar];
 }
 
-/**
- 设置导航栏
- */
 - (void)setNavigationBar {
     WEAKSELF;
     [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
@@ -156,6 +147,20 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         _signUpView.delegate = self;
     }
     return _signUpView;
+}
+
+- (THNZipCodeViewController *)zipCodeVC {
+    if (!_zipCodeVC) {
+        _zipCodeVC = [[THNZipCodeViewController alloc] init];
+        
+        WEAKSELF;
+        
+        _zipCodeVC.SelectAreaCode = ^(NSString *code) {
+            [weakSelf.signUpView thn_setAreaCode:code];
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        };
+    }
+    return _zipCodeVC;
 }
 
 @end

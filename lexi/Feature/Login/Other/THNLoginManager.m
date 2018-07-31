@@ -35,7 +35,10 @@ MJCodingImplementation
 /**
  用户登录
  */
-- (void)requestUserLogin:(NSDictionary *)params modeType:(THNLoginModeType)type completion:(void (^)(id ,NSError *))completion {
+- (void)requestUserLogin:(NSDictionary *)params
+                modeType:(THNLoginModeType)type
+              completion:(void (^)(THNResponse *, NSError *))completion {
+    
     [SVProgressHUD showWithStatus:kTextLoginSigning];
     
     NSString *postUrl = [self thn_getLoginUrlWithType:type];
@@ -45,24 +48,24 @@ MJCodingImplementation
                                              isSign:NO
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSDictionary *resultData = NULL_TO_NIL(result[kRequestData]);
-        completion(result, nil);
-        
-        if (!resultData) {
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData]) {
             [SVProgressHUD dismiss];
-            return;
+            return ;
         }
         
-        self.token = NULL_TO_NIL(resultData[kRequestToken]);
-        self.expirationTime = NULL_TO_NIL(resultData[kRequestExpiration]);
-        self.isFirstLogin = (BOOL)NULL_TO_NIL(resultData[kRequestFirstLogin]);
+        self.token = NULL_TO_NIL(result.data[kRequestToken]);
+        self.expirationTime = NULL_TO_NIL(result.data[kRequestExpiration]);
+        self.isFirstLogin = (BOOL)NULL_TO_NIL(result.data[kRequestFirstLogin]);
         
         [self saveLoginInfo];
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
+        completion(result, nil);
+        
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
+        
         completion(nil, error);
     }];
 }
@@ -72,24 +75,24 @@ MJCodingImplementation
  */
 - (void)requestUserRegister:(NSDictionary *)params completion:(void (^)(NSError *))completion {
     [SVProgressHUD show];
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister
                                   requestDictionary:params
                                              isSign:NO
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSDictionary *resultData = NULL_TO_NIL(result[kRequestData]);
-        
-        if (!resultData) {
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRegisterError];
-            return;
+            return ;
         }
         
-        [SVProgressHUD dismiss];
-        self.token = NULL_TO_NIL(resultData[kRequestToken]);
-        self.expirationTime = NULL_TO_NIL(resultData[kRequestExpiration]);
+        self.token = NULL_TO_NIL(result.data[kRequestToken]);
+        self.expirationTime = NULL_TO_NIL(result.data[kRequestExpiration]);
         
         [self saveLoginInfo];
+        [SVProgressHUD dismiss];
+        
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -110,7 +113,7 @@ MJCodingImplementation
                                              isSign:YES
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self clearLoginInfo];
         
         [SVProgressHUD dismiss];
@@ -125,8 +128,13 @@ MJCodingImplementation
 }
 
 #pragma mark - method
-+ (void)userLoginWithParams:(NSDictionary *)params modeType:(THNLoginModeType)type completion:(void (^)(id, NSError *))completion {
-    [[THNLoginManager sharedManager] requestUserLogin:params modeType:type completion:completion];
++ (void)userLoginWithParams:(NSDictionary *)params
+                   modeType:(THNLoginModeType)type
+                 completion:(void (^)(THNResponse *, NSError *))completion {
+    
+    [[THNLoginManager sharedManager] requestUserLogin:params
+                                             modeType:type
+                                           completion:completion];
 }
 
 + (void)userRegisterWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {

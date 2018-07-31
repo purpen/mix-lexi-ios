@@ -28,14 +28,14 @@ static NSString *const kActionDoneTitle         = @"确认";
 /// 类型（相册&相机）
 @property (nonatomic, assign) NSInteger sourceType;
 /// 选择照片的回调
-@property (nonatomic, copy) void (^SelectImageBlock)(UIImage *image);
+@property (nonatomic, copy) void (^SelectImageBlock)(NSData *imageData);
 
 @end
 
 @implementation THNPhotoManager
 
 #pragma mark - public methods
-- (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller completion:(void (^)(UIImage *))completion {
+- (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller completion:(void (^)(NSData *))completion {
     self.viewController = controller;
     self.SelectImageBlock = completion;
     
@@ -45,13 +45,16 @@ static NSString *const kActionDoneTitle         = @"确认";
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    UIImage *selectImage = editedImage ? editedImage : [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    if (self.SelectImageBlock) {
-        self.SelectImageBlock([UIImage processImage:selectImage]);
+
+    if (!editedImage) {
+        editedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        if (self.SelectImageBlock) {
+            self.SelectImageBlock([UIImage compressImageToData:editedImage]);
+        }
+    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -148,8 +151,6 @@ static NSString *const kActionDoneTitle         = @"确认";
  获取授权状态
  */
 - (NSInteger)thn_getAvAuthorizationIsGrantedStatus  {
-    WEAKSELF;
-    
     NSString *mediaType = AVMediaTypeVideo;
     AVAuthorizationStatus authStatusVedio = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
     PHAuthorizationStatus authStatusAlbm  = [PHPhotoLibrary authorizationStatus];
@@ -160,14 +161,14 @@ static NSString *const kActionDoneTitle         = @"确认";
             if (self.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
                 [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
                     if (status == PHAuthorizationStatusAuthorized) {
-                        [weakSelf thn_presentPickerViewController];
+                        [self thn_presentPickerViewController];
                     }
                 }];
                 
             } else {
                 [AVCaptureDevice requestAccessForMediaType : AVMediaTypeVideo completionHandler:^(BOOL granted) {
                     if (granted) {
-                        [weakSelf thn_presentPickerViewController];
+                        [self thn_presentPickerViewController];
                     }
                 }];
             }

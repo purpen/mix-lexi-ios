@@ -18,9 +18,7 @@ static NSString *const kPhonePlaceholder    = @"请输入手机号码";
 static NSString *const kAuthPlaceholder     = @"请输入手机动态码";
 static NSString *const kDoneButtonTitle     = @"设置密码";
 
-@interface THNFindPassword () {
-    NSString *_verifyCode;
-}
+@interface THNFindPassword ()
 
 /// 控件容器
 @property (nonatomic, strong) UIView *containerView;
@@ -38,6 +36,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 @property (nonatomic, strong) UILabel *errorHintLabel;
 /// 记录加载控件
 @property (nonatomic, strong) NSArray *controlArray;
+/// 验证码
+@property (nonatomic, strong) NSString *verifyCode;;
 
 @end
 
@@ -53,7 +53,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 #pragma mark - public methods
 - (void)thn_setVerifyCode:(NSString *)code {
-    _verifyCode = code;
+    self.verifyCode = code;
 }
 
 - (void)thn_setAreaCode:(NSString *)code {

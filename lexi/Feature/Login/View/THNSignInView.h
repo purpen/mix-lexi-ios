@@ -16,15 +16,10 @@
 /**
  去设置密码
  
- @param phoneNum 手机号
- @param areaCode 手机区号
- @param extraParam 附加参数
- @param modeType 登录方式
+ @param param 请求参数
+ @param type 登录方式
  */
-- (void)thn_signInWithPhoneNum:(NSString *)phoneNum
-                      areaCode:(NSString *)areaCode
-                    extraParam:(NSString *)extraParam
-                 loginModeType:(THNLoginModeType)modeType;
+- (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type;
 
 /**
  发送验证码
