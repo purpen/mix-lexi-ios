@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNSetModel;
+
 @interface THNBannnerCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (nonatomic, strong) THNSetModel *setModel;
 
 @end

@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ExploreCellType) {
+    ExploreSet,  //  集合类型Cell
+    ExploreFeaturedBrand,  //特色品牌馆Cell
+    ExploreOther  // 其他cell类型
+};
+
+UIKIT_EXTERN  CGFloat const cellSetHeight;
+UIKIT_EXTERN  CGFloat const cellFeaturedBrandHeight;
+UIKIT_EXTERN  CGFloat const cellOtherHeight;
 
 @interface THNExploreTableViewCell : UITableViewCell
-- (void)test;
+
+- (void)setCellTypeStyle:(ExploreCellType)cellType;
+
 @end

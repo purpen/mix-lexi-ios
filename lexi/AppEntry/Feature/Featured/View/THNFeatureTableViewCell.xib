@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="192" id="tOr-c8-7m2" customClass="THNFeatureTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="467" height="192"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tOr-c8-7m2" id="zIa-fe-r3h">
+                <rect key="frame" x="0.0" y="0.0" width="467" height="191.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2CI-qc-qCo">
+                        <rect key="frame" x="0.0" y="0.0" width="467" height="1"/>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="Ja4-O4-DeK"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编辑推荐" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCq-2U-Ad6">
+                        <rect key="frame" x="15" y="25" width="64" height="23"/>
+                        <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="A8s-Tc-jQf">
+                        <rect key="frame" x="15" y="67.5" width="452" height="104"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7ei-gh-V63">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZmH-ps-M0q">
+                        <rect key="frame" x="387" y="20.5" width="56" height="32"/>
+                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                        <state key="normal" title="查看全部">
+                            <color key="titleColor" red="0.58039215690000001" green="0.61960784310000006" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ arrow_right_gray" translatesAutoresizingMaskIntoConstraints="NO" id="nRx-ht-5fh">
+                        <rect key="frame" x="448" y="32" width="4" height="9"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="vCq-2U-Ad6" firstAttribute="top" secondItem="zIa-fe-r3h" secondAttribute="top" constant="25" id="3eo-2j-Ctx"/>
+                    <constraint firstItem="vCq-2U-Ad6" firstAttribute="leading" secondItem="zIa-fe-r3h" secondAttribute="leading" constant="15" id="5Tj-eV-u6q"/>
+                    <constraint firstAttribute="trailing" secondItem="2CI-qc-qCo" secondAttribute="trailing" id="7sT-zf-fx9"/>
+                    <constraint firstItem="A8s-Tc-jQf" firstAttribute="top" secondItem="ZmH-ps-M0q" secondAttribute="bottom" constant="15" id="I8r-UN-PmG"/>
+                    <constraint firstItem="nRx-ht-5fh" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="PIa-Od-zDa"/>
+                    <constraint firstItem="nRx-ht-5fh" firstAttribute="leading" secondItem="ZmH-ps-M0q" secondAttribute="trailing" constant="5" id="Ufy-i6-ss2"/>
+                    <constraint firstItem="A8s-Tc-jQf" firstAttribute="leading" secondItem="zIa-fe-r3h" secondAttribute="leading" constant="15" id="XPz-rg-RJK"/>
+                    <constraint firstItem="2CI-qc-qCo" firstAttribute="top" secondItem="zIa-fe-r3h" secondAttribute="top" id="dXC-jP-i2h"/>
+                    <constraint firstItem="2CI-qc-qCo" firstAttribute="leading" secondItem="zIa-fe-r3h" secondAttribute="leading" id="nbJ-8D-syG"/>
+                    <constraint firstAttribute="trailing" secondItem="nRx-ht-5fh" secondAttribute="trailing" constant="15" id="oHq-Lb-DfG"/>
+                    <constraint firstItem="ZmH-ps-M0q" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="owT-Sy-1Wl"/>
+                    <constraint firstAttribute="trailing" secondItem="A8s-Tc-jQf" secondAttribute="trailing" id="pE6-22-MQk"/>
+                    <constraint firstAttribute="bottom" secondItem="A8s-Tc-jQf" secondAttribute="bottom" constant="20" id="xvC-8V-WhE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="2iy-lz-EE8"/>
+            <connections>
+                <outlet property="collectionViewConstraint" destination="pE6-22-MQk" id="m1e-L1-Oyx"/>
+                <outlet property="productCollectionView" destination="A8s-Tc-jQf" id="rVk-1p-eu7"/>
+            </connections>
+            <point key="canvasLocation" x="-189" y="-19"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_ arrow_right_gray" width="4" height="9"/>
+    </resources>
+</document>

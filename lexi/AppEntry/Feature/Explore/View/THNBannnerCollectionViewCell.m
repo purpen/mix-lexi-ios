@@ -8,12 +8,17 @@
 
 #import "THNBannnerCollectionViewCell.h"
 #import "UIView+Helper.h"
+#import "UIImageView+WebCache.h"
 
 @implementation THNBannnerCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 5;
+    self.layer.cornerRadius = 4;
+}
+
+- (void)setSetModel:(THNSetModel *)setModel {
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]];
 }
 
 @end
