@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface THNFeaturedViewController : UIViewController
+@interface THNFeaturedViewController : UITableViewController
 
 @end

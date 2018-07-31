@@ -7,12 +7,27 @@
 //
 
 #import "THNBrandCollectionViewCell.h"
+#import "UIImageView+WebCache.h"
+
+@interface THNBrandCollectionViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *backGroundImageView;
+
+@end
 
 @implementation THNBrandCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    self.layer.cornerRadius = 4;
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *visualView = [[UIVisualEffectView alloc]initWithEffect:blurEffect];
+    visualView.frame = self.bounds;
+    [self.backGroundImageView addSubview:visualView];
+}
+
+- (void)setFeatureBrandModel:(THNFeaturedBrandModel *)featureBrandModel {
+    [self.backGroundImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]];
 }
 
 @end

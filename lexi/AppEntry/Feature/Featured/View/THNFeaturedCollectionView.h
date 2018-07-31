@@ -10,4 +10,8 @@
 
 @interface THNFeaturedCollectionView : UICollectionView
 
+- (instancetype)initWithFrame:(CGRect)frame
+         collectionViewLayout:(UICollectionViewLayout *)layout
+                withDataArray:(NSArray *)dataArray;
+
 @end

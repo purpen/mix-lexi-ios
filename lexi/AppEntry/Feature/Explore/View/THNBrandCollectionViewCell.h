@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNFeaturedBrandModel;
+
 @interface THNBrandCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) THNFeaturedBrandModel *featureBrandModel;
 
 @end

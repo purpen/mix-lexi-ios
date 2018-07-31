@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="302" height="223"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qng-nM-JRm">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_head_camera" translatesAutoresizingMaskIntoConstraints="NO" id="qng-nM-JRm">
                         <rect key="frame" x="0.0" y="0.0" width="302" height="223"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hGW-zp-c39">
@@ -62,9 +62,9 @@
                             <constraint firstItem="SxC-vl-lhO" firstAttribute="width" secondItem="79M-iz-ICV" secondAttribute="width" id="tTI-e5-ztu"/>
                         </constraints>
                     </stackView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgD-vZ-vlJ">
-                        <rect key="frame" x="128" y="184" width="46" height="30"/>
-                        <state key="normal" title="Button"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgD-vZ-vlJ">
+                        <rect key="frame" x="144" y="184" width="14" height="22"/>
+                        <state key="normal" image="icon_store_feature"/>
                     </button>
                 </subviews>
             </view>
@@ -87,7 +87,14 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="302" height="223"/>
-            <point key="canvasLocation" x="24" y="77.5"/>
+            <connections>
+                <outlet property="backGroundImageView" destination="qng-nM-JRm" id="h37-bO-C6y"/>
+            </connections>
+            <point key="canvasLocation" x="461" y="65"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_head_camera" width="25" height="25"/>
+        <image name="icon_store_feature" width="14" height="14"/>
+    </resources>
 </document>
