@@ -13,12 +13,14 @@
 #import "THNExploreTableViewCell.h"
 #import "UIColor+Extension.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
+#import "THNRequest.h"
 
 static CGFloat const kBannerViewHeight = 115;
 static CGFloat const kBannerViewSpacing = 20;
 static CGFloat const kBannerViewY = 15;
 static CGFloat const kCategoriesViewHeight = 155;
 static CGFloat const kCaregoriesCellWidth = 55;
+static CGFloat const kExploreCellTopBottomHeight = 87;
 static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
 
 @interface THNExploresViewController () 
@@ -26,6 +28,7 @@ static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) THNCategoriesCollectionView *categoriesCollectionView;
+@property (nonatomic, assign) ExploreCellType cellType;
 
 @end
 
@@ -82,17 +85,41 @@ static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
 
 #pragma mark UITableViewDatesource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNExploreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kExploreCellIdentifier forIndexPath:indexPath];
-    [cell test];
+    
+    switch (indexPath.row) {
+        case 1:
+            self.cellType = ExploreFeaturedBrand;
+            break;
+        case 3:
+            self.cellType = ExploreSet;
+            break;
+        default:
+            self.cellType = ExploreOther;
+            break;
+    }
+    
+    [cell setCellTypeStyle:self.cellType];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 160 + 87;
+    switch (self.cellType) {
+        case ExploreFeaturedBrand:
+           return cellFeaturedBrandHeight + kExploreCellTopBottomHeight;
+            break;
+        case ExploreSet:
+            return cellSetHeight + kExploreCellTopBottomHeight;
+            break;
+        case ExploreOther:
+            return cellOtherHeight + kExploreCellTopBottomHeight;
+            break;
+    }
+    
 }
 
 
