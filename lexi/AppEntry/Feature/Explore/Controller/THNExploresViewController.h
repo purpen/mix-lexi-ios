@@ -10,6 +10,4 @@
 
 @interface THNExploresViewController : UITableViewController
 
-
-
 @end
