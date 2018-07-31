@@ -401,5 +401,4 @@ static const NSInteger kRightButtonTag = 123;
     return _closeButton;
 }
 
-
 @end

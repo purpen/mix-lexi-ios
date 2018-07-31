@@ -32,9 +32,15 @@
 /**
  设置头像
 
- @param image 图片
- @param idx 上传七牛后的id
+ @param imageData 图片数据
  */
-- (void)setHeaderImage:(UIImage *)image withIdx:(NSInteger)idx;
+- (void)setHeaderImageWithData:(NSData *)imageData;
+
+/**
+ 上传七牛后的id
+
+ @param idx 图片id
+ */
+- (void)setHeaderAvatarId:(NSInteger)idx;
 
 @end

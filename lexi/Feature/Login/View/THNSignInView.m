@@ -23,11 +23,13 @@ static NSString *const kDoneButtonTitle     = @"登录";
 static NSString *const kForgetButtonTitle   = @"忘记密码？";
 static NSString *const kSignUpText          = @"还没有账号？点击注册";
 static NSString *const kThirdLoginText      = @"第三方登录";
+/// 动态登录的 key
+static NSString *const kParamAreaCode       = @"areacode";
+static NSString *const kParamEmail          = @"email";
+static NSString *const kParamPassword       = @"password";
+static NSString *const kParamVerifyCode     = @"verify_code";
 
-@interface THNSignInView () <UITextFieldDelegate> {
-    NSString *_verifyCode;
-    THNLoginModeType _loginModeType;    // 登录方式
-}
+@interface THNSignInView () <UITextFieldDelegate>
 
 /// 登录方式切换
 @property (nonatomic, strong) UISegmentedControl *loginSegmented;
@@ -57,6 +59,10 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 @property (nonatomic, strong) UIButton *wechatButton;
 /// 保存加载控件
 @property (nonatomic, strong) NSArray *controlArray;
+/// 登录方式
+@property (nonatomic, assign) THNLoginModeType loginModeType;
+/// 获取的验证码
+@property (nonatomic, strong) NSString *verifyCode;
 
 @end
 
@@ -72,7 +78,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 
 #pragma mark - public methods
 - (void)thn_setVerifyCode:(NSString *)code {
-    _verifyCode = code;
+    self.verifyCode = code;
 }
 
 - (void)thn_setAreaCode:(NSString *)code {
@@ -89,51 +95,53 @@ static NSString *const kThirdLoginText      = @"第三方登录";
  登录
  */
 - (void)thn_doneButtonAction {
-    [self endEditing:YES];
-    [self thn_showErrorHint:NO];
+    WEAKSELF;
     
-    if (![[self getPhoneNum] checkTel]) {
-        [self thn_setErrorHintText:@"请输入正确的手机号"];
+    [weakSelf endEditing:YES];
+    [weakSelf thn_showErrorHint:NO];
+    
+    if (![[weakSelf getPhoneNum] checkTel]) {
+        [weakSelf thn_setErrorHintText:@"请输入正确的手机号"];
         return;
     }
     
-    if (_loginModeType == THNLoginModeTypePassword) {
-        if (![self getPassword].length) {
-            [self thn_setErrorHintText:@"请输入密码"];
+    if (weakSelf.loginModeType == THNLoginModeTypePassword) {
+        if (![weakSelf getPassword].length) {
+            [weakSelf thn_setErrorHintText:@"请输入密码"];
             return;
         }
         
-    } else if (_loginModeType == THNLoginModeTypeVeriDynamic) {
-        if (![self getVerifyCode].length) {
-            [self thn_setErrorHintText:@"请输入验证码"];
+    } else if (weakSelf.loginModeType == THNLoginModeTypeVeriDynamic) {
+        if (![weakSelf getVerifyCode].length) {
+            [weakSelf thn_setErrorHintText:@"请输入验证码"];
             return;
         }
     }
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signInWithPhoneNum:areaCode:extraParam:loginModeType:)]) {
-        [weakSelf.delegate thn_signInWithPhoneNum:[weakSelf getPhoneNum]
-                                         areaCode:[weakSelf getZipCode]
-                                       extraParam:[weakSelf getExtraParamWithLoginModeType:_loginModeType]
-                                    loginModeType:_loginModeType];
+    NSDictionary *paramDict = [weakSelf getRequestParamsWithType:weakSelf.loginModeType];
+    
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
+        [weakSelf.delegate thn_signInWithParam:paramDict
+                                 loginModeType:weakSelf.loginModeType];
     }
 }
 
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![[self getPhoneNum] checkTel]) {
+    WEAKSELF;
+    
+    if (![[weakSelf getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
-    WEAKSELF;
     if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
         [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
                                                 zipCode:[weakSelf getZipCode]];
     }
     
-    [self.authCodeTextField becomeFirstResponder];
+    [weakSelf.authCodeTextField becomeFirstResponder];
     [button thn_countdownStartTime:60 completion:nil];
 }
 
@@ -155,12 +163,6 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     }
 }
 
-- (void)secureButtonAction:(UIButton *)button {
-    button.selected = !button.selected;
-    
-    self.pwdTextField.secureTextEntry = !button.selected;
-}
-
 - (void)loginSegmentedControlAction:(UISegmentedControl *)segment {
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
@@ -168,7 +170,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     [self thn_changeLoginPasswordMethod:!(BOOL)segment.selectedSegmentIndex];
 
     if (segment.selectedSegmentIndex == 1) {
-        _loginModeType = THNLoginModeTypeVeriDynamic;
+        self.loginModeType = THNLoginModeTypeVeriDynamic;
         
         if ([self.pwdTextField isFirstResponder]) {
             [self.pwdTextField resignFirstResponder];
@@ -180,7 +182,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
         }
         
     } else {
-        _loginModeType = THNLoginModeTypePassword;
+        self.loginModeType = THNLoginModeTypePassword;
         
         if ([self.authCodeTextField isFirstResponder]) {
             [self.authCodeTextField resignFirstResponder];
@@ -259,11 +261,33 @@ static NSString *const kThirdLoginText      = @"第三方登录";
     return extraParam;
 }
 
+/**
+ 获取登录时 POST 的参数
+
+ @param type 登录类型
+ @return 请求参数
+ */
+- (NSDictionary *)getRequestParamsWithType:(THNLoginModeType)type {
+    NSDictionary *paramDict = [NSDictionary dictionary];
+    
+    if (type == THNLoginModeTypeVeriDynamic) {
+        paramDict = @{kParamEmail: [self getPhoneNum],
+                      kParamAreaCode: [self getZipCode],
+                      kParamVerifyCode: [self getExtraParamWithLoginModeType:THNLoginModeTypeVeriDynamic]};
+        
+    } else if (type == THNLoginModeTypePassword) {
+        paramDict = @{kParamEmail: [self getPhoneNum],
+                      kParamPassword: [self getExtraParamWithLoginModeType:THNLoginModeTypePassword]};
+    }
+    
+    return paramDict;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
     self.title = kTitleLabelText;
-    _loginModeType = THNLoginModeTypePassword;
+    self.loginModeType = THNLoginModeTypePassword;
     
     [self addSubview:self.loginSegmented];
     [self.containerView addSubview:self.phoneTextField];
@@ -441,8 +465,7 @@ static NSString *const kThirdLoginText      = @"第三方登录";
 
 - (THNPasswordTextField *)pwdTextField {
     if (!_pwdTextField) {
-        _pwdTextField = [[THNPasswordTextField alloc] init];
-        _pwdTextField.kPlaceholderText = kPwdPlaceholder;
+        _pwdTextField = [[THNPasswordTextField alloc] initWithPlaceholderText:kPwdPlaceholder];
     }
     return _pwdTextField;
 }

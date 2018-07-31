@@ -20,19 +20,14 @@ static NSString *const kURLVerifyCode       = @"/users/dynamic_login_verify_code
 /// 获取请求结果参数
 static NSString *const kResultData          = @"data";
 static NSString *const kResultVerifyCode    = @"phone_verify_code";
-/// 动态登录的 key
-static NSString *const kParamAreaCode       = @"areacode";
 /// 发送验证码 key
 static NSString *const kParamAreaCode1      = @"area_code";
 static NSString *const kParamMobile         = @"mobile";
-static NSString *const kParamEmail          = @"email";
-static NSString *const kParamPassword       = @"password";
-static NSString *const kParamVerifyCode     = @"verify_code";
-
 
 @interface THNSignInViewController () <THNSignInViewDelegate>
 
 @property (nonatomic, strong) THNSignInView *signInView;
+@property (nonatomic, strong) THNZipCodeViewController *zipCodeVC;
 
 @end
 
@@ -55,15 +50,14 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                              isSign:NO
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSDictionary *resultData = NULL_TO_NIL(result[kResultData]);
-        
-        if (!resultData) {
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        NSLog(@"短信验证码 ==== %@", result);
-        [self.signInView thn_setVerifyCode:resultData[kResultVerifyCode]];
+        
+        NSLog(@"短信验证码 ==== %@", result.data);
+        [self.signInView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
@@ -75,43 +69,32 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  登录成功后的操作
  */
 - (void)thn_loginSuccess {
+    WEAKSELF;
     if ([THNLoginManager sharedManager].isFirstLogin) {
         THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-        [self.navigationController pushViewController:newUserInfoVC animated:YES];
+        [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
     
     } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
 #pragma mark - custom delegate
-- (void)thn_signInWithPhoneNum:(NSString *)phoneNum areaCode:(NSString *)areaCode extraParam:(NSString *)extraParam loginModeType:(THNLoginModeType)modeType {
-    
-    NSDictionary *paramDict = [NSDictionary dictionary];
-    
-    if (modeType == THNLoginModeTypeVeriDynamic) {
-        paramDict = @{kParamEmail: phoneNum, kParamAreaCode: areaCode, kParamVerifyCode: extraParam};
-        
-    } else if (modeType == THNLoginModeTypePassword) {
-        paramDict = @{kParamEmail: phoneNum, kParamPassword: extraParam};
-    }
-    
+- (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
     WEAKSELF;
-    [THNLoginManager userLoginWithParams:paramDict
-                                modeType:modeType
-                              completion:^(id result, NSError *error) {
-                                  if (error) {
-                                      [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
-                                      return ;
-                                  }
-                                  
-                                  if ([result[@"success"] isEqualToNumber:@0]) {
-                                      [weakSelf.signInView thn_setErrorHintText:result[@"status"][@"message"]];
-                                      return;
-                                  }
-                                  
-                                  [self thn_loginSuccess];
-                              }];
+    [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
+        if (error) {
+            [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
+            return ;
+        }
+        
+        if (![result isSuccess]) {
+            [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
+            return;
+        }
+        NSLog(@"登录成功 ===== %@", result.data);
+        [weakSelf thn_loginSuccess];
+    }];
 }
 
 - (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
@@ -122,16 +105,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)thn_showZipCodeList {
-    WEAKSELF;
-    THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
-    __weak THNZipCodeViewController *weakZipCodeVC = zipCodeVC;
-    
-    weakZipCodeVC.SelectAreaCode = ^(NSString *code) {
-        [weakSelf.signInView thn_setAreaCode:code];
-        [weakZipCodeVC dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    [self presentViewController:zipCodeVC animated:YES completion:nil];
+    [self presentViewController:self.zipCodeVC animated:YES completion:nil];
 }
 
 - (void)thn_forgetPassword {
@@ -155,9 +129,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self setNavigationBar];
 }
 
-/**
- 设置导航栏
- */
 - (void)setNavigationBar {
     WEAKSELF;
     [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
@@ -173,6 +144,20 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         _signInView.delegate = self;
     }
     return _signInView;
+}
+
+- (THNZipCodeViewController *)zipCodeVC {
+    if (!_zipCodeVC) {
+        _zipCodeVC = [[THNZipCodeViewController alloc] init];
+        
+        WEAKSELF;
+        
+        _zipCodeVC.SelectAreaCode = ^(NSString *code) {
+            [weakSelf.signInView thn_setAreaCode:code];
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        };
+    }
+    return _zipCodeVC;
 }
 
 @end

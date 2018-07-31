@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "THNResponse.h"
 
 typedef NS_ENUM(NSUInteger, THNLoginModeType) {
     THNLoginModeTypePassword,   // 密码登录
@@ -63,7 +64,7 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 + (void)userLoginWithParams:(NSDictionary *)params
                    modeType:(THNLoginModeType)type
-                 completion:(void(^)(id result, NSError *error))completion;
+                 completion:(void(^)(THNResponse *result, NSError *error))completion;
 
 /**
  注册

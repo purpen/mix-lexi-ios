@@ -27,10 +27,7 @@ static NSString *const kParamName       = @"username";
 static NSString *const kParamDate       = @"date";
 static NSString *const kParamGender     = @"gender";
 
-@interface THNNewUserInfoView () <UITextFieldDelegate> {
-    NSInteger _selectSex; // 0:女生 & 1:男生
-    NSInteger _imagaIdx;  // 图片id
-}
+@interface THNNewUserInfoView () <UITextFieldDelegate>
 
 /// 用户头像
 @property (nonatomic, strong) UIImageView *headImageView;
@@ -51,6 +48,10 @@ static NSString *const kParamGender     = @"gender";
 @property (nonatomic, strong) UIButton *selectButton;
 /// 完成（确认）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
+/// 0:女生 & 1:男生
+@property (nonatomic, assign) NSInteger selectSex;
+/// 头像图片id
+@property (nonatomic, assign) NSInteger avatarId;
 
 @end
 
@@ -65,12 +66,14 @@ static NSString *const kParamGender     = @"gender";
 }
 
 #pragma mark - public methods
-- (void)setHeaderImage:(UIImage *)image withIdx:(NSInteger)idx {
-    _imagaIdx = idx;
-
-    self.headImageView.image = image;
+- (void)setHeaderImageWithData:(NSData *)imageData {
+    self.headImageView.image = [UIImage imageWithData:imageData];
     self.headImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.cameraButton.hidden = NO;
+}
+
+- (void)setHeaderAvatarId:(NSInteger)idx {
+    self.avatarId = idx;
 }
 
 #pragma mark - private methods
@@ -96,29 +99,30 @@ static NSString *const kParamGender     = @"gender";
 }
 
 - (NSString *)getUserAvatarId {
-    return _imagaIdx ? [NSString stringWithFormat:@"%zi", _imagaIdx] : @"";
+    return self.avatarId ? [NSString stringWithFormat:@"%zi", self.avatarId] : @"";
 }
 
 - (NSString *)getUserGender {
-    return _selectSex ? [NSString stringWithFormat:@"%zi", _selectSex] : @"0";
+    return self.selectSex ? [NSString stringWithFormat:@"%zi", self.selectSex] : @"0";
 }
 
 #pragma mark - event response
-- (void)setUserInfoDone {
-    [self endEditing:YES];
+- (void)thn_doneButtonAction {
+    WEAKSELF;
+    [weakSelf endEditing:YES];
     
-    if (!_imagaIdx) {
+    if (!weakSelf.avatarId) {
         [SVProgressHUD showInfoWithStatus:kHintLabelText];
         return;
     }
     
-    if (![self getUserNickname].length) {
+    if (![weakSelf getUserNickname].length) {
         [SVProgressHUD showInfoWithStatus:kNamePlaceholder];
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
-        [self.delegate thn_setUserInfoEditDoneWithParam:[self getUserInfoParam]];
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
+        [weakSelf.delegate thn_setUserInfoEditDoneWithParam:[weakSelf getUserInfoParam]];
     }
 }
 
@@ -403,7 +407,7 @@ static NSString *const kParamGender     = @"gender";
         _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                              withTitle:kDoneButtonTitle
                                             completion:^{
-                                                [weakSelf setUserInfoDone];
+                                                [weakSelf thn_doneButtonAction];
                                             }];
     }
     return _doneButton;

@@ -11,15 +11,17 @@
 
 @interface THNQiNiuUpload : NSObject
 
++ (instancetype)sharedManager;
+
 /**
  上传图片到七牛
 
  @param params 七牛服务端参数
- @param image 图片
+ @param imageData 图片数据
  @param completion 上传成功的回调
  */
-+ (void)uploadQiNiuWithParams:(NSDictionary *)params
-                        image:(UIImage *)image
+- (void)uploadQiNiuWithParams:(NSDictionary *)params
+                    imageData:(NSData *)imageData
                     compltion:(void (^)(NSDictionary *result))completion;
 
 @end

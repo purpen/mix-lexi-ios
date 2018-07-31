@@ -21,9 +21,9 @@
     [self setupBaseUI];
 }
 
+#pragma mark - setup UI
 - (void)setupBaseUI {
     self.view.backgroundColor = [UIColor getRandomColor];
-    
     [self.view addSubview:self.navigationBarView];
     
     if (self.navigationController.viewControllers.count > 1) {

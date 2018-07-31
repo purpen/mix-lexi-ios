@@ -11,28 +11,37 @@
 @interface THNResponse : NSObject
 
 /**
- 错误内容
- */
-@property (nonatomic, strong) NSError       *error;
-
-/**
- 错误提示信息
- */
-@property (nonatomic, copy) NSString        *errorMessage;
-
-/**
- 状态码
- */
-@property (nonatomic, assign) NSInteger     statusCode;
-
-/**
- 响应头
- */
-@property (nonatomic, strong) NSDictionary  *headers;
-
-/**
  响应体
  */
-@property (nonatomic, strong) id            responseObject;
+@property (nonatomic, strong) id            responseDict;
+
+/**
+ 数据内容
+ */
+@property (nonatomic, strong) NSDictionary  *data;
+
+/**
+ 请求状态
+ */
+@property (nonatomic, strong) NSDictionary  *status;
+@property (nonatomic, assign) NSInteger     statusCode;
+@property (nonatomic, assign) NSString      *statusMessage;
+
+/**
+ 成功状态
+ */
+@property (nonatomic, assign) NSInteger     success;
+
+/**
+ 请求是否成功
+ */
+- (BOOL)isSuccess;
+
+/**
+ 是否有数据
+ */
+- (BOOL)hasData;
+
+- (instancetype)initWithResponseObject:(id)responseObject;
 
 @end

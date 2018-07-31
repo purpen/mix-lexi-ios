@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
+#import "THNResponse.h"
 
 @class THNRequest;
 
@@ -213,7 +214,8 @@ typedef void(^ConstructingBodyBlock)(id <AFMultipartFormData> formData);
  开始请求方法
  */
 - (void)startRequest;
-- (void)startRequestSuccess:(void(^)(THNRequest *request, id result))success failure:(void(^)(THNRequest *request, NSError *error))failure;
+- (void)startRequestSuccess:(void(^)(THNRequest *request, THNResponse *result))success
+                    failure:(void(^)(THNRequest *request, NSError *error))failure;
 
 /**
  取消请求方法
