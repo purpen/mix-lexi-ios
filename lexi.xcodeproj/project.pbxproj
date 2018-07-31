@@ -14,6 +14,8 @@
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
 		D82309E22108789A00CDD502 /* THNAreaCodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309E12108789A00CDD502 /* THNAreaCodeModel.m */; };
 		D82309E52108799100CDD502 /* THNAreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309E42108799100CDD502 /* THNAreaModel.m */; };
+		D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */; };
+		D82A0A1F211038A10040F70A /* THNPasswordTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A0A1E211038A10040F70A /* THNPasswordTextField.m */; };
 		D8463E07210B0BC900193CC3 /* THNFindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D8463E06210B0BC900193CC3 /* THNFindPassword.m */; };
 		D85DA7DD2106030200A36A71 /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA75E2106030100A36A71 /* THNHomeViewController.m */; };
 		D85DA7DE2106030200A36A71 /* THNDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7622106030100A36A71 /* THNDiscoverViewController.m */; };
@@ -28,7 +30,6 @@
 		D85DA7E72106030200A36A71 /* THNFindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7812106030100A36A71 /* THNFindPasswordViewController.m */; };
 		D85DA7E82106030200A36A71 /* THNZipCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7822106030100A36A71 /* THNZipCodeViewController.m */; };
 		D85DA7E92106030200A36A71 /* THNSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7832106030100A36A71 /* THNSignUpViewController.m */; };
-		D85DA7EA2106030200A36A71 /* THNPasswordTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7862106030100A36A71 /* THNPasswordTextField.m */; };
 		D85DA7EB2106030200A36A71 /* THNDoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7872106030100A36A71 /* THNDoneButton.m */; };
 		D85DA7EC2106030200A36A71 /* THNSignInView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7882106030100A36A71 /* THNSignInView.m */; };
 		D85DA7ED2106030200A36A71 /* THNSignUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7892106030100A36A71 /* THNSignUpView.m */; };
@@ -87,6 +88,10 @@
 		D82309E12108789A00CDD502 /* THNAreaCodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAreaCodeModel.m; sourceTree = "<group>"; };
 		D82309E32108799100CDD502 /* THNAreaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAreaModel.h; sourceTree = "<group>"; };
 		D82309E42108799100CDD502 /* THNAreaModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAreaModel.m; sourceTree = "<group>"; };
+		D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helper.h"; sourceTree = "<group>"; };
+		D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helper.m"; sourceTree = "<group>"; };
+		D82A0A1D211038A10040F70A /* THNPasswordTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPasswordTextField.h; sourceTree = "<group>"; };
+		D82A0A1E211038A10040F70A /* THNPasswordTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPasswordTextField.m; sourceTree = "<group>"; };
 		D8463E05210B0BC900193CC3 /* THNFindPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFindPassword.h; sourceTree = "<group>"; };
 		D8463E06210B0BC900193CC3 /* THNFindPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFindPassword.m; sourceTree = "<group>"; };
 		D85DA75D2106030100A36A71 /* THNHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNHomeViewController.h; sourceTree = "<group>"; };
@@ -115,7 +120,6 @@
 		D85DA7822106030100A36A71 /* THNZipCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNZipCodeViewController.m; sourceTree = "<group>"; };
 		D85DA7832106030100A36A71 /* THNSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSignUpViewController.m; sourceTree = "<group>"; };
 		D85DA7842106030100A36A71 /* THNSetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetPasswordViewController.h; sourceTree = "<group>"; };
-		D85DA7862106030100A36A71 /* THNPasswordTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNPasswordTextField.m; sourceTree = "<group>"; };
 		D85DA7872106030100A36A71 /* THNDoneButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDoneButton.m; sourceTree = "<group>"; };
 		D85DA7882106030100A36A71 /* THNSignInView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSignInView.m; sourceTree = "<group>"; };
 		D85DA7892106030100A36A71 /* THNSignUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSignUpView.m; sourceTree = "<group>"; };
@@ -130,7 +134,6 @@
 		D85DA7922106030100A36A71 /* THNSignUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSignUpView.h; sourceTree = "<group>"; };
 		D85DA7932106030100A36A71 /* THNSignInView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSignInView.h; sourceTree = "<group>"; };
 		D85DA7942106030100A36A71 /* THNDoneButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDoneButton.h; sourceTree = "<group>"; };
-		D85DA7952106030100A36A71 /* THNPasswordTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNPasswordTextField.h; sourceTree = "<group>"; };
 		D85DA7962106030100A36A71 /* THNZipCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNZipCodeView.h; sourceTree = "<group>"; };
 		D85DA7972106030100A36A71 /* THNLoginBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLoginBaseView.m; sourceTree = "<group>"; };
 		D85DA7982106030100A36A71 /* THNLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLoginView.h; sourceTree = "<group>"; };
@@ -393,20 +396,20 @@
 		D85DA7782106030100A36A71 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D85DA77C2106030100A36A71 /* THNFindPasswordViewController.h */,
-				D85DA7812106030100A36A71 /* THNFindPasswordViewController.m */,
 				D85DA77F2106030100A36A71 /* THNLoginViewController.h */,
 				D85DA77A2106030100A36A71 /* THNLoginViewController.m */,
-				D8D4B735210B223F00BB8A6D /* THNNewPasswordViewController.h */,
-				D8D4B736210B223F00BB8A6D /* THNNewPasswordViewController.m */,
-				D82309CF2107083F00CDD502 /* THNNewUserInfoViewController.h */,
-				D82309D02107083F00CDD502 /* THNNewUserInfoViewController.m */,
-				D85DA7842106030100A36A71 /* THNSetPasswordViewController.h */,
-				D85DA77E2106030100A36A71 /* THNSetPasswordViewController.m */,
 				D85DA7792106030100A36A71 /* THNSignInViewController.h */,
 				D85DA7802106030100A36A71 /* THNSignInViewController.m */,
+				D85DA77C2106030100A36A71 /* THNFindPasswordViewController.h */,
+				D85DA7812106030100A36A71 /* THNFindPasswordViewController.m */,
+				D8D4B735210B223F00BB8A6D /* THNNewPasswordViewController.h */,
+				D8D4B736210B223F00BB8A6D /* THNNewPasswordViewController.m */,
 				D85DA77D2106030100A36A71 /* THNSignUpViewController.h */,
 				D85DA7832106030100A36A71 /* THNSignUpViewController.m */,
+				D85DA7842106030100A36A71 /* THNSetPasswordViewController.h */,
+				D85DA77E2106030100A36A71 /* THNSetPasswordViewController.m */,
+				D82309CF2107083F00CDD502 /* THNNewUserInfoViewController.h */,
+				D82309D02107083F00CDD502 /* THNNewUserInfoViewController.m */,
 				D85DA77B2106030100A36A71 /* THNZipCodeViewController.h */,
 				D85DA7822106030100A36A71 /* THNZipCodeViewController.m */,
 			);
@@ -416,30 +419,30 @@
 		D85DA7852106030100A36A71 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D85DA7902106030100A36A71 /* THNAuthCodeButton.h */,
-				D85DA78A2106030100A36A71 /* THNAuthCodeButton.m */,
-				D85DA7942106030100A36A71 /* THNDoneButton.h */,
-				D85DA7872106030100A36A71 /* THNDoneButton.m */,
-				D8463E05210B0BC900193CC3 /* THNFindPassword.h */,
-				D8463E06210B0BC900193CC3 /* THNFindPassword.m */,
 				D85DA78C2106030100A36A71 /* THNLoginBaseView.h */,
 				D85DA7972106030100A36A71 /* THNLoginBaseView.m */,
 				D85DA7982106030100A36A71 /* THNLoginView.h */,
 				D85DA78F2106030100A36A71 /* THNLoginView.m */,
-				D82309D2210708CE00CDD502 /* THNNewUserInfoView.h */,
-				D82309D3210708CE00CDD502 /* THNNewUserInfoView.m */,
-				D85DA7952106030100A36A71 /* THNPasswordTextField.h */,
-				D85DA7862106030100A36A71 /* THNPasswordTextField.m */,
-				D85DA7992106030100A36A71 /* THNSetPasswordView.h */,
-				D85DA78E2106030100A36A71 /* THNSetPasswordView.m */,
 				D85DA7932106030100A36A71 /* THNSignInView.h */,
 				D85DA7882106030100A36A71 /* THNSignInView.m */,
+				D8463E05210B0BC900193CC3 /* THNFindPassword.h */,
+				D8463E06210B0BC900193CC3 /* THNFindPassword.m */,
 				D85DA7922106030100A36A71 /* THNSignUpView.h */,
 				D85DA7892106030100A36A71 /* THNSignUpView.m */,
-				D85DA78B2106030100A36A71 /* THNZipCodeTableViewCell.h */,
-				D85DA7912106030100A36A71 /* THNZipCodeTableViewCell.m */,
+				D85DA7992106030100A36A71 /* THNSetPasswordView.h */,
+				D85DA78E2106030100A36A71 /* THNSetPasswordView.m */,
+				D82309D2210708CE00CDD502 /* THNNewUserInfoView.h */,
+				D82309D3210708CE00CDD502 /* THNNewUserInfoView.m */,
+				D85DA7942106030100A36A71 /* THNDoneButton.h */,
+				D85DA7872106030100A36A71 /* THNDoneButton.m */,
+				D85DA7902106030100A36A71 /* THNAuthCodeButton.h */,
+				D85DA78A2106030100A36A71 /* THNAuthCodeButton.m */,
 				D85DA7962106030100A36A71 /* THNZipCodeView.h */,
 				D85DA78D2106030100A36A71 /* THNZipCodeView.m */,
+				D85DA78B2106030100A36A71 /* THNZipCodeTableViewCell.h */,
+				D85DA7912106030100A36A71 /* THNZipCodeTableViewCell.m */,
+				D82A0A1D211038A10040F70A /* THNPasswordTextField.h */,
+				D82A0A1E211038A10040F70A /* THNPasswordTextField.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -542,6 +545,8 @@
 				D85DA7C62106030100A36A71 /* UIView+Helper.m */,
 				D85DA7C72106030100A36A71 /* UIView+LayoutMethods.h */,
 				D85DA7B92106030100A36A71 /* UIView+LayoutMethods.m */,
+				D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */,
+				D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -794,7 +799,6 @@
 				D85DA7DE2106030200A36A71 /* THNDiscoverViewController.m in Sources */,
 				D85DA7F42106030200A36A71 /* THNBaseTabBarController.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
-				D85DA7EA2106030200A36A71 /* THNPasswordTextField.m in Sources */,
 				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
 				D85DA7ED2106030200A36A71 /* THNSignUpView.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
@@ -806,8 +810,10 @@
 				D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */,
 				D85DA7F52106030200A36A71 /* THNBaseNavigationController.m in Sources */,
 				D82309E52108799100CDD502 /* THNAreaModel.m in Sources */,
+				D82A0A1F211038A10040F70A /* THNPasswordTextField.m in Sources */,
 				D85DA7DF2106030200A36A71 /* THNInboxViewController.m in Sources */,
 				D85DA7E02106030200A36A71 /* THNMyCenterViewController.m in Sources */,
+				D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
 				D85DA7DD2106030200A36A71 /* THNHomeViewController.m in Sources */,
 				D82309D721082C2700CDD502 /* THNPhotoManager.m in Sources */,

@@ -55,7 +55,8 @@
  @param image 原图
  @return 压缩后的图片
  */
-+ (UIImage *)processImage:(UIImage *)image;
++ (UIImage *)compressImage:(UIImage *)image;
++ (NSData *)compressImageToData:(UIImage *)image;
 
 @end
 

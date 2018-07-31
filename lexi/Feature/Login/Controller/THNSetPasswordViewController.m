@@ -37,13 +37,14 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  获取密码参数
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
-    if (!self.email.length || !self.areacode.length || !password.length || !affirmPassword.length) {
+    WEAKSELF;
+    if (!weakSelf.email.length || !weakSelf.areacode.length || !password.length || !affirmPassword.length) {
         [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
-    NSDictionary *paramDict = @{kParamEmail: self.email,
-                                kParamAreaCode: self.areacode,
+    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,
+                                kParamAreaCode: weakSelf.areacode,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
@@ -53,7 +54,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         }
         
         THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-        [self.navigationController pushViewController:newUserInfoVC animated:YES];
+        [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
     }];
 }
 

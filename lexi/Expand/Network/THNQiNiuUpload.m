@@ -19,20 +19,15 @@ static NSString *const kResultUserId    = @"user_id";
 
 @implementation THNQiNiuUpload
 
-+ (void)uploadQiNiuWithParams:(NSDictionary *)params image:(UIImage *)image compltion:(void (^)(NSDictionary *))completion {
+- (void)uploadQiNiuWithParams:(NSDictionary *)params imageData:(NSData *)imageData compltion:(void (^)(NSDictionary *))completion {
     NSString *token = params[kResultToken];
     
-    if (!token.length) {
-        [SVProgressHUD showErrorWithStatus:@"上传token不存在"];
-        return;
-    }
-    
-    if (!image) {
+    if (!imageData || !token.length) {
         [SVProgressHUD showErrorWithStatus:@"上传图片错误"];
         return;
     }
     
-    NSString *filePath = [NSString getImagePath:image];
+    NSString *filePath = [NSString getImagePath:[UIImage imageWithData:imageData]];
     NSString *directoryId = [NSString stringWithFormat:@"%zi", [params[kResultDirectory] integerValue]];
     NSString *userId = [NSString stringWithFormat:@"%zi", [params[kResultUserId] integerValue]];
     
@@ -48,13 +43,46 @@ static NSString *const kResultUserId    = @"user_id";
                    key:nil
                  token:token
               complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                  if (info.ok) {
-                      completion(resp);
-                  } else {
+                  if (!info.ok) {
                       [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                      return ;
+                  }
+                  
+                  if (completion) {
+                      completion(resp);
                   }
               }
                 option:opt];
+}
+
+#pragma mark - shared
+static id _instance = nil;
+
++ (instancetype)sharedManager {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!_instance) {
+            _instance = [[self alloc] init];
+        }
+    });
+    return _instance;
+}
+
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [super allocWithZone:zone];
+    });
+    
+    return _instance;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return _instance;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return _instance;
 }
 
 @end

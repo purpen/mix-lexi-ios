@@ -2,17 +2,25 @@
 //  THNPasswordTextField.h
 //  lexi
 //
-//  Created by FLYang on 2018/7/23.
+//  Created by FLYang on 2018/7/31.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface THNPasswordTextField : UITextField
+@interface THNPasswordTextField : UIView
 
 /**
- 占位符文字
+ 获取输入的文字内容
  */
-@property (nonatomic, strong) NSString *kPlaceholderText;
+@property (nonatomic, strong) NSString *text;
+
+/**
+ 根据占位文字初始化
+
+ @param placeholder 占位文字
+ @return self
+ */
+- (instancetype)initWithPlaceholderText:(NSString *)placeholder;
 
 @end

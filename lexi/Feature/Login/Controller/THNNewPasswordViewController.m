@@ -33,20 +33,21 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 }
 
 #pragma mark - network
-- (void)networdPostNewPasswordWithParam:(NSDictionary *)param {
-    NSLog(@"------- %@", param);
+- (void)networdPostNewPasswordWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
     [SVProgressHUD show];
     THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd
                                   requestDictionary:param
                                              isSign:YES
                                            delegate:nil];
     
-    [request startRequestSuccess:^(THNRequest *request, id result) {
-        NSLog(@"重置密码成功：%@", result);
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result isSuccess]) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return ;
+        }
     
-        if ([result[@"success"] isEqualToNumber:@1]) {
-            [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-            [self dismissViewControllerAnimated:YES completion:nil];
+        if (completion) {
+            completion();
         }
      
     } failure:^(THNRequest *request, NSError *error) {
@@ -59,16 +60,20 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  获取密码参数
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
-    if (!self.email.length || !password.length || !affirmPassword.length) {
+    WEAKSELF;
+    if (!weakSelf.email.length || !password.length || !affirmPassword.length) {
         [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
-    NSDictionary *paramDict = @{kParamEmail: self.email,
+    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [self networdPostNewPasswordWithParam:paramDict];
+    [self networdPostNewPasswordWithParam:paramDict completion:^{
+        [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 #pragma mark - setup UI
