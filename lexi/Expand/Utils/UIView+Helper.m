@@ -204,6 +204,17 @@
     [self.layer addSublayer:boderLineLayer];
 }
 
+- (void)drwaShadow {
+    self.layer.shadowRadius = 4;
+    self.layer.cornerRadius = 4;
+    self.layer.shadowOffset = CGSizeMake(5, 5);
+    self.layer.borderWidth = 0.5;
+    self.layer.shadowOpacity = 0.1;
+    self.layer.shadowColor = [[UIColor colorWithHexString:@"000000"] CGColor];
+    self.layer.borderColor = [[UIColor colorWithHexString:@"e9e9e9"] CGColor];
+    self.layer.masksToBounds = NO;
+}
+
 + (instancetype)viewFromXib {
     return [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class])owner:nil options:nil]firstObject];
 }

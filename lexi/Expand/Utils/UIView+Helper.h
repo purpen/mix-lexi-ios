@@ -71,6 +71,8 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 - (void)drawViewBorderType:(UIViewBorderLineType)type width:(CGFloat)width color:(UIColor *)color ;
 
+// 绘制阴影
+- (void)drwaShadow;
 
 /**
  xib加载View

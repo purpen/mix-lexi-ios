@@ -18,9 +18,9 @@ static NSString *const kTodayCellIdentifier = @"kTodayCellIdentifier";
 static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
 CGFloat const kCellTodayHeight = 180;
 CGFloat const kCellPopularHeight = 330;
-CGFloat const kCellLifeAestheticsHeight = 250;
-CGFloat const kCellOptimalHeight = 420;
-CGFloat const kCellGrassListHeight = 420;
+CGFloat const kCellLifeAestheticsHeight = 253.5;
+CGFloat const kCellOptimalHeight = 200;
+CGFloat const kCellGrassListHeight = 200;
 
 @interface THNFeatureTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewConstraint;
@@ -71,28 +71,22 @@ CGFloat const kCellGrassListHeight = 420;
         case FeaturedRecommendedToday:
             itemWidth = 160;
             itemHeight = kCellTodayHeight;
-            self.collectionViewConstraint.constant = 0;
             break;
         case FeaturedRecommendationPopular:
-            self.collectionViewConstraint.constant = 20;
-            NSLog(@"%f",collectionView.viewWidth);
-            itemWidth = indexPath.row <= 1 ? (self.viewWidth - 10 - 40) / 2  : (self.viewWidth - 20 - 40) / 3;
+            itemWidth = indexPath.row <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
             itemHeight = indexPath.row <= 1 ? 160 : 145;
             break;
         case FeaturedLifeAesthetics:
             itemWidth = 248;
-            itemHeight = 253.5;
-            self.collectionViewConstraint.constant = 0;
+            itemHeight = kCellLifeAestheticsHeight;
             break;
         case FearuredGrassList:
-            self.collectionViewConstraint.constant = 20;
             itemWidth = 163;
-            itemHeight = 200;
+            itemHeight = kCellGrassListHeight;
             break;
         case FearuredOptimal:
-            self.collectionViewConstraint.constant = 20;
             itemWidth = 163;
-            itemHeight = 200;
+            itemHeight = kCellOptimalHeight;
             break;
     }
     
