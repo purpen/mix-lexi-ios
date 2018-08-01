@@ -49,7 +49,7 @@ static NSString * const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCel
 //配置cell居中
 - (void)fixCellToCenter {
     //最小滚动距离
-    float dragMiniDistance = self.bounds.size.width/20.0f;
+    float dragMiniDistance = self.viewWidth / 10.0f;
     if (self.m_dragStartX -  self.m_dragEndX >= dragMiniDistance) {
         self.m_currentIndex -= 1;//向右
     }else if(self.m_dragEndX -  self.m_dragStartX >= dragMiniDistance){
@@ -74,27 +74,11 @@ static NSString * const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCel
 //手指拖动停止
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     self.m_dragEndX = scrollView.contentOffset.x;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self fixCellToCenter];
     });
 }
-
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    if (self.m_currentIndex == [self.dataArray count]/3*3) {
-        NSIndexPath *path  = [NSIndexPath indexPathForItem:[self.dataArray count]/2 inSection:0];
-        [self scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        self.m_currentIndex = [self.dataArray count]/2;
-    }
-    else if(self.m_currentIndex == [self.dataArray count]/3){
-        NSIndexPath *path = [NSIndexPath indexPathForItem:[self.dataArray count]/2 inSection:0];
-        [self scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        self.m_currentIndex = [self.dataArray count]/2;
-    }
-}
-
-
 
 #pragma mark - UICollectionViewDataSource的实现
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

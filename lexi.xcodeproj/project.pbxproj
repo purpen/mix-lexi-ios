@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B232596210F18650097B501 /* THNFeaturedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B232595210F18650097B501 /* THNFeaturedViewController.xib */; };
 		4B232599210F20A80097B501 /* THNActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B232598210F20A80097B501 /* THNActivityView.m */; };
 		4B23259B210F20B50097B501 /* THNActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B23259A210F20B50097B501 /* THNActivityView.xib */; };
 		4B23259F210F27EC0097B501 /* THNFeatureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B23259D210F27EC0097B501 /* THNFeatureTableViewCell.m */; };
@@ -16,7 +15,6 @@
 		4B2325E321102C110097B501 /* THNLifeAestheticsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2325E121102C110097B501 /* THNLifeAestheticsCollectionViewCell.xib */; };
 		4B2325E721105B0E0097B501 /* THNGrassListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2325E521105B0E0097B501 /* THNGrassListCollectionViewCell.m */; };
 		4B2325E821105B0E0097B501 /* THNGrassListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2325E621105B0E0097B501 /* THNGrassListCollectionViewCell.xib */; };
-		4B5FF5C82109EFAF00DAB399 /* THNExploresViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B5FF5C72109EFAF00DAB399 /* THNExploresViewController.xib */; };
 		4B5FF5D6210AAECF00DAB399 /* THNFeaturedCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5D5210AAECF00DAB399 /* THNFeaturedCollectionView.m */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		4B5FF5E0210B218800DAB399 /* THNBrandCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DE210B218800DAB399 /* THNBrandCollectionViewCell.m */; };
@@ -35,6 +33,10 @@
 		4B686B5421082562001E5C48 /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B5321082562001E5C48 /* THNHomeViewController.m */; };
 		4B686B5A210826EE001E5C48 /* THNExploresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B59210826EE001E5C48 /* THNExploresViewController.m */; };
 		4B686B5D21082D24001E5C48 /* THNBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B686B5C21082D24001E5C48 /* THNBannerView.m */; };
+		4B7E8C04211158BC00862AB0 /* THNLivingHallHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E8C03211158BC00862AB0 /* THNLivingHallHeaderView.m */; };
+		4B7E8C06211158C800862AB0 /* THNLivingHallHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7E8C05211158C800862AB0 /* THNLivingHallHeaderView.xib */; };
+		4B7E8C0A2111987500862AB0 /* THNLivingHallRecommendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E8C082111987500862AB0 /* THNLivingHallRecommendTableViewCell.m */; };
+		4B7E8C0B2111987500862AB0 /* THNLivingHallRecommendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7E8C092111987500862AB0 /* THNLivingHallRecommendTableViewCell.xib */; };
 		4BCF89EE210995CE00F5056B /* THNBannnerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCF89EC210995CE00F5056B /* THNBannnerCollectionViewCell.m */; };
 		4BCF89EF210995CE00F5056B /* THNBannnerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BCF89ED210995CE00F5056B /* THNBannnerCollectionViewCell.xib */; };
 		4BCF89FC2109C7F400F5056B /* THNCategoriesCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCF89FB2109C7F400F5056B /* THNCategoriesCollectionView.m */; };
@@ -102,7 +104,6 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
-		4B232595210F18650097B501 /* THNFeaturedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNFeaturedViewController.xib; sourceTree = "<group>"; };
 		4B232597210F20A80097B501 /* THNActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNActivityView.h; sourceTree = "<group>"; };
 		4B232598210F20A80097B501 /* THNActivityView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNActivityView.m; sourceTree = "<group>"; };
 		4B23259A210F20B50097B501 /* THNActivityView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNActivityView.xib; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		4B2325E421105B0E0097B501 /* THNGrassListCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGrassListCollectionViewCell.h; sourceTree = "<group>"; };
 		4B2325E521105B0E0097B501 /* THNGrassListCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGrassListCollectionViewCell.m; sourceTree = "<group>"; };
 		4B2325E621105B0E0097B501 /* THNGrassListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNGrassListCollectionViewCell.xib; sourceTree = "<group>"; };
-		4B5FF5C72109EFAF00DAB399 /* THNExploresViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNExploresViewController.xib; sourceTree = "<group>"; };
 		4B5FF5D4210AAECF00DAB399 /* THNFeaturedCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFeaturedCollectionView.h; sourceTree = "<group>"; };
 		4B5FF5D5210AAECF00DAB399 /* THNFeaturedCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFeaturedCollectionView.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
@@ -148,6 +148,12 @@
 		4B686B59210826EE001E5C48 /* THNExploresViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNExploresViewController.m; sourceTree = "<group>"; };
 		4B686B5B21082D24001E5C48 /* THNBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBannerView.h; sourceTree = "<group>"; };
 		4B686B5C21082D24001E5C48 /* THNBannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBannerView.m; sourceTree = "<group>"; };
+		4B7E8C02211158BC00862AB0 /* THNLivingHallHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallHeaderView.h; sourceTree = "<group>"; };
+		4B7E8C03211158BC00862AB0 /* THNLivingHallHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallHeaderView.m; sourceTree = "<group>"; };
+		4B7E8C05211158C800862AB0 /* THNLivingHallHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNLivingHallHeaderView.xib; sourceTree = "<group>"; };
+		4B7E8C072111987500862AB0 /* THNLivingHallRecommendTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallRecommendTableViewCell.h; sourceTree = "<group>"; };
+		4B7E8C082111987500862AB0 /* THNLivingHallRecommendTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallRecommendTableViewCell.m; sourceTree = "<group>"; };
+		4B7E8C092111987500862AB0 /* THNLivingHallRecommendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNLivingHallRecommendTableViewCell.xib; sourceTree = "<group>"; };
 		4BCF89EB210995CE00F5056B /* THNBannnerCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBannnerCollectionViewCell.h; sourceTree = "<group>"; };
 		4BCF89EC210995CE00F5056B /* THNBannnerCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBannnerCollectionViewCell.m; sourceTree = "<group>"; };
 		4BCF89ED210995CE00F5056B /* THNBannnerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNBannnerCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -303,7 +309,6 @@
 			children = (
 				4B686B4921080998001E5C48 /* THNFeaturedViewController.h */,
 				4B686B4A21080998001E5C48 /* THNFeaturedViewController.m */,
-				4B232595210F18650097B501 /* THNFeaturedViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -370,6 +375,12 @@
 		4B5FF5D2210AA8CA00DAB399 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B7E8C02211158BC00862AB0 /* THNLivingHallHeaderView.h */,
+				4B7E8C03211158BC00862AB0 /* THNLivingHallHeaderView.m */,
+				4B7E8C05211158C800862AB0 /* THNLivingHallHeaderView.xib */,
+				4B7E8C072111987500862AB0 /* THNLivingHallRecommendTableViewCell.h */,
+				4B7E8C082111987500862AB0 /* THNLivingHallRecommendTableViewCell.m */,
+				4B7E8C092111987500862AB0 /* THNLivingHallRecommendTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -408,7 +419,6 @@
 			children = (
 				4B686B58210826EE001E5C48 /* THNExploresViewController.h */,
 				4B686B59210826EE001E5C48 /* THNExploresViewController.m */,
-				4B5FF5C72109EFAF00DAB399 /* THNExploresViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -905,19 +915,19 @@
 				4B5FF5F2210EFCBE00DAB399 /* THNFeaturedOpeningView.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				4B686B40210719F2001E5C48 /* THNHomeSearchView.xib in Resources */,
-				4B232596210F18650097B501 /* THNFeaturedViewController.xib in Resources */,
 				4BCF8A112109E17700F5056B /* THNProductCollectionViewCell.xib in Resources */,
 				4BCF8A012109C86400F5056B /* THNCategoriesCollectionViewCell.xib in Resources */,
 				4B2325E821105B0E0097B501 /* THNGrassListCollectionViewCell.xib in Resources */,
 				4B23259B210F20B50097B501 /* THNActivityView.xib in Resources */,
 				D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */,
-				4B5FF5C82109EFAF00DAB399 /* THNExploresViewController.xib in Resources */,
 				4BCF8A0C2109DA6B00F5056B /* THNExploreTableViewCell.xib in Resources */,
 				D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */,
 				4BCF89EF210995CE00F5056B /* THNBannnerCollectionViewCell.xib in Resources */,
 				4B2325E321102C110097B501 /* THNLifeAestheticsCollectionViewCell.xib in Resources */,
+				4B7E8C0B2111987500862AB0 /* THNLivingHallRecommendTableViewCell.xib in Resources */,
 				4B2325A0210F27EC0097B501 /* THNFeatureTableViewCell.xib in Resources */,
 				4B5FF5E1210B218800DAB399 /* THNBrandCollectionViewCell.xib in Resources */,
+				4B7E8C06211158C800862AB0 /* THNLivingHallHeaderView.xib in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
 				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
@@ -1006,6 +1016,7 @@
 				D85DA7EA2106030200A36A71 /* THNPasswordTextField.m in Sources */,
 				4B5FF5D6210AAECF00DAB399 /* THNFeaturedCollectionView.m in Sources */,
 				4B5FF5E4210EA6B200DAB399 /* THNSetModel.m in Sources */,
+				4B7E8C0A2111987500862AB0 /* THNLivingHallRecommendTableViewCell.m in Sources */,
 				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
 				D85DA7ED2106030200A36A71 /* THNSignUpView.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
@@ -1058,6 +1069,7 @@
 				D85DA7EB2106030200A36A71 /* THNDoneButton.m in Sources */,
 				D85DA7F82106030200A36A71 /* THNShareViewController.m in Sources */,
 				4BCF8A0B2109DA6B00F5056B /* THNExploreTableViewCell.m in Sources */,
+				4B7E8C04211158BC00862AB0 /* THNLivingHallHeaderView.m in Sources */,
 				D85DA8082106030200A36A71 /* main.m in Sources */,
 				D85DA7F92106030200A36A71 /* THNResponse.m in Sources */,
 				D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */,

@@ -18,6 +18,8 @@
 #import "THNBannerView.h"
 
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
+static CGFloat const kPopularFooterViewHeight = 180;
+static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 
 @interface THNFeaturedViewController ()
@@ -26,6 +28,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
 @property (nonatomic, strong) THNActivityView *activityView;
 @property (nonatomic, strong) THNBannerView *bannerView;
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) FeaturedCellType cellType;
 @property (nonatomic, strong) NSArray *data;
 
@@ -37,6 +40,13 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
     [super viewDidLoad];
     [self loadData];
     [self setupUI];
+}
+
+// 解决HeaderView和footerView悬停的问题
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    
+    return [super initWithStyle:UITableViewStyleGrouped];
+    
 }
 
 - (void)setupUI {
@@ -114,8 +124,9 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
     if (section == 0) {
         return self.activityView;
     } else if (section == 1){
-        UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 160)];
-        footerView.backgroundColor = [UIColor redColor];
+        UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kPopularFooterViewHeight)];
+        footerView.backgroundColor = [UIColor whiteColor];
+        [footerView addSubview:self.lineView];
         [footerView addSubview:self.bannerView];
         return footerView;
     } else {
@@ -127,7 +138,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
     if (section == 0) {
         return 130;
     } else if (section == 1) {
-        return 140;
+        return kPopularFooterViewHeight;
     } else {
         return 0;
     }
@@ -136,6 +147,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.cellType) {
+            
         case FeaturedRecommendedToday:
             return kCellTodayHeight + kFeaturedCellTopBottomHeight;
             break;
@@ -143,10 +155,10 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
             return kCellLifeAestheticsHeight + kFeaturedCellTopBottomHeight;
             break;
         case FearuredOptimal:
-            return kCellOptimalHeight + kFeaturedCellTopBottomHeight;
+            return kCellOptimalHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
             break;
         case FearuredGrassList:
-            return kCellGrassListHeight + kFeaturedCellTopBottomHeight;
+            return kCellGrassListHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
             break;
         case FeaturedRecommendationPopular:
             return kCellPopularHeight + kFeaturedCellTopBottomHeight;
@@ -157,7 +169,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(20, 15, SCREEN_WIDTH - 20, 200) collectionViewLayout:flowLayout withDataArray:self.data];
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout withDataArray:self.data];
     }
     return _featuredCollectionView;
 }
@@ -180,9 +192,17 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
         NSArray * array = @[@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg",@"https://kg.erp.taihuoniao.com/20180705/2856FgnuLr9GzH9Yg5Izfa3Cu5Y8iLHH.jpg",@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"];
-        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(20, 0, SCREEN_WIDTH - 40, 140) images:array];
+        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(kFeaturedX, 20, SCREEN_WIDTH - kFeaturedX * 2, 140) images:array];
     }
     return _bannerView;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
+    }
+    return _lineView;
 }
 
 @end
