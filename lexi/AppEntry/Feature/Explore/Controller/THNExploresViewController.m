@@ -40,6 +40,13 @@ static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
     [self setupUI];
 }
 
+// 解决HeaderView和footerView悬停的问题
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    
+    return [super initWithStyle:UITableViewStyleGrouped];
+    
+}
+
 - (void)setupUI {
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
