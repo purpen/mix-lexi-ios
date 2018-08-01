@@ -12,11 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="192" id="tOr-c8-7m2" customClass="THNFeatureTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="467" height="192"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="207" id="tOr-c8-7m2" customClass="THNFeatureTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="467" height="207"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tOr-c8-7m2" id="zIa-fe-r3h">
-                <rect key="frame" x="0.0" y="0.0" width="467" height="191.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="467" height="206.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2CI-qc-qCo">
@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="A8s-Tc-jQf">
-                        <rect key="frame" x="15" y="67.5" width="452" height="104"/>
+                        <rect key="frame" x="15" y="67.5" width="452" height="119"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7ei-gh-V63">
                             <size key="itemSize" width="50" height="50"/>
@@ -74,7 +74,7 @@
                 <outlet property="collectionViewConstraint" destination="pE6-22-MQk" id="m1e-L1-Oyx"/>
                 <outlet property="productCollectionView" destination="A8s-Tc-jQf" id="rVk-1p-eu7"/>
             </connections>
-            <point key="canvasLocation" x="-189" y="-19"/>
+            <point key="canvasLocation" x="11" y="-18"/>
         </tableViewCell>
     </objects>
     <resources>
