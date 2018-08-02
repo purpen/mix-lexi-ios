@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface NSString (Helper)
 
@@ -94,5 +95,13 @@
  @return 随机字符串
  */
 + (NSString *)randomStringWithLength:(NSInteger)len;
+
+/**
+ 照片获取本地路径转换
+
+ @param image 照片
+ @return 本地路径
+ */
++ (NSString *)getImagePath:(UIImage *)image;
 
 @end

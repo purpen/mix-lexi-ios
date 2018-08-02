@@ -9,6 +9,7 @@
 #import "THNBannnerCollectionViewCell.h"
 #import "UIView+Helper.h"
 #import "UIImageView+WebCache.h"
+#import "THNSetModel.h"
 
 @implementation THNBannnerCollectionViewCell
 
@@ -18,6 +19,11 @@
 }
 
 - (void)setSetModel:(THNSetModel *)setModel {
+    
+    if ([setModel.type isEqualToString:@"avatar"]) {
+       self.layer.cornerRadius = self.viewHeight / 2;
+    }
+    
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]];
 }
 

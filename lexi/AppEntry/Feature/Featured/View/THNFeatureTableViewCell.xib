@@ -73,6 +73,7 @@
             <connections>
                 <outlet property="collectionViewConstraint" destination="pE6-22-MQk" id="m1e-L1-Oyx"/>
                 <outlet property="productCollectionView" destination="A8s-Tc-jQf" id="rVk-1p-eu7"/>
+                <outlet property="titleLabel" destination="vCq-2U-Ad6" id="BBd-SJ-qDH"/>
             </connections>
             <point key="canvasLocation" x="11" y="-18"/>
         </tableViewCell>

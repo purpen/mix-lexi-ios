@@ -29,6 +29,8 @@ UIKIT_EXTERN NSString *const kTextLoginSuccess;
 UIKIT_EXTERN NSString *const kTextLogoutError;
 UIKIT_EXTERN NSString *const kTextLogoutSuccess;
 UIKIT_EXTERN NSString *const kTextLoginSigning;
+UIKIT_EXTERN NSString *const kTextRegisterSuccess;
+UIKIT_EXTERN NSString *const kTextRegisterError;
 
 #pragma mark - 等待信息
 UIKIT_EXTERN NSString *const kTextWaitOpen;
