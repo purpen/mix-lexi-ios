@@ -348,7 +348,7 @@ static const NSString *kResponseInfoMessage = @"message";
 }
 
 #pragma mark - block method
-- (void)startRequestSuccess:(void (^)(THNRequest *, id))success failure:(void (^)(THNRequest *, NSError *))failure {
+- (void)startRequestSuccess:(void (^)(THNRequest *, THNResponse *))success failure:(void (^)(THNRequest *, NSError *))failure {
     
     if (self.urlString.length <= 0) { return; }
     
@@ -371,12 +371,10 @@ static const NSString *kResponseInfoMessage = @"message";
                                        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                            
                                            weakSelf.isRunning = NO;
-                                           if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                               success(weakSelf, responseObject);
-                                               
-                                           } else {
-                                               [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoStatus][kResponseInfoMessage]];
-                                           }
+                                           
+                                           THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                           success(weakSelf, response);
+                                           
                                        }
                                        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                            
@@ -402,12 +400,8 @@ static const NSString *kResponseInfoMessage = @"message";
                                             
                                             weakSelf.isRunning = NO;
                                             
-                                            if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                                success(weakSelf, responseObject);
-                                                
-                                            } else {
-                                                [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoStatus][kResponseInfoMessage]];
-                                            }
+                                            THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                            success(weakSelf, response);
                                             
                                         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                             
@@ -435,14 +429,11 @@ static const NSString *kResponseInfoMessage = @"message";
                           }
                                            progress:nil
                                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                                weakSelf.isRunning = NO;
                                                 
-                                                if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                                    success(weakSelf, responseObject);
-                                                    
-                                                } else {
-                                                    [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoStatus][kResponseInfoMessage]];
-                                                }
+                                                weakSelf.isRunning = NO;
+    
+                                                THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                                success(weakSelf, response);
                                                 
                                             }
                                             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -467,13 +458,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                                   
                                                   weakSelf.isRunning = NO;
-                                                  
-                                                  if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                                      success(weakSelf, responseObject);
-                                                      
-                                                  } else {
-                                                      [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoStatus][kResponseInfoMessage]];
-                                                  }
+                                     
+                                                  THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                                  success(weakSelf, response);
                                                   
                                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                                   
@@ -499,12 +486,8 @@ static const NSString *kResponseInfoMessage = @"message";
                                                 
                                                 weakSelf.isRunning = NO;
                                                 
-                                                if ([responseObject[kResponseInfoSuccess] isEqualToNumber:@1]) {
-                                                    success(weakSelf, responseObject);
-                                                    
-                                                } else {
-                                                    [SVProgressHUD showInfoWithStatus:responseObject[kResponseInfoMessage]];
-                                                }
+                                                THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                                success(weakSelf, response);
                                                 
                                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                                 

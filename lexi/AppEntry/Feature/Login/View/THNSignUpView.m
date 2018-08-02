@@ -16,12 +16,13 @@ static NSString *const kTitleLabelText      = @"注册";
 static NSString *const kZipCodeDefault      = @"+86";
 static NSString *const kPhonePlaceholder    = @"请输入手机号码";
 static NSString *const kAuthPlaceholder     = @"请输入手机动态码";
-static NSString *const kAuthCodeButtonTitle = @"获取动态码";
 static NSString *const kDoneButtonTitle     = @"下一步设置密码";
 static NSString *const kSignInText          = @"已有账号？点击登录";
 static NSString *const kProtocolText        = @"注册代表同意乐喜《服务条款》和《隐私条款》";
 
-@interface THNSignUpView ()
+@interface THNSignUpView () {
+    NSString *_verifyCode;
+}
 
 /// 控件容器
 @property (nonatomic, strong) UIView *containerView;
@@ -35,12 +36,14 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 @property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
 /// 完成（下一步）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
+/// 记录加载控件
+@property (nonatomic, strong) NSArray *controlArray;
+/// 错误提示
+@property (nonatomic, strong) UILabel *errorHintLabel;
 /// 已有账号，去登录提示
 @property (nonatomic, strong) YYLabel *signInLabel;
 /// 用户协议提示
 @property (nonatomic, strong) YYLabel *protocolLabel;
-/// 记录加载控件
-@property (nonatomic, strong) NSArray *controlArray;
 
 @end
 
@@ -54,41 +57,92 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     return self;
 }
 
+#pragma mark - public methods
+- (void)thn_setVerifyCode:(NSString *)code {
+    _verifyCode = code;
+}
+
+- (void)thn_setAreaCode:(NSString *)code {
+    [self.zipCodeButton setTitle:code forState:(UIControlStateNormal)];
+}
+
+- (void)thn_setErrorHintText:(NSString *)text {
+    self.errorHintLabel.text = text;
+    [self thn_showErrorHint:YES];
+}
+
 #pragma mark - private methods
 - (void)thn_doneButtonAction {
     WEAKSELF;
     
-    if (![weakSelf.phoneTextField.text checkTel]) {
+    [weakSelf endEditing:YES];
+    [weakSelf thn_showErrorHint:NO];
+    
+    if (![[weakSelf getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
-    if (weakSelf.authCodeTextField.text.length < 4) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的验证码"];
+    if (![weakSelf getVerifyCode].length) {
+        [weakSelf thn_setErrorHintText:@"请输入验证码"];
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPassword)]) {
-        [weakSelf.delegate thn_signUpSetPassword];
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
+        [weakSelf.delegate thn_signUpSetPasswordWithPhoneNum:[weakSelf getPhoneNum]
+                                                     zipCode:[weakSelf getZipCode]
+                                                  verifyCode:[weakSelf getVerifyCode]];
     }
+}
+
+/**
+ 获取输入的手机号
+ */
+- (NSString *)getPhoneNum {
+    return self.phoneTextField.text;
+}
+
+/**
+ 获取手机区号
+ */
+- (NSString *)getZipCode {
+    return self.zipCodeButton.titleLabel.text;
+}
+
+/**
+ 获取短信验证码
+ */
+- (NSString *)getVerifyCode {
+    return self.authCodeTextField.text;
+}
+
+/**
+ 展示错误提示
+ */
+- (void)thn_showErrorHint:(BOOL)show {
+    self.errorHintLabel.hidden = !show;
 }
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![self.phoneTextField.text checkTel]) {
+    if (![[self getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
+    WEAKSELF;
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
+        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
+                                                zipCode:[weakSelf getZipCode]];
+    }
+
     [self.authCodeTextField becomeFirstResponder];
-    [SVProgressHUD showSuccessWithStatus:@"验证码已发送"];
-    
-    [button thn_countdownStartTime:60 completion:^(THNAuthCodeButton *authCodeButton) {
-        
-    }];
+    [button thn_countdownStartTime:60 completion:nil];
 }
 
 - (void)zipCodeButtonAction:(UIButton *)button {
+    [self thn_showErrorHint:NO];
+    
     if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
         [self.delegate thn_showZipCodeList];
     }
@@ -104,6 +158,7 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
     [self addSubview:self.signInLabel];
+    [self addSubview:self.errorHintLabel];
     [self addSubview:self.protocolLabel];
     
     self.controlArray = @[self.phoneTextField, self.authCodeTextField, self.doneButton];
@@ -137,6 +192,12 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
                                          width:0.5
                                          color:[UIColor colorWithHexString:@"#DADADA"]];
+    
+    [self.errorHintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(200, 13));
+        make.left.mas_equalTo(20);
+        make.top.equalTo(self.authCodeTextField.mas_bottom).with.offset(5);
+    }];
     
     [self.signInLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
@@ -214,7 +275,6 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
         WEAKSELF;
-        
         _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                              withTitle:kDoneButtonTitle
                                             completion:^{
@@ -222,6 +282,17 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
                                             }];
     }
     return _doneButton;
+}
+
+- (UILabel *)errorHintLabel {
+    if (!_errorHintLabel) {
+        _errorHintLabel = [[UILabel alloc] init];
+        _errorHintLabel.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+        _errorHintLabel.textColor = [UIColor colorWithHexString:@"#FF6666"];
+        _errorHintLabel.backgroundColor = [UIColor whiteColor];
+        _errorHintLabel.hidden = YES;
+    }
+    return _errorHintLabel;
 }
 
 - (YYLabel *)signInLabel {

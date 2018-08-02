@@ -160,4 +160,24 @@
     return [UIImage imageWithCGImage:scaledImage];
 }
 
+#pragma mark - 压缩图片
++ (UIImage *)compressImage:(UIImage *)image {
+    CGFloat hFactor = image.size.width / [[UIScreen mainScreen] bounds].size.width;
+    CGFloat wFactor = image.size.height / [[UIScreen mainScreen] bounds].size.height;
+    CGFloat factor = fmaxf(hFactor, wFactor);
+    CGFloat newW = image.size.width / factor;
+    CGFloat newH = image.size.height / factor;
+    CGSize newSize = CGSizeMake(newW, newH);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0, 0, newW, newH)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
++ (NSData *)compressImageToData:(UIImage *)image {
+    UIImage *newImage = [self compressImage:image];
+    return UIImageJPEGRepresentation(newImage, 0.9);
+}
+
 @end

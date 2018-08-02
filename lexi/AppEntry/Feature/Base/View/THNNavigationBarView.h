@@ -69,11 +69,11 @@ typedef void (^THNNavigationBarRightButtonCompletion)(void);
 - (void)didNavigationRightButtonCompletion:(nullable THNNavigationBarRightButtonCompletion)completion;
 
 /// 设置返回按钮
-- (void)setNavigationBackButtonHidden:(BOOL)hidden;
 - (void)setNavigationBackButton;
+- (void)setNavigationBackButtonHidden:(BOOL)hidden;
 
 /// 设置关闭按钮
-- (void)setNavigationCloseButtonHidden:(BOOL)hidden;
 - (void)setNavigationCloseButton;
+- (void)setNavigationCloseButtonHidden:(BOOL)hidden;
 
 @end

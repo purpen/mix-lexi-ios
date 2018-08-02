@@ -12,5 +12,6 @@ target "lexi" do
  pod 'SVProgressHUD', '~> 2.2.5'
  pod 'TYAlertController', '~> 1.2.0'
  pod 'YYText'
+ pod "Qiniu", "~> 7.1"
  pod 'MLeaksFinder'
 end

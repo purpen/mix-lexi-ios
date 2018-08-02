@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNAreaCodeModel.h"
 
 @interface THNZipCodeTableViewCell : UITableViewCell
+
+- (void)thn_setAreaCodeInfoModel:(THNAreaCodeModel *)model;
 
 @end

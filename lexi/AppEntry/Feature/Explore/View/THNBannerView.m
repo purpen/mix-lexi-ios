@@ -14,7 +14,7 @@
 #import "UIColor+Extension.h"
 #import "THNBannnerCollectionViewCell.h"
 
-static NSString * const kBannerCellIdentifier = @"kBannerCellIdentifier";
+static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 @interface THNBannerView()<UICollectionViewDataSource, UICollectionViewDelegate>
 
