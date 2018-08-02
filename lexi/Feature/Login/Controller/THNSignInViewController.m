@@ -68,14 +68,19 @@ static NSString *const kParamMobile         = @"mobile";
 /**
  登录成功后的操作
  */
-- (void)thn_loginSuccess {
+- (void)thn_loginSuccessWithModeType:(THNLoginModeType)type {
     WEAKSELF;
-    if ([THNLoginManager sharedManager].isFirstLogin) {
-        THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-        [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
-    
-    } else {
+    if (type == THNLoginModeTypePassword) {
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        
+    } else if (type == THNLoginModeTypeVeriDynamic) {
+        if ([THNLoginManager isFirstLogin]) {
+            THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
+            [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
+            
+        } else {
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }
     }
 }
 
@@ -93,7 +98,7 @@ static NSString *const kParamMobile         = @"mobile";
             return;
         }
         NSLog(@"登录成功 ===== %@", result.data);
-        [weakSelf thn_loginSuccess];
+        [weakSelf thn_loginSuccessWithModeType:type];
     }];
 }
 
