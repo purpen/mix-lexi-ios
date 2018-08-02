@@ -54,9 +54,9 @@ MJCodingImplementation
             return ;
         }
         
-        self.token = NULL_TO_NIL(result.data[kRequestToken]);
-        self.expirationTime = NULL_TO_NIL(result.data[kRequestExpiration]);
-        self.isFirstLogin = (BOOL)NULL_TO_NIL(result.data[kRequestFirstLogin]);
+        self.token = result.data[kRequestToken];
+        self.expirationTime = result.data[kRequestExpiration];
+        self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
         
         [self saveLoginInfo];
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
@@ -159,6 +159,14 @@ MJCodingImplementation
     }
     
     return YES;
+}
+
++ (BOOL)isFirstLogin {
+    if ([THNLoginManager sharedManager].firstLogin == 1) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 /**
