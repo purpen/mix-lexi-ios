@@ -33,17 +33,25 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 
 /**
  是否是第一次登录（判断是否需要设置用户信息）
+ 0:不是、 1:是
  */
-@property (nonatomic, assign) BOOL isFirstLogin;
+@property (nonatomic, assign) NSInteger firstLogin;
 
 + (instancetype)sharedManager;
 
 /**
  是否登录状态
 
- @return YEX：已登录 / NO：未登录
+ @return YES：已登录 / NO：未登录
  */
 + (BOOL)isLogin;
+
+/**
+ 是否是第一次登录（判断是否需要设置用户信息）
+
+ @return 0:不是、 1:是
+ */
++ (BOOL)isFirstLogin;
 
 /**
  保存登录信息
