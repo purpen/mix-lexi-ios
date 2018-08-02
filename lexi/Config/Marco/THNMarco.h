@@ -20,6 +20,8 @@
 
 #define kDeviceiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 #define NAVIGATION_BAR_HEIGHT kDeviceiPhoneX ? 88.0 : 64.0
+// 状态栏高度
+#define STATUS_BAR_HEIGHT kDeviceiPhoneX ? 44.0 : 20.0
 
 #define kHPercentage(a) (SCREEN_HEIGHT*((a)/667.0))
 #define kWPercentage(a) (SCREEN_WIDTH *((a)/375.0))

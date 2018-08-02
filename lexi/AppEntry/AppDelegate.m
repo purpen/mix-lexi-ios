@@ -35,7 +35,7 @@
     THNBaseTabBarController *tabBarC = [[THNBaseTabBarController alloc] init];
     self.window.rootViewController = tabBarC;
     
-    [self thn_loadLoginController];
+   // [self thn_loadLoginController];
 }
 
 - (void)thn_loadLoginController {

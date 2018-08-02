@@ -72,4 +72,21 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 - (void)drawViewBorderType:(UIViewBorderLineType)type width:(CGFloat)width color:(UIColor *)color ;
 
+// 绘制阴影
+- (void)drwaShadow;
+
+/**
+ xib加载View
+ */
++ (instancetype)viewFromXib;
+
+
+/**
+ view的属性 获取当前视图的 Height，Width，X, Y
+ */
+@property (nonatomic, assign) CGFloat viewHeight;
+@property (nonatomic, assign) CGFloat viewWidth;
+@property (nonatomic, assign) CGFloat viewX;
+@property (nonatomic, assign) CGFloat viewY;
+
 @end
