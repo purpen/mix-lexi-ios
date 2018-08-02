@@ -609,7 +609,8 @@
 				D85DA76F2106030100A36A71 /* Goods */,
 				D85DA7A52106030100A36A71 /* Share */,
 			);
-			path = Feature;
+			name = Feature;
+			path = AppEntry/Feature;
 			sourceTree = "<group>";
 		};
 		D85DA75B2106030100A36A71 /* Home */ = {
@@ -825,7 +826,6 @@
 		D85DA7C92106030100A36A71 /* AppEntry */ = {
 			isa = PBXGroup;
 			children = (
-				D85DA7592106030100A36A71 /* Feature */,
 				D85DA7CA2106030100A36A71 /* AppDelegate.h */,
 				D85DA7CC2106030100A36A71 /* AppDelegate.m */,
 				D85DA7CD2106030100A36A71 /* Info.plist */,
@@ -902,6 +902,7 @@
 			isa = PBXGroup;
 			children = (
 				D85DA7C92106030100A36A71 /* AppEntry */,
+				D85DA7592106030100A36A71 /* Feature */,
 				D85DA7D42106030100A36A71 /* Config */,
 				D85DA7A92106030100A36A71 /* Expand */,
 				D85DA7CF2106030100A36A71 /* Resource */,
