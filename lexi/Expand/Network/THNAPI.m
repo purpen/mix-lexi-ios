@@ -10,7 +10,6 @@
 #import "THNConst.h"
 #import "NSString+Encryption.h"
 #import "NSString+Helper.h"
-
 #import "THNLoginManager.h"
 
 static NSString *const kLoginInfoAppKey     = @"app_key";
@@ -27,13 +26,13 @@ static NSString *const kLoginInfoPassword   = @"password";
 
 #pragma mark - Private Methods
 - (NSString *)appKey {
-    NSString *key = [THNLoginManager isLogin] ? [THNLoginManager sharedManager].appKey : @"";
+    NSString *key = kTestAppKey;
     
     return key;
 }
 
 - (NSString *)appSecret {
-    NSString *secret = [THNLoginManager isLogin] ? [THNLoginManager sharedManager].accessToken : @"";
+    NSString *secret = kTestAppSecret;
     
     return secret;
 }

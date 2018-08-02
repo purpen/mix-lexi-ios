@@ -7,18 +7,66 @@
 //
 
 #import "THNResponse.h"
+#import "NSDictionary+Helper.h"
+
+NSString *const kResponseData           = @"data";
+NSString *const kResponseStatus         = @"status";
+NSString *const kResponseStatusCode     = @"code";
+NSString *const kResponseStatusMessage  = @"message";
+NSString *const kResponseSuccess        = @"success";
 
 @implementation THNResponse
 
-- (void)setError:(NSError *)error {
-    _error = error;
-    self.statusCode = error.code;
-    self.errorMessage = error.localizedDescription;
+- (instancetype)initWithResponseObject:(id)responseObject {
+    self = [super init];
+    if (self) {
+        self.responseDict = responseObject;
+        
+        if (![self.responseDict[kResponseData] isKindOfClass:[NSNull class]]) {
+            self.data = self.responseDict[kResponseData];
+        }
+        
+        if (![self.responseDict[kResponseStatus] isKindOfClass:[NSNull class]]) {
+            self.status = self.responseDict[kResponseStatus];
+        }
+        
+        if (![self.status[kResponseStatusCode] isKindOfClass:[NSNull class]]) {
+            self.statusCode = [self.status[kResponseStatusCode] integerValue];
+        }
+        
+        if (![self.status[kResponseStatusCode] isKindOfClass:[NSNull class]]) {
+            self.statusMessage = self.status[kResponseStatusMessage];
+        }
+        
+        if (![self.responseDict[kResponseSuccess] isKindOfClass:[NSNull class]]) {
+            self.success = [self.responseDict[kResponseSuccess] integerValue];
+        }
+    }
+    return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"\n statusCode: %zi \n error: %@ \n headers: %@ \n response: %@", \
-            self.statusCode, self.error, self.headers, self.responseObject];
+- (BOOL)isSuccess {
+    if (self.success == 0) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)hasData {
+    if (!self.data) {
+        return NO;
+    }
+    
+    if ([self.data isKindOfClass:[NSNull class]]) {
+        return NO;
+    }
+    
+    if (!self.data.count) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

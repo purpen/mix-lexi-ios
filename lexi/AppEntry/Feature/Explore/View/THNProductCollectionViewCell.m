@@ -9,6 +9,7 @@
 #import "THNProductCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "UIView+Helper.h"
+#import "THNProductModel.h"
 
 @interface THNProductCollectionViewCell()
 
@@ -27,10 +28,10 @@
     
 }
 
-- (void)setOtherModel:(THNOtherModel *)otherModel {
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180702/3306FghyFReC2A0CWCUoZ4nTDV1KdhWT.jpg"]];
-    self.productNameLabel.text = @"天使https://kg.erp.taihuoniao.com/20180702/3306FghyFReC2A0CWCUoZ4nTDV1KdhWT.jpg";
-    self.productPriceLabel.text = [NSString stringWithFormat:@"¥%@",@58];
+- (void)setProductMode:(THNProductModel *)productModel {
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+    self.productNameLabel.text = productModel.name;
+    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
 }
 
 @end

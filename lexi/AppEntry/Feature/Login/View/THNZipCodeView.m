@@ -12,9 +12,11 @@
 #import "UIView+Helper.h"
 #import <Masonry/Masonry.h>
 #import "THNZipCodeTableViewCell.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kTitleText   = @"选择国家与地区";
 static NSString *const kHintText    = @"常用";
+/// tableViewCell id
 static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 
 @interface THNZipCodeView () <UITableViewDelegate, UITableViewDataSource>
@@ -28,7 +30,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 /// 关闭按钮
 @property (nonatomic, strong) UIButton *closeButton;
 /// 国家区号数据
-@property (nonatomic, strong) NSArray *zipCodeArray;
+@property (nonatomic, strong) NSMutableArray *zipCodeArray;
 
 @end
 
@@ -46,6 +48,20 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
     return self;
 }
 
+#pragma mark - public methods
+- (void)thn_setAreaCodes:(NSArray *)codes {
+    if (self.zipCodeArray.count) {
+        [self.zipCodeArray removeAllObjects];
+    }
+    
+    for (NSDictionary *data in codes) {
+        THNAreaCodeModel *model = [THNAreaCodeModel mj_objectWithKeyValues:data];
+        [self.zipCodeArray addObject:model];
+    }
+    
+    [self.zipCodeTable reloadData];
+}
+
 #pragma mark - event response
 - (void)closeButtonAction:(UIButton *)button {
     self.CloseZipCodeViewBlock();
@@ -53,7 +69,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 
 #pragma mark - tableView delegate&dataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+    return self.zipCodeArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -61,6 +77,11 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
     if (!cell) {
         cell = [[THNZipCodeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kTableViewCellIdentifier];
     }
+    
+    if (self.zipCodeArray.count) {
+        [cell thn_setAreaCodeInfoModel:self.zipCodeArray[indexPath.row]];
+    }
+    
     return cell;
 }
 
@@ -69,7 +90,9 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.SelectedZipCodeBlock(@"+86");
+    if (self.zipCodeArray.count) {
+        self.SelectedZipCodeBlock(self.zipCodeArray[indexPath.row]);
+    }
 }
 
 #pragma mark - setup UI
@@ -127,6 +150,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         _zipCodeTable.dataSource = self;
         _zipCodeTable.tableFooterView = [UIView new];
         _zipCodeTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _zipCodeTable.showsVerticalScrollIndicator = NO;
     }
     return _zipCodeTable;
 }
@@ -160,6 +184,13 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _closeButton;
+}
+
+- (NSMutableArray *)zipCodeArray {
+    if (!_zipCodeArray) {
+        _zipCodeArray = [NSMutableArray array];
+    }
+    return _zipCodeArray;
 }
 
 @end

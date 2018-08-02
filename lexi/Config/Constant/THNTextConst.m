@@ -24,11 +24,13 @@ NSString *const kTextRequestSuccess = @"请求成功";
 NSString *const kTextRequestInfo    = @"请求有误";
 
 #pragma mark - 登录
-NSString *const kTextLoginError     = @"登录失败";
-NSString *const kTextLoginSuccess   = @"登录成功";
-NSString *const kTextLogoutError    = @"登出失败";
-NSString *const kTextLogoutSuccess  = @"登出成功";
-NSString *const kTextLoginSigning   = @"正在登录";
+NSString *const kTextLoginError      = @"登录失败";
+NSString *const kTextLoginSuccess    = @"登录成功";
+NSString *const kTextLogoutError     = @"登出失败";
+NSString *const kTextLogoutSuccess   = @"登出成功";
+NSString *const kTextLoginSigning    = @"正在登录...";
+NSString *const kTextRegisterSuccess = @"注册成功";
+NSString *const kTextRegisterError   = @"注册失败";
 
 #pragma mark - 等待信息
 NSString *const kTextWaitOpen       = @"等待开放";

@@ -28,7 +28,8 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0a-QN-7ET">
                             <rect key="frame" x="108" y="14" width="120" height="34"/>
-                            <string key="text">挑选乐喜优质商品上架品位生活，由此开启</string>
+                            <string key="text">挑选乐喜优质商品上架
+品位生活，由此开启</string>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -101,16 +102,16 @@
                     <rect key="frame" x="20" y="215" width="354" height="100"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_selected_main" translatesAutoresizingMaskIntoConstraints="NO" id="Zpa-xa-jrb">
-                            <rect key="frame" x="9" y="12" width="22" height="22"/>
+                            <rect key="frame" x="9" y="12" width="25" height="25"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="恭喜你拥有了生活馆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrO-VV-OsM">
-                            <rect key="frame" x="36" y="14" width="117.5" height="18.5"/>
+                            <rect key="frame" x="39" y="15.5" width="117.5" height="18.5"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="13"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="如何快速成交订单获取攻略，请搜索关注乐喜官网公众号，添加乐喜辅导员微信，加入生活馆店主群。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOG-gJ-Hi2">
-                            <rect key="frame" x="9" y="44" width="303" height="34"/>
+                            <rect key="frame" x="9" y="47" width="303" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="303" id="FvZ-QS-JJR"/>
                             </constraints>
@@ -119,10 +120,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_copy_wechat" translatesAutoresizingMaskIntoConstraints="NO" id="opk-JH-Hy5">
-                            <rect key="frame" x="263" y="63" width="69" height="18"/>
+                            <rect key="frame" x="263" y="66" width="69" height="18"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rxD-me-h0i">
-                            <rect key="frame" x="329.5" y="12.5" width="15" height="22"/>
+                            <rect key="frame" x="329.5" y="14" width="15" height="22"/>
                             <state key="normal" image="icon_close_gray"/>
                         </button>
                     </subviews>
@@ -218,9 +219,10 @@
                             <state key="normal" image="icon_black" backgroundImage="head_shadow">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <state key="highlighted" image="icon_black" backgroundImage="head_shadow"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyf-En-kMm">
-                            <rect key="frame" x="358" y="157" width="27" height="12"/>
+                            <rect key="frame" x="367" y="157" width="27" height="12"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -265,7 +267,7 @@
                         <constraint firstAttribute="trailing" secondItem="vFL-bl-qhg" secondAttribute="trailing" id="e6V-Eh-dRU"/>
                         <constraint firstItem="dOM-cR-TLc" firstAttribute="leading" secondItem="WTA-nO-aHB" secondAttribute="trailing" constant="183" id="eX2-uD-DHs"/>
                         <constraint firstItem="vFL-bl-qhg" firstAttribute="centerY" secondItem="P9o-52-VUX" secondAttribute="centerY" id="i9u-II-h8T"/>
-                        <constraint firstAttribute="trailing" secondItem="qyf-En-kMm" secondAttribute="trailing" constant="9" id="t74-XU-0NE"/>
+                        <constraint firstAttribute="trailing" secondItem="qyf-En-kMm" secondAttribute="trailing" id="t74-XU-0NE"/>
                         <constraint firstItem="mPq-Sl-ieU" firstAttribute="leading" secondItem="ys7-MW-oJE" secondAttribute="trailing" constant="1" id="tQa-vp-aOv"/>
                         <constraint firstItem="37J-81-OQs" firstAttribute="centerY" secondItem="6mU-VS-6Jl" secondAttribute="centerY" constant="15" id="uW9-Mh-2cX"/>
                         <constraint firstItem="LNW-cG-t0x" firstAttribute="leading" secondItem="WTA-nO-aHB" secondAttribute="leading" id="vZg-O0-fwA"/>
@@ -292,6 +294,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="avatarCollectionView" destination="P9o-52-VUX" id="2dz-mG-3G3"/>
                 <outlet property="livingHallView" destination="6mU-VS-6Jl" id="FrF-rm-GeK"/>
                 <outlet property="noProductView" destination="PkW-rU-Fjj" id="GHp-6v-Pel"/>
                 <outlet property="selectionView" destination="YTb-1Z-yE8" id="1bp-j8-fem"/>
@@ -307,7 +310,7 @@
         <image name="icon_copy_wechat" width="69" height="18"/>
         <image name="icon_edit_gray" width="13" height="15"/>
         <image name="icon_photo_circle" width="17" height="17"/>
-        <image name="icon_selected_main" width="22" height="22"/>
+        <image name="icon_selected_main" width="25" height="25"/>
         <image name="icon_share_circle" width="23" height="23"/>
         <image name="icon_shopping_bag" width="30" height="30"/>
         <image name="icon_store_practice" width="16" height="16"/>

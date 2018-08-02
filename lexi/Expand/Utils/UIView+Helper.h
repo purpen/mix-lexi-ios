@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, UILayoutCornerRadiusType) {
 };
 
 typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
+    UIViewBorderLineTypeAll,
     UIViewBorderLineTypeTop,
     UIViewBorderLineTypeRight,
     UIViewBorderLineTypeBottom,

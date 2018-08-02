@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9702E4BE7AB1CFBB22C8A3D4A49F0898"
+               BlueprintIdentifier = "32CC5B4216160E5F95C2ACAD0FA0F68F"
                BuildableName = "Pods_lexi.framework"
                BlueprintName = "Pods-lexi"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9702E4BE7AB1CFBB22C8A3D4A49F0898"
+            BlueprintIdentifier = "32CC5B4216160E5F95C2ACAD0FA0F68F"
             BuildableName = "Pods_lexi.framework"
             BlueprintName = "Pods-lexi"
             ReferencedContainer = "container:Pods.xcodeproj">

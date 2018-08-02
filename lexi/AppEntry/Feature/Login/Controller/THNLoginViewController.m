@@ -29,6 +29,7 @@
     [self setupUI];
 }
 
+#pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.loginView];
 }

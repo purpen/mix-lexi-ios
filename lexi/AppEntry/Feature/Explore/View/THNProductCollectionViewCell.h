@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNOtherModel;
+@class THNProductModel;
 
 @interface THNProductCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) THNOtherModel *otherModel;
+@property (nonatomic, strong) THNProductModel *productModel;
 
 @end

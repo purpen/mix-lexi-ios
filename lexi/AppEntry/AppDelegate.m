@@ -39,6 +39,8 @@
 }
 
 - (void)thn_loadLoginController {
+    [[THNLoginManager sharedManager] clearLoginInfo];
+    
     if (![THNLoginManager isLogin]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
@@ -51,8 +53,9 @@
 #pragma mark - 第三方库设置
 - (void)setThirdExpandConfig {
     //  SVP颜色设置
-    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:kColorWhite]];
-    [SVProgressHUD setForegroundColor:[UIColor colorWithHexString:kColorMain]];
+//    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:kColorWhite]];
+//    [SVProgressHUD setForegroundColor:[UIColor colorWithHexString:kColorMain]];
+//    [SVProgressHUD setDefaultMaskType:(SVProgressHUDMaskTypeBlack)];
     [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)2];
     
     //  键盘弹起模式

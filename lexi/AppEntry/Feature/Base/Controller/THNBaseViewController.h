@@ -16,6 +16,8 @@
 #import "THNConst.h"
 #import "THNTextConst.h"
 #import "THNNavigationBarView.h"
+#import "THNAPI.h"
+#import <MJExtension/MJExtension.h>
 
 @interface THNBaseViewController : UIViewController
 

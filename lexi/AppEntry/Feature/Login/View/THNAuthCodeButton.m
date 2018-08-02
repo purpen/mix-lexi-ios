@@ -34,7 +34,7 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
     return self;
 }
 
-- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(AuthCodeButtonCompletion)completion {
+- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(void (^)(THNAuthCodeButton *))completion {
     __weak typeof(self) weakSelf = self;
     __block NSInteger remainTime = startTime;
     
@@ -50,7 +50,10 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
                 [weakSelf setTitle:kAuthCodeRegainTitle forState:UIControlStateNormal];
                 [weakSelf setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
                 weakSelf.enabled = YES;
-                completion(weakSelf);
+                
+                if (completion) {
+                    completion(weakSelf);
+                }
             });
             
         } else {

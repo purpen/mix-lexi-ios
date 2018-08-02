@@ -16,11 +16,13 @@
 #import "THNFeatureTableViewCell.h"
 #import "THNActivityView.h"
 #import "THNBannerView.h"
+#import "THNAPI.h"
 
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
 static CGFloat const kPopularFooterViewHeight = 180;
 static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
+static NSString *const kUrlBannersHandpick = @"/banners/handpick";
 
 @interface THNFeaturedViewController ()
 
@@ -30,7 +32,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) FeaturedCellType cellType;
-@property (nonatomic, strong) NSArray *data;
+
 
 @end
 
@@ -60,9 +62,14 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
 }
 
+
 - (void)loadData {
-    NSArray * array = @[@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg",@"https://kg.erp.taihuoniao.com/20180705/2856FgnuLr9GzH9Yg5Izfa3Cu5Y8iLHH.jpg",@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"];
-    self.data = array;
+    THNRequest *requestBanner = [THNAPI getWithUrlString:kUrlBannersHandpick requestDictionary:nil isSign:YES delegate:nil];
+    [requestBanner startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+       
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -169,7 +176,8 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout withDataArray:self.data];
+         NSArray *array = @[@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg",@"https://kg.erp.taihuoniao.com/20180705/2856FgnuLr9GzH9Yg5Izfa3Cu5Y8iLHH.jpg",@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"];
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout withDataArray:array];
     }
     return _featuredCollectionView;
 }
@@ -204,5 +212,7 @@ static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
     }
     return _lineView;
 }
+
+
 
 @end

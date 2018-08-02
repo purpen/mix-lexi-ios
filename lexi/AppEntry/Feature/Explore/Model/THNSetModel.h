@@ -10,4 +10,6 @@
 
 @interface THNSetModel : NSObject
 
+@property (nonatomic, strong) NSString *type;
+
 @end
