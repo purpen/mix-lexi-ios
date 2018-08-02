@@ -11,7 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIView+Helper.h"
 
-static NSString * const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCellIdentifier";
+static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCellIdentifier";
 
 @interface THNFeaturedCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
 

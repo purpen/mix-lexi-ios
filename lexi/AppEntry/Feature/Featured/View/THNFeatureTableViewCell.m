@@ -12,10 +12,15 @@
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "UIView+Helper.h"
 #import "THNGrassListCollectionViewCell.h"
+#import "THNAPI.h"
+#import "THNProductModel.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
 static NSString *const kTodayCellIdentifier = @"kTodayCellIdentifier";
 static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
+static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
+
 CGFloat const kCellTodayHeight = 180;
 CGFloat const kCellPopularHeight = 330;
 CGFloat const kCellLifeAestheticsHeight = 253.5;
@@ -26,7 +31,10 @@ CGFloat const kCellGrassListHeight = 200;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewConstraint;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *productCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (nonatomic, assign) FeaturedCellType cellType;
+@property (nonatomic, strong) NSString * pupularTitle;
+@property (nonatomic, strong) NSArray *popularDataArray;
 
 @end
 
@@ -42,8 +50,38 @@ CGFloat const kCellGrassListHeight = 200;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
 
+- (void)loadPupularData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.pupularTitle = result.data[@"title"];
+        self.popularDataArray = result.data[@"products"];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+    
+}
+
 - (void)setCellTypeStyle:(FeaturedCellType)cellType {
     self.cellType = cellType;
+    switch (cellType) {
+        case FeaturedRecommendedToday:
+            self.titleLabel.text = @"今日推荐";
+            break;
+        case FeaturedRecommendationPopular:
+            [self loadPupularData];
+            self.titleLabel.text = self.pupularTitle;
+            break;
+        case FeaturedLifeAesthetics:
+            self.titleLabel.text = @"今推荐";
+            break;
+        case FearuredOptimal:
+            self.titleLabel.text = @"推荐";
+            break;
+        case FearuredGrassList:
+            self.titleLabel.text = @"今推";
+            break;
+    }
+    
     [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     
@@ -124,10 +162,24 @@ CGFloat const kCellGrassListHeight = 200;
         return cell;
     } else {
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTodayCellIdentifier forIndexPath:indexPath];
-        [cell setOtherModel:nil];
+        
+        if (self.popularDataArray.count > 0) {
+            THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
+            [cell setProductModel:productModel];
+        }
+        
+        
         return cell;
     
     }
+}
+
+// 人气推荐数据
+- (NSArray *)popularDataArray {
+    if (!_popularDataArray) {
+        _popularDataArray = [NSArray array];
+    }
+    return _popularDataArray;
 }
 
 

@@ -11,11 +11,13 @@
 #pragma mark - API 地址
 //NSString *const kDomainBaseUrl    = @"";   //  生产环境
 //NSString *const kDomainBaseUrl    = @"";   //  上线正式环境
-NSString *const kDomainBaseUrl      = @"https://fx.taihuoniao.com/api/v1.0";   //  开发环境
+NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/api/v1.0";   //  开发环境
 
 #pragma mark - 测试账号
-NSString *const kTestEmail          = @"demo@taihuoniao.com";
+NSString *const kTestEmail          = @"18518391827";
 NSString *const kTestPassword       = @"in456321";
+NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
+NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark -
 NSInteger const kAppDebug           = 1;

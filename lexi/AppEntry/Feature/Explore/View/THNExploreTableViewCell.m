@@ -90,9 +90,8 @@ CGFloat const cellOtherHeight = 190;
         [cell setFeatureBrandModel:featuredBrandModel];
         return cell;
     } else {
-        THNOtherModel *otherModel;
+       
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
-        [cell setOtherModel:otherModel];
         return cell;
     }
 }

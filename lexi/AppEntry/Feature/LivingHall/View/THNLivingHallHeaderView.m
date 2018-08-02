@@ -7,13 +7,20 @@
 //
 
 #import "THNLivingHallHeaderView.h"
+#import "THNBannnerCollectionViewCell.h"
 #import "UIView+Helper.h"
+#import "THNAPI.h"
+#import "UICollectionViewFlowLayout+THN_flowLayout.h"
+#import "THNSetModel.h"
 
-@interface THNLivingHallHeaderView()
+static NSString *const kUrlStoreInfo = @"/store/info";
+static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
+
+@interface THNLivingHallHeaderView()<UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIView *livingHallView;
 @property (weak, nonatomic) IBOutlet UIView *selectionView;
-
+@property (weak, nonatomic) IBOutlet UICollectionView *avatarCollectionView;
 
 @end
 
@@ -37,6 +44,23 @@
     [self.selectionView.layer addSublayer:gradientLayer0];
     [self.livingHallView drwaShadow];
     self.livingHallView.layer.borderWidth = 0;
+    self.avatarCollectionView.dataSource = self;
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:-5 initWithWidth:29 initwithHeight:29];
+    [self.avatarCollectionView setCollectionViewLayout:flowLayout];
+    [self.avatarCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kAvatarCellIdentifier];
+    
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 12;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kAvatarCellIdentifier forIndexPath:indexPath];
+    THNSetModel *model = [[THNSetModel alloc]init];
+    model.type = @"avatar";
+    [cell setSetModel:model];
+    return cell;
 }
 
 

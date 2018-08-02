@@ -19,7 +19,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.layer.cornerRadius = 4;
-    
+    // 毛玻璃效果
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *visualView = [[UIVisualEffectView alloc]initWithEffect:blurEffect];
     visualView.frame = self.bounds;
