@@ -87,7 +87,7 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 - (THNFeatureTableViewCell *)featureCell {
     if (!_featureCell) {
         _featureCell = [THNFeatureTableViewCell viewFromXib];
-        [_featureCell setCellTypeStyle:FearuredOptimal];
+        [_featureCell setCellTypeStyle:FearuredOptimal initWithDataArray:nil initWithTitle:@"种草清单"];
     }
     return _featureCell;
 }
