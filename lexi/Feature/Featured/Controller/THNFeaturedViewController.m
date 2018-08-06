@@ -23,6 +23,8 @@ static CGFloat const kPopularFooterViewHeight = 180;
 static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 static NSString *const kUrlBannersHandpick = @"/banners/handpick";
+static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
+static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
 
 @interface THNFeaturedViewController ()
 
@@ -32,6 +34,10 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) FeaturedCellType cellType;
+@property (nonatomic, strong) NSString * pupularTitle;
+@property (nonatomic, strong) NSArray *popularDataArray;
+@property (nonatomic, strong) NSString *optimalTitle;
+@property (nonatomic, strong) NSArray *optimalDataArray;
 
 
 @end
@@ -40,7 +46,9 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadData];
+    [self loadTopBannerData];
+    [self loadPupularData];
+    [self loadOptimalData];
     [self setupUI];
 }
 
@@ -62,16 +70,40 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
 }
 
+#pragma mark - 请求数据
+- (void)loadPupularData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.pupularTitle = result.data[@"title"];
+        self.popularDataArray = result.data[@"products"];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
 
-- (void)loadData {
-    THNRequest *requestBanner = [THNAPI getWithUrlString:kUrlBannersHandpick requestDictionary:nil isSign:YES delegate:nil];
-    [requestBanner startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+- (void)loadTopBannerData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpick requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
+- (void)loadOptimalData {
+    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.optimalTitle = result.data[@"title"];
+        self.optimalDataArray = result.data[@"products"];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationNone];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+
+#pragma mark - UITableViewDelegate mehtod 实现
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
@@ -103,30 +135,6 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-     THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
-    
-    switch (indexPath.section) {
-        case 0:
-            self.cellType = FeaturedRecommendedToday;
-            break;
-        case 1:
-            self.cellType = FeaturedRecommendationPopular;
-            break;
-        case 2:
-            self.cellType = FeaturedLifeAesthetics;
-            break;
-        case 3:
-            self.cellType = FearuredOptimal;
-            break;
-        default:
-            self.cellType = FearuredGrassList;
-    }
-    [cell setCellTypeStyle:self.cellType];
-    
-    return cell;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 0) {
         return self.activityView;
@@ -152,24 +160,61 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
+    NSArray *dataArray = [NSArray array];
+    NSString *title;
+    
     switch (self.cellType) {
-            
         case FeaturedRecommendedToday:
-            return kCellTodayHeight + kFeaturedCellTopBottomHeight;
             break;
         case FeaturedLifeAesthetics:
-            return kCellLifeAestheticsHeight + kFeaturedCellTopBottomHeight;
             break;
         case FearuredOptimal:
-            return kCellOptimalHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+            dataArray = self.optimalDataArray;
+            title = self.optimalTitle;
             break;
         case FearuredGrassList:
-            return kCellGrassListHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+            
             break;
         case FeaturedRecommendationPopular:
-            return kCellPopularHeight + kFeaturedCellTopBottomHeight;
+            dataArray = self.popularDataArray;
+            title = self.pupularTitle;
+            break;
     }
+    
+    [cell setCellTypeStyle:self.cellType initWithDataArray:dataArray initWithTitle:title];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.section) {
+        case 0:
+            self.cellType = FeaturedRecommendedToday;
+            return kCellTodayHeight + kFeaturedCellTopBottomHeight;
+            break;
+        case 1:
+            self.cellType = FeaturedRecommendationPopular;
+            return kCellPopularHeight + kFeaturedCellTopBottomHeight;
+            break;
+        case 2:
+            self.cellType = FeaturedLifeAesthetics;
+             return kCellLifeAestheticsHeight + kFeaturedCellTopBottomHeight;
+            break;
+        case 3:
+            self.cellType = FearuredOptimal;
+            return kCellOptimalHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+            break;
+        case 4:
+            self.cellType = FearuredGrassList;
+            return kCellGrassListHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+            break;
+    }
+    
+    return 0;
+    
 }
 
 #pragma mark - lazy
@@ -213,6 +258,12 @@ static NSString *const kUrlBannersHandpick = @"/banners/handpick";
     return _lineView;
 }
 
-
+// 人气推荐数据
+- (NSArray *)popularDataArray {
+    if (!_popularDataArray) {
+        _popularDataArray = [NSArray array];
+    }
+    return _popularDataArray;
+}
 
 @end

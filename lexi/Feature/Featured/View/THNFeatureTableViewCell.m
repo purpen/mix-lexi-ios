@@ -19,7 +19,6 @@
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
 static NSString *const kTodayCellIdentifier = @"kTodayCellIdentifier";
 static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
-static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 
 CGFloat const kCellTodayHeight = 180;
 CGFloat const kCellPopularHeight = 330;
@@ -28,13 +27,14 @@ CGFloat const kCellOptimalHeight = 200;
 CGFloat const kCellGrassListHeight = 200;
 
 @interface THNFeatureTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewConstraint;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewConstraint;
 @property (weak, nonatomic) IBOutlet UICollectionView *productCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (nonatomic, assign) FeaturedCellType cellType;
-@property (nonatomic, strong) NSString * pupularTitle;
 @property (nonatomic, strong) NSArray *popularDataArray;
+@property (nonatomic, strong) NSArray *optimalDataArray;
+
 
 @end
 
@@ -42,7 +42,7 @@ CGFloat const kCellGrassListHeight = 200;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-   [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
+   [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kTodayCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kGrassListCellIdentifier];
     self.productCollectionView.delegate = self;
@@ -50,41 +50,30 @@ CGFloat const kCellGrassListHeight = 200;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
 
-- (void)loadPupularData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:nil isSign:YES delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.pupularTitle = result.data[@"title"];
-        self.popularDataArray = result.data[@"products"];
-        self.titleLabel.text = self.pupularTitle;
-        [self.productCollectionView reloadData];
-        
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
-}
-
-- (void)setCellTypeStyle:(FeaturedCellType)cellType {
+- (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.titleLabel.text = @"今日推荐";
             break;
         case FeaturedRecommendationPopular:
-            [self loadPupularData];
-//            self.titleLabel.text = self.pupularTitle;
+            self.popularDataArray = dataArray;
+            self.titleLabel.text = title;
             break;
         case FeaturedLifeAesthetics:
-            self.titleLabel.text = @"今推荐";
+            self.titleLabel.text = @"发现生活美学";
             break;
         case FearuredOptimal:
-            self.titleLabel.text = @"推荐";
+            self.optimalDataArray = dataArray;
+            self.titleLabel.text = @"乐喜优选";
             break;
         case FearuredGrassList:
-            self.titleLabel.text = @"今推";
+            self.titleLabel.text = @"种草清单";
             break;
     }
     
-//    [self.productCollectionView reloadData];
+    //  放在初始化设置Layout前，否则数据样式错乱，卡顿，以及可能会有崩溃的问题产生
+   [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     
     flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 10;
@@ -162,28 +151,19 @@ CGFloat const kCellGrassListHeight = 200;
     }else if (self.cellType == FearuredGrassList || self.cellType == FeaturedRecommendedToday) {
         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
         return cell;
+        
     } else {
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTodayCellIdentifier forIndexPath:indexPath];
         
         if (self.popularDataArray.count > 0) {
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
-//            [cell setProductModel:productModel];
-            [cell thn_setProductModel:productModel];
+            [cell setProductModel:productModel];
         }
-        
-        
         return cell;
     
     }
 }
 
-// 人气推荐数据
-- (NSArray *)popularDataArray {
-    if (!_popularDataArray) {
-        _popularDataArray = [NSArray array];
-    }
-    return _popularDataArray;
-}
 
 
 @end
