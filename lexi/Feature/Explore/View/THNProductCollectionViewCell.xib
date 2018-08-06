@@ -65,9 +65,11 @@
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="255" height="274"/>
             <connections>
+                <outlet property="producrOriginalPriceLabel" destination="hSL-qd-FAD" id="Ofi-2s-OyE"/>
                 <outlet property="productImageView" destination="U94-Z4-NGw" id="xzZ-es-qej"/>
                 <outlet property="productNameLabel" destination="eae-Dt-2dl" id="3ol-hL-5qj"/>
                 <outlet property="productPriceLabel" destination="op6-Hf-Zww" id="gOH-Sh-uN4"/>
+                <outlet property="shippingImageView" destination="Nvm-Kz-zbo" id="63a-99-ool"/>
             </connections>
             <point key="canvasLocation" x="-55.5" y="58"/>
         </collectionViewCell>

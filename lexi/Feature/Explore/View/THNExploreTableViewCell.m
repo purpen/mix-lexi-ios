@@ -92,6 +92,7 @@ CGFloat const cellOtherHeight = 190;
     } else {
        
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
+        [cell setProductModel:nil];
         return cell;
     }
 }
