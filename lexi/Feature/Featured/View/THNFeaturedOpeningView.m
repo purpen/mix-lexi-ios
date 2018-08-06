@@ -20,6 +20,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self.openingButton drawCornerWithType:0 radius:4];
     [self drwaShadow];
 }
 

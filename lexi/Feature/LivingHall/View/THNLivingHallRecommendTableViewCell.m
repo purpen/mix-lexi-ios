@@ -10,12 +10,14 @@
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNBannnerCollectionViewCell.h"
 #import "THNSetModel.h"
+#import "UIView+Helper.h"
 
 static NSString *const krecommendCellIdentifier = @"krecommendCellIdentifier";
 
 @interface THNLivingHallRecommendTableViewCell()<UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *recommendCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *recommenDationLabel;
 
 @end
 

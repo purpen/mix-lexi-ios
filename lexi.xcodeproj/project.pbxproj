@@ -564,8 +564,8 @@
 		D8852BAA2113238C00D7C22A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D8852BAB2113238C00D7C22A /* THNLivingHallViewController.m */,
 				D8852BAC2113238C00D7C22A /* THNLivingHallViewController.h */,
+				D8852BAB2113238C00D7C22A /* THNLivingHallViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -604,8 +604,8 @@
 		D8852BB72113238C00D7C22A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D8852BB82113238C00D7C22A /* THNExploresViewController.m */,
 				D8852BB92113238C00D7C22A /* THNExploresViewController.h */,
+				D8852BB82113238C00D7C22A /* THNExploresViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1284,7 +1284,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1306,8 +1307,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

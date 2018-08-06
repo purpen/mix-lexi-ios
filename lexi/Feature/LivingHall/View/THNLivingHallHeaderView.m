@@ -12,6 +12,8 @@
 #import "THNAPI.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNSetModel.h"
+#import "THNMarco.h"
+#import "UIImageView+WebCache.h"
 
 static NSString *const kUrlStoreInfo = @"/store/info";
 static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
@@ -21,6 +23,10 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 @property (weak, nonatomic) IBOutlet UIView *livingHallView;
 @property (weak, nonatomic) IBOutlet UIView *selectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *avatarCollectionView;
+@property (nonatomic, strong) IBOutletCollection(UILabel) NSArray *tintLabels;
+@property (weak, nonatomic) IBOutlet UIImageView *insideImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *outsideImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *middleImageView;
 
 @end
 
@@ -28,26 +34,29 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
-    // 绘制渐变色
-    self.selectionView.layer.cornerRadius = 4;
-    self.selectionView.alpha = 1;
-    CAGradientLayer *gradientLayer0 = [[CAGradientLayer alloc] init];
-    gradientLayer0.cornerRadius = 4;
-    gradientLayer0.frame = self.selectionView.bounds;
-    gradientLayer0.colors = @[
-                              (id)[UIColor colorWithRed:95.0f/255.0f green:228.0f/255.0f blue:177.0f/255.0f alpha:1.0f].CGColor,
-                              (id)[UIColor colorWithRed:177.0f/255.0f green:230.0f/255.0f blue:126.0f/255.0f alpha:1.0f].CGColor];
-    gradientLayer0.locations = @[@0, @1];
-    [gradientLayer0 setStartPoint:CGPointMake(0, 0.5)];
-    [gradientLayer0 setEndPoint:CGPointMake(1, 0.5)];
-    [self.selectionView.layer addSublayer:gradientLayer0];
+    // 添加阴影
     [self.livingHallView drwaShadow];
     self.livingHallView.layer.borderWidth = 0;
     self.avatarCollectionView.dataSource = self;
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:-5 initWithWidth:29 initwithHeight:29];
+    self.avatarCollectionView.scrollEnabled = NO;   
     [self.avatarCollectionView setCollectionViewLayout:flowLayout];
     [self.avatarCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kAvatarCellIdentifier];
+    
+    [self.insideImageView drawCornerWithType:0 radius:4];
+    [self.middleImageView drawCornerWithType:0 radius:4];
+    [self.outsideImageView drawCornerWithType:0 radius:4];
+    [self.insideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]];
+    [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]];
+    [self.outsideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]];
+    
+    // 适配5S的样式
+    if (SCREEN_WIDTH == 320) {
+        for (UILabel *label in self.tintLabels) {
+            label.font = [UIFont systemFontOfSize:9];
+        }
+    }
+  
     
 }
 

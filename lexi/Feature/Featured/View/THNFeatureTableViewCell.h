@@ -26,6 +26,8 @@ UIKIT_EXTERN  CGFloat const kCellGrassListHeight;
 
 @interface THNFeatureTableViewCell : UITableViewCell
 
-- (void)setCellTypeStyle:(FeaturedCellType)cellType;
+- (void)setCellTypeStyle:(FeaturedCellType)cellType
+       initWithDataArray:(NSArray *)dataArray
+           initWithTitle:(NSString *)title;
 
 @end
