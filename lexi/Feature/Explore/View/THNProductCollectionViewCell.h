@@ -12,8 +12,6 @@
 
 @interface THNProductCollectionViewCell : UICollectionViewCell
 
-//@property (nonatomic, strong) THNProductModel *productModel;
-
-- (void)thn_setProductModel:(THNProductModel *)model;
+@property (nonatomic, strong) THNProductModel *productModel;
 
 @end
