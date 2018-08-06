@@ -28,10 +28,16 @@
     
 }
 
-- (void)setProductMode:(THNProductModel *)productModel {
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
-    self.productNameLabel.text = productModel.name;
-    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
+- (void)thn_setProductModel:(THNProductModel *)model {
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.cover]];
+    self.productNameLabel.text = model.name;
+    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",model.min_sale_price];
 }
+
+//- (void)setProductMode:(THNProductModel *)productModel {
+//    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+//    self.productNameLabel.text = productModel.name;
+//    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
+//}
 
 @end

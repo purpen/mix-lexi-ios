@@ -55,10 +55,12 @@ CGFloat const kCellGrassListHeight = 200;
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.pupularTitle = result.data[@"title"];
         self.popularDataArray = result.data[@"products"];
+        self.titleLabel.text = self.pupularTitle;
+        [self.productCollectionView reloadData];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-    
 }
 
 - (void)setCellTypeStyle:(FeaturedCellType)cellType {
@@ -69,7 +71,7 @@ CGFloat const kCellGrassListHeight = 200;
             break;
         case FeaturedRecommendationPopular:
             [self loadPupularData];
-            self.titleLabel.text = self.pupularTitle;
+//            self.titleLabel.text = self.pupularTitle;
             break;
         case FeaturedLifeAesthetics:
             self.titleLabel.text = @"今推荐";
@@ -82,7 +84,7 @@ CGFloat const kCellGrassListHeight = 200;
             break;
     }
     
-    [self.productCollectionView reloadData];
+//    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     
     flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 10;
@@ -165,7 +167,8 @@ CGFloat const kCellGrassListHeight = 200;
         
         if (self.popularDataArray.count > 0) {
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
-            [cell setProductModel:productModel];
+//            [cell setProductModel:productModel];
+            [cell thn_setProductModel:productModel];
         }
         
         
