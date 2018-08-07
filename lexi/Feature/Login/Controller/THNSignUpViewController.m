@@ -51,11 +51,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        NSLog(@"注册验证码 ==== %@", result.responseDict);
+        
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        NSLog(@"短信验证码 ==== %@", result.data);
+        
         [self.signUpView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -78,9 +80,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
             return;
         }
         
-        if (![result hasData]) {
-            return ;
-        }
+        if (![result hasData]) return;
         
         if (completion) {
             completion(result.data[kParamAreaCode1], result.data[kParamEmail]);
@@ -154,7 +154,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         _zipCodeVC = [[THNZipCodeViewController alloc] init];
         
         WEAKSELF;
-        
         _zipCodeVC.SelectAreaCode = ^(NSString *code) {
             [weakSelf.signUpView thn_setAreaCode:code];
             [weakSelf dismissViewControllerAnimated:YES completion:nil];

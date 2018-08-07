@@ -10,7 +10,14 @@
 
 @class THNAuthCodeButton;
 
+typedef NS_ENUM(NSUInteger, THNAuthCodeButtonType) {
+    THNAuthCodeButtonTypeDefault = 0,
+    THNAuthCodeButtonTypeCircle
+};
+
 @interface THNAuthCodeButton : UIButton
+
+- (instancetype)initWithType:(THNAuthCodeButtonType)type;
 
 /**
  设置倒计时时间
