@@ -16,7 +16,6 @@
 #import "THNLivingHallViewController.h"
 #import "THNFeaturedViewController.h"
 #import "THNExploresViewController.h"
-#import "THNNavigationBarView.h"
 
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
@@ -34,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupUI];
 }
 
@@ -118,7 +118,7 @@
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSMutableArray *titleArray = [@[@"生活馆", @"精选", @"探索"] mutableCopy];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
+        _selectButtonView = [[THNSelectButtonView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
     }
     return _selectButtonView;
 }

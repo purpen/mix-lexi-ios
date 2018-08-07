@@ -8,9 +8,11 @@
 
 #import "THNAuthCodeButton.h"
 #import "UIColor+Extension.h"
+#import "UIView+Helper.h"
 
-static NSString *const kAuthCodeButtonTitle = @"获取动态码";
-static NSString *const kAuthCodeRemainTime  = @" 后重新获取";
+static NSString *const kTitleTextDefault    = @"获取动态码";
+static NSString *const kTitleTextCircle     = @"获取验证码";
+static NSString *const kAuthCodeRemainTime  = @" 重新获取";
 static NSString *const kAuthCodeRegainTitle = @"重新获取";
 
 @interface THNAuthCodeButton ()
@@ -26,7 +28,7 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setTitle:kAuthCodeButtonTitle forState:(UIControlStateNormal)];
+        [self setTitle:kTitleTextDefault forState:(UIControlStateNormal)];
         [self setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         self.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -34,6 +36,40 @@ static NSString *const kAuthCodeRegainTitle = @"重新获取";
     return self;
 }
 
+- (instancetype)initWithType:(THNAuthCodeButtonType)type {
+    self = [super init];
+    if (self) {
+        if (type == THNAuthCodeButtonTypeDefault) {
+            [self setupDefaultViewUI];
+        } else {
+            [self setupCircleViewUI];
+        }
+    }
+    return self;
+}
+
+// 默认视图
+- (void)setupDefaultViewUI {
+    self.frame = CGRectMake(0, 0, 120, 46);
+    [self setTitle:kTitleTextDefault forState:(UIControlStateNormal)];
+    [self setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
+    self.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
+    self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+}
+
+// 圆角视图
+- (void)setupCircleViewUI {
+    self.frame = CGRectMake(0, 9, 80, 26);
+    [self setTitle:kTitleTextCircle forState:(UIControlStateNormal)];
+    [self setTitleColor:[UIColor colorWithHexString:@"#999999"] forState:(UIControlStateNormal)];
+    self.titleLabel.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightRegular)];
+    self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.layer.borderColor = [UIColor colorWithHexString:@"#999999"].CGColor;
+    self.layer.borderWidth = 0.5;
+    self.layer.cornerRadius = CGRectGetHeight(self.frame)/2;
+}
+
+// 倒计时器
 - (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(void (^)(THNAuthCodeButton *))completion {
     __weak typeof(self) weakSelf = self;
     __block NSInteger remainTime = startTime;

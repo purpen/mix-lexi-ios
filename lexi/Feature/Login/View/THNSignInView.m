@@ -141,7 +141,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                                 zipCode:[weakSelf getZipCode]];
     }
     
-    [weakSelf.authCodeTextField becomeFirstResponder];
     [button thn_countdownStartTime:60 completion:nil];
 }
 

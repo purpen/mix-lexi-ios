@@ -23,7 +23,7 @@ static CGFloat const kCaregoriesCellWidth = 55;
 static CGFloat const kExploreCellTopBottomHeight = 87;
 static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
 
-@interface THNExploresViewController () 
+@interface THNExploresViewController ()
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) NSArray *data;
