@@ -49,9 +49,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
                                 kParamAffirmPassword: affirmPassword};
     
     [THNLoginManager userRegisterWithParams:paramDict completion:^(NSError *error) {
-        if (error) {
-            return ;
-        }
+        if (error) return;
         
         THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
         [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];

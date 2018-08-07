@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
+		D81A72302119461B0056D8B8 /* THNUserApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A722F2119461B0056D8B8 /* THNUserApplyViewController.m */; };
+		D81A72332119669B0056D8B8 /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A72322119669B0056D8B8 /* THNUserApplyView.m */; };
+		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
+		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
+		D81A723A21198D3B0056D8B8 /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A723921198D3B0056D8B8 /* THNApplySuccessViewController.m */; };
+		D81A723D21198D4C0056D8B8 /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A723C21198D4C0056D8B8 /* THNApplySuccessView.m */; };
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
 		D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */; };
 		D85DA7DD2106030200A36A71 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -120,6 +126,16 @@
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D81A722E2119461B0056D8B8 /* THNUserApplyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserApplyViewController.h; sourceTree = "<group>"; };
+		D81A722F2119461B0056D8B8 /* THNUserApplyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyViewController.m; sourceTree = "<group>"; };
+		D81A72312119669B0056D8B8 /* THNUserApplyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
+		D81A72322119669B0056D8B8 /* THNUserApplyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
+		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
+		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
+		D81A723821198D3B0056D8B8 /* THNApplySuccessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessViewController.h; sourceTree = "<group>"; };
+		D81A723921198D3B0056D8B8 /* THNApplySuccessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessViewController.m; sourceTree = "<group>"; };
+		D81A723B21198D4C0056D8B8 /* THNApplySuccessView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessView.h; sourceTree = "<group>"; };
+		D81A723C21198D4C0056D8B8 /* THNApplySuccessView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
 		D82309DA210868A800CDD502 /* THNQiNiuUpload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNQiNiuUpload.m; sourceTree = "<group>"; };
 		D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helper.h"; sourceTree = "<group>"; };
@@ -336,6 +352,37 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D81A722B211945C20056D8B8 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				D81A722C211945C20056D8B8 /* Controller */,
+				D81A722D211945C20056D8B8 /* View */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		D81A722C211945C20056D8B8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D81A722E2119461B0056D8B8 /* THNUserApplyViewController.h */,
+				D81A722F2119461B0056D8B8 /* THNUserApplyViewController.m */,
+				D81A723821198D3B0056D8B8 /* THNApplySuccessViewController.h */,
+				D81A723921198D3B0056D8B8 /* THNApplySuccessViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D81A722D211945C20056D8B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D81A72312119669B0056D8B8 /* THNUserApplyView.h */,
+				D81A72322119669B0056D8B8 /* THNUserApplyView.m */,
+				D81A723B21198D4C0056D8B8 /* THNApplySuccessView.h */,
+				D81A723C21198D4C0056D8B8 /* THNApplySuccessView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		D85DA7A92106030100A36A71 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,6 +463,8 @@
 		D85DA7D02106030100A36A71 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D81A7235211967400056D8B8 /* apply_header_image@2x.png */,
+				D81A72342119673F0056D8B8 /* apply_header_image@3x.png */,
 				D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */,
 				D85DA7D22106030100A36A71 /* login_background_image@3x.png */,
 				D85DA7D32106030100A36A71 /* login_background_image@2x.png */,
@@ -454,18 +503,19 @@
 		D8852B922113238C00D7C22A /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				D8852C2F2113238D00D7C22A /* Base */,
 				D8852B932113238C00D7C22A /* Home */,
 				D8852B9D2113238C00D7C22A /* Discover */,
-				D8852BA12113238C00D7C22A /* Inbox */,
+				D8852BD72113238C00D7C22A /* Cart */,
 				D8852BA52113238C00D7C22A /* MyCenter */,
+				D8852BA12113238C00D7C22A /* Inbox */,
 				D8852BA92113238C00D7C22A /* LivingHall */,
 				D8852BB62113238C00D7C22A /* Explore */,
-				D8852BD72113238C00D7C22A /* Cart */,
 				D8852BDB2113238C00D7C22A /* Featured */,
 				D8852BF62113238C00D7C22A /* Goods */,
 				D8852BFA2113238C00D7C22A /* Login */,
-				D8852C2F2113238D00D7C22A /* Base */,
 				D8852C3A2113238D00D7C22A /* Share */,
+				D81A722B211945C20056D8B8 /* Other */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -787,10 +837,10 @@
 		D8852C112113238C00D7C22A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D8852C122113238D00D7C22A /* THNAreaModel.m */,
-				D8852C132113238D00D7C22A /* THNAreaCodeModel.m */,
 				D8852C142113238D00D7C22A /* THNAreaCodeModel.h */,
+				D8852C132113238D00D7C22A /* THNAreaCodeModel.m */,
 				D8852C152113238D00D7C22A /* THNAreaModel.h */,
+				D8852C122113238D00D7C22A /* THNAreaModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -838,12 +888,12 @@
 		D8852C302113238D00D7C22A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D8852C312113238D00D7C22A /* THNBaseViewController.h */,
-				D8852C322113238D00D7C22A /* THNBaseTabBarController.m */,
-				D8852C332113238D00D7C22A /* THNBaseNavigationController.m */,
-				D8852C342113238D00D7C22A /* THNBaseViewController.m */,
 				D8852C352113238D00D7C22A /* THNBaseNavigationController.h */,
+				D8852C332113238D00D7C22A /* THNBaseNavigationController.m */,
 				D8852C362113238D00D7C22A /* THNBaseTabBarController.h */,
+				D8852C322113238D00D7C22A /* THNBaseTabBarController.m */,
+				D8852C312113238D00D7C22A /* THNBaseViewController.h */,
+				D8852C342113238D00D7C22A /* THNBaseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -980,9 +1030,11 @@
 				D8852C5A2113238D00D7C22A /* THNCategoriesCollectionViewCell.xib in Resources */,
 				D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */,
 				D8852C642113238D00D7C22A /* THNLifeAestheticsCollectionViewCell.xib in Resources */,
+				D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
 				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
+				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				D8852C662113238D00D7C22A /* THNFeatureTableViewCell.xib in Resources */,
 				D8852C462113238D00D7C22A /* .gitkeep in Resources */,
 				D8852C552113238D00D7C22A /* THNProductCollectionViewCell.xib in Resources */,
@@ -1080,6 +1132,7 @@
 				D8852C5B2113238D00D7C22A /* THNExploreTableViewCell.m in Sources */,
 				D8852C792113238D00D7C22A /* THNDoneButton.m in Sources */,
 				D8852C6B2113238D00D7C22A /* THNGoodsInfoViewController.m in Sources */,
+				D81A72332119669B0056D8B8 /* THNUserApplyView.m in Sources */,
 				D8852C5C2113238D00D7C22A /* THNCartViewController.m in Sources */,
 				D8852C7F2113238D00D7C22A /* THNLoginView.m in Sources */,
 				D8852C522113238D00D7C22A /* THNBannnerCollectionViewCell.m in Sources */,
@@ -1094,6 +1147,7 @@
 				D8852C732113238D00D7C22A /* THNZipCodeViewController.m in Sources */,
 				D8852C6E2113238D00D7C22A /* THNLoginViewController.m in Sources */,
 				4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
+				D81A723A21198D3B0056D8B8 /* THNApplySuccessViewController.m in Sources */,
 				D8852C5E2113238D00D7C22A /* THNProductModel.m in Sources */,
 				D8852C452113238D00D7C22A /* THNLivingHallViewController.m in Sources */,
 				D8852C7D2113238D00D7C22A /* THNZipCodeView.m in Sources */,
@@ -1133,6 +1187,7 @@
 				D85DA8082106030200A36A71 /* main.m in Sources */,
 				D8852C602113238D00D7C22A /* THNFeatureTableViewCell.m in Sources */,
 				D8852C722113238D00D7C22A /* THNNewUserInfoViewController.m in Sources */,
+				D81A723D21198D4C0056D8B8 /* THNApplySuccessView.m in Sources */,
 				D8852C7C2113238D00D7C22A /* THNAuthCodeButton.m in Sources */,
 				D8852C872113238D00D7C22A /* THNNavigationBarView.m in Sources */,
 				D8852C7B2113238D00D7C22A /* THNSignUpView.m in Sources */,
@@ -1143,6 +1198,7 @@
 				D8852C782113238D00D7C22A /* THNPasswordTextField.m in Sources */,
 				D8852C852113238D00D7C22A /* THNBaseNavigationController.m in Sources */,
 				D8852C882113238D00D7C22A /* THNShareViewController.m in Sources */,
+				D81A72302119461B0056D8B8 /* THNUserApplyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

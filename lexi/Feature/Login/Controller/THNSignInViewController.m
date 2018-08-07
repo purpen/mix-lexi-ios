@@ -51,12 +51,13 @@ static NSString *const kParamMobile         = @"mobile";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        NSLog(@"登录验证码 ==== %@", result.responseDict);
+        
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
         
-        NSLog(@"短信验证码 ==== %@", result.data);
         [self.signInView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -97,7 +98,7 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
-        NSLog(@"登录成功 ===== %@", result.data);
+        
         [weakSelf thn_loginSuccessWithModeType:type];
     }];
 }
