@@ -19,6 +19,9 @@
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 
 #define kDeviceiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define kDeviceiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
 #define NAVIGATION_BAR_HEIGHT kDeviceiPhoneX ? 88.0 : 64.0
 // 状态栏高度
 #define STATUS_BAR_HEIGHT kDeviceiPhoneX ? 44.0 : 20.0

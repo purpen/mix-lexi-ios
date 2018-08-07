@@ -56,7 +56,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
-        NSLog(@"短信验证码 ==== %@", result.data);
+        
         [self.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -79,9 +79,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
             return;
         }
         
-        if (![result hasData]) {
-            return ;
-        }
+        if (![result hasData]) return;
         
         if (completion) {
             completion(result.data[kParamEmail]);

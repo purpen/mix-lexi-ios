@@ -52,9 +52,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData]) {
-            return ;
-        }
+        if (![result hasData]) return;
         
         self.qiNiuParams = result.data;
         
@@ -70,8 +68,6 @@ static NSString *const kParamAvatarId           = @"avatar_id";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSLog(@"设置个人信息 ==== %@", result.responseDict);
-        
         if (![result isSuccess]) {
             [SVProgressHUD showInfoWithStatus:result.statusMessage];
         }
