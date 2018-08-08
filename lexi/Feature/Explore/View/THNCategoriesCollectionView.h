@@ -11,7 +11,8 @@
 @interface THNCategoriesCollectionView : UICollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame
-         collectionViewLayout:(UICollectionViewLayout *)layout
-                withDataArray:(NSArray *)dataArray;
+         collectionViewLayout:(UICollectionViewLayout *)layout;
+
+@property (nonatomic, strong) NSArray *categorieDataArray;
 
 @end

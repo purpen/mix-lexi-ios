@@ -24,4 +24,8 @@
     [self drwaShadow];
 }
 
+- (IBAction)opening:(id)sender {
+    self.openingBlcok();
+}
+
 @end

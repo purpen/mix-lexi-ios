@@ -8,21 +8,16 @@
 
 #import "THNCategoriesCollectionView.h"
 #import "THNCategoriesCollectionViewCell.h"
+#import "THNCategoriesModel.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kCategoriesCellIdentifier = @"kCategoriesCellIdentifier";
 
 @interface THNCategoriesCollectionView()<UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (nonatomic, strong) NSArray *dataArray;
-
 @end
 
 @implementation THNCategoriesCollectionView
-
-- (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withDataArray:(NSArray *)dataArray {
-    self.dataArray = dataArray;
-    return [self initWithFrame:frame collectionViewLayout:layout];
-}
 
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout {
     self = [super initWithFrame:frame collectionViewLayout:layout];
@@ -39,11 +34,13 @@ static NSString *const kCategoriesCellIdentifier = @"kCategoriesCellIdentifier";
 
 #pragma mark - UICollectionViewDataSource method 实现
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.categorieDataArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNCategoriesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCategoriesCellIdentifier forIndexPath:indexPath];
+    THNCategoriesModel *categoriesModel =  [THNCategoriesModel mj_objectWithKeyValues:self.categorieDataArray[indexPath.row]];
+    [cell setCategoriesModel:categoriesModel];
     return cell;
 }
 

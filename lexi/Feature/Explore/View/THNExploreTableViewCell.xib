@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eaM-yx-PEQ">
-                        <rect key="frame" x="15" y="67.5" width="452" height="104"/>
+                        <rect key="frame" x="20" y="67.5" width="447" height="104"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uPk-KN-u3T">
                             <size key="itemSize" width="50" height="50"/>
@@ -59,7 +59,7 @@
                 <constraints>
                     <constraint firstItem="YAR-CC-T8a" firstAttribute="leading" secondItem="4Ex-GZ-Sdc" secondAttribute="trailing" constant="5" id="ABw-OE-ke7"/>
                     <constraint firstAttribute="trailing" secondItem="xXH-3C-2NL" secondAttribute="trailing" id="H8T-Uw-Be5"/>
-                    <constraint firstItem="eaM-yx-PEQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="SEO-fP-FQi"/>
+                    <constraint firstItem="eaM-yx-PEQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="SEO-fP-FQi"/>
                     <constraint firstItem="0aQ-og-JNj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="a5Q-Ev-9JJ"/>
                     <constraint firstItem="xXH-3C-2NL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dUs-rt-a3A"/>
                     <constraint firstItem="YAR-CC-T8a" firstAttribute="centerY" secondItem="0aQ-og-JNj" secondAttribute="centerY" id="gfH-bq-pNy"/>
@@ -75,6 +75,7 @@
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="productCollectionView" destination="eaM-yx-PEQ" id="0Uo-xM-MPL"/>
+                <outlet property="titleLabel" destination="0aQ-og-JNj" id="Eq0-8a-Xz4"/>
             </connections>
             <point key="canvasLocation" x="31.5" y="-15"/>
         </tableViewCell>

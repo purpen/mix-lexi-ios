@@ -10,4 +10,10 @@
 
 @interface THNFeaturedBrandModel : NSObject
 
+@property (nonatomic, strong) NSString *bgcover;
+@property (nonatomic, assign) NSInteger store_products_counts;
+@property (nonatomic, strong) NSString *logo;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSArray *products_cover;
+
 @end

@@ -10,12 +10,14 @@
 #import "THNBannnerCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "UIView+Helper.h"
+#import "THNBannerModel.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCellIdentifier";
 
 @interface THNFeaturedCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSArray *dataArray;
+
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
 @property (assign,nonatomic) CGFloat m_dragEndX;
@@ -24,15 +26,11 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 
 @implementation THNFeaturedCollectionView
 
-- (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewFlowLayout *)layout withDataArray:(NSArray *)dataArray {
-    self.dataArray = dataArray;
-    return [self initWithFrame:frame collectionViewLayout:layout];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewFlowLayout *)layout {
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
-        layout.itemSize = CGSizeMake(self.viewWidth - 75, 200);
+        CGFloat itemWidth = self.viewWidth - 75;
+        layout.itemSize = CGSizeMake(itemWidth, itemWidth / 1.5);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         layout.minimumLineSpacing = 15;
         self.showsHorizontalScrollIndicator = NO;
@@ -49,7 +47,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 //配置cell居中
 - (void)fixCellToCenter {
     //最小滚动距离
-    float dragMiniDistance = self.viewWidth / 10.0f;
+    float dragMiniDistance = self.viewWidth / 5.0f;
     if (self.m_dragStartX -  self.m_dragEndX >= dragMiniDistance) {
         self.m_currentIndex -= 1;//向右
     }else if(self.m_dragEndX -  self.m_dragStartX >= dragMiniDistance){
@@ -62,7 +60,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
     
     
-    [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -87,7 +85,8 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFeatureTopBannerCellIdentifier forIndexPath:indexPath];
-    [cell.cellImageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[indexPath.row]]];
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    [cell setBannerModel:bannerModel];
     return cell;
 }
 

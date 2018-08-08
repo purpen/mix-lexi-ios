@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface THNLivingHallRecommendTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *recommenDationLabel;
 
 @end

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^OpeningBlcok)(void);
+
 @interface THNFeaturedOpeningView : UIView
 
+@property (nonatomic, copy) OpeningBlcok openingBlcok;
 
 @end

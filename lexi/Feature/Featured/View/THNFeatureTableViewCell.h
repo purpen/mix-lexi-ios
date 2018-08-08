@@ -16,8 +16,6 @@ typedef NS_ENUM(NSInteger, FeaturedCellType) {
     FearuredGrassList
 };
 
-typedef void(^LayoutCGsizeBlock)(NSInteger currentIndex);
-
 UIKIT_EXTERN  CGFloat const kCellTodayHeight;
 UIKIT_EXTERN  CGFloat const kCellPopularHeight;
 UIKIT_EXTERN  CGFloat const kCellLifeAestheticsHeight;
@@ -29,5 +27,8 @@ UIKIT_EXTERN  CGFloat const kCellGrassListHeight;
 - (void)setCellTypeStyle:(FeaturedCellType)cellType
        initWithDataArray:(NSArray *)dataArray
            initWithTitle:(NSString *)title;
+
+@property (nonatomic, strong) NSMutableArray *grassLabelHeights;
+
 
 @end
