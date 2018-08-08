@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class THNSetModel;
+@class THNBannerModel;
 
 @interface THNBannnerCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (nonatomic, strong) THNSetModel *setModel;
+@property (nonatomic, strong) THNBannerModel *bannerModel;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (weak, nonatomic) IBOutlet UIView *setLabelsView;
 
 @end

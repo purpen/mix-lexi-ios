@@ -8,10 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ - ExploreRecommend: 推荐
+ - ExploreFeaturedBrand: 特色品牌馆
+ - ExploreNewProduct: 优质新品
+ - ExploreSet: 集合
+ - ExploreGoodDesign: 特惠好设计
+ - ExploreGoodThings : 百元好物
+ */
 typedef NS_ENUM(NSInteger, ExploreCellType) {
-    ExploreSet,  //  集合类型Cell
-    ExploreFeaturedBrand,  //特色品牌馆Cell
-    ExploreOther  // 其他cell类型
+    ExploreRecommend,
+    ExploreFeaturedBrand,
+    ExploreNewProduct,
+    ExploreSet,
+    ExploreGoodDesign,
+    ExploreGoodThings
 };
 
 UIKIT_EXTERN  CGFloat const cellSetHeight;
@@ -20,6 +31,9 @@ UIKIT_EXTERN  CGFloat const cellOtherHeight;
 
 @interface THNExploreTableViewCell : UITableViewCell
 
-- (void)setCellTypeStyle:(ExploreCellType)cellType;
+- (void)setCellTypeStyle:(ExploreCellType)cellType
+       initWithDataArray:(NSArray *)dataArray
+           initWithTitle:(NSString *)title;
+
 
 @end

@@ -13,25 +13,20 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "THNBannnerCollectionViewCell.h"
+#import "THNBannerModel.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 @interface THNBannerView()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSArray *data;
-@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIPageControl *pageControl;
 
 @end
 
 @implementation THNBannerView
-
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imageArray {
-    self.data = imageArray;
-    return [self initWithFrame:frame];
-}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -51,20 +46,27 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
         collectionView.delegate = self;
         collectionView.backgroundColor = [UIColor whiteColor];
         [collectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBannerCellIdentifier];
+        [collectionView addSubview:self.pageControl];
         self.collectionView = collectionView;
         [self addSubview:collectionView];
+        self.layer.cornerRadius = 2.5;
+        self.layer.masksToBounds = YES;
         
+        // 当没有数据 scrollToItemAtIndexPath会崩溃
+        if (self.bannerDataArray.count == 0) {
+            return self;
+        }
         [collectionView performBatchUpdates:^{
             [collectionView reloadData];
         } completion:^(BOOL finished) {
+            
             [self scrollStartPoint];
         }];
         
-        [collectionView addSubview:self.pageControl];
+        
         [self addTimer];
         
-        self.layer.cornerRadius = 2.5;
-        self.layer.masksToBounds = YES;
+        
     }
     
     return self;
@@ -74,7 +76,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 - (void)layoutSubviews {
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(25 * self.data.count, 44));
+        make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
     }];
 }
 
@@ -93,6 +95,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     NSInteger pageIndex = [[[self.collectionView indexPathsForVisibleItems] lastObject] row];
     pageIndex++;
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:pageIndex inSection:0];
+   
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 
@@ -109,8 +112,8 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellIdentifier forIndexPath:indexPath];
-    
-    [cell.cellImageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[indexPath.row]]];
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    [cell setBannerModel:bannerModel];
     return cell;
 }
 
@@ -120,7 +123,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     NSInteger pageIndex = [[[self.collectionView indexPathsForVisibleItems] lastObject] row];
     NSInteger index = 0;
     // 当前所在位置为数组最后数据时,不去设置滑动一半的效果
-    if (pageIndex == self.data.count) {
+    if (pageIndex == self.bannerDataArray.count) {
        index  = (scrollView.contentOffset.x) / self.viewWidth;
     } else {
        index = (scrollView.contentOffset.x + self.viewWidth * 0.5) / self.viewWidth;
@@ -128,19 +131,19 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     
     self.pageControl.currentPage = index - 1;
     
-    if (index == self.data.count + 1) {
+    if (index == self.bannerDataArray.count + 1) {
         [self scrollStartPoint];
         return;
     }
     
     
     if (scrollView.contentOffset.x < self.viewWidth * 0.5) {
-        self.pageControl.currentPage = self.data.count - 1;
+        self.pageControl.currentPage = self.bannerDataArray.count - 1;
     }
     
     if (scrollView.contentOffset.x < 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.data.count inSection:0];
-        self.pageControl.currentPage = self.data.count;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.bannerDataArray.count inSection:0];
+        self.pageControl.currentPage = self.bannerDataArray.count;
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
         return;
     }
@@ -160,11 +163,11 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 #pragma mark - lazy
 - (NSMutableArray *)dataArray {
     if (!_dataArray) {
-        _dataArray = [_data mutableCopy];
+        _dataArray = [_bannerDataArray mutableCopy];
         // data数组最后加上第一个数据,第一个数据前加上最后一个数据，从而实现视觉上轮播效果
-        if (_data.count > 1) {
-            [_dataArray addObject:_data.firstObject];
-            [_dataArray insertObject:_data.lastObject atIndex:0];
+        if (_bannerDataArray.count > 1) {
+            [_dataArray addObject:_bannerDataArray.firstObject];
+            [_dataArray insertObject:_bannerDataArray.lastObject atIndex:0];
         }
     }
     return _dataArray;
@@ -173,7 +176,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
         _pageControl = [[UIPageControl alloc]init];
-        _pageControl.numberOfPages = _data.count;
+        _pageControl.numberOfPages = _bannerDataArray.count;
         _pageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"ffffff" alpha:0.4];
         _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     }

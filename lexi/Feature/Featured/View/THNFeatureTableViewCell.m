@@ -15,6 +15,8 @@
 #import "THNAPI.h"
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
+#import "THNMarco.h"
+#import "THNLifeRecordModel.h"
 
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
 static NSString *const kTodayCellIdentifier = @"kTodayCellIdentifier";
@@ -24,7 +26,7 @@ CGFloat const kCellTodayHeight = 180;
 CGFloat const kCellPopularHeight = 330;
 CGFloat const kCellLifeAestheticsHeight = 253.5;
 CGFloat const kCellOptimalHeight = 200;
-CGFloat const kCellGrassListHeight = 200;
+CGFloat const kCellGrassListHeight = 158;
 
 @interface THNFeatureTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -34,7 +36,7 @@ CGFloat const kCellGrassListHeight = 200;
 @property (nonatomic, assign) FeaturedCellType cellType;
 @property (nonatomic, strong) NSArray *popularDataArray;
 @property (nonatomic, strong) NSArray *optimalDataArray;
-
+@property (nonatomic, strong) NSArray *lifeRecordDataArray;
 
 @end
 
@@ -54,29 +56,25 @@ CGFloat const kCellGrassListHeight = 200;
     self.cellType = cellType;
     switch (cellType) {
         case FeaturedRecommendedToday:
-            self.titleLabel.text = @"今日推荐";
             break;
         case FeaturedRecommendationPopular:
             self.popularDataArray = dataArray;
-            self.titleLabel.text = title;
             break;
         case FeaturedLifeAesthetics:
-            self.titleLabel.text = @"发现生活美学";
             break;
         case FearuredOptimal:
             self.optimalDataArray = dataArray;
-            self.titleLabel.text = @"乐喜优选";
             break;
         case FearuredGrassList:
-            self.titleLabel.text = @"种草清单";
+            self.lifeRecordDataArray = dataArray;
             break;
     }
-    
+    self.titleLabel.text = title;
     //  放在初始化设置Layout前，否则数据样式错乱，卡顿，以及可能会有崩溃的问题产生
    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     
-    flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 10;
+    flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 9;
     flowLayout.minimumLineSpacing = 10;
     
     if (self.cellType == FeaturedLifeAesthetics || self.cellType == FeaturedRecommendedToday) {
@@ -98,7 +96,7 @@ CGFloat const kCellGrassListHeight = 200;
     
     switch (self.cellType) {
         case FeaturedRecommendedToday:
-            itemWidth = 160;
+            itemWidth = 158;
             itemHeight = kCellTodayHeight;
             break;
         case FeaturedRecommendationPopular:
@@ -110,11 +108,11 @@ CGFloat const kCellGrassListHeight = 200;
             itemHeight = kCellLifeAestheticsHeight;
             break;
         case FearuredGrassList:
-            itemWidth = 163;
-            itemHeight = kCellGrassListHeight;
+            itemWidth = (SCREEN_WIDTH - 49) / 2;
+            itemHeight = kCellGrassListHeight + [self.grassLabelHeights[indexPath.row] floatValue];
             break;
         case FearuredOptimal:
-            itemWidth = 163;
+            itemWidth = (SCREEN_WIDTH - 49) / 2;
             itemHeight = kCellOptimalHeight;
             break;
     }
@@ -132,10 +130,10 @@ CGFloat const kCellGrassListHeight = 200;
             return 10;
             break;
         case FearuredGrassList:
-            return 4;
+            return self.lifeRecordDataArray.count;
             break;
         case FearuredOptimal:
-            return 4;
+            return self.optimalDataArray.count;
             break;
         case FeaturedRecommendationPopular:
             return 5;
@@ -147,22 +145,38 @@ CGFloat const kCellGrassListHeight = 200;
     if (self.cellType == FeaturedLifeAesthetics) {
         THNLifeAestheticsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLifeAestheticsCellIdentifier forIndexPath:indexPath];
         return cell;
-        
-    }else if (self.cellType == FearuredGrassList || self.cellType == FeaturedRecommendedToday) {
+    }else if (self.cellType == FearuredGrassList) {
         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
+        
+        if (self.lifeRecordDataArray.count > 0) {
+            THNLifeRecordModel *lifeRecordModel =  [THNLifeRecordModel mj_objectWithKeyValues:self.lifeRecordDataArray[indexPath.row]];
+            [cell setLifeRecordModel:lifeRecordModel];
+        }
+        
         return cell;
         
+    }else if (self.cellType == FeaturedRecommendedToday) {
+         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
+         return cell;
     } else {
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTodayCellIdentifier forIndexPath:indexPath];
+        THNProductModel *productModel;
         
         if (self.popularDataArray.count > 0) {
-            THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
-            [cell setProductModel:productModel];
+            productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
         }
+        
+        if (self.optimalDataArray.count > 0) {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
+        }
+           
+        [cell setProductModel:productModel];
         return cell;
     
     }
 }
+
+
 
 
 
