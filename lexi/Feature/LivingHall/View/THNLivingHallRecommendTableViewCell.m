@@ -11,13 +11,14 @@
 #import "THNBannnerCollectionViewCell.h"
 #import "THNSetModel.h"
 #import "UIView+Helper.h"
+#import "THNMarco.h"
 
 static NSString *const krecommendCellIdentifier = @"krecommendCellIdentifier";
 
 @interface THNLivingHallRecommendTableViewCell()<UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *recommendCollectionView;
-@property (weak, nonatomic) IBOutlet UILabel *recommenDationLabel;
+
 
 @end
 
@@ -31,18 +32,19 @@ static NSString *const krecommendCellIdentifier = @"krecommendCellIdentifier";
     [self.recommendCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:krecommendCellIdentifier];
 }
 
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
-// 设置 cell 与 cell 之间的间距
-- (void)setFrame:(CGRect)frame{
-    frame.origin.y += 15;
-    frame.size.height -= 15;
-    [super setFrame:frame];
-}
+//// 设置 cell 与 cell 之间的间距
+//- (void)setFrame:(CGRect)frame{
+//    frame.origin.y += 15;
+//    frame.size.height -= 15;
+//    [super setFrame:frame];
+//}
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return  3;

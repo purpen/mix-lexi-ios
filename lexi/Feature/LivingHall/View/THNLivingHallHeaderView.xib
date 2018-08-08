@@ -23,7 +23,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="354" height="61"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0a-QN-7ET">
-                            <rect key="frame" x="91" y="14" width="120" height="34"/>
+                            <rect key="frame" x="91" y="13.5" width="120" height="34"/>
                             <string key="text">挑选乐喜优质商品上架
 品位生活，由此开启</string>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
@@ -336,6 +336,7 @@
                 <outlet property="middleImageView" destination="lYk-an-jW8" id="RLr-aa-gv4"/>
                 <outlet property="noProductView" destination="PkW-rU-Fjj" id="GHp-6v-Pel"/>
                 <outlet property="outsideImageView" destination="Ujs-BP-vzE" id="Hy4-Jw-Min"/>
+                <outlet property="selectionTitleConstraint" destination="svr-fm-2lW" id="cgj-3i-rU0"/>
                 <outletCollection property="tintLabels" destination="WH5-lk-MuD" id="eRK-S5-rm3"/>
                 <outletCollection property="tintLabels" destination="kOG-gJ-Hi2" id="jjE-mT-31z"/>
             </connections>

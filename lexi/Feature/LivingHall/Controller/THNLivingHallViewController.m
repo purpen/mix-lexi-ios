@@ -21,6 +21,7 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
+@property (nonatomic, assign) CGFloat recommenLabelHegiht;
 
 @end
 
@@ -43,6 +44,9 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
+    self.tableView.estimatedRowHeight = 400;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
 }
 
 
@@ -52,11 +56,18 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNLivingHallRecommendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLivingHallRecommendCellIdentifier forIndexPath:indexPath];
+    switch (indexPath.row) {
+        case 0:
+            cell.recommenDationLabel.text = @"店主定期推出新系列，每个系列有各自的主题";
+            break;
+        case 1:
+            cell.recommenDationLabel.text = @"店主定期推出新系列，每个系列有各自的主题，杀害空间啊大哭爱睡觉都看见考虑";
+            break;
+        default:
+            cell.recommenDationLabel.text = @"我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一店主定期推出新系列，每个系列有各自的主题，杀害空间啊大哭爱睡觉都看见考虑";
+            break;
+    }
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 260;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

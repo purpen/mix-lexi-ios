@@ -27,6 +27,7 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 @property (weak, nonatomic) IBOutlet UIImageView *insideImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *outsideImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *middleImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionTitleConstraint;
 
 @end
 
@@ -55,13 +56,13 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
         for (UILabel *label in self.tintLabels) {
             label.font = [UIFont systemFontOfSize:9];
         }
+        self.selectionTitleConstraint.constant = 3;
     }
-  
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 12;
+    return (SCREEN_WIDTH -  94.5) / 24;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,6 +72,5 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
     [cell setSetModel:model];
     return cell;
 }
-
 
 @end
