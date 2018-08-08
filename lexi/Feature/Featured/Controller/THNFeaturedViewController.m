@@ -17,14 +17,29 @@
 #import "THNActivityView.h"
 #import "THNBannerView.h"
 #import "THNAPI.h"
+#import <MJExtension/MJExtension.h>
+#import "THNLifeRecordModel.h"
+#import "THNLoginManager.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
+// cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
 static CGFloat const kPopularFooterViewHeight = 180;
 static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
-static NSString *const kUrlBannersHandpick = @"/banners/handpick";
+// 顶部banner
+static NSString *const kUrlBannersHandpickTop = @"/banners/handpick";
+// 人气推荐
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
+// 发现生活美学
+static NSString *const kUrlLifeAesthetics = @"/shop_windows/recommend";
+// 乐喜优选
 static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
+// 种草清单
+static NSString *const kUrlLifeRecords = @"/life_records/recommend";
+// 内容区banner
+static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
 @interface THNFeaturedViewController ()
 
@@ -35,10 +50,11 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) FeaturedCellType cellType;
 @property (nonatomic, strong) NSString * pupularTitle;
-@property (nonatomic, strong) NSArray *popularDataArray;
 @property (nonatomic, strong) NSString *optimalTitle;
+@property (nonatomic, strong) NSArray *popularDataArray;
 @property (nonatomic, strong) NSArray *optimalDataArray;
-
+@property (nonatomic, strong) NSArray *lifeRecordDataArray;
+@property (nonatomic, strong) NSMutableArray *grassLabelHeights;
 
 @end
 
@@ -47,16 +63,17 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadTopBannerData];
+    [self loadContentBannerData];
     [self loadPupularData];
     [self loadOptimalData];
+    [self loadLifeAestheticData];
+    [self loadGrassListData];
     [self setupUI];
 }
 
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
-    
     return [super initWithStyle:UITableViewStyleGrouped];
-    
 }
 
 - (void)setupUI {
@@ -71,6 +88,28 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 }
 
 #pragma mark - 请求数据
+// 顶部Banner
+- (void)loadTopBannerData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        [self.featuredCollectionView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// 内容区Banner
+- (void)loadContentBannerData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.bannerView.bannerDataArray = result.data[@"banner_images"];
+        [self.bannerView.collectionView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+// 人气推荐
 - (void)loadPupularData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -82,15 +121,17 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
     }];
 }
 
-- (void)loadTopBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpick requestDictionary:nil isSign:YES delegate:nil];
+// 发现生活美学
+- (void)loadLifeAestheticData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-       
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
+//优选
 - (void)loadOptimalData {
     THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -102,6 +143,16 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
     }];
 }
 
+//种草清单
+- (void)loadGrassListData {
+    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:nil isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.lifeRecordDataArray = result.data[@"life_records"];
+       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
+    } failure:^(THNRequest *request, NSError *error) {
+
+    }];
+}
 
 #pragma mark - UITableViewDelegate mehtod 实现
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -110,6 +161,16 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
         headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
         [headerView addSubview:self.openingView];
+        __weak typeof(self)weakSelf = self;
+        self.openingView.openingBlcok = ^{
+            
+            if (![THNLoginManager isLogin]) {
+                THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+                [weakSelf presentViewController:navController animated:YES completion:nil];
+            }
+            
+        };
         return headerView;
     } else {
         return nil;
@@ -132,7 +193,6 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 
 -  (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
-    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -175,7 +235,8 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
             title = self.optimalTitle;
             break;
         case FearuredGrassList:
-            
+            cell.grassLabelHeights = self.grassLabelHeights;
+            dataArray = self.lifeRecordDataArray;
             break;
         case FeaturedRecommendationPopular:
             dataArray = self.popularDataArray;
@@ -209,7 +270,55 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
             break;
         case 4:
             self.cellType = FearuredGrassList;
-            return kCellGrassListHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+           __block CGFloat firstRowMaxtitleHeight = 0;
+           __block CGFloat firstRowMaxcontentHeight = 0;
+           __block CGFloat secondRowMaxtitleHeight = 0;
+            __block CGFloat secondRowMaxcontentHeight = 0;
+            // 多次执行该方法造成重复的计算
+            if (self.grassLabelHeights.count == 0) {
+                [self.lifeRecordDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:obj];
+                    //  设置最大size
+                    CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
+                    CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
+                    CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
+                    CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
+                    NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
+                    NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
+                    CGFloat titleHeight = [lifeRecordModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+                    CGFloat contentHeight = [lifeRecordModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+                    
+                    // 取出第一列最大的titleLabel和contentLabel的高度
+                    if (idx <= 1) {
+                        
+                        if (titleHeight > firstRowMaxtitleHeight) {
+                            firstRowMaxtitleHeight = titleHeight;
+                        }
+                        
+                        if (contentHeight > secondRowMaxtitleHeight ) {
+                            firstRowMaxcontentHeight = contentHeight;
+                        }
+                        // 取出第二列最大的titleLabel和contentLabel的高度
+                    } else {
+                        
+                        if (titleHeight > secondRowMaxtitleHeight) {
+                            secondRowMaxtitleHeight = titleHeight;
+                        }
+                        
+                        if (contentHeight > secondRowMaxcontentHeight) {
+                            secondRowMaxcontentHeight = titleHeight;
+                        }
+                        
+                    }
+                    
+                    CGFloat grassLabelHeight = titleHeight + contentHeight;
+                    [self.grassLabelHeights addObject:@(grassLabelHeight)];
+                }];
+                
+               
+            }
+             CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
+             return kCellGrassListHeight * 2 + customGrassCellHeight + 20 + kFeaturedCellTopBottomHeight;
             break;
     }
     
@@ -221,8 +330,7 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-         NSArray *array = @[@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg",@"https://kg.erp.taihuoniao.com/20180705/2856FgnuLr9GzH9Yg5Izfa3Cu5Y8iLHH.jpg",@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout withDataArray:array];
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout];
     }
     return _featuredCollectionView;
 }
@@ -244,8 +352,7 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
-        NSArray * array = @[@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg",@"https://kg.erp.taihuoniao.com/20180705/2856FgnuLr9GzH9Yg5Izfa3Cu5Y8iLHH.jpg",@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"];
-        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(kFeaturedX, 20, SCREEN_WIDTH - kFeaturedX * 2, 140) images:array];
+        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(kFeaturedX, 20, SCREEN_WIDTH - kFeaturedX * 2, 140)];
     }
     return _bannerView;
 }
@@ -258,12 +365,11 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
     return _lineView;
 }
 
-// 人气推荐数据
-- (NSArray *)popularDataArray {
-    if (!_popularDataArray) {
-        _popularDataArray = [NSArray array];
+- (NSMutableArray *)grassLabelHeights {
+    if (!_grassLabelHeights) {
+        _grassLabelHeights = [NSMutableArray array];
     }
-    return _popularDataArray;
+    return _grassLabelHeights;
 }
 
 @end

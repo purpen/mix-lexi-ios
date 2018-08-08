@@ -7,8 +7,15 @@
 //
 
 #import "THNGrassListCollectionViewCell.h"
+#import "THNLifeRecordModel.h"
+#import "UIImageView+WebCache.h"
+#import "THNLifeRecordModel.h"
 
 @interface THNGrassListCollectionViewCell()
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *productImageView;
 
 @end
 
@@ -16,6 +23,14 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.layer.cornerRadius = 4;
+}
+
+-  (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
+    _lifeRecordModel = lifeRecordModel;
+    self.contentLabel.text = lifeRecordModel.content;
+    self.titleLabel.text = lifeRecordModel.title;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:lifeRecordModel.cover]];
 }
 
 @end

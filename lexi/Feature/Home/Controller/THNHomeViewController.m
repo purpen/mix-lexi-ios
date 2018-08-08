@@ -16,6 +16,7 @@
 #import "THNLivingHallViewController.h"
 #import "THNFeaturedViewController.h"
 #import "THNExploresViewController.h"
+#import "THNNavigationBarView.h"
 
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
@@ -33,7 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupUI];
 }
 
@@ -86,10 +86,7 @@
  设置导航栏
  */
 - (void)setNavigationBar {
-    // 隐藏自定义导航View
-    if ([self.view.subviews.firstObject.class isEqual:[THNNavigationBarView class]]) {
-        self.view.subviews.firstObject.hidden = YES;
-    }
+    self.navigationBarView.hidden = YES;
 }
 
 #pragma mark - lazy
@@ -118,7 +115,7 @@
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSMutableArray *titleArray = [@[@"生活馆", @"精选", @"探索"] mutableCopy];
-        _selectButtonView = [[THNSelectButtonView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
     }
     return _selectButtonView;
 }

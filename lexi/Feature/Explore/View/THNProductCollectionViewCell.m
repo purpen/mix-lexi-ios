@@ -32,16 +32,10 @@
 
 - (void)setProductModel:(THNProductModel *)productModel {
     _productModel = productModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
     self.productNameLabel.text = productModel.name;
     self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
     self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
 }
-
-//- (void)setProductMode:(THNProductModel *)productModel {
-//    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
-//    self.productNameLabel.text = productModel.name;
-//    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
-//}
 
 @end

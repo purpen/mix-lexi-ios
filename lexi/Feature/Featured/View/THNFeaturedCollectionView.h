@@ -10,8 +10,6 @@
 
 @interface THNFeaturedCollectionView : UICollectionView
 
-- (instancetype)initWithFrame:(CGRect)frame
-         collectionViewLayout:(UICollectionViewLayout *)layout
-                withDataArray:(NSArray *)dataArray;
+@property (nonatomic, strong) NSArray *dataArray;
 
 @end

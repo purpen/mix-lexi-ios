@@ -7,6 +7,8 @@
 //
 
 #import "THNCategoriesCollectionViewCell.h"
+#import "THNCategoriesModel.h"
+#import "UIImageView+WebCache.h"
 
 @interface THNCategoriesCollectionViewCell()
 
@@ -24,6 +26,9 @@
 
 - (void)setCategoriesModel:(THNCategoriesModel *)categoriesModel {
     _categoriesModel = categoriesModel;
+    self.desLabel.text = categoriesModel.name;
+    self.peopleNumberLabel.text = [NSString stringWithFormat:@"%ld 人",categoriesModel.browse_count];
+    [self.categoriesImageView sd_setImageWithURL:[NSURL URLWithString:categoriesModel.cover]];
     
 }
 

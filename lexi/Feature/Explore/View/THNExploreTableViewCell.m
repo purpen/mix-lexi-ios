@@ -12,10 +12,11 @@
 #import "UIImageView+WebCache.h"
 #import "UIView+Helper.h"
 #import "THNSetModel.h"
-#import "THNOtherModel.h"
+#import "THNProductModel.h"
 #import "THNFeaturedBrandModel.h"
 #import "THNBrandCollectionViewCell.h"
 #import "THNProductCollectionViewCell.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kBannnerCellIdentifier = @"kBannnerCellIdentifier";
 static NSString *const kBrandCellIdentifier = @"kBrandCellIdentifier";
@@ -25,9 +26,16 @@ CGFloat const cellFeaturedBrandHeight = 230;
 CGFloat const cellOtherHeight = 190;
 
 @interface THNExploreTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *productCollectionView;
 @property (nonatomic, assign) ExploreCellType cellType;
+@property (nonatomic, strong) NSArray *recommendDataArray;
+@property (nonatomic, strong) NSArray *goodThingDataArray;
+@property (nonatomic, strong) NSArray *brandHallDataArray;
+@property (nonatomic, strong) NSArray *productNewDataArray;
+@property (nonatomic, strong) NSArray *goodDesignDataArray;
+@property (nonatomic, strong) NSArray *setDataArray;
 
 @end
 
@@ -41,12 +49,11 @@ CGFloat const cellOtherHeight = 190;
     self.productCollectionView.delegate = self;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
-    
 }
 
-- (void)setCellTypeStyle:(ExploreCellType)cellType {
-    [self.productCollectionView reloadData];
+- (void)setCellTypeStyle:(ExploreCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title{
     self.cellType = cellType;
+    self.titleLabel.text = title;
     CGFloat itemWidth = 0;
     CGFloat lineSpacing = 0;
     CGFloat itemHeight = 0;
@@ -56,43 +63,101 @@ CGFloat const cellOtherHeight = 190;
             itemWidth = 190;
             itemHeight = cellSetHeight;
             lineSpacing = 10;
+            self.setDataArray = dataArray;
             break;
          case ExploreFeaturedBrand:
             itemWidth = 250;
             itemHeight = cellFeaturedBrandHeight;
             lineSpacing = 20;
+            self.brandHallDataArray = dataArray;
             break;
-        case ExploreOther:
+        case ExploreRecommend:
             itemWidth = 140;
             itemHeight = cellOtherHeight;
             lineSpacing = 10;
+            self.recommendDataArray = dataArray;
+            break;
+        case ExploreNewProduct:
+            itemWidth = 140;
+            itemHeight = cellOtherHeight;
+            lineSpacing = 10;
+            self.productNewDataArray = dataArray;
+            break;
+        case ExploreGoodDesign:
+            itemWidth = 140;
+            itemHeight = cellOtherHeight;
+            lineSpacing = 10;
+            self.goodDesignDataArray = dataArray;
+            break;
+        case ExploreGoodThings:
+            itemWidth = 140;
+            itemHeight = cellOtherHeight;
+            lineSpacing = 10;
+            self.goodThingDataArray = dataArray;
             break;
     }
     
+    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:lineSpacing initWithWidth:itemWidth initwithHeight:itemHeight];
     [self.productCollectionView setCollectionViewLayout:flowLayout];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    switch (self.cellType) {
+        case ExploreRecommend:
+            return self.recommendDataArray.count;
+            break;
+        case ExploreFeaturedBrand:
+            return self.brandHallDataArray.count;
+            break;
+        case ExploreNewProduct:
+            return self.productNewDataArray.count;
+            break;
+        case ExploreSet:
+            return self.setDataArray.count;
+            break;
+        case ExploreGoodDesign:
+            return self.goodDesignDataArray.count;
+            break;
+        case ExploreGoodThings:
+            return self.goodThingDataArray.count;
+            break;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (self.cellType == ExploreSet) {
-        THNSetModel *setModel;
         THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannnerCellIdentifier forIndexPath:indexPath];
+        THNSetModel *setModel = [THNSetModel mj_objectWithKeyValues:self.setDataArray[indexPath.row]];
         [cell setSetModel:setModel];
         return cell;
     } else if (self.cellType == ExploreFeaturedBrand) {
-        THNFeaturedBrandModel *featuredBrandModel;
         THNBrandCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandCellIdentifier forIndexPath:indexPath];
+        THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
         [cell setFeatureBrandModel:featuredBrandModel];
         return cell;
     } else {
-       
-        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
-        [cell setProductModel:nil];
+       THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
+        THNProductModel * productModel;
+        
+        if (self.recommendDataArray > 0) {
+             productModel = [THNProductModel mj_objectWithKeyValues:self.recommendDataArray[indexPath.row]];
+        }
+        
+        if (self.productNewDataArray > 0) {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.productNewDataArray[indexPath.row]];
+        }
+        
+        if (self.goodDesignDataArray > 0) {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodDesignDataArray[indexPath.row]];
+        }
+        
+        if (self.goodThingDataArray > 0) {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodThingDataArray[indexPath.row]];
+        }
+        
+        [cell setProductModel:productModel];
         return cell;
     }
 }

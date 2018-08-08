@@ -10,6 +10,16 @@
 #import "UIView+Helper.h"
 #import "UIImageView+WebCache.h"
 #import "THNSetModel.h"
+#import "THNBannerModel.h"
+
+@interface THNBannnerCollectionViewCell()
+
+
+@property (weak, nonatomic) IBOutlet UIView *backGroundView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+
+@end
 
 @implementation THNBannnerCollectionViewCell
 
@@ -19,12 +29,16 @@
 }
 
 - (void)setSetModel:(THNSetModel *)setModel {
-    
-    if ([setModel.type isEqualToString:@"avatar"]) {
-       self.layer.cornerRadius = self.viewHeight / 2;
-    }
-    
-    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]];
+    self.setLabelsView.hidden = NO;
+    self.titleLabel.text = setModel.name;
+    self.subTitleLabel.text = setModel.sub_name;
+    [self.backGroundView drawCornerWithType:0 radius:2];
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:setModel.cover]];
+}
+
+- (void)setBannerModel:(THNBannerModel *)bannerModel {
+    self.setLabelsView.hidden = YES;
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.image]];
 }
 
 @end

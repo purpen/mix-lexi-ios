@@ -10,6 +10,7 @@
 
 @interface THNBannerView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imageArray;
+@property (nonatomic, strong) NSArray *bannerDataArray;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end
