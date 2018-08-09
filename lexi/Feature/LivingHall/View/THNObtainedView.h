@@ -10,4 +10,6 @@
 
 @interface THNObtainedView : UIView
 
++ (instancetype)show;
+
 @end

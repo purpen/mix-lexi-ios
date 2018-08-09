@@ -37,6 +37,11 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 @property (nonatomic, assign) NSInteger firstLogin;
 
+/**
+ 店铺ID
+ */
+@property (nonatomic, strong) NSString *storeRid;
+
 + (instancetype)sharedManager;
 
 /**

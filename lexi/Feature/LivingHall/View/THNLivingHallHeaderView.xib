@@ -45,6 +45,9 @@
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgx-iD-1nQ">
                             <rect key="frame" x="0.0" y="0.0" width="354" height="61"/>
+                            <connections>
+                                <action selector="goSelection:" destination="iN0-l3-epB" eventType="touchUpInside" id="HNC-LD-Lwg"/>
+                            </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xyn-kF-qWz">
                             <rect key="frame" x="50" y="15" width="30" height="30"/>
@@ -142,6 +145,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rxD-me-h0i">
                             <rect key="frame" x="334.5" y="14" width="10" height="22"/>
                             <state key="normal" image="icon_hint_close"/>
+                            <connections>
+                                <action selector="close:" destination="iN0-l3-epB" eventType="touchUpInside" id="Msr-3n-2H0"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加乐喜辅导员微信，加入生活馆店主群。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WH5-lk-MuD">
                             <rect key="frame" x="9" y="66" width="228" height="17"/>
@@ -152,6 +158,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Of-Tp-7m0">
                             <rect key="frame" x="242" y="66.5" width="69" height="22"/>
                             <state key="normal" image="icon_copy_wechat"/>
+                            <connections>
+                                <action selector="copyWechat:" destination="iN0-l3-epB" eventType="touchUpInside" id="f6a-y8-33O"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.96078431372549022" green="0.96862745098039216" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
@@ -189,7 +198,7 @@
                                 <constraint firstAttribute="width" constant="16" id="Y5o-c7-3gM"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="设计师然Ricky的生活馆速度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxH-MC-etK">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxH-MC-etK">
                             <rect key="frame" x="118" y="33.5" width="204.5" height="15.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15.5" id="0R3-dg-DNc"/>
@@ -205,20 +214,20 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="欢迎来到我的乐喜生活馆,我准备了一些独特好设计供你挑选" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNW-cG-t0x">
-                            <rect key="frame" x="97" y="63.5" width="243.5" height="34"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNW-cG-t0x">
+                            <rect key="frame" x="97" y="63.5" width="243.5" height="0.0"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="346275 人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys7-MW-oJE">
-                            <rect key="frame" x="15" y="122" width="59" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys7-MW-oJE">
+                            <rect key="frame" x="15" y="122" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="P9o-52-VUX">
-                            <rect key="frame" x="15" y="148" width="299.5" height="29"/>
+                            <rect key="frame" x="15" y="131" width="299.5" height="29"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="29" id="qeM-vD-yvd"/>
@@ -230,14 +239,14 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="浏览过生活馆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPq-Sl-ieU">
-                            <rect key="frame" x="75" y="122" width="72" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPq-Sl-ieU">
+                            <rect key="frame" x="16" y="122" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFL-bl-qhg">
-                            <rect key="frame" x="334.5" y="142.5" width="59.5" height="40"/>
+                            <rect key="frame" x="334.5" y="125.5" width="59.5" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="59.5" id="APt-jW-QAa"/>
                                 <constraint firstAttribute="height" constant="40" id="I7Z-Ls-vLB"/>
@@ -248,8 +257,8 @@
                             </state>
                             <state key="highlighted" image="icon_black" backgroundImage="head_shadow"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyf-En-kMm">
-                            <rect key="frame" x="355" y="157" width="27" height="12"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyf-En-kMm">
+                            <rect key="frame" x="368.5" y="146" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -276,6 +285,9 @@
                                 <constraint firstAttribute="width" constant="42" id="Eql-Gk-KJ1"/>
                             </constraints>
                             <state key="normal" image="icon_edit_gray"/>
+                            <connections>
+                                <action selector="edit:" destination="iN0-l3-epB" eventType="touchUpInside" id="dxX-V5-yJ3"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -331,12 +343,17 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="avatarCollectionView" destination="P9o-52-VUX" id="2dz-mG-3G3"/>
+                <outlet property="browseCountLabel" destination="ys7-MW-oJE" id="tH6-xF-JKR"/>
+                <outlet property="browseMaxShowLabel" destination="qyf-En-kMm" id="QLC-xT-3tc"/>
+                <outlet property="desLabel" destination="LNW-cG-t0x" id="q86-Nb-a6T"/>
                 <outlet property="insideImageView" destination="Xyn-kF-qWz" id="kga-N6-7YS"/>
                 <outlet property="livingHallView" destination="6mU-VS-6Jl" id="FrF-rm-GeK"/>
                 <outlet property="middleImageView" destination="lYk-an-jW8" id="RLr-aa-gv4"/>
                 <outlet property="noProductView" destination="PkW-rU-Fjj" id="GHp-6v-Pel"/>
                 <outlet property="outsideImageView" destination="Ujs-BP-vzE" id="Hy4-Jw-Min"/>
                 <outlet property="selectionTitleConstraint" destination="svr-fm-2lW" id="cgj-3i-rU0"/>
+                <outlet property="storeAvatarImageView" destination="eLT-ft-gb9" id="OVw-mt-Ozc"/>
+                <outlet property="storeNameLabel" destination="nxH-MC-etK" id="hZa-2f-utV"/>
                 <outletCollection property="tintLabels" destination="WH5-lk-MuD" id="eRK-S5-rm3"/>
                 <outletCollection property="tintLabels" destination="kOG-gJ-Hi2" id="jjE-mT-31z"/>
             </connections>

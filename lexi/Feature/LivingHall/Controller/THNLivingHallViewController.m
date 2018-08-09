@@ -13,15 +13,30 @@
 #import "UIColor+Extension.h"
 #import "THNLivingHallRecommendTableViewCell.h"
 #import "THNMarco.h"
+#import "THNLoginManager.h"
+#import "THNAPI.h"
+#import <MJExtension/MJExtension.h>
+#import "THNProductModel.h"
+#import "THNLivingHallExpandView.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
+static CGFloat const expandViewHeight = 59;
+static CGFloat const cellSpacing = 15;
+static NSInteger const perPageCount = 3;
 static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecommendCellIdentifier";
+// 馆长推荐
+static NSString *const kUrlCuratorRecommended = @"/fx_distribute/agency";
 
 @interface THNLivingHallViewController ()
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
+@property (nonatomic, strong)  THNLivingHallExpandView *expandView;
+@property (nonatomic, strong) NSArray *recommendedArray;
+@property (nonatomic, strong) NSMutableArray *recommendedMutableArray;
+@property (nonatomic, strong) NSArray *likeProductUserArray;
 @property (nonatomic, assign) CGFloat recommenLabelHegiht;
+@property (nonatomic, assign) NSInteger pageCount;
 
 @end
 
@@ -29,6 +44,9 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.pageCount = 1;
+    [self.livingHallHeaderView setLifeStore];
+    [self loadCuratorRecommendedData];
     [self setupUI];
 }
 
@@ -46,30 +64,44 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
     [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
     self.tableView.estimatedRowHeight = 400;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
 }
 
+// 馆长推荐
+- (void)loadCuratorRecommendedData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.pageCount);
+    params[@"per_page"] = @(perPageCount);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.recommendedArray = result.data[@"products"];
+        self.expandView.hidden = self.recommendedArray.count < perPageCount ? : NO;
+        
+        for (NSDictionary *dict in self.recommendedArray) {
+            [self.recommendedmutableArray addObject:dict];
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.recommendedmutableArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNLivingHallRecommendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLivingHallRecommendCellIdentifier forIndexPath:indexPath];
-    switch (indexPath.row) {
-        case 0:
-            cell.recommenDationLabel.text = @"店主定期推出新系列，每个系列有各自的主题";
-            break;
-        case 1:
-            cell.recommenDationLabel.text = @"店主定期推出新系列，每个系列有各自的主题，杀害空间啊大哭爱睡觉都看见考虑";
-            break;
-        default:
-            cell.recommenDationLabel.text = @"我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一我只有二行文字我只有一行文字我只有一行文字我只有一行文字我只有一店主定期推出新系列，每个系列有各自的主题，杀害空间啊大哭爱睡觉都看见考虑";
-            break;
-    }
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
+    // 设置喜欢用户头像
+    [cell loadLikeProductUserData:productModel.rid];
+    // 设置馆长头像
+    [cell setCurtorAvatar:self.livingHallHeaderView.storeAvatarUrl];
+    [cell setProductModel:productModel];
     return cell;
 }
 
+#pragma mark - UITableViewDelegate method 实现
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return livingHallHeaderViewHeight;
 }
@@ -79,8 +111,22 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    if (self.expandView.hidden) {
+        self.featureCell.viewY = 0;
+    }
+    
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH,CGRectGetMaxY(self.featureCell.frame))];
     self.featureCell.backgroundColor = [UIColor whiteColor];
-    return self.featureCell;
+    __weak typeof(self)weakSelf = self;
+    
+    self.expandView.loadMoreDateBlcok = ^{
+        weakSelf.pageCount++;
+        [weakSelf loadCuratorRecommendedData];
+    };
+    [footerView addSubview:self.featureCell];
+    [footerView addSubview:self.expandView];
+    return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -98,10 +144,25 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 - (THNFeatureTableViewCell *)featureCell {
     if (!_featureCell) {
         _featureCell = [THNFeatureTableViewCell viewFromXib];
-        [_featureCell setCellTypeStyle:FearuredOptimal initWithDataArray:nil initWithTitle:@"种草清单"];
+        _featureCell.frame = CGRectMake(0, -cellSpacing + expandViewHeight, SCREEN_WIDTH, 190 * 2 + 90);
+//        [_featureCell setCellTypeStyle:FearuredOptimal initWithDataArray:nil initWithTitle:@"最受人气欢迎"];
     }
     return _featureCell;
 }
 
+- (THNLivingHallExpandView *)expandView {
+    if (!_expandView) {
+        _expandView = [THNLivingHallExpandView viewFromXib];
+        _expandView.frame = CGRectMake(0, -cellSpacing, SCREEN_WIDTH, expandViewHeight);
+    }
+    return _expandView;
+}
+
+- (NSMutableArray *)recommendedmutableArray {
+    if (!_recommendedMutableArray) {
+        _recommendedMutableArray = [NSMutableArray array];
+    }
+    return _recommendedMutableArray;
+}
 
 @end

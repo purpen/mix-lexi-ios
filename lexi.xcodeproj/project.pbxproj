@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */; };
+		4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */; };
+		4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
@@ -126,6 +129,11 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
+		4B2656C6211AE1D1001CA9DD /* THNUserPartieModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserPartieModel.h; sourceTree = "<group>"; };
+		4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserPartieModel.m; sourceTree = "<group>"; };
+		4B2656C9211C187E001CA9DD /* THNLivingHallExpandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallExpandView.h; sourceTree = "<group>"; };
+		4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallExpandView.m; sourceTree = "<group>"; };
+		4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNLivingHallExpandView.xib; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -352,6 +360,15 @@
 				C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4B2656C5211AE186001CA9DD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4B2656C6211AE1D1001CA9DD /* THNUserPartieModel.h */,
+				4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		7D44224FF682DC37BFD7E904 /* Pods */ = {
@@ -617,6 +634,7 @@
 			children = (
 				D8BAC8EC211A949100667D6F /* Controller */,
 				D8BAC8EF211A949100667D6F /* View */,
+				4B2656C5211AE186001CA9DD /* Model */,
 			);
 			path = LivingHall;
 			sourceTree = "<group>";
@@ -642,6 +660,9 @@
 				D8BAC8F7211A949100667D6F /* THNLivingHallRecommendTableViewCell.h */,
 				D8BAC8F3211A949100667D6F /* THNLivingHallRecommendTableViewCell.m */,
 				D8BAC8F8211A949100667D6F /* THNLivingHallRecommendTableViewCell.xib */,
+				4B2656C9211C187E001CA9DD /* THNLivingHallExpandView.h */,
+				4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */,
+				4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */,
 				D8BAC8FA211A949100667D6F /* THNObtainedView.h */,
 				D8BAC8F5211A949100667D6F /* THNObtainedView.m */,
 				D8BAC8F1211A949100667D6F /* THNObtainedView.xib */,
@@ -1029,6 +1050,7 @@
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
 				D8BAC992211A949100667D6F /* THNObtainedView.xib in Resources */,
+				4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */,
 				D8BAC9B4211A949100667D6F /* THNLifeAestheticsCollectionViewCell.xib in Resources */,
 				D8BAC9B6211A949100667D6F /* THNFeatureTableViewCell.xib in Resources */,
 				D8BAC9A7211A949100667D6F /* THNExploreTableViewCell.xib in Resources */,
@@ -1164,6 +1186,7 @@
 				D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */,
 				D8BAC9AD211A949100667D6F /* THNLifeRecordModel.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
+				4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */,
 				D8BAC9A8211A949100667D6F /* THNCategoriesCollectionViewCell.m in Sources */,
 				D8BAC9C2211A949100667D6F /* THNNewUserInfoViewController.m in Sources */,
 				D8BAC99A211A949100667D6F /* THNExploresViewController.m in Sources */,
@@ -1176,6 +1199,7 @@
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
 				D8BAC98A211A949100667D6F /* THNDiscoverViewController.m in Sources */,
+				4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */,
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
 				D8BAC9B1211A949100667D6F /* THNFeaturedCollectionView.m in Sources */,
