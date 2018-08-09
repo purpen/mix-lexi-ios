@@ -19,5 +19,7 @@
 @property (nonatomic, strong) NSString *rid;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSInteger like_count;
+// 商品推荐语
+@property (nonatomic, strong) NSString *features;
 
 @end

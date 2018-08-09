@@ -10,11 +10,13 @@
 
 @class THNSetModel;
 @class THNBannerModel;
+@class THNUserPartieModel;
 
 @interface THNBannnerCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) THNSetModel *setModel;
 @property (nonatomic, strong) THNBannerModel *bannerModel;
+@property (nonatomic, strong) THNUserPartieModel *userPartieModel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet UIView *setLabelsView;
 
