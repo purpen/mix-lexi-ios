@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNProductModel;
 
 @interface THNLivingHallRecommendTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *recommenDationLabel;
+@property (nonatomic, strong) THNProductModel *productModel;
+- (void)setCurtorAvatar:(NSString *)storeAvatarUrl;
+- (void)loadLikeProductUserData:(NSString *)rid;
 
 @end

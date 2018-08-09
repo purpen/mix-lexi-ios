@@ -12,4 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *noProductView;
 
+- (void)setLifeStore;
+@property (nonatomic, strong) NSString *storeAvatarUrl;
+
 @end

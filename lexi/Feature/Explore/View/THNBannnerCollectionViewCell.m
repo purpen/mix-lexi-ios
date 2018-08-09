@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "THNSetModel.h"
 #import "THNBannerModel.h"
+#import "THNUserPartieModel.h"
 
 @interface THNBannnerCollectionViewCell()
 
@@ -39,6 +40,12 @@
 - (void)setBannerModel:(THNBannerModel *)bannerModel {
     self.setLabelsView.hidden = YES;
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.image]];
+}
+
+- (void)setUserPartieModel:(THNUserPartieModel *)userPartieModel {
+    self.setLabelsView.hidden = YES;
+    self.layer.cornerRadius = self.viewHeight / 2;
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:userPartieModel.avatar]];
 }
 
 @end
