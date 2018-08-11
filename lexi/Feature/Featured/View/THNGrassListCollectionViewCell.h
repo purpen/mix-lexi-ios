@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNLifeRecordModel;
+@class THNGrassListModel;
 
 @interface THNGrassListCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) THNLifeRecordModel *lifeRecordModel;
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 @end

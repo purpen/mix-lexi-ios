@@ -130,12 +130,40 @@
                             <constraint firstAttribute="height" constant="15" id="Cip-3y-D50"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WPf-eS-Y6d">
+                        <rect key="frame" x="20" y="299" width="52" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="52" id="Xgl-0a-e3H"/>
+                            <constraint firstAttribute="height" constant="36" id="hFg-G6-AOG"/>
+                        </constraints>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="changeLikeStatu:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ZWd-pY-irZ"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3b-Dj-Ys4">
+                        <rect key="frame" x="80" y="300" width="75" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="8lO-TV-0iy"/>
+                            <constraint firstAttribute="width" constant="75" id="Eza-71-ohW"/>
+                        </constraints>
+                        <state key="normal">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="shareButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Ic3-5a-brE"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="dSM-5t-2Dk" firstAttribute="leading" secondItem="xXw-6f-BJO" secondAttribute="trailing" constant="5.5" id="3PU-B1-zhy"/>
                     <constraint firstItem="2YA-Wo-U2D" firstAttribute="top" secondItem="nPs-KQ-OAY" secondAttribute="bottom" constant="35" id="46p-1I-TDV"/>
                     <constraint firstItem="p0m-uI-eTo" firstAttribute="top" secondItem="V8V-ef-rFU" secondAttribute="top" constant="11" id="486-aW-nJi"/>
                     <constraint firstItem="dSM-5t-2Dk" firstAttribute="centerY" secondItem="xXw-6f-BJO" secondAttribute="centerY" id="5sr-v7-JqJ"/>
+                    <constraint firstItem="5MB-k7-4oQ" firstAttribute="top" secondItem="P3b-Dj-Ys4" secondAttribute="bottom" id="74s-gv-NaF"/>
                     <constraint firstItem="m1r-h5-j37" firstAttribute="top" secondItem="V8V-ef-rFU" secondAttribute="bottom" constant="30" id="77W-uT-kSP"/>
                     <constraint firstItem="2YA-Wo-U2D" firstAttribute="top" secondItem="V8V-ef-rFU" secondAttribute="top" constant="7" id="8cL-PT-zAX"/>
                     <constraint firstAttribute="trailing" secondItem="5MB-k7-4oQ" secondAttribute="trailing" id="AnX-Jl-G16"/>
@@ -144,8 +172,10 @@
                     <constraint firstAttribute="bottom" secondItem="5MB-k7-4oQ" secondAttribute="bottom" id="FAo-KC-8SR"/>
                     <constraint firstItem="m1r-h5-j37" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="H9x-eG-IVe"/>
                     <constraint firstAttribute="trailing" secondItem="2YA-Wo-U2D" secondAttribute="trailing" constant="29" id="HjJ-41-gj7"/>
+                    <constraint firstItem="WPf-eS-Y6d" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Hsw-lY-hep"/>
                     <constraint firstItem="bpb-io-mfM" firstAttribute="centerY" secondItem="m1r-h5-j37" secondAttribute="centerY" id="Kpf-5W-qP3"/>
                     <constraint firstItem="4Hc-qm-5AN" firstAttribute="leading" secondItem="C2h-I1-k3f" secondAttribute="trailing" constant="8" id="LqQ-oa-Wru"/>
+                    <constraint firstItem="5MB-k7-4oQ" firstAttribute="top" secondItem="WPf-eS-Y6d" secondAttribute="bottom" id="M2Z-VX-5xq"/>
                     <constraint firstItem="p0m-uI-eTo" firstAttribute="leading" secondItem="C2h-I1-k3f" secondAttribute="leading" id="Mlh-Hu-oB5"/>
                     <constraint firstItem="nPs-KQ-OAY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="35" id="NIS-SL-WxL"/>
                     <constraint firstItem="4Hc-qm-5AN" firstAttribute="centerY" secondItem="C2h-I1-k3f" secondAttribute="centerY" id="NYF-mI-Tbp"/>
@@ -160,6 +190,7 @@
                     <constraint firstAttribute="trailing" secondItem="nPs-KQ-OAY" secondAttribute="trailing" constant="42" id="aNf-tl-gxE"/>
                     <constraint firstAttribute="bottomMargin" secondItem="m1r-h5-j37" secondAttribute="bottom" constant="14.5" id="e0V-J2-5Yg"/>
                     <constraint firstItem="PUb-ls-HYR" firstAttribute="leading" secondItem="1PW-XL-Dkr" secondAttribute="trailing" constant="5" id="ell-KH-QqV"/>
+                    <constraint firstItem="P3b-Dj-Ys4" firstAttribute="leading" secondItem="WPf-eS-Y6d" secondAttribute="trailing" constant="8" id="fHd-2k-rbm"/>
                     <constraint firstItem="MHP-Z5-cuT" firstAttribute="leading" secondItem="nPs-KQ-OAY" secondAttribute="leading" constant="-15" id="fWQ-G2-gwU"/>
                     <constraint firstItem="V8V-ef-rFU" firstAttribute="leading" secondItem="m1r-h5-j37" secondAttribute="leading" id="gAB-dO-M9a"/>
                     <constraint firstItem="PUb-ls-HYR" firstAttribute="centerY" secondItem="1PW-XL-Dkr" secondAttribute="centerY" id="iht-P5-eeU"/>
@@ -176,14 +207,18 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="changeLikeStatuButton" destination="WPf-eS-Y6d" id="dvM-d9-hue"/>
                 <outlet property="curatorAvatarImageView" destination="xXw-6f-BJO" id="Oax-qo-Nze"/>
                 <outlet property="likeCountLabel" destination="Pog-ig-J9X" id="Z5j-WE-5Ry"/>
+                <outlet property="likeImageView" destination="m1r-h5-j37" id="EcD-F7-lcn"/>
+                <outlet property="likeLabel" destination="bpb-io-mfM" id="60e-qG-1ka"/>
                 <outlet property="producrOriginalPriceLabel" destination="4Hc-qm-5AN" id="kxQ-Lt-i8A"/>
                 <outlet property="productImageView" destination="V8V-ef-rFU" id="Rdo-y5-lON"/>
                 <outlet property="productNameLabel" destination="2YA-Wo-U2D" id="JXO-6H-JCQ"/>
                 <outlet property="productPriceLabel" destination="C2h-I1-k3f" id="5wJ-G6-rGt"/>
                 <outlet property="recommenDationLabel" destination="nPs-KQ-OAY" id="Oxt-cP-Ixt"/>
                 <outlet property="recommendCollectionView" destination="1dx-in-rSi" id="WyV-VL-UTW"/>
+                <outlet property="shareButton" destination="P3b-Dj-Ys4" id="wCt-PJ-EPh"/>
             </connections>
             <point key="canvasLocation" x="484" y="-45"/>
         </tableViewCell>

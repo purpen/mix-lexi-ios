@@ -18,10 +18,14 @@
 #import <MJExtension/MJExtension.h>
 #import "THNAPI.h"
 #import "THNObtainedView.h"
+#import "THNTextTool.h"
+#import "UIColor+Extension.h"
 
 static NSString *const krecommendCellIdentifier = @"krecommendCellIdentifier";
+// 添加或移除用户喜欢
+static NSString *const kUrlUserLike = @"/userlike";
 // 喜欢商品的用户
-static NSString *const kUrlLikeProductUser = @"/product/userlike";
+static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 @interface THNLivingHallRecommendTableViewCell()<UICollectionViewDataSource>
 
@@ -34,6 +38,9 @@ static NSString *const kUrlLikeProductUser = @"/product/userlike";
 @property (weak, nonatomic) IBOutlet UILabel *recommenDationLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *curatorAvatarImageView;
 @property (nonatomic, strong) NSArray *likeProductUserArray;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet UILabel *likeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
 
 @end
 
@@ -49,10 +56,11 @@ static NSString *const kUrlLikeProductUser = @"/product/userlike";
     [self.recommendCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:krecommendCellIdentifier];
 }
 
+// 喜欢商品的用户
 - (void)loadLikeProductUserData:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLikeProductUser requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlProductUserLike requestDictionary:params isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.likeProductUserArray = result.data[@"product_like_users"];
         [self.recommendCollectionView reloadData];
@@ -61,8 +69,60 @@ static NSString *const kUrlLikeProductUser = @"/product/userlike";
     }];
 }
 
+// 添加喜欢商品
+- (void)addLikeUser:(NSString *)rid {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = rid;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlUserLike requestDictionary:params isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self loadLikeProductUserData:rid];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+//移除喜欢商品
+- (void)removeLikeUser:(NSString *)rid {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = rid;
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlUserLike requestDictionary:params isSign:YES delegate:nil ];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self loadLikeProductUserData:rid];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (IBAction)delete:(id)sender {
-    [THNObtainedView show];
+    THNObtainedView *obtainedMuseumView = [THNObtainedView viewFromXib];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    obtainedMuseumView.frame = window.bounds;
+    [window addSubview:obtainedMuseumView];
+    [obtainedMuseumView.deleteButton addTarget:self action:@selector(deleteProduct) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)deleteProduct {
+    self.deleteProductBlock(self);
+}
+
+
+- (IBAction)changeLikeStatu:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    if (!sender.selected) {
+        self.likeLabel.textColor = [UIColor colorWithHexString:@"959fa7"];
+        self.likeImageView.image = [UIImage imageNamed:@"icon_humbsUp_gray"];
+        [self removeLikeUser:self.productModel.rid];
+       
+    } else {
+        self.likeLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+        self.likeImageView.image = [UIImage imageNamed:@"icon_humbsUp_green"];
+        [self addLikeUser:self.productModel.rid];
+        
+    }
+}
+
+- (IBAction)shareButton:(id)sender {
+    
 }
 
 - (void)setProductModel:(THNProductModel *)productModel {
@@ -70,9 +130,19 @@ static NSString *const kUrlLikeProductUser = @"/product/userlike";
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
     self.productNameLabel.text = productModel.name;
     self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
-    self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_price];
+    self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
     self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
     self.recommenDationLabel.text = productModel.features;
+    
+    if (self.productModel.is_like) {
+        self.likeLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+        self.likeImageView.image = [UIImage imageNamed:@"icon_humbsUp_green"];
+        self.changeLikeStatuButton.selected = YES;
+    } else {
+        self.likeLabel.textColor = [UIColor colorWithHexString:@"959fa7"];
+        self.likeImageView.image = [UIImage imageNamed:@"icon_humbsUp_gray"];
+        self.changeLikeStatuButton.selected = NO;
+    }
 }
 
 // 馆长信息头像

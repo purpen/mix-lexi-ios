@@ -18,7 +18,7 @@
 #import "THNBannerView.h"
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
-#import "THNLifeRecordModel.h"
+#import "THNGrassListModel.h"
 #import "THNLoginManager.h"
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
@@ -51,10 +51,21 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 @property (nonatomic, assign) FeaturedCellType cellType;
 @property (nonatomic, strong) NSString * pupularTitle;
 @property (nonatomic, strong) NSString *optimalTitle;
+@property (nonatomic, strong) NSString *grassListTitle;
+@property (nonatomic, strong) NSString *lifeAestheticTitle;
 @property (nonatomic, strong) NSArray *popularDataArray;
+@property (nonatomic, strong) NSArray *lifeAestheticDataArray;
 @property (nonatomic, strong) NSArray *optimalDataArray;
-@property (nonatomic, strong) NSArray *lifeRecordDataArray;
+@property (nonatomic, strong) NSArray *grassListDataArray;
 @property (nonatomic, strong) NSMutableArray *grassLabelHeights;
+@property (nonatomic, assign) NSInteger pageCount;
+// 人气推荐单次请求数据数量
+@property (nonatomic, assign) NSInteger pupularPerPageCount;
+// 优选单次请求数据数量
+@property (nonatomic, assign) NSInteger optimalPerPageCount;
+//种草清单请求数据数量
+@property (nonatomic, assign) NSInteger grassListPerPageCount;
+
 
 @end
 
@@ -62,6 +73,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initPageNumber];
     [self loadTopBannerData];
     [self loadContentBannerData];
     [self loadPupularData];
@@ -74,6 +86,14 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     return [super initWithStyle:UITableViewStyleGrouped];
+}
+
+// 初始化页码
+- (void)initPageNumber {
+    self.pageCount = 1;
+    self.pupularPerPageCount = 5;
+    self.optimalPerPageCount = 4;
+    self.grassListPerPageCount = 4;
 }
 
 - (void)setupUI {
@@ -103,15 +123,17 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (void)loadContentBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.bannerView.bannerDataArray = result.data[@"banner_images"];
-        [self.bannerView.collectionView reloadData];
+        [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 // 人气推荐
 - (void)loadPupularData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:nil isSign:YES delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.pageCount);
+    params[@"per_page"] = @(self.pupularPerPageCount);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.pupularTitle = result.data[@"title"];
         self.popularDataArray = result.data[@"products"];
@@ -125,15 +147,22 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (void)loadLifeAestheticData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.lifeAestheticTitle = result.data[@"title"];
+       
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"searchHis" ofType:@"json"]];
+    NSDictionary *result = [data mj_JSONObject];
+    self.lifeAestheticDataArray = result[@"data"][@"daily_recommends"];
 }
 
 //优选
 - (void)loadOptimalData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:nil isSign:YES delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.pageCount);
+    params[@"per_page"] = @(self.optimalPerPageCount);
+    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.optimalTitle = result.data[@"title"];
         self.optimalDataArray = result.data[@"products"];
@@ -145,9 +174,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 //种草清单
 - (void)loadGrassListData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:nil isSign:YES delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.pageCount);
+    params[@"per_page"] = @(self.grassListPerPageCount);
+    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.lifeRecordDataArray = result.data[@"life_records"];
+        self.grassListDataArray = result.data[@"life_records"];
+        self.grassListTitle = result.data[@"title"];
        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
 
@@ -160,6 +193,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
         headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
+        [self.openingView loadLivingHallHeadLineData];
         [headerView addSubview:self.openingView];
         __weak typeof(self)weakSelf = self;
         self.openingView.openingBlcok = ^{
@@ -229,16 +263,19 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         case FeaturedRecommendedToday:
             break;
         case FeaturedLifeAesthetics:
+            dataArray = self.lifeAestheticDataArray;
+            title = self.lifeAestheticTitle;
             break;
         case FearuredOptimal:
             dataArray = self.optimalDataArray;
             title = self.optimalTitle;
             break;
         case FearuredGrassList:
+            title = self.grassListTitle;
             cell.grassLabelHeights = self.grassLabelHeights;
-            dataArray = self.lifeRecordDataArray;
+            dataArray = self.grassListDataArray;
             break;
-        case FeaturedRecommendationPopular:
+        default:
             dataArray = self.popularDataArray;
             title = self.pupularTitle;
             break;
@@ -276,8 +313,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             __block CGFloat secondRowMaxcontentHeight = 0;
             // 多次执行该方法造成重复的计算
             if (self.grassLabelHeights.count == 0) {
-                [self.lifeRecordDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:obj];
+                [self.grassListDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
                     //  设置最大size
                     CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
                     CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
@@ -285,8 +322,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                     CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
                     NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
                     NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
-                    CGFloat titleHeight = [lifeRecordModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-                    CGFloat contentHeight = [lifeRecordModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+                    CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+                    CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
                     
                     // 取出第一列最大的titleLabel和contentLabel的高度
                     if (idx <= 1) {
