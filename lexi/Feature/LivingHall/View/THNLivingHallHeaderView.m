@@ -21,12 +21,12 @@
 #import "UIColor+Extension.h"
 #import "THNProductModel.h"
 #import "THNLivingHallMuseumView.h"
+#import "THNSaveTool.h"
+#import "THNConst.h"
 
 static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
-// 商家生活馆的名字，描述文字等
+// 商家生活馆的信息
 static NSString *const kUrlLifeStore = @"/store/life_store";
-// 商家生活馆的头像
-static NSString *const kUrlLifeStoreAvatar = @"/store/small_b_avatar";
 // 选品中心
 static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 
@@ -45,6 +45,8 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 @property (weak, nonatomic) IBOutlet UIImageView *insideImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *outsideImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *middleImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *promptViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIView *promptView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionTitleConstraint;
 @property (nonatomic, strong) THNLoginManager *loginManger;
 @property (nonatomic, strong) NSArray *userPartieArray;
@@ -79,13 +81,17 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
         }
         self.selectionTitleConstraint.constant = 3;
     }
+    
+    if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
+        self.promptViewHeightConstraint.constant = 0;
+        self.promptView.hidden = YES;
+    }
 }
 
 - (void)setLifeStore {
     THNLoginManager *loginManger = [THNLoginManager sharedManager];
     self.loginManger = loginManger;
     [self loadLifeStoreData];
-    [self loadLifeStoreAvatarData];
     [self loadLifeStoreVisitorData];
     [self loadSelectProductCenterData];
 }
@@ -97,17 +103,9 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSString *storeName = result.data[@"name"];
         self.desLabel.text = result.data[@"description"];
-        self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
-}
-
-- (void)loadLifeStoreAvatarData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStoreAvatar requestDictionary:nil isSign:YES delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.storeAvatarUrl = result.data[@"avatar"];
+        self.storeAvatarUrl = result.data[@"logo"];
         [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:self.storeAvatarUrl]];
+        self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -169,11 +167,22 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 }
 
 - (IBAction)edit:(id)sender {
-    [THNLivingHallMuseumView show];
+    THNLivingHallMuseumView *hallMuseumView = [THNLivingHallMuseumView viewFromXib];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    hallMuseumView.frame = window.bounds;
+    [window addSubview:hallMuseumView];
+    
+    __weak typeof(self)weakSelf = self;
+    hallMuseumView.reloadLivingHallBlock = ^{
+        [weakSelf loadLifeStoreData];
+    };
 }
 
 - (IBAction)close:(id)sender {
-    
+    self.promptViewHeightConstraint.constant = 0;
+    self.promptView.hidden = YES;
+    [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
+    self.changeHeaderViewBlock();
 }
 
 - (IBAction)goSelection:(id)sender {

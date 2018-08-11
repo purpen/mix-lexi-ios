@@ -9,6 +9,10 @@
 #import "THNLivingHallMuseumView.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNAPI.h"
+#import "THNLoginManager.h"
+
+static NSString *const kUrlEditStore = @"/store/edit_store";
 
 @interface THNLivingHallMuseumView()
 
@@ -38,12 +42,17 @@
     textView.alpha = 1;
 }
 
-+ (instancetype)show {
-    THNLivingHallMuseumView *hallMuseumView = [THNLivingHallMuseumView viewFromXib];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    hallMuseumView.frame = window.bounds;
-    [window addSubview:hallMuseumView];
-    return hallMuseumView;
+- (void)editStore {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = [THNLoginManager sharedManager].storeRid;
+    params[@"name"] = self.nameTextView.text;
+    params[@"description"] =  self.introductionTextView.text;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+         self.reloadLivingHallBlock();
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 - (IBAction)close:(id)sender {
@@ -51,6 +60,7 @@
 }
 
 - (IBAction)save:(id)sender {
+    [self editStore];
     [self removeFromSuperview];
 }
 

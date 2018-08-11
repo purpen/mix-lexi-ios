@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
+		4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25F212211EC68E00115E57 /* THNGrassListModel.m */; };
 		4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */; };
 		4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */; };
 		4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */; };
+		4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D0211D30D2001CA9DD /* THNSaveTool.m */; };
+		4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D3211D5C0D001CA9DD /* THNTextTool.m */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
@@ -129,11 +133,18 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
+		4B25F20F211EA79F00115E57 /* searchHis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchHis.json; sourceTree = "<group>"; };
+		4B25F211211EC68E00115E57 /* THNGrassListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGrassListModel.h; sourceTree = "<group>"; };
+		4B25F212211EC68E00115E57 /* THNGrassListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGrassListModel.m; sourceTree = "<group>"; };
 		4B2656C6211AE1D1001CA9DD /* THNUserPartieModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserPartieModel.h; sourceTree = "<group>"; };
 		4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserPartieModel.m; sourceTree = "<group>"; };
 		4B2656C9211C187E001CA9DD /* THNLivingHallExpandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallExpandView.h; sourceTree = "<group>"; };
 		4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallExpandView.m; sourceTree = "<group>"; };
 		4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNLivingHallExpandView.xib; sourceTree = "<group>"; };
+		4B2656CF211D30D2001CA9DD /* THNSaveTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSaveTool.h; sourceTree = "<group>"; };
+		4B2656D0211D30D2001CA9DD /* THNSaveTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSaveTool.m; sourceTree = "<group>"; };
+		4B2656D2211D5C0D001CA9DD /* THNTextTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTextTool.h; sourceTree = "<group>"; };
+		4B2656D3211D5C0D001CA9DD /* THNTextTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTextTool.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -371,6 +382,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		4B2656CE211D3074001CA9DD /* ThnTools */ = {
+			isa = PBXGroup;
+			children = (
+				4B2656CF211D30D2001CA9DD /* THNSaveTool.h */,
+				4B2656D0211D30D2001CA9DD /* THNSaveTool.m */,
+				4B2656D2211D5C0D001CA9DD /* THNTextTool.h */,
+				4B2656D3211D5C0D001CA9DD /* THNTextTool.m */,
+			);
+			path = ThnTools;
+			sourceTree = "<group>";
+		};
 		7D44224FF682DC37BFD7E904 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +405,7 @@
 		D85DA7A92106030100A36A71 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
+				4B2656CE211D3074001CA9DD /* ThnTools */,
 				D85DA7AA2106030100A36A71 /* Network */,
 				D85DA7B12106030100A36A71 /* Utils */,
 			);
@@ -773,6 +796,8 @@
 				D8BAC926211A949100667D6F /* THNLifeRecordModel.m */,
 				D8BAC929211A949100667D6F /* THNProductModel.h */,
 				D8BAC927211A949100667D6F /* THNProductModel.m */,
+				4B25F211211EC68E00115E57 /* THNGrassListModel.h */,
+				4B25F212211EC68E00115E57 /* THNGrassListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -976,6 +1001,7 @@
 		D8EECAC620D9E7F800BB63F4 /* lexi */ = {
 			isa = PBXGroup;
 			children = (
+				4B25F20F211EA79F00115E57 /* searchHis.json */,
 				D85DA7C92106030100A36A71 /* AppEntry */,
 				D8BAC8C9211A949100667D6F /* Feature */,
 				D85DA7D42106030100A36A71 /* Config */,
@@ -1067,6 +1093,7 @@
 				D8BAC9B3211A949100667D6F /* THNActivityView.xib in Resources */,
 				D8BAC9B5211A949100667D6F /* THNGrassListCollectionViewCell.xib in Resources */,
 				D8BAC9A0211A949100667D6F /* THNBrandCollectionViewCell.xib in Resources */,
+				4B25F210211EA79F00115E57 /* searchHis.json in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				D8BAC999211A949100667D6F /* THNLivingHallMuseumView.xib in Resources */,
 				D8BAC993211A949100667D6F /* THNLivingHallHeaderView.xib in Resources */,
@@ -1145,6 +1172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
+				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
@@ -1199,6 +1227,7 @@
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
 				D8BAC98A211A949100667D6F /* THNDiscoverViewController.m in Sources */,
+				4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */,
 				4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */,
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
@@ -1211,6 +1240,7 @@
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,
 				D85DA8092106030200A36A71 /* AppDelegate.m in Sources */,
 				D8BAC9B9211A949100667D6F /* THNCollectionViewFlowLayout.m in Sources */,
+				4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */,
 				D85DA7FB2106030200A36A71 /* THNRequest.m in Sources */,
 				D8BAC99F211A949100667D6F /* THNCategoriesCollectionView.m in Sources */,
 				D8BAC994211A949100667D6F /* THNLivingHallRecommendTableViewCell.m in Sources */,
