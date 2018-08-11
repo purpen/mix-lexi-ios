@@ -42,6 +42,11 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 @property (nonatomic, strong) NSString *storeRid;
 
+/**
+ 是否小B用户
+ */
+@property (nonatomic, assign) BOOL openingUser;
+
 + (instancetype)sharedManager;
 
 /**
