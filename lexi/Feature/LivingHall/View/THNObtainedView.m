@@ -22,14 +22,6 @@
     [self.backGroundView drawCornerWithType:0 radius:4];
 }
 
-+ (instancetype)show {
-    THNObtainedView *obtainedMuseumView = [THNObtainedView viewFromXib];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    obtainedMuseumView.frame = window.bounds;
-    [window addSubview:obtainedMuseumView];
-    return obtainedMuseumView;
-}
-
 - (IBAction)delete:(id)sender {
     [self removeFromSuperview];
 }

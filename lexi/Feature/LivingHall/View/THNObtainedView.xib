@@ -21,14 +21,14 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jff-D7-YEi">
                             <rect key="frame" x="0.0" y="83.5" width="220" height="0.5"/>
-                            <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="Wy5-2A-j03"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7L5-AJ-2eL">
                             <rect key="frame" x="110.5" y="84" width="0.5" height="44"/>
-                            <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="UPN-qM-54d"/>
                                 <constraint firstAttribute="width" constant="0.5" id="W8O-pY-Yor"/>
@@ -43,7 +43,7 @@
                                 <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
-                                <action selector="delete:" destination="iN0-l3-epB" eventType="touchUpInside" id="xjH-2N-Cpe"/>
+                                <action selector="delete:" destination="iN0-l3-epB" eventType="touchUpInside" id="gHX-L1-rSD"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2g-rT-56z">
@@ -106,6 +106,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backGroundView" destination="pbr-hW-3Tv" id="swd-Um-ejh"/>
+                <outlet property="deleteButton" destination="5cf-zH-YDT" id="0ml-5d-qsQ"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="73.5"/>
         </view>

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^DeleteProductBlock)(UITableViewCell *cell);
+
 @class THNProductModel;
 
 @interface THNLivingHallRecommendTableViewCell : UITableViewCell
@@ -15,5 +17,7 @@
 @property (nonatomic, strong) THNProductModel *productModel;
 - (void)setCurtorAvatar:(NSString *)storeAvatarUrl;
 - (void)loadLikeProductUserData:(NSString *)rid;
+@property (nonatomic, copy) DeleteProductBlock deleteProductBlock;
+@property (weak, nonatomic) IBOutlet UIButton *changeLikeStatuButton;
 
 @end

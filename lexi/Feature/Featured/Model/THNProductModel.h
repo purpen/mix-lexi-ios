@@ -21,5 +21,11 @@
 @property (nonatomic, assign) NSInteger like_count;
 // 商品推荐语
 @property (nonatomic, strong) NSString *features;
+// 是否包邮
+@property (nonatomic, assign) BOOL is_free_postage;
+// 是否售罄
+@property (nonatomic, assign) BOOL is_sold_out;
+// 是否喜欢
+@property (nonatomic, assign) BOOL is_like;
 
 @end

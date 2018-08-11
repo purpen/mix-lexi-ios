@@ -10,6 +10,6 @@
 
 @interface THNObtainedView : UIView
 
-+ (instancetype)show;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 
 @end

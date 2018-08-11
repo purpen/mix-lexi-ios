@@ -54,3 +54,6 @@ UIKIT_EXTERN NSString *const kColorTabDefault;
 UIKIT_EXTERN NSString *const kColorTabSelected;
 UIKIT_EXTERN NSString *const kColorNavTitle;
 
+#pragma mark - 本地记录状态
+UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
+UIKIT_EXTERN NSString *const kLoginSuccess;
