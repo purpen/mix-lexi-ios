@@ -29,14 +29,13 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupUI];
 }
 
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
-    
     return [super initWithStyle:UITableViewStyleGrouped];
-    
 }
 
 - (void)setupUI {
@@ -46,7 +45,6 @@ static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecomme
     [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
     self.tableView.estimatedRowHeight = 400;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
 }
 
 
