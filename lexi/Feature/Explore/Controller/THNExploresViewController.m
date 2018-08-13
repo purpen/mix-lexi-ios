@@ -54,13 +54,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 @property (nonatomic, strong) NSArray *productNewDataArray;
 @property (nonatomic, strong) NSArray *goodDesignDataArray;
 @property (nonatomic, strong) NSArray *setDataArray;
-@property (nonatomic, strong) NSString * recommendTitle;
+@property (nonatomic, strong) NSString *recommendTitle;
 @property (nonatomic, strong) NSString *brandHallTitle;
 @property (nonatomic, strong) NSString *productNewTitle;
 @property (nonatomic, strong) NSString *setTitle;
 @property (nonatomic, strong) NSString *goodDesignTitle;
 @property (nonatomic, strong) NSString *goodThingTitle;
-
 
 @end
 
@@ -68,6 +67,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self loadBannerData];
     [self loadCategorieData];
     [self loadRecommendData];
@@ -199,7 +199,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNExploreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
-        cell = [[[NSBundle mainBundle]loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
     
     NSArray *dataArray = [NSArray array];
@@ -284,8 +284,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (THNCategoriesCollectionView *)categoriesCollectionView {
     if (!_categoriesCollectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:25 initWithWidth:kCaregoriesCellWidth initwithHeight:kCategoriesViewHeight];
-        _categoriesCollectionView = [[THNCategoriesCollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight) collectionViewLayout:layout];
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
+                                                                                       initWithWidth:kCaregoriesCellWidth
+                                                                                      initwithHeight:kCategoriesViewHeight];
+        _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: \
+                                     CGRectMake(20, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight)
+                                                                  collectionViewLayout:layout];
     }
     return _categoriesCollectionView;
 }
