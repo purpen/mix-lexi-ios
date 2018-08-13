@@ -62,6 +62,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self loadTopBannerData];
     [self loadContentBannerData];
     [self loadPupularData];
@@ -169,13 +170,11 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                 THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
                 [weakSelf presentViewController:navController animated:YES completion:nil];
             }
-            
         };
         return headerView;
     } else {
         return nil;
     }
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -184,7 +183,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     } else {
         return 0;
     }
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
