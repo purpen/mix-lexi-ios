@@ -26,9 +26,9 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wechat_circle" translatesAutoresizingMaskIntoConstraints="NO" id="Ynt-TR-LDH">
-                        <rect key="frame" x="0.0" y="185" width="20" height="20"/>
+                        <rect key="frame" x="0.0" y="185.5" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="6U8-UH-5IE"/>
+                            <constraint firstAttribute="width" constant="20" id="6U8-UH-5IE" userLabel=" "/>
                             <constraint firstAttribute="height" constant="20" id="jN4-gL-n8h"/>
                         </constraints>
                     </imageView>
@@ -41,7 +41,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ricky" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zsl-tO-G0N">
-                        <rect key="frame" x="25" y="186.5" width="31.5" height="17"/>
+                        <rect key="frame" x="25" y="187" width="31.5" height="17"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -72,11 +72,13 @@
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="345" height="224"/>
             <connections>
+                <outlet property="avatarImageView" destination="Ynt-TR-LDH" id="5bA-Yn-b5j"/>
                 <outlet property="contentLabel" destination="r4B-Dd-CCw" id="Mof-Mx-YIE"/>
+                <outlet property="nameLabel" destination="Zsl-tO-G0N" id="fWo-eA-1pe"/>
                 <outlet property="productImageView" destination="Xio-2M-sXg" id="mEs-fc-Of7"/>
                 <outlet property="titleLabel" destination="muI-cS-IM1" id="N0b-Ug-5jc"/>
             </connections>
-            <point key="canvasLocation" x="21.5" y="86"/>
+            <point key="canvasLocation" x="307.5" y="65"/>
         </collectionViewCell>
     </objects>
     <resources>
