@@ -11,10 +11,11 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "THNLoginManager.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kUrlEditStore = @"/store/edit_store";
 
-@interface THNLivingHallMuseumView()
+@interface THNLivingHallMuseumView()<UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *backGroundView;
 @property (weak, nonatomic) IBOutlet UILabel *nameCountLabel;
@@ -33,6 +34,9 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     [self.backGroundView drawCornerWithType:0 radius:4];
     [self layotuTextViewStyle:self.introductionTextView];
     [self layotuTextViewStyle:self.nameTextView];
+    self.nameTextView.delegate = self;
+    self.introductionTextView.delegate = self;
+    self.nameTextView.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
 }
 
 - (void)layotuTextViewStyle:(UITextView *)textView {
@@ -62,6 +66,21 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
 - (IBAction)save:(id)sender {
     [self editStore];
     [self removeFromSuperview];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([textView isKindOfClass:self.nameTextView.class]) {
+        if (textView.text.length > 16) {
+            textView.editable = NO;
+            [SVProgressHUD showInfoWithStatus:@"不得超过16字"];
+        }
+    } else {
+        if (textView.text.length > 40) {
+            textView.editable = NO;
+            [SVProgressHUD showInfoWithStatus:@"不得超过40字"];
+        }
+    }
+    
 }
 
 @end

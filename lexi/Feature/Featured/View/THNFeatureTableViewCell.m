@@ -18,12 +18,15 @@
 #import "THNMarco.h"
 #import "THNGrassListModel.h"
 #import "THNLifeRecordModel.h"
+#import "THNDailyRecommendModel.h"
+#import "THNDailyRecommendCollectionViewCell.h"
 
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
-static NSString *const kTodayCellIdentifier = @"kTodayCellIdentifier";
+static NSString *const kProductCellIdentifier = @"kProductCellIdentifier";
 static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
+static NSString *const kDailyRecommendCellIdentifier = @"kDailyRecommendCellIdentifier";
 
-CGFloat const kCellTodayHeight = 180;
+CGFloat const kCellTodayHeight = 195;
 CGFloat const kCellPopularHeight = 330;
 CGFloat const kCellLifeAestheticsHeight = 293.5;
 CGFloat const kCellOptimalHeight = 200;
@@ -40,6 +43,7 @@ CGFloat const kCellGrassListHeight = 158;
 @property (nonatomic, strong) NSArray *grassListDataArray;
 @property (nonatomic, strong) NSArray *weekPopularDataArray;
 @property (nonatomic, strong) NSArray *lifeAestheticDataArray;
+@property (nonatomic, strong) NSArray *dailyDataArray;
 
 @end
 
@@ -48,8 +52,9 @@ CGFloat const kCellGrassListHeight = 158;
 - (void)awakeFromNib {
     [super awakeFromNib];
    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
-    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kTodayCellIdentifier];
+    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kGrassListCellIdentifier];
+     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNDailyRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kDailyRecommendCellIdentifier];
     self.productCollectionView.delegate = self;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
@@ -59,6 +64,7 @@ CGFloat const kCellGrassListHeight = 158;
     self.cellType = cellType;
     switch (cellType) {
         case FeaturedRecommendedToday:
+            self.dailyDataArray = dataArray;
             break;
         case FeaturedRecommendationPopular:
             self.popularDataArray = dataArray;
@@ -134,7 +140,7 @@ CGFloat const kCellGrassListHeight = 158;
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (self.cellType) {
         case FeaturedRecommendedToday:
-            return 10;
+            return self.dailyDataArray.count;
             break;
         case FeaturedLifeAesthetics:
             return self.lifeAestheticDataArray.count;
@@ -163,30 +169,28 @@ CGFloat const kCellGrassListHeight = 158;
         return cell;
     }else if (self.cellType == FearuredGrassList) {
         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
-        
-        if (self.grassListDataArray.count > 0) {
             THNGrassListModel *grassListModel =  [THNGrassListModel mj_objectWithKeyValues:self.grassListDataArray[indexPath.row]];
             [cell setGrassListModel:grassListModel];
-        }
-        
         return cell;
         
     }else if (self.cellType == FeaturedRecommendedToday) {
-         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
+          THNDailyRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDailyRecommendCellIdentifier forIndexPath:indexPath];
+        THNDailyRecommendModel *dailyRecommendModel = [THNDailyRecommendModel mj_objectWithKeyValues:self.dailyDataArray[indexPath.row]];
+        [cell setDailyRecommendModel:dailyRecommendModel];
          return cell;
     } else {
-        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTodayCellIdentifier forIndexPath:indexPath];
+        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
         THNProductModel *productModel;
         
-        if (self.popularDataArray.count > 0) {
+        if (self.cellType == FeaturedRecommendationPopular) {
             productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
         }
         
-        if (self.optimalDataArray.count > 0) {
+        if (self.cellType == FearuredOptimal) {
             productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
         }
         
-        if (self.weekPopularDataArray.count > 0) {
+        if (self.cellType == FeaturedNo) {
             productModel = [THNProductModel mj_objectWithKeyValues:self.weekPopularDataArray[indexPath.row]];
         }
            
