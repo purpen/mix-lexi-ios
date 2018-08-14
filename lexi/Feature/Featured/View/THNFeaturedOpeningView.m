@@ -51,10 +51,6 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     }];
 }
 
-
-
-
-
 - (IBAction)opening:(id)sender {
     self.openingBlcok();
 }

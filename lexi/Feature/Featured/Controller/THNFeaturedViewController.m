@@ -22,6 +22,7 @@
 #import "THNLoginManager.h"
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
+#import "THNShopWindowViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -30,6 +31,8 @@ static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 // 顶部banner
 static NSString *const kUrlBannersHandpickTop = @"/banners/handpick";
+// 今日推荐
+static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";
 // 人气推荐
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 // 发现生活美学
@@ -49,23 +52,26 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) FeaturedCellType cellType;
-@property (nonatomic, strong) NSString * pupularTitle;
+@property (nonatomic, strong) NSString * popularTitle;
+@property (nonatomic, strong) NSString * dailyTitle;
 @property (nonatomic, strong) NSString *optimalTitle;
 @property (nonatomic, strong) NSString *grassListTitle;
 @property (nonatomic, strong) NSString *lifeAestheticTitle;
+@property (nonatomic, strong) NSArray *dailyDataArray;
 @property (nonatomic, strong) NSArray *popularDataArray;
 @property (nonatomic, strong) NSArray *lifeAestheticDataArray;
 @property (nonatomic, strong) NSArray *optimalDataArray;
 @property (nonatomic, strong) NSArray *grassListDataArray;
 @property (nonatomic, strong) NSMutableArray *grassLabelHeights;
 @property (nonatomic, assign) NSInteger pageCount;
+// 今日推荐单次请求数据数量
+@property (nonatomic, assign) NSInteger dailyPerPageCount;
 // 人气推荐单次请求数据数量
 @property (nonatomic, assign) NSInteger pupularPerPageCount;
 // 优选单次请求数据数量
 @property (nonatomic, assign) NSInteger optimalPerPageCount;
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
-
 
 @end
 
@@ -76,6 +82,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     [self initPageNumber];
     [self loadTopBannerData];
     [self loadContentBannerData];
+    [self loadDailyRecommendData];
     [self loadPupularData];
     [self loadOptimalData];
     [self loadLifeAestheticData];
@@ -128,6 +135,23 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         
     }];
 }
+
+// 今日推荐
+- (void)loadDailyRecommendData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.pageCount);
+    params[@"per_page"] = @(self.dailyPerPageCount);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params isSign:YES delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.dailyTitle = result.data[@"title"];
+        self.dailyDataArray = result.data[@"daily_recommends"];
+        // 刷新全部列表，刷新单独第一节的话也刷新了headerView导致错乱的BUG
+        [self.tableView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 // 人气推荐
 - (void)loadPupularData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -135,7 +159,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     params[@"per_page"] = @(self.pupularPerPageCount);
     THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.pupularTitle = result.data[@"title"];
+        self.popularTitle = result.data[@"title"];
         self.popularDataArray = result.data[@"products"];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
@@ -187,7 +211,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     }];
 }
 
-#pragma mark - UITableViewDelegate mehtod 实现
+#pragma mark - UITableView mehtod 实现
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
@@ -261,6 +285,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     
     switch (self.cellType) {
         case FeaturedRecommendedToday:
+            dataArray = self.dailyDataArray;
+            title = self.dailyTitle;
             break;
         case FeaturedLifeAesthetics:
             dataArray = self.lifeAestheticDataArray;
@@ -277,7 +303,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         default:
             dataArray = self.popularDataArray;
-            title = self.pupularTitle;
+            title = self.popularTitle;
             break;
     }
     
@@ -362,6 +388,29 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     return 0;
     
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 0:
+            
+            break;
+        case 1:
+            break;
+        case 2:{
+            THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
+            [self.navigationController pushViewController:shopWindow animated:YES];
+        }
+            
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
