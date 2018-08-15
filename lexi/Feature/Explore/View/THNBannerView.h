@@ -10,7 +10,7 @@
 
 @interface THNBannerView : UIView
 
-@property (nonatomic, strong) NSArray *bannerDataArray;
-@property (nonatomic, strong) UICollectionView *collectionView;
+- (void)setBannerView:(NSArray *)array;
+
 
 @end

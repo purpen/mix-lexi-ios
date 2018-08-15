@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ChangeHeaderViewBlock)(void);
+
 @interface THNLivingHallHeaderView : UIView
 
 @property (weak, nonatomic) IBOutlet UIView *noProductView;
+
+- (void)setLifeStore;
+@property (nonatomic, strong) NSString *storeAvatarUrl;
+@property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
 
 @end

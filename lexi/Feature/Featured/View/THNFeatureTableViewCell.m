@@ -16,6 +16,7 @@
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNMarco.h"
+#import "THNGrassListModel.h"
 #import "THNLifeRecordModel.h"
 
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
@@ -24,7 +25,7 @@ static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
 
 CGFloat const kCellTodayHeight = 180;
 CGFloat const kCellPopularHeight = 330;
-CGFloat const kCellLifeAestheticsHeight = 253.5;
+CGFloat const kCellLifeAestheticsHeight = 293.5;
 CGFloat const kCellOptimalHeight = 200;
 CGFloat const kCellGrassListHeight = 158;
 
@@ -36,7 +37,9 @@ CGFloat const kCellGrassListHeight = 158;
 @property (nonatomic, assign) FeaturedCellType cellType;
 @property (nonatomic, strong) NSArray *popularDataArray;
 @property (nonatomic, strong) NSArray *optimalDataArray;
-@property (nonatomic, strong) NSArray *lifeRecordDataArray;
+@property (nonatomic, strong) NSArray *grassListDataArray;
+@property (nonatomic, strong) NSArray *weekPopularDataArray;
+@property (nonatomic, strong) NSArray *lifeAestheticDataArray;
 
 @end
 
@@ -61,12 +64,16 @@ CGFloat const kCellGrassListHeight = 158;
             self.popularDataArray = dataArray;
             break;
         case FeaturedLifeAesthetics:
+            self.lifeAestheticDataArray = dataArray;
             break;
         case FearuredOptimal:
             self.optimalDataArray = dataArray;
             break;
         case FearuredGrassList:
-            self.lifeRecordDataArray = dataArray;
+            self.grassListDataArray = dataArray;
+            break;
+        case FeaturedNo:
+            self.weekPopularDataArray = dataArray;
             break;
     }
     self.titleLabel.text = title;
@@ -87,7 +94,6 @@ CGFloat const kCellGrassListHeight = 158;
     
     [self.productCollectionView setCollectionViewLayout:flowLayout];
 }
-
 
 #pragma mark UICollectionViewDelegateFlowLayout method 实现
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -115,6 +121,10 @@ CGFloat const kCellGrassListHeight = 158;
             itemWidth = (SCREEN_WIDTH - 49) / 2;
             itemHeight = kCellOptimalHeight;
             break;
+        case FeaturedNo:
+            itemWidth = (SCREEN_WIDTH - 49) / 2;
+            itemHeight = kCellOptimalHeight;
+            break;
     }
     
     return CGSizeMake(itemWidth, itemHeight);
@@ -127,16 +137,20 @@ CGFloat const kCellGrassListHeight = 158;
             return 10;
             break;
         case FeaturedLifeAesthetics:
-            return 10;
+            return self.lifeAestheticDataArray.count;
             break;
         case FearuredGrassList:
-            return self.lifeRecordDataArray.count;
+            return self.grassListDataArray.count;
             break;
         case FearuredOptimal:
             return self.optimalDataArray.count;
             break;
         case FeaturedRecommendationPopular:
-            return 5;
+            return self.popularDataArray.count;
+            break;
+        case FeaturedNo:
+            return self.weekPopularDataArray.count;
+            break;
     }
 }
 
@@ -144,13 +158,15 @@ CGFloat const kCellGrassListHeight = 158;
     
     if (self.cellType == FeaturedLifeAesthetics) {
         THNLifeAestheticsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLifeAestheticsCellIdentifier forIndexPath:indexPath];
+        THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+        [cell setLifeRecordModel:lifeRecordModel];
         return cell;
     }else if (self.cellType == FearuredGrassList) {
         THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGrassListCellIdentifier forIndexPath:indexPath];
         
-        if (self.lifeRecordDataArray.count > 0) {
-            THNLifeRecordModel *lifeRecordModel =  [THNLifeRecordModel mj_objectWithKeyValues:self.lifeRecordDataArray[indexPath.row]];
-            [cell setLifeRecordModel:lifeRecordModel];
+        if (self.grassListDataArray.count > 0) {
+            THNGrassListModel *grassListModel =  [THNGrassListModel mj_objectWithKeyValues:self.grassListDataArray[indexPath.row]];
+            [cell setGrassListModel:grassListModel];
         }
         
         return cell;
@@ -169,8 +185,12 @@ CGFloat const kCellGrassListHeight = 158;
         if (self.optimalDataArray.count > 0) {
             productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
         }
+        
+        if (self.weekPopularDataArray.count > 0) {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.weekPopularDataArray[indexPath.row]];
+        }
            
-        [cell setProductModel:productModel];
+        [cell setProductModel:productModel initWithType:THNHomeTypeFeatured];
         return cell;
     
     }
