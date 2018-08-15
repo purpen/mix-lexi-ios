@@ -157,7 +157,7 @@ CGFloat const cellOtherHeight = 190;
             productModel = [THNProductModel mj_objectWithKeyValues:self.goodThingDataArray[indexPath.row]];
         }
         
-        [cell setProductModel:productModel];
+        [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
         return cell;
     }
 }

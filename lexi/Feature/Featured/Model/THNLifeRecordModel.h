@@ -1,5 +1,5 @@
 //
-//  THNLifeRecordModel.h
+//  THNGrassListModel.h
 //  lexi
 //
 //  Created by HongpingRao on 2018/8/6.
@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class THNProductModel;
+
 @interface THNLifeRecordModel : NSObject
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *content;
-@property (nonatomic, strong) NSString *cover;
+@property (nonatomic, strong) NSArray *user_avatar;
+@property (nonatomic, strong) NSString *user_name;
+@property (nonatomic, strong) NSString *des;
+@property (nonatomic, strong) NSArray <THNProductModel *> *products;
 
 @end
