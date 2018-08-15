@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25F212211EC68E00115E57 /* THNGrassListModel.m */; };
+		4B2644BD21229E8400665A6D /* THNDailyRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2644BC21229E8400665A6D /* THNDailyRecommendModel.m */; };
+		4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2644C82122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m */; };
+		4B2644CB2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644C92122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib */; };
+		4B2644CF2122D67C00665A6D /* THNShopWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2644CE2122D67C00665A6D /* THNShopWindowViewController.m */; };
 		4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */; };
 		4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656CA211C187E001CA9DD /* THNLivingHallExpandView.m */; };
 		4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */; };
@@ -136,6 +140,13 @@
 		4B25F20F211EA79F00115E57 /* searchHis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchHis.json; sourceTree = "<group>"; };
 		4B25F211211EC68E00115E57 /* THNGrassListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGrassListModel.h; sourceTree = "<group>"; };
 		4B25F212211EC68E00115E57 /* THNGrassListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGrassListModel.m; sourceTree = "<group>"; };
+		4B2644BB21229E8400665A6D /* THNDailyRecommendModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDailyRecommendModel.h; sourceTree = "<group>"; };
+		4B2644BC21229E8400665A6D /* THNDailyRecommendModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNDailyRecommendModel.m; sourceTree = "<group>"; };
+		4B2644C72122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDailyRecommendCollectionViewCell.h; sourceTree = "<group>"; };
+		4B2644C82122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNDailyRecommendCollectionViewCell.m; sourceTree = "<group>"; };
+		4B2644C92122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNDailyRecommendCollectionViewCell.xib; sourceTree = "<group>"; };
+		4B2644CD2122D67C00665A6D /* THNShopWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShopWindowViewController.h; sourceTree = "<group>"; };
+		4B2644CE2122D67C00665A6D /* THNShopWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShopWindowViewController.m; sourceTree = "<group>"; };
 		4B2656C6211AE1D1001CA9DD /* THNUserPartieModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserPartieModel.h; sourceTree = "<group>"; };
 		4B2656C7211AE1D1001CA9DD /* THNUserPartieModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserPartieModel.m; sourceTree = "<group>"; };
 		4B2656C9211C187E001CA9DD /* THNLivingHallExpandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallExpandView.h; sourceTree = "<group>"; };
@@ -373,6 +384,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4B2644CC2122D62D00665A6D /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				4B2644CD2122D67C00665A6D /* THNShopWindowViewController.h */,
+				4B2644CE2122D67C00665A6D /* THNShopWindowViewController.m */,
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
 		4B2656C5211AE186001CA9DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +548,7 @@
 				D8BAC8EB211A949100667D6F /* LivingHall */,
 				D8BAC8FC211A949100667D6F /* Explore */,
 				D8BAC921211A949100667D6F /* Featured */,
+				4B2644CC2122D62D00665A6D /* Window */,
 				D8BAC8D4211A949100667D6F /* Discover */,
 				D8BAC91D211A949100667D6F /* Cart */,
 				D8BAC8D8211A949100667D6F /* Inbox */,
@@ -798,6 +819,8 @@
 				D8BAC927211A949100667D6F /* THNProductModel.m */,
 				4B25F211211EC68E00115E57 /* THNGrassListModel.h */,
 				4B25F212211EC68E00115E57 /* THNGrassListModel.m */,
+				4B2644BB21229E8400665A6D /* THNDailyRecommendModel.h */,
+				4B2644BC21229E8400665A6D /* THNDailyRecommendModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -824,6 +847,9 @@
 				D8BAC93A211A949100667D6F /* THNLifeAestheticsCollectionViewCell.h */,
 				D8BAC930211A949100667D6F /* THNLifeAestheticsCollectionViewCell.m */,
 				D8BAC932211A949100667D6F /* THNLifeAestheticsCollectionViewCell.xib */,
+				4B2644C72122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.h */,
+				4B2644C82122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m */,
+				4B2644C92122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1093,6 +1119,7 @@
 				D8BAC9B3211A949100667D6F /* THNActivityView.xib in Resources */,
 				D8BAC9B5211A949100667D6F /* THNGrassListCollectionViewCell.xib in Resources */,
 				D8BAC9A0211A949100667D6F /* THNBrandCollectionViewCell.xib in Resources */,
+				4B2644CB2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib in Resources */,
 				4B25F210211EA79F00115E57 /* searchHis.json in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				D8BAC999211A949100667D6F /* THNLivingHallMuseumView.xib in Resources */,
@@ -1201,6 +1228,7 @@
 				D8BAC9D2211A949100667D6F /* THNNewUserInfoView.m in Sources */,
 				D8BAC9A5211A949100667D6F /* THNBannerView.m in Sources */,
 				D8BAC99D211A949100667D6F /* THNBannerModel.m in Sources */,
+				4B2644CF2122D67C00665A6D /* THNShopWindowViewController.m in Sources */,
 				D8BAC9BB211A949100667D6F /* THNGoodsInfoViewController.m in Sources */,
 				D8BAC9C5211A949100667D6F /* THNNewPasswordViewController.m in Sources */,
 				4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
@@ -1212,6 +1240,7 @@
 				D8BAC9D4211A949100667D6F /* THNBaseTabBarController.m in Sources */,
 				D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */,
 				D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */,
+				4B2644BD21229E8400665A6D /* THNDailyRecommendModel.m in Sources */,
 				D8BAC9AD211A949100667D6F /* THNLifeRecordModel.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
 				4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */,
@@ -1224,6 +1253,7 @@
 				D8BAC9B0211A949100667D6F /* THNFeatureTableViewCell.m in Sources */,
 				D85DA7DD2106030200A36A71 /* (null) in Sources */,
 				D8BAC991211A949100667D6F /* THNLivingHallViewController.m in Sources */,
+				4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */,
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
 				D8BAC98A211A949100667D6F /* THNDiscoverViewController.m in Sources */,

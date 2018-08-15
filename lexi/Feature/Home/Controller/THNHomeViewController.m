@@ -28,6 +28,9 @@
 @property (nonatomic, strong) UIView *lineView;
 // 当前控制器
 @property (nonatomic, strong) UIViewController *currentSubViewController;
+@property (nonatomic, strong) THNFeaturedViewController *featured;
+@property (nonatomic, strong) THNExploresViewController *explore;
+@property (nonatomic, strong) THNLivingHallViewController *livingHall;
 
 @end
 
@@ -36,18 +39,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavigationBar];
-   
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self claerSelectButtonView];
+    [self claer];
     [self setupUI];
 }
 
-- (void)claerSelectButtonView {
+// 登录成功刷新，清空再去更新视图
+- (void)claer {
    [self.selectButtonView removeFromSuperview];
     self.selectButtonView = nil;
+    [self.featured removeFromParentViewController];
+    [self.livingHall removeFromParentViewController];
+    [self.explore removeFromParentViewController];
 }
 
 - (void)setupUI {
@@ -80,12 +86,15 @@
     if ([THNLoginManager sharedManager].openingUser) {
         THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
         [self addChildViewController:livingHall];
+        self.livingHall = livingHall;
     }
-    
     THNFeaturedViewController *featured = [[THNFeaturedViewController alloc]init];
     [self addChildViewController:featured];
     THNExploresViewController *explore = [[THNExploresViewController alloc]init];
     [self addChildViewController:explore];
+   
+    self.featured = featured;
+    self.explore = explore;
     self.childViewControllers[0].view.frame = self.publicView.bounds;
     [self.publicView addSubview:self.childViewControllers[0].view];
     self.currentSubViewController = self.childViewControllers[0];

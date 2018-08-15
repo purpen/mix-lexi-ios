@@ -13,6 +13,7 @@
 #import "THNBannerModel.h"
 #import <MJExtension/MJExtension.h>
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
+#import "UIView+Helper.h"
 
 static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentifier";
 
@@ -24,6 +25,7 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
 @property (weak, nonatomic) IBOutlet UILabel *storePruductCountLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *pruductCollectionView;
 
+@property (weak, nonatomic) IBOutlet UIButton *flowButton;
 
 @end
 
@@ -43,7 +45,13 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
     self.pruductCollectionView.scrollEnabled = NO;
     [self.pruductCollectionView setCollectionViewLayout:flowLayout];
     [self.pruductCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandProductCellIdentifier];
+    [self.flowButton drawCornerWithType:0 radius:self.flowButton.viewHeight / 2];
 }
+
+- (IBAction)flow:(id)sender {
+    
+}
+
 
 - (void)setFeatureBrandModel:(THNFeaturedBrandModel *)featureBrandModel {
     _featureBrandModel = featureBrandModel;
