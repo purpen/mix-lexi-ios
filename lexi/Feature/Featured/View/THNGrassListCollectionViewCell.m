@@ -7,9 +7,9 @@
 //
 
 #import "THNGrassListCollectionViewCell.h"
-#import "THNLifeRecordModel.h"
+#import "THNGrassListModel.h"
 #import "UIImageView+WebCache.h"
-#import "THNLifeRecordModel.h"
+#import "THNGrassListModel.h"
 
 @interface THNGrassListCollectionViewCell()
 
@@ -26,11 +26,11 @@
     self.layer.cornerRadius = 4;
 }
 
--  (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
-    _lifeRecordModel = lifeRecordModel;
-    self.contentLabel.text = lifeRecordModel.content;
-    self.titleLabel.text = lifeRecordModel.title;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:lifeRecordModel.cover]];
+-  (void)setGrassListModel:(THNGrassListModel *)grassListModel {
+    _grassListModel = grassListModel;
+    self.contentLabel.text = grassListModel.content;
+    self.titleLabel.text = grassListModel.title;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]];
 }
 
 @end

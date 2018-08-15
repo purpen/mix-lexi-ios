@@ -46,6 +46,9 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_sall_out" translatesAutoresizingMaskIntoConstraints="NO" id="Rz3-Il-GYc">
+                        <rect key="frame" x="15" y="15" width="31" height="18"/>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
@@ -59,16 +62,20 @@
                 <constraint firstItem="U94-Z4-NGw" firstAttribute="top" secondItem="SEy-5g-ep8" secondAttribute="top" id="Qyd-iq-LA4"/>
                 <constraint firstItem="SEy-5g-ep8" firstAttribute="trailing" secondItem="U94-Z4-NGw" secondAttribute="trailing" id="RG6-Qk-p3o"/>
                 <constraint firstItem="eae-Dt-2dl" firstAttribute="leading" secondItem="Nvm-Kz-zbo" secondAttribute="trailing" constant="5" id="ka1-2V-G2e"/>
+                <constraint firstItem="Rz3-Il-GYc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="oT4-bn-crC"/>
                 <constraint firstItem="SEy-5g-ep8" firstAttribute="bottom" secondItem="op6-Hf-Zww" secondAttribute="bottom" id="rPA-qe-8lU"/>
+                <constraint firstItem="Rz3-Il-GYc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="shp-r5-EKZ"/>
                 <constraint firstItem="op6-Hf-Zww" firstAttribute="leading" secondItem="SEy-5g-ep8" secondAttribute="leading" id="wcV-cl-uxV"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="255" height="274"/>
             <connections>
+                <outlet property="nameLabelLeftConstraint" destination="ka1-2V-G2e" id="hDs-1L-Y3J"/>
                 <outlet property="producrOriginalPriceLabel" destination="hSL-qd-FAD" id="Ofi-2s-OyE"/>
                 <outlet property="productImageView" destination="U94-Z4-NGw" id="xzZ-es-qej"/>
                 <outlet property="productNameLabel" destination="eae-Dt-2dl" id="3ol-hL-5qj"/>
                 <outlet property="productPriceLabel" destination="op6-Hf-Zww" id="gOH-Sh-uN4"/>
+                <outlet property="sallOutImageView" destination="Rz3-Il-GYc" id="w7e-cW-dUG"/>
                 <outlet property="shippingImageView" destination="Nvm-Kz-zbo" id="63a-99-ool"/>
             </connections>
             <point key="canvasLocation" x="-55.5" y="58"/>
@@ -76,5 +83,6 @@
     </objects>
     <resources>
         <image name="icon_express_free" width="20" height="12"/>
+        <image name="icon_sall_out" width="31" height="18"/>
     </resources>
 </document>
