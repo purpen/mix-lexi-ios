@@ -72,18 +72,34 @@ static NSString *const kParamMobile         = @"mobile";
 - (void)thn_loginSuccessWithModeType:(THNLoginModeType)type {
     WEAKSELF;
     if (type == THNLoginModeTypePassword) {
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-        
+        [self back];
     } else if (type == THNLoginModeTypeVeriDynamic) {
         if ([THNLoginManager isFirstLogin]) {
             THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
             [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
             
         } else {
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            [self back];
         }
     }
 }
+
+- (void)back {
+    WEAKSELF;
+    [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
+        if (error) {
+            [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
+            return ;
+        }
+        
+        if (![result isSuccess]) {
+            [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
+            return;
+        }
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
 
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
@@ -98,7 +114,6 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
-        
         [weakSelf thn_loginSuccessWithModeType:type];
     }];
 }

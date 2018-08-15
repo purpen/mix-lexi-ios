@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *cover;
-
+@property (nonatomic, strong) NSString *user_name;
+@property (nonatomic, strong) NSString *user_avator;
 
 @end
