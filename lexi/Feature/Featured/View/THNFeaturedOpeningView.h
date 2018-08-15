@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNFeatureOpeningModel;
+
 typedef void(^OpeningBlcok)(void);
 
 @interface THNFeaturedOpeningView : UIView
 
 @property (nonatomic, copy) OpeningBlcok openingBlcok;
+- (void)loadLivingHallHeadLineData;
 
 @end

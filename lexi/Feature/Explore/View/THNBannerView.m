@@ -21,12 +21,21 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 @interface THNBannerView()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSArray *bannerDataArray;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end
 
 @implementation THNBannerView
+
+- (void)setBannerView:(NSArray *)array {
+    self.bannerDataArray = array;
+    [self.collectionView addSubview:self.pageControl];
+    [self layoutPageControl];
+    [self.collectionView reloadData];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -46,7 +55,6 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
         collectionView.delegate = self;
         collectionView.backgroundColor = [UIColor whiteColor];
         [collectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBannerCellIdentifier];
-        [collectionView addSubview:self.pageControl];
         self.collectionView = collectionView;
         [self addSubview:collectionView];
         self.layer.cornerRadius = 2.5;
@@ -73,7 +81,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
   
 }
 
-- (void)layoutSubviews {
+- (void)layoutPageControl {
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(self);
         make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));

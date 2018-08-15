@@ -26,6 +26,8 @@ static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
 static NSString *const kRequestFirstLogin   = @"is_first_login";
 static NSString *const kRequestToken        = @"token";
+static NSString *const kRequestStoreRid     = @"store_rid";
+static NSString *const kRequestIsSmallB     = @"is_small_b";
 
 @implementation THNLoginManager
 
@@ -57,8 +59,10 @@ MJCodingImplementation
         self.token = result.data[kRequestToken];
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
-        
+        self.storeRid = result.data[kRequestStoreRid];
+        self.openingUser = result.data[kRequestIsSmallB];
         [self saveLoginInfo];
+//        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
         completion(result, nil);

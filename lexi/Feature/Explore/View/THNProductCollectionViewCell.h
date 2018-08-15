@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, THNHomeType) {
+    THNHomeTypeExplore,
+    THNHomeTypeFeatured
+};
+
 @class THNProductModel;
 
 @interface THNProductCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) THNProductModel *productModel;
+- (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType;
 
 @end

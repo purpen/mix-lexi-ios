@@ -96,8 +96,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil isSign:YES delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.bannerView.bannerDataArray = result.data[@"banner_images"];
-        [self.bannerView.collectionView reloadData];
+        [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

@@ -13,7 +13,8 @@ typedef NS_ENUM(NSInteger, FeaturedCellType) {
     FeaturedRecommendationPopular,
     FeaturedLifeAesthetics,
     FearuredOptimal,
-    FearuredGrassList
+    FearuredGrassList,
+    FeaturedNo // 生活馆最后一个cell (本周最受欢迎)
 };
 
 UIKIT_EXTERN  CGFloat const kCellTodayHeight;
