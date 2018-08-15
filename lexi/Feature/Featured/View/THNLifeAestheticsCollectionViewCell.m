@@ -30,6 +30,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self drwaShadow];
+    [self.avatarImageView drawCornerWithType:0 radius:self.avatarImageView.viewHeight / 2];
 }
 
 - (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
