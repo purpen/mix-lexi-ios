@@ -55,6 +55,8 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 + (void)drawRectLineStart:(CGPoint)start end:(CGPoint)end width:(CGFloat)width color:(UIColor *)color;
 
+
+
 /**
  绘制圆角
 
@@ -72,7 +74,10 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 - (void)drawViewBorderType:(UIViewBorderLineType)type width:(CGFloat)width color:(UIColor *)color ;
 
-// 绘制阴影
+
+/**
+ 绘制阴影
+ */
 - (void)drwaShadow;
 
 /**
@@ -80,6 +85,11 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 + (instancetype)viewFromXib;
 
+
+/**
+ 灰色的View用于直线划分
+ */
++ (UIView *)initLineView:(CGRect)frame;
 
 /**
  view的属性 获取当前视图的 Height，Width，X, Y

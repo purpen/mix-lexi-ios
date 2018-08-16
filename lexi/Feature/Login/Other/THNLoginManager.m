@@ -60,7 +60,6 @@ MJCodingImplementation
         self.token = result.data[kRequestToken];
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
-//        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
         completion(result, nil);
