@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="345" height="224"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wechat_circle" translatesAutoresizingMaskIntoConstraints="NO" id="Xio-2M-sXg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wechat_circle" translatesAutoresizingMaskIntoConstraints="NO" id="Xio-2M-sXg">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="108"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="108" id="dnB-rG-yja"/>
@@ -78,7 +78,7 @@
                 <outlet property="productImageView" destination="Xio-2M-sXg" id="mEs-fc-Of7"/>
                 <outlet property="titleLabel" destination="muI-cS-IM1" id="N0b-Ug-5jc"/>
             </connections>
-            <point key="canvasLocation" x="307.5" y="65"/>
+            <point key="canvasLocation" x="95" y="65"/>
         </collectionViewCell>
     </objects>
     <resources>
