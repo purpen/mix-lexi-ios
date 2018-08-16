@@ -96,6 +96,7 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
+        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }

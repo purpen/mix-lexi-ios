@@ -31,6 +31,9 @@
     [super awakeFromNib];
     [self drwaShadow];
     [self.avatarImageView drawCornerWithType:0 radius:self.avatarImageView.viewHeight / 2];
+    self.rightTopImageView.layer.masksToBounds = YES;
+    self.rightBottomImageView.layer.masksToBounds = YES;
+    self.leftImageView.layer.masksToBounds = YES;
 }
 
 - (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
