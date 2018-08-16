@@ -27,7 +27,7 @@
                             <constraint firstAttribute="width" constant="28" id="27m-5n-yAZ"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wechat_circle" translatesAutoresizingMaskIntoConstraints="NO" id="V8V-ef-rFU">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_wechat_circle" translatesAutoresizingMaskIntoConstraints="NO" id="V8V-ef-rFU">
                         <rect key="frame" x="20" y="184.5" width="90" height="90"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="90" id="oeb-18-hhB"/>
@@ -220,7 +220,7 @@
                 <outlet property="recommendCollectionView" destination="1dx-in-rSi" id="WyV-VL-UTW"/>
                 <outlet property="shareButton" destination="P3b-Dj-Ys4" id="wCt-PJ-EPh"/>
             </connections>
-            <point key="canvasLocation" x="484" y="-45"/>
+            <point key="canvasLocation" x="601" y="-65"/>
         </tableViewCell>
     </objects>
     <resources>
