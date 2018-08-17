@@ -30,15 +30,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
-        [self.headerView thn_setUserInfoModel:model];
-    }];
-    
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     self.tableView.tableHeaderView = self.headerView;
     
     [self thn_setLikedGoodsTableViewCell];
     [self thn_setLikedWindowTableViewCell];
+    
+    [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
+        [self.headerView thn_setUserInfoModel:model];
+    }];
 }
 
 - (void)thn_setLikedGoodsTableViewCell {

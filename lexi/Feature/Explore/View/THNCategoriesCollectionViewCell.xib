@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="THNCategoriesCollectionViewCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" id="gTV-IL-0wX" customClass="THNCategoriesCollectionViewCell">
             <rect key="frame" x="0.0" y="0.0" width="204" height="153"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -55,7 +55,7 @@
                 <outlet property="desLabel" destination="dNE-t2-muG" id="N28-0L-yaS"/>
                 <outlet property="peopleNumberLabel" destination="8ur-xs-B4s" id="ASZ-QT-cjU"/>
             </connections>
-            <point key="canvasLocation" x="-93" y="27.5"/>
+            <point key="canvasLocation" x="-5" y="16"/>
         </collectionViewCell>
     </objects>
     <resources>
