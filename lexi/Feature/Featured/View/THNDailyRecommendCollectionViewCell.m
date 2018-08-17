@@ -9,6 +9,7 @@
 #import "THNDailyRecommendCollectionViewCell.h"
 #import "THNDailyRecommendModel.h"
 #import "UIImageView+WebCache.h"
+#import "UIView+Helper.h"
 
 @interface THNDailyRecommendCollectionViewCell()
 
@@ -24,12 +25,13 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.backImageView.layer.cornerRadius = 4;
+    self.backImageView.layer.masksToBounds = YES;
 }
 
 - (void)setDailyRecommendModel:(THNDailyRecommendModel *)dailyRecommendModel {
     _dailyRecommendModel = dailyRecommendModel;
     self.titleLabel.text = dailyRecommendModel.recommend_label;
-  
     self.subTitleLabel.text = dailyRecommendModel.recommend_title;
     self.contentLabel.text = dailyRecommendModel.recommend_description;
     [self.backImageView sd_setImageWithURL:[NSURL URLWithString:dailyRecommendModel.cover]];

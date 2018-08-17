@@ -39,12 +39,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavigationBar];
+    [self setupUI];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kLoginSuccess object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self claer];
-    [self setupUI];
+- (void)refreshLayoutHomeView {
+     [self claer];
+     [self setupUI];
 }
 
 // 登录成功刷新，清空再去更新视图
@@ -147,6 +148,10 @@
             self.currentSubViewController = self.childViewControllers[index];
         }
     }];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import <UIKit/UIKit.h>
 
 @implementation UIView (Helper)
 
@@ -233,6 +234,12 @@
     self.layer.shadowColor = [[UIColor colorWithHexString:@"000000"] CGColor];
     self.layer.borderColor = [[UIColor colorWithHexString:@"e9e9e9"] CGColor];
     self.layer.masksToBounds = NO;
+}
+
++ (UIView *)initLineView:(CGRect)frame {
+    UIView *lineView = [[UIView alloc]initWithFrame:frame];
+    lineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
+    return lineView;
 }
 
 + (instancetype)viewFromXib {
