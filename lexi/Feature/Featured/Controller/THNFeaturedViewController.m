@@ -409,7 +409,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     }
 }
 
-
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {

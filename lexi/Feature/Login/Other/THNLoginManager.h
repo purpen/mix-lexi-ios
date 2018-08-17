@@ -63,7 +63,6 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 + (BOOL)isFirstLogin;
 
-
 /**
  获取用户信息
  */
