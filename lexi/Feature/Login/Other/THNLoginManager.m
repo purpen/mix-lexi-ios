@@ -60,7 +60,7 @@ MJCodingImplementation
         self.token = result.data[kRequestToken];
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
-//        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
+
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
         completion(result, nil);
@@ -72,7 +72,9 @@ MJCodingImplementation
     }];
 }
 
-// 获取用户信息
+/**
+ 获取用户信息
+ */
 - (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile
                                   requestDictionary:nil
@@ -83,6 +85,7 @@ MJCodingImplementation
         self.openingUser = result.data[kRequestIsSmallB];
         [self saveLoginInfo];
         completion(result, nil);
+        
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
     }];
