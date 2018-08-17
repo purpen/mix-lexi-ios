@@ -158,7 +158,6 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
          THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
         [weakSelf deleteProduct:productModel.rid];
     };
-    cell.changeLikeStatuButton.tag = indexPath.row;
     return cell;
 }
 

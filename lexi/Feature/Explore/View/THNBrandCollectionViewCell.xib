@@ -98,7 +98,7 @@
                 <outlet property="storeNameLabel" destination="evq-sM-4pH" id="wAR-v2-Xuz"/>
                 <outlet property="storePruductCountLabel" destination="MxT-rb-x6h" id="BvI-FE-iRE"/>
             </connections>
-            <point key="canvasLocation" x="461" y="64.5"/>
+            <point key="canvasLocation" x="266" y="64"/>
         </collectionViewCell>
     </objects>
     <resources>
