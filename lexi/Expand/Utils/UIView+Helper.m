@@ -210,6 +210,20 @@
     [self.layer addSublayer:boderLineLayer];
 }
 
+#pragma mark - 绘制渐变色遮罩
+- (void)drawGradientMaskWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint colors:(NSArray *)hexColors {
+    CAGradientLayer *maskLayer = [CAGradientLayer layer];
+    maskLayer.frame = self.frame;
+    maskLayer.startPoint = startPoint;
+    maskLayer.endPoint = endPoint;
+    maskLayer.locations = @[@(0.5f), @(2.5f)];
+    maskLayer.colors = @[(__bridge id)[UIColor colorWithHexString:hexColors[0] alpha:0].CGColor,
+                         (__bridge id)[UIColor colorWithHexString:hexColors[1] alpha:1].CGColor];
+
+    [self.layer addSublayer:maskLayer];
+}
+
+#pragma mark - 绘制阴影
 - (void)drwaShadow {
     self.layer.shadowRadius = 4;
     self.layer.cornerRadius = 4;
