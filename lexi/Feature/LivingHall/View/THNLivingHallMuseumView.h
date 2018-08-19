@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ReloadLivingHallBlock)(void);
+
 @interface THNLivingHallMuseumView : UIView
+
+@property (nonatomic, copy) ReloadLivingHallBlock reloadLivingHallBlock;
 
 @end

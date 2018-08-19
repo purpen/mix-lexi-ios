@@ -17,6 +17,7 @@
 #import "THNFeaturedViewController.h"
 #import "THNExploresViewController.h"
 #import "THNNavigationBarView.h"
+#import "THNLoginManager.h"
 
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
@@ -27,6 +28,9 @@
 @property (nonatomic, strong) UIView *lineView;
 // 当前控制器
 @property (nonatomic, strong) UIViewController *currentSubViewController;
+@property (nonatomic, strong) THNFeaturedViewController *featured;
+@property (nonatomic, strong) THNExploresViewController *explore;
+@property (nonatomic, strong) THNLivingHallViewController *livingHall;
 
 @end
 
@@ -34,12 +38,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNavigationBar];
     [self setupUI];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kLoginSuccess object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self setNavigationBar];
+- (void)refreshLayoutHomeView {
+     [self claer];
+     [self setupUI];
+}
+
+// 登录成功刷新，清空再去更新视图
+- (void)claer {
+   [self.selectButtonView removeFromSuperview];
+    self.selectButtonView = nil;
+    [self.featured removeFromParentViewController];
+    [self.livingHall removeFromParentViewController];
+    [self.explore removeFromParentViewController];
 }
 
 - (void)setupUI {
@@ -69,18 +84,22 @@
         make.top.equalTo(self.lineView.mas_bottom);
     }];
     
-    
-    THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
+    if ([THNLoginManager sharedManager].openingUser) {
+        THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
+        [self addChildViewController:livingHall];
+        self.livingHall = livingHall;
+    }
     THNFeaturedViewController *featured = [[THNFeaturedViewController alloc]init];
-    THNExploresViewController *explore = [[THNExploresViewController alloc]init];
-    [self addChildViewController:livingHall];
     [self addChildViewController:featured];
+    THNExploresViewController *explore = [[THNExploresViewController alloc]init];
     [self addChildViewController:explore];
+   
+    self.featured = featured;
+    self.explore = explore;
     self.childViewControllers[0].view.frame = self.publicView.bounds;
     [self.publicView addSubview:self.childViewControllers[0].view];
     self.currentSubViewController = self.childViewControllers[0];
 }
-
 
 /**
  设置导航栏
@@ -114,7 +133,7 @@
 
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
-        NSMutableArray *titleArray = [@[@"生活馆", @"精选", @"探索"] mutableCopy];
+        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
     }
     return _selectButtonView;
@@ -129,6 +148,10 @@
             self.currentSubViewController = self.childViewControllers[index];
         }
     }];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 @end

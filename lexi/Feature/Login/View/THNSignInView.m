@@ -95,31 +95,30 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  登录
  */
 - (void)thn_doneButtonAction {
-    WEAKSELF;
+    [self endEditing:YES];
+    [self thn_showErrorHint:NO];
     
-    [weakSelf endEditing:YES];
-    [weakSelf thn_showErrorHint:NO];
-    
-    if (![[weakSelf getPhoneNum] checkTel]) {
-        [weakSelf thn_setErrorHintText:@"请输入正确的手机号"];
+    if (![[self getPhoneNum] checkTel]) {
+        [self thn_setErrorHintText:@"请输入正确的手机号"];
         return;
     }
     
-    if (weakSelf.loginModeType == THNLoginModeTypePassword) {
-        if (![weakSelf getPassword].length) {
-            [weakSelf thn_setErrorHintText:@"请输入密码"];
+    if (self.loginModeType == THNLoginModeTypePassword) {
+        if (![self getPassword].length) {
+            [self thn_setErrorHintText:@"请输入密码"];
             return;
         }
         
-    } else if (weakSelf.loginModeType == THNLoginModeTypeVeriDynamic) {
-        if (![weakSelf getVerifyCode].length) {
-            [weakSelf thn_setErrorHintText:@"请输入验证码"];
+    } else if (self.loginModeType == THNLoginModeTypeVeriDynamic) {
+        if (![self getVerifyCode].length) {
+            [self thn_setErrorHintText:@"请输入验证码"];
             return;
         }
     }
     
-    NSDictionary *paramDict = [weakSelf getRequestParamsWithType:weakSelf.loginModeType];
+    NSDictionary *paramDict = [self getRequestParamsWithType:self.loginModeType];
     
+    WEAKSELF;
     if ([weakSelf.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
         [weakSelf.delegate thn_signInWithParam:paramDict
                                  loginModeType:weakSelf.loginModeType];
@@ -129,13 +128,12 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    WEAKSELF;
-    
-    if (![[weakSelf getPhoneNum] checkTel]) {
+    if (![[self getPhoneNum] checkTel]) {
         [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
+    WEAKSELF;
     if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
         [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
                                                 zipCode:[weakSelf getZipCode]];

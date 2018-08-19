@@ -37,6 +37,16 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 @property (nonatomic, assign) NSInteger firstLogin;
 
+/**
+ 店铺ID
+ */
+@property (nonatomic, strong) NSString *storeRid;
+
+/**
+ 是否小B用户
+ */
+@property (nonatomic, assign) BOOL openingUser;
+
 + (instancetype)sharedManager;
 
 /**
@@ -52,6 +62,11 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  @return 0:不是、 1:是
  */
 + (BOOL)isFirstLogin;
+
+/**
+ 获取用户信息
+ */
+- (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion;
 
 /**
  保存登录信息
