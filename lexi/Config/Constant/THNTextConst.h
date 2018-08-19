@@ -17,6 +17,9 @@ UIKIT_EXTERN NSString *const kTitleSignIn;
 UIKIT_EXTERN NSString *const kTitleSignUp;
 UIKIT_EXTERN NSString *const kTitleInbox;
 UIKIT_EXTERN NSString *const kTitleFindPWD;
+UIKIT_EXTERN NSString *const kTitleLikedWindow;
+UIKIT_EXTERN NSString *const kTitleLikedGoods;
+UIKIT_EXTERN NSString *const kTitleLikedDynamic;
 
 #pragma mark - 网络请求
 UIKIT_EXTERN NSString *const kTextRequestError;
