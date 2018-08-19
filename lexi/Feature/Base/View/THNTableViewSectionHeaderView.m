@@ -82,6 +82,7 @@ static NSString *const kMoreButtonTitle = @"查看全部";
         _moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_moreButton setImage:[UIImage imageNamed:@"icon_ arrow_right_gray"] forState:(UIControlStateNormal)];
         [_moreButton setImageEdgeInsets:(UIEdgeInsetsMake(0, 65, 0, 0))];
+        _moreButton.hidden = YES;
     }
     return _moreButton;
 }

@@ -19,7 +19,7 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 @property (nonatomic, strong) UICollectionView *windowCollectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 /// 橱窗数据
-@property (nonatomic, strong) NSMutableArray *windowArray;
+@property (nonatomic, strong) NSMutableArray *modelArray;
 
 @end
 
@@ -46,8 +46,17 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 }
 
 #pragma mark - public methods
-- (void)thn_setWindowData:(NSDictionary *)data {
+- (void)thn_setWindowData:(NSArray *)data {
+    if (self.modelArray.count) {
+        [self.modelArray removeAllObjects];
+    }
     
+    for (NSDictionary *window in data) {
+        THNShopWindowModel *model = [THNShopWindowModel mj_objectWithKeyValues:window];
+        [self.modelArray addObject:model];
+    }
+    
+    [self.windowCollectionView reloadData];
 }
 
 #pragma mark - setup UI
@@ -64,22 +73,24 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    //    return self.windowArray.count;
-    return 5;
+    return self.modelArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedWindowCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                       forIndexPath:indexPath];
-    if (self.windowArray.count) {
-//        [cell thn_setwindowModel:self.windowArray[indexPath.row]];
+    if (self.modelArray.count) {
+        [cell thn_setWindowModel:self.modelArray[indexPath.row]];
     }
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    self.cell.selectedCellBlock([NSString stringWithFormat:@"%zi", indexPath.row]);
+    if (self.cell.selectedCellBlock) {
+        THNShopWindowModel *model = self.modelArray[indexPath.row];
+        self.cell.selectedCellBlock(model.rid);
+    }
 }
 
 #pragma mark - getters and setters
@@ -102,11 +113,11 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     return _windowCollectionView;
 }
 
-- (NSMutableArray *)windowArray {
-    if (!_windowArray) {
-        _windowArray = [NSMutableArray array];
+- (NSMutableArray *)modelArray {
+    if (!_modelArray) {
+        _modelArray = [NSMutableArray array];
     }
-    return _windowArray;
+    return _modelArray;
 }
 
 @end

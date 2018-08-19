@@ -18,6 +18,14 @@
     return cells;
 }
 
+- (NSArray *)goodsDataArr {
+    return _goodsDataArr ? _goodsDataArr : [NSArray array];
+}
+
+- (NSArray *)windowDataArr {
+    return _windowDataArr ? _windowDataArr : [NSArray array];
+}
+
 - (CGFloat)height {
     return _height ? _height : 88.0;
 }

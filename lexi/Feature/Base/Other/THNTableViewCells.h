@@ -15,7 +15,8 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellType) {
     THNTableViewCellTypeLikedGoods = 0, // 喜欢的商品
     THNTableViewCellTypeLikedWindow,    // 喜欢的橱窗
     THNTableViewCellTypeViewed,         // 最近查看
-    THNTableViewCellTypeWish           // 心愿单
+    THNTableViewCellTypeWish,           // 心愿单
+    THNTableViewCellTypeDynamic         // 动态
 };
 
 typedef void(^THNSelectedCellBlock)(NSString *ids);
@@ -26,11 +27,13 @@ typedef void(^THNSelectedCellBlock)(NSString *ids);
  喜欢的商品
  */
 @property (nonatomic, weak) THNLikedGoodsTableViewCell *likedGoodsCell;
+@property (nonatomic, strong) NSArray *goodsDataArr;
 
 /**
  喜欢的橱窗
  */
 @property (nonatomic, weak) THNLikedWindowTableViewCell *likedWindowCell;
+@property (nonatomic, strong) NSArray *windowDataArr;
 
 /**
  选中的单元格

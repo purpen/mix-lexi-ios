@@ -14,6 +14,11 @@ typedef void (^THNTableViewSectionMoreBlock)(void);
 @interface THNTableViewSections : NSObject
 
 /**
+ 每组排序的位置
+ */
+@property (nonatomic, assign) NSInteger index;
+
+/**
  单元格
  */
 @property (nonatomic, strong) NSMutableArray *dataCells;

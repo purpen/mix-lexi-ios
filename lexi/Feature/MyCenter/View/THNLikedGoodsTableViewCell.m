@@ -18,8 +18,8 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 /// 商品列表
 @property (nonatomic, strong) UICollectionView *goodsCollectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
-/// 商品数据
-@property (nonatomic, strong) NSMutableArray *goodsArray;
+/// 商品数据模型
+@property (nonatomic, strong) NSMutableArray *modelArray;
 
 @end
 
@@ -46,8 +46,17 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 }
 
 #pragma mark - public methods
-- (void)thn_setGoodsData:(NSDictionary *)data {
+- (void)thn_setLikedGoodsData:(NSArray *)goodsData {
+    if (self.modelArray.count) {
+        [self.modelArray removeAllObjects];
+    }
     
+    for (NSDictionary *product in goodsData) {
+        THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
+        [self.modelArray addObject:model];
+    }
+    
+    [self.goodsCollectionView reloadData];
 }
 
 #pragma mark - setup UI
@@ -64,22 +73,24 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return self.goodsArray.count;
-    return 5;
+    return self.modelArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedGoodsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                       forIndexPath:indexPath];
-//    if (self.goodsArray.count) {
-        [cell thn_setGoodsModel:[[THNProductModel alloc] init] showInfoView:NO];
-//    }
+    if (self.modelArray.count) {
+        [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:NO];
+    }
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    self.cell.selectedCellBlock([NSString stringWithFormat:@"%zi", indexPath.row]);
+    if (self.cell.selectedCellBlock) {
+        THNProductModel *model = self.modelArray[indexPath.row];
+        self.cell.selectedCellBlock(model.rid);
+    }
 }
 
 #pragma mark - getters and setters
@@ -102,11 +113,11 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     return _goodsCollectionView;
 }
 
-- (NSMutableArray *)goodsArray {
-    if (!_goodsArray) {
-        _goodsArray = [NSMutableArray array];
+- (NSMutableArray *)modelArray {
+    if (!_modelArray) {
+        _modelArray = [NSMutableArray array];
     }
-    return _goodsArray;
+    return _modelArray;
 }
 
 @end
