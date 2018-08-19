@@ -26,8 +26,10 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 @property (nonatomic, strong) UILabel *titleLabel;
 /// 商品价格
 @property (nonatomic, strong) YYLabel *priceLabel;
+@property (nonatomic, assign) CGFloat priceWidth;
 /// 喜欢数量
 @property (nonatomic, strong) YYLabel *likeValueLabel;
+@property (nonatomic, assign) CGFloat likeValueWidth;
 
 @end
 
@@ -43,13 +45,18 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 
 #pragma mark - public methods
 - (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show {
-    [self.goodsImageView downloadImage:model.cover place:[UIImage imageNamed:@""]];
+    [self.goodsImageView downloadImage:model.cover
+                               placess:[UIImage imageNamed:@""]
+                             completed:^(UIImage *image, NSError *error) {
+                                 if (error) return;
+                                 [self thn_showLoadImageAnimate:YES];
+                             }];
     
     if (show) {
         self.infoView.hidden = NO;
-        self.titleLabel.text = @"阿斯顿发撒到噶树大根深的根深蒂固";
-        [self thn_setPriceLabelTextWithPrice:299];
-        [self thn_setLikeValueLabelTextWithValue:140];
+        self.titleLabel.text = model.name;
+        [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price];
+        [self thn_setLikeValueLabelTextWithValue:model.like_count];
     };
 
     [self layoutIfNeeded];
@@ -60,8 +67,10 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", price]];
     attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
     attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
-    
     self.priceLabel.attributedText = attStr;
+    
+    // 喜欢数量的动态宽度
+    self.priceWidth = [self.priceLabel thn_getLabelWidthWithMaxHeight:11];
 }
 
 - (void)thn_setLikeValueLabelTextWithValue:(NSInteger)value {
@@ -69,8 +78,19 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
                                          [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value]];
     attStr.yy_color = [UIColor colorWithHexString:@"#999999"];
     attStr.yy_font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
-    
     self.likeValueLabel.attributedText = attStr;
+    
+    // 喜欢数量的动态宽度
+    self.likeValueWidth = [self.likeValueLabel thn_getLabelWidthWithMaxHeight:11];
+}
+
+- (void)thn_showLoadImageAnimate:(BOOL)show {
+    if (show) {
+        self.goodsImageView.alpha = 0.0f;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.goodsImageView.alpha = 1.0f;
+        }];
+    }
 }
 
 #pragma mark - setup UI
@@ -93,7 +113,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
     
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(0);
+        make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
+        make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
     
@@ -103,18 +124,16 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         make.height.mas_equalTo(12);
     }];
     
-    CGFloat priceLableWidth = [self.priceLabel thn_getLabelWidthWithMaxHeight:11];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(priceLableWidth, 11));
+        make.size.mas_equalTo(CGSizeMake(self.priceWidth, 11));
     }];
     
-    CGFloat likeLableWidth = [self.likeValueLabel thn_getLabelWidthWithMaxHeight:11];
     [self.likeValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.priceLabel.mas_right).with.offset(5);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(likeLableWidth, 11));
+        make.size.mas_equalTo(CGSizeMake(self.likeValueWidth, 11));
     }];
 }
 
@@ -124,6 +143,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _goodsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _goodsImageView.alpha = 0;
     }
     return _goodsImageView;
 }

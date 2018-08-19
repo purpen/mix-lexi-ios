@@ -7,9 +7,9 @@
 //
 
 #import "THNBaseTableViewController.h"
-//#import "THNLikedGoodsTableViewCell.h"
 
 static CGFloat const kSectionHeaderViewH = 54.0;
+static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
 @interface THNBaseTableViewController () <THNNavigationBarViewDelegate>
 
@@ -19,6 +19,17 @@ static CGFloat const kSectionHeaderViewH = 54.0;
 
 - (instancetype)init {
     return [self initWithStyle:(UITableViewStyleGrouped)];
+}
+
+#pragma mark - public methods
+- (void)thn_sortDataSecitons {
+    [self.dataSections sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        THNTableViewSections *section1 = obj1;
+        THNTableViewSections *section2 = obj2;
+        
+        NSComparisonResult result = [@(section1.index) compare:@(section2.index)];
+        return result;
+    }];
 }
 
 #pragma mark - Table view data source
@@ -59,10 +70,18 @@ static CGFloat const kSectionHeaderViewH = 54.0;
     return cells.height;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUITableViewCellId];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kUITableViewCellId];
+    }
+    return cell;
+}
+
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupBaseUI];
 }
 

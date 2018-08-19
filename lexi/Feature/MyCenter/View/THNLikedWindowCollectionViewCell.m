@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIImageView *thirdImageView;
 /// 标题
 @property (nonatomic, strong) YYLabel *titleLabel;
+@property (nonatomic, assign) CGFloat titleHeight;
 /// 背景
 @property (nonatomic, strong) UIView *backView;
 
@@ -34,13 +35,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setupCellViewUI];
-        [self thn_setWindowModel:@""];
     }
     return self;
 }
 
-- (void)thn_setWindowModel:(NSString *)model {
-    [self thn_setTitleLabelText:@"阿斯顿嘎是嘎嘎公司萨店的撒上的格桑达瓦阿斯顿嘎是嘎嘎公司达瓦阿斯顿嘎是嘎嘎公司"];
+- (void)thn_setWindowModel:(THNShopWindowModel *)model {
+    [self thn_setTitleLabelText:model.title];
     
     [self layoutIfNeeded];
 }
@@ -51,8 +51,10 @@
     attStr.yy_lineSpacing = 5;
     attStr.yy_font = [UIFont systemFontOfSize:15 weight:(UIFontWeightMedium)];
     attStr.yy_color = [UIColor whiteColor];
-    
     self.titleLabel.attributedText = attStr;
+    
+    // 标题的动态高度
+    self.titleHeight = [self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 30];
 }
 
 #pragma mark - setup UI
@@ -69,8 +71,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat cellHeight = CGRectGetHeight(self.frame);
-    CGFloat cellWidth = CGRectGetWidth(self.frame);
+    CGFloat cellHeight = CGRectGetHeight(self.bounds);
+    CGFloat cellWidth = CGRectGetWidth(self.bounds);
     CGFloat imgHeight = (cellHeight - 2) / 2;
     
     [self.mainImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,11 +100,8 @@
                                          endPoint:CGPointMake(0, 1)
                                            colors:@[@"#000000", @"#000000"]];
     
-    // 标题的动态高度
-    CGFloat titleHeight = [self.titleLabel thn_getLabelHeightWithMaxWidth:cellWidth - 30];
-    titleHeight = titleHeight > 40 ? 40 : titleHeight;
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(cellWidth - 30, titleHeight));
+        make.size.mas_equalTo(CGSizeMake(cellWidth - 30, self.titleHeight > 40 ? 40 : self.titleHeight));
         make.left.mas_equalTo(15);
         make.bottom.mas_equalTo(-13);
     }];
