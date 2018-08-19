@@ -21,11 +21,14 @@ static NSString *const kURLUserLogin    = @"/auth/login";
 static NSString *const kURLDynamicLogin = @"/auth/app_dynamic_login";
 static NSString *const kURLAppRegister  = @"/auth/set_password";
 static NSString *const kURLLogout       = @"/auth/logout";
+static NSString *const kURLUserProfile  = @"/users/profile";
 /// 请求数据 key
 static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
 static NSString *const kRequestFirstLogin   = @"is_first_login";
 static NSString *const kRequestToken        = @"token";
+static NSString *const kRequestStoreRid     = @"store_rid";
+static NSString *const kRequestIsSmallB     = @"is_small_b";
 
 @implementation THNLoginManager
 
@@ -57,8 +60,7 @@ MJCodingImplementation
         self.token = result.data[kRequestToken];
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
-        
-        [self saveLoginInfo];
+
         [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
         
         completion(result, nil);
@@ -66,6 +68,25 @@ MJCodingImplementation
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
         
+        completion(nil, error);
+    }];
+}
+
+/**
+ 获取用户信息
+ */
+- (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile
+                                  requestDictionary:nil
+                                             isSign:YES
+                                           delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.storeRid = result.data[kRequestStoreRid];
+        self.openingUser = result.data[kRequestIsSmallB];
+        [self saveLoginInfo];
+        completion(result, nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
     }];
 }
@@ -144,6 +165,8 @@ MJCodingImplementation
 + (void)userLogoutCompletion:(void (^)(NSError *))completion {
     [[THNLoginManager sharedManager] requestLogoutCompletion:completion];
 }
+
+
 
 /**
  是否登录

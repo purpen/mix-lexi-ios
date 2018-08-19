@@ -7,15 +7,18 @@
 //
 
 #import "THNGrassListCollectionViewCell.h"
-#import "THNLifeRecordModel.h"
+#import "THNGrassListModel.h"
 #import "UIImageView+WebCache.h"
-#import "THNLifeRecordModel.h"
+#import "THNGrassListModel.h"
+#import "UIView+Helper.h"
 
 @interface THNGrassListCollectionViewCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @end
 
@@ -24,13 +27,19 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.layer.cornerRadius = 4;
+    self.productImageView.layer.masksToBounds = YES;
+    [self.avatarImageView drawCornerWithType:0 radius:self.avatarImageView.viewHeight / 2];
 }
 
--  (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
-    _lifeRecordModel = lifeRecordModel;
-    self.contentLabel.text = lifeRecordModel.content;
-    self.titleLabel.text = lifeRecordModel.title;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:lifeRecordModel.cover]];
+-  (void)setGrassListModel:(THNGrassListModel *)grassListModel {
+    _grassListModel = grassListModel;
+    self.contentLabel.text = grassListModel.content;
+    self.titleLabel.text = grassListModel.title;
+    self.nameLabel.text = grassListModel.user_name;
+    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.user_avator]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]];
 }
+
+
 
 @end

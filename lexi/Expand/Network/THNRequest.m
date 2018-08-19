@@ -387,7 +387,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                }
                                                
                                            } else {
-                                               failure(weakSelf, error);
+                                               if (failure) {
+                                                   failure(weakSelf, error);
+                                               }
                                            }
                                        }];
         
@@ -414,7 +416,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                 }
                                                 
                                             } else {
-                                                failure(weakSelf, error);
+                                                if (failure) {
+                                                    failure(weakSelf, error);
+                                                }
                                             }
                                         }];
         
@@ -447,36 +451,13 @@ static const NSString *kResponseInfoMessage = @"message";
                                                     }
                                                     
                                                 } else {
-                                                    failure(weakSelf, error);
+                                                    if (failure) {
+                                                        failure(weakSelf, error);
+                                                    }
                                                 }
                                             }];
             
-        } else if (self.RequestMethod == AFNetworkingRequestMethodDELETE) {
-            
-            self.httpOperation = [self.manager DELETE:self.urlString
-                                           parameters:[weakSelf transformRequestDictionary]
-                                              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                                  
-                                                  weakSelf.isRunning = NO;
-                                     
-                                                  THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
-                                                  success(weakSelf, response);
-                                                  
-                                              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                                  
-                                                  weakSelf.isRunning = NO;
-                                                  
-                                                  if (self.cancelType == NCancelTypeUser) {
-                                                      if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(userCanceledFailed:error:)]) {
-                                                          [weakSelf.delegate userCanceledFailed:weakSelf error:error];
-                                                          weakSelf.cancelType = NCancelTypeDealloc;
-                                                      }
-                                                      
-                                                  } else {
-                                                      failure(weakSelf, error);
-                                                  }
-                                              }];
-        } else {
+        }  else {
             
             self.httpOperation = [self.manager POST:self.urlString
                                          parameters:[weakSelf transformRequestDictionary]
@@ -500,10 +481,39 @@ static const NSString *kResponseInfoMessage = @"message";
                                                     }
                                                     
                                                 } else {
-                                                    failure(weakSelf, error);
+                                                    if (failure) {
+                                                        failure(weakSelf, error);
+                                                    }
                                                 }
                                             }];
         }
+    } else if (self.RequestMethod == AFNetworkingRequestMethodDELETE) {
+        
+        self.httpOperation = [self.manager DELETE:self.urlString
+                                       parameters:[weakSelf transformRequestDictionary]
+                                          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                              
+                                              weakSelf.isRunning = NO;
+                                              
+                                              THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                              success(weakSelf, response);
+                                              
+                                          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                              
+                                              weakSelf.isRunning = NO;
+                                              
+                                              if (self.cancelType == NCancelTypeUser) {
+                                                  if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(userCanceledFailed:error:)]) {
+                                                      [weakSelf.delegate userCanceledFailed:weakSelf error:error];
+                                                      weakSelf.cancelType = NCancelTypeDealloc;
+                                                  }
+                                                  
+                                              } else {
+                                                  if (failure) {
+                                                      failure(weakSelf, error);
+                                                  }
+                                              }
+                                          }];
     }
 }
 
