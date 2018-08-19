@@ -308,11 +308,11 @@ static const NSInteger kRightButtonTag = 123;
         }
         
         [self.rightButtonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
-                                      withFixedItemLength:44
-                                              leadSpacing:SCREEN_WIDTH - self.rightButtonArr.count * 44
-                                              tailSpacing:0];
+                                      withFixedItemLength:40
+                                              leadSpacing:SCREEN_WIDTH - 10 - self.rightButtonArr.count * 40
+                                              tailSpacing:10];
         [self.rightButtonArr mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(44, 44));
+            make.size.mas_equalTo(CGSizeMake(40, 40));
             make.bottom.mas_equalTo(0);
         }];
     }

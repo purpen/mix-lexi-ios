@@ -17,6 +17,9 @@ NSString *const kTitleInbox         = @"收件箱";
 NSString *const kTitleSignIn        = @"登录";
 NSString *const kTitleSignUp        = @"注册";
 NSString *const kTitleFindPWD       = @"找回密码";
+NSString *const kTitleLikedWindow   = @"喜欢的橱窗";
+NSString *const kTitleLikedGoods    = @"喜欢的商品";
+NSString *const kTitleLikedDynamic  = @"动态";
 
 #pragma mark - 网络请求
 NSString *const kTextRequestError   = @"请求失败";

@@ -12,6 +12,7 @@
 #import "THNCartViewController.h"
 #import "THNDiscoverViewController.h"
 #import "THNMyCenterViewController.h"
+#import "THNSignInViewController.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 #import "THNLoginManager.h"
@@ -49,7 +50,9 @@
         }
         
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [appDelegate thn_loadLoginController];
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [appDelegate.window.rootViewController presentViewController:navController animated:YES completion:nil];
         
         return NO;
     }

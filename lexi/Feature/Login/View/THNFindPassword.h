@@ -8,7 +8,6 @@
 
 #import "THNLoginBaseView.h"
 
-
 @protocol THNFindPasswordDelegate <NSObject>
 
 @required

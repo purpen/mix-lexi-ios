@@ -35,6 +35,7 @@ static NSString *const kActionDoneTitle         = @"确认";
 @implementation THNPhotoManager
 
 #pragma mark - public methods
+
 - (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller completion:(void (^)(NSData *))completion {
     self.viewController = controller;
     self.SelectImageBlock = completion;

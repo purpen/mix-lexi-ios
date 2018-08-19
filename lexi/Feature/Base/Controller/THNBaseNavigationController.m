@@ -25,7 +25,9 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if (self.viewControllers.count) {
         viewController.hidesBottomBarWhenPushed = YES;
+        self.navigationBar.hidden = YES;
     }
+    
     
     [super pushViewController:viewController animated:animated];
 }
@@ -37,6 +39,5 @@
     
     return nil;
 }
-
 
 @end

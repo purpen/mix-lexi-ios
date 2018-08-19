@@ -1,5 +1,5 @@
 //
-//  THNLifeRecordModel.m
+//  THNGrassListModel.m
 //  lexi
 //
 //  Created by HongpingRao on 2018/8/6.
@@ -7,7 +7,14 @@
 //
 
 #import "THNLifeRecordModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation THNLifeRecordModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{@"des":@"description"};
+    
+}
 
 @end
