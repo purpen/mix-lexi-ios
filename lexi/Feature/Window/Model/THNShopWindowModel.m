@@ -7,7 +7,6 @@
 //
 
 #import "THNShopWindowModel.h"
-#import <MJExtension/MJExtension.h>
 
 @implementation THNShopWindowModel
 

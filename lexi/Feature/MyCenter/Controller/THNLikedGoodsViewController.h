@@ -7,7 +7,13 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNUserManager.h"
 
 @interface THNLikedGoodsViewController : THNBaseViewController
+
+/**
+ 根据显示的商品类型初始化
+ */
+- (instancetype)initWithShowProductsType:(THNProductsType)type;
 
 @end

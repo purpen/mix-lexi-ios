@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MJExtension/MJExtension.h>
 
 @class THNProductModel;
 
 @interface THNShopWindowModel : NSObject
 
+@property (nonatomic, strong) NSString *rid;
 @property (nonatomic, strong) NSArray *keywords;
 //是否关注过该橱窗
 @property (nonatomic, assign) BOOL is_follow;

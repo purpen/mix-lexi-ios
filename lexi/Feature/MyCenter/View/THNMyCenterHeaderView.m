@@ -107,12 +107,10 @@ static NSInteger const kSelectedButtonTag = 452;
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
     attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
     attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    
     [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFollow.length)
                                color:[UIColor colorWithHexString:@"#949EA6"]
                      backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                            tapAction:nil];
-    
     self.followLabel.attributedText = attStr;
     
     // 关注人数的动态宽度
@@ -127,12 +125,10 @@ static NSInteger const kSelectedButtonTag = 452;
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
     attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
     attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    
     [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFans.length)
                                   color:[UIColor colorWithHexString:@"#949EA6"]
                         backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                               tapAction:nil];
-    
     self.fansLabel.attributedText = attStr;
     
     // 粉丝人数的动态宽度
@@ -214,14 +210,14 @@ static NSInteger const kSelectedButtonTag = 452;
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
         make.height.mas_equalTo(12);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(self.followWidth);
     }];
     
     [self.fansLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.followLabel.mas_right).with.offset(20);
         make.centerY.mas_equalTo(self.followLabel);
         make.height.mas_equalTo(12);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(self.fansWidth);
     }];
     
     [self.signatureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -280,7 +276,8 @@ static NSInteger const kSelectedButtonTag = 452;
     }];
     
     [self.dataContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(205, 70));
+        make.height.mas_equalTo(70);
+        make.left.equalTo(self.headerImageView.mas_right).with.offset(kDeviceiPhone5 ? 30 : 40);
         make.right.mas_equalTo(-35);
         make.top.mas_equalTo(28);
     }];
@@ -292,9 +289,8 @@ static NSInteger const kSelectedButtonTag = 452;
     }];
     
     [self.dynamicButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(205, 28));
         make.centerX.mas_equalTo(self.dataContainer);
-        make.bottom.mas_equalTo(0);
+        make.left.right.bottom.mas_equalTo(0);
     }];
     self.dynamicButton.layer.cornerRadius = 4;
     [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];

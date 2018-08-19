@@ -23,8 +23,8 @@
 #define SCREEN_WITHOUT_STATUS_HEIGHT    (SCREEN_HEIGHT - [[UIApplication sharedApplication] statusBarFrame].size.height)
 #define NAVIGATION_BAR_HEIGHT           kDeviceiPhoneX ? 88 : 64
 #define STATUS_BAR_HEIGHT               kDeviceiPhoneX ? 44 : 22
-#define kHPercentage(a)                 (SCREEN_HEIGHT * ((a) / 667))
-#define kWPercentage(a)                 (SCREEN_WIDTH * ((a) / 375))
+#define kHPercentage(a)                 (SCREEN_HEIGHT * ((a) / 667.0))
+#define kWPercentage(a)                 (SCREEN_WIDTH * ((a) / 375.0))
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 

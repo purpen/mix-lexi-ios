@@ -14,7 +14,7 @@
 @property (nonatomic, strong) THNTableViewCells *cell;
 @property (nonatomic, weak) UITableView *tableView;
 
-- (void)thn_setWindowData:(NSDictionary *)data;
+- (void)thn_setWindowData:(NSArray *)data;
 + (instancetype)initWindowCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style;
 
 @end

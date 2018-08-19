@@ -387,7 +387,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                }
                                                
                                            } else {
-                                               failure(weakSelf, error);
+                                               if (failure) {
+                                                   failure(weakSelf, error);
+                                               }
                                            }
                                        }];
         
@@ -414,7 +416,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                 }
                                                 
                                             } else {
-                                                failure(weakSelf, error);
+                                                if (failure) {
+                                                    failure(weakSelf, error);
+                                                }
                                             }
                                         }];
         
@@ -447,7 +451,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                     }
                                                     
                                                 } else {
-                                                    failure(weakSelf, error);
+                                                    if (failure) {
+                                                        failure(weakSelf, error);
+                                                    }
                                                 }
                                             }];
             
@@ -475,7 +481,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                     }
                                                     
                                                 } else {
-                                                    failure(weakSelf, error);
+                                                    if (failure) {
+                                                        failure(weakSelf, error);
+                                                    }
                                                 }
                                             }];
         }
@@ -501,7 +509,9 @@ static const NSString *kResponseInfoMessage = @"message";
                                                   }
                                                   
                                               } else {
-                                                  failure(weakSelf, error);
+                                                  if (failure) {
+                                                      failure(weakSelf, error);
+                                                  }
                                               }
                                           }];
     }
