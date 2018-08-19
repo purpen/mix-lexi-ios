@@ -45,4 +45,9 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
  */
 @property (nonatomic, strong) NSMutableArray *dataSections;
 
+/**
+ 对显示的组重新排序
+ */
+- (void)thn_sortDataSecitons;
+
 @end

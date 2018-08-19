@@ -65,6 +65,10 @@ static NSString *const kMoreButtonTitle = @"查看全部";
     self.headerView.title = headerTitle;
 }
 
+- (NSInteger)index {
+    return _index ? _index : 0;
+}
+
 - (THNTableViewSectionHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[THNTableViewSectionHeaderView alloc] init];

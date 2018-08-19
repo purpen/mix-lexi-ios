@@ -20,23 +20,48 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     THNFunctionButtonViewDelegate
 >
 
-/// 橱窗列表
+/// 喜欢的商品列表
 @property (nonatomic, strong) UICollectionView *goodsCollectionView;
-/// 橱窗数据
-@property (nonatomic, strong) NSMutableArray *goodsArray;
+/// 商品数据
+@property (nonatomic, strong) NSMutableArray *modelArray;
 /// 功能按钮
 @property (nonatomic, strong) THNFunctionButtonView *functionView;
 /// 功能视图
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
+/// 显示的商品类型
+@property (nonatomic, assign) THNProductsType productsType;
 
 @end
 
 @implementation THNLikedGoodsViewController
 
+- (instancetype)initWithShowProductsType:(THNProductsType)type {
+    self = [super init];
+    if (self) {
+        self.productsType = type;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
+    [self thn_getProductsWithType:self.productsType ? self.productsType : THNProductsTypeLikedGoods];
+}
+
+// 获取商品数据
+- (void)thn_getProductsWithType:(THNProductsType)type {
+    [THNUserManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+        if (error || !goodsData.count) return;
+        
+        for (NSDictionary *product in goodsData) {
+            THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
+            [self.modelArray addObject:model];
+        }
+        
+        [self.goodsCollectionView reloadData];
+    }];
 }
 
 #pragma mark - custom delegate
@@ -46,22 +71,21 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    //    return self.goodsArray.count;
-    return 10;
+    return self.modelArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedGoodsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                     forIndexPath:indexPath];
-//    if (self.goodsArray.count) {
-        [cell thn_setGoodsModel:[[THNProductModel alloc] init] showInfoView:YES];
-//    }
-    
+    if (self.modelArray.count) {
+        [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:YES];
+    }
+
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", indexPath.row]];
+    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开商品 == %zi", indexPath.row]];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -70,7 +94,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     
     CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
     
-    return CGSizeMake(itemWidth, itemWidth + 40);
+    return CGSizeMake(itemWidth, itemWidth + 50);
 }
 
 #pragma mark - setup UI
@@ -88,7 +112,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kTitleLikedGoods;
+    self.navigationBarView.title = self.title;
 }
 
 #pragma mark - getters and setters
@@ -101,7 +125,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
         
         _goodsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:flowLayout];
         _goodsCollectionView.backgroundColor = [UIColor whiteColor];
-        _goodsCollectionView.contentInset = UIEdgeInsetsMake(kDeviceiPhoneX ? 94 : 72, 20, 20, 20);
+        _goodsCollectionView.contentInset = UIEdgeInsetsMake(94, 20, 20, 20);
         _goodsCollectionView.delegate = self;
         _goodsCollectionView.dataSource = self;
         _goodsCollectionView.showsVerticalScrollIndicator = NO;
@@ -110,11 +134,11 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     return _goodsCollectionView;
 }
 
-- (NSMutableArray *)goodsArray {
-    if (!_goodsArray) {
-        _goodsArray = [NSMutableArray array];
+- (NSMutableArray *)modelArray {
+    if (!_modelArray) {
+        _modelArray = [NSMutableArray array];
     }
-    return _goodsArray;
+    return _modelArray;
 }
 
 - (THNFunctionButtonView *)functionView {

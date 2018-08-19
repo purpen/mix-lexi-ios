@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNShopWindowModel.h"
 
 @interface THNLikedWindowCollectionViewCell : UICollectionViewCell
 
-- (void)thn_setWindowModel:(NSString *)model;
+- (void)thn_setWindowModel:(THNShopWindowModel *)model;
 
 @end
