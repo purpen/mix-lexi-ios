@@ -25,6 +25,9 @@
 #define NAVIGATION_BAR_HEIGHT kDeviceiPhoneX ? 88.0 : 64.0
 // 状态栏高度
 #define STATUS_BAR_HEIGHT kDeviceiPhoneX ? 44.0 : 20.0
+// tabbar高度
+#define TABBAR_BAR_HEIGHT kDeviceiPhoneX ? 49.0 : 83.0
+
 
 #define kHPercentage(a) (SCREEN_HEIGHT*((a)/667.0))
 #define kWPercentage(a) (SCREEN_WIDTH *((a)/375.0))
