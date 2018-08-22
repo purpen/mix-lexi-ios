@@ -17,5 +17,7 @@
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *des;
 @property (nonatomic, strong) NSArray <THNProductModel *> *products;
+// 橱窗编号
+@property (nonatomic, strong) NSString *rid;
 
 @end

@@ -16,8 +16,11 @@ typedef NS_ENUM(NSUInteger, ShopWindowType) {
     ShopWindowSeven,
 };
 
+typedef void(^ContentBlock)(void);
+
 @interface THNShopWindowTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
+@property (nonatomic, copy) ContentBlock contentBlock;
 
 @end

@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B240E8921257C320077EDD4 /* THNShopWindowDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8821257C320077EDD4 /* THNShopWindowDetailTableViewController.m */; };
+		4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */; };
+		4B240E90212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */; };
+		4B240E91212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */; };
+		4B240E95212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E93212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m */; };
+		4B240E96212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240E94212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib */; };
+		4B240E9D212BF4110077EDD4 /* THNCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240E9C212BF4110077EDD4 /* THNCommentViewController.xib */; };
+		4B240EA1212C1ED30077EDD4 /* THNShopWindowDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E9F212C1ED30077EDD4 /* THNShopWindowDetailViewController.m */; };
+		4B240EA2212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240EA0212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib */; };
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25F212211EC68E00115E57 /* THNGrassListModel.m */; };
 		4B2644BD21229E8400665A6D /* THNDailyRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2644BC21229E8400665A6D /* THNDailyRecommendModel.m */; };
@@ -26,6 +33,13 @@
 		4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D0211D30D2001CA9DD /* THNSaveTool.m */; };
 		4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D3211D5C0D001CA9DD /* THNTextTool.m */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
+		4B720600212D65F4002606EE /* THNToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7205FE212D65F4002606EE /* THNToolBarView.m */; };
+		4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7205FF212D65F4002606EE /* THNToolBarView.xib */; };
+		4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720602212D6678002606EE /* WBEmoticonInputView.m */; };
+		4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720606212D70CD002606EE /* WBStatusHelper.m */; };
+		4B72060B212D7124002606EE /* WBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72060A212D7124002606EE /* WBModel.m */; };
+		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
+		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
@@ -144,8 +158,18 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
-		4B240E8721257C320077EDD4 /* THNShopWindowDetailTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShopWindowDetailTableViewController.h; sourceTree = "<group>"; };
-		4B240E8821257C320077EDD4 /* THNShopWindowDetailTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShopWindowDetailTableViewController.m; sourceTree = "<group>"; };
+		4B240E8A212BA2580077EDD4 /* THNCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentViewController.h; sourceTree = "<group>"; };
+		4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentViewController.m; sourceTree = "<group>"; };
+		4B240E8D212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFirstLevelCommentTableViewCell.h; sourceTree = "<group>"; };
+		4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFirstLevelCommentTableViewCell.m; sourceTree = "<group>"; };
+		4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNFirstLevelCommentTableViewCell.xib; sourceTree = "<group>"; };
+		4B240E92212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSecondLevelCommentTableViewCell.h; sourceTree = "<group>"; };
+		4B240E93212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSecondLevelCommentTableViewCell.m; sourceTree = "<group>"; };
+		4B240E94212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSecondLevelCommentTableViewCell.xib; sourceTree = "<group>"; };
+		4B240E9C212BF4110077EDD4 /* THNCommentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCommentViewController.xib; sourceTree = "<group>"; };
+		4B240E9E212C1ED30077EDD4 /* THNShopWindowDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShopWindowDetailViewController.h; sourceTree = "<group>"; };
+		4B240E9F212C1ED30077EDD4 /* THNShopWindowDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShopWindowDetailViewController.m; sourceTree = "<group>"; };
+		4B240EA0212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNShopWindowDetailViewController.xib; sourceTree = "<group>"; };
 		4B25F20F211EA79F00115E57 /* searchHis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchHis.json; sourceTree = "<group>"; };
 		4B25F211211EC68E00115E57 /* THNGrassListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGrassListModel.h; sourceTree = "<group>"; };
 		4B25F212211EC68E00115E57 /* THNGrassListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGrassListModel.m; sourceTree = "<group>"; };
@@ -176,6 +200,17 @@
 		4B2656D3211D5C0D001CA9DD /* THNTextTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTextTool.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
+		4B7205FD212D65F4002606EE /* THNToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNToolBarView.h; sourceTree = "<group>"; };
+		4B7205FE212D65F4002606EE /* THNToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNToolBarView.m; sourceTree = "<group>"; };
+		4B7205FF212D65F4002606EE /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
+		4B720602212D6678002606EE /* WBEmoticonInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEmoticonInputView.m; sourceTree = "<group>"; };
+		4B720603212D6678002606EE /* WBEmoticonInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEmoticonInputView.h; sourceTree = "<group>"; };
+		4B720606212D70CD002606EE /* WBStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBStatusHelper.m; sourceTree = "<group>"; };
+		4B720607212D70CD002606EE /* WBStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBStatusHelper.h; sourceTree = "<group>"; };
+		4B720609212D7124002606EE /* WBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBModel.h; sourceTree = "<group>"; };
+		4B72060A212D7124002606EE /* WBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBModel.m; sourceTree = "<group>"; };
+		4B72060C212D778F002606EE /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
+		4B72060D212D778F002606EE /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
@@ -405,6 +440,7 @@
 		4B2644CC2122D62D00665A6D /* Window */ = {
 			isa = PBXGroup;
 			children = (
+				4B720605212D70BB002606EE /* Other */,
 				4B2644D92123FA1C00665A6D /* Controller */,
 				4B2644DE2123FA1C00665A6D /* Model */,
 				4B2644DF2123FA1C00665A6D /* View */,
@@ -417,8 +453,12 @@
 			children = (
 				4B2644DC2123FA1C00665A6D /* THNShopWindowViewController.h */,
 				4B2644DD2123FA1C00665A6D /* THNShopWindowViewController.m */,
-				4B240E8721257C320077EDD4 /* THNShopWindowDetailTableViewController.h */,
-				4B240E8821257C320077EDD4 /* THNShopWindowDetailTableViewController.m */,
+				4B240E9E212C1ED30077EDD4 /* THNShopWindowDetailViewController.h */,
+				4B240E9F212C1ED30077EDD4 /* THNShopWindowDetailViewController.m */,
+				4B240EA0212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib */,
+				4B240E8A212BA2580077EDD4 /* THNCommentViewController.h */,
+				4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */,
+				4B240E9C212BF4110077EDD4 /* THNCommentViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -441,6 +481,17 @@
 				4B2644E7212533AB00665A6D /* THNThreeImageStitchingView.h */,
 				4B2644E8212533AB00665A6D /* THNThreeImageStitchingView.m */,
 				4B2644EA212533B600665A6D /* THNThreeImageStitchingView.xib */,
+				4B240E8D212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.h */,
+				4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */,
+				4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */,
+				4B240E92212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.h */,
+				4B240E93212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m */,
+				4B240E94212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib */,
+				4B7205FD212D65F4002606EE /* THNToolBarView.h */,
+				4B7205FE212D65F4002606EE /* THNToolBarView.m */,
+				4B7205FF212D65F4002606EE /* THNToolBarView.xib */,
+				4B720603212D6678002606EE /* WBEmoticonInputView.h */,
+				4B720602212D6678002606EE /* WBEmoticonInputView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -463,6 +514,17 @@
 				4B2656D3211D5C0D001CA9DD /* THNTextTool.m */,
 			);
 			path = ThnTools;
+			sourceTree = "<group>";
+		};
+		4B720605212D70BB002606EE /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				4B720609212D7124002606EE /* WBModel.h */,
+				4B72060A212D7124002606EE /* WBModel.m */,
+				4B720607212D70CD002606EE /* WBStatusHelper.h */,
+				4B720606212D70CD002606EE /* WBStatusHelper.m */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 		7D44224FF682DC37BFD7E904 /* Pods */ = {
@@ -555,6 +617,8 @@
 		D85DA7D02106030100A36A71 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4B72060C212D778F002606EE /* EmoticonWeibo.bundle */,
+				4B72060D212D778F002606EE /* ResourceWeibo.bundle */,
 				D81A7235211967400056D8B8 /* apply_header_image@2x.png */,
 				D81A72342119673F0056D8B8 /* apply_header_image@3x.png */,
 				D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */,
@@ -1157,7 +1221,9 @@
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
 				D8BAC992211A949100667D6F /* THNObtainedView.xib in Resources */,
+				4B240E9D212BF4110077EDD4 /* THNCommentViewController.xib in Resources */,
 				4B2644EB212533B600665A6D /* THNThreeImageStitchingView.xib in Resources */,
+				4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */,
 				4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */,
 				D8BAC9B4211A949100667D6F /* THNLifeAestheticsCollectionViewCell.xib in Resources */,
 				D8BAC9B6211A949100667D6F /* THNFeatureTableViewCell.xib in Resources */,
@@ -1169,11 +1235,13 @@
 				D8BAC998211A949100667D6F /* THNLivingHallRecommendTableViewCell.xib in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
 				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
+				4B240E91212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib in Resources */,
 				D8BAC9A9211A949100667D6F /* THNCategoriesCollectionViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				D8BAC9AF211A949100667D6F /* THNFeaturedOpeningView.xib in Resources */,
 				D8BAC9B3211A949100667D6F /* THNActivityView.xib in Resources */,
 				D8BAC9B5211A949100667D6F /* THNGrassListCollectionViewCell.xib in Resources */,
+				4B240E96212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib in Resources */,
 				D8BAC9A0211A949100667D6F /* THNBrandCollectionViewCell.xib in Resources */,
 				4B2644CB2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib in Resources */,
 				4B25F210211EA79F00115E57 /* searchHis.json in Resources */,
@@ -1181,7 +1249,10 @@
 				D8BAC999211A949100667D6F /* THNLivingHallMuseumView.xib in Resources */,
 				D8BAC993211A949100667D6F /* THNLivingHallHeaderView.xib in Resources */,
 				D8BAC988211A949100667D6F /* THNHomeSearchView.xib in Resources */,
+				4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */,
 				4B2644E62125263300665A6D /* THNShopWindowTableViewCell.xib in Resources */,
+				4B240EA2212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib in Resources */,
+				4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1207,7 +1278,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/TYAlertController/TYAlertController.framework",
-				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -1223,7 +1294,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYAlertController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1258,6 +1329,7 @@
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
+				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
 				D8BAC9BE211A949100667D6F /* THNLoginViewController.m in Sources */,
@@ -1267,6 +1339,7 @@
 				D85DA80E2106030200A36A71 /* THNConst.m in Sources */,
 				D8BAC9BF211A949100667D6F /* THNSetPasswordViewController.m in Sources */,
 				D8BAC9BA211A949100667D6F /* THNActivityView.m in Sources */,
+				4B720600212D65F4002606EE /* THNToolBarView.m in Sources */,
 				D8BAC9C9211A949100667D6F /* THNDoneButton.m in Sources */,
 				D8BAC9CA211A949100667D6F /* THNSignInView.m in Sources */,
 				D8BAC997211A949100667D6F /* THNLivingHallMuseumView.m in Sources */,
@@ -1296,11 +1369,11 @@
 				D8BAC9D4211A949100667D6F /* THNBaseTabBarController.m in Sources */,
 				D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */,
 				D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */,
+				4B240E90212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m in Sources */,
 				4B2644BD21229E8400665A6D /* THNDailyRecommendModel.m in Sources */,
 				D8BAC9AD211A949100667D6F /* THNLifeRecordModel.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
 				4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */,
-				4B240E8921257C320077EDD4 /* THNShopWindowDetailTableViewController.m in Sources */,
 				D8BAC9A8211A949100667D6F /* THNCategoriesCollectionViewCell.m in Sources */,
 				D8BAC9C2211A949100667D6F /* THNNewUserInfoViewController.m in Sources */,
 				D8BAC99A211A949100667D6F /* THNExploresViewController.m in Sources */,
@@ -1309,14 +1382,17 @@
 				D8BAC9B8211A949100667D6F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8BAC9B0211A949100667D6F /* THNFeatureTableViewCell.m in Sources */,
 				D85DA7DD2106030200A36A71 /* (null) in Sources */,
+				4B240EA1212C1ED30077EDD4 /* THNShopWindowDetailViewController.m in Sources */,
 				D8BAC991211A949100667D6F /* THNLivingHallViewController.m in Sources */,
 				4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */,
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
 				D8BAC98A211A949100667D6F /* THNDiscoverViewController.m in Sources */,
 				4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */,
+				4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */,
 				4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */,
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
+				4B72060B212D7124002606EE /* WBModel.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
 				D8BAC9B1211A949100667D6F /* THNFeaturedCollectionView.m in Sources */,
 				D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */,
@@ -1333,6 +1409,7 @@
 				D8BAC994211A949100667D6F /* THNLivingHallRecommendTableViewCell.m in Sources */,
 				D8BAC98F211A949100667D6F /* THNApplySuccessView.m in Sources */,
 				D8BAC9D3211A949100667D6F /* THNFindPassword.m in Sources */,
+				4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */,
 				D8BAC99E211A949100667D6F /* THNFeaturedBrandModel.m in Sources */,
 				D8BAC990211A949100667D6F /* THNMyCenterViewController.m in Sources */,
 				D85DA8012106030200A36A71 /* UIImage+Helper.m in Sources */,
@@ -1346,6 +1423,7 @@
 				D8BAC9AC211A949100667D6F /* THNFeaturedViewController.m in Sources */,
 				D8BAC986211A949100667D6F /* THNHomeViewController.m in Sources */,
 				D8BAC9B7211A949100667D6F /* THNFeaturedOpeningView.m in Sources */,
+				4B240E95212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m in Sources */,
 				4B2644E9212533AB00665A6D /* THNThreeImageStitchingView.m in Sources */,
 				D8BAC98B211A949100667D6F /* THNInboxViewController.m in Sources */,
 				D8BAC98E211A949100667D6F /* THNUserApplyView.m in Sources */,
