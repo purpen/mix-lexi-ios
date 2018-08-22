@@ -7,7 +7,8 @@
 //
 
 #import "THNLikedGoodsCollectionViewCell.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
@@ -63,14 +64,14 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     // 价格
     NSString *priceStr = [NSString stringWithFormat:@"￥%.2f  ", price];
     NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:priceStr];
-    priceAtt.yy_color = [UIColor colorWithHexString:@"#333333"];
-    priceAtt.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
+    priceAtt.color = [UIColor colorWithHexString:@"#333333"];
+    priceAtt.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
     
     // 喜欢数量
     NSString *likeStr = [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value];
     NSMutableAttributedString *likeAtt = [[NSMutableAttributedString alloc] initWithString:likeStr];
-    likeAtt.yy_color = [UIColor colorWithHexString:@"#999999"];
-    likeAtt.yy_font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
+    likeAtt.color = [UIColor colorWithHexString:@"#999999"];
+    likeAtt.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
     
     [priceAtt appendAttributedString:likeAtt];
     self.priceLabel.attributedText = priceAtt;

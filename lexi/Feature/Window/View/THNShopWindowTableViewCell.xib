@@ -87,6 +87,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ado-0J-fbv">
                                 <rect key="frame" x="67" y="0.0" width="22" height="22"/>
                                 <state key="normal" image="icon_comment"/>
+                                <connections>
+                                    <action selector="content:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zzF-LL-Xhw"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRz-Dj-fu9">
                                 <rect key="frame" x="472" y="0.0" width="22" height="22"/>
@@ -161,12 +164,12 @@
                 <outlet property="ImageViewStitchingView" destination="oRx-yC-vtK" id="Lzy-Be-Ayj"/>
                 <outlet property="avatarImageView" destination="Yd1-JJ-jx7" id="OsS-Yz-nGM"/>
                 <outlet property="buttonView" destination="p4s-yd-R1L" id="L6K-i0-F3b"/>
-                <outlet property="buttonViewHeightConstraint" destination="XBI-lD-lht" id="LTZ-bc-MhZ"/>
                 <outlet property="commentLabel" destination="ZHM-SD-eqg" id="fDU-qJ-cvN"/>
                 <outlet property="desLabel" destination="zfq-Lp-Dw2" id="kdg-db-09X"/>
                 <outlet property="flowButton" destination="ZiY-PM-8xD" id="b6k-Zx-FfD"/>
                 <outlet property="identityImageView" destination="avv-LQ-FyR" id="2vO-Gr-Tuk"/>
                 <outlet property="keywordView" destination="eIA-GB-siH" id="731-iu-Wb0"/>
+                <outlet property="keywordViewHeightConstraint" destination="XBI-lD-lht" id="6k4-e4-UZL"/>
                 <outlet property="likeLabel" destination="9uM-cV-2Jy" id="FC6-Ea-JQa"/>
                 <outlet property="nameLabel" destination="btv-Nl-teY" id="ic5-aS-mmG"/>
                 <outlet property="titleLabel" destination="lcO-G3-wlf" id="1Cg-r2-aAy"/>
