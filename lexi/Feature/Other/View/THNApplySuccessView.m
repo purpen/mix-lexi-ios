@@ -7,9 +7,10 @@
 //
 
 #import "THNApplySuccessView.h"
-#import <YYText/YYText.h>
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import "UIView+Helper.h"
 #import "THNMarco.h"
 #import "THNConst.h"
@@ -161,10 +162,10 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         _hintLabel = [[YYLabel alloc] init];
         
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kTextHint];
-        attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#666666"];
-        attText.yy_alignment = NSTextAlignmentLeft;
-        attText.yy_lineSpacing = 10;
+        attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#666666"];
+        attText.alignment = NSTextAlignmentLeft;
+        attText.lineSpacing = 10;
         
         _hintLabel.numberOfLines = 2;
         _hintLabel.attributedText = attText;
@@ -176,11 +177,11 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
     if (!_wechatLabel) {
         _wechatLabel = [[YYLabel alloc] init];
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kTextWechat];
-        attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#333333"];
-        attText.yy_alignment = NSTextAlignmentLeft;
+        attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#333333"];
+        attText.alignment = NSTextAlignmentLeft;
         
-        [attText yy_setTextHighlightRange:NSMakeRange(kTextWechat.length - 5, 5)
+        [attText setTextHighlightRange:NSMakeRange(kTextWechat.length - 5, 5)
                                     color:[UIColor colorWithHexString:kColorMain]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:nil];

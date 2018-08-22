@@ -27,5 +27,7 @@
 @property (nonatomic, strong) NSString *des;
 //橱窗图片数组
 @property (nonatomic, strong) NSArray *product_covers;
+//橱窗编号
+@property (nonatomic, strong) NSString *rid;
 
 @end
