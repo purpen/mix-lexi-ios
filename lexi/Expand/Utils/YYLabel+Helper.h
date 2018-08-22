@@ -6,7 +6,7 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 
 @interface YYLabel (Helper)
 

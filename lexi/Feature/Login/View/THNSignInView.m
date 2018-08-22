@@ -7,7 +7,7 @@
 //
 
 #import "THNSignInView.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "THNPasswordTextField.h"
 #import "THNAuthCodeButton.h"
@@ -516,12 +516,12 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     if (!_signUpLabel) {
         _signUpLabel = [[YYLabel alloc] init];
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kSignUpText];
-        attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#333333"];
-        attText.yy_alignment = NSTextAlignmentCenter;
+        attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#333333"];
+        attText.alignment = NSTextAlignmentCenter;
         
         WEAKSELF;
-        [attText yy_setTextHighlightRange:NSMakeRange(6, 4)
+        [attText setTextHighlightRange:NSMakeRange(6, 4)
                                     color:[UIColor colorWithHexString:kColorMain]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
