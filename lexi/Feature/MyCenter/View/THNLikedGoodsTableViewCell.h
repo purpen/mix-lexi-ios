@@ -11,10 +11,17 @@
 
 @interface THNLikedGoodsTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) CGFloat itemWidth;
 @property (nonatomic, strong) THNTableViewCells *cell;
 @property (nonatomic, weak) UITableView *tableView;
 
 - (void)thn_setLikedGoodsData:(NSArray *)goodsData;
-+ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style;
+
++ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView
+                                 cellStyle:(UITableViewCellStyle)style;
+
++ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView
+                             initWithStyle:(UITableViewCellStyle)style
+                           reuseIdentifier:(NSString *)reuseIdentifier;
 
 @end

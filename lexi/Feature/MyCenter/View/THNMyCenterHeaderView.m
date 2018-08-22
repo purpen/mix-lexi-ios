@@ -151,6 +151,9 @@ static NSInteger const kSelectedButtonTag = 452;
     self.signatureHeight = [self.signatureLabel thn_getLabelHeightWithMaxWidth:SCREEN_WIDTH - 40];
 }
 
+/**
+ 显示优惠券提示小红点
+ */
 - (void)thn_showCouponDot:(BOOL)show {
     self.couponDotView.hidden = !show;
 }

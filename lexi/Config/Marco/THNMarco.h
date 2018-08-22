@@ -28,6 +28,12 @@
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 
+#ifdef DEBUG
+#define THNLog(format,...) printf("%s",[[NSString stringWithFormat:(format), ##__VA_ARGS__] UTF8String])
+#else
+#define THNLog(...)
+#endif
+
 #define WEAKSELF __weak __typeof(self)weakSelf = self;
 
 #endif /* THNMarco_h */

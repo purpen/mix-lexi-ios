@@ -32,6 +32,16 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
     }];
 }
 
+- (void)thn_setTableViewFooterView:(THNTableViewFooterView *)view {
+    if (self.dataSections.count) return;
+    
+    if (!view) {
+        self.tableView.tableFooterView = [UIView new];
+    }
+    
+    self.tableView.tableFooterView = (UIView *)view;
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataSections.count;
@@ -52,7 +62,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     THNTableViewSections *secitons = self.dataSections[section];
 
-    return secitons.headerTitle.length ? kSectionHeaderViewH : 0.01;
+    return secitons.headerTitle.length ? kSectionHeaderViewH : secitons.headerHeight;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -60,7 +70,9 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01;
+    THNTableViewSections *secitons = self.dataSections[section];
+    
+    return secitons.footerHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

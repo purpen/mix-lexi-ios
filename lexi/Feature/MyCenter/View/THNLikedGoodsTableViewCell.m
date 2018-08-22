@@ -13,7 +13,9 @@
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 
-@interface THNLikedGoodsTableViewCell () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNLikedGoodsTableViewCell () <UICollectionViewDelegate, UICollectionViewDataSource> {
+    CGFloat _goodsItemWidth;  // 商品 cell 的宽度
+}
 
 /// 商品列表
 @property (nonatomic, strong) UICollectionView *goodsCollectionView;
@@ -45,6 +47,15 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     return cell;
 }
 
++ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    THNLikedGoodsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (!cell) {
+        cell = [[THNLikedGoodsTableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
+        cell.tableView = tableView;
+    }
+    return cell;
+}
+
 #pragma mark - public methods
 - (void)thn_setLikedGoodsData:(NSArray *)goodsData {
     if (self.modelArray.count) {
@@ -55,7 +66,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
         THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
         [self.modelArray addObject:model];
     }
-    
+
     [self.goodsCollectionView reloadData];
 }
 
@@ -67,8 +78,8 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-    self.flowLayout.itemSize = CGSizeMake(CGRectGetHeight(self.frame), CGRectGetHeight(self.frame));
+    self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
 }
 
 #pragma mark - collectionView delegate & dataSource
@@ -94,6 +105,10 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 }
 
 #pragma mark - getters and setters
+- (CGFloat)itemWidth {
+    return _itemWidth ? _itemWidth : CGRectGetHeight(self.bounds);
+}
+
 - (UICollectionView *)goodsCollectionView {
     if (!_goodsCollectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
