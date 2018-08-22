@@ -44,7 +44,7 @@ static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
-@interface THNFeaturedViewController ()
+@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -280,6 +280,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
+    cell.delagate = self;
     NSArray *dataArray = [NSArray array];
     NSString *title;
     
@@ -396,10 +397,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         case 1:
             break;
-        case 2:{
-            THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
-            [self.navigationController pushViewController:shopWindow animated:YES];
-        }
+        case 2:
             
             break;
         case 3:
@@ -411,6 +409,11 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     }
 }
 
+#pragma mark - THNFeatureTableViewCellDelegate method 实现
+- (void)pushShopWindow:(NSString *)rid {
+    THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
+    [self.navigationController pushViewController:shopWindow animated:YES];
+}
 
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {

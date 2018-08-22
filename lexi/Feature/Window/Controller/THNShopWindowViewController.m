@@ -16,7 +16,8 @@
 #import "THNShopWindowTableViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNShopWindowModel.h"
-#import "THNShopWindowDetailTableViewController.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNCommentViewController.h"
 
 static CGFloat const showImageViewHeight = 256;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
@@ -65,6 +66,13 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
     THNShopWindowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kShopWindowCellIdentifier forIndexPath:indexPath];
     THNShopWindowModel *shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:self.showWindows[indexPath.row]];
     [cell setShopWindowModel:shopWindowModel];
+    
+    cell.contentBlock = ^{
+        THNCommentViewController *comment = [[THNCommentViewController alloc]init];
+        comment.rid = shopWindowModel.rid;
+        [self.navigationController pushViewController:comment animated:YES];
+    };
+    
     return cell;
 }
 
@@ -84,7 +92,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNShopWindowDetailTableViewController *shopWindowDetail = [[THNShopWindowDetailTableViewController alloc]init];
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
