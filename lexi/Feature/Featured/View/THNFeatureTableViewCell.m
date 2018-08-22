@@ -200,6 +200,24 @@ CGFloat const kCellGrassListHeight = 158;
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.cellType == FeaturedLifeAesthetics) {
+        THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+        
+        if (self.delagate && [self.delagate respondsToSelector:@selector(pushShopWindow:)]) {
+            [self.delagate pushShopWindow:lifeRecordModel.rid];
+        }
+        
+    } else if (self.cellType == FearuredGrassList) {
+       
+        
+    } else if (self.cellType == FeaturedRecommendedToday) {
+       
+    } else {
+        
+        
+    }
+}
 
 
 

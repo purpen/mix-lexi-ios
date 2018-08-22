@@ -29,7 +29,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeLabel;
 @property (weak, nonatomic) IBOutlet UIView *keywordView;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *keywordViewHeightConstraint;
+@property (nonatomic, strong) UILabel *keywordLabel;
 
 @end
 
@@ -47,30 +48,59 @@
     self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
-    __block CGFloat labelX = 0;
-    __block CGFloat labelY = 0;
-    [shopWindowModel.keywords enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        UILabel *label = [[UILabel alloc]init];
-        label.text = obj;
-        label.textColor = [UIColor colorWithHexString:@"5FE4B1"];
-        label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
-        CGSize labelSize = [obj sizeWithAttributes:@{NSFontAttributeName:label.font}];
-        label.frame = CGRectMake(labelX, labelY, labelSize.width, labelSize.height);
-        [self.keywordView addSubview:label];
-        labelX += labelSize.width + 5;
-        NSLog(@"%.2f",CGRectGetMaxX(label.frame));
-        if (CGRectGetMaxX(label.frame) > SCREEN_WIDTH - 40 -labelSize.width) {
-            labelX = 0;
-            labelY += 20;
-        }
-        self.buttonViewHeightConstraint.constant = CGRectGetMaxY(label.frame);
-    }];
-    
+    [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
+    self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame) + 10;
     THNThreeImageStitchingView *threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
     threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
     [threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
     [self.ImageViewStitchingView addSubview:threeImageStitchingView];
 }
 
+//动态添加label方法
+- (void)createLabelWithArray:(NSArray *)titleArr FontSize:(CGFloat)fontSize SpcX:(CGFloat)spcX SpcY:(CGFloat)spcY
+{
+    //创建标签位置变量
+    CGFloat positionX = spcX;
+    CGFloat positionY = spcY;
+    
+    //创建label
+    for(int i = 0; i < titleArr.count; i++)
+    {
+        CGSize labelSize = [self getSizeByString:titleArr[i] AndFontSize:fontSize];
+        CGFloat labelWidth = labelSize.width;
+        
+        if (i == 0) {
+            positionX = 0;
+            positionY = 0;
+        } else {
+            if (positionX + labelWidth > SCREEN_WIDTH - 40) {
+                positionX = 0;
+                positionY += spcY;
+            }
+        }
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(positionX, positionY, labelWidth, 24)];
+        label.font = [UIFont systemFontOfSize:fontSize];
+        label.text = titleArr[i];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithHexString:@"5FE4B1"];
+        positionX += (labelWidth + 5);
+        self.keywordLabel = label;
+        [self.keywordView addSubview:label];
+    }
+   
+}
+
+//获取字符串长度的方法
+- (CGSize)getSizeByString:(NSString*)string AndFontSize:(CGFloat)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(999, 25) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size;
+    size.width += 5;
+    return size;
+}
+
+- (IBAction)content:(id)sender {
+    self.contentBlock();
+}
 
 @end

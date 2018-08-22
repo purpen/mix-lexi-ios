@@ -8,7 +8,8 @@
 
 #import "THNTableViewFooterView.h"
 #import <Masonry/Masonry.h>
-#import <YYText/YYText.h>
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import "UIColor+Extension.h"
 
 @interface THNTableViewFooterView ()
@@ -54,18 +55,18 @@
 
 - (void)setSubHintLabelText:(NSString *)text iconImageName:(NSString *)iconName iconLocation:(NSInteger)location {
     NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:text];
-    attText.yy_color = [UIColor colorWithHexString:@"#999999"];
-    attText.yy_font = [UIFont systemFontOfSize:12];
-    attText.yy_alignment = NSTextAlignmentCenter;
+    attText.color = [UIColor colorWithHexString:@"#999999"];
+    attText.font = [UIFont systemFontOfSize:12];
+    attText.alignment = NSTextAlignmentCenter;
     
     // 嵌入图标
     if (iconName.length) {
         UIImage *image = [UIImage imageNamed:iconName];
-        NSMutableAttributedString *attachment = [NSMutableAttributedString yy_attachmentStringWithContent:image
-                                                                                              contentMode:UIViewContentModeCenter
-                                                                                           attachmentSize:image.size
-                                                                                              alignToFont:[UIFont systemFontOfSize:12]
-                                                                                                alignment:YYTextVerticalAlignmentCenter];
+        NSMutableAttributedString *attachment = [NSMutableAttributedString attachmentStringWithContent:image
+                                                                                           contentMode:UIViewContentModeCenter
+                                                                                        attachmentSize:image.size
+                                                                                           alignToFont:[UIFont systemFontOfSize:12]
+                                                                                             alignment:YYTextVerticalAlignmentCenter];
         [attText insertAttributedString:attachment atIndex:location];
     }
     
