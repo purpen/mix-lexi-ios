@@ -20,6 +20,7 @@
 #import "THNTableViewSections.h"
 #import "THNTableViewCells.h"
 #import "THNNavigationBarView.h"
+@class THNTableViewFooterView;
 
 typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
     THNTableViewCellSeparatorStyleDefault = 0,  // 默认分隔线
@@ -49,5 +50,10 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
  对显示的组重新排序
  */
 - (void)thn_sortDataSecitons;
+
+/**
+ 设置数据缺省时的视图
+ */
+- (void)thn_setTableViewFooterView:(THNTableViewFooterView *)view;
 
 @end

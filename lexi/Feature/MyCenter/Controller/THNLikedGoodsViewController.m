@@ -77,6 +77,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedGoodsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                     forIndexPath:indexPath];
+    
     if (self.modelArray.count) {
         [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:YES];
     }
