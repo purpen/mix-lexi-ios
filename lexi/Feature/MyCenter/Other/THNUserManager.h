@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, THNProductsType) {
     THNProductsTypeLikedGoods = 0,  // 喜欢的商品
     THNProductsTypeBrowses,         // 最近查看
     THNProductsTypeWishList,        // 心愿单
+    THNProductsTypeStore            // 设计馆商品
 };
 
 @interface THNUserManager : NSObject
@@ -32,6 +33,12 @@ typedef NS_ENUM(NSInteger, THNProductsType) {
 + (void)getProductsWithType:(THNProductsType)type
                      params:(NSDictionary *)params
                  completion:(void (^)(NSArray *goodsData, NSError *error))completion;
+
+/**
+ 获取用户关注的设计馆
+ */
++ (void)getUserFollowStoreWithParams:(NSDictionary *)param
+                          completion:(void (^)(NSArray *storesData, NSError *error))completion;
 
 /**
  获取自己喜欢的商品

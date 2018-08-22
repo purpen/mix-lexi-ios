@@ -24,12 +24,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 @property (nonatomic, strong) UIView *infoView;
 /// 商品标题
 @property (nonatomic, strong) UILabel *titleLabel;
-/// 商品价格
+/// 商品价格&喜欢数量
 @property (nonatomic, strong) YYLabel *priceLabel;
-@property (nonatomic, assign) CGFloat priceWidth;
-/// 喜欢数量
-@property (nonatomic, strong) YYLabel *likeValueLabel;
-@property (nonatomic, assign) CGFloat likeValueWidth;
 
 @end
 
@@ -46,7 +42,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show {
     [self.goodsImageView downloadImage:model.cover
-                               placess:[UIImage imageNamed:@""]
+                               placess:[UIImage imageNamed:@"default_image_place"]
                              completed:^(UIImage *image, NSError *error) {
                                  if (error) return;
                                  [self thn_showLoadImageAnimate:YES];
@@ -55,42 +51,36 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     if (show) {
         self.infoView.hidden = NO;
         self.titleLabel.text = model.name;
-        [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price];
-        [self thn_setLikeValueLabelTextWithValue:model.like_count];
+        [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price
+                                   likeValue:model.like_count];
     };
-
+   
     [self layoutIfNeeded];
 }
 
 #pragma mark - private methods
-- (void)thn_setPriceLabelTextWithPrice:(CGFloat)price {
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", price]];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
-    self.priceLabel.attributedText = attStr;
+- (void)thn_setPriceLabelTextWithPrice:(CGFloat)price likeValue:(NSInteger)value {
+    // 价格
+    NSString *priceStr = [NSString stringWithFormat:@"￥%.2f  ", price];
+    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:priceStr];
+    priceAtt.yy_color = [UIColor colorWithHexString:@"#333333"];
+    priceAtt.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
     
-    // 喜欢数量的动态宽度
-    self.priceWidth = [self.priceLabel thn_getLabelWidthWithMaxHeight:11];
-}
-
-- (void)thn_setLikeValueLabelTextWithValue:(NSInteger)value {
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString: \
-                                         [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value]];
-    attStr.yy_color = [UIColor colorWithHexString:@"#999999"];
-    attStr.yy_font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
-    self.likeValueLabel.attributedText = attStr;
+    // 喜欢数量
+    NSString *likeStr = [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value];
+    NSMutableAttributedString *likeAtt = [[NSMutableAttributedString alloc] initWithString:likeStr];
+    likeAtt.yy_color = [UIColor colorWithHexString:@"#999999"];
+    likeAtt.yy_font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
     
-    // 喜欢数量的动态宽度
-    self.likeValueWidth = [self.likeValueLabel thn_getLabelWidthWithMaxHeight:11];
+    [priceAtt appendAttributedString:likeAtt];
+    self.priceLabel.attributedText = priceAtt;
 }
 
 - (void)thn_showLoadImageAnimate:(BOOL)show {
-    if (show) {
-        self.goodsImageView.alpha = 0.0f;
-        [UIView animateWithDuration:0.4 animations:^{
-            self.goodsImageView.alpha = 1.0f;
-        }];
-    }
+    self.goodsImageView.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        self.goodsImageView.alpha = 1.0f;
+    }];
 }
 
 #pragma mark - setup UI
@@ -100,14 +90,13 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     [self addSubview:self.infoView];
     [self.infoView addSubview:self.titleLabel];
     [self.infoView addSubview:self.priceLabel];
-    [self.infoView addSubview:self.likeValueLabel];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)));
+        make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)));
         make.top.left.mas_equalTo(0);
     }];
     [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
@@ -125,15 +114,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     }];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(11);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(self.priceWidth, 11));
-    }];
-    
-    [self.likeValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.priceLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(self.likeValueWidth, 11));
     }];
 }
 
@@ -170,13 +153,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _priceLabel = [[YYLabel alloc] init];
     }
     return _priceLabel;
-}
-
-- (YYLabel *)likeValueLabel {
-    if (!_likeValueLabel) {
-        _likeValueLabel = [[YYLabel alloc] init];
-    }
-    return _likeValueLabel;
 }
 
 @end
