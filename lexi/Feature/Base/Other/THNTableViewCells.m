@@ -26,6 +26,10 @@
     return _windowDataArr ? _windowDataArr : [NSArray array];
 }
 
+- (THNStoreModel *)storeModel {
+    return _storeModel ? _storeModel : [THNStoreModel new];
+}
+
 - (CGFloat)height {
     return _height ? _height : 88.0;
 }

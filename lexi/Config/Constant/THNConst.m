@@ -58,6 +58,7 @@ NSString *const kColorBlack         = @"#000000";
 NSString *const kColorTabDefault    = @"#666666";
 NSString *const kColorTabSelected   = @"#6ed7af";
 NSString *const kColorNavTitle      = @"#333333";
+NSString *const kColorBackground    = @"#f7f9fb";
 
 #pragma mark - 本地记录状态
 NSString *const kIsCloseLivingHallView = @"kIsCloseLivingHallView";
