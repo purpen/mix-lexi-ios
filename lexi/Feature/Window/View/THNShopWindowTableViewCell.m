@@ -8,6 +8,8 @@
 
 #import "THNShopWindowTableViewCell.h"
 #import "THNThreeImageStitchingView.h"
+#import "THNFiveImagesStitchView.h"
+#import "THNSevenImagesStitchView.h"
 #import "UIView+Helper.h"
 #import "UIImageView+WebCache.h"
 #import "THNShopWindowModel.h"
@@ -15,6 +17,10 @@
 #import <MJExtension/MJExtension.h>
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
+
+CGFloat threeImageHeight = 250;
+CGFloat fiveToGrowImageHeight = 140;
+CGFloat sevenToGrowImageHeight = 90;
 
 @interface THNShopWindowTableViewCell()
 
@@ -30,7 +36,12 @@
 @property (weak, nonatomic) IBOutlet UIView *keywordView;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *keywordViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewStitchingViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopConstraint;
 @property (nonatomic, strong) UILabel *keywordLabel;
+@property (nonatomic, strong) THNThreeImageStitchingView *threeImageStitchingView;
+@property (nonatomic, strong) THNFiveImagesStitchView *fiveImagesStitchingView;
+@property (nonatomic, strong) THNSevenImagesStitchView *sevenImagesStitchingView;
 
 @end
 
@@ -44,16 +55,46 @@
     _shopWindowModel = shopWindowModel;
     self.nameLabel.text = shopWindowModel.user_name;
     [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:shopWindowModel.user_avatar]];
-    self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
-    self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
     self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame) + 10;
-    THNThreeImageStitchingView *threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
-    threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
-    [threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
-    [self.ImageViewStitchingView addSubview:threeImageStitchingView];
+    self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
+    self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
+    
+    if ([self.flag isEqualToString:@"shopWindowDetail"]) {
+        [self hiddenShowWindowDetail];
+    }
+    
+    switch (self.imageType) {
+        case ShopWindowImageTypeThree:
+            [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
+            [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
+            break;
+        case ShopWindowImageTypeFive:
+            [self.threeImageStitchingView removeFromSuperview];
+            self.likeLabel.hidden = YES;
+            self.commentLabel.hidden = YES;
+            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
+            [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
+            [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
+            break;
+        case ShopWindowImageTypeSeven:
+            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
+            [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
+            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
+            break;
+    }
+    
+}
+
+// 隐藏橱窗详情橱窗Cell与当前Cell不同点
+- (void)hiddenShowWindowDetail {
+    [self.threeImageStitchingView removeFromSuperview];
+    self.likeLabel.hidden = YES;
+    self.commentLabel.hidden = YES;
+    self.buttonView.hidden = YES;
+    self.titleLabelTopConstraint.constant = -35;
 }
 
 //动态添加label方法
@@ -91,6 +132,8 @@
    
 }
 
+
+
 //获取字符串长度的方法
 - (CGSize)getSizeByString:(NSString*)string AndFontSize:(CGFloat)font
 {
@@ -101,6 +144,31 @@
 
 - (IBAction)content:(id)sender {
     self.contentBlock();
+}
+
+#pragma mark - lazy
+- (THNThreeImageStitchingView *)threeImageStitchingView {
+    if (!_threeImageStitchingView) {
+        _threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
+        _threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
+    }
+    return _threeImageStitchingView;
+}
+
+- (THNFiveImagesStitchView *)fiveImagesStitchingView {
+    if (!_fiveImagesStitchingView) {
+        _fiveImagesStitchingView = [THNFiveImagesStitchView viewFromXib];
+        _fiveImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
+    }
+    return _fiveImagesStitchingView;
+}
+
+- (THNSevenImagesStitchView *)sevenImagesStitchingView {
+    if (!_sevenImagesStitchingView) {
+        _sevenImagesStitchingView = [THNSevenImagesStitchView viewFromXib];
+        _sevenImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
+    }
+    return _sevenImagesStitchingView;
 }
 
 @end

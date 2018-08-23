@@ -16,6 +16,7 @@
 #import "THNRequest.h"
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
+#import "UITableView+Helper.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -119,7 +120,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
-        [self reloadRowData:0];
+        [self.tableView reloadRowData:0];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -131,7 +132,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.brandHallDataArray = result.data[@"stores"];
         self.brandHallTitle = result.data[@"title"];
-        [self reloadRowData:1];
+        [self.tableView reloadRowData:1];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -143,7 +144,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.productNewTitle = result.data[@"title"];
         self.productNewDataArray = result.data[@"products"];
-       [self reloadRowData:2];
+       [self.tableView reloadRowData:2];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -155,7 +156,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.setTitle = result.data[@"title"];
         self.setDataArray = result.data[@"collections"];
-        [self reloadRowData:3];
+        [self.tableView reloadRowData:3];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -167,7 +168,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodDesignTitle = result.data[@"title"];
         self.goodDesignDataArray = result.data[@"products"];
-        [self reloadRowData:4];
+        [self.tableView reloadRowData:4];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -179,16 +180,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodThingTitle = result.data[@"title"];
         self.goodThingDataArray = result.data[@"products"];
-        [self reloadRowData:5];
+        [self.tableView reloadRowData:5];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
-- (void)reloadRowData:(NSInteger)index {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-}
 
 #pragma mark UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
