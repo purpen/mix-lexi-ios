@@ -38,7 +38,6 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
     [self loadFirstLevelCommentData];
 }
 
-
 - (void)setupUI {
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
@@ -77,7 +76,6 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return 5;
 }
 
@@ -107,8 +105,6 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
         } completion:NULL];
     }
 }
-
-
 
 - (void)dealloc {
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
