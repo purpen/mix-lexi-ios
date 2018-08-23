@@ -40,6 +40,13 @@
 		4B72060B212D7124002606EE /* WBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72060A212D7124002606EE /* WBModel.m */; };
 		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
+		4B720613212E46CE002606EE /* THNCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720611212E46CE002606EE /* THNCommentTableViewCell.m */; };
+		4B720614212E46CE002606EE /* THNCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B720612212E46CE002606EE /* THNCommentTableViewCell.xib */; };
+		4B720617212E6012002606EE /* THNFiveImagesStitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720616212E6012002606EE /* THNFiveImagesStitchView.m */; };
+		4B720619212E601E002606EE /* THNFiveImagesStitchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B720618212E601E002606EE /* THNFiveImagesStitchView.xib */; };
+		4B72061C212E66E1002606EE /* THNSevenImagesStitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72061B212E66E1002606EE /* THNSevenImagesStitchView.m */; };
+		4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */; };
+		4B720624212EB281002606EE /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720623212EB281002606EE /* UITableView+Helper.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
@@ -236,6 +243,17 @@
 		4B72060A212D7124002606EE /* WBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBModel.m; sourceTree = "<group>"; };
 		4B72060C212D778F002606EE /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
 		4B72060D212D778F002606EE /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
+		4B720610212E46CE002606EE /* THNCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentTableViewCell.h; sourceTree = "<group>"; };
+		4B720611212E46CE002606EE /* THNCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentTableViewCell.m; sourceTree = "<group>"; };
+		4B720612212E46CE002606EE /* THNCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCommentTableViewCell.xib; sourceTree = "<group>"; };
+		4B720615212E6012002606EE /* THNFiveImagesStitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFiveImagesStitchView.h; sourceTree = "<group>"; };
+		4B720616212E6012002606EE /* THNFiveImagesStitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFiveImagesStitchView.m; sourceTree = "<group>"; };
+		4B720618212E601E002606EE /* THNFiveImagesStitchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNFiveImagesStitchView.xib; sourceTree = "<group>"; };
+		4B72061A212E66E1002606EE /* THNSevenImagesStitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSevenImagesStitchView.h; sourceTree = "<group>"; };
+		4B72061B212E66E1002606EE /* THNSevenImagesStitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSevenImagesStitchView.m; sourceTree = "<group>"; };
+		4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSevenImagesStitchView.xib; sourceTree = "<group>"; };
+		4B720622212EB281002606EE /* UITableView+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helper.h"; sourceTree = "<group>"; };
+		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
@@ -556,6 +574,15 @@
 				4B2644E7212533AB00665A6D /* THNThreeImageStitchingView.h */,
 				4B2644E8212533AB00665A6D /* THNThreeImageStitchingView.m */,
 				4B2644EA212533B600665A6D /* THNThreeImageStitchingView.xib */,
+				4B720615212E6012002606EE /* THNFiveImagesStitchView.h */,
+				4B720616212E6012002606EE /* THNFiveImagesStitchView.m */,
+				4B720618212E601E002606EE /* THNFiveImagesStitchView.xib */,
+				4B72061A212E66E1002606EE /* THNSevenImagesStitchView.h */,
+				4B72061B212E66E1002606EE /* THNSevenImagesStitchView.m */,
+				4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */,
+				4B720610212E46CE002606EE /* THNCommentTableViewCell.h */,
+				4B720611212E46CE002606EE /* THNCommentTableViewCell.m */,
+				4B720612212E46CE002606EE /* THNCommentTableViewCell.xib */,
 				4B240E8D212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.h */,
 				4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */,
 				4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */,
@@ -772,6 +799,8 @@
 				D85DA7B92106030100A36A71 /* UIView+LayoutMethods.m */,
 				D82FA78321256B8000E14A22 /* YYLabel+Helper.h */,
 				D82FA78421256B8000E14A22 /* YYLabel+Helper.m */,
+				4B720622212EB281002606EE /* UITableView+Helper.h */,
+				4B720623212EB281002606EE /* UITableView+Helper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1425,6 +1454,7 @@
 				4B2644EF2125590700665A6D /* showWindow.json in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
+				4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */,
 				D8BAC992211A949100667D6F /* THNObtainedView.xib in Resources */,
 				4B240E9D212BF4110077EDD4 /* THNCommentViewController.xib in Resources */,
 				4B2644EB212533B600665A6D /* THNThreeImageStitchingView.xib in Resources */,
@@ -1446,6 +1476,7 @@
 				D8BAC9AF211A949100667D6F /* THNFeaturedOpeningView.xib in Resources */,
 				D8BAC9B3211A949100667D6F /* THNActivityView.xib in Resources */,
 				D8BAC9B5211A949100667D6F /* THNGrassListCollectionViewCell.xib in Resources */,
+				4B720614212E46CE002606EE /* THNCommentTableViewCell.xib in Resources */,
 				4B240E96212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib in Resources */,
 				D8BAC9A0211A949100667D6F /* THNBrandCollectionViewCell.xib in Resources */,
 				4B2644CB2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib in Resources */,
@@ -1453,6 +1484,7 @@
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				D8BAC999211A949100667D6F /* THNLivingHallMuseumView.xib in Resources */,
 				D8BAC993211A949100667D6F /* THNLivingHallHeaderView.xib in Resources */,
+				4B720619212E601E002606EE /* THNFiveImagesStitchView.xib in Resources */,
 				D8BAC988211A949100667D6F /* THNHomeSearchView.xib in Resources */,
 				4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */,
 				4B2644E62125263300665A6D /* THNShopWindowTableViewCell.xib in Resources */,
@@ -1583,11 +1615,13 @@
 				D8BAC9BB211A949100667D6F /* THNGoodsInfoViewController.m in Sources */,
 				D8BAC9C5211A949100667D6F /* THNNewPasswordViewController.m in Sources */,
 				4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
+				4B720613212E46CE002606EE /* THNCommentTableViewCell.m in Sources */,
 				D8BAC996211A949100667D6F /* THNObtainedView.m in Sources */,
 				D8BAC9D7211A949100667D6F /* THNNavigationBarView.m in Sources */,
 				D8BAC9AA211A949100667D6F /* THNExploreTableViewCell.m in Sources */,
 				D8BAC9D0211A949100667D6F /* THNZipCodeTableViewCell.m in Sources */,
 				D82FA79F2126A8FE00E14A22 /* THNApplySuccessViewController.m in Sources */,
+				4B720617212E6012002606EE /* THNFiveImagesStitchView.m in Sources */,
 				D8BAC9D6211A949100667D6F /* THNBaseViewController.m in Sources */,
 				D8BAC9D4211A949100667D6F /* THNBaseTabBarController.m in Sources */,
 				D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */,
@@ -1599,10 +1633,12 @@
 				4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */,
 				D8BAC9A8211A949100667D6F /* THNCategoriesCollectionViewCell.m in Sources */,
 				D8BAC9C2211A949100667D6F /* THNNewUserInfoViewController.m in Sources */,
+				4B72061C212E66E1002606EE /* THNSevenImagesStitchView.m in Sources */,
 				D8BAC99A211A949100667D6F /* THNExploresViewController.m in Sources */,
 				D8BAC9A3211A949100667D6F /* THNBrandCollectionViewCell.m in Sources */,
 				D8BAC99B211A949100667D6F /* THNSetModel.m in Sources */,
 				D82FA7A22126A8FE00E14A22 /* THNUserApplyView.m in Sources */,
+				4B720624212EB281002606EE /* UITableView+Helper.m in Sources */,
 				D8BAC9B8211A949100667D6F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8BAC9B0211A949100667D6F /* THNFeatureTableViewCell.m in Sources */,
 				D85DA7DD2106030200A36A71 /* (null) in Sources */,
