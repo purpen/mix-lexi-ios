@@ -45,7 +45,6 @@
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
 		D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */; };
-		D82FA7582123F7AD00E14A22 /* THNBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7572123F7AD00E14A22 /* THNBaseTableViewController.m */; };
 		D82FA7622123FEB800E14A22 /* THNTableViewSections.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7612123FEB800E14A22 /* THNTableViewSections.m */; };
 		D82FA765212401C200E14A22 /* THNTableViewCells.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA764212401C200E14A22 /* THNTableViewCells.m */; };
 		D82FA7682124068C00E14A22 /* THNTableViewSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7672124068C00E14A22 /* THNTableViewSectionHeaderView.m */; };
@@ -179,6 +178,7 @@
 		D8F99827212CFAAC0012AED3 /* THNTableViewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99826212CFAAC0012AED3 /* THNTableViewFooterView.m */; };
 		D8F99830212D64820012AED3 /* THNFollowStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */; };
 		D8F99836212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */; };
+		D8F9983A212EEC6B0012AED3 /* THNBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -244,8 +244,6 @@
 		D82309DA210868A800CDD502 /* THNQiNiuUpload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNQiNiuUpload.m; sourceTree = "<group>"; };
 		D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helper.h"; sourceTree = "<group>"; };
 		D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helper.m"; sourceTree = "<group>"; };
-		D82FA7562123F7AD00E14A22 /* THNBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBaseTableViewController.h; sourceTree = "<group>"; };
-		D82FA7572123F7AD00E14A22 /* THNBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBaseTableViewController.m; sourceTree = "<group>"; };
 		D82FA7602123FEB800E14A22 /* THNTableViewSections.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTableViewSections.h; sourceTree = "<group>"; };
 		D82FA7612123FEB800E14A22 /* THNTableViewSections.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTableViewSections.m; sourceTree = "<group>"; };
 		D82FA763212401C200E14A22 /* THNTableViewCells.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTableViewCells.h; sourceTree = "<group>"; };
@@ -490,6 +488,8 @@
 		D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreButton.m; sourceTree = "<group>"; };
 		D8F99834212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNFollowStoreButton+SelfManager.h"; sourceTree = "<group>"; };
 		D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNFollowStoreButton+SelfManager.m"; sourceTree = "<group>"; };
+		D8F99838212EEC6B0012AED3 /* THNBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBaseTableViewController.h; sourceTree = "<group>"; };
+		D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBaseTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1173,20 +1173,20 @@
 		D8BAC948211A949100667D6F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D8BAC94D211A949100667D6F /* THNFindPasswordViewController.h */,
-				D8BAC953211A949100667D6F /* THNFindPasswordViewController.m */,
 				D8BAC951211A949100667D6F /* THNLoginViewController.h */,
 				D8BAC94A211A949100667D6F /* THNLoginViewController.m */,
-				D8BAC94E211A949100667D6F /* THNNewPasswordViewController.h */,
-				D8BAC957211A949100667D6F /* THNNewPasswordViewController.m */,
-				D8BAC94C211A949100667D6F /* THNNewUserInfoViewController.h */,
-				D8BAC954211A949100667D6F /* THNNewUserInfoViewController.m */,
-				D8BAC958211A949100667D6F /* THNSetPasswordViewController.h */,
-				D8BAC950211A949100667D6F /* THNSetPasswordViewController.m */,
 				D8BAC949211A949100667D6F /* THNSignInViewController.h */,
 				D8BAC952211A949100667D6F /* THNSignInViewController.m */,
 				D8BAC94F211A949100667D6F /* THNSignUpViewController.h */,
 				D8BAC956211A949100667D6F /* THNSignUpViewController.m */,
+				D8BAC94D211A949100667D6F /* THNFindPasswordViewController.h */,
+				D8BAC953211A949100667D6F /* THNFindPasswordViewController.m */,
+				D8BAC958211A949100667D6F /* THNSetPasswordViewController.h */,
+				D8BAC950211A949100667D6F /* THNSetPasswordViewController.m */,
+				D8BAC94E211A949100667D6F /* THNNewPasswordViewController.h */,
+				D8BAC957211A949100667D6F /* THNNewPasswordViewController.m */,
+				D8BAC94C211A949100667D6F /* THNNewUserInfoViewController.h */,
+				D8BAC954211A949100667D6F /* THNNewUserInfoViewController.m */,
 				D8BAC94B211A949100667D6F /* THNZipCodeViewController.h */,
 				D8BAC955211A949100667D6F /* THNZipCodeViewController.m */,
 			);
@@ -1207,30 +1207,30 @@
 		D8BAC95E211A949100667D6F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D8BAC96B211A949100667D6F /* THNAuthCodeButton.h */,
-				D8BAC963211A949100667D6F /* THNAuthCodeButton.m */,
-				D8BAC96F211A949100667D6F /* THNDoneButton.h */,
-				D8BAC960211A949100667D6F /* THNDoneButton.m */,
-				D8BAC968211A949100667D6F /* THNFindPassword.h */,
-				D8BAC975211A949100667D6F /* THNFindPassword.m */,
 				D8BAC965211A949100667D6F /* THNLoginBaseView.h */,
 				D8BAC972211A949100667D6F /* THNLoginBaseView.m */,
 				D8BAC973211A949100667D6F /* THNLoginView.h */,
 				D8BAC96A211A949100667D6F /* THNLoginView.m */,
-				D8BAC969211A949100667D6F /* THNNewUserInfoView.h */,
-				D8BAC974211A949100667D6F /* THNNewUserInfoView.m */,
-				D8BAC970211A949100667D6F /* THNPasswordTextField.h */,
-				D8BAC95F211A949100667D6F /* THNPasswordTextField.m */,
-				D8BAC976211A949100667D6F /* THNSetPasswordView.h */,
-				D8BAC967211A949100667D6F /* THNSetPasswordView.m */,
 				D8BAC96E211A949100667D6F /* THNSignInView.h */,
 				D8BAC961211A949100667D6F /* THNSignInView.m */,
 				D8BAC96D211A949100667D6F /* THNSignUpView.h */,
 				D8BAC962211A949100667D6F /* THNSignUpView.m */,
-				D8BAC964211A949100667D6F /* THNZipCodeTableViewCell.h */,
-				D8BAC96C211A949100667D6F /* THNZipCodeTableViewCell.m */,
+				D8BAC969211A949100667D6F /* THNNewUserInfoView.h */,
+				D8BAC974211A949100667D6F /* THNNewUserInfoView.m */,
+				D8BAC968211A949100667D6F /* THNFindPassword.h */,
+				D8BAC975211A949100667D6F /* THNFindPassword.m */,
+				D8BAC976211A949100667D6F /* THNSetPasswordView.h */,
+				D8BAC967211A949100667D6F /* THNSetPasswordView.m */,
+				D8BAC970211A949100667D6F /* THNPasswordTextField.h */,
+				D8BAC95F211A949100667D6F /* THNPasswordTextField.m */,
+				D8BAC96F211A949100667D6F /* THNDoneButton.h */,
+				D8BAC960211A949100667D6F /* THNDoneButton.m */,
+				D8BAC96B211A949100667D6F /* THNAuthCodeButton.h */,
+				D8BAC963211A949100667D6F /* THNAuthCodeButton.m */,
 				D8BAC971211A949100667D6F /* THNZipCodeView.h */,
 				D8BAC966211A949100667D6F /* THNZipCodeView.m */,
+				D8BAC964211A949100667D6F /* THNZipCodeTableViewCell.h */,
+				D8BAC96C211A949100667D6F /* THNZipCodeTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1254,8 +1254,8 @@
 				D8BAC97A211A949100667D6F /* THNBaseTabBarController.m */,
 				D8BAC979211A949100667D6F /* THNBaseViewController.h */,
 				D8BAC97C211A949100667D6F /* THNBaseViewController.m */,
-				D82FA7562123F7AD00E14A22 /* THNBaseTableViewController.h */,
-				D82FA7572123F7AD00E14A22 /* THNBaseTableViewController.m */,
+				D8F99838212EEC6B0012AED3 /* THNBaseTableViewController.h */,
+				D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1535,7 +1535,6 @@
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
 				D82FA79121267AB000E14A22 /* THNFunctionButtonView.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
-				D82FA7582123F7AD00E14A22 /* THNBaseTableViewController.m in Sources */,
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
@@ -1623,6 +1622,7 @@
 				D82FA7622123FEB800E14A22 /* THNTableViewSections.m in Sources */,
 				D8BAC9C7211A949100667D6F /* THNAreaCodeModel.m in Sources */,
 				D85DA7FC2106030200A36A71 /* NSString+Helper.m in Sources */,
+				D8F9983A212EEC6B0012AED3 /* THNBaseTableViewController.m in Sources */,
 				D8BAC9C3211A949100667D6F /* THNZipCodeViewController.m in Sources */,
 				D8BAC9A6211A949100667D6F /* THNProductCollectionViewCell.m in Sources */,
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,

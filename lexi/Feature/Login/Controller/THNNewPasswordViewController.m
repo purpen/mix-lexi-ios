@@ -70,7 +70,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [self networdPostNewPasswordWithParam:paramDict completion:^{
+    [weakSelf networdPostNewPasswordWithParam:paramDict completion:^{
         [SVProgressHUD showSuccessWithStatus:@"修改成功"];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -92,6 +92,13 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         };
     }
     return _setPasswordView;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.setPasswordView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

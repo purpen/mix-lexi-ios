@@ -18,7 +18,6 @@
     [super viewDidLoad];
     
     [self thn_setDynamicTableViewCell];
-    [self.tableView reloadData];
 }
 
 - (void)thn_setDynamicTableViewCell {
@@ -40,6 +39,7 @@
                                                                                     functionCells] mutableCopy]];
     
     [self.dataSections addObject:sections];
+    [self.tableView reloadData];
 }
 
 #pragma mark - setup UI

@@ -108,21 +108,20 @@ static NSString *const kParamGender     = @"gender";
 
 #pragma mark - event response
 - (void)thn_doneButtonAction {
-    WEAKSELF;
-    [weakSelf endEditing:YES];
+    [self endEditing:YES];
     
-    if (!weakSelf.avatarId) {
+    if (!self.avatarId) {
         [SVProgressHUD showInfoWithStatus:kHintLabelText];
         return;
     }
     
-    if (![weakSelf getUserNickname].length) {
+    if (![self getUserNickname].length) {
         [SVProgressHUD showInfoWithStatus:kNamePlaceholder];
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
-        [weakSelf.delegate thn_setUserInfoEditDoneWithParam:[weakSelf getUserInfoParam]];
+    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
+        [self.delegate thn_setUserInfoEditDoneWithParam:[self getUserInfoParam]];
     }
 }
 
@@ -403,12 +402,11 @@ static NSString *const kParamGender     = @"gender";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }

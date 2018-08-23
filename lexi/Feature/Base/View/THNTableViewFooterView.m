@@ -12,6 +12,11 @@
 #import <YYKit/NSAttributedString+YYText.h>
 #import "UIColor+Extension.h"
 
+static NSString *const kHintTextLiked    = @"您还未喜欢过任何东西";
+static NSString *const kSubHintTextLiked = @"点击商品和橱窗上的  即可添加到您的喜欢列表中";
+static NSString *const kHintTextCollect  = @"你当前还没有浏览和添加心愿单商品";
+static NSString *const kHintTextStore    = @"你当前还未关注任何原创品牌设计馆";
+
 @interface THNTableViewFooterView ()
 
 /// 图标
@@ -45,11 +50,17 @@
 
 #pragma mark - public methods
 - (void)setHintLabelText:(NSString *)text iconImageName:(NSString *)iconName {
+    self.subHintLable.hidden = YES;
     self.hintLabel.text = text;
     self.iconImageView.image = [UIImage imageNamed:iconName];
+    
+    [UIView animateWithDuration:(NSTimeInterval)0.8 animations:^{
+        self.alpha = 1;
+    }];
 }
 
 - (void)setSubHintLabelText:(NSString *)text {
+    self.subHintLable.hidden = YES;
     return [self setSubHintLabelText:text iconImageName:nil iconLocation:0];
 }
 
@@ -72,6 +83,31 @@
     
     self.subHintLable.attributedText = attText;
     self.subHintLable.hidden = NO;
+}
+
+- (void)setSubHintLabelTextWithType:(THNHeaderViewSelectedType)type {
+    self.alpha = 0;
+    
+    switch (type) {
+        case THNHeaderViewSelectedTypeLiked: {
+            [self setHintLabelText:kHintTextLiked iconImageName:@"default_liked"];
+            [self setSubHintLabelText:kSubHintTextLiked iconImageName:@"default_heart" iconLocation:10];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeCollect: {
+            [self setHintLabelText:kHintTextCollect iconImageName:@"default_collect"];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeStore: {
+            [self setHintLabelText:kHintTextStore iconImageName:@"default_store"];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - setup UI

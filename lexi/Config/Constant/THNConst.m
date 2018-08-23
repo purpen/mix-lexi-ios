@@ -15,6 +15,7 @@ NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/api/v1.0";   /
 
 #pragma mark - 测试账号
 // 大B账号
+//NSString *const kTestEmail          = @"18548918450";
 NSString *const kTestEmail          = @"18518391827";
 NSString *const kTestPassword       = @"in456321";
 NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";

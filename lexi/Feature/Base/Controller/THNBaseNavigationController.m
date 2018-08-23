@@ -35,7 +35,6 @@
         self.navigationBarHidden = NO;
     }
     
-    
     [super pushViewController:viewController animated:animated];
 }
 
