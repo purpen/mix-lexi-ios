@@ -69,7 +69,7 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    if ([textView isKindOfClass:self.nameTextView.class]) {
+    if (textView.viewHeight == 44) {
         if (textView.text.length > 16) {
             textView.editable = NO;
             [SVProgressHUD showInfoWithStatus:@"不得超过16字"];

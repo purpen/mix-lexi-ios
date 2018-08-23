@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNProductModel;
-
 @interface THNThreeImageStitchingView : UIView
 
 - (void)setThreeImageStitchingView:(NSArray *)images;

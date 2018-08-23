@@ -12,6 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="THNShopWindowDetailViewController">
             <connections>
+                <outlet property="fieldBackgroundView" destination="Aeg-4x-9QY" id="MBA-vN-U6U"/>
+                <outlet property="tableView" destination="XHf-oh-qXc" id="Sfp-Vc-bpR"/>
+                <outlet property="tableViewTopConstraint" destination="wih-XB-P6Q" id="Z1r-Yb-OKP"/>
                 <outlet property="view" destination="ETm-UV-x66" id="ytU-4a-Esu"/>
             </connections>
         </placeholder>
@@ -23,10 +26,6 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XHf-oh-qXc">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                     <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="70M-kh-a02"/>
-                        <outlet property="delegate" destination="-1" id="rBR-cO-50M"/>
-                    </connections>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6a-g3-8D5">
                     <rect key="frame" x="0.0" y="617" width="375" height="50"/>
