@@ -60,7 +60,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 - (void)loadLikeProductUserData:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlProductUserLike requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlProductUserLike requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.likeProductUserArray = result.data[@"product_like_users"];
         [self.recommendCollectionView reloadData];
@@ -73,7 +73,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 - (void)addLikeUser:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI postWithUrlString:kUrlUserLike requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlUserLike requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self loadLikeProductUserData:rid];
     } failure:^(THNRequest *request, NSError *error) {
@@ -85,7 +85,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 - (void)removeLikeUser:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlUserLike requestDictionary:params isSign:YES delegate:nil ];
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlUserLike requestDictionary:params delegate:nil ];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self loadLikeProductUserData:rid];
     } failure:^(THNRequest *request, NSError *error) {
