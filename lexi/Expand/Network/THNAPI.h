@@ -40,13 +40,11 @@
 
  @param urlString base api url
  @param requestDictionary 请求参数
- @param sign 是否需要签名
  @param delegate 代理方法
  @return Request obj
  */
 + (instancetype)getWithUrlString:(NSString *)urlString
                requestDictionary:(NSDictionary *)requestDictionary
-                          isSign:(BOOL)sign
                         delegate:(id)delegate;
 
 /**
@@ -54,13 +52,11 @@
  
  @param urlString base api url
  @param requestDictionary 请求参数
- @param sign 是否需要签名
  @param delegate 代理方法
  @return Request obj
  */
 + (instancetype)postWithUrlString:(NSString *)urlString
                 requestDictionary:(NSDictionary *)requestDictionary
-                           isSign:(BOOL)sign
                          delegate:(id)delegate;
 
 /**
@@ -68,13 +64,11 @@
  
  @param urlString base api url
  @param requestDictionary 请求参数
- @param sign 是否需要签名
  @param delegate 代理方法
  @return Request obj
  */
 + (instancetype)uploadWithUrlString:(NSString *)urlString
                   requestDictionary:(NSDictionary *)requestDictionary
-                             isSign:(BOOL)sign
                            delegate:(id)delegate;
 
 /**
@@ -82,13 +76,11 @@
  
  @param urlString base api url
  @param requestDictionary 请求参数
- @param sign 是否需要签名
  @param delegate 代理方法
  @return Request obj
  */
 + (instancetype)deleteWithUrlString:(NSString *)urlString
                   requestDictionary:(NSDictionary *)requestDictionary
-                             isSign:(BOOL)sign
                            delegate:(id)delegate;
 
 @end
