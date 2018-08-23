@@ -105,9 +105,8 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
-    WEAKSELF;
     [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
