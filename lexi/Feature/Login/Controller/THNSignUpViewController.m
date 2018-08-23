@@ -162,4 +162,11 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     return _zipCodeVC;
 }
 
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.signUpView removeFromSuperview];
+    
+    return YES;
+}
+
 @end
