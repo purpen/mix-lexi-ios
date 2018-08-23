@@ -141,7 +141,6 @@ static NSInteger const kSelectedButtonTag = 452;
  */
 - (void)thn_setSignatureLabelTextWith:(NSString *)signature {
     signature = !signature.length ? @"" : signature;
-    
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:signature];
     attStr.font = [UIFont systemFontOfSize:13 weight:(UIFontWeightRegular)];
     attStr.lineSpacing = 6;
@@ -150,6 +149,7 @@ static NSInteger const kSelectedButtonTag = 452;
     
     // 签名的动态高度
     self.signatureHeight = [self.signatureLabel thn_getLabelHeightWithMaxWidth:SCREEN_WIDTH - 40];
+    self.signatureHeight = self.signatureHeight > 44 ? 44 : self.signatureHeight;
 }
 
 /**

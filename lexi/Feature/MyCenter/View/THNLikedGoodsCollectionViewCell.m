@@ -43,7 +43,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show {
     [self.goodsImageView downloadImage:model.cover
-                               placess:[UIImage imageNamed:@"default_image_place"]
+                               placess:[UIImage imageNamed:@"default_goods_place"]
                              completed:^(UIImage *image, NSError *error) {
                                  if (error) return;
                                  [self thn_showLoadImageAnimate:YES];

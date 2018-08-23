@@ -68,5 +68,6 @@ typedef void(^THNSelectedCellBlock)(NSString *ids);
 @property (nonatomic, assign) UITableViewCellSelectionStyle selectionStyle;
 
 + (instancetype)initWithCellType:(THNTableViewCellType)type didSelectedItem:(THNSelectedCellBlock)completion;
++ (instancetype)initWithCellType:(THNTableViewCellType)type cellHeight:(CGFloat)height didSelectedItem:(THNSelectedCellBlock)completion;
 
 @end

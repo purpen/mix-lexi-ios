@@ -61,7 +61,7 @@ static NSString *const kLoginInfoPassword   = @"password";
  */
 - (NSString *)getAuthorizationToken:(NSDictionary *)requestDictionary {
     NSMutableString *prefix = [NSMutableString stringWithFormat:@"Basic  "];
-    
+
     NSString *param1 = [THNLoginManager isLogin] ? [self appToken] : requestDictionary[kLoginInfoEmail];
     NSString *param2 = [THNLoginManager isLogin] ? [self appToken] : requestDictionary[kLoginInfoPassword];
     NSString *paramStr = [NSString stringWithFormat:@"%@:%@", param1, param2];
