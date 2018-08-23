@@ -46,11 +46,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
-    
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
@@ -70,11 +66,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  */
 - (void)networkPostFindPasswordWith:(NSDictionary *)param completion:(void (^)(NSString *email))completion {
     [SVProgressHUD showWithStatus:@"正在验证..."];
-    THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
-    
+    THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
             [self.findPasswordView thn_setErrorHintText:result.statusMessage];

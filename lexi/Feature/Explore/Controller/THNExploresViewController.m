@@ -94,7 +94,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 #pragma mark - 请求数据
 // banner
 - (void)loadBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
@@ -104,7 +104,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 分类列表
 - (void)loadCategorieData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.categoriesCollectionView.categorieDataArray = result.data[@"categories"];
         [self.categoriesCollectionView reloadData];
@@ -115,7 +115,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 编辑推荐
 - (void)loadRecommendData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlRecommend requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlRecommend requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
@@ -127,7 +127,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 特色品牌馆
 - (void)loadBrandHallData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.brandHallDataArray = result.data[@"stores"];
         self.brandHallTitle = result.data[@"title"];
@@ -139,7 +139,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 优质新品
 - (void)loadNewProductData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlNewProduct requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlNewProduct requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.productNewTitle = result.data[@"title"];
         self.productNewDataArray = result.data[@"products"];
@@ -151,7 +151,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 集合
 - (void)loadSetData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlSet requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlSet requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.setTitle = result.data[@"title"];
         self.setDataArray = result.data[@"collections"];
@@ -163,7 +163,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 特惠好设计
 - (void)loadGoodDesignData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlGoodDesign requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlGoodDesign requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodDesignTitle = result.data[@"title"];
         self.goodDesignDataArray = result.data[@"products"];
@@ -175,7 +175,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 百元好物
 - (void)loadGoodThingData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlHundredGoodThings requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlHundredGoodThings requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodThingTitle = result.data[@"title"];
         self.goodThingDataArray = result.data[@"products"];

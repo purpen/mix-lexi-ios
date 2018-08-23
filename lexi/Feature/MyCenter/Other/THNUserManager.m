@@ -63,10 +63,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestUserCenterCompletion:(void (^)(THNUserModel *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter
-                                 requestDictionary:nil
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -89,10 +86,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:url
-                                 requestDictionary:params
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -111,10 +105,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestUserLikedWindowWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow
-                                 requestDictionary:params
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -130,10 +121,7 @@ static NSString *const kKeyStores       = @"stores";
 
 - (void)requestUserFollowStoreWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore
-                                 requestDictionary:param
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -151,10 +139,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestUserLikedGoodsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedGoods
-                                 requestDictionary:params
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedGoods requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -172,10 +157,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestUserBrowsesWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserBrowses
-                                 requestDictionary:params
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -193,10 +175,7 @@ static NSString *const kKeyStores       = @"stores";
  */
 - (void)requestUserWishListWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserWishlist
-                                 requestDictionary:params
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserWishlist requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         

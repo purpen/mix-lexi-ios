@@ -35,10 +35,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 #pragma mark - network
 - (void)networdPostNewPasswordWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
