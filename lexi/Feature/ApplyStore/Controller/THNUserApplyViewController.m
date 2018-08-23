@@ -45,10 +45,7 @@ static NSString *const kParamMobile         = @"mobile";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"申请开馆验证码 ==== %@", result.responseDict);
@@ -69,10 +66,7 @@ static NSString *const kParamMobile         = @"mobile";
  开通生活馆
  */
 - (void)networkApplyLifeStoreWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLApply
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLApply requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {

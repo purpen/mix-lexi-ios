@@ -118,7 +118,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 #pragma mark - 请求数据
 // 顶部Banner
 - (void)loadTopBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.dataArray = result.data[@"banner_images"];
         [self.featuredCollectionView reloadData];
@@ -129,7 +129,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 // 内容区Banner
 - (void)loadContentBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
@@ -142,7 +142,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.dailyPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dailyTitle = result.data[@"title"];
         self.dailyDataArray = result.data[@"daily_recommends"];
@@ -158,7 +158,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.pupularPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularTitle = result.data[@"title"];
         self.popularDataArray = result.data[@"products"];
@@ -170,7 +170,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 // 发现生活美学
 - (void)loadLifeAestheticData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.lifeAestheticTitle = result.data[@"title"];
        
@@ -187,7 +187,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.optimalPerPageCount);
-    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.optimalTitle = result.data[@"title"];
         self.optimalDataArray = result.data[@"products"];
@@ -202,7 +202,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.grassListPerPageCount);
-    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.grassListDataArray = result.data[@"life_records"];
         self.grassListTitle = result.data[@"title"];

@@ -51,7 +51,7 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     params[@"rid"] = [THNLoginManager sharedManager].storeRid;
     params[@"name"] = self.nameTextView.text;
     params[@"description"] =  self.introductionTextView.text;
-    THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
          self.reloadLivingHallBlock();
     } failure:^(THNRequest *request, NSError *error) {

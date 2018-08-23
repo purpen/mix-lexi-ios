@@ -34,7 +34,6 @@ static NSString *const kParamStatus = @"status";
 - (void)networkGetAreaCode {
     THNRequest *request = [THNAPI getWithUrlString:kURLAreaCode
                                  requestDictionary:@{kParamStatus: @1}
-                                            isSign:NO
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
