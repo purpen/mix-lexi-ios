@@ -186,7 +186,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 }
 
 - (IBAction)goSelection:(id)sender {
-    
+    self.pushProductCenterBlock();
 }
 
 - (IBAction)copyWechat:(id)sender {

@@ -14,6 +14,7 @@ typedef void(^OpeningBlcok)(void);
 
 @interface THNFeaturedOpeningView : UIView
 
+@property (weak, nonatomic) IBOutlet UIView *topTintView;
 @property (nonatomic, copy) OpeningBlcok openingBlcok;
 - (void)loadLivingHallHeadLineData;
 

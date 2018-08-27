@@ -43,6 +43,7 @@
     
     if (productModel.is_free_postage) {
         self.shippingImageView.hidden = NO;
+        self.nameLabelLeftConstraint.constant = 5;
     } else {
         self.shippingImageView.hidden = YES;
         self.nameLabelLeftConstraint.constant = -20;
