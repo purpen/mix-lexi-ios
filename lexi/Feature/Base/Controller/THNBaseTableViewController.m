@@ -8,10 +8,10 @@
 
 #import "THNBaseTableViewController.h"
 
-static CGFloat const kSectionHeaderViewH = 54.0;
+static CGFloat const kSectionHeaderViewH  = 54.0;
 static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
-@interface THNBaseTableViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNBaseTableViewController ()
 
 @end
 

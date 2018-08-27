@@ -274,6 +274,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 }
 
 #pragma mark -lazy
+
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
         _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(kBannerViewSpacing, kBannerViewY, SCREEN_WIDTH - kBannerViewSpacing * 2, kBannerViewHeight)];
