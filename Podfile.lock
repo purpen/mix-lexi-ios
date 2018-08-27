@@ -29,7 +29,6 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
-  - WMPageController (2.4.3)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -45,7 +44,6 @@ DEPENDENCIES:
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
   - TYAlertController (~> 1.2.0)
-  - WMPageController (~> 2.4.0)
   - YYKit
 
 SPEC REPOS:
@@ -62,7 +60,6 @@ SPEC REPOS:
     - SDWebImage
     - SVProgressHUD
     - TYAlertController
-    - WMPageController
     - YYKit
 
 SPEC CHECKSUMS:
@@ -78,9 +75,8 @@ SPEC CHECKSUMS:
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
-  WMPageController: 4c7f2c636675a71aea5eecf8fdc07a0ce86954e3
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 82dd96ee57a0222935871928fb150e7c6cbfe698
+PODFILE CHECKSUM: d5cba009f6521524f21f001c853f0eec6cdf22fa
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.5.2

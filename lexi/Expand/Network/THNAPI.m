@@ -184,6 +184,20 @@ static NSString *const kLoginInfoPassword   = @"password";
                            responseType:AFNetworkingResponseTypeJSON];
 }
 
++ (instancetype)putWithUrlString:(NSString *)urlString
+               requestDictionary:(NSDictionary *)requestDictionary
+                        delegate:(id)delegate {
+    
+    return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
+                      requestDictionary:requestDictionary
+                               delegate:delegate
+                        timeoutInterval:600.0
+                                   flag:nil
+                          requestMethod:AFNetworkingRequestMethodPUT
+                            requestType:AFNetworkingRequestTypeJSON
+                           responseType:AFNetworkingResponseTypeJSON];
+}
+
 + (instancetype)postWithUrlString:(NSString *)urlString
                 requestDictionary:(NSDictionary *)requestDictionary
                          delegate:(id)delegate {
