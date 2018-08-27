@@ -33,7 +33,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 
 // 开馆指引
 - (void)loadLivingHallHeadLineData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLivingHallHeadLine requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLivingHallHeadLine requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSString *fistUserName = result.data[@"username_one"];
         NSString *secondUserName = result.data[@"username_two"];

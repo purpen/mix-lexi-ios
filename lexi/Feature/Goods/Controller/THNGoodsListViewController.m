@@ -1,26 +1,26 @@
 //
-//  THNLikedGoodsViewController.m
+//  THNGoodsListViewController.m
 //  lexi
 //
-//  Created by FLYang on 2018/8/16.
+//  Created by FLYang on 2018/8/27.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNLikedGoodsViewController.h"
+#import "THNGoodsListViewController.h"
 #import "THNLikedGoodsCollectionViewCell.h"
 #import "THNFunctionButtonView.h"
 #import "THNFunctionPopupView.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 
-@interface THNLikedGoodsViewController () <
+@interface THNGoodsListViewController () <
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
     THNFunctionButtonViewDelegate
 >
 
-/// 喜欢的商品列表
+/// 商品列表
 @property (nonatomic, strong) UICollectionView *goodsCollectionView;
 /// 商品数据
 @property (nonatomic, strong) NSMutableArray *modelArray;
@@ -28,16 +28,17 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 @property (nonatomic, strong) THNFunctionButtonView *functionView;
 /// 功能视图
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
-/// 显示的商品类型
+/// 获取商品的类型
 @property (nonatomic, assign) THNProductsType productsType;
 
 @end
 
-@implementation THNLikedGoodsViewController
+@implementation THNGoodsListViewController
 
-- (instancetype)initWithShowProductsType:(THNProductsType)type {
+- (instancetype)initWithType:(THNProductsType)type title:(NSString *)title {
     self = [super init];
     if (self) {
+        self.navigationBarView.title = title;
         self.productsType = type;
     }
     return self;
@@ -46,20 +47,20 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self thn_getProductsWithType:self.productsType];
     [self setupUI];
-    [self thn_getProductsWithType:self.productsType ? self.productsType : THNProductsTypeLikedGoods];
 }
 
 // 获取商品数据
 - (void)thn_getProductsWithType:(THNProductsType)type {
-    [THNUserManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
         if (error || !goodsData.count) return;
-        
+
         for (NSDictionary *product in goodsData) {
             THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
             [self.modelArray addObject:model];
         }
-        
+
         [self.goodsCollectionView reloadData];
     }];
 }
@@ -76,12 +77,12 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedGoodsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
-                                                                                    forIndexPath:indexPath];
+                                                                                      forIndexPath:indexPath];
     
     if (self.modelArray.count) {
         [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:YES];
     }
-
+    
     return cell;
 }
 
@@ -104,16 +105,6 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     [self.view addSubview:self.functionView];
     
     [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setNavigationBar];
-}
-
-- (void)setNavigationBar {
-    self.navigationBarView.title = self.title;
 }
 
 #pragma mark - getters and setters
@@ -157,6 +148,5 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     }
     return _popupView;
 }
-
 
 @end

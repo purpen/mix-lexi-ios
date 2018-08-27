@@ -1,24 +1,26 @@
 //
-//  THNBaseTableViewController.m
+//  THNTableViewController.m
 //  lexi
 //
-//  Created by FLYang on 2018/8/15.
+//  Created by FLYang on 2018/8/23.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
 #import "THNBaseTableViewController.h"
 
-static CGFloat const kSectionHeaderViewH = 54.0;
+static CGFloat const kSectionHeaderViewH  = 54.0;
 static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
-@interface THNBaseTableViewController () <THNNavigationBarViewDelegate>
+@interface THNBaseTableViewController ()
 
 @end
 
 @implementation THNBaseTableViewController
 
-- (instancetype)init {
-    return [self initWithStyle:(UITableViewStyleGrouped)];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self setupTableViewUI];
 }
 
 #pragma mark - public methods
@@ -30,16 +32,6 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         NSComparisonResult result = [@(section1.index) compare:@(section2.index)];
         return result;
     }];
-}
-
-- (void)thn_setTableViewFooterView:(THNTableViewFooterView *)view {
-    if (self.dataSections.count) return;
-    
-    if (!view) {
-        self.tableView.tableFooterView = [UIView new];
-    }
-    
-    self.tableView.tableFooterView = (UIView *)view;
 }
 
 #pragma mark - Table view data source
@@ -61,7 +53,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     THNTableViewSections *secitons = self.dataSections[section];
-
+    
     return secitons.headerTitle.length ? kSectionHeaderViewH : secitons.headerHeight;
 }
 
@@ -82,6 +74,18 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
     return cells.height;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUITableViewCellId];
     if (!cell) {
@@ -90,52 +94,26 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
     return cell;
 }
 
-#pragma mark - life cycle
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupBaseUI];
-}
-
 #pragma mark - setup UI
-- (void)setupBaseUI {
-    self.tableView.backgroundColor = [UIColor whiteColor];
+- (void)setupTableViewUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
-    self.tableView.showsVerticalScrollIndicator = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [[UIApplication sharedApplication].windows.firstObject addSubview:self.navigationBarView];
-    
-    if (self.navigationController.viewControllers.count > 1) {
-        [self.navigationBarView setNavigationBackButton];
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [self.navigationBarView removeFromSuperview];
-}
-
-#pragma mark - custom delegate
-- (void)didNavigationBackButtonEvent {
-    if (self.navigationController.viewControllers.count > 1) {
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
-- (void)didNavigationCloseButtonEvent {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark - getters and setters
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+                                                  style:(UITableViewStyleGrouped)];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
+        _tableView.showsVerticalScrollIndicator = NO;
+    }
+    return _tableView;
+}
+
 - (NSMutableArray *)dataSections {
     if (!_dataSections) {
         _dataSections = [NSMutableArray array];
@@ -148,14 +126,6 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
     
     if (separatorStyle == THNTableViewCellSeparatorStyleDefault) return;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
-
-- (THNNavigationBarView *)navigationBarView {
-    if (!_navigationBarView) {
-        _navigationBarView = [[THNNavigationBarView alloc] init];
-        _navigationBarView.delegate = self;
-    }
-    return _navigationBarView;
 }
 
 @end
