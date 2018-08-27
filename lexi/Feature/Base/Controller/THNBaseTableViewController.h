@@ -17,7 +17,10 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
     THNTableViewCellSeparatorStyleMargin        // 左边带间距
 };
 
-@interface THNBaseTableViewController : THNBaseViewController
+@interface THNBaseTableViewController : THNBaseViewController <
+    UITableViewDataSource,
+    UITableViewDelegate
+>
 
 @property (nonatomic, strong) UITableView *tableView;
 
