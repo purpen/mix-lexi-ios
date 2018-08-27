@@ -14,5 +14,4 @@ target "lexi" do
  pod 'YYKit'
  pod "Qiniu", "~> 7.1"
  pod 'MLeaksFinder'
- pod 'WMPageController', '~> 2.4.0'
 end

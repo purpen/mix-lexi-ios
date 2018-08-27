@@ -129,7 +129,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
     _productModel = productModel;
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
     self.productNameLabel.text = productModel.name;
-    self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
+    self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_sale_price];
     self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
     self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
     self.recommenDationLabel.text = productModel.features;
