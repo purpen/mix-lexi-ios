@@ -54,7 +54,7 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
 - (void)loadFirstLevelCommentData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowsComments requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowsComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -66,7 +66,7 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
 - (void)loadSecondLevelCommentData:(NSString *)pid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"pid"] = pid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlChildComments requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlChildComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         
     } failure:^(THNRequest *request, NSError *error) {

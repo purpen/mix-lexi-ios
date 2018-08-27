@@ -44,7 +44,7 @@
 
 // 顶部Banner
 - (void)loadTopBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.dataArray = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeCenter;

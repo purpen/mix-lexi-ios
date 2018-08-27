@@ -99,7 +99,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 - (void)loadLifeStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.loginManger.storeRid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSString *storeName = result.data[@"name"];
         self.desLabel.text = result.data[@"description"];
@@ -115,7 +115,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.loginManger.storeRid;
     NSString *requestUrl = [NSString stringWithFormat:@"/store/%@/app_visitor",self.loginManger.storeRid];
-    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.userPartieArray = result.data[@"users"];
         NSInteger baroseCount = [result.data[@"count"]integerValue];
@@ -142,7 +142,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @1;
     params[@"per_page"] = @3;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlSelectProductCenter requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlSelectProductCenter requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.selectProductArray = result.data[@"products"];
         __weak typeof(self)weakSelf = self;

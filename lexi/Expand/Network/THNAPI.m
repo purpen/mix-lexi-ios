@@ -61,7 +61,7 @@ static NSString *const kLoginInfoPassword   = @"password";
  */
 - (NSString *)getAuthorizationToken:(NSDictionary *)requestDictionary {
     NSMutableString *prefix = [NSMutableString stringWithFormat:@"Basic  "];
-    
+
     NSString *param1 = [THNLoginManager isLogin] ? [self appToken] : requestDictionary[kLoginInfoEmail];
     NSString *param2 = [THNLoginManager isLogin] ? [self appToken] : requestDictionary[kLoginInfoPassword];
     NSString *paramStr = [NSString stringWithFormat:@"%@:%@", param1, param2];
@@ -153,11 +153,10 @@ static NSString *const kLoginInfoPassword   = @"password";
     
     [fullDictionary setValuesForKeysWithDictionary:paramDictionary];
     
-    if (self.sign) {
-        // 获取签名
-        NSString *sign = [self getSign:paramDictionary];
-        [fullDictionary setValue:sign forKey:@"sign"];
-    }
+    
+    // 获取签名
+    NSString *sign = [self getSign:paramDictionary];
+    [fullDictionary setValue:sign forKey:@"sign"];
     
     return fullDictionary;
 }
@@ -173,7 +172,6 @@ static NSString *const kLoginInfoPassword   = @"password";
 
 + (instancetype)getWithUrlString:(NSString *)urlString
                requestDictionary:(NSDictionary *)requestDictionary
-                          isSign:(BOOL)sign
                         delegate:(id)delegate {
     
     return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
@@ -181,7 +179,6 @@ static NSString *const kLoginInfoPassword   = @"password";
                                delegate:delegate
                         timeoutInterval:600.0
                                    flag:nil
-                                 isSign:sign
                           requestMethod:AFNetworkingRequestMethodGET
                             requestType:AFNetworkingRequestTypeJSON
                            responseType:AFNetworkingResponseTypeJSON];
@@ -189,7 +186,6 @@ static NSString *const kLoginInfoPassword   = @"password";
 
 + (instancetype)postWithUrlString:(NSString *)urlString
                 requestDictionary:(NSDictionary *)requestDictionary
-                           isSign:(BOOL)sign
                          delegate:(id)delegate {
     
     return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
@@ -197,7 +193,6 @@ static NSString *const kLoginInfoPassword   = @"password";
                                delegate:delegate
                         timeoutInterval:600.0
                                    flag:nil
-                                 isSign:sign
                           requestMethod:AFNetworkingRequestMethodPOST
                             requestType:AFNetworkingRequestTypeJSON
                            responseType:AFNetworkingResponseTypeJSON];
@@ -205,7 +200,6 @@ static NSString *const kLoginInfoPassword   = @"password";
 
 + (instancetype)uploadWithUrlString:(NSString *)urlString
                   requestDictionary:(NSDictionary *)requestDictionary
-                             isSign:(BOOL)sign
                            delegate:(id)delegate {
     
     return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
@@ -213,7 +207,6 @@ static NSString *const kLoginInfoPassword   = @"password";
                                delegate:delegate
                         timeoutInterval:600.0
                                    flag:nil
-                                 isSign:sign
                           requestMethod:AFNetworkingRequestMethodUPLOAD
                             requestType:AFNetworkingRequestTypeJSON
                            responseType:AFNetworkingResponseTypeJSON];
@@ -221,7 +214,6 @@ static NSString *const kLoginInfoPassword   = @"password";
 
 + (instancetype)deleteWithUrlString:(NSString *)urlString
                   requestDictionary:(NSDictionary *)requestDictionary
-                             isSign:(BOOL)sign
                            delegate:(id)delegate {
     
     return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
@@ -229,7 +221,6 @@ static NSString *const kLoginInfoPassword   = @"password";
                                delegate:delegate
                         timeoutInterval:600.0
                                    flag:nil
-                                 isSign:sign
                           requestMethod:AFNetworkingRequestMethodDELETE
                             requestType:AFNetworkingRequestTypeJSON
                            responseType:AFNetworkingResponseTypeJSON];

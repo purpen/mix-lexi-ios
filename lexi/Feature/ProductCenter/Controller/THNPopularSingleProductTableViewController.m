@@ -30,7 +30,7 @@ static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
 }
 
 - (void)loadDistributeHotData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dataArray = result.data[@"products"];
 //        self.arrayCountBlock(self.dataArray.count);

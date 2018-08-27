@@ -118,13 +118,10 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     
     NSDictionary *paramDict = [self getRequestParamsWithType:self.loginModeType];
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
-        [weakSelf.delegate thn_signInWithParam:paramDict
-                                 loginModeType:weakSelf.loginModeType];
+    if ([self.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
+        [self.delegate thn_signInWithParam:paramDict loginModeType:self.loginModeType];
     }
 }
-
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
@@ -490,12 +487,11 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }

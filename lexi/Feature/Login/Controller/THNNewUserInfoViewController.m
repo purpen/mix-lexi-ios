@@ -46,10 +46,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 
 #pragma mark - network
 - (void)networkGetQiNiuUploadToken {
-    THNRequest *request = [THNAPI getWithUrlString:kURLUpToken
-                                 requestDictionary:nil
-                                            isSign:YES
-                                          delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUpToken requestDictionary:nil delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
@@ -62,10 +59,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 - (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
@@ -105,9 +99,8 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
-    WEAKSELF;
     [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
