@@ -57,7 +57,6 @@
 		D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */; };
 		D82FA78521256B8000E14A22 /* YYLabel+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA78421256B8000E14A22 /* YYLabel+Helper.m */; };
 		D82FA7882125740000E14A22 /* THNLikedWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */; };
-		D82FA78B2125932300E14A22 /* THNLikedGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA78A2125932300E14A22 /* THNLikedGoodsViewController.m */; };
 		D82FA79121267AB000E14A22 /* THNFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79021267AB000E14A22 /* THNFunctionButtonView.m */; };
 		D82FA79F2126A8FE00E14A22 /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */; };
 		D82FA7A02126A8FE00E14A22 /* THNUserApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */; };
@@ -179,6 +178,8 @@
 		D8F99830212D64820012AED3 /* THNFollowStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */; };
 		D8F99836212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */; };
 		D8F9983A212EEC6B0012AED3 /* THNBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */; };
+		D8F9983D21338E960012AED3 /* THNGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9983C21338E960012AED3 /* THNGoodsListViewController.m */; };
+		D8F998432133944E0012AED3 /* THNGoodsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998422133944E0012AED3 /* THNGoodsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -268,8 +269,6 @@
 		D82FA78421256B8000E14A22 /* YYLabel+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYLabel+Helper.m"; sourceTree = "<group>"; };
 		D82FA7862125740000E14A22 /* THNLikedWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLikedWindowViewController.h; sourceTree = "<group>"; };
 		D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLikedWindowViewController.m; sourceTree = "<group>"; };
-		D82FA7892125932300E14A22 /* THNLikedGoodsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLikedGoodsViewController.h; sourceTree = "<group>"; };
-		D82FA78A2125932300E14A22 /* THNLikedGoodsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLikedGoodsViewController.m; sourceTree = "<group>"; };
 		D82FA78F21267AB000E14A22 /* THNFunctionButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionButtonView.h; sourceTree = "<group>"; };
 		D82FA79021267AB000E14A22 /* THNFunctionButtonView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionButtonView.m; sourceTree = "<group>"; };
 		D82FA7942126A8FE00E14A22 /* THNApplyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplyStoreViewController.h; sourceTree = "<group>"; };
@@ -490,6 +489,10 @@
 		D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNFollowStoreButton+SelfManager.m"; sourceTree = "<group>"; };
 		D8F99838212EEC6B0012AED3 /* THNBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBaseTableViewController.h; sourceTree = "<group>"; };
 		D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBaseTableViewController.m; sourceTree = "<group>"; };
+		D8F9983B21338E960012AED3 /* THNGoodsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsListViewController.h; sourceTree = "<group>"; };
+		D8F9983C21338E960012AED3 /* THNGoodsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsListViewController.m; sourceTree = "<group>"; };
+		D8F998412133944E0012AED3 /* THNGoodsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsManager.h; sourceTree = "<group>"; };
+		D8F998422133944E0012AED3 /* THNGoodsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -942,8 +945,6 @@
 				D8BAC8EA211A949100667D6F /* THNMyCenterViewController.m */,
 				D82FA7862125740000E14A22 /* THNLikedWindowViewController.h */,
 				D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */,
-				D82FA7892125932300E14A22 /* THNLikedGoodsViewController.h */,
-				D82FA78A2125932300E14A22 /* THNLikedGoodsViewController.m */,
 				D82FA7B82127F0CF00E14A22 /* THNDynamicTableViewController.h */,
 				D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */,
 			);
@@ -1134,6 +1135,9 @@
 		D8BAC93E211A949100667D6F /* Goods */ = {
 			isa = PBXGroup;
 			children = (
+				D8F9983E21338EE50012AED3 /* Model */,
+				D8F9983F21338EE50012AED3 /* Other */,
+				D8F9984021338EE50012AED3 /* View */,
 				D8BAC93F211A949100667D6F /* Controller */,
 			);
 			path = Goods;
@@ -1144,6 +1148,8 @@
 			children = (
 				D8BAC940211A949100667D6F /* THNGoodsInfoViewController.h */,
 				D8BAC941211A949100667D6F /* THNGoodsInfoViewController.m */,
+				D8F9983B21338E960012AED3 /* THNGoodsListViewController.h */,
+				D8F9983C21338E960012AED3 /* THNGoodsListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1362,6 +1368,29 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D8F9983E21338EE50012AED3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D8F9983F21338EE50012AED3 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				D8F998412133944E0012AED3 /* THNGoodsManager.h */,
+				D8F998422133944E0012AED3 /* THNGoodsManager.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		D8F9984021338EE50012AED3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1560,7 +1589,6 @@
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
 				D8BAC9BD211A949100667D6F /* THNLoginManager.m in Sources */,
 				D8BAC9B2211A949100667D6F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
-				D82FA78B2125932300E14A22 /* THNLikedGoodsViewController.m in Sources */,
 				D8BAC99C211A949100667D6F /* THNCategoriesModel.m in Sources */,
 				D8F99812212A91CB0012AED3 /* THNStoreViewController.m in Sources */,
 				D85DA8002106030200A36A71 /* NSString+Encryption.m in Sources */,
@@ -1604,6 +1632,7 @@
 				D82FA7A22126A8FE00E14A22 /* THNUserApplyView.m in Sources */,
 				D8BAC9B8211A949100667D6F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8BAC9B0211A949100667D6F /* THNFeatureTableViewCell.m in Sources */,
+				D8F998432133944E0012AED3 /* THNGoodsManager.m in Sources */,
 				D85DA7DD2106030200A36A71 /* (null) in Sources */,
 				4B240EA1212C1ED30077EDD4 /* THNShopWindowDetailViewController.m in Sources */,
 				D8BAC991211A949100667D6F /* THNLivingHallViewController.m in Sources */,
@@ -1627,6 +1656,7 @@
 				D8BAC9A6211A949100667D6F /* THNProductCollectionViewCell.m in Sources */,
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,
 				D82FA77721250F1F00E14A22 /* THNLikedGoodsCollectionViewCell.m in Sources */,
+				D8F9983D21338E960012AED3 /* THNGoodsListViewController.m in Sources */,
 				D85DA8092106030200A36A71 /* AppDelegate.m in Sources */,
 				D8BAC9B9211A949100667D6F /* THNCollectionViewFlowLayout.m in Sources */,
 				4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */,
