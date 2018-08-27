@@ -9,6 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "THNBaseViewController.h"
 
+@class THNShopWindowModel;
+
+typedef NS_ENUM(NSUInteger, ShopWindowDetailCellType) {
+    ShopWindowDetailCellTypeMain,
+    ShopWindowDetailCellTypeComment,
+    ShopWindowDetailCellTypeExplore,
+    ShopWindowDetailCellTypeFeature
+};
+
 @interface THNShopWindowDetailViewController : THNBaseViewController
+
+@property (nonatomic, assign) CGFloat shopWindowCellHeight;
+@property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
 
 @end
