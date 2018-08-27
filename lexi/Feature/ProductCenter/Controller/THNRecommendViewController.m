@@ -15,6 +15,7 @@
 #import "UIView+Helper.h"
 #import "THNPopularSingleProductTableViewController.h"
 #import "THNExploresViewController.h"
+#import "UIColor+Extension.h"
 
 @interface THNRecommendViewController ()
 
@@ -112,6 +113,7 @@
 
 - (CGFloat)menuView:(WMMenuView *)menu widthForItemAtIndex:(NSInteger)index {
     CGFloat width = [super menuView:menu widthForItemAtIndex:index];
+    menu.style = WMMenuViewStyleLine;
     return width;
 }
 
