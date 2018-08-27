@@ -16,11 +16,11 @@
 #import "THNLikedWindowTableViewCell.h"
 #import "THNFollowStoreTableViewCell.h"
 #import "THNLikedWindowViewController.h"
-#import "THNLikedGoodsViewController.h"
-#import "THNUserManager.h"
 #import "THNApplyStoreViewController.h"
 #import "THNDynamicTableViewController.h"
-
+#import "THNGoodsListViewController.h"
+#import "THNUserManager.h"
+#import "THNGoodsManager.h"
 #import "THNLoginManager.h"
 
 /// seciton header 默认的标题
@@ -82,8 +82,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_setGoodsTableViewCellWithType:(THNProductsType)type {
     NSArray *titleArr = @[kHeaderTitleGoods, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
+
     
-    [THNUserManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
         if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods)
@@ -100,8 +101,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             
         } else {
             sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle moreCompletion:^{
-                THNLikedGoodsViewController *likedGoodsVC = [[THNLikedGoodsViewController alloc] initWithShowProductsType:type];
-                likedGoodsVC.title = titleArr[(NSInteger)type];
+                THNGoodsListViewController *likedGoodsVC = [[THNGoodsListViewController alloc] \
+                                                            initWithType:type title:titleArr[(NSInteger)type]];
                 [self.navigationController pushViewController:likedGoodsVC animated:YES];
             }];
         }
