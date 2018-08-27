@@ -17,7 +17,6 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 
 @interface THNFeaturedOpeningView()
 
-
 @property (weak, nonatomic) IBOutlet UIButton *openingButton;
 @property (weak, nonatomic) IBOutlet UILabel *openLivingHallLabel;
 @property (weak, nonatomic) IBOutlet UILabel *soldOrderCountTextLabel;
@@ -51,7 +50,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     }];
 }
 
-- (IBAction)opening:(id)sender {
+ - (IBAction)opening:(id)sender {
     self.openingBlcok();
 }
 

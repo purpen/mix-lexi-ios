@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, SearchType) {
+    SearchTypeHome,
+    SearchTypeProductCenter
+};
+
 @interface THNHomeSearchView : UIView
+
+@property (nonatomic, assign) SearchType searchType;
 
 @end
