@@ -59,8 +59,16 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     self.m_currentIndex = self.m_currentIndex <= 0 ? 0 : self.m_currentIndex;
     self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
     
+    switch (self.bannerType) {
+        case BannerTypeLeft:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+            break;
+            
+        default:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+            break;
+    }
     
-    [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate

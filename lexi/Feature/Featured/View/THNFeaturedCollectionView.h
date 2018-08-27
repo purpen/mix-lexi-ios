@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, BannerType) {
+    BannerTypeLeft,
+    BannerTypeCenter
+};
+
 @interface THNFeaturedCollectionView : UICollectionView
 
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, assign) BannerType bannerType;
 
 @end

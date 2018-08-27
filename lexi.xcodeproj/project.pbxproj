@@ -47,6 +47,12 @@
 		4B72061C212E66E1002606EE /* THNSevenImagesStitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72061B212E66E1002606EE /* THNSevenImagesStitchView.m */; };
 		4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */; };
 		4B720624212EB281002606EE /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720623212EB281002606EE /* UITableView+Helper.m */; };
+		4B72062B212FB0CB002606EE /* THNPruductCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72062A212FB0CB002606EE /* THNPruductCenterViewController.m */; };
+		4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */; };
+		4BC2E9B2212FEDF9005FF29C /* THNProductAllViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B1212FEDF9005FF29C /* THNProductAllViewController.m */; };
+		4BC2E9B5213005FB005FF29C /* THNPopularSingleProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B4213005FB005FF29C /* THNPopularSingleProductTableViewController.m */; };
+		4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */; };
+		4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
@@ -254,6 +260,17 @@
 		4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSevenImagesStitchView.xib; sourceTree = "<group>"; };
 		4B720622212EB281002606EE /* UITableView+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helper.h"; sourceTree = "<group>"; };
 		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
+		4B720629212FB0CB002606EE /* THNPruductCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPruductCenterViewController.h; sourceTree = "<group>"; };
+		4B72062A212FB0CB002606EE /* THNPruductCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPruductCenterViewController.m; sourceTree = "<group>"; };
+		4BC2E9AD212FE3B2005FF29C /* THNRecommendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNRecommendViewController.h; sourceTree = "<group>"; };
+		4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNRecommendViewController.m; sourceTree = "<group>"; };
+		4BC2E9B0212FEDF9005FF29C /* THNProductAllViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNProductAllViewController.h; sourceTree = "<group>"; };
+		4BC2E9B1212FEDF9005FF29C /* THNProductAllViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNProductAllViewController.m; sourceTree = "<group>"; };
+		4BC2E9B3213005FB005FF29C /* THNPopularSingleProductTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPopularSingleProductTableViewController.h; sourceTree = "<group>"; };
+		4BC2E9B4213005FB005FF29C /* THNPopularSingleProductTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPopularSingleProductTableViewController.m; sourceTree = "<group>"; };
+		4BC2E9B621300655005FF29C /* THNCenterProductTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCenterProductTableViewCell.h; sourceTree = "<group>"; };
+		4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCenterProductTableViewCell.m; sourceTree = "<group>"; };
+		4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCenterProductTableViewCell.xib; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
@@ -629,6 +646,48 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		4B720625212FB08B002606EE /* ProductCenter */ = {
+			isa = PBXGroup;
+			children = (
+				4B720626212FB08B002606EE /* Controller */,
+				4B720627212FB08B002606EE /* Model */,
+				4B720628212FB08B002606EE /* View */,
+			);
+			path = ProductCenter;
+			sourceTree = "<group>";
+		};
+		4B720626212FB08B002606EE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4B720629212FB0CB002606EE /* THNPruductCenterViewController.h */,
+				4B72062A212FB0CB002606EE /* THNPruductCenterViewController.m */,
+				4BC2E9AD212FE3B2005FF29C /* THNRecommendViewController.h */,
+				4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */,
+				4BC2E9B0212FEDF9005FF29C /* THNProductAllViewController.h */,
+				4BC2E9B1212FEDF9005FF29C /* THNProductAllViewController.m */,
+				4BC2E9B3213005FB005FF29C /* THNPopularSingleProductTableViewController.h */,
+				4BC2E9B4213005FB005FF29C /* THNPopularSingleProductTableViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B720627212FB08B002606EE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B720628212FB08B002606EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BC2E9B621300655005FF29C /* THNCenterProductTableViewCell.h */,
+				4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */,
+				4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		7D44224FF682DC37BFD7E904 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -875,6 +934,7 @@
 				D8BAC8FC211A949100667D6F /* Explore */,
 				D8BAC921211A949100667D6F /* Featured */,
 				4B2644CC2122D62D00665A6D /* Window */,
+				4B720625212FB08B002606EE /* ProductCenter */,
 				D8BAC8D4211A949100667D6F /* Discover */,
 				D8BAC91D211A949100667D6F /* Cart */,
 				D8BAC8D8211A949100667D6F /* Inbox */,
@@ -1454,6 +1514,7 @@
 				4B2644EF2125590700665A6D /* showWindow.json in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
+				4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */,
 				4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */,
 				D8BAC992211A949100667D6F /* THNObtainedView.xib in Resources */,
 				4B240E9D212BF4110077EDD4 /* THNCommentViewController.xib in Resources */,
@@ -1515,6 +1576,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/TYAlertController/TYAlertController.framework",
+				"${BUILT_PRODUCTS_DIR}/WMPageController/WMPageController.framework",
 				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1531,6 +1593,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYAlertController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WMPageController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1631,6 +1694,7 @@
 				D8BAC9AD211A949100667D6F /* THNLifeRecordModel.m in Sources */,
 				D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */,
 				4B2656CB211C187E001CA9DD /* THNLivingHallExpandView.m in Sources */,
+				4B72062B212FB0CB002606EE /* THNPruductCenterViewController.m in Sources */,
 				D8BAC9A8211A949100667D6F /* THNCategoriesCollectionViewCell.m in Sources */,
 				D8BAC9C2211A949100667D6F /* THNNewUserInfoViewController.m in Sources */,
 				4B72061C212E66E1002606EE /* THNSevenImagesStitchView.m in Sources */,
@@ -1654,6 +1718,7 @@
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
 				4B72060B212D7124002606EE /* WBModel.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
+				4BC2E9B5213005FB005FF29C /* THNPopularSingleProductTableViewController.m in Sources */,
 				D8BAC9B1211A949100667D6F /* THNFeaturedCollectionView.m in Sources */,
 				D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */,
 				D82FA7622123FEB800E14A22 /* THNTableViewSections.m in Sources */,
@@ -1673,13 +1738,16 @@
 				D8BAC9D3211A949100667D6F /* THNFindPassword.m in Sources */,
 				4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */,
 				D8BAC99E211A949100667D6F /* THNFeaturedBrandModel.m in Sources */,
+				4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */,
 				D8BAC990211A949100667D6F /* THNMyCenterViewController.m in Sources */,
 				D82FA77421250D4C00E14A22 /* THNLikedGoodsTableViewCell.m in Sources */,
 				D85DA8012106030200A36A71 /* UIImage+Helper.m in Sources */,
 				D8BAC9C8211A949100667D6F /* THNPasswordTextField.m in Sources */,
 				D85DA8062106030200A36A71 /* UIColor+Extension.m in Sources */,
+				4BC2E9B2212FEDF9005FF29C /* THNProductAllViewController.m in Sources */,
 				D85DA8072106030200A36A71 /* UIView+Helper.m in Sources */,
 				D8BAC989211A949100667D6F /* THNSelectButtonView.m in Sources */,
+				4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */,
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,
 				D8BAC9CC211A949100667D6F /* THNAuthCodeButton.m in Sources */,
 				D8BAC9CF211A949100667D6F /* THNLoginView.m in Sources */,

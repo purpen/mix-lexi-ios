@@ -20,6 +20,7 @@
 #import "THNLivingHallExpandView.h"
 #import "THNSaveTool.h"
 #import "THNConst.h"
+#import "THNPruductCenterViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -52,8 +53,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self loadAllData];
+     [self loadAllData];
     [self setupUI];
 }
 
@@ -158,6 +158,8 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
          THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
         [weakSelf deleteProduct:productModel.rid];
     };
+    
+    
     return cell;
 }
 
@@ -177,6 +179,11 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     
     self.livingHallHeaderView.changeHeaderViewBlock = ^{
         [weakSelf.tableView reloadData];
+    };
+    
+    self.livingHallHeaderView.pushProductCenterBlock = ^{
+        THNPruductCenterViewController *productCenter = [[THNPruductCenterViewController alloc]init];
+        [weakSelf.navigationController pushViewController:productCenter animated:YES];
     };
     
     return self.livingHallHeaderView;
