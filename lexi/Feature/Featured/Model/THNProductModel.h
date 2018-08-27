@@ -28,5 +28,7 @@
 @property (nonatomic, assign) BOOL is_sold_out;
 // 是否喜欢
 @property (nonatomic, assign) BOOL is_like;
+// 分销佣金
+@property (nonatomic, assign) CGFloat commission_price;
 
 @end

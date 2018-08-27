@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <WMPageController/WMPageController.h>
 
-@interface THNRecommendViewController : WMPageController
+typedef NS_ENUM(NSUInteger, ProductType) {
+    ProductTypeHot,
+    ProductTypeOfficialRecommend,
+    ProductTypeNew
+};
 
+@interface THNRecommendViewController : UITableViewController
+
+
+@property (nonatomic, assign) ProductType productType;
 @end

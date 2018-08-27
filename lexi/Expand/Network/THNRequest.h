@@ -19,7 +19,8 @@ typedef NS_ENUM(NSUInteger, AFNetworkingRequestMethod) {
     AFNetworkingRequestMethodGET,       // GET 请求
     AFNetworkingRequestMethodPOST,      // POST 请求
     AFNetworkingRequestMethodUPLOAD,    // 上传文件的请求(POST 请求)
-    AFNetworkingRequestMethodDELETE     // DELETE 请求
+    AFNetworkingRequestMethodDELETE,    // DELETE 请求
+    AFNetworkingRequestMethodPUT        // PUT请求
 };
 
 /**
@@ -281,6 +282,47 @@ typedef void(^ConstructingBodyBlock)(id <AFMultipartFormData> formData);
                   responseType:(AFNetworkingResponseType)responseType
                        success:(void (^)(NSURLSessionTask *operation, id responseObject))success
                        failure:(void (^)(NSURLSessionTask *operation, NSError *error))failure;
+
+/**
+ AFNetworking的PUT请求
+ 
+ @param URLString    请求网址
+ @param parameters   网址参数
+ @param timeInterval 超时时间(可以设置为nil)
+ @param requestType  请求类型
+ @param responseType 返回结果类型
+ @param success      成功时调用的block
+ @param failure      失败时调用的block
+ @return 网络操作句柄
+ */
++ (NSURLSessionDataTask *)PUT:(NSString *)URLString
+                   parameters:(id)parameters
+              timeoutInterval:(NSTimeInterval)timeInterval
+                  requestType:(AFNetworkingRequestType)requestType
+                 responseType:(AFNetworkingResponseType)responseType
+                      success:(void (^)(NSURLSessionTask *operation, id responseObject))success
+                      failure:(void (^)(NSURLSessionTask *operation, NSError *error))failure;
+
+
+/**
+ AFNetworking的DELETE请求
+ 
+ @param URLString    请求网址
+ @param parameters   网址参数
+ @param timeInterval 超时时间(可以设置为nil)
+ @param requestType  请求类型
+ @param responseType 返回结果类型
+ @param success      成功时调用的block
+ @param failure      失败时调用的block
+ @return 网络操作句柄
+ */
++ (NSURLSessionDataTask *)DELETE:(NSString *)URLString
+                   parameters:(id)parameters
+              timeoutInterval:(NSTimeInterval)timeInterval
+                  requestType:(AFNetworkingRequestType)requestType
+                 responseType:(AFNetworkingResponseType)responseType
+                      success:(void (^)(NSURLSessionTask *operation, id responseObject))success
+                      failure:(void (^)(NSURLSessionTask *operation, NSError *error))failure;
 
 
 /**
