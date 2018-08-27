@@ -48,7 +48,7 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 
 //猜你喜欢
 - (void)loadShowWindowGuessLikeData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowGuessLike requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowGuessLike requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.guessLikeArray = result.data[@"products"];
         [self.tableView reloadRowData:2];
@@ -58,7 +58,7 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 }
 
 - (void)loadShowWindowSimilarData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self.tableView reloadRowData:3];
     } failure:^(THNRequest *request, NSError *error) {

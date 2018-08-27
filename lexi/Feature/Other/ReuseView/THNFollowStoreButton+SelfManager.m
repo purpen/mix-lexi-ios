@@ -43,18 +43,18 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     self.backgroundColor = [UIColor colorWithHexString:self.selected ? @"#EFF3F2" : kColorMain];
     [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, self.selected ? 0 : 5, 0, 0))];
     
-    self.transform = CGAffineTransformIdentity;
-    [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations: ^{
-        [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 / 3.0 animations: ^{
-            self.transform = CGAffineTransformMakeScale(1.1, 1.1);
-        }];
-        [UIView addKeyframeWithRelativeStartTime:1/3.0 relativeDuration:1/3.0 animations: ^{
-            self.transform = CGAffineTransformMakeScale(0.9, 0.9);
-        }];
-        [UIView addKeyframeWithRelativeStartTime:2/3.0 relativeDuration:1/3.0 animations: ^{
-            self.transform = CGAffineTransformMakeScale(1.0, 1.0);
-        }];
-    } completion:nil];
+//    self.transform = CGAffineTransformIdentity;
+//    [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations: ^{
+//        [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 / 3.0 animations: ^{
+//            self.transform = CGAffineTransformMakeScale(1.1, 1.1);
+//        }];
+//        [UIView addKeyframeWithRelativeStartTime:1/3.0 relativeDuration:1/3.0 animations: ^{
+//            self.transform = CGAffineTransformMakeScale(0.9, 0.9);
+//        }];
+//        [UIView addKeyframeWithRelativeStartTime:2/3.0 relativeDuration:1/3.0 animations: ^{
+//            self.transform = CGAffineTransformMakeScale(1.0, 1.0);
+//        }];
+//    } completion:nil];
 }
 
 #pragma mark - request
@@ -68,16 +68,13 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
  @param completed 成功后的回调
  */
 - (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSInteger)storeId completed:(void (^)(NSError *error))completed {
-    [SVProgressHUD show];
     THNRequest *request = [THNAPI postWithUrlString:url
                                   requestDictionary:@{@"rid": [NSString stringWithFormat:@"%zi", storeId]}
-                                             isSign:YES
                                            delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.success) {
             completed(nil);
         }
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         completed(error);

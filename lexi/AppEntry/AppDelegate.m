@@ -53,9 +53,10 @@
 #pragma mark - 第三方库设置
 - (void)setThirdExpandConfig {
     //  SVP颜色设置
-    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:kColorWhite]];
-    [SVProgressHUD setForegroundColor:[UIColor colorWithHexString:kColorMain]];
+    [SVProgressHUD setDefaultAnimationType:(SVProgressHUDAnimationTypeNative)];
+    [SVProgressHUD setMinimumSize:CGSizeMake(5, 5)];
     [SVProgressHUD setDefaultMaskType:(SVProgressHUDMaskTypeNone)];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:0]];
     [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)2];
     
     //  键盘弹起模式

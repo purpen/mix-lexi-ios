@@ -91,7 +91,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
     params[@"user_record"] = @(1);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendedArray = result.data[@"products"];
         self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
@@ -115,7 +115,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)deleteProduct:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self loadCuratorRecommendedData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -128,7 +128,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(1);
     params[@"per_page"] = @(self.weekPopularPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.weekPopularArray = result.data[@"products"];
         self.title = result.data[@"title"];
