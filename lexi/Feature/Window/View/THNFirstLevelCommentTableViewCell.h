@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *contentlabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewConstraint;
 @property (nonatomic, strong) NSArray *array;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
 
 @end

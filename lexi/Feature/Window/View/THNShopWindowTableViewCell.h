@@ -10,17 +10,23 @@
 
 @class THNShopWindowModel;
 
-typedef NS_ENUM(NSUInteger, ShopWindowType) {
-    ShopWindowThree,
-    ShopWindowFive,
-    ShopWindowSeven,
+typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
+    ShopWindowImageTypeThree,
+    ShopWindowImageTypeFive,
+    ShopWindowImageTypeSeven,
 };
 
 typedef void(^ContentBlock)(void);
+
+UIKIT_EXTERN CGFloat threeImageHeight;
+UIKIT_EXTERN CGFloat fiveToGrowImageHeight;
+UIKIT_EXTERN CGFloat sevenToGrowImageHeight;
 
 @interface THNShopWindowTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
 @property (nonatomic, copy) ContentBlock contentBlock;
+@property (nonatomic, assign) ShopWindowImageType imageType;
+@property (nonatomic, strong) NSString *flag;
 
 @end

@@ -121,6 +121,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        self.featuredCollectionView.bannerType = BannerTypeLeft;
         [self.featuredCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -425,7 +426,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
-        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 156);
+        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
     }
     return _openingView;
 }

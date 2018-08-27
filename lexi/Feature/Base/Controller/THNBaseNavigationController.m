@@ -24,15 +24,9 @@
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-//    if (self.viewControllers.count) {
-//        viewController.hidesBottomBarWhenPushed = YES;
-//        self.navigationBar.hidden = YES;
-//    }
-    
-    if ([viewController.class isSubclassOfClass:[THNBaseViewController class]]) {
-        self.navigationBarHidden = YES;
-    } else {
-        self.navigationBarHidden = NO;
+    if (self.viewControllers.count) {
+        viewController.hidesBottomBarWhenPushed = YES;
+        self.navigationBar.hidden = YES;
     }
     
     [super pushViewController:viewController animated:animated];

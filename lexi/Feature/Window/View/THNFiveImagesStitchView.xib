@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="0tS-dp-Sie" customClass="THNFiveImagesStitchView">
+            <rect key="frame" x="0.0" y="0.0" width="521" height="390"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="kUi-H0-BuL">
+                    <rect key="frame" x="0.0" y="0.0" width="347.5" height="230"/>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-1F-CE2">
+                    <rect key="frame" x="347.5" y="0.0" width="173.5" height="230"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="nxm-RR-VKr">
+                            <rect key="frame" x="0.0" y="0.0" width="173.5" height="115"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="mR7-Ov-Zzm">
+                            <rect key="frame" x="0.0" y="115" width="173.5" height="115"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="mR7-Ov-Zzm" firstAttribute="width" secondItem="nxm-RR-VKr" secondAttribute="width" id="fS1-26-Nch"/>
+                        <constraint firstItem="mR7-Ov-Zzm" firstAttribute="height" secondItem="nxm-RR-VKr" secondAttribute="height" id="zUW-Im-qrY"/>
+                    </constraints>
+                </stackView>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QN4-lr-tgH">
+                    <rect key="frame" x="0.0" y="230" width="521" height="160"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="wgR-jF-jrs">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="2yg-NR-yPj">
+                            <rect key="frame" x="300" y="0.0" width="221" height="160"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="2yg-NR-yPj" firstAttribute="width" secondItem="wgR-jF-jrs" secondAttribute="width" multiplier="158:215" id="Rtg-Mq-kpO"/>
+                        <constraint firstAttribute="height" constant="160" id="fYL-Ls-DXJ"/>
+                        <constraint firstItem="2yg-NR-yPj" firstAttribute="height" secondItem="wgR-jF-jrs" secondAttribute="height" id="r9k-hZ-yFm"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="leading" secondItem="kUi-H0-BuL" secondAttribute="trailing" id="5Nu-Sd-xiR"/>
+                <constraint firstItem="kUi-H0-BuL" firstAttribute="top" secondItem="Sty-Yc-Ll1" secondAttribute="top" id="7ln-0a-GIE"/>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="bottom" secondItem="kUi-H0-BuL" secondAttribute="bottom" id="E5i-J5-hhM"/>
+                <constraint firstItem="kUi-H0-BuL" firstAttribute="leading" secondItem="Sty-Yc-Ll1" secondAttribute="leading" id="JDO-By-Flf"/>
+                <constraint firstItem="QN4-lr-tgH" firstAttribute="leading" secondItem="Sty-Yc-Ll1" secondAttribute="leading" id="Zi1-wV-Jx4"/>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="top" secondItem="Sty-Yc-Ll1" secondAttribute="top" id="dHX-BL-aLc"/>
+                <constraint firstItem="QN4-lr-tgH" firstAttribute="top" secondItem="kUi-H0-BuL" secondAttribute="bottom" id="gWA-aR-LyO"/>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="width" secondItem="kUi-H0-BuL" secondAttribute="width" multiplier="1:2" id="hj8-px-xnk"/>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="trailing" secondItem="Sty-Yc-Ll1" secondAttribute="trailing" id="kPb-TG-43D"/>
+                <constraint firstItem="QN4-lr-tgH" firstAttribute="trailing" secondItem="Sty-Yc-Ll1" secondAttribute="trailing" id="oGa-qw-0FR"/>
+                <constraint firstAttribute="bottom" secondItem="QN4-lr-tgH" secondAttribute="bottom" id="xuf-RY-aI1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="Sty-Yc-Ll1"/>
+            <connections>
+                <outlet property="leftBottomImageView" destination="wgR-jF-jrs" id="cy3-HL-HyU"/>
+                <outlet property="leftTopImageView" destination="kUi-H0-BuL" id="KnT-C9-Xd7"/>
+                <outlet property="rightBottomImageView" destination="2yg-NR-yPj" id="RjU-A9-IfW"/>
+                <outlet property="rightMiddleImageView" destination="mR7-Ov-Zzm" id="YZh-ld-wdZ"/>
+                <outlet property="rightTopImageView" destination="nxm-RR-VKr" id="19i-YU-tnH"/>
+            </connections>
+            <point key="canvasLocation" x="25.5" y="-130"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="tabbar_cart_selected" width="21" height="21"/>
+        <image name="tabbar_home_default" width="21" height="21"/>
+    </resources>
+</document>
