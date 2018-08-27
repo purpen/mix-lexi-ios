@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNMyCenterHeaderView.h"
 
 @interface THNTableViewFooterView : UIView
 
@@ -44,6 +45,13 @@
  @param iconName 图标名称
  @param location 插入图标的位置
  */
-- (void)setSubHintLabelText:(NSString *)text iconImageName:(NSString *)iconName iconLocation:(NSInteger)location;
+- (void)setSubHintLabelText:(NSString *)text
+              iconImageName:(NSString *)iconName
+               iconLocation:(NSInteger)location;
+
+/**
+ 根据个人中心选择查看的类型设置文字
+ */
+- (void)setSubHintLabelTextWithType:(THNHeaderViewSelectedType)type;
 
 @end

@@ -45,10 +45,7 @@ static NSString *const kParamMobile         = @"mobile";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"登录验证码 ==== %@", result.responseDict);
@@ -96,6 +93,7 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
+        
         [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -152,6 +150,11 @@ static NSString *const kParamMobile         = @"mobile";
 }
 
 - (void)setNavigationBar {
+    if (self.navigationController.viewControllers.count == 1) {
+        [self.navigationBarView setNavigationBackButton];
+        return;
+    }
+    
     WEAKSELF;
     [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
     [self.navigationBarView didNavigationRightButtonCompletion:^{
@@ -173,13 +176,19 @@ static NSString *const kParamMobile         = @"mobile";
         _zipCodeVC = [[THNZipCodeViewController alloc] init];
         
         WEAKSELF;
-        
         _zipCodeVC.SelectAreaCode = ^(NSString *code) {
             [weakSelf.signInView thn_setAreaCode:code];
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf.zipCodeVC dismissViewControllerAnimated:YES completion:nil];
         };
     }
     return _zipCodeVC;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.signInView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

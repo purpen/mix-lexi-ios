@@ -523,7 +523,6 @@ static const NSString *kResponseInfoMessage = @"message";
                             delegate:(id)delegate
                      timeoutInterval:(NSTimeInterval)timeoutInterval
                                 flag:(NSString *)flag
-                              isSign:(BOOL)sign
                        requestMethod:(AFNetworkingRequestMethod)requestMethod
                          requestType:(AFNetworkingRequestType)requestType
                         responseType:(AFNetworkingResponseType)responseType {
@@ -534,7 +533,6 @@ static const NSString *kResponseInfoMessage = @"message";
     request.delegate            = delegate;
     request.timeoutInterval     = timeoutInterval;
     request.flag                = flag;
-    request.sign                = sign;
     request.RequestMethod       = requestMethod;
     request.requestType         = requestType;
     request.responseType        = responseType;
