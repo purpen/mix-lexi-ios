@@ -48,6 +48,18 @@
                         delegate:(id)delegate;
 
 /**
+PUT 请求类
+ 
+ @param urlString base api url
+ @param requestDictionary 请求参数
+ @param delegate 代理方法
+ @return Request obj
+ */
++ (instancetype)putWithUrlString:(NSString *)urlString
+               requestDictionary:(NSDictionary *)requestDictionary
+                        delegate:(id)delegate;
+
+/**
  POST 请求类
  
  @param urlString base api url

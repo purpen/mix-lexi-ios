@@ -55,9 +55,9 @@
     
     if (productModel.min_sale_price == 0) {
         self.producrOriginalPriceLabel.hidden = YES;
-        self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_price];
+        self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_price];
     } else{
-        self.productPriceLabel.text = [NSString stringWithFormat:@"%2.f",productModel.min_sale_price];
+        self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_sale_price];
     }
 }
 

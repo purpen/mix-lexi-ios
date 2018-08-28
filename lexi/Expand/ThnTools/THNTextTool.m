@@ -15,7 +15,7 @@
 + (NSMutableAttributedString *)setStrikethrough:(CGFloat)price {
     
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%2.f",price] attributes:attribtDic];
+    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.2f",price] attributes:attribtDic];
     return attribtStr;
 }
 
