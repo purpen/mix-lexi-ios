@@ -393,6 +393,34 @@ static const NSString *kResponseInfoMessage = @"message";
                                            }
                                        }];
         
+    }else if (self.RequestMethod == AFNetworkingRequestMethodPUT) {
+        self.httpOperation = [self.manager PUT:self.urlString
+                                    parameters:[weakSelf transformRequestDictionary]
+                                       success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                           
+                                           weakSelf.isRunning = NO;
+                                           
+                                           THNResponse *response = [[THNResponse alloc] initWithResponseObject:responseObject];
+                                           success(weakSelf, response);
+                                           
+                                       }
+                                       failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                           
+                                           weakSelf.isRunning = NO;
+                                           
+                                           if (self.cancelType == NCancelTypeUser) {
+                                               if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(userCanceledFailed:error:)]) {
+                                                   [weakSelf.delegate userCanceledFailed:weakSelf error:error];
+                                                   weakSelf.cancelType = NCancelTypeDealloc;
+                                               }
+                                               
+                                           } else {
+                                               if (failure) {
+                                                   failure(weakSelf, error);
+                                               }
+                                           }
+                                       }];
+        
     } else if (self.RequestMethod == AFNetworkingRequestMethodPOST) {
         
         self.httpOperation = [self.manager POST:self.urlString
@@ -556,6 +584,34 @@ static const NSString *kResponseInfoMessage = @"message";
     NSURLSessionDataTask *httpOperation = [manager GET:URLString
                                             parameters:parameters
                                               progress:nil
+                                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                                   if (success) {
+                                                       success(task, responseObject);
+                                                   }
+                                                   
+                                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                                   if (failure) {
+                                                       failure(task, error);
+                                                   }
+                                               }];
+    return httpOperation;
+}
+
++ (NSURLSessionDataTask *)PUT:(NSString *)URLString
+                   parameters:(id)parameters
+              timeoutInterval:(NSTimeInterval)timeInterval
+                  requestType:(AFNetworkingRequestType)requestType
+                 responseType:(AFNetworkingResponseType)responseType
+                      success:(void (^)(NSURLSessionTask *, id))success
+                      failure:(void (^)(NSURLSessionTask *, NSError *))failure {
+    
+    AFHTTPSessionManager *manager = [THNRequest defaultHTTPSessionManagerWithRequestType:requestType
+                                                                            responseType:responseType
+                                                                         timeoutInterval:timeInterval
+                                                                            headerFields:nil];
+    
+    NSURLSessionDataTask *httpOperation = [manager PUT:URLString
+                                            parameters:parameters
                                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                                    if (success) {
                                                        success(task, responseObject);
