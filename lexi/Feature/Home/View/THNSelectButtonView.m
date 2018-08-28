@@ -15,28 +15,48 @@
 
 @property (nonatomic, strong) NSMutableArray *buttons;
 @property (nonatomic, strong) UIButton *selectBtn;
+@property (nonatomic, strong) UIButton *defaultButton;
+@property (nonatomic, strong) UIButton *triangleButton;
+@property (nonatomic, assign) ButtonType buttonType;
 
 @end
 
 @implementation THNSelectButtonView
 
-- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray {
-    self = [super initWithFrame:frame];
-    float btnWidth = 0;
-    if (self) {
+- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray initWithButtonType:(ButtonType)type {
+    if (self = [super initWithFrame:frame]) {
+        
+        float btnWidth = 0;
+        UIButton *btn;
+        self.buttonType = type;
+        
         for (int i = 0; i < titleArray.count; i ++) {
+            
+            switch (type) {
+                case ButtonTypeDefault:
+                    btn = self.defaultButton;
+                    break;
+                default:
+                    btn = self.triangleButton;
+                    break;
+            }
+            
+            
+            
             NSString *btnName = titleArray[i];
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [btn setTitleColor:[UIColor colorWithHexString:@"555555"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor colorWithHexString:@"5fe4b1"] forState:UIControlStateSelected];
             [btn setTitle:btnName forState:UIControlStateNormal];
-
-            btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
             CGSize btnSize = [btnName sizeWithAttributes:@{NSFontAttributeName:btn.titleLabel.font}];
             btn.viewWidth = btnSize.width + 34;
             btn.viewHeight = btnSize.height + 14;
+            NSLog(@"%f",btnSize.width);
+            if (type == ButtonTypeTriangle) {
+                btn.viewWidth = self.viewWidth / titleArray.count;
+                // 解决四个字符和两个字符 imageView和title 间距不同的bug
+                btn.imageEdgeInsets = UIEdgeInsetsMake(0, btnSize.width + 63 - btnSize.width / 2, 0, 0);
+                btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
+            }
             
-            if (i == 0) {
+            if (i == 0 && type == ButtonTypeDefault) {
                 btn.viewX = 0;
                 btnWidth += CGRectGetMaxX(btn.frame);
                 btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
@@ -52,17 +72,20 @@
             [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = i;
             [self.buttons addObject:btn];
-            
         }
-        self.frame = frame;
-    
     }
+    
+    self.frame = frame;
     return self;
 }
 
 - (void)btnClick:(UIButton *)btn {
     
-    if (btn == self.selectBtn) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(selectButtonsDidClickedAtIndex:)]) {
+        [self.delegate selectButtonsDidClickedAtIndex:btn.tag];
+    }
+    
+    if (btn == self.selectBtn || self.buttonType == ButtonTypeTriangle) {
         return;
     }
     
@@ -79,10 +102,6 @@
         self.selectBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
     }];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(selectButtonsDidClickedAtIndex:)]) {
-        [self.delegate selectButtonsDidClickedAtIndex:btn.tag];
-    }
-    
     self.selectBtn = btn;
 }
 
@@ -91,6 +110,22 @@
         _buttons = [NSMutableArray array];
     }
     return _buttons;
+}
+
+- (UIButton *)defaultButton {
+    _defaultButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_defaultButton setTitleColor:[UIColor colorWithHexString:@"555555"] forState:UIControlStateNormal];
+    [_defaultButton setTitleColor:[UIColor colorWithHexString:@"5fe4b1"] forState:UIControlStateSelected];
+    _defaultButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+    return _defaultButton;
+}
+
+-(UIButton *)triangleButton {
+    _triangleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_triangleButton setTitleColor:[UIColor colorWithHexString:@"555555"] forState:UIControlStateNormal];
+    _triangleButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
+    [_triangleButton setImage:[UIImage imageNamed:@"icon_sort_down"] forState:UIControlStateNormal];
+    return _triangleButton;
 }
 
 @end

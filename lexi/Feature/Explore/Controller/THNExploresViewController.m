@@ -17,6 +17,7 @@
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
 #import "UITableView+Helper.h"
+#import "THNBrandHallViewController.h"
 
 #import "THNGoodsListViewController.h"
 
@@ -195,9 +196,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNExploreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
+    
+    cell.brandBlock = ^(THNExploreTableViewCell *cell) {
+        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+        [self.navigationController pushViewController:brandHall animated:YES];
+    };
     
     NSArray *dataArray = [NSArray array];
     NSString *title;
@@ -259,11 +266,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.categoriesCollectionView.frame))];
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
-    
+
     WEAKSELF;
-    
-    self.categoriesCollectionView.categoriesBlock = ^(NSInteger pid) {
-        THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:pid categoryName:@"分类"];
+    self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
+        THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
         [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
     };
     
@@ -273,10 +279,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 }
 
 #pragma mark -lazy
