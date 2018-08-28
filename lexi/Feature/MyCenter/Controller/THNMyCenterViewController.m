@@ -84,7 +84,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSString *headerTitle = titleArr[(NSInteger)type];
 
     
-    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods)

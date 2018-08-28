@@ -52,7 +52,6 @@ static NSInteger const kFunctionButtonTag = 5123;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
-        self.type = THNFunctionButtonViewTypeDefault;
     }
     return self;
 }

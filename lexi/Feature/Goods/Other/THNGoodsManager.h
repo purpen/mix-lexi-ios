@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, THNProductsType) {
  */
 + (void)getUserCenterProductsWithType:(THNProductsType)type
                                params:(NSDictionary *)params
-                           completion:(void (^)(NSArray *goodsData, NSError *error))completion;
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
 
 /**
  获取分类商品数据
