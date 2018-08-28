@@ -13,13 +13,14 @@
 #import "THNConst.h"
 #import "THNFunctionCollectionView.h"
 #import "THNPriceSliderView.h"
-#import "THNGoodsManager.h"
+#import "THNFunctionSortTableViewCell.h"
 
 /// title
-static NSString *const kTitleSort       = @"排序";
-static NSString *const kTitleScreen     = @"筛选";
-static NSString *const kTitleDone       = @"查看商品";
-static NSString *const kTitleReset      = @"重置";
+static NSString *const kTitleSort           = @"排序";
+static NSString *const kTitleScreen         = @"筛选";
+static NSString *const kTitleDone           = @"查看商品";
+static NSString *const kTitleReset          = @"重置";
+static NSString *const kTitlePrice          = @"价格";
 /// 推荐标签
 static NSString *const kRecommandExpress    = @"包邮";
 static NSString *const kRecommandSale       = @"特惠";
@@ -34,8 +35,15 @@ static NSString *const kKeyMinPrice         = @"min_price";
 static NSString *const kKeyMaxPrice         = @"max_price";
 /// 获取数据参数
 static NSString *const kObjectCount         = @"count";
+/// CELL ID
+static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTableViewCellId";
 
-@interface THNFunctionPopupView () <THNPriceSliderViewDelegate, THNFunctionCollectionViewDelegate> {
+@interface THNFunctionPopupView () <
+    THNPriceSliderViewDelegate,
+    THNFunctionCollectionViewDelegate,
+    UITableViewDelegate,
+    UITableViewDataSource
+> {
     THNFunctionPopupViewType _viewType;
 }
 
@@ -44,7 +52,7 @@ static NSString *const kObjectCount         = @"count";
 /// 控件容器
 @property (nonatomic, strong) UIView *containerView;
 /// 排序容器
-@property (nonatomic, strong) UIView *sortView;
+@property (nonatomic, strong) UITableView *sortTableView;
 /// 筛选容器
 @property (nonatomic, strong) UIView *screenView;
 /// 关闭按钮
@@ -71,6 +79,8 @@ static NSString *const kObjectCount         = @"count";
 @property (nonatomic, assign) NSInteger minPrice;
 /// 最大价格
 @property (nonatomic, assign) NSInteger maxPrice;
+/// 来源
+@property (nonatomic, assign) THNLocalControllerType localType;
 
 @end
 
@@ -125,14 +135,18 @@ static NSString *const kObjectCount         = @"count";
     [self.categoryView thn_setCollecitonViewCellData:data];
 }
 
-- (void)thn_setRecommandType:(THNScreenRecommandType)type {
+- (void)thn_setLocalControllerType:(THNLocalControllerType)type {
+    self.localType = type;
+    
     NSArray *tags = nil;
     
-    if (type == THNScreenRecommandTypeDefault) {
+    if (type == THNLocalControllerTypeDefault) {
         tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
+        self.categoryView.hidden = NO;
         
-    } else if (type == THNScreenRecommandTypeUserGoods) {
+    } else if (type == THNLocalControllerTypeUserGoods) {
         tags = @[kRecommandExpress, kRecommandSale];
+        self.categoryView.hidden = YES;
     }
     
     [self.recommendView thn_setRecommandTag:tags];
@@ -181,10 +195,18 @@ static NSString *const kObjectCount         = @"count";
  根据筛选条件获取商品
  */
 - (void)thn_requestScreenGoodsData {
-    NSDictionary *params = @{kKeyId: @(self.categoryId),
-                             kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
-                             kKeyMinPrice: @(self.minPrice),
-                             kKeyMaxPrice: @(self.maxPrice)};
+    NSDictionary *params = nil;
+    
+    if (self.localType == THNLocalControllerTypeUserGoods) {
+        params = @{
+                   kKeyMinPrice: @(self.minPrice),
+                   kKeyMaxPrice: @(self.maxPrice)};
+    } else {
+        params = @{kKeyId: @(self.categoryId),
+                   kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
+                   kKeyMinPrice: @(self.minPrice),
+                   kKeyMaxPrice: @(self.maxPrice)};
+    }
     
     [self.recommandDict setValuesForKeysWithDictionary:params];
     
@@ -192,12 +214,23 @@ static NSString *const kObjectCount         = @"count";
     [self thn_setDoneButtonTitleWithGoodsCount:0 show:NO];
     [self.doneLoadingView startAnimating];
     
-    [THNGoodsManager getScreenProductsWithParams:self.recommandDict completion:^(NSDictionary *data, NSError *error) {
-        [self.doneLoadingView stopAnimating];
-        if (error) return;
-        
-        [self thn_setDoneButtonTitleWithGoodsCount:[data[kObjectCount] integerValue] show:YES];
-    }];
+    if (self.localType == THNLocalControllerTypeUserGoods) {
+        [THNGoodsManager getUserCenterProductsWithType:self.productsType
+                                                params:self.recommandDict
+                                            completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+                                                [self.doneLoadingView stopAnimating];
+                                                if (error) return;
+                                                
+                                                [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+                                            }];
+    } else {
+        [THNGoodsManager getScreenProductsWithParams:self.recommandDict completion:^(NSDictionary *data, NSError *error) {
+            [self.doneLoadingView stopAnimating];
+            if (error) return;
+            
+            [self thn_setDoneButtonTitleWithGoodsCount:[data[kObjectCount] integerValue] show:YES];
+        }];
+    }
 }
 
 - (void)thn_showView:(BOOL)show {
@@ -224,7 +257,7 @@ static NSString *const kObjectCount         = @"count";
  */
 - (void)thn_screenViewHidden:(BOOL)hidden {
     self.screenView.hidden = hidden;
-    self.sortView.hidden = !hidden;
+    self.sortTableView.hidden = !hidden;
     self.resetButton.hidden = hidden;
 }
 
@@ -250,6 +283,73 @@ static NSString *const kObjectCount         = @"count";
     [self thn_requestScreenGoodsData];
 }
 
+#pragma mark - tableView delegate & dataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return section == 0 ? 1 : 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNFunctionSortTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTHNFunctionSortTableViewCellId];
+    if (!cell) {
+        cell = [[THNFunctionSortTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault)
+                                                   reuseIdentifier:kTHNFunctionSortTableViewCellId];
+    }
+    
+    if (indexPath.section == 0) {
+        [cell thn_setCellTitleWithType:self.localType == THNLocalControllerTypeDefault ? THNFunctionSortTypeSynthesize \
+                                      : THNFunctionSortTypeDefault];
+    
+    } else {
+        [cell thn_setCellTitleWithType:indexPath.row == 0 ? THNFunctionSortTypePriceUp : THNFunctionSortTypePriceDown];
+    }
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return section == 0 ? 0.01 : 40;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel *priceLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 100, 40)];
+    priceLable.text = kTitlePrice;
+    priceLable.font = [UIFont systemFontOfSize:12];
+    priceLable.textColor = [UIColor colorWithHexString:@"#555555"];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+    [headerView addSubview:priceLable];
+    
+    return section == 0 ? [UIView new] : headerView;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [cell thn_setCellSelected:YES];
+    [self thn_showView:NO];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [cell thn_setCellSelected:NO];
+    [self thn_showView:NO];
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     [self addSubview:self.backgroudMaskView];
@@ -265,7 +365,7 @@ static NSString *const kObjectCount         = @"count";
     [self.containerView addSubview:self.titleLabel];
     [self.containerView addSubview:self.resetButton];
     [self.containerView addSubview:self.screenView];
-    [self.containerView addSubview:self.sortView];
+    [self.containerView addSubview:self.sortTableView];
     [self addSubview:self.containerView];
 }
 
@@ -274,7 +374,8 @@ static NSString *const kObjectCount         = @"count";
     
     self.backgroudMaskView.frame = self.bounds;
     
-    CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeSort ? 250 : 460;
+    CGFloat screenViewH = self.localType == THNLocalControllerTypeUserGoods ? 370 : 460;
+    CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeSort ? 250 : screenViewH;
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
     [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -295,10 +396,10 @@ static NSString *const kObjectCount         = @"count";
         make.right.mas_equalTo(-15);
     }];
     
-    [self.sortView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.sortTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(55);
-        make.bottom.mas_equalTo(-25);
+        make.top.mas_equalTo(40);
+        make.bottom.mas_equalTo(0);
     }];
     
     [self.screenView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -322,7 +423,11 @@ static NSString *const kObjectCount         = @"count";
     [self.recommendView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
-        make.top.equalTo(self.categoryView.mas_bottom).with.offset(30);
+        if (self.localType == THNLocalControllerTypeUserGoods) {
+            make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
+        } else {
+            make.top.equalTo(self.categoryView.mas_bottom).with.offset(30);
+        }
     }];
     
     [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -361,12 +466,18 @@ static NSString *const kObjectCount         = @"count";
     return _containerView;
 }
 
-- (UIView *)sortView {
-    if (!_sortView) {
-        _sortView = [[UIView alloc] init];
-        _sortView.backgroundColor = [UIColor orangeColor];
+- (UITableView *)sortTableView {
+    if (!_sortTableView) {
+        _sortTableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+        _sortTableView.delegate = self;
+        _sortTableView.dataSource = self;
+        _sortTableView.showsVerticalScrollIndicator = NO;
+        _sortTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _sortTableView.tableFooterView = [UIView new];
+        _sortTableView.bounces = NO;
+        _sortTableView.backgroundColor = [UIColor colorWithHexString:kColorBackground];
     }
-    return _sortView;
+    return _sortTableView;
 }
 
 - (UIView *)screenView {

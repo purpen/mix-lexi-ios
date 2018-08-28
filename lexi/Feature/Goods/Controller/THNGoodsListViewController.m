@@ -80,6 +80,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     switch (type) {
         case THNGoodsListViewTypeUserCenter: {
             [self thn_getUserCenterProductsWithType:self.productsType];
+            self.popupView.productsType = self.productsType;
             [self.functionView thn_createFunctionButtonWithType:(THNFunctionButtonViewTypeUserGoods)];
         }
             break;
@@ -97,9 +98,11 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNProductsType)type {
-    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         if (error || !goodsData.count) return;
-
+        
+        [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+        
         for (NSDictionary *product in goodsData) {
             THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
             [self.modelArray addObject:model];
@@ -208,7 +211,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (THNFunctionPopupView *)popupView {
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
-        [_popupView thn_setRecommandType:(THNScreenRecommandTypeDefault)];
+        [_popupView thn_setLocalControllerType:self.goodsListType == THNGoodsListViewTypeUserCenter ? \
+              THNLocalControllerTypeUserGoods : THNLocalControllerTypeDefault];
     }
     return _popupView;
 }

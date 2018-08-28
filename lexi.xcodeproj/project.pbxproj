@@ -196,6 +196,7 @@
 		D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9984E2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m */; };
 		D8F998552133F3580012AED3 /* THNFunctionCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */; };
 		D8F998582134023C0012AED3 /* THNPriceSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998572134023C0012AED3 /* THNPriceSliderView.m */; };
+		D8F9985B21355BC00012AED3 /* THNFunctionSortTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9985A21355BC00012AED3 /* THNFunctionSortTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -537,6 +538,8 @@
 		D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionCollectionView.m; sourceTree = "<group>"; };
 		D8F998562134023C0012AED3 /* THNPriceSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPriceSliderView.h; sourceTree = "<group>"; };
 		D8F998572134023C0012AED3 /* THNPriceSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPriceSliderView.m; sourceTree = "<group>"; };
+		D8F9985921355BC00012AED3 /* THNFunctionSortTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionSortTableViewCell.h; sourceTree = "<group>"; };
+		D8F9985A21355BC00012AED3 /* THNFunctionSortTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionSortTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -813,6 +816,8 @@
 				D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */,
 				D8F9984D2133E7AC0012AED3 /* THNFunctionCollectionViewCell.h */,
 				D8F9984E2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m */,
+				D8F9985921355BC00012AED3 /* THNFunctionSortTableViewCell.h */,
+				D8F9985A21355BC00012AED3 /* THNFunctionSortTableViewCell.m */,
 				D8F998562134023C0012AED3 /* THNPriceSliderView.h */,
 				D8F998572134023C0012AED3 /* THNPriceSliderView.m */,
 			);
@@ -1791,6 +1796,7 @@
 				D8BAC9C8211A949100667D6F /* THNPasswordTextField.m in Sources */,
 				D85DA8062106030200A36A71 /* UIColor+Extension.m in Sources */,
 				D85DA8072106030200A36A71 /* UIView+Helper.m in Sources */,
+				D8F9985B21355BC00012AED3 /* THNFunctionSortTableViewCell.m in Sources */,
 				D8BAC989211A949100667D6F /* THNSelectButtonView.m in Sources */,
 				4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */,
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,

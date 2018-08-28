@@ -18,6 +18,8 @@
 #import <MJExtension/MJExtension.h>
 #import "UITableView+Helper.h"
 
+#import "THNGoodsListViewController.h"
+
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
 static CGFloat const kBannerViewSpacing = 20;
@@ -258,8 +260,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
     
+    WEAKSELF;
+    
     self.categoriesCollectionView.categoriesBlock = ^(NSInteger pid) {
-        
+        THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:pid categoryName:@"分类"];
+        [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
     };
     
     [headerView addSubview:self.categoriesCollectionView];
