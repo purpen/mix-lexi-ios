@@ -44,7 +44,7 @@ static NSString *const kKeyStores       = @"stores";
     THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        
+        THNLog(@"个人信息 == %@", result.data);
         THNUserModel *model = [THNUserModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
         [SVProgressHUD dismiss];
