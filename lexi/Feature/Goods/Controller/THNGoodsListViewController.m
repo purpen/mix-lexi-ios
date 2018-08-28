@@ -30,15 +30,39 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
 /// 获取商品的类型
 @property (nonatomic, assign) THNProductsType productsType;
+/// 创建商品视图类型
+@property (nonatomic, assign) THNGoodsListViewType goodsListType;
+/// 分类的 id
+@property (nonatomic, assign) NSInteger categoryId;
 
 @end
 
 @implementation THNGoodsListViewController
 
-- (instancetype)initWithType:(THNProductsType)type title:(NSString *)title {
+- (instancetype)initWithGoodsListType:(THNGoodsListViewType)type title:(NSString *)title {
     self = [super init];
     if (self) {
         self.navigationBarView.title = title;
+        self.goodsListType = type;
+    }
+    return self;
+}
+
+- (instancetype)initWithCategoryId:(NSInteger)categoryId categoryName:(NSString *)name {
+    self = [super init];
+    if (self) {
+        self.navigationBarView.title = name;
+        self.goodsListType = THNGoodsListViewTypeCategory;
+        self.categoryId = categoryId;
+    }
+    return self;
+}
+
+- (instancetype)initWithUserCenterGoodsType:(THNProductsType)type title:(NSString *)title {
+    self = [super init];
+    if (self) {
+        self.navigationBarView.title = title;
+        self.goodsListType = THNGoodsListViewTypeUserCenter;
         self.productsType = type;
     }
     return self;
@@ -47,13 +71,33 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self thn_getProductsWithType:self.productsType];
+    [self thn_requestProductsDataWithType:self.goodsListType];
     [self setupUI];
 }
 
-// 获取商品数据
-- (void)thn_getProductsWithType:(THNProductsType)type {
-    [THNGoodsManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+#pragma mark - network
+- (void)thn_requestProductsDataWithType:(THNGoodsListViewType)type {
+    switch (type) {
+        case THNGoodsListViewTypeUserCenter: {
+            [self thn_getUserCenterProductsWithType:self.productsType];
+            [self.functionView thn_createFunctionButtonWithType:(THNFunctionButtonViewTypeUserGoods)];
+        }
+            break;
+            
+        case THNGoodsListViewTypeCategory: {
+            [self thn_getCategoryProductsWithId:self.categoryId];
+            [self.popupView thn_setCategoryId:self.categoryId];
+            [self.functionView thn_createFunctionButtonWithType:(THNFunctionButtonViewTypeDefault)];
+        }
+            
+        default:
+            break;
+    }
+}
+
+// 获取个人中心商品数据
+- (void)thn_getUserCenterProductsWithType:(THNProductsType)type {
+    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
         if (error || !goodsData.count) return;
 
         for (NSDictionary *product in goodsData) {
@@ -65,8 +109,29 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     }];
 }
 
+// 获取分类商品数据
+- (void)thn_getCategoryProductsWithId:(NSInteger)categoryId {
+    [THNGoodsManager getCategoryProductsWithId:categoryId params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        if (error || !goodsData.count) return;
+        
+        [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+        
+        for (NSDictionary *product in goodsData) {
+            THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
+            [self.modelArray addObject:model];
+        }
+        
+        [self.goodsCollectionView reloadData];
+    }];
+}
+
 #pragma mark - custom delegate
-- (void)thn_functionButtonSelectedWithIndex:(NSInteger)index {
+- (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
+    if (self.goodsListType == THNGoodsListViewTypeCategory && index == 1) {
+        [SVProgressHUD showInfoWithStatus:@"新品"];
+        return;
+    }
+    
     [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewType)index];
 }
 
@@ -87,15 +152,14 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开商品 == %zi", indexPath.row]];
+    THNProductModel *model = self.modelArray[indexPath.row];
+    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开商品 == %@", model.rid]];
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
-    
+//    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
+    CGFloat itemWidth = (SCREEN_WIDTH - 50) / 2;
     return CGSizeMake(itemWidth, itemWidth + 50);
 }
 
@@ -135,8 +199,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 - (THNFunctionButtonView *)functionView {
     if (!_functionView) {
-        _functionView = [[THNFunctionButtonView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 40)
-                                                        buttonTitles:@[@"筛选", @"排序"]];
+        _functionView = [[THNFunctionButtonView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 40)];
         _functionView.delegate = self;
     }
     return _functionView;
@@ -144,7 +207,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 - (THNFunctionPopupView *)popupView {
     if (!_popupView) {
-        _popupView = [THNFunctionPopupView initWithFunctionType:(THNFunctionPopupViewTypeSort)];
+        _popupView = [[THNFunctionPopupView alloc] init];
+        [_popupView thn_setRecommandType:(THNScreenRecommandTypeDefault)];
     }
     return _popupView;
 }

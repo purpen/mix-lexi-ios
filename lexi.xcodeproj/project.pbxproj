@@ -70,13 +70,11 @@
 		D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */; };
 		D82FA78521256B8000E14A22 /* YYLabel+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA78421256B8000E14A22 /* YYLabel+Helper.m */; };
 		D82FA7882125740000E14A22 /* THNLikedWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */; };
-		D82FA79121267AB000E14A22 /* THNFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79021267AB000E14A22 /* THNFunctionButtonView.m */; };
 		D82FA79F2126A8FE00E14A22 /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */; };
 		D82FA7A02126A8FE00E14A22 /* THNUserApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */; };
 		D82FA7A12126A8FE00E14A22 /* THNApplyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7972126A8FE00E14A22 /* THNApplyStoreViewController.m */; };
 		D82FA7A22126A8FE00E14A22 /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79D2126A8FE00E14A22 /* THNUserApplyView.m */; };
 		D82FA7A32126A8FE00E14A22 /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79E2126A8FE00E14A22 /* THNApplySuccessView.m */; };
-		D82FA7B12126C47200E14A22 /* THNFunctionPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7AF2126C47100E14A22 /* THNFunctionPopupView.m */; };
 		D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B62126CDB400E14A22 /* THNUserManager.m */; };
 		D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */; };
 		D85DA7DD2106030200A36A71 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -193,6 +191,11 @@
 		D8F9983A212EEC6B0012AED3 /* THNBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99839212EEC6B0012AED3 /* THNBaseTableViewController.m */; };
 		D8F9983D21338E960012AED3 /* THNGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9983C21338E960012AED3 /* THNGoodsListViewController.m */; };
 		D8F998432133944E0012AED3 /* THNGoodsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998422133944E0012AED3 /* THNGoodsManager.m */; };
+		D8F998482133E1AC0012AED3 /* THNFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998452133E1AB0012AED3 /* THNFunctionButtonView.m */; };
+		D8F998492133E1AC0012AED3 /* THNFunctionPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998472133E1AC0012AED3 /* THNFunctionPopupView.m */; };
+		D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9984E2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m */; };
+		D8F998552133F3580012AED3 /* THNFunctionCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */; };
+		D8F998582134023C0012AED3 /* THNPriceSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998572134023C0012AED3 /* THNPriceSliderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -304,8 +307,6 @@
 		D82FA78421256B8000E14A22 /* YYLabel+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYLabel+Helper.m"; sourceTree = "<group>"; };
 		D82FA7862125740000E14A22 /* THNLikedWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLikedWindowViewController.h; sourceTree = "<group>"; };
 		D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLikedWindowViewController.m; sourceTree = "<group>"; };
-		D82FA78F21267AB000E14A22 /* THNFunctionButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionButtonView.h; sourceTree = "<group>"; };
-		D82FA79021267AB000E14A22 /* THNFunctionButtonView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionButtonView.m; sourceTree = "<group>"; };
 		D82FA7942126A8FE00E14A22 /* THNApplyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplyStoreViewController.h; sourceTree = "<group>"; };
 		D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessViewController.m; sourceTree = "<group>"; };
 		D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyViewController.m; sourceTree = "<group>"; };
@@ -316,8 +317,6 @@
 		D82FA79C2126A8FE00E14A22 /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
 		D82FA79D2126A8FE00E14A22 /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
 		D82FA79E2126A8FE00E14A22 /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
-		D82FA7AF2126C47100E14A22 /* THNFunctionPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFunctionPopupView.m; sourceTree = "<group>"; };
-		D82FA7B02126C47200E14A22 /* THNFunctionPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFunctionPopupView.h; sourceTree = "<group>"; };
 		D82FA7B52126CDB400E14A22 /* THNUserManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserManager.h; sourceTree = "<group>"; };
 		D82FA7B62126CDB400E14A22 /* THNUserManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserManager.m; sourceTree = "<group>"; };
 		D82FA7B82127F0CF00E14A22 /* THNDynamicTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDynamicTableViewController.h; sourceTree = "<group>"; };
@@ -528,6 +527,16 @@
 		D8F9983C21338E960012AED3 /* THNGoodsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsListViewController.m; sourceTree = "<group>"; };
 		D8F998412133944E0012AED3 /* THNGoodsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsManager.h; sourceTree = "<group>"; };
 		D8F998422133944E0012AED3 /* THNGoodsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsManager.m; sourceTree = "<group>"; };
+		D8F998442133E1AB0012AED3 /* THNFunctionPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFunctionPopupView.h; sourceTree = "<group>"; };
+		D8F998452133E1AB0012AED3 /* THNFunctionButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFunctionButtonView.m; sourceTree = "<group>"; };
+		D8F998462133E1AC0012AED3 /* THNFunctionButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFunctionButtonView.h; sourceTree = "<group>"; };
+		D8F998472133E1AC0012AED3 /* THNFunctionPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFunctionPopupView.m; sourceTree = "<group>"; };
+		D8F9984D2133E7AC0012AED3 /* THNFunctionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionCollectionViewCell.h; sourceTree = "<group>"; };
+		D8F9984E2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionCollectionViewCell.m; sourceTree = "<group>"; };
+		D8F998532133F3580012AED3 /* THNFunctionCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionCollectionView.h; sourceTree = "<group>"; };
+		D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionCollectionView.m; sourceTree = "<group>"; };
+		D8F998562134023C0012AED3 /* THNPriceSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPriceSliderView.h; sourceTree = "<group>"; };
+		D8F998572134023C0012AED3 /* THNPriceSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPriceSliderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -744,10 +753,6 @@
 				D82FA77C212559A400E14A22 /* THNLikedWindowTableViewCell.m */,
 				D82FA77E212559C600E14A22 /* THNLikedWindowCollectionViewCell.h */,
 				D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */,
-				D82FA78F21267AB000E14A22 /* THNFunctionButtonView.h */,
-				D82FA79021267AB000E14A22 /* THNFunctionButtonView.m */,
-				D82FA7B02126C47200E14A22 /* THNFunctionPopupView.h */,
-				D82FA7AF2126C47100E14A22 /* THNFunctionPopupView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -800,6 +805,16 @@
 				D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */,
 				D8F99834212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.h */,
 				D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */,
+				D8F998462133E1AC0012AED3 /* THNFunctionButtonView.h */,
+				D8F998452133E1AB0012AED3 /* THNFunctionButtonView.m */,
+				D8F998442133E1AB0012AED3 /* THNFunctionPopupView.h */,
+				D8F998472133E1AC0012AED3 /* THNFunctionPopupView.m */,
+				D8F998532133F3580012AED3 /* THNFunctionCollectionView.h */,
+				D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */,
+				D8F9984D2133E7AC0012AED3 /* THNFunctionCollectionViewCell.h */,
+				D8F9984E2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m */,
+				D8F998562134023C0012AED3 /* THNPriceSliderView.h */,
+				D8F998572134023C0012AED3 /* THNPriceSliderView.m */,
 			);
 			path = ReuseView;
 			sourceTree = "<group>";
@@ -1657,7 +1672,6 @@
 			files = (
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
-				D82FA79121267AB000E14A22 /* THNFunctionButtonView.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
@@ -1670,6 +1684,7 @@
 				D82FA7682124068C00E14A22 /* THNTableViewSectionHeaderView.m in Sources */,
 				D85DA80E2106030200A36A71 /* THNConst.m in Sources */,
 				D8BAC9BF211A949100667D6F /* THNSetPasswordViewController.m in Sources */,
+				D8F998582134023C0012AED3 /* THNPriceSliderView.m in Sources */,
 				D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */,
 				D8BAC9BA211A949100667D6F /* THNActivityView.m in Sources */,
 				4B720600212D65F4002606EE /* THNToolBarView.m in Sources */,
@@ -1681,6 +1696,7 @@
 				D82FA765212401C200E14A22 /* THNTableViewCells.m in Sources */,
 				D8BAC9AE211A949100667D6F /* THNProductModel.m in Sources */,
 				D82FA7A02126A8FE00E14A22 /* THNUserApplyViewController.m in Sources */,
+				D8F998482133E1AC0012AED3 /* THNFunctionButtonView.m in Sources */,
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
 				D8BAC9BD211A949100667D6F /* THNLoginManager.m in Sources */,
 				D8BAC9B2211A949100667D6F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
@@ -1695,12 +1711,12 @@
 				D8BAC9CB211A949100667D6F /* THNSignUpView.m in Sources */,
 				D82FA7A32126A8FE00E14A22 /* THNApplySuccessView.m in Sources */,
 				D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */,
+				D8F998492133E1AC0012AED3 /* THNFunctionPopupView.m in Sources */,
 				D8BAC9C6211A949100667D6F /* THNAreaModel.m in Sources */,
 				D8BAC9D2211A949100667D6F /* THNNewUserInfoView.m in Sources */,
 				D8BAC9A5211A949100667D6F /* THNBannerView.m in Sources */,
 				D8BAC99D211A949100667D6F /* THNBannerModel.m in Sources */,
 				D82FA77D212559A400E14A22 /* THNLikedWindowTableViewCell.m in Sources */,
-				D82FA7B12126C47200E14A22 /* THNFunctionPopupView.m in Sources */,
 				D82FA771212424B500E14A22 /* THNMyCenterDataButton.m in Sources */,
 				D8BAC9BB211A949100667D6F /* THNGoodsInfoViewController.m in Sources */,
 				D8BAC9C5211A949100667D6F /* THNNewPasswordViewController.m in Sources */,
@@ -1744,6 +1760,7 @@
 				4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */,
 				4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */,
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
+				D8F998552133F3580012AED3 /* THNFunctionCollectionView.m in Sources */,
 				4B72060B212D7124002606EE /* WBModel.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
 				4BC2E9B5213005FB005FF29C /* THNPopularSingleProductTableViewController.m in Sources */,
@@ -1779,6 +1796,7 @@
 				D8BAC989211A949100667D6F /* THNSelectButtonView.m in Sources */,
 				4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */,
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,
+				D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */,
 				D8BAC9CC211A949100667D6F /* THNAuthCodeButton.m in Sources */,
 				D8BAC9CF211A949100667D6F /* THNLoginView.m in Sources */,
 				4B2644E12123FA1C00665A6D /* THNShopWindowViewController.m in Sources */,
@@ -1942,7 +1960,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1964,8 +1982,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
