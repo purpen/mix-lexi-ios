@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNGoodsManager.h"
 
 typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
     THNFunctionPopupViewTypeSort = 0,   // 排序
     THNFunctionPopupViewTypeScreen,     // 筛选
 };
 
-typedef NS_ENUM(NSUInteger, THNScreenRecommandType) {
-    THNScreenRecommandTypeDefault = 0,   // 默认
-    THNScreenRecommandTypeUserGoods,     // 个人中心
+typedef NS_ENUM(NSUInteger, THNLocalControllerType) {
+    THNLocalControllerTypeDefault = 0,   // 默认
+    THNLocalControllerTypeUserGoods,     // 个人中心
 };
 
 @interface THNFunctionPopupView : UIView
@@ -37,9 +38,14 @@ typedef NS_ENUM(NSUInteger, THNScreenRecommandType) {
 - (void)thn_setCategoryData:(NSArray *)data;
 
 /**
- 设置推荐类型
+ 个人中心商品类型
  */
-- (void)thn_setRecommandType:(THNScreenRecommandType)type;
+@property (nonatomic, assign) THNProductsType productsType;
+
+/**
+ 所在控制器来源类型
+ */
+- (void)thn_setLocalControllerType:(THNLocalControllerType)type;
 
 /**
  显示视图的类型
