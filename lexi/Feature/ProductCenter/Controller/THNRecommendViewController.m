@@ -126,7 +126,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray = @[@"热门单品", @"官方推荐", @"新品首发"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.openingView.frame), SCREEN_WIDTH, 60) titles:titleArray];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.openingView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.delegate = self;
     }
     return _selectButtonView;

@@ -14,5 +14,6 @@
 @property (nonatomic, assign) NSInteger browse_count;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSInteger pid;
+@property (nonatomic, assign) NSInteger categorieID;
 
 @end
