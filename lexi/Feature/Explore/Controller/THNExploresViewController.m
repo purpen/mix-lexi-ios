@@ -107,6 +107,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.categoriesCollectionView.categorieDataArray = result.data[@"categories"];
+        
         [self.categoriesCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -185,7 +186,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     }];
 }
 
-
 #pragma mark UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return allLinesCount;
@@ -257,6 +257,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.categoriesCollectionView.frame))];
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
+    
+    self.categoriesCollectionView.categoriesBlock = ^(NSInteger pid) {
+        
+    };
+    
     [headerView addSubview:self.categoriesCollectionView];
     return headerView;
 }
