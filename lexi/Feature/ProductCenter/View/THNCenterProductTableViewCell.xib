@@ -87,6 +87,7 @@
                                     <constraint firstAttribute="width" constant="80" id="3xa-BW-CSt"/>
                                     <constraint firstAttribute="height" constant="25" id="x1Q-fy-HWv"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                 <state key="normal" title="上架">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -101,6 +102,7 @@
                                     <constraint firstAttribute="width" constant="60" id="QAm-9m-f5x"/>
                                     <constraint firstAttribute="height" constant="25" id="va4-1j-b8c"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                 <state key="normal" title="卖">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>

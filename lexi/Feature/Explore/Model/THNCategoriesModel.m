@@ -7,7 +7,14 @@
 //
 
 #import "THNCategoriesModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation THNCategoriesModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{@"id":@"categorieID"};
+    
+}
 
 @end

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ - ButtonTypeDefault: 纯文字
+ - ButtonTypeTriangle: 文字和三角形图片
+ */
 typedef NS_ENUM(NSUInteger, ButtonType) {
     ButtonTypeDefault,
     ButtonTypeTriangle
@@ -21,7 +25,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 
 @interface THNSelectButtonView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray;
+- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray initWithButtonType:(ButtonType)type;
 @property (nonatomic, weak) id <THNSelectButtonViewDelegate> delegate;
 
 @end

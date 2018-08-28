@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^CategoriesBlock)(NSInteger pid);
+typedef void(^CategoriesBlock)(NSInteger categorieID, NSString *name);
 
 @interface THNCategoriesCollectionView : UICollectionView
 
@@ -16,6 +16,6 @@ typedef void(^CategoriesBlock)(NSInteger pid);
          collectionViewLayout:(UICollectionViewLayout *)layout;
 
 @property (nonatomic, strong) NSArray *categorieDataArray;
-@property (nonatomic, assign) CategoriesBlock categoriesBlock;
+@property (nonatomic, copy) CategoriesBlock categoriesBlock;
 
 @end
