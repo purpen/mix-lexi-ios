@@ -31,8 +31,6 @@
     [self setupUI]; 
 }
 
-
-
 - (void)setupUI {
     self.navigationBarView.title = @"选品中心";
     [self.view addSubview:self.searchView];
@@ -55,7 +53,6 @@
     [self.publicView addSubview:self.childViewControllers[0].view];
     self.currentSubViewController = self.childViewControllers[0];
 }
-
 
 #pragma mark - lazy
 - (THNHomeSearchView *)searchView {
