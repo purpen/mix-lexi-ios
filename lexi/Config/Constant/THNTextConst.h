@@ -37,3 +37,8 @@ UIKIT_EXTERN NSString *const kTextRegisterError;
 
 #pragma mark - 等待信息
 UIKIT_EXTERN NSString *const kTextWaitOpen;
+
+#pragma mark - button title
+UIKIT_EXTERN NSString *const kButtonTitleSort;
+UIKIT_EXTERN NSString *const kButtonTitleScreen;
+UIKIT_EXTERN NSString *const kButtonTitleNew;
