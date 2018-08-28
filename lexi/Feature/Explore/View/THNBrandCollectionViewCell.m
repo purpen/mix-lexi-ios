@@ -17,7 +17,7 @@
 
 static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentifier";
 
-@interface THNBrandCollectionViewCell()<UICollectionViewDataSource>
+@interface THNBrandCollectionViewCell()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *backGroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;

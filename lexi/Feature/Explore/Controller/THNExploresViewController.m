@@ -17,6 +17,7 @@
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
 #import "UITableView+Helper.h"
+#import "THNBrandHallViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -193,9 +194,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNExploreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
+    
+    cell.brandBlock = ^(THNExploreTableViewCell *cell) {
+        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+        [self.navigationController pushViewController:brandHall animated:YES];
+    };
     
     NSArray *dataArray = [NSArray array];
     NSString *title;
@@ -258,7 +265,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
     
-    self.categoriesCollectionView.categoriesBlock = ^(NSInteger pid) {
+    self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
         
     };
     
@@ -268,10 +275,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 }
 
 #pragma mark -lazy

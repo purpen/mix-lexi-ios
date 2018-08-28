@@ -162,4 +162,8 @@ CGFloat const cellOtherHeight = 190;
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.brandBlock(self);
+}
+
 @end

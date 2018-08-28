@@ -8,15 +8,29 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNProductCollectionViewCell;
+
+
+/**
+ - THNHomeTypeExplore: 探索
+ - THNHomeTypeFeatured: 精选
+ - THNHomeTypeCenter: 选品中心
+ */
 typedef NS_ENUM(NSInteger, THNHomeType) {
     THNHomeTypeExplore,
-    THNHomeTypeFeatured
+    THNHomeTypeFeatured,
+    THNHomeTypeCenter
 };
+
+typedef void(^ShelfBlock)(THNProductCollectionViewCell *cell);
+
 
 @class THNProductModel;
 
 @interface THNProductCollectionViewCell : UICollectionViewCell
 
 - (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType;
+
+@property (nonatomic, copy) ShelfBlock shelfBlock;
 
 @end
