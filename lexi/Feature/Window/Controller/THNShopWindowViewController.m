@@ -103,7 +103,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray =  @[@"关注",@"推荐"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.backgroundColor = [UIColor whiteColor];
     }
     return _selectButtonView;
