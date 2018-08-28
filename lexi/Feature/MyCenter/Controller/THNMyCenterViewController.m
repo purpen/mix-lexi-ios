@@ -84,7 +84,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSString *headerTitle = titleArr[(NSInteger)type];
 
     
-    [THNGoodsManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
         if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods)
@@ -101,9 +101,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             
         } else {
             sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle moreCompletion:^{
-                THNGoodsListViewController *likedGoodsVC = [[THNGoodsListViewController alloc] \
-                                                            initWithType:type title:titleArr[(NSInteger)type]];
-                [self.navigationController pushViewController:likedGoodsVC animated:YES];
+                THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] \
+                                                           initWithUserCenterGoodsType:type title:titleArr[(NSInteger)type]];
+                [self.navigationController pushViewController:goodsListVC animated:YES];
             }];
         }
         sections.index = (NSInteger)type;
@@ -313,7 +313,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity:{
-            [SVProgressHUD showInfoWithStatus:@"活动"];
+//            [SVProgressHUD showInfoWithStatus:@"活动"];
+            THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:85 categoryName:@"分类"];
+            [self.navigationController pushViewController:goodsListVC animated:YES];
         }
             break;
             
