@@ -25,6 +25,10 @@ typedef NS_ENUM(NSInteger, ExploreCellType) {
     ExploreGoodThings
 };
 
+@class THNExploreTableViewCell;
+
+typedef void(^BrandBlock)(THNExploreTableViewCell *cell);
+
 UIKIT_EXTERN  CGFloat const cellSetHeight;
 UIKIT_EXTERN  CGFloat const cellFeaturedBrandHeight;
 UIKIT_EXTERN  CGFloat const cellOtherHeight;
@@ -34,6 +38,8 @@ UIKIT_EXTERN  CGFloat const cellOtherHeight;
 - (void)setCellTypeStyle:(ExploreCellType)cellType
        initWithDataArray:(NSArray *)dataArray
            initWithTitle:(NSString *)title;
+
+@property (nonatomic, copy) BrandBlock brandBlock;
 
 
 @end

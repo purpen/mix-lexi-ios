@@ -21,6 +21,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *shippingImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelLeftConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *sallOutImageView;
+@property (weak, nonatomic) IBOutlet UIView *centerButtonView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerButtonViewComstraint;
+@property (weak, nonatomic) IBOutlet UIButton *shelfButton;
+@property (weak, nonatomic) IBOutlet UIButton *sellButton;
 
 @end
 
@@ -30,15 +34,25 @@
     [super awakeFromNib];
     self.productImageView.layer.cornerRadius = 4;
     self.productImageView.layer.masksToBounds = YES;
+    self.shelfButton.layer.cornerRadius = self.shelfButton.viewHeight / 2;
+    self.sellButton.layer.cornerRadius = self.sellButton.viewHeight / 2;
 }
 
 - (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType {
     
-    if (homeType == THNHomeTypeFeatured) {
-        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+    if (homeType == THNHomeTypeCenter) {
+        self.centerButtonView.hidden = NO;
+        self.centerButtonViewComstraint.constant = 42;
     } else {
+        self.centerButtonView.hidden = YES;
+        self.centerButtonViewComstraint.constant = 0;
+    }
+    
+    if (homeType == THNHomeTypeFeatured) {
         self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_price];
         self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
+    } else {
+        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
     }
     
     if (productModel.is_free_postage) {
@@ -59,6 +73,13 @@
     } else{
         self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_sale_price];
     }
+}
+- (IBAction)shelf:(id)sender {
+    self.shelfBlock(self);
+}
+
+- (IBAction)sell:(id)sender {
+    
 }
 
 @end
