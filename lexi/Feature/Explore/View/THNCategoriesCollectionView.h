@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^CategoriesBlock)(NSInteger pid);
+typedef void(^CategoriesBlock)(NSInteger categorieID, NSString *name);
 
 @interface THNCategoriesCollectionView : UICollectionView
 

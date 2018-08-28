@@ -7,6 +7,7 @@
 //
 
 #import "THNCategoriesModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation THNCategoriesModel
 
