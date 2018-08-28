@@ -28,7 +28,7 @@ static NSString *const kKeyCount           = @"count";
 @implementation THNGoodsManager
 
 #pragma mark - public methods
-+ (void)getUserCenterProductsWithType:(THNProductsType)type params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
++ (void)getUserCenterProductsWithType:(THNProductsType)type params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
     NSArray *urlArr = @[kURLUserLikedGoods, kURLUserBrowses, kURLUserWishlist];
     NSString *requestUrl = urlArr[(NSInteger)type];
     
@@ -54,17 +54,17 @@ static NSString *const kKeyCount           = @"count";
 /**
  根据类型获取用户中心商品数据
  */
-- (void)requestUserCenterProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
+- (void)requestUserCenterProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
     [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        NSLog(@"个人中心商品数据 ==== %@", result.data);
-        completion((NSArray *)result.data[kKeyProducts], nil);
+//        NSLog(@"个人中心商品数据 ==== %@", result.data);
+        completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
-        completion(nil, error);
+        completion(nil, 0, error);
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
@@ -77,13 +77,13 @@ static NSString *const kKeyCount           = @"count";
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        THNLog(@"分类商品数据 ==== %@", result.data);
+//        THNLog(@"分类商品数据 ==== %@", result.data);
         
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
-        completion(nil, nil, error);
+        completion(nil, 0, error);
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
@@ -91,7 +91,7 @@ static NSString *const kKeyCount           = @"count";
 - (void)requestScreenProductsWithParams:(NSDictionary *)params completion:(void (^)(NSDictionary *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"筛选出的商品数据 ==== %@", result.data);
+//        THNLog(@"筛选出的商品数据 ==== %@", result.data);
         completion(result.data, nil);
         [SVProgressHUD dismiss];
         
@@ -110,7 +110,7 @@ static NSString *const kKeyCount           = @"count";
     THNRequest *request = [THNAPI getWithUrlString:kURLCategories requestDictionary:@{kKeyPid: @(pid)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        THNLog(@"分类数据 ==== %@", result.data);
+//        THNLog(@"分类数据 ==== %@", result.data);
         completion((NSArray *)result.data[kKeyCategories], nil);
         [SVProgressHUD dismiss];
         
