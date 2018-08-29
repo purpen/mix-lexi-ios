@@ -84,9 +84,10 @@
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
     UIViewController *selectedController = self.childViewControllers[index];
     selectedController.view.frame = self.publicView.bounds;
+    __weak typeof(self)weakSelf = self;
     [self transitionFromViewController:self.currentSubViewController toViewController:self.childViewControllers[index] duration:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:^(BOOL finished) {
         if (finished) {
-            self.currentSubViewController = self.childViewControllers[index];
+            weakSelf.currentSubViewController = self.childViewControllers[index];
         }
     }];
 }

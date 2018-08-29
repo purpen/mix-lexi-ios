@@ -41,14 +41,14 @@
 - (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType {
     
     if (homeType == THNHomeTypeCenter) {
+        self.centerButtonViewComstraint.constant = 52;
         self.centerButtonView.hidden = NO;
-        self.centerButtonViewComstraint.constant = 42;
     } else {
-        self.centerButtonView.hidden = YES;
         self.centerButtonViewComstraint.constant = 0;
+        self.centerButtonView.hidden = YES;
     }
     
-    if (homeType == THNHomeTypeFeatured) {
+    if (homeType == THNHomeTypeExplore) {
         self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_price];
         self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
     } else {
