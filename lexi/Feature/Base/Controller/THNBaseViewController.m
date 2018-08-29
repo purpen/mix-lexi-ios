@@ -30,6 +30,10 @@
     }
 }
 
+- (void)setupUI {
+    
+}
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     

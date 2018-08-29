@@ -24,7 +24,7 @@
 #import "THNLoginManager.h"
 
 /// seciton header 默认的标题
-static NSString *const kHeaderTitleGoods    = @"喜欢的商品";
+static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
 static NSString *const kHeaderTitleWindow   = @"喜欢的橱窗";
 static NSString *const kHeaderTitleBrowses  = @"最近查看";
 static NSString *const kHeaderTitleWishList = @"心愿单";
@@ -79,12 +79,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 }
 
 // 商品信息
-- (void)thn_setGoodsTableViewCellWithType:(THNProductsType)type {
-    NSArray *titleArr = @[kHeaderTitleGoods, kHeaderTitleBrowses, kHeaderTitleWishList];
+- (void)thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsType)type {
+    NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
-
     
-    [THNGoodsManager getProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSError *error) {
+    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods)
@@ -101,9 +100,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             
         } else {
             sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle moreCompletion:^{
-                THNGoodsListViewController *likedGoodsVC = [[THNGoodsListViewController alloc] \
-                                                            initWithType:type title:titleArr[(NSInteger)type]];
-                [self.navigationController pushViewController:likedGoodsVC animated:YES];
+                THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] \
+                                                           initWithUserCenterGoodsType:type title:headerTitle];
+                [self.navigationController pushViewController:goodsListVC animated:YES];
             }];
         }
         sections.index = (NSInteger)type;
@@ -114,7 +113,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             [self thn_sortDataSecitons];
         }
         
-        if (type == THNProductsTypeLikedGoods) {
+        if (type == THNUserCenterGoodsTypeLikedGoods) {
             [self thn_setLikedWindowTableViewCell];
         }
         
@@ -249,13 +248,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     switch (type) {
         case THNHeaderViewSelectedTypeLiked: {
-            [self thn_setGoodsTableViewCellWithType:(THNProductsTypeLikedGoods)];
+            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeLikedGoods)];
         }
             break;
             
         case THNHeaderViewSelectedTypeCollect: {
-            [self thn_setGoodsTableViewCellWithType:(THNProductsTypeBrowses)];
-            [self thn_setGoodsTableViewCellWithType:(THNProductsTypeWishList)];
+            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeBrowses)];
+            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeWishList)];
         }
             break;
             
@@ -313,7 +312,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity:{
-            [SVProgressHUD showInfoWithStatus:@"活动"];
+//            [SVProgressHUD showInfoWithStatus:@"活动"];
+            THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:85 categoryName:@"分类"];
+            [self.navigationController pushViewController:goodsListVC animated:YES];
         }
             break;
             
