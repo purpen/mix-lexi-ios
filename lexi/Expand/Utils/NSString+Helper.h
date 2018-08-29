@@ -104,4 +104,13 @@
  */
 + (NSString *)getImagePath:(UIImage *)image;
 
+
+/**
+ 时间戳转换Date
+
+ @param timeStampString 时间戳
+ @return date
+ */
++ (NSString *)timeConversion:(NSString *)timeStampString;
+
 @end
