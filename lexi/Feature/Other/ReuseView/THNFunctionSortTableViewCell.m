@@ -13,13 +13,12 @@
 
 static NSString *const kTitleDefault    = @"不限";
 static NSString *const kTitleSynthesize = @"综合排序";
+static NSString *const kTitleNewest     = @"新品";
 static NSString *const kTitlePriceUp    = @"由低至高";
 static NSString *const kTitlePriceDown  = @"由高至低";
 
 @interface THNFunctionSortTableViewCell ()
 
-/// 标题
-@property (nonatomic, strong) UILabel *titleLabel;
 /// 选中的icon
 @property (nonatomic, strong) UIImageView *iconImageView;
 /// 标题数组
@@ -40,7 +39,8 @@ static NSString *const kTitlePriceDown  = @"由高至低";
     return self;
 }
 
-- (void)thn_setCellTitleWithType:(THNFunctionSortType)type {
+- (void)thn_setSortConditionWithType:(THNFunctionSortType)type {
+    self.sortType = type;
     self.titleLabel.text = self.titleArr[(NSInteger)type];
 }
 
@@ -53,7 +53,7 @@ static NSString *const kTitlePriceDown  = @"由高至低";
 - (void)setupCellViewUI {
     [self addSubview:self.titleLabel];
     [self addSubview:self.iconImageView];
-    self.titleArr = @[kTitleDefault, kTitleSynthesize, kTitlePriceUp, kTitlePriceDown];
+    self.titleArr = @[kTitleDefault, kTitleSynthesize, kTitlePriceUp, kTitlePriceDown, kTitleNewest];
 }
 
 #pragma mark - getters and setters

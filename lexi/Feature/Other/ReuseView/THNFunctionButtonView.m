@@ -9,9 +9,10 @@
 #import "THNFunctionButtonView.h"
 #import "THNMarco.h"
 #import "THNTextConst.h"
-#import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import <Masonry/Masonry.h>
+#import "THNFunctionButton.h"
 
 static NSInteger const kFunctionButtonTag = 5123;
 
@@ -19,20 +20,18 @@ static NSInteger const kFunctionButtonTag = 5123;
 
 /// 记录功能按钮
 @property (nonatomic, strong) NSMutableArray *functionButtonArr;
+/// 选中的功能按钮下标
+@property (nonatomic, assign) NSInteger selectedIndex;
 
 @end
 
 @implementation THNFunctionButtonView
 
-- (instancetype)initWithFrame:(CGRect)frame type:(THNFunctionButtonViewType)type {
+- (instancetype)initWithFrame:(CGRect)frame type:(THNGoodsListViewType)type {
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
-        self.type = type;
-        
-        NSArray *defaultTitleArr = @[kButtonTitleSort, kButtonTitleNew, kButtonTitleScreen];
-        NSArray *otherTitleArr = @[kButtonTitleSort, kButtonTitleScreen];
-        [self creatFunctionButtonWithTitles:type == THNFunctionButtonViewTypeDefault ? defaultTitleArr : otherTitleArr];
+        [self thn_createFunctionButtonWithType:type];
     }
     return self;
 }
@@ -41,8 +40,7 @@ static NSInteger const kFunctionButtonTag = 5123;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
-        self.type = THNFunctionButtonViewTypeDefault;
-        
+        self.goodsListType = THNGoodsListViewTypeDefault;
         [self creatFunctionButtonWithTitles:titles];
     }
     return self;
@@ -56,37 +54,48 @@ static NSInteger const kFunctionButtonTag = 5123;
     return self;
 }
 
-#pragma mark - public methods
-- (void)thn_createFunctionButtonWithType:(THNFunctionButtonViewType)type {
-    self.type = type;
-    
-    NSArray *defaultTitleArr = @[kButtonTitleSort, kButtonTitleNew, kButtonTitleScreen];
-    NSArray *otherTitleArr = @[kButtonTitleSort, kButtonTitleScreen];
-    [self creatFunctionButtonWithTitles:type == THNFunctionButtonViewTypeDefault ? defaultTitleArr : otherTitleArr];
-}
-
 #pragma mark - event response
-- (void)functionButtonAction:(UIButton *)button {
+- (void)functionButtonAction:(THNFunctionButton *)button {
+    self.selectedIndex = [self.functionButtonArr indexOfObject:button];
+    [self thn_setFunctionButtonSelected:YES];
+    
+    
     if ([self.delegate respondsToSelector:@selector(thn_functionViewSelectedWithIndex:)]) {
         [self.delegate thn_functionViewSelectedWithIndex:(button.tag - kFunctionButtonTag)];
     }
 }
 
+#pragma mark - public methods
+- (void)thn_createFunctionButtonWithType:(THNGoodsListViewType)type {
+    self.goodsListType = type;
+    
+    switch (type) {
+        case THNGoodsListViewTypeUser:
+        case THNGoodsListViewTypeStore: {
+            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleScreen]];
+        }
+            break;
+            
+        default: {
+            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleNew, kButtonTitleScreen]];
+        }
+            break;
+    }
+}
+
+- (void)thn_setSelectedButtonTitle:(NSString *)title {
+    THNFunctionButton *selectedButton = (THNFunctionButton *)self.functionButtonArr[self.selectedIndex];
+    selectedButton.title = title;
+}
+
+- (void)thn_setFunctionButtonSelected:(BOOL)selected {
+    THNFunctionButton *selectedButton = (THNFunctionButton *)self.functionButtonArr[self.selectedIndex];
+    selectedButton.selected = selected;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self.functionButtonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
-                                        withFixedSpacing:0
-                                             leadSpacing:0
-                                             tailSpacing:0];
-    [self.functionButtonArr mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.mas_equalTo(0);
-    }];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -98,20 +107,23 @@ static NSInteger const kFunctionButtonTag = 5123;
 
 #pragma mark - getters and setters
 - (void)creatFunctionButtonWithTitles:(NSArray *)titles {
-//    CGFloat buttonWidth = CGRectGetWidth(self.bounds) / titles.count;
+    CGFloat buttonW = CGRectGetWidth(self.bounds) / titles.count;
+    CGFloat buttonH = CGRectGetHeight(self.bounds);
     
     for (NSUInteger idx = 0; idx < titles.count; idx ++) {
-        UIButton *functionButton = [[UIButton alloc] init];
-        functionButton.tag = kFunctionButtonTag + idx;
-        [functionButton setTitle:titles[idx] forState:(UIControlStateNormal)];
-        [functionButton setTitleColor:[UIColor colorWithHexString:@"#555555"] forState:(UIControlStateNormal)];
-        functionButton.titleLabel.font = [UIFont systemFontOfSize:14];
-//        [functionButton setImage:[UIImage imageNamed:@"icon_sort_down"] forState:(UIControlStateNormal)];
-//        [functionButton setImageEdgeInsets:(UIEdgeInsetsMake(0, buttonWidth / 2 - 10, 0, 0))];
-        [functionButton addTarget:self action:@selector(functionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        THNFunctionButton *button = [[THNFunctionButton alloc] initWithFrame:CGRectMake(buttonW * idx, 0, buttonW, buttonH)
+                                                                       title:titles[idx]];
+        button.tag = kFunctionButtonTag + idx;
         
-        [self addSubview:functionButton];
-        [self.functionButtonArr addObject:functionButton];
+        if ([titles[idx] isEqualToString:@"新品"]) {
+            button.iconHidden = YES;
+        }
+    
+        button.selected = NO;
+        [button addTarget:self action:@selector(functionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        [self addSubview:button];
+        [self.functionButtonArr addObject:button];
     }
 }
 

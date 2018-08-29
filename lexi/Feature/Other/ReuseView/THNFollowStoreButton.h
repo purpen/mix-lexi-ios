@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, THNFollowStoreButtonType) {
-    THNFollowStoreButtonTypeExplore = 0,    // 探索页面
-    THNFollowStoreButtonTypeInfo,           // 品牌馆详情页面
-    THNFollowStoreButtonTypeList            // 个人中心关注列表
+typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
+    THNFollowButtonTypeExplore = 0,     // 探索页面
+    THNFollowButtonTypeStoreInfo,       // 品牌馆详情页面
+    THNFollowButtonTypeStoreList        // 个人中心关注设计馆列表
 };
 
 @interface THNFollowStoreButton : UIButton
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, THNFollowStoreButtonType) {
 /**
  根据加载的页面创建
  */
-- (instancetype)initWithType:(THNFollowStoreButtonType)type;
+- (instancetype)initWithType:(THNFollowButtonType)type;
 
 /**
  设置关注的状态
