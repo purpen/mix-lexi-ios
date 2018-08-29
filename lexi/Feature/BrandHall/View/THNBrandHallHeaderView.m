@@ -8,6 +8,8 @@
 
 #import "THNBrandHallHeaderView.h"
 #import "UIView+Helper.h"
+#import "UIImageView+WebCache.h"
+#import "THNOffcialStoreModel.h"
 
 @interface THNBrandHallHeaderView()
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
@@ -31,9 +33,21 @@
     [self drwaShadow];
 }
 
+- (void)setOffcialStoreModel:(THNOffcialStoreModel *)offcialStoreModel {
+    _offcialStoreModel = offcialStoreModel;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.bgcover]];
+    self.productLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.product_count];
+    self.articleLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.life_record_count];
+    self.fanLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.fans_count];
+    self.addressLabel.text = offcialStoreModel.city;
+    self.desLabel.text = offcialStoreModel.tag_line;
+}
+
 - (IBAction)productButton:(id)sender {
+    
 }
 - (IBAction)articleButton:(id)sender {
+    
 }
 
 @end

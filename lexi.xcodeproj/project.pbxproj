@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4B1B891D2133CE44008A1C8F /* THNProductAllViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1B891C2133CE44008A1C8F /* THNProductAllViewController.m */; };
 		4B1B89212133D67D008A1C8F /* THNShelfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1B891F2133D67D008A1C8F /* THNShelfViewController.m */; };
+		4B2168D82136B78D00B1B796 /* THNOffcialStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2168D72136B78D00B1B796 /* THNOffcialStoreModel.m */; };
+		4B2168DB2136C22B00B1B796 /* THNAnnouncementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2168DA2136C22B00B1B796 /* THNAnnouncementModel.m */; };
 		4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */; };
 		4B240E90212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */; };
 		4B240E91212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */; };
@@ -214,6 +216,10 @@
 		4B1B891C2133CE44008A1C8F /* THNProductAllViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNProductAllViewController.m; sourceTree = "<group>"; };
 		4B1B891E2133D67D008A1C8F /* THNShelfViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShelfViewController.h; sourceTree = "<group>"; };
 		4B1B891F2133D67D008A1C8F /* THNShelfViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShelfViewController.m; sourceTree = "<group>"; };
+		4B2168D62136B78D00B1B796 /* THNOffcialStoreModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOffcialStoreModel.h; sourceTree = "<group>"; };
+		4B2168D72136B78D00B1B796 /* THNOffcialStoreModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOffcialStoreModel.m; sourceTree = "<group>"; };
+		4B2168D92136C22B00B1B796 /* THNAnnouncementModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAnnouncementModel.h; sourceTree = "<group>"; };
+		4B2168DA2136C22B00B1B796 /* THNAnnouncementModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAnnouncementModel.m; sourceTree = "<group>"; };
 		4B240E8A212BA2580077EDD4 /* THNCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentViewController.h; sourceTree = "<group>"; };
 		4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentViewController.m; sourceTree = "<group>"; };
 		4B240E8D212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFirstLevelCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -608,6 +614,10 @@
 		4B24399F2135164E00C94940 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B2168D62136B78D00B1B796 /* THNOffcialStoreModel.h */,
+				4B2168D72136B78D00B1B796 /* THNOffcialStoreModel.m */,
+				4B2168D92136C22B00B1B796 /* THNAnnouncementModel.h */,
+				4B2168DA2136C22B00B1B796 /* THNAnnouncementModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1800,6 +1810,7 @@
 				D82FA77D212559A400E14A22 /* THNLikedWindowTableViewCell.m in Sources */,
 				D82FA771212424B500E14A22 /* THNMyCenterDataButton.m in Sources */,
 				D8BAC9BB211A949100667D6F /* THNGoodsInfoViewController.m in Sources */,
+				4B2168D82136B78D00B1B796 /* THNOffcialStoreModel.m in Sources */,
 				D8BAC9C5211A949100667D6F /* THNNewPasswordViewController.m in Sources */,
 				4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
 				4B720613212E46CE002606EE /* THNCommentTableViewCell.m in Sources */,
@@ -1850,6 +1861,7 @@
 				D8BAC9B1211A949100667D6F /* THNFeaturedCollectionView.m in Sources */,
 				D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */,
 				D82FA7622123FEB800E14A22 /* THNTableViewSections.m in Sources */,
+				4B2168DB2136C22B00B1B796 /* THNAnnouncementModel.m in Sources */,
 				D8BAC9C7211A949100667D6F /* THNAreaCodeModel.m in Sources */,
 				D85DA7FC2106030200A36A71 /* NSString+Helper.m in Sources */,
 				D8F9983A212EEC6B0012AED3 /* THNBaseTableViewController.m in Sources */,

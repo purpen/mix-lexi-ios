@@ -18,11 +18,16 @@
 #import "THNAPI.h"
 #import "THNLoginManager.h"
 #import "THNSelectButtonView.h"
+#import "THNOffcialStoreModel.h"
+#import "THNAnnouncementModel.h"
 
 static NSString *const kUrlBrandHallCellIdentifier = @"kUrlBrandHallCellIdentifier";
 static NSString *const kUrlBrandHallHeaderViewIdentifier = @"kUrlBrandHallHeaderViewIdentifier";
 static NSString *const kUrlProductsByStore = @"/core_platforms/products/by_store";
-static NSString *const kUrk = @"/official_store/info";
+static NSString *const kUrlOffcialStore = @"/official_store/info";
+static NSString *const kUrlOffcialStoreAnnouncement = @"/official_store/announcement";
+static NSString *const kUrlUserMasterCoupons = @"/market/user_master_coupons";
+static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 
 @interface THNBrandHallViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelegate>
 
@@ -39,19 +44,72 @@ static NSString *const kUrk = @"/official_store/info";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self lodaProductsByStoreData];
+    [self loadOffcialStoreData];
+    [self loadProductsByStoreData];
+    [self loadOffcialStoreAnnouncementData];
+    [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
+    
     [self setupUI];
 }
 
-
 // 品牌馆商品
-- (void)lodaProductsByStoreData {
+- (void)loadProductsByStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dataArray = result.data[@"products"];
         [self.collectionView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// 品牌馆信息
+- (void)loadOffcialStoreData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.rid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNOffcialStoreModel *offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
+        [self.brandHallView setOffcialStoreModel:offcialStoreModel];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// 品牌馆公告
+- (void)loadOffcialStoreAnnouncementData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.rid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStoreAnnouncement requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNAnnouncementModel *announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
+        [self.announcementView setAnnouncementModel:announcementModel];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+//已登录用户获取商家优惠券列表
+- (void)loadUserMasterCouponsData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"store_rid"] = @"99130748";
+    THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+//未登录用户获取商家优惠券列表
+- (void)loadNotLoginCouponsData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"store_rid"] = self.rid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -88,7 +146,6 @@ static NSString *const kUrk = @"/official_store/info";
 }
 
 #pragma mark - UICollectionViewDelegate
-
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     CGSize size = CGSizeMake(SCREEN_WIDTH, 265 + 65 + 126 + 40 + 15 + 25);
     return size;

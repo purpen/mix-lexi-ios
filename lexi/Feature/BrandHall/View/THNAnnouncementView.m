@@ -7,15 +7,27 @@
 //
 
 #import "THNAnnouncementView.h"
+#import "THNAnnouncementModel.h"
+#import "NSString+Helper.h"
+
+@interface THNAnnouncementView()
+
+@property (weak, nonatomic) IBOutlet UILabel *closedTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *announcementTextLabel;
+
+@end
 
 @implementation THNAnnouncementView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)setAnnouncementModel:(THNAnnouncementModel *)announcementModel {
+    _announcementModel = announcementModel;
+    NSString *beginDate = [NSString timeConversion:announcementModel.begin_date];
+    NSString *endDate = [NSString timeConversion:announcementModel.end_date];
+    NSString *deliveryDate = [NSString timeConversion:announcementModel.delivery_date];
+    self.closedTimeLabel.text = [NSString stringWithFormat:@"%@-%@",beginDate,endDate];
+    self.deliveryTimeLabel.text = deliveryDate;
+    self.announcementTextLabel.text = announcementModel.announcement;
 }
-*/
 
 @end
