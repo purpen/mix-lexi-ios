@@ -7,14 +7,7 @@
 //
 
 #import "THNBaseViewController.h"
-#import "THNGoodsManager.h"
-
-typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
-    THNGoodsListViewTypeUserCenter = 0, //  个人中心商品
-    THNGoodsListViewTypeCategory,       //  分类商品
-    THNGoodsListViewTypeEditors,        //  编辑推荐
-    THNGoodsListViewTypeGather          //  集合
-};
+#import "NSObject+EnumManagement.h"
 
 @interface THNGoodsListViewController : THNBaseViewController
 
@@ -43,6 +36,6 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
  @param title 页面名称
  @return self
  */
-- (instancetype)initWithUserCenterGoodsType:(THNProductsType)type title:(NSString *)title;
+- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title;
 
 @end

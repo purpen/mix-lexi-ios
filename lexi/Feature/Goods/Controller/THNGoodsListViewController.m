@@ -10,6 +10,7 @@
 #import "THNLikedGoodsCollectionViewCell.h"
 #import "THNFunctionButtonView.h"
 #import "THNFunctionPopupView.h"
+#import "THNGoodsManager.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 
@@ -17,7 +18,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
-    THNFunctionButtonViewDelegate
+    THNFunctionButtonViewDelegate,
+    THNFunctionPopupViewDelegate
 >
 
 /// 商品列表
@@ -29,11 +31,13 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 /// 功能视图
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
 /// 获取商品的类型
-@property (nonatomic, assign) THNProductsType productsType;
+@property (nonatomic, assign) THNUserCenterGoodsType userGoodsType;
 /// 创建商品视图类型
 @property (nonatomic, assign) THNGoodsListViewType goodsListType;
 /// 分类的 id
 @property (nonatomic, assign) NSInteger categoryId;
+/// 请求商品的数据
+@property (nonatomic, strong) NSMutableDictionary *paramDict;
 
 @end
 
@@ -58,12 +62,12 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     return self;
 }
 
-- (instancetype)initWithUserCenterGoodsType:(THNProductsType)type title:(NSString *)title {
+- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title {
     self = [super init];
     if (self) {
         self.navigationBarView.title = title;
-        self.goodsListType = THNGoodsListViewTypeUserCenter;
-        self.productsType = type;
+        self.goodsListType = THNGoodsListViewTypeUser;
+        self.userGoodsType = type;
     }
     return self;
 }
@@ -72,23 +76,23 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     [super viewDidLoad];
     
     [self thn_requestProductsDataWithType:self.goodsListType];
+    [self.functionView thn_createFunctionButtonWithType:self.goodsListType];
     [self setupUI];
 }
 
 #pragma mark - network
 - (void)thn_requestProductsDataWithType:(THNGoodsListViewType)type {
     switch (type) {
-        case THNGoodsListViewTypeUserCenter: {
-            [self thn_getUserCenterProductsWithType:self.productsType];
-            self.popupView.productsType = self.productsType;
-            [self.functionView thn_createFunctionButtonWithType:(THNFunctionButtonViewTypeUserGoods)];
+        case THNGoodsListViewTypeUser: {
+            [self thn_getUserCenterProductsWithType:self.userGoodsType];
+            self.popupView.userGoodsType = self.userGoodsType;
         }
             break;
             
         case THNGoodsListViewTypeCategory: {
-            [self thn_getCategoryProductsWithId:self.categoryId];
+            [self.paramDict setObject:@(self.categoryId) forKey:@"id"];
+            [self thn_getCategoryProductsWithParams:self.paramDict];
             [self.popupView thn_setCategoryId:self.categoryId];
-            [self.functionView thn_createFunctionButtonWithType:(THNFunctionButtonViewTypeDefault)];
         }
             
         default:
@@ -97,8 +101,11 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 // 获取个人中心商品数据
-- (void)thn_getUserCenterProductsWithType:(THNProductsType)type {
+- (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type {
+    [SVProgressHUD show];
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        [SVProgressHUD dismiss];
+        
         if (error || !goodsData.count) return;
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
@@ -113,8 +120,11 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 // 获取分类商品数据
-- (void)thn_getCategoryProductsWithId:(NSInteger)categoryId {
-    [THNGoodsManager getCategoryProductsWithId:categoryId params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+- (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
+    [SVProgressHUD show];
+    [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        [SVProgressHUD dismiss];
+        
         if (error || !goodsData.count) return;
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
@@ -136,6 +146,38 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     }
     
     [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewType)index];
+}
+
+- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+    [self.functionView thn_setSelectedButtonTitle:title];
+    
+    [self.paramDict setObject:@(type) forKey:@"sort_type"];
+    [self thn_reloadCategoryGoodsData];
+}
+
+- (void)thn_functionPopupViewScreenParams:(NSDictionary *)screenParams count:(NSInteger)count {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+    
+    NSMutableString *screenStr = [NSMutableString stringWithFormat:@"筛选"];
+    [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
+    [self.functionView thn_setSelectedButtonTitle:screenStr];
+    
+    [self.paramDict setValuesForKeysWithDictionary:screenParams];
+    [self thn_reloadCategoryGoodsData];
+}
+
+- (void)thn_functionPopupViewClose {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+}
+
+#pragma mark - private methods
+/**
+ 刷新分类商品数据
+ */
+- (void)thn_reloadCategoryGoodsData {
+    [self.modelArray removeAllObjects];
+    [self thn_getCategoryProductsWithParams:self.paramDict];
 }
 
 #pragma mark - collectionView delegate & dataSource
@@ -211,10 +253,17 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (THNFunctionPopupView *)popupView {
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
-        [_popupView thn_setLocalControllerType:self.goodsListType == THNGoodsListViewTypeUserCenter ? \
-              THNLocalControllerTypeUserGoods : THNLocalControllerTypeDefault];
+        [_popupView thn_setViewStyleWithGoodsListType:self.goodsListType];
+        _popupView.delegate = self;
     }
     return _popupView;
+}
+
+- (NSMutableDictionary *)paramDict {
+    if (!_paramDict) {
+        _paramDict = [NSMutableDictionary dictionary];
+    }
+    return _paramDict;
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "THNFunctionCollectionView.h"
 #import "THNPriceSliderView.h"
 #import "THNFunctionSortTableViewCell.h"
+#import "THNGoodsManager.h"
 
 /// title
 static NSString *const kTitleSort           = @"排序";
@@ -71,8 +72,8 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 @property (nonatomic, strong) UIActivityIndicatorView *doneLoadingView;
 /// 重置按钮
 @property (nonatomic, strong) UIButton *resetButton;
-/// 记录推荐的参数
-@property (nonatomic, strong) NSMutableDictionary *recommandDict;
+/// 记录筛选后的参数
+@property (nonatomic, strong) NSMutableDictionary *paramsDict;
 /// 记录选中的分类
 @property (nonatomic, strong) NSMutableArray *categoryIdArr;
 /// 最小价格
@@ -80,7 +81,9 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 /// 最大价格
 @property (nonatomic, assign) NSInteger maxPrice;
 /// 来源
-@property (nonatomic, assign) THNLocalControllerType localType;
+@property (nonatomic, assign) THNGoodsListViewType goodsListType;
+/// 选中条件数量
+@property (nonatomic, assign) NSInteger selectedCount;
 
 @end
 
@@ -108,19 +111,39 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (instancetype)initWithFunctionType:(THNFunctionPopupViewType)type {
-    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT) functionType:type];
+    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
+                  functionType:type];
 }
 
 #pragma mark - public methods
+/**
+ 显示筛选或者排序
+ 
+ @param type 显示类型
+ */
 - (void)thn_showFunctionViewWithType:(THNFunctionPopupViewType)type {
     _viewType = type;
-    self.titleText = type == THNFunctionPopupViewTypeSort ? kTitleSort : kTitleScreen;
+    
+    if (type == THNFunctionPopupViewTypeSort) {
+        self.resetButton.hidden = YES;
+        self.titleText = kTitleSort;
+        
+    } else {
+        [self thn_showResetButton];
+        self.titleText = kTitleScreen;
+    }
+    
     [self thn_screenViewHidden:type == THNFunctionPopupViewTypeSort];
     [self thn_showView:YES];
     
     [self layoutIfNeeded];
 }
 
+/**
+ 请求子分类
+
+ @param cid 父类 id
+ */
 - (void)thn_setCategoryId:(NSInteger)cid {
     self.categoryId = cid;
     
@@ -131,22 +154,35 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     }];
 }
 
+/**
+ 设置子分类
+
+ @param data 分类数据
+ */
 - (void)thn_setCategoryData:(NSArray *)data {
     [self.categoryView thn_setCollecitonViewCellData:data];
 }
 
-- (void)thn_setLocalControllerType:(THNLocalControllerType)type {
-    self.localType = type;
+/**
+ 页面进入类型
+ */
+- (void)thn_setViewStyleWithGoodsListType:(THNGoodsListViewType)type {
+    self.goodsListType = type;
     
     NSArray *tags = nil;
     
-    if (type == THNLocalControllerTypeDefault) {
-        tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
-        self.categoryView.hidden = NO;
-        
-    } else if (type == THNLocalControllerTypeUserGoods) {
-        tags = @[kRecommandExpress, kRecommandSale];
-        self.categoryView.hidden = YES;
+    switch (type) {
+        case THNGoodsListViewTypeUser: {
+            tags = @[kRecommandExpress, kRecommandSale];
+            self.categoryView.hidden = YES;
+        }
+            break;
+            
+        default: {
+            tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
+            self.categoryView.hidden = NO;
+        }
+            break;
     }
     
     [self.recommendView thn_setRecommandTag:tags];
@@ -156,7 +192,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_selectedPriceSliderMinPrice:(NSInteger)minPrice maxPrice:(NSInteger)maxPrice {
     self.minPrice = minPrice;
     self.maxPrice = maxPrice;
-    NSLog(@"最小价格 -- %zi , 最大价格 == %zi", minPrice, maxPrice);
+    
+    NSInteger minCount = minPrice == 0 ? -1 : 1;
+    self.selectedCount += minCount;
+    
+    NSInteger maxCount = maxPrice == 0 ? -1 : 1;
+    self.selectedCount += maxCount;
     
     [self thn_requestScreenGoodsData];
 }
@@ -164,29 +205,31 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_getCategoryId:(NSInteger)cid selected:(BOOL)selected {
     if (selected) {
         [self.categoryIdArr addObject:@(cid)];
+        self.selectedCount += 1;
         
     } else {
         [self.categoryIdArr removeObject:@(cid)];
+        self.selectedCount -= 1;
     }
     
-    NSLog(@"选中的分类 ======== %@", self.categoryIdArr);
     [self thn_requestScreenGoodsData];
 }
 
 - (void)thn_getRecommandTags:(NSString *)selectTag selected:(BOOL)selected {
     NSNumber *selectStatus = selected ? @(1) : @(0);
+    NSInteger count = selected ? 1 : -1;
+    self.selectedCount += count;
     
     if ([selectTag isEqualToString:kRecommandExpress]) {
-        [self.recommandDict setObject:selectStatus forKey:kKeyExpress];
+        [self.paramsDict setObject:selectStatus forKey:kKeyExpress];
         
     } else if ([selectTag isEqualToString:kRecommandSale]) {
-        [self.recommandDict setObject:selectStatus forKey:kKeySale];
+        [self.paramsDict setObject:selectStatus forKey:kKeySale];
         
     } else if ([selectTag isEqualToString:kRecommandCustomize]) {
-        [self.recommandDict setObject:selectStatus forKey:kKeyCustomize];
+        [self.paramsDict setObject:selectStatus forKey:kKeyCustomize];
     }
-    
-    NSLog(@"选中的推荐 ======== %@", self.recommandDict);
+
     [self thn_requestScreenGoodsData];
 }
 
@@ -195,9 +238,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
  根据筛选条件获取商品
  */
 - (void)thn_requestScreenGoodsData {
+    [self thn_showResetButton];
+    
+    // 请求参数
     NSDictionary *params = nil;
     
-    if (self.localType == THNLocalControllerTypeUserGoods) {
+    if (self.goodsListType == THNGoodsListViewTypeUser) {
         params = @{
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice)};
@@ -208,15 +254,15 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                    kKeyMaxPrice: @(self.maxPrice)};
     }
     
-    [self.recommandDict setValuesForKeysWithDictionary:params];
+    [self.paramsDict setValuesForKeysWithDictionary:params];
     
-    NSLog(@"请求参数 === %@", self.recommandDict);
     [self thn_setDoneButtonTitleWithGoodsCount:0 show:NO];
     [self.doneLoadingView startAnimating];
     
-    if (self.localType == THNLocalControllerTypeUserGoods) {
-        [THNGoodsManager getUserCenterProductsWithType:self.productsType
-                                                params:self.recommandDict
+    // 网络请求
+    if (self.goodsListType == THNGoodsListViewTypeUser) {
+        [THNGoodsManager getUserCenterProductsWithType:self.userGoodsType
+                                                params:self.paramsDict
                                             completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
                                                 [self.doneLoadingView stopAnimating];
                                                 if (error) return;
@@ -224,11 +270,11 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                                                 [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             }];
     } else {
-        [THNGoodsManager getScreenProductsWithParams:self.recommandDict completion:^(NSDictionary *data, NSError *error) {
+        [THNGoodsManager getScreenCategoryProductsCountWithParams:self.paramsDict completion:^(NSInteger count, NSError *error) {
             [self.doneLoadingView stopAnimating];
             if (error) return;
             
-            [self thn_setDoneButtonTitleWithGoodsCount:[data[kObjectCount] integerValue] show:YES];
+            [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         }];
     }
 }
@@ -250,6 +296,9 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_setDoneButtonTitleWithGoodsCount:(NSInteger)count show:(BOOL)show {
     NSString *title = show ? [NSString stringWithFormat:@"%@（%zi）", kTitleDone, count] : @"";
     [self.doneButton setTitle:title forState:(UIControlStateNormal)];
+    
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:count == 0 ? 0.5 : 1];
+    self.doneButton.userInteractionEnabled = count == 0 ? NO : YES;
 }
 
 /**
@@ -258,27 +307,61 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_screenViewHidden:(BOOL)hidden {
     self.screenView.hidden = hidden;
     self.sortTableView.hidden = !hidden;
-    self.resetButton.hidden = hidden;
+}
+
+/**
+ 显示“重置”按钮
+ */
+- (void)thn_showResetButton {
+    if (self.categoryIdArr.count || self.paramsDict.count || self.minPrice > 0 || self.maxPrice > 0) {
+        self.resetButton.hidden = NO;
+        
+    } else {
+        self.resetButton.hidden = YES;
+    }
 }
 
 #pragma mark - event response
+/**
+ 查看商品
+ */
+- (void)doneButtonAction:(UIButton *)button {
+    [self thn_showView:NO];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewScreenParams:count:)]) {
+        [self.delegate thn_functionPopupViewScreenParams:[self.paramsDict copy] count:self.selectedCount];
+    }
+}
+
 - (void)closeButtonAction:(UIButton *)button {
     [self thn_showView:NO];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewClose)]) {
+        [self.delegate thn_functionPopupViewClose];
+    }
 }
 
 - (void)closeView:(UITapGestureRecognizer *)tap {
     [self thn_showView:NO];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewClose)]) {
+        [self.delegate thn_functionPopupViewClose];
+    }
 }
 
 /**
  重置筛选条件
  */
 - (void)resetButtonAction:(UIButton *)button {
-    [self.categoryIdArr removeAllObjects];
-    [self.recommandDict removeAllObjects];
+    self.selectedCount = 0;
     [self.categoryView thn_resetLoad];
     [self.recommendView thn_resetLoad];
     [self.priceView thn_resetSliderValue];
+    
+    [self.categoryIdArr removeAllObjects];
+    [self.paramsDict removeAllObjects];
+    self.minPrice = 0;
+    self.maxPrice = 0;
     
     [self thn_requestScreenGoodsData];
 }
@@ -289,6 +372,9 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.goodsListType == THNGoodsListViewTypeStore) {
+        return 2;
+    }
     return section == 0 ? 1 : 2;
 }
 
@@ -300,11 +386,18 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     }
     
     if (indexPath.section == 0) {
-        [cell thn_setCellTitleWithType:self.localType == THNLocalControllerTypeDefault ? THNFunctionSortTypeSynthesize \
-                                      : THNFunctionSortTypeDefault];
+        if (self.goodsListType == THNGoodsListViewTypeUser) {
+            [cell thn_setSortConditionWithType:(THNFunctionSortTypeDefault)];
+            
+        } else if (self.goodsListType == THNGoodsListViewTypeStore) {
+            [cell thn_setSortConditionWithType:indexPath.row == 0 ? THNFunctionSortTypeSynthesize : THNFunctionSortTypeNewest];
+            
+        } else {
+            [cell thn_setSortConditionWithType:(THNFunctionSortTypeSynthesize)];
+        }
     
     } else {
-        [cell thn_setCellTitleWithType:indexPath.row == 0 ? THNFunctionSortTypePriceUp : THNFunctionSortTypePriceDown];
+        [cell thn_setSortConditionWithType:indexPath.row == 0 ? THNFunctionSortTypePriceUp : THNFunctionSortTypePriceDown];
     }
     
     return cell;
@@ -342,6 +435,10 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:YES];
     [self thn_showView:NO];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewSortType:title:)]) {
+        [self.delegate thn_functionPopupViewSortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -374,7 +471,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     
     self.backgroudMaskView.frame = self.bounds;
     
-    CGFloat screenViewH = self.localType == THNLocalControllerTypeUserGoods ? 370 : 460;
+    CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser ? 370 : 460;
     CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeSort ? 250 : screenViewH;
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
@@ -423,7 +520,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self.recommendView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
-        if (self.localType == THNLocalControllerTypeUserGoods) {
+        if (self.goodsListType == THNGoodsListViewTypeUser) {
             make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
         } else {
             make.top.equalTo(self.categoryView.mas_bottom).with.offset(30);
@@ -539,6 +636,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
         _doneButton.layer.cornerRadius = 4;
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
 }
@@ -557,6 +655,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         [_resetButton setTitleColor:[UIColor colorWithHexString:kColorMain] forState:(UIControlStateNormal)];
         _resetButton.titleLabel.font = [UIFont systemFontOfSize:16];
         [_resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _resetButton.hidden = YES;
     }
     return _resetButton;
 }
@@ -568,11 +667,16 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     return _categoryIdArr;
 }
 
-- (NSMutableDictionary *)recommandDict {
-    if (!_recommandDict) {
-        _recommandDict = [NSMutableDictionary dictionary];
+- (NSMutableDictionary *)paramsDict {
+    if (!_paramsDict) {
+        _paramsDict = [NSMutableDictionary dictionary];
     }
-    return _recommandDict;
+    return _paramsDict;
+}
+
+#pragma mark -
+- (void)dealloc {
+    [self.doneLoadingView stopAnimating];
 }
 
 @end

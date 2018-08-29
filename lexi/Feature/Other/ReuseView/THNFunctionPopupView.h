@@ -7,23 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "THNGoodsManager.h"
+#import "NSObject+EnumManagement.h"
 
 typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
     THNFunctionPopupViewTypeSort = 0,   // 排序
     THNFunctionPopupViewTypeScreen,     // 筛选
 };
 
-typedef NS_ENUM(NSUInteger, THNLocalControllerType) {
-    THNLocalControllerTypeDefault = 0,   // 默认
-    THNLocalControllerTypeUserGoods,     // 个人中心
-};
+@protocol THNFunctionPopupViewDelegate <NSObject>
+
+/// 关闭功能视图
+- (void)thn_functionPopupViewClose;
+/// “完成”按钮，回调筛选商品条件
+- (void)thn_functionPopupViewScreenParams:(NSDictionary *)screenParams count:(NSInteger)count;
+/// 选中排序条件
+- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title;
+
+@end
 
 @interface THNFunctionPopupView : UIView
 
 @property (nonatomic, copy) NSString *titleText;
 @property (nonatomic, assign) NSInteger categoryId;
-@property (nonatomic, assign) THNFunctionPopupViewType type;
+@property (nonatomic, assign) THNFunctionPopupViewType popupViewType;
+@property (nonatomic, weak) id <THNFunctionPopupViewDelegate> delegate;
 
 /**
  设置分类id 获取子分类
@@ -40,12 +47,12 @@ typedef NS_ENUM(NSUInteger, THNLocalControllerType) {
 /**
  个人中心商品类型
  */
-@property (nonatomic, assign) THNProductsType productsType;
+@property (nonatomic, assign) THNUserCenterGoodsType userGoodsType;
 
 /**
  所在控制器来源类型
  */
-- (void)thn_setLocalControllerType:(THNLocalControllerType)type;
+- (void)thn_setViewStyleWithGoodsListType:(THNGoodsListViewType)type;
 
 /**
  显示视图的类型
