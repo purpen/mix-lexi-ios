@@ -13,11 +13,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="THNCouponView">
-            <rect key="frame" x="0.0" y="0.0" width="406" height="74"/>
+            <rect key="frame" x="0.0" y="0.0" width="447" height="64"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q8m-NB-CJD">
-                    <rect key="frame" x="14" y="10" width="382" height="26"/>
+                    <rect key="frame" x="14" y="10" width="423" height="26"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="领取设计馆优惠红包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDP-IN-OJG">
                             <rect key="frame" x="34" y="4.5" width="108" height="17"/>
@@ -29,7 +29,7 @@
                             <rect key="frame" x="0.0" y="5.5" width="29" height="15"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEY-Nz-KYv">
-                            <rect key="frame" x="337" y="0.0" width="45" height="26"/>
+                            <rect key="frame" x="378" y="0.0" width="45" height="26"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="45" id="gbp-VD-iDs"/>
                             </constraints>
@@ -54,13 +54,13 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCZ-RB-HiJ">
-                    <rect key="frame" x="14" y="49" width="306" height="15"/>
+                    <rect key="frame" x="14" y="41" width="347" height="15"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_less" translatesAutoresizingMaskIntoConstraints="NO" id="VeY-SB-2wu">
                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="满600减130满600减130满600减130满600减130满600减130满600减130" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIl-tX-Gpn">
-                            <rect key="frame" x="20" y="1.5" width="286" height="12"/>
+                            <rect key="frame" x="20" y="1.5" width="327" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="12" id="SHQ-sf-uIb"/>
                             </constraints>
@@ -79,11 +79,11 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.83137254901960778" green="0.68627450980392157" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.83137254901960778" green="0.68627450980392157" blue="0.52549019607843139" alpha="0.097522474315068497" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="7ye-09-jLS"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="leading" secondItem="Q8m-NB-CJD" secondAttribute="leading" id="Gaa-Z9-38f"/>
-                <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" constant="13" id="J3E-8H-wU1"/>
+                <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" constant="5" id="J3E-8H-wU1"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="S79-za-DbS"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-10" id="q66-SY-bhs"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="86" id="qY4-8f-9Z9"/>
@@ -95,7 +95,7 @@
                 <outlet property="receiveButton" destination="nEY-Nz-KYv" id="lEc-KV-6h7"/>
                 <outlet property="redEnvelopeView" destination="Q8m-NB-CJD" id="Nyt-Ra-ubl"/>
             </connections>
-            <point key="canvasLocation" x="52" y="-246"/>
+            <point key="canvasLocation" x="72.5" y="-251"/>
         </view>
     </objects>
     <resources>

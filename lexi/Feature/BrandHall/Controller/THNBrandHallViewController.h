@@ -11,4 +11,7 @@
 
 @interface THNBrandHallViewController : THNBaseViewController
 
+// 品牌馆ID
+@property (nonatomic, strong) NSString *rid;
+
 @end
