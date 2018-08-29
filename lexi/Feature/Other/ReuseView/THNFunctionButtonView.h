@@ -7,13 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class THNFunctionButtonView;
-
-typedef NS_ENUM(NSUInteger, THNFunctionButtonViewType) {
-    THNFunctionButtonViewTypeDefault = 0,   //  默认商品
-    THNFunctionButtonViewTypeUserGoods,     //  用户商品
-    THNFunctionButtonViewTypeStore,         //  品牌馆
-};
+#import "NSObject+EnumManagement.h"
 
 @protocol THNFunctionButtonViewDelegate <NSObject>
 
@@ -23,13 +17,27 @@ typedef NS_ENUM(NSUInteger, THNFunctionButtonViewType) {
 
 @interface THNFunctionButtonView : UIView
 
-@property (nonatomic, assign) THNFunctionButtonViewType type;
+@property (nonatomic, assign) THNGoodsListViewType goodsListType;
 @property (nonatomic, weak) id <THNFunctionButtonViewDelegate> delegate;
 
 /**
  创建功能按钮的类型
  */
-- (void)thn_createFunctionButtonWithType:(THNFunctionButtonViewType)type;
+- (void)thn_createFunctionButtonWithType:(THNGoodsListViewType)type;
+
+/**
+ 设置选中按钮的标题
+
+ @param title 标题文本
+ */
+- (void)thn_setSelectedButtonTitle:(NSString *)title;
+
+/**
+ 设置选中按钮的状态
+
+ @param selected 是否选中
+ */
+- (void)thn_setFunctionButtonSelected:(BOOL)selected;
 
 /**
  根据按钮名称初始化
@@ -38,6 +46,6 @@ typedef NS_ENUM(NSUInteger, THNFunctionButtonViewType) {
  @return 功能按钮视图
  */
 - (instancetype)initWithFrame:(CGRect)frame buttonTitles:(NSArray *)titles;
-- (instancetype)initWithFrame:(CGRect)frame type:(THNFunctionButtonViewType)type;
+- (instancetype)initWithFrame:(CGRect)frame type:(THNGoodsListViewType)type;
 
 @end

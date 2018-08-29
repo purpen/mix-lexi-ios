@@ -12,12 +12,23 @@ typedef NS_ENUM(NSUInteger, THNFunctionSortType) {
     THNFunctionSortTypeDefault = 0, //  默认
     THNFunctionSortTypeSynthesize,  //  综合
     THNFunctionSortTypePriceUp,     //  价格高
-    THNFunctionSortTypePriceDown    //  价格低
+    THNFunctionSortTypePriceDown,   //  价格低
+    THNFunctionSortTypeNewest       //  最新
 };
 
 @interface THNFunctionSortTableViewCell : UITableViewCell
 
-- (void)thn_setCellTitleWithType:(THNFunctionSortType)type;
+@property (nonatomic, assign) THNFunctionSortType sortType;
+
+/// 标题
+@property (nonatomic, strong) UILabel *titleLabel;
+
+/**
+ 设置排序条件
+
+ @param type 排序类型
+ */
+- (void)thn_setSortConditionWithType:(THNFunctionSortType)type;
 
 /**
  设置选中状态
