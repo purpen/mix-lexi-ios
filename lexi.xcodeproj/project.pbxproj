@@ -204,6 +204,8 @@
 		D8F998552133F3580012AED3 /* THNFunctionCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998542133F3580012AED3 /* THNFunctionCollectionView.m */; };
 		D8F998582134023C0012AED3 /* THNPriceSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F998572134023C0012AED3 /* THNPriceSliderView.m */; };
 		D8F9985B21355BC00012AED3 /* THNFunctionSortTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9985A21355BC00012AED3 /* THNFunctionSortTableViewCell.m */; };
+		D8F99861213641510012AED3 /* NSObject+EnumManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99860213641510012AED3 /* NSObject+EnumManagement.m */; };
+		D8F99864213687790012AED3 /* THNFunctionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F99863213687790012AED3 /* THNFunctionButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -558,6 +560,10 @@
 		D8F998572134023C0012AED3 /* THNPriceSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPriceSliderView.m; sourceTree = "<group>"; };
 		D8F9985921355BC00012AED3 /* THNFunctionSortTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionSortTableViewCell.h; sourceTree = "<group>"; };
 		D8F9985A21355BC00012AED3 /* THNFunctionSortTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionSortTableViewCell.m; sourceTree = "<group>"; };
+		D8F9985F213641510012AED3 /* NSObject+EnumManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumManagement.h"; sourceTree = "<group>"; };
+		D8F99860213641510012AED3 /* NSObject+EnumManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EnumManagement.m"; sourceTree = "<group>"; };
+		D8F99862213687790012AED3 /* THNFunctionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFunctionButton.h; sourceTree = "<group>"; };
+		D8F99863213687790012AED3 /* THNFunctionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFunctionButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -868,6 +874,8 @@
 				D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */,
 				D8F99834212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.h */,
 				D8F99835212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m */,
+				D8F99862213687790012AED3 /* THNFunctionButton.h */,
+				D8F99863213687790012AED3 /* THNFunctionButton.m */,
 				D8F998462133E1AC0012AED3 /* THNFunctionButtonView.h */,
 				D8F998452133E1AB0012AED3 /* THNFunctionButtonView.m */,
 				D8F998442133E1AB0012AED3 /* THNFunctionPopupView.h */,
@@ -996,6 +1004,8 @@
 				D85DA7D72106030100A36A71 /* THNConst.m */,
 				D85DA7DA2106030100A36A71 /* THNTextConst.h */,
 				D85DA7D82106030100A36A71 /* THNTextConst.m */,
+				D8F9985F213641510012AED3 /* NSObject+EnumManagement.h */,
+				D8F99860213641510012AED3 /* NSObject+EnumManagement.m */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -1758,6 +1768,7 @@
 				D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */,
 				D8BAC9BA211A949100667D6F /* THNActivityView.m in Sources */,
 				4B720600212D65F4002606EE /* THNToolBarView.m in Sources */,
+				D8F99861213641510012AED3 /* NSObject+EnumManagement.m in Sources */,
 				D8BAC9C9211A949100667D6F /* THNDoneButton.m in Sources */,
 				D8BAC9CA211A949100667D6F /* THNSignInView.m in Sources */,
 				D82FA78521256B8000E14A22 /* YYLabel+Helper.m in Sources */,
@@ -1884,6 +1895,7 @@
 				D85DA8082106030200A36A71 /* main.m in Sources */,
 				D8BAC995211A949100667D6F /* THNLivingHallHeaderView.m in Sources */,
 				D85DA7F92106030200A36A71 /* THNResponse.m in Sources */,
+				D8F99864213687790012AED3 /* THNFunctionButton.m in Sources */,
 				D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */,
 				D8BAC9CD211A949100667D6F /* THNZipCodeView.m in Sources */,
 				4B2644E52125263300665A6D /* THNShopWindowTableViewCell.m in Sources */,

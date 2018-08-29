@@ -7,13 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef NS_ENUM(NSInteger, THNProductsType) {
-    THNProductsTypeLikedGoods = 0,  // 喜欢的商品
-    THNProductsTypeBrowses,         // 最近查看
-    THNProductsTypeWishList,        // 心愿单
-    THNProductsTypeStore            // 设计馆商品
-};
+#import "NSObject+EnumManagement.h"
 
 @interface THNGoodsManager : NSObject
 
@@ -24,29 +18,27 @@ typedef NS_ENUM(NSInteger, THNProductsType) {
  @param params 附加参数
  @param completion 完成回调
  */
-+ (void)getUserCenterProductsWithType:(THNProductsType)type
++ (void)getUserCenterProductsWithType:(THNUserCenterGoodsType)type
                                params:(NSDictionary *)params
                            completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
 
 /**
  获取分类商品数据
 
- @param categoryId 分类 id
  @param params 附加参数
  @param completion 完成回调
  */
-+ (void)getCategoryProductsWithId:(NSInteger)categoryId
-                           params:(NSDictionary *)params
-                       completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
++ (void)getCategoryProductsWithParams:(NSDictionary *)params
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
 
 /**
- 根据筛选条件获取商品
-
- @param params 筛选条件
+ 获取分类商品数量
+ 
+ @param params 附加参数
  @param completion 完成回调
  */
-+ (void)getScreenProductsWithParams:(NSDictionary *)params
-                         completion:(void (^)(NSDictionary *data, NSError *error))completion;
++ (void)getScreenCategoryProductsCountWithParams:(NSDictionary *)params
+                                      completion:(void (^)(NSInteger count, NSError *error))completion;
 
 /**
  获取分类列表
