@@ -20,6 +20,8 @@
 #import "THNBrandHallViewController.h"
 #import "THNFeaturedBrandModel.h"
 
+#import "THNGoodsListViewController.h"
+
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
 static CGFloat const kBannerViewSpacing = 20;
@@ -273,9 +275,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.categoriesCollectionView.frame))];
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
-    
+
+    WEAKSELF;
     self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
-        
+        THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+        [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
     };
     
     [headerView addSubview:self.categoriesCollectionView];

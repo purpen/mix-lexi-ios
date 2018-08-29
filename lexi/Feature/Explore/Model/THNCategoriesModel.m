@@ -12,9 +12,9 @@
 @implementation THNCategoriesModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
-    
-    return @{@"id":@"categorieID"};
-    
+    return @{
+             @"category_id": @"id",
+             };
 }
 
 @end

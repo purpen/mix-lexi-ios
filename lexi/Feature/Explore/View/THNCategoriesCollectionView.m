@@ -46,7 +46,7 @@ static NSString *const kCategoriesCellIdentifier = @"kCategoriesCellIdentifier";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
      THNCategoriesModel *categoriesModel =  [THNCategoriesModel mj_objectWithKeyValues:self.categorieDataArray[indexPath.row]];
-    self.categoriesBlock(categoriesModel.categorieID, categoriesModel.name);
+    self.categoriesBlock(categoriesModel.category_id, categoriesModel.name);
 }
 
 @end

@@ -15,10 +15,6 @@ static NSString *const kTitleSelected   = @"已关注";
 
 @implementation THNFollowStoreButton
 
-- (instancetype)init {
-    return [self initWithType:(THNFollowStoreButtonTypeList)];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -27,7 +23,7 @@ static NSString *const kTitleSelected   = @"已关注";
     return self;
 }
 
-- (instancetype)initWithType:(THNFollowStoreButtonType)type {
+- (instancetype)initWithType:(THNFollowButtonType)type {
     self = [super init];
     if (self) {
         [self setupViewUI];
