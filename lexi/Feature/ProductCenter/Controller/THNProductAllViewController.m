@@ -40,7 +40,7 @@ static CGFloat interitemSpacing = 10;
 - (void)setupUI {
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCenterCellIdentifier];
     [self.view addSubview:self.selectButtonView];
-    UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame) + 10, SCREEN_WIDTH, 0.5)];
+    UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [self.view addSubview:lineView];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
@@ -62,8 +62,8 @@ static CGFloat interitemSpacing = 10;
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
-        NSArray *titleArray = @[@"综合排序", @"利润", @"筛选"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH, 40) titles:titleArray initWithButtonType:ButtonTypeTriangle];
+        NSArray *titleArray = @[@"综合排序", @"利润的", @"筛选"];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40) titles:titleArray initWithButtonType:ButtonTypeTriangle];
         _selectButtonView.delegate = self;
     }
     return _selectButtonView;
@@ -76,7 +76,8 @@ static CGFloat interitemSpacing = 10;
         layout.minimumInteritemSpacing = interitemSpacing;
         layout.minimumLineSpacing = 20;
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.selectButtonView.frame) + 20, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.selectButtonView.frame)) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.selectButtonView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.selectButtonView.frame)) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 220, 0);
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

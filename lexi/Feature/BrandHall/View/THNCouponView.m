@@ -21,6 +21,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.layer.cornerRadius = 4;
     self.receiveButton.layer.borderWidth = 1;
     self.receiveButton.layer.borderColor = [UIColor colorWithHexString:@"DADADA"].CGColor;
     self.receiveButton.layer.cornerRadius = 13;
