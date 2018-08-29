@@ -72,7 +72,7 @@
                     <rect key="frame" x="0.0" y="62.666666666666664" width="885" height="71.333333333333343"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0G-iP-kgx">
-                            <rect key="frame" x="65.666666666666671" y="33.333333333333336" width="0.0" height="0.0"/>
+                            <rect key="frame" x="65.666666666666671" y="13.666666666666664" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -87,7 +87,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="oLc-Qi-MTp">
-                            <rect key="frame" x="52.666666666666664" y="33.333333333333336" width="4" height="22"/>
+                            <rect key="frame" x="52.666666666666664" y="13.666666666666668" width="4" height="41.666666666666657"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="4" id="Pie-wo-8AV"/>
                             </constraints>
@@ -96,7 +96,7 @@
                             <rect key="frame" x="19" y="8.6666666666666643" width="15" height="13"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-y1-w90">
-                            <rect key="frame" x="65.666666666666671" y="41.333333333333336" width="0.0" height="0.0"/>
+                            <rect key="frame" x="65.666666666666671" y="21.666666666666664" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -107,6 +107,7 @@
                         <constraint firstItem="V0G-iP-kgx" firstAttribute="leading" secondItem="oLc-Qi-MTp" secondAttribute="trailing" constant="9" id="1C4-rf-ZNK"/>
                         <constraint firstItem="bBN-y1-w90" firstAttribute="top" secondItem="V0G-iP-kgx" secondAttribute="bottom" constant="8" id="8VD-a8-nsn"/>
                         <constraint firstItem="bBN-y1-w90" firstAttribute="leading" secondItem="V0G-iP-kgx" secondAttribute="leading" id="AQL-Vs-PZG"/>
+                        <constraint firstItem="oLc-Qi-MTp" firstAttribute="top" secondItem="pSz-5B-Kp0" secondAttribute="top" constant="5" id="ErQ-bh-dXh"/>
                         <constraint firstItem="zYt-eR-7c5" firstAttribute="leading" secondItem="her-c4-GsN" secondAttribute="leading" constant="15" id="OwP-NC-efW"/>
                         <constraint firstItem="oLc-Qi-MTp" firstAttribute="leading" secondItem="zYt-eR-7c5" secondAttribute="trailing" constant="14" id="Ric-gb-yHR"/>
                         <constraint firstAttribute="bottom" secondItem="zYt-eR-7c5" secondAttribute="bottom" constant="11" id="VN3-Ig-uAI"/>
@@ -135,7 +136,7 @@
                 <outlet property="soldOrderCountTextLabel" destination="bBN-y1-w90" id="hYI-Qh-zta"/>
                 <outlet property="topTintView" destination="bk3-1x-cQg" id="zTi-7U-yro"/>
             </connections>
-            <point key="canvasLocation" x="212.5" y="-22"/>
+            <point key="canvasLocation" x="-68" y="-38"/>
         </view>
     </objects>
     <resources>

@@ -50,6 +50,17 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     }
 }
 
+#pragma mark - 时间戳转换Date
++ (NSString *)timeConversion:(NSString *)timeStampString {
+    NSTimeInterval interval = [timeStampString doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM"];
+    NSString *dateString = [formatter stringFromDate: date];
+    return dateString;
+}
+
+
 #pragma mark - 判断是否是手机号
 - (BOOL)checkTel {
     //^((13[0-9])|(147)|(15[^4,\\D])|(18[0,5-9]))\\d{8}$
@@ -199,5 +210,6 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     filePath = [[NSString alloc] initWithFormat:@"%@%@", DocumentsPath, ImagePath];
     return filePath;
 }
+
 
 @end

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNOffcialStoreModel;
+
 @interface THNBrandHallHeaderView : UIView
+
+@property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
 
 @end
