@@ -55,7 +55,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price
                                    likeValue:model.like_count];
     };
-   
+    
     [self layoutIfNeeded];
 }
 
@@ -67,13 +67,16 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     priceAtt.color = [UIColor colorWithHexString:@"#333333"];
     priceAtt.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
     
-    // 喜欢数量
-    NSString *likeStr = [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value];
-    NSMutableAttributedString *likeAtt = [[NSMutableAttributedString alloc] initWithString:likeStr];
-    likeAtt.color = [UIColor colorWithHexString:@"#999999"];
-    likeAtt.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
-    
-    [priceAtt appendAttributedString:likeAtt];
+    if (value > 0) {
+        // 喜欢数量
+        NSString *likeStr = [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value];
+        NSMutableAttributedString *likeAtt = [[NSMutableAttributedString alloc] initWithString:likeStr];
+        likeAtt.color = [UIColor colorWithHexString:@"#999999"];
+        likeAtt.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
+        
+        [priceAtt appendAttributedString:likeAtt];
+    }
+
     self.priceLabel.attributedText = priceAtt;
 }
 
@@ -87,10 +90,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.goodsImageView];
-    
-    [self addSubview:self.infoView];
     [self.infoView addSubview:self.titleLabel];
     [self.infoView addSubview:self.priceLabel];
+    [self addSubview:self.infoView];
 }
 
 - (void)layoutSubviews {
@@ -101,19 +103,19 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         make.top.left.mas_equalTo(0);
     }];
     [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
-    
+
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
-    
+
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
         make.height.mas_equalTo(12);
     }];
-    
+
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(11);
@@ -124,10 +126,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - getters and setters
 - (UIImageView *)goodsImageView {
     if (!_goodsImageView) {
-        _goodsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _goodsImageView.alpha = 0;
     }
     return _goodsImageView;
 }

@@ -44,7 +44,6 @@ static NSString *const kKeyStores       = @"stores";
     THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        
         THNUserModel *model = [THNUserModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
         [SVProgressHUD dismiss];
@@ -63,8 +62,6 @@ static NSString *const kKeyStores       = @"stores";
     THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        
-//        NSLog(@"橱窗数据 ==== %@", result.data);
         completion((NSArray *)result.data[kKeyShopWindows], nil);
         [SVProgressHUD dismiss];
         

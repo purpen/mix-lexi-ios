@@ -7,25 +7,46 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef NS_ENUM(NSInteger, THNProductsType) {
-    THNProductsTypeLikedGoods = 0,  // 喜欢的商品
-    THNProductsTypeBrowses,         // 最近查看
-    THNProductsTypeWishList,        // 心愿单
-    THNProductsTypeStore            // 设计馆商品
-};
+#import "NSObject+EnumManagement.h"
 
 @interface THNGoodsManager : NSObject
 
 /**
- 获取商品数据
+ 获取个人中心商品数据
  
  @param type 类型
  @param params 附加参数
  @param completion 完成回调
  */
-+ (void)getProductsWithType:(THNProductsType)type
-                     params:(NSDictionary *)params
-                 completion:(void (^)(NSArray *goodsData, NSError *error))completion;
++ (void)getUserCenterProductsWithType:(THNUserCenterGoodsType)type
+                               params:(NSDictionary *)params
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
+
+/**
+ 获取分类商品数据
+
+ @param params 附加参数
+ @param completion 完成回调
+ */
++ (void)getCategoryProductsWithParams:(NSDictionary *)params
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
+
+/**
+ 获取分类商品数量
+ 
+ @param params 附加参数
+ @param completion 完成回调
+ */
++ (void)getScreenCategoryProductsCountWithParams:(NSDictionary *)params
+                                      completion:(void (^)(NSInteger count, NSError *error))completion;
+
+/**
+ 获取分类列表
+
+ @param pid 父 id (获取全部时为 0)
+ @param completion 完成回调
+ */
++ (void)getCategoryDataWithPid:(NSInteger)pid
+                    completion:(void (^)(NSArray *categoryData, NSError *error))completion;
 
 @end

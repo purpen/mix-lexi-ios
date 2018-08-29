@@ -131,7 +131,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
 
 - (THNFollowStoreButton *)followButton {
     if (!_followButton) {
-        _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowStoreButtonTypeList)];
+        _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowButtonTypeStoreList)];
     }
     return _followButton;
 }

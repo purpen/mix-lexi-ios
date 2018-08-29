@@ -37,3 +37,8 @@ NSString *const kTextRegisterError   = @"注册失败";
 
 #pragma mark - 等待信息
 NSString *const kTextWaitOpen       = @"等待开放";
+
+#pragma mark - button title
+NSString *const kButtonTitleSort    = @"综合排序";
+NSString *const kButtonTitleScreen  = @"筛选";
+NSString *const kButtonTitleNew     = @"新品";
