@@ -40,34 +40,37 @@
                     btn = self.triangleButton;
                     break;
             }
-            
-            
-            
+        
             NSString *btnName = titleArray[i];
             [btn setTitle:btnName forState:UIControlStateNormal];
             CGSize btnSize = [btnName sizeWithAttributes:@{NSFontAttributeName:btn.titleLabel.font}];
-            btn.viewWidth = btnSize.width + 34;
-            btn.viewHeight = btnSize.height + 14;
-            NSLog(@"%f",btnSize.width);
+            
+           
             if (type == ButtonTypeTriangle) {
                 btn.viewWidth = self.viewWidth / titleArray.count;
-                // 解决四个字符和两个字符 imageView和title 间距不同的bug
-                btn.imageEdgeInsets = UIEdgeInsetsMake(0, btnSize.width + 63 - btnSize.width / 2, 0, 0);
+                btn.viewHeight = btnSize.height + 14;
+                btn.imageEdgeInsets = UIEdgeInsetsMake(0, (btn.viewWidth - btnSize.width) / 2 + btnSize.width, 0, 0);
                 btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
+                btn.viewY = 5;
+            } else {
+                btn.viewWidth = btnSize.width + 34;
+                btn.viewHeight = btnSize.height + 14;
+                btn.viewY = 20;
             }
             
-            if (i == 0 && type == ButtonTypeDefault) {
-                btn.viewX = 0;
+            if (i == 0) {
+                
+                if (type == ButtonTypeDefault) {
+                    btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
+                    btn.selected = YES;
+                }
                 btnWidth += CGRectGetMaxX(btn.frame);
-                btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
-                btn.selected = YES;
+                
             } else {
                 btnWidth += CGRectGetMaxX(btn.frame);
                 btn.viewX = btnWidth - btn.viewWidth;
             }
             
-            btn.viewHeight = 30;
-            btn.viewY = 20;
             [self addSubview:btn];
             [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = i;
