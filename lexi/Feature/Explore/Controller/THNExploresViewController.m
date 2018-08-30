@@ -130,8 +130,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
+        //刷新的闪烁问题
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadRowData:0];
+        }];
         
-        [self.tableView reloadRowData:0];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
