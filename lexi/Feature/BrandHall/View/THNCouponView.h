@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef  void(^CouponViewHeightBlock)(CGFloat couponViewHeight);
+
 @interface THNCouponView : UIView
+
+- (void)layoutCouponView:(NSArray *)fullReductions
+        withLoginCoupons:(NSArray *)loginCoupons
+       withNologinCoupos:(NSArray *)noLoginCoupons
+               withHeightBlock:(CouponViewHeightBlock)couponViewHeightBlock;
 
 @end
