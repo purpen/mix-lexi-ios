@@ -91,6 +91,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="fullReductionLabel" destination="YIl-tX-Gpn" id="4UW-Sb-a8a"/>
                 <outlet property="fullReductionView" destination="LCZ-RB-HiJ" id="q8P-wP-yfk"/>
                 <outlet property="receiveButton" destination="nEY-Nz-KYv" id="lEc-KV-6h7"/>
                 <outlet property="redEnvelopeView" destination="Q8m-NB-CJD" id="Nyt-Ra-ubl"/>
