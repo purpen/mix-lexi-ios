@@ -37,6 +37,12 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong)  THNSelectButtonView *selectButtonView;
+@property (nonatomic, strong) THNAnnouncementModel *announcementModel;
+@property (nonatomic, assign) CGFloat announcementViewHeight;
+@property (nonatomic, assign) CGFloat couponViewHeight;
+@property (nonatomic, strong) NSArray *fullReductions;
+@property (nonatomic, strong) NSArray *loginCoupons;
+@property (nonatomic, strong) NSArray *noLoginCoupons;
 
 @end
 
@@ -44,11 +50,11 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     self.couponViewHeight = 65;
+    [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
+    [self loadOffcialStoreAnnouncementData];
     [self loadOffcialStoreData];
     [self loadProductsByStoreData];
-    [self loadOffcialStoreAnnouncementData];
-    [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
-    
     [self setupUI];
 }
 
@@ -84,8 +90,8 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
     params[@"rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStoreAnnouncement requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNAnnouncementModel *announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
-        [self.announcementView setAnnouncementModel:announcementModel];
+        self.announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
+        [self.announcementView setAnnouncementModel:self.announcementModel];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -97,7 +103,8 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
     params[@"store_rid"] = @"99130748";
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.loginCoupons = result.data[@"coupons"];
+        [self loadNotLoginCouponsData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -106,9 +113,18 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 //未登录用户获取商家优惠券列表
 - (void)loadNotLoginCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"store_rid"] = self.rid;
+    params[@"store_rid"] = @"99130748";
     THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        NSArray *allCoupons = result.data[@"coupons"];
+        // type = 3  满减   type = 1 或者 2  为优惠券
+        NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
+        NSPredicate *couponPredicate = [NSPredicate predicateWithFormat:@"type = 1 || type = 2"];
+        self.fullReductions = [allCoupons filteredArrayUsingPredicate:fullReductionPredicate];
+        self.noLoginCoupons = [allCoupons filteredArrayUsingPredicate:couponPredicate];
+//        [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons withHeightBlock:^(CGFloat couponViewHeight) {
+//            self.couponViewHeight = couponViewHeight;
+//        }];
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -147,7 +163,16 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    CGSize size = CGSizeMake(SCREEN_WIDTH, 265 + 65 + 126 + 40 + 15 + 25);
+    if (self.announcementModel.announcement.length == 0) {
+        self.announcementViewHeight = 0;
+        self.announcementView.hidden = YES;
+    } else {
+        self.announcementView.hidden = NO;
+        self.announcementViewHeight = self.announcementModel.is_closed ? 126 : 72;
+    }
+        
+    
+    CGSize size = CGSizeMake(SCREEN_WIDTH, 265 + self.couponViewHeight + self.announcementViewHeight + 40 + 15 + 25);
     return size;
 }
 
@@ -177,7 +202,6 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
         make.leading.equalTo(headerView).with.offset(20);
         make.trailing.equalTo(headerView).with.offset(-20);
         make.top.equalTo(self.couponView.mas_bottom).with.offset(20);
-        make.height.equalTo(@126);
     }];
     
     [self.selectButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -192,8 +216,18 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
         make.height.equalTo(@0.5);
     }];
     
+    
+    [self.couponView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@(self.couponViewHeight));
+    }];
+    
+    [self.announcementView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@(self.announcementViewHeight));
+    }];
+    
     return headerView;
 }
+
 
 #pragma mark - lazy
 - (THNBrandHallHeaderView *)brandHallView {
