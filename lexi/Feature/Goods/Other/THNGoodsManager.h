@@ -8,8 +8,29 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject+EnumManagement.h"
+#import "THNGoodsModel.h"
+#import "THNSkuModel.h"
 
 @interface THNGoodsManager : NSObject
+
+/**
+ 获取商品全部数据
+
+ @param goodsId 商品 id
+ @param completion 完成回调
+ */
++ (void)getProductAllDetailWithId:(NSString *)goodsId completion:(void (^)(THNGoodsModel *model, NSError *error))completion;
+
+/**
+ 获取商品 SKU 信息
+
+ @param goodsId 商品 id
+ @param params 附加参数
+ @param completion 完成回调
+ */
++ (void)getProductSkusInfoWithId:(NSString *)goodsId
+                          params:(NSDictionary *)params
+                      completion:(void (^)(THNSkuModel *model, NSError *error))completion;
 
 /**
  获取个人中心商品数据

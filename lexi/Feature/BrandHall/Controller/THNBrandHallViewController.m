@@ -81,9 +81,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelega
 - (void)loadProductsByStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
+    [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.products = result.data[@"products"];
+         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -266,12 +268,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelega
     [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
     [self.functionView thn_setSelectedButtonTitle:screenStr];
     self.producrConditionParams = screenParams;
-    
+    [self loadProductsByStoreData];
 }
 
 - (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
     [self.functionView thn_setFunctionButtonSelected:NO];
     [self.functionView thn_setSelectedButtonTitle:title];
+    self.producrConditionParams = @{@"sort_type": @(type)};
+    [self loadProductsByStoreData];
 }
 
 #pragma mark - UICollectionViewDataSourse
