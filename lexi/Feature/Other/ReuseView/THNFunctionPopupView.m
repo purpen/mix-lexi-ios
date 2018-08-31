@@ -469,16 +469,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-<<<<<<< HEAD
-    if (_viewType == THNFunctionPopupViewTypeSort) {
-        THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [cell thn_setCellSelected:YES];
-        [self thn_showView:NO];
-        
-        if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewSortType:title:)]) {
-            [self.delegate thn_functionPopupViewSortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
-        }
-=======
+
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:YES];
     [self thn_showView:NO];
@@ -494,21 +485,21 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     } else {
         self.selectedProfitIndexPath = indexPath;
         self.selectedIndexPath = nil;
->>>>>>> 1dae6bff91b4dc4ad56e6fdb520b4782301001f6
+
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-<<<<<<< HEAD
+
     if (_viewType == THNFunctionPopupViewTypeSort) {
         THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         [cell thn_setCellSelected:NO];
         [self thn_showView:NO];
     }
-=======
+
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:NO];
->>>>>>> 1dae6bff91b4dc4ad56e6fdb520b4782301001f6
+
 }
 
 #pragma mark - setup UI
