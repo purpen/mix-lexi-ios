@@ -19,6 +19,7 @@
 /// title
 static NSString *const kTitleSort           = @"排序";
 static NSString *const kTitleScreen         = @"筛选";
+static NSString *const kTitleProfit         = @"利润";
 static NSString *const kTitleDone           = @"查看商品";
 static NSString *const kTitleReset          = @"重置";
 static NSString *const kTitlePrice          = @"价格";
@@ -60,6 +61,8 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 @property (nonatomic, strong) UIButton *closeButton;
 /// 标题
 @property (nonatomic, strong) UILabel *titleLabel;
+/// 标题文字内容
+@property (nonatomic, strong) NSArray *titleArr;
 /// 价格滑块
 @property (nonatomic, strong) THNPriceSliderView *priceView;
 /// 分类列表
@@ -124,17 +127,14 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_showFunctionViewWithType:(THNFunctionPopupViewType)type {
     _viewType = type;
     
-    if (type == THNFunctionPopupViewTypeSort) {
-        self.resetButton.hidden = YES;
-        self.titleText = kTitleSort;
-        
-    } else {
-        [self thn_showResetButton];
-        self.titleText = kTitleScreen;
-    }
-    
-    [self thn_screenViewHidden:type == THNFunctionPopupViewTypeSort];
+    self.titleText = self.titleArr[(NSUInteger)type];
+    [self thn_showResetButton];
+    [self thn_showScreenView:type == THNFunctionPopupViewTypeScreen];
     [self thn_showView:YES];
+    
+    if (type != THNFunctionPopupViewTypeScreen) {
+        [self.sortTableView reloadData];
+    }
     
     [self layoutIfNeeded];
 }
@@ -306,21 +306,27 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 /**
  显示隐藏筛选视图
  */
-- (void)thn_screenViewHidden:(BOOL)hidden {
-    self.screenView.hidden = hidden;
-    self.sortTableView.hidden = !hidden;
+- (void)thn_showScreenView:(BOOL)show {
+    self.screenView.hidden = !show;
+    self.sortTableView.hidden = show;
 }
 
 /**
  显示“重置”按钮
  */
 - (void)thn_showResetButton {
-    if (self.categoryIdArr.count || self.paramsDict.count || self.minPrice > 0 || self.maxPrice > 0) {
-        self.resetButton.hidden = NO;
+    if (_viewType == THNFunctionPopupViewTypeScreen) {
+        if (self.categoryIdArr.count || self.paramsDict.count || self.minPrice > 0 || self.maxPrice > 0) {
+            self.resetButton.hidden = NO;
+            
+        } else {
+            self.resetButton.hidden = YES;
+        }
         
     } else {
         self.resetButton.hidden = YES;
     }
+
 }
 
 #pragma mark - event response
@@ -370,14 +376,16 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 
 #pragma mark - tableView delegate & dataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return _viewType == THNFunctionPopupViewTypeProfitSort ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.goodsListType == THNGoodsListViewTypeStore) {
         return 2;
     }
-    return section == 0 ? 1 : 2;
+    
+    NSInteger rowCount = _viewType == THNFunctionPopupViewTypeProfitSort ? 3 : 1;
+    return section == 0 ? rowCount : 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -388,14 +396,20 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     }
     
     if (indexPath.section == 0) {
-        if (self.goodsListType == THNGoodsListViewTypeUser) {
-            [cell thn_setSortConditionWithType:(THNFunctionSortTypeDefault)];
-            
-        } else if (self.goodsListType == THNGoodsListViewTypeStore) {
-            [cell thn_setSortConditionWithType:indexPath.row == 0 ? THNFunctionSortTypeSynthesize : THNFunctionSortTypeNewest];
+        if (_viewType == THNFunctionPopupViewTypeProfitSort) {
+            NSInteger sortIndex = indexPath.row == 0 ? 0 : 1;
+            [cell thn_setSortConditionWithType:(THNFunctionSortType)indexPath.row + sortIndex];
             
         } else {
-            [cell thn_setSortConditionWithType:(THNFunctionSortTypeSynthesize)];
+            if (self.goodsListType == THNGoodsListViewTypeUser) {
+                [cell thn_setSortConditionWithType:(THNFunctionSortTypeDefault)];
+                
+            } else if (self.goodsListType == THNGoodsListViewTypeStore) {
+                [cell thn_setSortConditionWithType:indexPath.row == 0 ? THNFunctionSortTypeSynthesize : THNFunctionSortTypeNewest];
+                
+            } else {
+                [cell thn_setSortConditionWithType:(THNFunctionSortTypeSynthesize)];
+            }
         }
     
     } else {
@@ -434,26 +448,33 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell thn_setCellSelected:YES];
-    [self thn_showView:NO];
-    
-    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewSortType:title:)]) {
-        [self.delegate thn_functionPopupViewSortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
+    if (_viewType == THNFunctionPopupViewTypeSort) {
+        THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        [cell thn_setCellSelected:YES];
+        [self thn_showView:NO];
+        
+        if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewSortType:title:)]) {
+            [self.delegate thn_functionPopupViewSortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
+        }
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell thn_setCellSelected:NO];
-    [self thn_showView:NO];
+    if (_viewType == THNFunctionPopupViewTypeSort) {
+        THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        [cell thn_setCellSelected:NO];
+        [self thn_showView:NO];
+    }
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
+    self.titleArr = @[kTitleSort, kTitleScreen, kTitleProfit];
+    
+    // 背景遮罩
     [self addSubview:self.backgroudMaskView];
     
-    //  筛选视图
+    // 筛选视图
     [self.screenView addSubview:self.priceView];
     [self.screenView addSubview:self.categoryView];
     [self.screenView addSubview:self.recommendView];
@@ -474,7 +495,8 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     self.backgroudMaskView.frame = self.bounds;
     
     CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser || self.goodsListType == THNGoodsListViewTypeProductCenter ? 370 : 460;
-    CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeSort ? 250 : screenViewH;
+    CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeScreen ? screenViewH : 250;
+    
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
     [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
