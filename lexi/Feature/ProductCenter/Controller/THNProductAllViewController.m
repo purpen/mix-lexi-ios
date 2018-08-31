@@ -30,6 +30,8 @@ static CGFloat interitemSpacing = 10;
 // 设置商品的buttonView
 @property (nonatomic, strong) THNFunctionButtonView *functionView;
 @property (nonatomic, strong) NSArray *dataArray;
+// 商品筛选的参数
+@property (nonatomic, strong) NSDictionary *producrConditionParams;
 
 @end
 
@@ -56,6 +58,8 @@ static CGFloat interitemSpacing = 10;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @1;
     params[@"per_page"] = @10;
+    [params setValuesForKeysWithDictionary:self.producrConditionParams];
+    NSLog(@"%@",params);
     THNRequest *request = [THNAPI getWithUrlString:KUrlDistributeCenterAll requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dataArray = result.data[@"products"];
@@ -69,15 +73,21 @@ static CGFloat interitemSpacing = 10;
 #pragma mark - THNFunctionButtonViewDelegate  Method 实现
 - (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
     switch (index) {
-        case 0:
-        case 1:
+        case 0: {
             [self.popupView thn_showFunctionViewWithType:THNFunctionPopupViewTypeSort];
+        }
             break;
-        case 2:
+            
+        case 1: {
+            [self.popupView thn_showFunctionViewWithType:THNFunctionPopupViewTypeProfitSort];
+        }
+            break;
+            
+        case 2: {
             [self.popupView thn_showFunctionViewWithType:THNFunctionPopupViewTypeScreen];
+        }
             break;
     }
-   
 }
 
 #pragma mark - THNFunctionPopupViewDelegate
@@ -90,12 +100,15 @@ static CGFloat interitemSpacing = 10;
     NSMutableString *screenStr = [NSMutableString stringWithFormat:@"筛选"];
     [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
     [self.functionView thn_setSelectedButtonTitle:screenStr];
-    
+    self.producrConditionParams = screenParams;
+    [self loadProdctCenterAllData];
 }
 
 - (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
     [self.functionView thn_setFunctionButtonSelected:NO];
     [self.functionView thn_setSelectedButtonTitle:title];
+    self.producrConditionParams = @{@"sort_type": @(type)};
+    [self loadProdctCenterAllData];
 }
 
 #pragma mark UICollectionViewDataSource
@@ -151,6 +164,13 @@ static CGFloat interitemSpacing = 10;
         _functionView.delegate = self;
     }
     return _functionView;
+}
+
+- (NSDictionary *)producrConditionParams {
+    if (!_producrConditionParams) {
+        _producrConditionParams = [NSDictionary dictionary];
+    }
+    return _producrConditionParams;
 }
 
 @end

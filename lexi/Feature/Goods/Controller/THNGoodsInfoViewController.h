@@ -6,8 +6,10 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNBaseViewController.h"
+#import "THNBaseTableViewController.h"
 
-@interface THNGoodsInfoViewController : THNBaseViewController
+@interface THNGoodsInfoViewController : THNBaseTableViewController
+
+- (instancetype)initWithGoodsId:(NSString *)idx;
 
 @end
