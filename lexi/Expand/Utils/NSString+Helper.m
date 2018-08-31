@@ -200,4 +200,15 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return filePath;
 }
 
+#pragma mark - 获取文字的宽度
+- (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize {
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    
+    CGSize retSize = [self boundingRectWithSize:CGSizeMake(MAXFLOAT, fontSize + 1)
+                                          options:NSStringDrawingUsesFontLeading
+                                       attributes:attribute
+                                          context:nil].size;
+    return retSize.width;
+}
+
 @end

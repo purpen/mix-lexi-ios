@@ -9,6 +9,7 @@
 #import "THNBaseViewController.h"
 #import "THNTableViewSections.h"
 #import "THNTableViewCells.h"
+#import "THNGoodsTableViewCells.h"
 
 typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
     THNTableViewCellSeparatorStyleDefault = 0,  // 默认分隔线
