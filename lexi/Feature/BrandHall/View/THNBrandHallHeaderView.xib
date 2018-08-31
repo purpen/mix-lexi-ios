@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="345" height="267"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u0B-2b-r0q">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u0B-2b-r0q">
                     <rect key="frame" x="15" y="20" width="70" height="70"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="awl-gf-1b1"/>
@@ -43,13 +43,16 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="324" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5j-bq-Cwl">
-                    <rect key="frame" x="134" y="41" width="36" height="28"/>
+                    <rect key="frame" x="134" y="39" width="36" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="Tez-BB-5Fi"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="20"/>
                     <color key="textColor" red="0.43137254901960786" green="0.84313725490196079" blue="0.68627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商品" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eS2-T9-A9F">
-                    <rect key="frame" x="140" y="74" width="24" height="17"/>
+                    <rect key="frame" x="140" y="64" width="24" height="17"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                     <color key="textColor" red="0.43137254901960786" green="0.84313725490196079" blue="0.68627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -61,13 +64,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="文章" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IEc-Xm-NfN">
-                    <rect key="frame" x="207.5" y="74" width="24" height="17"/>
+                    <rect key="frame" x="207.5" y="64" width="24" height="17"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                     <color key="textColor" red="0.58039215686274503" green="0.61960784313725492" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwG-sv-5gk">
-                    <rect key="frame" x="208" y="41" width="24" height="28"/>
+                    <rect key="frame" x="208" y="39" width="24" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="OCm-qh-GjW"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="20"/>
                     <color key="textColor" red="0.58039215686274503" green="0.61960784313725492" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -140,7 +146,7 @@
                 <constraint firstItem="NOm-Sb-0rx" firstAttribute="leading" secondItem="cRr-pb-mh9" secondAttribute="trailing" constant="4" id="4hq-ce-Imx"/>
                 <constraint firstItem="IEc-Xm-NfN" firstAttribute="centerX" secondItem="RwG-sv-5gk" secondAttribute="centerX" id="5IL-Ed-ATg"/>
                 <constraint firstItem="4Vj-1Y-n5u" firstAttribute="leading" secondItem="GS9-3f-iAx" secondAttribute="trailing" constant="5" id="B46-nw-fx6"/>
-                <constraint firstItem="s5j-bq-Cwl" firstAttribute="centerY" secondItem="u0B-2b-r0q" secondAttribute="centerY" id="DZv-Sg-aIW"/>
+                <constraint firstItem="s5j-bq-Cwl" firstAttribute="top" secondItem="u0B-2b-r0q" secondAttribute="top" constant="19" id="BRX-lK-9o5"/>
                 <constraint firstItem="us5-yR-qlN" firstAttribute="centerY" secondItem="5gO-75-hwT" secondAttribute="centerY" id="ERb-G2-pka"/>
                 <constraint firstItem="lIV-Kh-Zat" firstAttribute="leading" secondItem="MD6-pn-ZIf" secondAttribute="trailing" constant="15" id="Fm6-DK-Tjm"/>
                 <constraint firstItem="lIV-Kh-Zat" firstAttribute="centerY" secondItem="MD6-pn-ZIf" secondAttribute="centerY" id="Ht6-cO-nNy"/>
@@ -171,6 +177,7 @@
             <connections>
                 <outlet property="addressLabel" destination="us5-yR-qlN" id="Aw4-pr-4hQ"/>
                 <outlet property="articleLabel" destination="RwG-sv-5gk" id="Jsw-aw-m0w"/>
+                <outlet property="articleTintLabel" destination="IEc-Xm-NfN" id="ZEC-Ze-q4F"/>
                 <outlet property="desLabel" destination="ZyY-8u-aNV" id="wgZ-J7-DGJ"/>
                 <outlet property="designHallButton" destination="lIV-Kh-Zat" id="kSO-Jc-eDO"/>
                 <outlet property="fanLabel" destination="NOm-Sb-0rx" id="66u-Pe-bLR"/>
@@ -178,6 +185,7 @@
                 <outlet property="nameLabel" destination="GS9-3f-iAx" id="mpi-6m-Duv"/>
                 <outlet property="productImageView" destination="u0B-2b-r0q" id="43g-QV-16A"/>
                 <outlet property="productLabel" destination="s5j-bq-Cwl" id="zQj-ng-nPF"/>
+                <outlet property="productTintLabel" destination="eS2-T9-A9F" id="ibf-6F-Cbq"/>
             </connections>
             <point key="canvasLocation" x="179.5" y="-136.5"/>
         </view>
