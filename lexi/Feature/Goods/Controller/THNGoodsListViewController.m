@@ -141,12 +141,13 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 
 #pragma mark - custom delegate
 - (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
-    if (self.goodsListType == THNGoodsListViewTypeCategory && index == 1) {
+    if (index == 0) {
+        [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeSort)];
+    } else if (index == 1) {
         [SVProgressHUD showInfoWithStatus:@"新品"];
-        return;
+    } else if (index == 2) {
+        [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];
     }
-    
-    [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewType)index];
 }
 
 - (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title {
