@@ -21,6 +21,11 @@
  */
 @property (nonatomic, copy) NSString *title;
 
+/**
+ 初始标题
+ */
+@property (nonatomic, copy) NSString *defaultTitle;
+
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title;
 
 @end
