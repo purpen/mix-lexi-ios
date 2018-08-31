@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol THNBrandHallHeaderViewDelegate<NSObject>
+
+@optional
+-(void)showProduct;
+-(void)showLifeRecords;
+
+@end
+
 @class THNOffcialStoreModel;
 
 @interface THNBrandHallHeaderView : UIView
 
 @property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
+@property (nonatomic, weak) id <THNBrandHallHeaderViewDelegate> delegate;
 
 @end

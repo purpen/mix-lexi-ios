@@ -19,6 +19,7 @@ static NSString *const kURLUserWishlist     = @"/wishlist";
 static NSString *const kURLProductsCategory = @"/category/products";
 static NSString *const kURLProductsCountC   = @"/category/products/count";
 static NSString *const kURLCategories       = @"/categories";
+static NSString *const kURLChooseCenterCount = @"/fx_distribute/choose_center/count";
 /// 接收数据参数
 static NSString *const kKeyProducts         = @"products";
 static NSString *const kKeyCategories       = @"categories";
@@ -40,12 +41,21 @@ static NSString *const kKeyCount            = @"count";
     [[THNGoodsManager sharedManager] requestCategoryProductsWithParams:params completion:completion];
 }
 
-+ (void)getScreenCategoryProductsCountWithParams:(NSDictionary *)params completion:(void (^)(NSInteger, NSError *))completion {
-    [[THNGoodsManager sharedManager] requestCategoryProductsCountWithParams:params completion:completion];
-}
-
 + (void)getCategoryDataWithPid:(NSInteger)pid completion:(void (^)(NSArray *, NSError *))completion {
     [[THNGoodsManager sharedManager] requestCategoryWithPid:pid completion:completion];
+}
+
++ (void)getProductCountWithType:(THNGoodsListViewType)type params:(NSDictionary *)params completion:(void (^)( NSInteger, NSError *))completion {
+    switch (type) {
+        case THNGoodsListViewTypeCategory:
+            [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLProductsCountC completion:completion];
+            break;
+        case THNGoodsListViewTypeProductCenter:
+            [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLChooseCenterCount completion:completion];
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - request
@@ -81,10 +91,10 @@ static NSString *const kKeyCount            = @"count";
 }
 
 /**
- 获取分类商品数量
+ 获取商品数量
  */
-- (void)requestCategoryProductsCountWithParams:(NSDictionary *)params completion:(void (^)(NSInteger , NSError *))completion {
-    THNRequest *request = [THNAPI getWithUrlString:kURLProductsCountC requestDictionary:params delegate:nil];
+- (void)requestProductsCountWithParams:(NSDictionary *)params withUrl:(NSString *)requestUrl completion:(void (^)(NSInteger , NSError *))completion {
+    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         completion([result.data[kKeyCount] integerValue], nil);

@@ -14,7 +14,9 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
     THNGoodsListViewTypeCategory,       //  分类商品
     THNGoodsListViewTypeStore,          //  品牌馆
     THNGoodsListViewTypeEditors,        //  编辑推荐
-    THNGoodsListViewTypeGather          //  集合
+    THNGoodsListViewTypeGather,         //  集合
+    THNGoodsListViewTypeProductCenter,  //  选品中心
+    THNGoodsListViewTypeBrandHall       //  品牌馆
 };
 
 typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
