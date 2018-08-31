@@ -87,6 +87,10 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 @property (nonatomic, assign) THNGoodsListViewType goodsListType;
 /// 选中条件数量
 @property (nonatomic, assign) NSInteger selectedCount;
+/// 选中的排序单元格
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+/// 选中的利润排序单元格
+@property (nonatomic, strong) NSIndexPath *selectedProfitIndexPath;
 
 @end
 
@@ -131,10 +135,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self thn_showResetButton];
     [self thn_showScreenView:type == THNFunctionPopupViewTypeScreen];
     [self thn_showView:YES];
-    
-    if (type != THNFunctionPopupViewTypeScreen) {
-        [self.sortTableView reloadData];
-    }
+    [self thn_reloadSortTable];
     
     [self layoutIfNeeded];
 }
@@ -324,7 +325,15 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     } else {
         self.resetButton.hidden = YES;
     }
+}
 
+/**
+ 刷新排序单元格
+ */
+- (void)thn_reloadSortTable {
+    if (_viewType == THNFunctionPopupViewTypeScreen) return;
+    
+    [self.sortTableView reloadData];
 }
 
 #pragma mark - event response
@@ -398,6 +407,10 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
             NSInteger sortIndex = indexPath.row == 0 ? 0 : 1;
             [cell thn_setSortConditionWithType:(THNFunctionSortType)indexPath.row + sortIndex];
             
+            if (indexPath == self.selectedProfitIndexPath) {
+                [cell thn_setCellSelected:YES];
+            }
+            
         } else {
             if (self.goodsListType == THNGoodsListViewTypeUser) {
                 [cell thn_setSortConditionWithType:(THNFunctionSortTypeDefault)];
@@ -408,10 +421,18 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
             } else {
                 [cell thn_setSortConditionWithType:(THNFunctionSortTypeSynthesize)];
             }
+            
+            if (indexPath == self.selectedIndexPath) {
+                [cell thn_setCellSelected:YES];
+            }
         }
     
     } else {
         [cell thn_setSortConditionWithType:indexPath.row == 0 ? THNFunctionSortTypePriceUp : THNFunctionSortTypePriceDown];
+        
+        if (indexPath == self.selectedIndexPath) {
+            [cell thn_setCellSelected:YES];
+        }
     }
     
     return cell;
@@ -450,15 +471,23 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [cell thn_setCellSelected:YES];
     [self thn_showView:NO];
     
-    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewSortType:title:)]) {
-        [self.delegate thn_functionPopupViewSortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
+    if ([self.delegate respondsToSelector:@selector(thn_functionPopupViewType:sortType:title:)]) {
+        [self.delegate thn_functionPopupViewType:_viewType sortType:(NSInteger)cell.sortType title:cell.titleLabel.text];
+    }
+    
+    if (_viewType == THNFunctionPopupViewTypeSort) {
+        self.selectedIndexPath = indexPath;
+        self.selectedProfitIndexPath = nil;
+        
+    } else {
+        self.selectedProfitIndexPath = indexPath;
+        self.selectedIndexPath = nil;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:NO];
-    [self thn_showView:NO];
 }
 
 #pragma mark - setup UI

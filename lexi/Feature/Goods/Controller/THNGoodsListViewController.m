@@ -149,10 +149,9 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewType)index];
 }
 
-- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
+- (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title {
     [self.functionView thn_setFunctionButtonSelected:NO];
     [self.functionView thn_setSelectedButtonTitle:title];
-    
     [self.paramDict setObject:@(type) forKey:@"sort_type"];
     [self thn_reloadCategoryGoodsData];
 }

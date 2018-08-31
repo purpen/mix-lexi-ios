@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 /// “完成”按钮，回调筛选商品条件
 - (void)thn_functionPopupViewScreenParams:(NSDictionary *)screenParams count:(NSInteger)count;
 /// 选中排序条件
-- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title;
+- (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title;
 
 @end
 

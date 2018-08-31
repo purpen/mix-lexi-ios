@@ -42,6 +42,7 @@ static NSString *const kTitlePriceDown  = @"由高至低";
 - (void)thn_setSortConditionWithType:(THNFunctionSortType)type {
     self.sortType = type;
     self.titleLabel.text = self.titleArr[(NSInteger)type];
+    [self thn_setCellSelected:NO];
 }
 
 - (void)thn_setCellSelected:(BOOL)selected {
