@@ -24,6 +24,20 @@ typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
     THNUserCenterGoodsTypeStore           // 设计馆商品
 };
 
+typedef NS_ENUM(NSUInteger, THNGoodsFunctionViewType) {
+    THNGoodsFunctionViewTypeDefault = 0,  // 默认
+    THNGoodsFunctionViewTypeCustom,       // 可定制
+    THNGoodsFunctionViewTypeSell,         // 可卖
+    THNGoodsFunctionViewTypeDirectSelect  // 直接选择SKU
+};
+
+typedef NS_ENUM(NSUInteger, THNGoodsButtonType) {
+    THNGoodsButtonTypeBuy = 0,  //  购买
+    THNGoodsButtonTypeAddCart,  //  加入购物车
+    THNGoodsButtonTypeCustom,   //  接单定制
+    THNGoodsButtonTypeSell      //  卖
+};
+
 @interface NSObject (EnumManagement)
 
 @end
