@@ -21,6 +21,13 @@
 @property (nonatomic, weak) id <THNFunctionButtonViewDelegate> delegate;
 
 /**
+ 重置指定按钮的标题
+
+ @param index 下标
+ */
+- (void)thn_resetButtonTitltWithIndex:(NSInteger)index;
+
+/**
  创建功能按钮的类型
  */
 - (void)thn_createFunctionButtonWithType:(THNGoodsListViewType)type;
