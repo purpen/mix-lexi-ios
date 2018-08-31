@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
     THNFunctionPopupViewTypeSort = 0,   // 排序
     THNFunctionPopupViewTypeScreen,     // 筛选
+    THNFunctionPopupViewTypeProfitSort  // 利润排序
 };
 
 @protocol THNFunctionPopupViewDelegate <NSObject>
@@ -27,10 +28,22 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 
 @interface THNFunctionPopupView : UIView
 
-@property (nonatomic, copy) NSString *titleText;
-@property (nonatomic, assign) NSInteger categoryId;
-@property (nonatomic, assign) THNFunctionPopupViewType popupViewType;
 @property (nonatomic, weak) id <THNFunctionPopupViewDelegate> delegate;
+
+/**
+ 标题文字
+ */
+@property (nonatomic, copy) NSString *titleText;
+
+/**
+ 显示分类时：父类 id
+ */
+@property (nonatomic, assign) NSInteger categoryId;
+
+/**
+ 视图类型
+ */
+@property (nonatomic, assign) THNFunctionPopupViewType popupViewType;
 
 /**
  设置分类id 获取子分类

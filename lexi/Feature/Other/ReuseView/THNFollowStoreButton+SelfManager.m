@@ -61,7 +61,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 /**
  关注&取消关注店铺
  店铺 id
- 99356178、98501397、98326157、97398026
+ 测试：99356178、98501397、98326157、97398026
 
  @param url api 地址
  @param storeId 店铺 id

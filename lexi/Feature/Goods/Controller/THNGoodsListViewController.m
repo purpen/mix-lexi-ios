@@ -11,6 +11,7 @@
 #import "THNFunctionButtonView.h"
 #import "THNFunctionPopupView.h"
 #import "THNGoodsManager.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 
@@ -196,16 +197,17 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNProductModel *model = self.modelArray[indexPath.row];
-    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开商品 == %@", model.rid]];
-}
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
+    //    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
     CGFloat itemWidth = (SCREEN_WIDTH - 50) / 2;
     return CGSizeMake(itemWidth, itemWidth + 50);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *model = self.modelArray[indexPath.row];
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:model.rid];
+    [self.navigationController pushViewController:goodsInfoVC animated:YES];
 }
 
 #pragma mark - setup UI

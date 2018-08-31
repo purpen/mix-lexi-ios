@@ -22,6 +22,7 @@
 #import "THNUserManager.h"
 #import "THNGoodsManager.h"
 #import "THNLoginManager.h"
+#import "THNGoodsInfoViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -60,6 +61,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     _selectedDataType = THNHeaderViewSelectedTypeLiked;
     
@@ -86,12 +88,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         if (error) return;
         
-        THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods)
-                                                                 cellHeight:kCellHeightGoods
-                                                            didSelectedItem:^(NSString *ids) {
-                                                                [SVProgressHUD showInfoWithStatus: \
-                                                                 [NSString stringWithFormat:@"商品ID == %@", ids]];
-                                                            }];
+        THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:^(NSString *ids) {
+            THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
+            [self.navigationController pushViewController:goodsInfoVC animated:YES];
+        }];
+        goodsCells.height = kCellHeightGoods;
         goodsCells.goodsDataArr = goodsData;
         
         THNTableViewSections *sections = nil;
