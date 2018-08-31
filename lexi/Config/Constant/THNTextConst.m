@@ -42,3 +42,4 @@ NSString *const kTextWaitOpen       = @"等待开放";
 NSString *const kButtonTitleSort    = @"综合排序";
 NSString *const kButtonTitleScreen  = @"筛选";
 NSString *const kButtonTitleNew     = @"新品";
+NSString *const kButtonTitleProfit  = @"利润";

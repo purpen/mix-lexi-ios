@@ -78,12 +78,21 @@
                         <constraint firstItem="YIl-tX-Gpn" firstAttribute="centerY" secondItem="LCZ-RB-HiJ" secondAttribute="centerY" id="o8y-RR-vvW"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6G-Ri-XXD">
+                    <rect key="frame" x="371" y="37.5" width="4" height="22"/>
+                    <state key="normal" image="icon_ arrow_right_gray"/>
+                    <connections>
+                        <action selector="look:" destination="iN0-l3-epB" eventType="touchUpInside" id="CLJ-Ft-oML"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.83137254901960778" green="0.68627450980392157" blue="0.52549019607843139" alpha="0.097522474315068497" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="r6G-Ri-XXD" firstAttribute="centerY" secondItem="LCZ-RB-HiJ" secondAttribute="centerY" id="6Qd-hB-AaQ"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="7ye-09-jLS"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="leading" secondItem="Q8m-NB-CJD" secondAttribute="leading" id="Gaa-Z9-38f"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" constant="5" id="J3E-8H-wU1"/>
+                <constraint firstItem="r6G-Ri-XXD" firstAttribute="leading" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="10" id="OGL-Ug-2d7"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="S79-za-DbS"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-10" id="q66-SY-bhs"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="86" id="qY4-8f-9Z9"/>
@@ -93,13 +102,17 @@
             <connections>
                 <outlet property="fullReductionLabel" destination="YIl-tX-Gpn" id="4UW-Sb-a8a"/>
                 <outlet property="fullReductionView" destination="LCZ-RB-HiJ" id="q8P-wP-yfk"/>
+                <outlet property="fullReductionViewHeighrConstraint" destination="cDk-r4-Olx" id="2fE-LC-1F4"/>
                 <outlet property="receiveButton" destination="nEY-Nz-KYv" id="lEc-KV-6h7"/>
                 <outlet property="redEnvelopeView" destination="Q8m-NB-CJD" id="Nyt-Ra-ubl"/>
+                <outlet property="redEnvelopeViewHeightConstraint" destination="dIU-Df-IFr" id="19E-Od-uRL"/>
+                <outlet property="rightIndicationButton" destination="r6G-Ri-XXD" id="JW6-n8-3it"/>
             </connections>
             <point key="canvasLocation" x="72.5" y="-251"/>
         </view>
     </objects>
     <resources>
+        <image name="icon_ arrow_right_gray" width="4" height="9"/>
         <image name="icon_coupon" width="29" height="15"/>
         <image name="icon_less" width="15" height="15"/>
     </resources>

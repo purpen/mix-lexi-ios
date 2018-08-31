@@ -177,7 +177,10 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
             self.categoryView.hidden = YES;
         }
             break;
-            
+        case THNGoodsListViewTypeProductCenter:{
+            self.recommendView.hidden = YES;
+        }
+            break;
         default: {
             tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
             self.categoryView.hidden = NO;
@@ -270,7 +273,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                                                 [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             }];
     } else {
-        [THNGoodsManager getScreenCategoryProductsCountWithParams:self.paramsDict completion:^(NSInteger count, NSError *error) {
+        [THNGoodsManager getProductCountWithType:self.goodsListType params:params completion:^(NSInteger count, NSError *error) {
             [self.doneLoadingView stopAnimating];
             if (error) return;
             
@@ -296,7 +299,6 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_setDoneButtonTitleWithGoodsCount:(NSInteger)count show:(BOOL)show {
     NSString *title = show ? [NSString stringWithFormat:@"%@（%zi）", kTitleDone, count] : @"";
     [self.doneButton setTitle:title forState:(UIControlStateNormal)];
-    
     self.doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:count == 0 ? 0.5 : 1];
     self.doneButton.userInteractionEnabled = count == 0 ? NO : YES;
 }
@@ -471,7 +473,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     
     self.backgroudMaskView.frame = self.bounds;
     
-    CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser ? 370 : 460;
+    CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser || self.goodsListType == THNGoodsListViewTypeProductCenter ? 370 : 460;
     CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeSort ? 250 : screenViewH;
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
