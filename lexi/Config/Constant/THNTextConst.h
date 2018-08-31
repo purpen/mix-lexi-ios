@@ -42,3 +42,4 @@ UIKIT_EXTERN NSString *const kTextWaitOpen;
 UIKIT_EXTERN NSString *const kButtonTitleSort;
 UIKIT_EXTERN NSString *const kButtonTitleScreen;
 UIKIT_EXTERN NSString *const kButtonTitleNew;
+UIKIT_EXTERN NSString *const kButtonTitleProfit;

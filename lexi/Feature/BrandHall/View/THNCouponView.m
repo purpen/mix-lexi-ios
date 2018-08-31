@@ -10,12 +10,20 @@
 #import "UIColor+Extension.h"
 #import "THNLoginManager.h"
 
+static CGFloat const redEnvelopeViewHeight = 26;
+static CGFloat const fullReductionViewHeight = 15;
+static CGFloat const couponViewHeight = 65;
+
 @interface THNCouponView()
 
 @property (weak, nonatomic) IBOutlet UIButton *receiveButton;
 @property (weak, nonatomic) IBOutlet UIView *redEnvelopeView;
 @property (weak, nonatomic) IBOutlet UIView *fullReductionView;
 @property (weak, nonatomic) IBOutlet UILabel *fullReductionLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *redEnvelopeViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fullReductionViewHeighrConstraint;
+
+@property (weak, nonatomic) IBOutlet UIButton *rightIndicationButton;
 
 @end
 
@@ -34,24 +42,33 @@
        withNologinCoupos:(NSArray *)noLoginCoupons
          withHeightBlock:(CouponViewHeightBlock)couponViewHeightBlock {
     
-    CGFloat couponViewHeight = 0.0;
+    CGFloat height = 0.0;
     
     if ([THNLoginManager isLogin]) {
-        self.redEnvelopeView.hidden = noLoginCoupons.count == 0;
-    } else {
         self.redEnvelopeView.hidden = loginCoupons.count == 0;
+    } else {
+        self.redEnvelopeView.hidden = noLoginCoupons.count == 0;
     }
     
     self.fullReductionView.hidden = fullReductions.count == 0;
     
-    if (self.redEnvelopeView.hidden) {
-        couponViewHeight = 39;
+    if (self.redEnvelopeView.hidden && self.fullReductionView.hidden) {
+        height = 0;
+        self.fullReductionViewHeighrConstraint.constant = 0;
+        self.redEnvelopeViewHeightConstraint.constant = 0;
     } else if (self.fullReductionView.hidden) {
-        couponViewHeight = 50;
-    } else if (self.redEnvelopeView.hidden && self.fullReductionView.hidden) {
-        couponViewHeight = 0;
-    } else {
-        couponViewHeight = 65;
+        height = couponViewHeight - fullReductionViewHeight;
+        self.fullReductionViewHeighrConstraint.constant = 0;
+        self.rightIndicationButton.hidden = NO;
+    } else if (self.redEnvelopeView.hidden) {
+        height = couponViewHeight - redEnvelopeViewHeight;
+        self.redEnvelopeViewHeightConstraint.constant = 0;
+        self.rightIndicationButton.hidden = YES;
+    } else if (!self.redEnvelopeView.hidden && !self.fullReductionView.hidden){
+        self.fullReductionViewHeighrConstraint.constant = fullReductionViewHeight;
+        self.redEnvelopeViewHeightConstraint.constant = redEnvelopeViewHeight;
+        height = couponViewHeight;
+        self.rightIndicationButton.hidden = YES;
     }
     
     NSMutableString *mutableString = [[NSMutableString alloc]init];
@@ -63,10 +80,14 @@
     
     self.fullReductionLabel.text = mutableString;
     
-    couponViewHeightBlock(couponViewHeight);
+    couponViewHeightBlock(height);
 }
 
 - (IBAction)receive:(id)sender {
+    
+}
+
+- (IBAction)look:(id)sender {
     
 }
 

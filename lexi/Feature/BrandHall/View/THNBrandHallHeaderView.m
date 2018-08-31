@@ -10,10 +10,14 @@
 #import "UIView+Helper.h"
 #import "UIImageView+WebCache.h"
 #import "THNOffcialStoreModel.h"
+#import "UIColor+Extension.h"
 
 @interface THNBrandHallHeaderView()
+
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
+@property (weak, nonatomic) IBOutlet UILabel *productTintLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productLabel;
+@property (weak, nonatomic) IBOutlet UILabel *articleTintLabel;
 @property (weak, nonatomic) IBOutlet UILabel *articleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fanLabel;
@@ -28,6 +32,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self.productImageView drawCornerWithType:0 radius:4];
     self.followButton.layer.cornerRadius = self.followButton.viewHeight / 2;
     self.designHallButton.layer.cornerRadius = self.designHallButton.viewHeight / 2;
     [self drwaShadow];
@@ -41,13 +46,26 @@
     self.fanLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.fans_count];
     self.addressLabel.text = offcialStoreModel.city;
     self.desLabel.text = offcialStoreModel.tag_line;
+    self.nameLabel.text = offcialStoreModel.name;
 }
 
 - (IBAction)productButton:(id)sender {
-    
+    self.productLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+    self.productTintLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+    self.articleLabel.textColor = [UIColor colorWithHexString:@"949EA6"];
+    self.articleTintLabel.textColor = [UIColor colorWithHexString:@"949EA6"];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(showProduct)]) {
+        [self.delegate showProduct];
+    }
 }
 - (IBAction)articleButton:(id)sender {
-    
+    self.articleLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+    self.articleTintLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
+    self.productLabel.textColor = [UIColor colorWithHexString:@"949EA6"];
+    self.productTintLabel.textColor = [UIColor colorWithHexString:@"949EA6"];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(showLifeRecords)]) {
+        [self.delegate showLifeRecords];
+    }
 }
 
 @end

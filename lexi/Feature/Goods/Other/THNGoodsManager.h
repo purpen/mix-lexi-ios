@@ -32,13 +32,15 @@
                            completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
 
 /**
- 获取分类商品数量
- 
+ 获取商品数量
+
+ @param type 商品类型
  @param params 附加参数
  @param completion 完成回调
  */
-+ (void)getScreenCategoryProductsCountWithParams:(NSDictionary *)params
-                                      completion:(void (^)(NSInteger count, NSError *error))completion;
++ (void)getProductCountWithType:(THNGoodsListViewType)type
+                         params:(NSDictionary *)params
+                     completion:(void (^)(NSInteger count, NSError *error))completion;
 
 /**
  获取分类列表

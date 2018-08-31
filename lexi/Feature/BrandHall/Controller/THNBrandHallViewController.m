@@ -14,35 +14,54 @@
 #import "UIView+Helper.h"
 #import <Masonry/Masonry.h>
 #import "THNProductCollectionViewCell.h"
+#import "THNGrassListCollectionViewCell.h"
 #import "THNProductModel.h"
 #import "THNAPI.h"
 #import "THNLoginManager.h"
 #import "THNSelectButtonView.h"
 #import "THNOffcialStoreModel.h"
 #import "THNAnnouncementModel.h"
+#import "THNGrassListModel.h"
+#import "THNFeatureTableViewCell.h"
+#import "THNFunctionPopupView.h"
+#import "THNFunctionButtonView.h"
 
-static NSString *const kUrlBrandHallCellIdentifier = @"kUrlBrandHallCellIdentifier";
+static NSString *const kUrlBrandHallProductCellIdentifier = @"kUrlBrandHallProductCellIdentifier";
+static NSString *const kUrlBrandHallLifeRecordsCellIdentifier = @"kUrlBrandHallLifeRecordsCellIdentifier";
 static NSString *const kUrlBrandHallHeaderViewIdentifier = @"kUrlBrandHallHeaderViewIdentifier";
 static NSString *const kUrlProductsByStore = @"/core_platforms/products/by_store";
 static NSString *const kUrlOffcialStore = @"/official_store/info";
 static NSString *const kUrlOffcialStoreAnnouncement = @"/official_store/announcement";
 static NSString *const kUrlUserMasterCoupons = @"/market/user_master_coupons";
 static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
+static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 
-@interface THNBrandHallViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelegate>
+@interface THNBrandHallViewController ()
+<
+UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelegate, THNBrandHallHeaderViewDelegate, THNFunctionButtonViewDelegate, THNFunctionPopupViewDelegate>
 
 @property (nonatomic, strong) THNBrandHallHeaderView *brandHallView;
 @property (nonatomic, strong) THNAnnouncementView *announcementView;
 @property (nonatomic, strong) THNCouponView *couponView;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong)  THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) THNAnnouncementModel *announcementModel;
 @property (nonatomic, assign) CGFloat announcementViewHeight;
 @property (nonatomic, assign) CGFloat couponViewHeight;
 @property (nonatomic, strong) NSArray *fullReductions;
 @property (nonatomic, strong) NSArray *loginCoupons;
 @property (nonatomic, strong) NSArray *noLoginCoupons;
+@property (nonatomic, strong) NSArray *lifeRecords;
+@property (nonatomic, assign) BrandShowType  brandShowType;
+@property (nonatomic, strong) UICollectionReusableView *headerView;
+@property (nonatomic, strong) NSMutableArray *grassLabelHeights;
+@property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
+// 设置商品的弹窗
+@property (nonatomic, strong) THNFunctionPopupView *popupView;
+// 设置商品的buttonView
+@property (nonatomic, strong) THNFunctionButtonView *functionView;
+// 商品筛选的参数
+@property (nonatomic, strong) NSDictionary *producrConditionParams;
 
 @end
 
@@ -50,11 +69,11 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.couponViewHeight = 65;
     [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
     [self loadOffcialStoreAnnouncementData];
     [self loadOffcialStoreData];
     [self loadProductsByStoreData];
+    [self loadLifeRecordData];
     [self setupUI];
 }
 
@@ -64,7 +83,7 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
     params[@"sid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.dataArray = result.data[@"products"];
+        self.products = result.data[@"products"];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -77,8 +96,8 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
     params[@"rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNOffcialStoreModel *offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
-        [self.brandHallView setOffcialStoreModel:offcialStoreModel];
+        self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
+        [self.brandHallView setOffcialStoreModel:self.offcialStoreModel];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -122,47 +141,52 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
         NSPredicate *couponPredicate = [NSPredicate predicateWithFormat:@"type = 1 || type = 2"];
         self.fullReductions = [allCoupons filteredArrayUsingPredicate:fullReductionPredicate];
         self.noLoginCoupons = [allCoupons filteredArrayUsingPredicate:couponPredicate];
-//        [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons withHeightBlock:^(CGFloat couponViewHeight) {
-//            self.couponViewHeight = couponViewHeight;
-//        }];
+        [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons withHeightBlock:^(CGFloat couponViewHeight) {
+            self.couponViewHeight = couponViewHeight;
+            [self setupLayout];
+        }];
         
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
+//生活志列表
+- (void)loadLifeRecordData{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sid"] = self.rid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.lifeRecords = result.data[@"life_records"];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (void)setupUI {
+    self.brandShowType = BrandShowTypeProduct;
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
+    [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
     [self.view addSubview:self.collectionView];
-     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kUrlBrandHallCellIdentifier];
+     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kUrlBrandHallProductCellIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kUrlBrandHallLifeRecordsCellIdentifier];
      [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kUrlBrandHallHeaderViewIdentifier];
      self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
-#pragma UICollectionViewDataSourse
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataArray.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kUrlBrandHallCellIdentifier forIndexPath:indexPath];
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
-    [cell setProductModel:productModel initWithType:THNHomeTypeFeatured];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setupLayout {
     
-    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
+    UIView *lineView = [[UIView alloc]init];
+    lineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
+    [self.headerView addSubview:self.brandHallView];
+    self.brandHallView.delegate = self;
+    [self.headerView addSubview:self.couponView];
+    [self.headerView addSubview:self.announcementView];
+    [self.headerView addSubview:self.functionView];
+    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeBrandHall];
+    [self.headerView addSubview:lineView];
     
-    return CGSizeMake(itemWidth, itemWidth + 50);
-}
-
-#pragma mark - UICollectionViewDelegate
-- (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (self.announcementModel.announcement.length == 0) {
         self.announcementViewHeight = 0;
         self.announcementView.hidden = YES;
@@ -170,64 +194,219 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
         self.announcementView.hidden = NO;
         self.announcementViewHeight = self.announcementModel.is_closed ? 126 : 72;
     }
-        
     
+    [self.brandHallView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.top.trailing.equalTo(self.headerView);
+        make.height.equalTo(@265);
+    }];
+    
+    [self.couponView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.headerView).with.offset(20);
+        make.trailing.equalTo(self.headerView).with.offset(-20);
+        make.top.equalTo(self.brandHallView.mas_bottom).with.offset(15);
+        make.height.equalTo(@(self.couponViewHeight));
+    }];
+    
+    [self.announcementView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        if (self.couponViewHeight > 0) {
+            make.top.equalTo(self.couponView.mas_bottom).with.offset(20);
+        } else {
+            make.top.equalTo(self.brandHallView.mas_bottom).with.offset(15);
+        }
+        
+        make.leading.equalTo(self.headerView).with.offset(20);
+        make.trailing.equalTo(self.headerView).with.offset(-20);
+        make.height.equalTo(@(self.announcementViewHeight));
+    }];
+    
+    [self.functionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        if (self.announcementViewHeight > 0) {
+            make.top.equalTo(self.announcementView.mas_bottom);
+        } else if (self.announcementViewHeight == 0 && self.couponViewHeight == 0) {
+            make.top.equalTo(self.brandHallView.mas_bottom).with.offset(15);
+        } else if (self.announcementViewHeight == 0) {
+            make.top.equalTo(self.couponView.mas_bottom).with.offset(20);
+        }
+        
+        make.leading.trailing.equalTo(self.headerView);
+        make.height.equalTo(@40);
+    }];
+    
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.trailing.equalTo(self.functionView);
+        make.top.equalTo(self.functionView.mas_bottom);
+        make.height.equalTo(@0.5);
+    }];
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.minimumLineSpacing = 20;
+    layout.minimumInteritemSpacing = 10;
+    layout.sectionInset = UIEdgeInsetsMake(10, 20, 0, 20);
+    layout.headerReferenceSize = CGSizeMake(SCREEN_WIDTH, 265 + self.couponViewHeight + self.announcementViewHeight + 40 + 0.5);
+    [self.collectionView reloadData];
+    [self.collectionView setCollectionViewLayout:layout];
+}
+
+#pragma mark - THNFunctionButtonViewDelegate  Method 实现
+- (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
+    [self.popupView thn_showFunctionViewWithType:index];
+}
+
+#pragma mark - THNFunctionPopupViewDelegate
+- (void)thn_functionPopupViewClose {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+}
+
+- (void)thn_functionPopupViewScreenParams:(NSDictionary *)screenParams count:(NSInteger)count {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+    NSMutableString *screenStr = [NSMutableString stringWithFormat:@"筛选"];
+    [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
+    [self.functionView thn_setSelectedButtonTitle:screenStr];
+    self.producrConditionParams = screenParams;
+    
+}
+
+- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
+    [self.functionView thn_setFunctionButtonSelected:NO];
+    [self.functionView thn_setSelectedButtonTitle:title];
+}
+
+#pragma mark - UICollectionViewDataSourse
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    switch (self.brandShowType) {
+        case BrandShowTypeProduct:
+            return self.products.count;
+        case BrandShowTypelifeRecord:
+            return self.lifeRecords.count;
+    }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (self.brandShowType) {
+        case BrandShowTypeProduct:
+        {
+            THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kUrlBrandHallProductCellIdentifier forIndexPath:indexPath];
+            THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
+            [cell setProductModel:productModel initWithType:THNHomeTypeFeatured];
+            return cell;
+        }
+            
+        case BrandShowTypelifeRecord:
+        {
+            THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kUrlBrandHallLifeRecordsCellIdentifier forIndexPath:indexPath];
+            THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.lifeRecords[indexPath.row]];
+            [cell setGrassListModel:grassListModel];
+            return cell;
+        }
+
+    }
+    
+}
+
+#pragma mark - UICollectionViewDelegate
+- (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     CGSize size = CGSizeMake(SCREEN_WIDTH, 265 + self.couponViewHeight + self.announcementViewHeight + 40 + 15 + 25);
     return size;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kUrlBrandHallHeaderViewIdentifier forIndexPath:indexPath];
-    UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
-    [headerView addSubview:self.brandHallView];
-    [headerView addSubview:self.couponView];
-    [headerView addSubview:self.announcementView];
-    [headerView addSubview:self.selectButtonView];
-    [headerView addSubview:lineView];
-    
-    [self.brandHallView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.top.trailing.equalTo(headerView);
-        make.height.equalTo(@265);
-    }];
-    
-    [self.couponView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(headerView).with.offset(20);
-        make.trailing.equalTo(headerView).with.offset(-20);
-        make.top.equalTo(self.brandHallView.mas_bottom).with.offset(15);
-        make.height.equalTo(@65);
-    }];
-    
-    [self.announcementView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(headerView).with.offset(20);
-        make.trailing.equalTo(headerView).with.offset(-20);
-        make.top.equalTo(self.couponView.mas_bottom).with.offset(20);
-    }];
-    
-    [self.selectButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.announcementView.mas_bottom);
-        make.leading.trailing.equalTo(headerView);
-        make.height.equalTo(@40);
-    }];
-    
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.equalTo(self.selectButtonView);
-        make.top.equalTo(self.selectButtonView.mas_bottom);
-        make.height.equalTo(@0.5);
-    }];
-    
-    
-    [self.couponView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@(self.couponViewHeight));
-    }];
-    
-    [self.announcementView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@(self.announcementViewHeight));
-    }];
-    
+    self.headerView = headerView;
     return headerView;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (self.brandShowType) {
+        case BrandShowTypeProduct: {
+            CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
+            
+            return CGSizeMake(itemWidth, itemWidth + 50);
+        }
+        case BrandShowTypelifeRecord: {
+            __block CGFloat firstRowMaxtitleHeight = 0;
+            __block CGFloat firstRowMaxcontentHeight = 0;
+            __block CGFloat secondRowMaxtitleHeight = 0;
+            __block CGFloat secondRowMaxcontentHeight = 0;
+            // 多次执行该方法造成重复的计算
+            if (self.grassLabelHeights.count == 0) {
+                [self.lifeRecords enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
+                    //  设置最大size
+                    CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
+                    CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
+                    CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
+                    CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
+                    NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
+                    NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
+                    CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+                    CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+                    
+                    // 取出第一列最大的titleLabel和contentLabel的高度
+                    if (idx <= 1) {
+                        
+                        if (titleHeight > firstRowMaxtitleHeight) {
+                            firstRowMaxtitleHeight = titleHeight;
+                        }
+                        
+                        if (contentHeight > secondRowMaxtitleHeight ) {
+                            firstRowMaxcontentHeight = contentHeight;
+                        }
+                        // 取出第二列最大的titleLabel和contentLabel的高度
+                    } else {
+                        
+                        if (titleHeight > secondRowMaxtitleHeight) {
+                            secondRowMaxtitleHeight = titleHeight;
+                        }
+                        
+                        if (contentHeight > secondRowMaxcontentHeight) {
+                            secondRowMaxcontentHeight = titleHeight;
+                        }
+                        
+                    }
+                    
+                    CGFloat grassLabelHeight = titleHeight + contentHeight;
+                    [self.grassLabelHeights addObject:@(grassLabelHeight)];
+                }];
+                
+                
+            }
+            return CGSizeMake((SCREEN_WIDTH - 50) / 2, kCellGrassListHeight + [self.grassLabelHeights[indexPath.row] floatValue]);
+        }
+            
+    }
+    
+}
+
+#pragma mark - THNBrandHallHeaderViewDelegate
+- (void)showProduct {
+    self.brandShowType = BrandShowTypeProduct;
+    [self.collectionView reloadData];
+}
+
+- (void)showLifeRecords {
+    self.brandShowType = BrandShowTypelifeRecord;
+    [self.collectionView reloadData];
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y > 120) {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.navigationBarView.title = self.offcialStoreModel.name;
+        }];
+        
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.navigationBarView.title = @"";
+        }];
+    }
+}
 
 #pragma mark - lazy
 - (THNBrandHallHeaderView *)brandHallView {
@@ -267,12 +446,36 @@ static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
     return _collectionView;
 }
 
-- (THNSelectButtonView *)selectButtonView {
-    if (!_selectButtonView) {
-        NSArray *titleArray = @[@"综合排序", @"筛选"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40) titles:titleArray initWithButtonType:ButtonTypeTriangle];
+- (THNFunctionPopupView *)popupView {
+    if (!_popupView) {
+        _popupView = [[THNFunctionPopupView alloc] init];
+        [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeBrandHall];
+        [_popupView thn_setCategoryId:0];
+        _popupView.delegate = self;
     }
-    return _selectButtonView;
+    return _popupView;
+}
+
+- (THNFunctionButtonView *)functionView {
+    if (!_functionView) {
+        _functionView = [[THNFunctionButtonView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+        _functionView.delegate = self;
+    }
+    return _functionView;
+}
+
+- (NSMutableArray *)grassLabelHeights {
+    if (!_grassLabelHeights) {
+        _grassLabelHeights = [NSMutableArray array];
+    }
+    return _grassLabelHeights;
+}
+
+- (NSDictionary *)producrConditionParams {
+    if (!_producrConditionParams) {
+        _producrConditionParams = [NSDictionary dictionary];
+    }
+    return _producrConditionParams;
 }
 
 @end
