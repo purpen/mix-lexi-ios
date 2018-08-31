@@ -108,7 +108,6 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
-        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
         _tableView.showsVerticalScrollIndicator = NO;
     }
     return _tableView;
