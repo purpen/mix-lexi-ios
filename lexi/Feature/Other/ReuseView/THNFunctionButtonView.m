@@ -54,17 +54,6 @@ static NSInteger const kFunctionButtonTag = 5123;
     return self;
 }
 
-#pragma mark - event response
-- (void)functionButtonAction:(THNFunctionButton *)button {
-    self.selectedIndex = [self.functionButtonArr indexOfObject:button];
-    [self thn_setFunctionButtonSelected:YES];
-    
-    
-    if ([self.delegate respondsToSelector:@selector(thn_functionViewSelectedWithIndex:)]) {
-        [self.delegate thn_functionViewSelectedWithIndex:(button.tag - kFunctionButtonTag)];
-    }
-}
-
 #pragma mark - public methods
 - (void)thn_createFunctionButtonWithType:(THNGoodsListViewType)type {
     self.goodsListType = type;
@@ -93,6 +82,22 @@ static NSInteger const kFunctionButtonTag = 5123;
     selectedButton.selected = selected;
 }
 
+- (void)thn_resetButtonTitltWithIndex:(NSInteger)index {
+    THNFunctionButton *selectedButton = (THNFunctionButton *)self.functionButtonArr[index];
+    selectedButton.title = selectedButton.defaultTitle;
+}
+
+#pragma mark - event response
+- (void)functionButtonAction:(THNFunctionButton *)button {
+    self.selectedIndex = [self.functionButtonArr indexOfObject:button];
+    [self thn_setFunctionButtonSelected:YES];
+    
+    
+    if ([self.delegate respondsToSelector:@selector(thn_functionViewSelectedWithIndex:)]) {
+        [self.delegate thn_functionViewSelectedWithIndex:(button.tag - kFunctionButtonTag)];
+    }
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
@@ -113,6 +118,7 @@ static NSInteger const kFunctionButtonTag = 5123;
     for (NSUInteger idx = 0; idx < titles.count; idx ++) {
         THNFunctionButton *button = [[THNFunctionButton alloc] initWithFrame:CGRectMake(buttonW * idx, 0, buttonW, buttonH)
                                                                        title:titles[idx]];
+        button.defaultTitle = titles[idx];
         button.tag = kFunctionButtonTag + idx;
         
         if ([titles[idx] isEqualToString:@"新品"]) {
