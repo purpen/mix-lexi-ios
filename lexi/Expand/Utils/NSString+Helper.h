@@ -104,7 +104,6 @@
  */
 + (NSString *)getImagePath:(UIImage *)image;
 
-
 /**
  时间戳转换Date
 
@@ -112,5 +111,13 @@
  @return date
  */
 + (NSString *)timeConversion:(NSString *)timeStampString;
+
+/**
+ 获取文字的宽度
+ 
+ @param fontSize 字体大小
+ @return 宽度
+ */
+- (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize;
 
 @end
