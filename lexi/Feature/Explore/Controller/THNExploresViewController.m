@@ -18,6 +18,7 @@
 #import <MJExtension/MJExtension.h>
 #import "UITableView+Helper.h"
 #import "THNBrandHallViewController.h"
+#import "THNFeaturedBrandModel.h"
 
 #import "THNGoodsListViewController.h"
 
@@ -88,6 +89,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 }
 
 - (void)setupUI {
+    
+    // 抖动闪动漂移等问题
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -123,7 +130,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
-        [self.tableView reloadRowData:0];
+        //刷新的闪烁问题
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadRowData:0];
+        }];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -201,8 +212,9 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
     
-    cell.brandBlock = ^(THNExploreTableViewCell *cell) {
+    cell.brandBlock = ^(THNFeaturedBrandModel *featuredBrandModel) {
         THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+        brandHall.rid = featuredBrandModel.rid;
         [self.navigationController pushViewController:brandHall animated:YES];
     };
     
@@ -295,7 +307,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
                                                                                        initWithWidth:kCaregoriesCellWidth
                                                                                       initwithHeight:kCategoriesViewHeight];
-        _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: \
+        _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: 
                                      CGRectMake(20, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight)
                                                                   collectionViewLayout:layout];
     }

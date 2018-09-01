@@ -163,7 +163,41 @@ CGFloat const cellOtherHeight = 190;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    self.brandBlock(self);
+
+    THNProductModel *productModel;
+    
+    switch (self.cellType) {
+ 
+        case ExploreRecommend:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.recommendDataArray[indexPath.row]];
+            break;
+            
+        case ExploreFeaturedBrand:
+        {
+            THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
+            self.brandBlock(featuredBrandModel);
+            
+        }
+            break;
+            
+        case ExploreNewProduct:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.productNewDataArray[indexPath.row]];
+            break;
+            
+        case ExploreSet:
+        {
+            THNSetModel *setModel = [THNSetModel mj_objectWithKeyValues:self.setDataArray[indexPath.row]];
+        }
+           break;
+            
+        case ExploreGoodDesign:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodDesignDataArray[indexPath.row]];
+            break;
+            
+        case ExploreGoodThings:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodThingDataArray[indexPath.row]];
+            break;
+    }
 }
 
 @end

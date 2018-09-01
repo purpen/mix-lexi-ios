@@ -79,7 +79,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self initPageNumber];
     [self loadTopBannerData];
     [self loadContentBannerData];
