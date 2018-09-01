@@ -7,7 +7,6 @@
 //
 
 #import "THNGoodsTitleTableViewCell.h"
-#import <Masonry/Masonry.h>
 #import "YYLabel+Helper.h"
 
 static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId";
@@ -23,17 +22,6 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 
 @implementation THNGoodsTitleTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
-        
-        [self setupCellViewUI];
-    }
-    return self;
-}
-
 + (instancetype)initGoodsCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style {
     THNGoodsTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGoodsTitleTableViewCellId];
     if (!cell) {
@@ -43,14 +31,10 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     return cell;
 }
 
-+ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView {
-    return [self initGoodsCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault)];
-}
-
 - (void)thn_setGoodsTitleWithModel:(THNGoodsModel *)model {
     [self thn_setTitleText:model];
-    [self thn_setPriceTextWithValue:model.minPrice];
-    [self thn_setOriginalPriceTextWithValue:model.maxPrice];
+    [self thn_setPriceTextWithValue:model.minSalePrice ? model.minSalePrice : model.minPrice];
+    [self thn_setOriginalPriceTextWithValue:model.maxSalePrice ? model.maxSalePrice : model.maxPrice];
 }
 
 #pragma mark - private methods
@@ -108,14 +92,14 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     [super layoutSubviews];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20);
-        make.right.mas_equalTo(-20);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
         make.top.mas_equalTo(15);
         make.height.mas_equalTo([self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 40]);
     }];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20);
+        make.left.mas_equalTo(15);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(10);
         make.height.mas_equalTo(20);
         make.width.mas_equalTo([self.priceLabel thn_getLabelWidthWithMaxHeight:20]);
@@ -123,7 +107,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     
     [self.originalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.priceLabel.mas_right).with.offset(5);
-        make.right.mas_equalTo(-50);
+        make.right.mas_equalTo(-15);
         make.centerY.mas_equalTo(self.priceLabel);
         make.height.mas_equalTo(20);
     }];

@@ -1,21 +1,25 @@
 //
-//  THNGoodsTagTableViewCell.h
+//  THNGoodsBaseTableViewCell.h
 //  lexi
 //
-//  Created by FLYang on 2018/8/30.
+//  Created by FLYang on 2018/9/1.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "THNGoodsTableViewCells.h"
+#import <Masonry/Masonry.h>
+#import "UIColor+Extension.h"
+#import "UIView+Helper.h"
+#import "UIImageView+SDWedImage.h"
+#import "THNConst.h"
 
-@interface THNGoodsTagTableViewCell : UITableViewCell
+@interface THNGoodsBaseTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNGoodsTableViewCells *baseCell;
 @property (nonatomic, weak) UITableView *tableView;
 
-- (void)thn_setGoodsTagWithTags:(NSArray *)tags;
-
+- (void)setupCellViewUI;
 + (instancetype)initGoodsCellWithTableView:(UITableView *)tableView;
 + (instancetype)initGoodsCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style;
 

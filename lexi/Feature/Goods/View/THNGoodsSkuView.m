@@ -49,6 +49,25 @@ static NSString *const kTitleSize  = @"尺寸";
     return self;
 }
 
+- (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
+    [self thn_setPriceTextWithValue:189.2];
+    [self.colorCollectionView thn_setSkuNameData:model.colors];
+    [self.sizeCollectionView thn_setSkuNameData:model.modes];
+}
+
+- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType titleAttributedString:(NSAttributedString *)string {
+    self.viewType = viewType;
+    [self thn_setTitleAttributedString:string];
+    [self thn_showView:YES];
+}
+
+- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string {
+    self.viewType = viewType;
+    self.handleType = handleType;
+    [self thn_setTitleAttributedString:string];
+    [self thn_showView:YES];
+}
+
 - (void)thn_setTitleAttributedString:(NSAttributedString *)string {
     self.titleLabel.attributedText = string;
     
@@ -56,19 +75,6 @@ static NSString *const kTitleSize  = @"尺寸";
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(self.titleH);
     }];
-}
-
-- (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
-    [self thn_setPriceTextWithValue:189.2];
-    [self.colorCollectionView thn_setSkuNameData:model.colors];
-    [self.sizeCollectionView thn_setSkuNameData:model.modes];
-}
-
-- (void)thn_showGoodsSkuViewWithType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType {
-    self.viewType = viewType;
-    self.handleType = handleType;
-    
-    [self thn_showView:YES];
 }
 
 #pragma mark - event response

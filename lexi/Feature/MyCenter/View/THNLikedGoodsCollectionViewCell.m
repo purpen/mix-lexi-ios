@@ -27,6 +27,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 @property (nonatomic, strong) UILabel *titleLabel;
 /// 商品价格&喜欢数量
 @property (nonatomic, strong) YYLabel *priceLabel;
+/// 视图类型
+@property (nonatomic, assign) THNGoodsListCellViewType viewType;
+
 
 @end
 
@@ -41,8 +44,10 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 }
 
 #pragma mark - public methods
-- (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show {
-    [self.goodsImageView downloadImage:model.cover
+- (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
+    self.viewType = cellViewType;
+    
+    [self.goodsImageView downloadImage:goodsModel.cover
                                placess:[UIImage imageNamed:@"default_goods_place"]
                              completed:^(UIImage *image, NSError *error) {
                                  if (error) return;
@@ -51,9 +56,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     
     if (show) {
         self.infoView.hidden = NO;
-        self.titleLabel.text = model.name;
-        [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price
-                                   likeValue:model.like_count];
+        self.titleLabel.text = goodsModel.name;
+        [self thn_setPriceLabelTextWithPrice:goodsModel.minSalePrice ? goodsModel.minSalePrice : goodsModel.minPrice
+                                   likeValue:goodsModel.likeCount];
     };
     
     [self layoutIfNeeded];
@@ -102,7 +107,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)));
         make.top.left.mas_equalTo(0);
     }];
-    [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    if (self.viewType != THNGoodsListCellViewTypeGoodsInfoStore) {
+        [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    }
 
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
@@ -128,7 +135,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     if (!_goodsImageView) {
         _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
-        _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _goodsImageView.contentMode = UIViewContentModeScaleToFill;
     }
     return _goodsImageView;
 }

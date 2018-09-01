@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "THNGoodsModel.h"
+#import "THNStoreModel.h"
 @class THNGoodsTitleTableViewCell;
 @class THNGoodsTagTableViewCell;
+@class THNGoodsDirectTableViewCell;
+@class THNGoodsUserTableViewCell;
+@class THNGoodsStoreTableViewCell;
+@class THNLikedGoodsTableViewCell;
+@class THNGoodsContactTableViewCell;
 @class UITableViewCell;
 
 typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
@@ -20,6 +26,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
     THNGoodsTableViewCellTypeUser,      // 用户头像
     THNGoodsTableViewCellTypeDescribe,  // 描述
     THNGoodsTableViewCellTypeCheck,     // 查看全部
+    THNGoodsTableViewCellTypeStore      // 店铺
 };
 
 typedef void(^GoodsInfoSelectedCellBlock)(void);
@@ -30,9 +37,31 @@ typedef void(^GoodsInfoSelectedCellBlock)(void);
 @property (nonatomic, weak) THNGoodsTitleTableViewCell *titleCell;
 /// 商品标签
 @property (nonatomic, weak) THNGoodsTagTableViewCell *tagCell;
-@property (nonatomic, strong) NSArray *tagsArr;
+/// 商品直接选择尺码
+@property (nonatomic, weak) THNGoodsDirectTableViewCell *directCell;
+/// 喜欢商品的用户
+@property (nonatomic, weak) THNGoodsUserTableViewCell *userCell;
+/// 店铺
+@property (nonatomic, weak) THNGoodsStoreTableViewCell *storeCell;
+/// 店铺商品
+@property (nonatomic, weak) THNLikedGoodsTableViewCell *storeGoodsCell;
+/// 联系店铺
+@property (nonatomic, weak) THNGoodsContactTableViewCell *contactCell;
 
+/**
+ 商品数据
+ */
 @property (nonatomic, strong) THNGoodsModel *goodsModel;
+
+/**
+ 店铺商品数据
+ */
+@property (nonatomic, strong) NSArray *storeGoodsData;
+
+/**
+ 店铺数据
+ */
+@property (nonatomic, strong) THNStoreModel *storeModel;
 
 /**
  cell 类型
