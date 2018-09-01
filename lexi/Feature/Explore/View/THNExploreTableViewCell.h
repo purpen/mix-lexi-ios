@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNFeaturedBrandModel.h"
 
 /**
  - ExploreRecommend: 推荐
@@ -27,7 +28,7 @@ typedef NS_ENUM(NSInteger, ExploreCellType) {
 
 @class THNExploreTableViewCell;
 
-typedef void(^BrandBlock)(THNExploreTableViewCell *cell);
+typedef void(^BrandBlock)(THNFeaturedBrandModel *featuredBrandModel);
 
 UIKIT_EXTERN  CGFloat const cellSetHeight;
 UIKIT_EXTERN  CGFloat const cellFeaturedBrandHeight;

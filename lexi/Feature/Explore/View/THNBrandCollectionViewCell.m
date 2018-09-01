@@ -46,6 +46,7 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
     [self.pruductCollectionView setCollectionViewLayout:flowLayout];
     [self.pruductCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandProductCellIdentifier];
     [self.flowButton drawCornerWithType:0 radius:self.flowButton.viewHeight / 2];
+    [self.storeImageView drawCornerWithType:0 radius:4];
 }
 
 - (IBAction)flow:(id)sender {

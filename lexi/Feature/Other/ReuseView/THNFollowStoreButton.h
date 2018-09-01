@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
     THNFollowButtonTypeExplore = 0,     // 探索页面
     THNFollowButtonTypeStoreInfo,       // 品牌馆详情页面
-    THNFollowButtonTypeStoreList        // 个人中心关注设计馆列表
+    THNFollowButtonTypeStoreList,       // 个人中心关注设计馆列表
+    THNFollowButtonTypeGoodsInfo        // 商品详情
 };
 
 @interface THNFollowStoreButton : UIButton
@@ -19,7 +20,7 @@ typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
 /**
  店铺 id
  */
-@property (nonatomic, assign) NSInteger storeId;
+@property (nonatomic, strong) NSString *storeId;
 
 /**
  根据加载的页面创建

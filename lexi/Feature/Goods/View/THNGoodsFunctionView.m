@@ -10,7 +10,6 @@
 #import "THNGoodsButton.h"
 #import "THNGoodsButton+SelfManager.h"
 #import "THNCartButton.h"
-#import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 
 @interface THNGoodsFunctionView ()
@@ -118,26 +117,14 @@
     CGFloat cartWidth = !isDirectSelect ? 59 : 0;
     CGFloat buttonWidth = (CGRectGetWidth(self.bounds) - 40 - cartWidth) / 2;
     
-    [self.mainButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20 + cartWidth);
-        make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
-        make.top.mas_equalTo(5);
-    }];
+    self.mainButton.frame = CGRectMake(20 + cartWidth, 5, buttonWidth, 40);
     [self.mainButton drawCornerWithType:(UILayoutCornerRadiusLeft) radius:4];
-    
-    [self.subButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mainButton.mas_right).with.offset(0);
-        make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
-        make.centerY.mas_equalTo(self.mainButton);
-    }];
+
+    self.subButton.frame = CGRectMake(CGRectGetMaxX(self.mainButton.frame), 5, buttonWidth, 40);
     [self.subButton drawCornerWithType:(UILayoutCornerRadiusRight) radius:4];
     
     if (!isDirectSelect) {
-        [self.cartButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(5);
-            make.left.mas_equalTo(0);
-            make.size.mas_equalTo(CGSizeMake(79, 40));
-        }];
+        self.cartButton.frame = CGRectMake(0, 5, 79, 40);
     }
 }
 
