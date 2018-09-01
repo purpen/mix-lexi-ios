@@ -8,7 +8,6 @@
 
 #import "THNGoodsTagTableViewCell.h"
 #import <YYKit/YYKit.h>
-#import <Masonry/Masonry.h>
 
 static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
 
@@ -21,17 +20,6 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
 
 @implementation THNGoodsTagTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
-        
-        [self setupCellViewUI];
-    }
-    return self;
-}
-
 + (instancetype)initGoodsCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style {
     THNGoodsTagTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGoodsTagTableViewCellId];
     if (!cell) {
@@ -39,10 +27,6 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
         cell.tableView = tableView;
     }
     return cell;
-}
-
-+ (instancetype)initGoodsCellWithTableView:(UITableView *)tableView {
-    return [self initGoodsCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault)];
 }
 
 - (void)thn_setGoodsTagWithTags:(NSArray *)tags {
@@ -79,8 +63,8 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
     [super layoutSubviews];
     
     [self.tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20);
-        make.right.mas_equalTo(-20);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
         make.top.bottom.mas_equalTo(0);
     }];
 }

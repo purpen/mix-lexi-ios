@@ -14,7 +14,9 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
     THNGoodsListViewTypeCategory,       //  分类商品
     THNGoodsListViewTypeStore,          //  品牌馆
     THNGoodsListViewTypeEditors,        //  编辑推荐
-    THNGoodsListViewTypeGather          //  集合
+    THNGoodsListViewTypeGather,         //  集合
+    THNGoodsListViewTypeProductCenter,  //  选品中心
+    THNGoodsListViewTypeBrandHall       //  品牌馆
 };
 
 typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
@@ -36,6 +38,12 @@ typedef NS_ENUM(NSUInteger, THNGoodsButtonType) {
     THNGoodsButtonTypeAddCart,  //  加入购物车
     THNGoodsButtonTypeCustom,   //  接单定制
     THNGoodsButtonTypeSell      //  卖
+};
+
+typedef NS_ENUM(NSUInteger, THNGoodsListCellViewType) {
+    THNGoodsListCellViewTypeUserCenter = 0, // 个人中心
+    THNGoodsListCellViewTypeGoodsInfoStore, // 商品详情店铺
+    THNGoodsListCellViewTypeGoodsList       // 商品列表
 };
 
 @interface NSObject (EnumManagement)

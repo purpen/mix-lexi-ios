@@ -55,8 +55,8 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
 - (void)thn_setStoreData:(THNStoreModel *)model {
     [self.headerImageView downloadImage:model.logo place:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = model.name;
-    self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.store_products_counts];
-    [self.followButton selfManagerFollowStoreStatus:(BOOL)model.followed_status storeRid:model.rid];
+    self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
+    [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeRid:model.rid];
     
     [self layoutIfNeeded];
 }

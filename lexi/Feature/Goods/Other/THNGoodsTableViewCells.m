@@ -41,10 +41,6 @@
     return _goodsModel ? _goodsModel : [THNGoodsModel new];
 }
 
-- (NSArray *)tagsArr {
-    return _tagsArr ? _tagsArr : [NSArray array];
-}
-
 - (CGFloat)height {
     return _height ? _height : 44.0;
 }

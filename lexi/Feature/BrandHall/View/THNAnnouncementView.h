@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNAnnouncementModel;
+
 @interface THNAnnouncementView : UIView
+
+@property (nonatomic, strong) THNAnnouncementModel *announcementModel;
 
 @end
