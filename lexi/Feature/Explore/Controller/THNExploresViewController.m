@@ -19,8 +19,8 @@
 #import "UITableView+Helper.h"
 #import "THNBrandHallViewController.h"
 #import "THNFeaturedBrandModel.h"
-
 #import "THNGoodsListViewController.h"
+#import "THNAllBrandHallViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -291,6 +291,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.navigationController pushViewController:[[THNAllBrandHallViewController alloc]init] animated:YES];
 }
 
 #pragma mark -lazy

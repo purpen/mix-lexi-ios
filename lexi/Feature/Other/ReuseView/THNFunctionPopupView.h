@@ -31,6 +31,11 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 @property (nonatomic, weak) id <THNFunctionPopupViewDelegate> delegate;
 
 /**
+店铺编号
+ */
+@property (nonatomic, strong) NSString *sid;
+
+/**
  标题文字
  */
 @property (nonatomic, copy) NSString *titleText;
