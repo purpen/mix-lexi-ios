@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerButtonViewComstraint;
 @property (weak, nonatomic) IBOutlet UIButton *shelfButton;
 @property (weak, nonatomic) IBOutlet UIButton *sellButton;
+@property (weak, nonatomic) IBOutlet UILabel *amountMoneyLabel;
 
 @end
 
@@ -55,6 +56,12 @@
         self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
     }
     
+    if (homeType == THNHomeTypeBrandHall) {
+        self.producrOriginalPriceLabel.hidden = YES;
+    } else {
+        self.producrOriginalPriceLabel.hidden = NO;
+    }
+    
     if (productModel.is_free_postage) {
         self.shippingImageView.hidden = NO;
         self.nameLabelLeftConstraint.constant = 5;
@@ -73,7 +80,10 @@
     } else{
         self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_sale_price];
     }
+    
+    self.amountMoneyLabel.text = [NSString stringWithFormat:@"%.2f", productModel.commission_price];
 }
+
 - (IBAction)shelf:(id)sender {
     self.shelfBlock(self);
 }
@@ -81,5 +91,4 @@
 - (IBAction)sell:(id)sender {
     
 }
-
 @end
