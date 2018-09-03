@@ -35,6 +35,7 @@ static NSString *const kKeyId               = @"id";
 static NSString *const kKeyCids             = @"cids";
 static NSString *const kKeyMinPrice         = @"min_price";
 static NSString *const kKeyMaxPrice         = @"max_price";
+static NSString *const kKeySid              = @"sid";
 /// 获取数据参数
 static NSString *const kObjectCount         = @"count";
 /// CELL ID
@@ -251,6 +252,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         params = @{
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice)};
+    } else if (self.goodsListType == THNGoodsListViewTypeBrandHall){
+        params = @{kKeyId: @(self.categoryId),
+                   kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
+                   kKeyMinPrice: @(self.minPrice),
+                   kKeyMaxPrice: @(self.maxPrice),
+                   kKeySid : self.sid};
     } else {
         params = @{kKeyId: @(self.categoryId),
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],

@@ -21,7 +21,7 @@ static NSString *const kURLProductsCountC   = @"/category/products/count"; // �
 static NSString *const kURLProductsSku      = @"/products/skus";
 static NSString *const kURLCategories       = @"/categories";
 static NSString *const kURLChooseCenterCount = @"/fx_distribute/choose_center/count"; // 选品中心商品数量
-static NSString *const kURLProductsByStoreCount = @"/core_platforms/products/by_store/count";
+static NSString *const kURLProductsByStoreCount = @"/core_platforms/products/by_store/count"; // 品牌馆商品数量
 /// 接收数据参数
 static NSString *const kKeyProducts         = @"products";
 static NSString *const kKeyCategories       = @"categories";

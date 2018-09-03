@@ -12,7 +12,6 @@ typedef void(^CouponViewHeightBlock)(CGFloat couponViewHeight);
 
 @interface THNCouponView : UIView
 
-
 /**
  设置CouponView各种状态下的布局
 

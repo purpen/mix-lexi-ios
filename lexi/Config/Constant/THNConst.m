@@ -11,7 +11,7 @@
 #pragma mark - API 地址
 //NSString *const kDomainBaseUrl    = @"";   //  生产环境
 //NSString *const kDomainBaseUrl    = @"";   //  上线正式环境
-NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/api/v1.0";   //  开发环境
+NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";   //  开发环境
 
 #pragma mark - 测试账号
 // 大B账号
