@@ -61,7 +61,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(STATUS_BAR_HEIGHT, 0, 20, 0);
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     _selectedDataType = THNHeaderViewSelectedTypeLiked;
     
@@ -157,7 +157,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         if (error) return;
         
         for (NSDictionary *storeDict in storesData) {
-            THNStoreModel *model = [THNStoreModel mj_objectWithKeyValues:storeDict];
+            THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
             
             THNTableViewCells *storeCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore) didSelectedItem:^(NSString *ids) {
                 [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"店铺ID == %@", ids]];
@@ -220,6 +220,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
                                                                                                 reuseIdentifier:kStoreGodsTableViewCellId];
             cells.likedGoodsCell = storeGoodsCell;
             storeGoodsCell.cell = cells;
+            storeGoodsCell.goodsCellType = THNGoodsListCellViewTypeUserCenter;
             storeGoodsCell.itemWidth = kCellHeightGoods;
             [storeGoodsCell thn_setLikedGoodsData:cells.goodsDataArr];
             
@@ -237,7 +238,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     if (cells.cellType == THNTableViewCellTypeFollowStore) {
         if (indexPath.row == 0) {
             THNFollowStoreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            cell.cell.selectedCellBlock([NSString stringWithFormat:@"%zi", cells.storeModel.rid]);
+            cell.cell.selectedCellBlock(cells.storeModel.rid);
         }
     }
 }

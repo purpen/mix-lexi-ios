@@ -45,8 +45,8 @@ typedef void (^THNTableViewSectionMoreBlock)(void);
 @property (nonatomic, copy) THNTableViewSectionMoreBlock selectedMoreCompletion;
 
 + (instancetype)initSections;
++ (instancetype)initSectionsWithCells:(NSMutableArray *)cells;
 + (instancetype)initSectionsWithHeaderTitle:(NSString *)title;
 + (instancetype)initSectionsWithHeaderTitle:(NSString *)title moreCompletion:(void (^)(void))completion;
-+ (instancetype)initSectionsWithCells:(NSMutableArray *)cells;
 
 @end

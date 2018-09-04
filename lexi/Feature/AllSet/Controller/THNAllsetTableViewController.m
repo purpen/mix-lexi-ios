@@ -14,9 +14,9 @@
 
 static NSString *const kUrlCollections = @"/column/collections";
 static NSString *const KAllsetCellIdentifier = @"KAllsetCellIdentifier";
-static CGFloat const kCellRowHeight = 377;
+static CGFloat const kCellRowHeight = 382;
 
-@interface THNAllsetTableViewController ()
+@interface THNAllsetTableViewController ()<THNNavigationBarViewDelegate>
 
 @property (nonatomic, strong) NSArray *collections;
 
@@ -26,19 +26,19 @@ static CGFloat const kCellRowHeight = 377;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadCollectionData];
+    
     [self setupUI];
+    [self loadCollectionData];
 }
 
 - (void)setupUI {
-//    self.navigationBarView.title = @"集合";
-//    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
+    self.navigationBarView.title = @"集合";
+    self.navigationBarView.delegate = self;
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
-    self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNAllsetTableViewCell" bundle:nil] forCellReuseIdentifier:KAllsetCellIdentifier];
-    self.tableView.rowHeight = kCellRowHeight;
 }
 
 - (void)loadCollectionData {
@@ -56,12 +56,15 @@ static CGFloat const kCellRowHeight = 377;
     return self.collections.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNAllsetTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KAllsetCellIdentifier forIndexPath:indexPath];
     THNCollectionModel *collectionModel = [THNCollectionModel mj_objectWithKeyValues:self.collections[indexPath.row]];
     [cell setCollectionModel:collectionModel];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kCellRowHeight;
 }
 
 @end
