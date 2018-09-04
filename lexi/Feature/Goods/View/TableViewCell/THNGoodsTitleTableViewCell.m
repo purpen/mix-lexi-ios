@@ -91,11 +91,14 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:self.titleLabel.attributedText.string fontSize:16 lineSpacing:6
+                                                          fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
+    
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
         make.top.mas_equalTo(15);
-        make.height.mas_equalTo([self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 40]);
+        make.height.mas_equalTo(textH);
     }];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {

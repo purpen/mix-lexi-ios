@@ -11,6 +11,7 @@
 #import "THNGoodsButton+SelfManager.h"
 #import "THNCartButton.h"
 #import "UIView+Helper.h"
+#import "UIColor+Extension.h"
 
 @interface THNGoodsFunctionView ()
 
@@ -126,6 +127,13 @@
     if (!isDirectSelect) {
         self.cartButton.frame = CGRectMake(0, 5, 79, 40);
     }
+}
+
+- (void)drawRect:(CGRect)rect {
+    [UIView drawRectLineStart:CGPointMake(0, 0)
+                          end:CGPointMake(CGRectGetWidth(self.bounds), 0)
+                        width:0.5
+                        color:[UIColor colorWithHexString:@"#E9E9E9"]];
 }
 
 #pragma mark - getters and setters

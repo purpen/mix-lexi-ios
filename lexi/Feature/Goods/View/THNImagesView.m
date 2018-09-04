@@ -15,7 +15,9 @@
 
 static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionViewCellId";
 
-@interface THNImagesView () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNImagesView () <UICollectionViewDelegate, UICollectionViewDataSource> {
+    BOOL _isFull;
+}
 
 /// 图片浏览器
 @property (nonatomic, strong) UICollectionView *imageCollecitonView;
@@ -30,9 +32,10 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
 
 @implementation THNImagesView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame fullScreen:(BOOL)fullScreen {
     self = [super initWithFrame:frame];
     if (self) {
+        _isFull = fullScreen;
         [self setupViewUI];
     }
     return self;
@@ -69,20 +72,17 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
     indexAttString.alignment = isFullScreen ? NSTextAlignmentCenter : NSTextAlignmentRight;
     
     self.countLabel.attributedText = indexAttString;
+    self.countLabel.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
+    self.countLabel.shadowOffset = CGSizeMake(0, 0);
+    self.countLabel.shadowBlurRadius = 3;
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
+    self.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
+    
     [self addSubview:self.imageCollecitonView];
     [self addSubview:self.countLabel];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    BOOL isFullScreen = CGRectGetHeight(self.bounds) > CGRectGetWidth(self.bounds);
-    CGFloat originY = isFullScreen ? CGRectGetMinY(self.imageCollecitonView.bounds) : CGRectGetMaxY(self.imageCollecitonView.bounds);
-    self.countLabel.frame = CGRectMake(20, originY - 30, CGRectGetWidth(self.bounds) - 40, 20);
 }
 
 #pragma mark -
@@ -124,7 +124,7 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
         _imageCollecitonView.dataSource = self;
         _imageCollecitonView.pagingEnabled = YES;
         _imageCollecitonView.showsHorizontalScrollIndicator = NO;
-        _imageCollecitonView.backgroundColor = [UIColor whiteColor];
+        _imageCollecitonView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         [_imageCollecitonView registerClass:[THNImageCollectionViewCell class] forCellWithReuseIdentifier:kTHNImageCollectionViewCellId];
     }
     return _imageCollecitonView;
@@ -133,6 +133,9 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
 - (YYLabel *)countLabel {
     if (!_countLabel) {
         _countLabel = [[YYLabel alloc] init];
+        
+        CGFloat originY = _isFull ? CGRectGetMinY(self.imageCollecitonView.bounds) : CGRectGetMaxY(self.imageCollecitonView.bounds);
+        _countLabel.frame = CGRectMake(20, originY - 30, CGRectGetWidth(self.bounds) - 40, 20);
     }
     return _countLabel;
 }
