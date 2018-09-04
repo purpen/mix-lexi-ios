@@ -31,9 +31,18 @@
  显示视图的类型，执行的操作类型
 
  @param viewType 视图类型
- @param handleType 操作类型
+ @param string 标题文字
  */
-- (void)thn_showGoodsSkuViewWithType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType;
+- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType titleAttributedString:(NSAttributedString *)string;
+
+/**
+ 显示视图的类型，执行的操作类型
+ 
+ @param viewType 视图类型
+ @param handleType 执行的操作
+ @param string 标题文字
+ */
+- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string;
 
 /**
  设置商品标题

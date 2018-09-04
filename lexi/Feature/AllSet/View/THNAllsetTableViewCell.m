@@ -56,24 +56,14 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
+                  layout:(UICollectionViewFlowLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+    collectionViewLayout.sectionInset = indexPath.row == 0 ? UIEdgeInsetsMake(0, 0, 0, 0) : UIEdgeInsetsMake(0, 15, 0, 0);
     CGFloat itemWidth = indexPath.row == 0 ? SCREEN_WIDTH  : (SCREEN_WIDTH - 60) / 4;
     CGFloat itemHeight = indexPath.row == 0 ? 200  : 79;
-
     return CGSizeMake(itemWidth, itemHeight);
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 15, 0, 0);
-}
-
-- (void)setFrame:(CGRect)frame {
-    frame.origin.y += 15;
-    frame.size.height -= 15;
-    [super setFrame:frame];
-}
 
 
 @end

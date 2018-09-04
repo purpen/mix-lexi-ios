@@ -37,12 +37,24 @@
     return cells;
 }
 
+- (NSArray *)storeGoodsData {
+    return _storeGoodsData ? _storeGoodsData : [NSArray array];
+}
+
+- (NSArray *)similarGoodsData {
+    return _similarGoodsData ? _similarGoodsData : [NSArray array];
+}
+
 - (THNGoodsModel *)goodsModel {
     return _goodsModel ? _goodsModel : [THNGoodsModel new];
 }
 
-- (NSArray *)tagsArr {
-    return _tagsArr ? _tagsArr : [NSArray array];
+- (THNStoreModel *)storeModel {
+    return _storeModel ? _storeModel : [THNStoreModel new];
+}
+
+- (THNFreightModel *)freightModel {
+    return _freightModel ? _freightModel : [THNFreightModel new];
 }
 
 - (CGFloat)height {

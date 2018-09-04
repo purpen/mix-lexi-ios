@@ -18,7 +18,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 
 @implementation THNFollowStoreButton (SelfManager)
 
-- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSInteger)rid {
+- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSString *)rid {
     [self setFollowStoreStatus:follow];
     self.storeId = rid;
     [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -67,9 +67,9 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
  @param storeId 店铺 id
  @param completed 成功后的回调
  */
-- (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSInteger)storeId completed:(void (^)(NSError *error))completed {
+- (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSString *)storeId completed:(void (^)(NSError *error))completed {
     THNRequest *request = [THNAPI postWithUrlString:url
-                                  requestDictionary:@{@"rid": [NSString stringWithFormat:@"%zi", storeId]}
+                                  requestDictionary:@{@"rid": storeId}
                                            delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.success) {

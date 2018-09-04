@@ -111,11 +111,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         
-        for (NSDictionary *product in goodsData) {
-            THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
-            [self.modelArray addObject:model];
-        }
-
+        [self.modelArray addObjectsFromArray:goodsData];
         [self.goodsCollectionView reloadData];
     }];
 }
@@ -130,8 +126,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         
-        for (NSDictionary *product in goodsData) {
-            THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
+        for (NSDictionary *dict in goodsData) {
+            THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
             [self.modelArray addObject:model];
         }
         
@@ -191,7 +187,9 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
                                                                                       forIndexPath:indexPath];
     
     if (self.modelArray.count) {
-        [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:YES];
+        [cell thn_setGoodsCellViewType:(THNGoodsListCellViewTypeGoodsList)
+                            goodsModel:self.modelArray[indexPath.row]
+                          showInfoView:YES];
     }
     
     return cell;
@@ -205,7 +203,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNProductModel *model = self.modelArray[indexPath.row];
+    THNGoodsModel *model = self.modelArray[indexPath.row];
     THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:model.rid];
     [self.navigationController pushViewController:goodsInfoVC animated:YES];
 }

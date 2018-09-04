@@ -1,6 +1,6 @@
 //
 //	THNGoodsModel.m
-//  on 31/8/2018
+//  on 1/9/2018
 //	Copyright © 2018. All rights reserved.
 //	Model file generated using JSONExport: https://github.com/Ahmed-Ali/JSONExport
 
@@ -9,16 +9,23 @@
 #import "THNGoodsModel.h"
 
 NSString *const kTHNGoodsModelAssets = @"assets";
+NSString *const kTHNGoodsModelBgcover = @"bgcover";
 NSString *const kTHNGoodsModelCategoryId = @"category_id";
+NSString *const kTHNGoodsModelCity = @"city";
 NSString *const kTHNGoodsModelCommissionPrice = @"commission_price";
 NSString *const kTHNGoodsModelCommissionRate = @"commission_rate";
 NSString *const kTHNGoodsModelContent = @"content";
+NSString *const kTHNGoodsModelCountry = @"country";
 NSString *const kTHNGoodsModelCover = @"cover";
 NSString *const kTHNGoodsModelCoverId = @"cover_id";
 NSString *const kTHNGoodsModelCustomDetails = @"custom_details";
 NSString *const kTHNGoodsModelDealContent = @"deal_content";
+NSString *const kTHNGoodsModelDeliveryCity = @"delivery_city";
 NSString *const kTHNGoodsModelDeliveryCountry = @"delivery_country";
 NSString *const kTHNGoodsModelDeliveryCountryId = @"delivery_country_id";
+NSString *const kTHNGoodsModelDeliveryProvince = @"delivery_province";
+NSString *const kTHNGoodsModelDistributionType = @"distribution_type";
+NSString *const kTHNGoodsModelFansCount = @"fans_count";
 NSString *const kTHNGoodsModelFeatures = @"features";
 NSString *const kTHNGoodsModelFid = @"fid";
 NSString *const kTHNGoodsModelHaveDistributed = @"have_distributed";
@@ -27,9 +34,11 @@ NSString *const kTHNGoodsModelIsCustomMade = @"is_custom_made";
 NSString *const kTHNGoodsModelIsCustomService = @"is_custom_service";
 NSString *const kTHNGoodsModelIsDistributed = @"is_distributed";
 NSString *const kTHNGoodsModelIsFreePostage = @"is_free_postage";
+NSString *const kTHNGoodsModelIsLike = @"is_like";
 NSString *const kTHNGoodsModelIsMadeHoliday = @"is_made_holiday";
 NSString *const kTHNGoodsModelIsProprietary = @"is_proprietary";
 NSString *const kTHNGoodsModelIsSoldOut = @"is_sold_out";
+NSString *const kTHNGoodsModelIsWish = @"is_wish";
 NSString *const kTHNGoodsModelKeywords = @"keywords";
 NSString *const kTHNGoodsModelLabels = @"labels";
 NSString *const kTHNGoodsModelLikeCount = @"like_count";
@@ -42,7 +51,9 @@ NSString *const kTHNGoodsModelMinPrice = @"min_price";
 NSString *const kTHNGoodsModelMinSalePrice = @"min_sale_price";
 NSString *const kTHNGoodsModelModes = @"modes";
 NSString *const kTHNGoodsModelName = @"name";
+NSString *const kTHNGoodsModelProductLikeUsers = @"product_like_users";
 NSString *const kTHNGoodsModelProductReturnPolicy = @"product_return_policy";
+NSString *const kTHNGoodsModelProvince = @"province";
 NSString *const kTHNGoodsModelPublishedAt = @"published_at";
 NSString *const kTHNGoodsModelRealPrice = @"real_price";
 NSString *const kTHNGoodsModelRealSalePrice = @"real_sale_price";
@@ -59,8 +70,10 @@ NSString *const kTHNGoodsModelStoreName = @"store_name";
 NSString *const kTHNGoodsModelStoreRid = @"store_rid";
 NSString *const kTHNGoodsModelStyleId = @"style_id";
 NSString *const kTHNGoodsModelStyleName = @"style_name";
+NSString *const kTHNGoodsModelTagLine = @"tag_line";
 NSString *const kTHNGoodsModelTopCategoryId = @"top_category_id";
 NSString *const kTHNGoodsModelTotalStock = @"total_stock";
+NSString *const kTHNGoodsModelTown = @"town";
 
 @interface THNGoodsModel ()
 @end
@@ -85,10 +98,16 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		}
 		self.assets = assetsItems;
 	}
+	if(![dictionary[kTHNGoodsModelBgcover] isKindOfClass:[NSNull class]]){
+		self.bgcover = dictionary[kTHNGoodsModelBgcover];
+	}	
 	if(![dictionary[kTHNGoodsModelCategoryId] isKindOfClass:[NSNull class]]){
 		self.categoryId = [dictionary[kTHNGoodsModelCategoryId] integerValue];
 	}
 
+	if(![dictionary[kTHNGoodsModelCity] isKindOfClass:[NSNull class]]){
+		self.city = dictionary[kTHNGoodsModelCity];
+	}	
 	if(![dictionary[kTHNGoodsModelCommissionPrice] isKindOfClass:[NSNull class]]){
 		self.commissionPrice = [dictionary[kTHNGoodsModelCommissionPrice] integerValue];
 	}
@@ -99,6 +118,9 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 
 	if(![dictionary[kTHNGoodsModelContent] isKindOfClass:[NSNull class]]){
 		self.content = dictionary[kTHNGoodsModelContent];
+	}	
+	if(![dictionary[kTHNGoodsModelCountry] isKindOfClass:[NSNull class]]){
+		self.country = dictionary[kTHNGoodsModelCountry];
 	}	
 	if(![dictionary[kTHNGoodsModelCover] isKindOfClass:[NSNull class]]){
 		self.cover = dictionary[kTHNGoodsModelCover];
@@ -119,11 +141,25 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		}
 		self.dealContent = dealContentItems;
 	}
+	if(![dictionary[kTHNGoodsModelDeliveryCity] isKindOfClass:[NSNull class]]){
+		self.deliveryCity = dictionary[kTHNGoodsModelDeliveryCity];
+	}	
 	if(![dictionary[kTHNGoodsModelDeliveryCountry] isKindOfClass:[NSNull class]]){
 		self.deliveryCountry = dictionary[kTHNGoodsModelDeliveryCountry];
 	}	
 	if(![dictionary[kTHNGoodsModelDeliveryCountryId] isKindOfClass:[NSNull class]]){
 		self.deliveryCountryId = [dictionary[kTHNGoodsModelDeliveryCountryId] integerValue];
+	}
+
+	if(![dictionary[kTHNGoodsModelDeliveryProvince] isKindOfClass:[NSNull class]]){
+		self.deliveryProvince = dictionary[kTHNGoodsModelDeliveryProvince];
+	}	
+	if(![dictionary[kTHNGoodsModelDistributionType] isKindOfClass:[NSNull class]]){
+		self.distributionType = [dictionary[kTHNGoodsModelDistributionType] integerValue];
+	}
+
+	if(![dictionary[kTHNGoodsModelFansCount] isKindOfClass:[NSNull class]]){
+		self.fansCount = [dictionary[kTHNGoodsModelFansCount] integerValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelFeatures] isKindOfClass:[NSNull class]]){
@@ -155,6 +191,10 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.isFreePostage = [dictionary[kTHNGoodsModelIsFreePostage] boolValue];
 	}
 
+	if(![dictionary[kTHNGoodsModelIsLike] isKindOfClass:[NSNull class]]){
+		self.isLike = [dictionary[kTHNGoodsModelIsLike] boolValue];
+	}
+
 	if(![dictionary[kTHNGoodsModelIsMadeHoliday] isKindOfClass:[NSNull class]]){
 		self.isMadeHoliday = [dictionary[kTHNGoodsModelIsMadeHoliday] boolValue];
 	}
@@ -165,6 +205,10 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 
 	if(![dictionary[kTHNGoodsModelIsSoldOut] isKindOfClass:[NSNull class]]){
 		self.isSoldOut = [dictionary[kTHNGoodsModelIsSoldOut] boolValue];
+	}
+
+	if(![dictionary[kTHNGoodsModelIsWish] isKindOfClass:[NSNull class]]){
+		self.isWish = [dictionary[kTHNGoodsModelIsWish] boolValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelKeywords] isKindOfClass:[NSNull class]]){
@@ -195,7 +239,7 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.materialName = dictionary[kTHNGoodsModelMaterialName];
 	}	
 	if(![dictionary[kTHNGoodsModelMaxPrice] isKindOfClass:[NSNull class]]){
-		self.maxPrice = [dictionary[kTHNGoodsModelMaxPrice] integerValue];
+		self.maxPrice = [dictionary[kTHNGoodsModelMaxPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelMaxSalePrice] isKindOfClass:[NSNull class]]){
@@ -203,7 +247,7 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 	}
 
 	if(![dictionary[kTHNGoodsModelMinPrice] isKindOfClass:[NSNull class]]){
-		self.minPrice = [dictionary[kTHNGoodsModelMinPrice] integerValue];
+		self.minPrice = [dictionary[kTHNGoodsModelMinPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelMinSalePrice] isKindOfClass:[NSNull class]]){
@@ -216,8 +260,20 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 	if(![dictionary[kTHNGoodsModelName] isKindOfClass:[NSNull class]]){
 		self.name = dictionary[kTHNGoodsModelName];
 	}	
+	if(dictionary[kTHNGoodsModelProductLikeUsers] != nil && [dictionary[kTHNGoodsModelProductLikeUsers] isKindOfClass:[NSArray class]]){
+		NSArray * productLikeUsersDictionaries = dictionary[kTHNGoodsModelProductLikeUsers];
+		NSMutableArray * productLikeUsersItems = [NSMutableArray array];
+		for(NSDictionary * productLikeUsersDictionary in productLikeUsersDictionaries){
+			THNGoodsModelProductLikeUser * productLikeUsersItem = [[THNGoodsModelProductLikeUser alloc] initWithDictionary:productLikeUsersDictionary];
+			[productLikeUsersItems addObject:productLikeUsersItem];
+		}
+		self.productLikeUsers = productLikeUsersItems;
+	}
 	if(![dictionary[kTHNGoodsModelProductReturnPolicy] isKindOfClass:[NSNull class]]){
 		self.productReturnPolicy = dictionary[kTHNGoodsModelProductReturnPolicy];
+	}	
+	if(![dictionary[kTHNGoodsModelProvince] isKindOfClass:[NSNull class]]){
+		self.province = dictionary[kTHNGoodsModelProvince];
 	}	
 	if(![dictionary[kTHNGoodsModelPublishedAt] isKindOfClass:[NSNull class]]){
 		self.publishedAt = [dictionary[kTHNGoodsModelPublishedAt] integerValue];
@@ -282,6 +338,9 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 	if(![dictionary[kTHNGoodsModelStyleName] isKindOfClass:[NSNull class]]){
 		self.styleName = dictionary[kTHNGoodsModelStyleName];
 	}	
+	if(![dictionary[kTHNGoodsModelTagLine] isKindOfClass:[NSNull class]]){
+		self.tagLine = dictionary[kTHNGoodsModelTagLine];
+	}	
 	if(![dictionary[kTHNGoodsModelTopCategoryId] isKindOfClass:[NSNull class]]){
 		self.topCategoryId = [dictionary[kTHNGoodsModelTopCategoryId] integerValue];
 	}
@@ -290,6 +349,9 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.totalStock = [dictionary[kTHNGoodsModelTotalStock] integerValue];
 	}
 
+	if(![dictionary[kTHNGoodsModelTown] isKindOfClass:[NSNull class]]){
+		self.town = dictionary[kTHNGoodsModelTown];
+	}	
 	return self;
 }
 @end

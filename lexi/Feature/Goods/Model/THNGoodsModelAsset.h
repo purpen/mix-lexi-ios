@@ -1,6 +1,6 @@
 //
 //	THNGoodsModelAsset.h
-//  on 31/8/2018
+//  on 1/9/2018
 //	Copyright © 2018. All rights reserved.
 //
 

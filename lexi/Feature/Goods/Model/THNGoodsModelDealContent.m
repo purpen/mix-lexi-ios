@@ -1,6 +1,6 @@
 //
 //	THNGoodsModelDealContent.m
-//  on 31/8/2018
+//  on 1/9/2018
 //	Copyright © 2018. All rights reserved.
 //	Model file generated using JSONExport: https://github.com/Ahmed-Ali/JSONExport
 
