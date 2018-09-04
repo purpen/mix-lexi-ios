@@ -8,9 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+
+/**
+ 循环轮播图的类型
+
+ - CarouselBannerTypeDefault: 数据 : BannerModel pageControl 位置右下角
+ - CarouselBannerTypeBrandHallFeatured: 数据 : string 中下方
+ */
+typedef NS_ENUM(NSUInteger, CarouselBannerType) {
+    CarouselBannerTypeDefault,
+    CarouselBannerTypeBrandHallFeatured
+};
+
 @interface THNBannerView : UIView
 
-- (void)setBannerView:(NSArray *)array;
+@property (nonatomic, assign) CarouselBannerType carouselBannerType;
 
+- (void)setBannerView:(NSArray *)array;
 
 @end
