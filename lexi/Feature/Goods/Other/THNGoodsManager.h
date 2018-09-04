@@ -11,6 +11,7 @@
 #import "THNGoodsModel.h"
 #import "THNStoreModel.h"
 #import "THNSkuModel.h"
+#import "THNFreightModel.h"
 
 @interface THNGoodsManager : NSObject
 
@@ -32,6 +33,14 @@
 + (void)getProductSkusInfoWithId:(NSString *)goodsId
                           params:(NSDictionary *)params
                       completion:(void (^)(THNSkuModel *model, NSError *error))completion;
+
+/**
+ 获取相似的商品
+
+ @param goodsId 商品 id
+ @param completion 完成回调
+ */
++ (void)getSimilarGoodsWithGoodsId:(NSString *)goodsId completion:(void (^)(NSArray *goodsData, NSError *error))completion;
 
 /**
  获取个人中心商品数据
@@ -80,5 +89,18 @@
  */
 + (void)getCategoryDataWithPid:(NSInteger)pid
                     completion:(void (^)(NSArray *categoryData, NSError *error))completion;
+
+/**
+ 获取运费模版信息
+
+ @param rid 模版 id
+ @param goodsId 商品
+ @param storeId 店铺
+ @param completion 完成回调
+ */
++ (void)getFreightTemplateDataWithRid:(NSString *)rid
+                              goodsId:(NSString *)goodsId
+                              storeId:(NSString *)storeId
+                           completion:(void (^)(THNFreightModel *model, NSError *error))completion;
 
 @end

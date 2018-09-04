@@ -13,7 +13,7 @@ static NSString *const kTextContact = @"在线咨询";
 
 @interface THNGoodsContactTableViewCell ()
 
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *contactButton;
 
 @end;
 
@@ -28,15 +28,20 @@ static NSString *const kTextContact = @"在线咨询";
     return cell;
 }
 
+#pragma mark - event response
+- (void)contactButtonAction:(id)sender {
+    self.baseCell.selectedCellBlock();
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    [self addSubview:self.titleLabel];
+    [self addSubview:self.contactButton];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contactButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 14));
         make.bottom.mas_equalTo(-14);
         make.centerX.mas_equalTo(self);
@@ -44,15 +49,15 @@ static NSString *const kTextContact = @"在线咨询";
 }
 
 #pragma mark - getters and setters
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont systemFontOfSize:14];
-        _titleLabel.textColor = [UIColor colorWithHexString:kColorMain];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.text = kTextContact;
+- (UIButton *)contactButton {
+    if (!_contactButton) {
+        _contactButton = [[UIButton alloc] init];
+        _contactButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_contactButton setTitleColor:[UIColor colorWithHexString:kColorMain] forState:(UIControlStateNormal)];
+        [_contactButton setTitle:kTextContact forState:(UIControlStateNormal)];
+        [_contactButton addTarget:self action:@selector(contactButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
-    return _titleLabel;
+    return _contactButton;
 }
 
 @end
