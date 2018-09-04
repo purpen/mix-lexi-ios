@@ -31,8 +31,8 @@ static CGFloat const kBrandHallHeight = 375;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadBrandHallFeaturedData];
     [self setupUI];
+    [self loadBrandHallFeaturedData];
 }
 
 - (void)setupUI {
@@ -44,6 +44,7 @@ static CGFloat const kBrandHallHeight = 375;
 - (void)loadBrandHallFeaturedData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallFeatured requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.bannerView.carouselBannerType = CarouselBannerTypeBrandHallFeatured;
         [self.bannerView setBannerView:result.data[@"banner_images"]];
         self.handpickStores = result.data[@"handpick_store"];
         [self.collectionView reloadData];
@@ -75,9 +76,9 @@ static CGFloat const kBrandHallHeight = 375;
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:15 initWithWidth:73 initwithHeight:73];
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.bannerView.frame) + 20, SCREEN_WIDTH - 20, 111) collectionViewLayout:layout];
-        _collectionView.showsVerticalScrollIndicator = NO;
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:15 initWithWidth:73 initwithHeight:130];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.bannerView.frame) + 20, SCREEN_WIDTH - 20, 130) collectionViewLayout:layout];
+        _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerNib:[UINib nibWithNibName:@"THNBrandHallFeaturedCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallFeaturedCollectionCellIdentifier];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

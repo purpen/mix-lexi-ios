@@ -51,6 +51,12 @@ CGFloat const cellOtherHeight = 190;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
 
+- (IBAction)lookAll:(id)sender {
+    if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
+        [self.delagate lookAllWithType:self.cellType];
+    }
+}
+
 - (void)setCellTypeStyle:(ExploreCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title{
     self.cellType = cellType;
     self.titleLabel.text = title;

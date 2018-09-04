@@ -13,6 +13,7 @@
 #import "THNProductCollectionViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNProductModel.h"
+#import "UIView+Helper.h"
 
 static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollectionCellIdentifier";
 
@@ -30,6 +31,7 @@ static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollect
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+   [self.brandImageView drawCornerWithType:0 radius:4];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallCollectionCellIdentifier];
