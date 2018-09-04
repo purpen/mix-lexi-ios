@@ -107,10 +107,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)));
         make.top.left.mas_equalTo(0);
     }];
-    if (self.viewType != THNGoodsListCellViewTypeGoodsInfoStore) {
-        [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
-    }
-
+    [self thn_drawCorner];
+    
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
@@ -130,12 +128,28 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     }];
 }
 
+- (void)thn_drawCorner {
+    switch (self.viewType) {
+        case THNGoodsListCellViewTypeGoodsInfoStore:
+        case THNGoodsListCellViewTypeSimilarGoods:
+            self.goodsImageView.layer.masksToBounds = YES;
+            break;
+            
+        case THNGoodsListCellViewTypeGoodsList:
+        case THNGoodsListCellViewTypeUserCenter:
+            [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - getters and setters
 - (UIImageView *)goodsImageView {
     if (!_goodsImageView) {
         _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
-        _goodsImageView.contentMode = UIViewContentModeScaleToFill;
+        _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _goodsImageView;
 }

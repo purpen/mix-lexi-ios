@@ -111,6 +111,8 @@
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D85DA80E2106030200A36A71 /* THNConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D72106030100A36A71 /* THNConst.m */; };
 		D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D82106030100A36A71 /* THNTextConst.m */; };
+		D8666C13213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8666C12213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m */; };
+		D8853EDA213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */; };
 		D8A9C26B213A6A460059CAFD /* THNGoodsTagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */; };
 		D8A9C26C213A6A460059CAFD /* THNGoodsTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */; };
 		D8A9C26D213A6A460059CAFD /* THNGoodsDirectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C268213A6A460059CAFD /* THNGoodsDirectTableViewCell.m */; };
@@ -125,6 +127,10 @@
 		D8A9C28F213ADC790059CAFD /* THNStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C28B213ADC790059CAFD /* THNStoreModel.m */; };
 		D8A9C290213ADC790059CAFD /* THNStoreModelProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C28E213ADC790059CAFD /* THNStoreModelProduct.m */; };
 		D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */; };
+		D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */; };
+		D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BF213D1C2E0047808C /* THNGoodsCheckTableViewCell.m */; };
+		D8B4F4C6213D40010047808C /* THNFreightModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4C2213D40010047808C /* THNFreightModelItem.m */; };
+		D8B4F4C7213D40010047808C /* THNFreightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4C4213D40010047808C /* THNFreightModel.m */; };
 		D8BAC986211A949100667D6F /* THNHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC8CD211A949100667D6F /* THNHomeViewController.m */; };
 		D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC8CF211A949100667D6F /* THNHomeSearchView.m */; };
 		D8BAC988211A949100667D6F /* THNHomeSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8BAC8D1211A949100667D6F /* THNHomeSearchView.xib */; };
@@ -204,6 +210,7 @@
 		D8BAC9D6211A949100667D6F /* THNBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC97C211A949100667D6F /* THNBaseViewController.m */; };
 		D8BAC9D7211A949100667D6F /* THNNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC981211A949100667D6F /* THNNavigationBarView.m */; };
 		D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC984211A949100667D6F /* THNShareViewController.m */; };
+		D8E04AA3213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -425,6 +432,10 @@
 		D85DA7D92106030100A36A71 /* THNConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNConst.h; sourceTree = "<group>"; };
 		D85DA7DA2106030100A36A71 /* THNTextConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNTextConst.h; sourceTree = "<group>"; };
 		D85DA7DC2106030100A36A71 /* THNMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMarco.h; sourceTree = "<group>"; };
+		D8666C11213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsContentTableViewCell.h; sourceTree = "<group>"; };
+		D8666C12213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsContentTableViewCell.m; sourceTree = "<group>"; };
+		D8853ED8213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNGoodsActionButton+SelfManager.h"; sourceTree = "<group>"; };
+		D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNGoodsActionButton+SelfManager.m"; sourceTree = "<group>"; };
 		D8A9C263213A6A460059CAFD /* THNGoodsDirectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsDirectTableViewCell.h; sourceTree = "<group>"; };
 		D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTagTableViewCell.m; sourceTree = "<group>"; };
 		D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTitleTableViewCell.m; sourceTree = "<group>"; };
@@ -453,6 +464,14 @@
 		D8A9C28E213ADC790059CAFD /* THNStoreModelProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNStoreModelProduct.m; sourceTree = "<group>"; };
 		D8A9C291213AF28E0059CAFD /* THNGoodsContactTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsContactTableViewCell.h; sourceTree = "<group>"; };
 		D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsContactTableViewCell.m; sourceTree = "<group>"; };
+		D8B4F4BB213D1BFF0047808C /* THNGoodsDescribeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsDescribeTableViewCell.h; sourceTree = "<group>"; };
+		D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsDescribeTableViewCell.m; sourceTree = "<group>"; };
+		D8B4F4BE213D1C2E0047808C /* THNGoodsCheckTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsCheckTableViewCell.h; sourceTree = "<group>"; };
+		D8B4F4BF213D1C2E0047808C /* THNGoodsCheckTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsCheckTableViewCell.m; sourceTree = "<group>"; };
+		D8B4F4C2213D40010047808C /* THNFreightModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModelItem.m; sourceTree = "<group>"; };
+		D8B4F4C3213D40010047808C /* THNFreightModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModel.h; sourceTree = "<group>"; };
+		D8B4F4C4213D40010047808C /* THNFreightModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModel.m; sourceTree = "<group>"; };
+		D8B4F4C5213D40010047808C /* THNFreightModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModelItem.h; sourceTree = "<group>"; };
 		D8BAC8CC211A949100667D6F /* THNHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNHomeViewController.h; sourceTree = "<group>"; };
 		D8BAC8CD211A949100667D6F /* THNHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNHomeViewController.m; sourceTree = "<group>"; };
 		D8BAC8CF211A949100667D6F /* THNHomeSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNHomeSearchView.m; sourceTree = "<group>"; };
@@ -596,6 +615,8 @@
 		D8BAC981211A949100667D6F /* THNNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNNavigationBarView.m; sourceTree = "<group>"; };
 		D8BAC984211A949100667D6F /* THNShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShareViewController.m; sourceTree = "<group>"; };
 		D8BAC985211A949100667D6F /* THNShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShareViewController.h; sourceTree = "<group>"; };
+		D8E04AA1213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsHeaderTableViewCell.h; sourceTree = "<group>"; };
+		D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsHeaderTableViewCell.m; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1144,10 +1165,18 @@
 				D8A9C268213A6A460059CAFD /* THNGoodsDirectTableViewCell.m */,
 				D8A9C282213AB9AE0059CAFD /* THNGoodsUserTableViewCell.h */,
 				D8A9C283213AB9AE0059CAFD /* THNGoodsUserTableViewCell.m */,
+				D8B4F4BB213D1BFF0047808C /* THNGoodsDescribeTableViewCell.h */,
+				D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */,
+				D8B4F4BE213D1C2E0047808C /* THNGoodsCheckTableViewCell.h */,
+				D8B4F4BF213D1C2E0047808C /* THNGoodsCheckTableViewCell.m */,
 				D8A9C288213AD0D60059CAFD /* THNGoodsStoreTableViewCell.h */,
 				D8A9C289213AD0D60059CAFD /* THNGoodsStoreTableViewCell.m */,
 				D8A9C291213AF28E0059CAFD /* THNGoodsContactTableViewCell.h */,
 				D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */,
+				D8666C11213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.h */,
+				D8666C12213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m */,
+				D8E04AA1213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.h */,
+				D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -1161,8 +1190,21 @@
 				D8A9C271213A6A990059CAFD /* THNGoodsButton+SelfManager.m */,
 				D8A9C279213A6B360059CAFD /* THNGoodsActionButton.h */,
 				D8A9C27A213A6B360059CAFD /* THNGoodsActionButton.m */,
+				D8853ED8213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.h */,
+				D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */,
 			);
 			path = CustomButton;
+			sourceTree = "<group>";
+		};
+		D8B4F4C1213D40010047808C /* Freight */ = {
+			isa = PBXGroup;
+			children = (
+				D8B4F4C3213D40010047808C /* THNFreightModel.h */,
+				D8B4F4C4213D40010047808C /* THNFreightModel.m */,
+				D8B4F4C5213D40010047808C /* THNFreightModelItem.h */,
+				D8B4F4C2213D40010047808C /* THNFreightModelItem.m */,
+			);
+			path = Freight;
 			sourceTree = "<group>";
 		};
 		D8BAC8C9211A949100667D6F /* Feature */ = {
@@ -1702,6 +1744,7 @@
 		D8F9983E21338EE50012AED3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D8B4F4C1213D40010047808C /* Freight */,
 				D8F998A02138EBCB0012AED3 /* Sku */,
 				D8F998AC2138ECD60012AED3 /* THNGoodsModel.h */,
 				D8F998B12138ECD60012AED3 /* THNGoodsModel.m */,
@@ -1948,12 +1991,15 @@
 				4B2439A32135168F00C94940 /* THNBrandHallViewController.m in Sources */,
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
+				D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				4B2168DE2137E78B00B1B796 /* THNAllAnnouncementView.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
+				D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */,
 				D8BAC9BE211A949100667D6F /* THNLoginViewController.m in Sources */,
+				D8B4F4C7213D40010047808C /* THNFreightModel.m in Sources */,
 				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
 				D8BAC9BC211A949100667D6F /* THNPhotoManager.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
@@ -1983,7 +2029,9 @@
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
 				D8BAC9BD211A949100667D6F /* THNLoginManager.m in Sources */,
 				D8BAC9B2211A949100667D6F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
+				D8666C13213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m in Sources */,
 				D8BAC99C211A949100667D6F /* THNCategoriesModel.m in Sources */,
+				D8853EDA213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m in Sources */,
 				D8F99812212A91CB0012AED3 /* THNStoreViewController.m in Sources */,
 				D8F998A72138EBCB0012AED3 /* THNSkuModel.m in Sources */,
 				D8F9989C21383E300012AED3 /* THNCartButton.m in Sources */,
@@ -2087,6 +2135,7 @@
 				4B25F213211EC68E00115E57 /* THNGrassListModel.m in Sources */,
 				D85DA7FB2106030200A36A71 /* THNRequest.m in Sources */,
 				D8F99836212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.m in Sources */,
+				D8B4F4C6213D40010047808C /* THNFreightModelItem.m in Sources */,
 				D8BAC99F211A949100667D6F /* THNCategoriesCollectionView.m in Sources */,
 				D8BAC994211A949100667D6F /* THNLivingHallRecommendTableViewCell.m in Sources */,
 				D8A9C27B213A6B360059CAFD /* THNGoodsActionButton.m in Sources */,
@@ -2102,6 +2151,7 @@
 				D85DA8072106030200A36A71 /* UIView+Helper.m in Sources */,
 				D8F9985B21355BC00012AED3 /* THNFunctionSortTableViewCell.m in Sources */,
 				D8BAC989211A949100667D6F /* THNSelectButtonView.m in Sources */,
+				D8E04AA3213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m in Sources */,
 				4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */,
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,
 				D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */,
@@ -2271,6 +2321,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2294,6 +2345,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";

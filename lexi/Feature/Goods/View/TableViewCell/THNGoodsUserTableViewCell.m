@@ -31,6 +31,8 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 }
 
 - (void)thn_setLikedUserData:(NSArray *)data {
+    self.moreButton.hidden = !data.count;
+    
     for (NSUInteger idx = 0; idx < data.count; idx ++) {
         THNGoodsModelProductLikeUser *model = data[idx];
         UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + 24 * idx, 10, 30, 30)];

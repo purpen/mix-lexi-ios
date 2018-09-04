@@ -111,11 +111,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         
-        for (NSDictionary *dict in goodsData) {
-            THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
-            [self.modelArray addObject:model];
-        }
-
+        [self.modelArray addObjectsFromArray:goodsData];
         [self.goodsCollectionView reloadData];
     }];
 }
