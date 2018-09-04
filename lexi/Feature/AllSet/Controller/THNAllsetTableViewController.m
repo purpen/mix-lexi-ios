@@ -64,7 +64,4 @@ static CGFloat const kCellRowHeight = 377;
     return cell;
 }
 
-
-
-
 @end

@@ -12,6 +12,7 @@
 #import "THNAPI.h"
 #import "THNFeaturedBrandModel.h"
 #import <MJExtension/MJExtension.h>
+#import "UIView+Helper.h"
 
 static NSString *const kUrlFeatureStore = @"/column/feature_store";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
@@ -37,7 +38,7 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.rowHeight = kBrandHallFeaturesHeight;
-    [self.tableView registerNib:[UINib nibWithNibName:@"THNBrandHallFeaturesTableViewCell" bundle:nil] forCellReuseIdentifier:kBrandHallFeaturesCellIdentifier];
+
 }
 
 - (void)loadFeatureStoreData {
@@ -56,7 +57,10 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNBrandHallFeaturesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBrandHallFeaturesCellIdentifier forIndexPath:indexPath];
+    THNBrandHallFeaturesTableViewCell *cell = [tableView  cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [THNBrandHallFeaturesTableViewCell viewFromXib];
+    }
     THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
     [cell setBrandModel:brandModel];
     return cell;
