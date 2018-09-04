@@ -78,7 +78,21 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    CGFloat originX = self.goodsCellType == THNGoodsListCellViewTypeGoodsInfoStore ? 15 : 20;
+    CGFloat originX = 0.0;
+    switch (self.goodsCellType) {
+        case THNGoodsListCellViewTypeGoodsInfoStore:
+        case THNGoodsListCellViewTypeSimilarGoods:
+            originX = 15.0;
+            break;
+        
+        case THNGoodsListCellViewTypeGoodsList:
+        case THNGoodsListCellViewTypeUserCenter:
+            originX = 20.0;
+            
+        default:
+            break;
+    }
+    
     self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
     self.goodsCollectionView.contentInset = UIEdgeInsetsMake(0, originX, 0, originX);
     self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));

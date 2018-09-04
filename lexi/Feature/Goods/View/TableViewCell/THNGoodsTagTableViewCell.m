@@ -13,8 +13,7 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
 
 @interface THNGoodsTagTableViewCell ()
 
-/// 商品标签
-@property (nonatomic, strong) YYLabel *tagLabel;
+@property (nonatomic, assign) CGFloat tagW;
 
 @end
 
@@ -30,51 +29,56 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
 }
 
 - (void)thn_setGoodsTagWithTags:(NSArray *)tags {
-    NSMutableAttributedString *tagAtt = [[NSMutableAttributedString alloc] init];
+    if (self.subviews.count > 1) return;
     
     for (NSUInteger idx = 0; idx < tags.count; idx ++) {
         THNGoodsModelLabel *model = tags[idx];
-    
-        NSMutableAttributedString *symbolAtt = [[NSMutableAttributedString alloc] initWithString:@"·"];
-        symbolAtt.font = [UIFont systemFontOfSize:11];
-        symbolAtt.color = [UIColor colorWithHexString:idx == 0 ? @"#F5A43C" : @"#777777"];
-        symbolAtt.alignment = NSTextAlignmentCenter;
+        NSString *hexColor = idx == 0 ? @"#F5A43C" : @"#777777";
         
-        NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:model.name];
-        att.font = [UIFont systemFontOfSize:11];
-        att.color = [UIColor colorWithHexString:idx == 0 ? @"#F5A43C" : @"#777777"];
+        [self thn_creatTagLabelWithText:model.name textColor:hexColor];
         
         if (idx != tags.count - 1) {
-            [att appendAttributedString:symbolAtt];
+            [self thn_creatSymbolLabelTextColor:hexColor];
         }
-        
-        [tagAtt appendAttributedString:att];
     }
+}
 
-    self.tagLabel.attributedText = tagAtt;
+#pragma mark - private methods
+- (void)thn_creatTagLabelWithText:(NSString *)text textColor:(NSString *)color {
+    NSMutableAttributedString *tagAtt = [[NSMutableAttributedString alloc] initWithString:text];
+    tagAtt.font = [UIFont systemFontOfSize:11];
+    tagAtt.color = [UIColor colorWithHexString:color];
+    
+    YYTextLayout *tagLayout = [YYTextLayout layoutWithContainerSize:CGSizeMake(MAXFLOAT, MAXFLOAT) text:tagAtt];
+    CGFloat textW = tagLayout.textBoundingSize.width;
+    
+    YYLabel *tagLabel = [[YYLabel alloc] initWithFrame:CGRectMake(self.tagW, 0, textW, 13)];
+    tagLabel.attributedText = tagAtt;
+    
+    self.tagW += textW;
+    [self addSubview:tagLabel];
+}
+
+- (void)thn_creatSymbolLabelTextColor:(NSString *)color {
+    NSMutableAttributedString *symbolAtt = [[NSMutableAttributedString alloc] initWithString:@"·"];
+    symbolAtt.font = [UIFont systemFontOfSize:26];
+    symbolAtt.color = [UIColor colorWithHexString:color];
+    symbolAtt.alignment = NSTextAlignmentCenter;
+    
+    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+    modifier.fixedLineHeight = 13;
+    
+    YYLabel *symbolLabel = [[YYLabel alloc] initWithFrame:CGRectMake(self.tagW, 2, 10, 13)];
+    symbolLabel.attributedText = symbolAtt;
+    symbolLabel.linePositionModifier = modifier;
+    
+    self.tagW += 10;
+    [self addSubview:symbolLabel];
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    [self addSubview:self.tagLabel];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self.tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.top.bottom.mas_equalTo(0);
-    }];
-}
-
-#pragma mark - getters and setters
-- (YYLabel *)tagLabel {
-    if (!_tagLabel) {
-        _tagLabel = [[YYLabel alloc] init];
-    }
-    return _tagLabel;
+    self.tagW = 15.0;
 }
 
 @end
