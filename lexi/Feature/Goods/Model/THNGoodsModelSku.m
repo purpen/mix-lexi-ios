@@ -1,6 +1,6 @@
 //
 //	THNGoodsModelSku.m
-//  on 31/8/2018
+//  on 1/9/2018
 //	Copyright © 2018. All rights reserved.
 //	Model file generated using JSONExport: https://github.com/Ahmed-Ali/JSONExport
 
@@ -8,16 +8,24 @@
 
 #import "THNGoodsModelSku.h"
 
+NSString *const kTHNGoodsModelSkuBgcover = @"bgcover";
+NSString *const kTHNGoodsModelSkuCity = @"city";
 NSString *const kTHNGoodsModelSkuCommissionPrice = @"commission_price";
 NSString *const kTHNGoodsModelSkuCommissionRate = @"commission_rate";
+NSString *const kTHNGoodsModelSkuCountry = @"country";
 NSString *const kTHNGoodsModelSkuCover = @"cover";
 NSString *const kTHNGoodsModelSkuCoverId = @"cover_id";
+NSString *const kTHNGoodsModelSkuDeliveryCity = @"delivery_city";
 NSString *const kTHNGoodsModelSkuDeliveryCountry = @"delivery_country";
 NSString *const kTHNGoodsModelSkuDeliveryCountryId = @"delivery_country_id";
+NSString *const kTHNGoodsModelSkuDeliveryProvince = @"delivery_province";
+NSString *const kTHNGoodsModelSkuDistributionType = @"distribution_type";
+NSString *const kTHNGoodsModelSkuFansCount = @"fans_count";
 NSString *const kTHNGoodsModelSkuMode = @"mode";
 NSString *const kTHNGoodsModelSkuPrice = @"price";
 NSString *const kTHNGoodsModelSkuProductName = @"product_name";
 NSString *const kTHNGoodsModelSkuProductRid = @"product_rid";
+NSString *const kTHNGoodsModelSkuProvince = @"province";
 NSString *const kTHNGoodsModelSkuRid = @"rid";
 NSString *const kTHNGoodsModelSkuSColor = @"s_color";
 NSString *const kTHNGoodsModelSkuSModel = @"s_model";
@@ -28,6 +36,8 @@ NSString *const kTHNGoodsModelSkuStockQuantity = @"stock_quantity";
 NSString *const kTHNGoodsModelSkuStoreLogo = @"store_logo";
 NSString *const kTHNGoodsModelSkuStoreName = @"store_name";
 NSString *const kTHNGoodsModelSkuStoreRid = @"store_rid";
+NSString *const kTHNGoodsModelSkuTagLine = @"tag_line";
+NSString *const kTHNGoodsModelSkuTown = @"town";
 
 @interface THNGoodsModelSku ()
 @end
@@ -43,6 +53,12 @@ NSString *const kTHNGoodsModelSkuStoreRid = @"store_rid";
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
 	self = [super init];
+	if(![dictionary[kTHNGoodsModelSkuBgcover] isKindOfClass:[NSNull class]]){
+		self.bgcover = dictionary[kTHNGoodsModelSkuBgcover];
+	}	
+	if(![dictionary[kTHNGoodsModelSkuCity] isKindOfClass:[NSNull class]]){
+		self.city = dictionary[kTHNGoodsModelSkuCity];
+	}	
 	if(![dictionary[kTHNGoodsModelSkuCommissionPrice] isKindOfClass:[NSNull class]]){
 		self.commissionPrice = [dictionary[kTHNGoodsModelSkuCommissionPrice] integerValue];
 	}
@@ -51,17 +67,34 @@ NSString *const kTHNGoodsModelSkuStoreRid = @"store_rid";
 		self.commissionRate = [dictionary[kTHNGoodsModelSkuCommissionRate] integerValue];
 	}
 
+	if(![dictionary[kTHNGoodsModelSkuCountry] isKindOfClass:[NSNull class]]){
+		self.country = dictionary[kTHNGoodsModelSkuCountry];
+	}	
 	if(![dictionary[kTHNGoodsModelSkuCover] isKindOfClass:[NSNull class]]){
 		self.cover = dictionary[kTHNGoodsModelSkuCover];
 	}	
 	if(![dictionary[kTHNGoodsModelSkuCoverId] isKindOfClass:[NSNull class]]){
 		self.coverId = dictionary[kTHNGoodsModelSkuCoverId];
 	}	
+	if(![dictionary[kTHNGoodsModelSkuDeliveryCity] isKindOfClass:[NSNull class]]){
+		self.deliveryCity = dictionary[kTHNGoodsModelSkuDeliveryCity];
+	}	
 	if(![dictionary[kTHNGoodsModelSkuDeliveryCountry] isKindOfClass:[NSNull class]]){
 		self.deliveryCountry = dictionary[kTHNGoodsModelSkuDeliveryCountry];
 	}	
 	if(![dictionary[kTHNGoodsModelSkuDeliveryCountryId] isKindOfClass:[NSNull class]]){
 		self.deliveryCountryId = [dictionary[kTHNGoodsModelSkuDeliveryCountryId] integerValue];
+	}
+
+	if(![dictionary[kTHNGoodsModelSkuDeliveryProvince] isKindOfClass:[NSNull class]]){
+		self.deliveryProvince = dictionary[kTHNGoodsModelSkuDeliveryProvince];
+	}	
+	if(![dictionary[kTHNGoodsModelSkuDistributionType] isKindOfClass:[NSNull class]]){
+		self.distributionType = [dictionary[kTHNGoodsModelSkuDistributionType] integerValue];
+	}
+
+	if(![dictionary[kTHNGoodsModelSkuFansCount] isKindOfClass:[NSNull class]]){
+		self.fansCount = [dictionary[kTHNGoodsModelSkuFansCount] integerValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelSkuMode] isKindOfClass:[NSNull class]]){
@@ -76,6 +109,9 @@ NSString *const kTHNGoodsModelSkuStoreRid = @"store_rid";
 	}	
 	if(![dictionary[kTHNGoodsModelSkuProductRid] isKindOfClass:[NSNull class]]){
 		self.productRid = dictionary[kTHNGoodsModelSkuProductRid];
+	}	
+	if(![dictionary[kTHNGoodsModelSkuProvince] isKindOfClass:[NSNull class]]){
+		self.province = dictionary[kTHNGoodsModelSkuProvince];
 	}	
 	if(![dictionary[kTHNGoodsModelSkuRid] isKindOfClass:[NSNull class]]){
 		self.rid = dictionary[kTHNGoodsModelSkuRid];
@@ -110,6 +146,12 @@ NSString *const kTHNGoodsModelSkuStoreRid = @"store_rid";
 	}	
 	if(![dictionary[kTHNGoodsModelSkuStoreRid] isKindOfClass:[NSNull class]]){
 		self.storeRid = dictionary[kTHNGoodsModelSkuStoreRid];
+	}	
+	if(![dictionary[kTHNGoodsModelSkuTagLine] isKindOfClass:[NSNull class]]){
+		self.tagLine = dictionary[kTHNGoodsModelSkuTagLine];
+	}	
+	if(![dictionary[kTHNGoodsModelSkuTown] isKindOfClass:[NSNull class]]){
+		self.town = dictionary[kTHNGoodsModelSkuTown];
 	}	
 	return self;
 }

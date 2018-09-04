@@ -64,7 +64,8 @@ static const NSInteger kRightButtonTag = 123;
     self.transparent = transparent;
     
     if (show) {
-        [self.layer addSublayer:self.shadow];  
+        [self.layer addSublayer:self.shadow];
+        [self bringSubviewToFront:self.backButton];
     }
 }
 

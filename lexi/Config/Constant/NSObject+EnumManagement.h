@@ -40,6 +40,13 @@ typedef NS_ENUM(NSUInteger, THNGoodsButtonType) {
     THNGoodsButtonTypeSell      //  卖
 };
 
+typedef NS_ENUM(NSUInteger, THNGoodsListCellViewType) {
+    THNGoodsListCellViewTypeUserCenter = 0, // 个人中心
+    THNGoodsListCellViewTypeGoodsInfoStore, // 商品详情店铺
+    THNGoodsListCellViewTypeSimilarGoods,   // 相似商品
+    THNGoodsListCellViewTypeGoodsList       // 商品列表
+};
+
 @interface NSObject (EnumManagement)
 
 @end

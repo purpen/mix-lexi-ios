@@ -75,7 +75,7 @@ static NSString *const kTitleSell       = @"卖";
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.mas_equalTo(0);
         make.top.mas_equalTo(2);
