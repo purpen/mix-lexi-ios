@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "THNFeaturedBrandModel.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
+#import "UIView+Helper.h"
 
 @interface THNBrandHallFeaturedCollectionViewCell()
 
@@ -23,7 +24,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+    [self.brandImageView drawCornerWithType:0 radius:4];
     
 }
 

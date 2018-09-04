@@ -52,10 +52,10 @@
             self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
         }
         
-        self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_price];
+        self.productPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",productModel.min_price];
         self.likeCountLabel.hidden = YES;
     } else{
-        self.productPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_sale_price];
+        self.productPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",productModel.min_sale_price];
         self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
         
           if (productModel.commission_price == 0) {

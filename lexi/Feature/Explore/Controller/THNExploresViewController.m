@@ -21,6 +21,7 @@
 #import "THNFeaturedBrandModel.h"
 #import "THNGoodsListViewController.h"
 #import "THNAllBrandHallViewController.h"
+#import "THNAllsetTableViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -48,7 +49,7 @@ static NSString *const kUrlGoodDesign = @"/column/preferential_design";
 // 百元好物
 static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
-@interface THNExploresViewController () 
+@interface THNExploresViewController ()<THNExploreTableViewCellDelegate>
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) THNCategoriesCollectionView *categoriesCollectionView;
@@ -212,6 +213,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
     
+    cell.delagate = self;
     cell.brandBlock = ^(THNFeaturedBrandModel *featuredBrandModel) {
         THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
         brandHall.rid = featuredBrandModel.rid;
@@ -293,12 +295,33 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.navigationController pushViewController:[[THNAllBrandHallViewController alloc]init] animated:YES];
+#pragma mark - THNExploreTableViewCellDelegate
+- (void)lookAllWithType:(ExploreCellType)cellType {
+    switch (cellType) {
+        case ExploreFeaturedBrand:
+        {
+            THNAllBrandHallViewController *brandHall = [[THNAllBrandHallViewController alloc]init];
+            [self.navigationController pushViewController:brandHall animated:YES];
+            break;
+        }
+            
+        case ExploreSet:
+        {
+            THNAllsetTableViewController *set = [[THNAllsetTableViewController alloc]init];
+            [self.navigationController pushViewController:set animated:YES];
+            break;
+        }
+           
+        default :
+        {
+            break;
+        }
+            
+           
+    }
 }
 
 #pragma mark -lazy
-
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
         _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(kBannerViewSpacing, kBannerViewY, SCREEN_WIDTH - kBannerViewSpacing * 2, kBannerViewHeight)];
