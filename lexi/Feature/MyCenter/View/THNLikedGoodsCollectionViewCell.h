@@ -7,16 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "THNProductModel.h"
+#import "THNGoodsModel.h"
+#import "NSObject+EnumManagement.h"
 
 @interface THNLikedGoodsCollectionViewCell : UICollectionViewCell
 
 /**
- 绑定商品数据
- 
- @param model 商品model
+ 设置商品数据
+
+ @param cellViewType 单元格类型
+ @param goodsModel 商品数据
  @param show 是否显示商品信息视图
  */
-- (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show;
+- (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType
+                      goodsModel:(THNGoodsModel *)goodsModel
+                    showInfoView:(BOOL)show;
 
 @end

@@ -16,6 +16,6 @@
  @param follow 是否关注
  @param rid 店铺 id
  */
-- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSInteger)rid;
+- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSString *)rid;
 
 @end

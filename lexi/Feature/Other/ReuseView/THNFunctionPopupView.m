@@ -476,7 +476,6 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:YES];
     [self thn_showView:NO];
@@ -492,12 +491,10 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     } else {
         self.selectedProfitIndexPath = indexPath;
         self.selectedIndexPath = nil;
-
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-
     if (_viewType == THNFunctionPopupViewTypeSort) {
         THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         [cell thn_setCellSelected:NO];
@@ -506,7 +503,6 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 
     THNFunctionSortTableViewCell *cell = (THNFunctionSortTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell thn_setCellSelected:NO];
-
 }
 
 #pragma mark - setup UI

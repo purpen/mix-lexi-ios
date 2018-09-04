@@ -8,6 +8,7 @@
 
 #import "THNLikedGoodsTableViewCell.h"
 #import "THNLikedGoodsCollectionViewCell.h"
+#import "THNStoreModelProduct.h"
 #import "THNMarco.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
@@ -62,8 +63,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
         [self.modelArray removeAllObjects];
     }
     
-    for (NSDictionary *product in goodsData) {
-        THNProductModel *model = [THNProductModel mj_objectWithKeyValues:product];
+    for (THNGoodsModel *model in goodsData) {
         [self.modelArray addObject:model];
     }
 
@@ -78,8 +78,24 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    CGFloat originX = 0.0;
+    switch (self.goodsCellType) {
+        case THNGoodsListCellViewTypeGoodsInfoStore:
+        case THNGoodsListCellViewTypeSimilarGoods:
+            originX = 15.0;
+            break;
+        
+        case THNGoodsListCellViewTypeGoodsList:
+        case THNGoodsListCellViewTypeUserCenter:
+            originX = 20.0;
+            
+        default:
+            break;
+    }
+    
     self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
+    self.goodsCollectionView.contentInset = UIEdgeInsetsMake(0, originX, 0, originX);
+    self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
 }
 
 #pragma mark - collectionView delegate & dataSource
@@ -91,7 +107,9 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     THNLikedGoodsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                       forIndexPath:indexPath];
     if (self.modelArray.count) {
-        [cell thn_setGoodsModel:self.modelArray[indexPath.row] showInfoView:NO];
+        [cell thn_setGoodsCellViewType:self.goodsCellType
+                            goodsModel:self.modelArray[indexPath.row]
+                          showInfoView:NO];
     }
     
     return cell;
@@ -99,7 +117,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.cell.selectedCellBlock) {
-        THNProductModel *model = self.modelArray[indexPath.row];
+        THNGoodsModel *model = self.modelArray[indexPath.row];
         self.cell.selectedCellBlock(model.rid);
     }
 }
@@ -120,7 +138,6 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
         _goodsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
         _goodsCollectionView.showsHorizontalScrollIndicator = NO;
         _goodsCollectionView.backgroundColor = [UIColor whiteColor];
-        _goodsCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 20);
         _goodsCollectionView.delegate = self;
         _goodsCollectionView.dataSource = self;
         [_goodsCollectionView registerClass:[THNLikedGoodsCollectionViewCell class] forCellWithReuseIdentifier:kCollectionViewCellId];

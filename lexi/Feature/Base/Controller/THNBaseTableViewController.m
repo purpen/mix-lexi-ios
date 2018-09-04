@@ -36,25 +36,35 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataSections.count;
+    return self.dataSections.count ? self.dataSections.count : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    THNTableViewSections *secitons = self.dataSections[section];
-    
-    return secitons.dataCells.count;
+     if (self.dataSections.count) {
+         THNTableViewSections *secitons = self.dataSections[section];
+         return secitons.dataCells.count;
+     }
+
+    return 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    THNTableViewSections *secitons = self.dataSections[section];
+    if (self.dataSections.count) {
+        THNTableViewSections *secitons = self.dataSections[section];
+        
+        return secitons.headerView;
+    }
     
-    return secitons.headerView;
+    return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    THNTableViewSections *secitons = self.dataSections[section];
-    
-    return secitons.headerTitle.length ? kSectionHeaderViewH : secitons.headerHeight;
+    if (self.dataSections.count) {
+        THNTableViewSections *secitons = self.dataSections[section];
+        
+        return secitons.headerTitle.length ? kSectionHeaderViewH : secitons.headerHeight;
+    }
+    return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -62,16 +72,23 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    THNTableViewSections *secitons = self.dataSections[section];
-    
-    return secitons.footerHeight;
+    if (self.dataSections.count) {
+        THNTableViewSections *secitons = self.dataSections[section];
+        
+        return secitons.footerHeight;
+    }
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNTableViewSections *secitons = self.dataSections[indexPath.section];
-    THNTableViewCells *cells = secitons.dataCells[indexPath.row];
+    if (self.dataSections.count) {
+        THNTableViewSections *secitons = self.dataSections[indexPath.section];
+        THNTableViewCells *cells = secitons.dataCells[indexPath.row];
+        
+        return cells.height;
+    }
     
-    return cells.height;
+    return 44.0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -109,6 +126,8 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.showsHorizontalScrollIndicator = NO;
+        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
     }
     return _tableView;
 }
