@@ -60,7 +60,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="满600减130满600减130满600减130满600减130满600减130满600减130" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIl-tX-Gpn">
-                            <rect key="frame" x="20" y="1.5" width="327" height="12"/>
+                            <rect key="frame" x="10" y="1.5" width="337" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="12" id="SHQ-sf-uIb"/>
                             </constraints>
@@ -74,12 +74,15 @@
                         <constraint firstItem="VeY-SB-2wu" firstAttribute="centerY" secondItem="LCZ-RB-HiJ" secondAttribute="centerY" id="ZJg-i4-w6X"/>
                         <constraint firstAttribute="trailing" secondItem="YIl-tX-Gpn" secondAttribute="trailing" id="bJe-cn-t5C"/>
                         <constraint firstAttribute="height" constant="15" id="cDk-r4-Olx"/>
-                        <constraint firstItem="YIl-tX-Gpn" firstAttribute="leading" secondItem="VeY-SB-2wu" secondAttribute="trailing" constant="5" id="ejU-LC-1YA"/>
+                        <constraint firstItem="YIl-tX-Gpn" firstAttribute="leading" secondItem="VeY-SB-2wu" secondAttribute="trailing" constant="-5" id="ejU-LC-1YA"/>
                         <constraint firstItem="YIl-tX-Gpn" firstAttribute="centerY" secondItem="LCZ-RB-HiJ" secondAttribute="centerY" id="o8y-RR-vvW"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6G-Ri-XXD">
-                    <rect key="frame" x="371" y="37.5" width="4" height="22"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6G-Ri-XXD">
+                    <rect key="frame" x="81" y="37.5" width="300" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="tGo-dC-IZV"/>
+                    </constraints>
                     <state key="normal" image="icon_ arrow_right_gray"/>
                     <connections>
                         <action selector="look:" destination="iN0-l3-epB" eventType="touchUpInside" id="CLJ-Ft-oML"/>
@@ -92,7 +95,7 @@
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="7ye-09-jLS"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="leading" secondItem="Q8m-NB-CJD" secondAttribute="leading" id="Gaa-Z9-38f"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" constant="5" id="J3E-8H-wU1"/>
-                <constraint firstItem="r6G-Ri-XXD" firstAttribute="leading" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="10" id="OGL-Ug-2d7"/>
+                <constraint firstItem="r6G-Ri-XXD" firstAttribute="leading" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="-280" id="OGL-Ug-2d7"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="S79-za-DbS"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-10" id="q66-SY-bhs"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="86" id="qY4-8f-9Z9"/>
@@ -108,7 +111,7 @@
                 <outlet property="redEnvelopeViewHeightConstraint" destination="dIU-Df-IFr" id="19E-Od-uRL"/>
                 <outlet property="rightIndicationButton" destination="r6G-Ri-XXD" id="JW6-n8-3it"/>
             </connections>
-            <point key="canvasLocation" x="72.5" y="-251"/>
+            <point key="canvasLocation" x="204" y="-263"/>
         </view>
     </objects>
     <resources>

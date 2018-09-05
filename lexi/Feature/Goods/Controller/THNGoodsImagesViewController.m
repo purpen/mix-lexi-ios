@@ -166,4 +166,8 @@
     return _shareButton;
 }
 
+- (void)dealloc {
+    
+}
+
 @end

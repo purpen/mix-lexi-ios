@@ -60,7 +60,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.tableView.contentInset = UIEdgeInsetsMake(STATUS_BAR_HEIGHT, 0, 20, 0);
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     _selectedDataType = THNHeaderViewSelectedTypeLiked;
     

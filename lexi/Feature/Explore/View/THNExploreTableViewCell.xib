@@ -51,6 +51,9 @@
                         <state key="normal" title="查看全部">
                             <color key="titleColor" red="0.58039215686274503" green="0.61960784313725492" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="lookAll:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EMJ-UJ-ZJL"/>
+                        </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ arrow_right_gray" translatesAutoresizingMaskIntoConstraints="NO" id="YAR-CC-T8a">
                         <rect key="frame" x="448" y="32" width="4" height="9"/>

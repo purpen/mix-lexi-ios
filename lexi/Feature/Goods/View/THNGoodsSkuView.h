@@ -25,7 +25,7 @@
 /**
  商品 id
  */
-@property (nonatomic, strong) NSString *goodsId;
+@property (nonatomic, copy) NSString *goodsId;
 
 /**
  显示视图的类型，执行的操作类型

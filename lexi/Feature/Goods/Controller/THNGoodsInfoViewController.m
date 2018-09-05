@@ -87,6 +87,7 @@ static NSInteger const kFooterHeight = 18;
 
 - (void)thn_didSelectImageAtIndex:(NSInteger)index {
     WEAKSELF;
+    
     THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel];
     goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
     goodsImageVC.buyGoodsCompleted = ^{
@@ -126,10 +127,12 @@ static NSInteger const kFooterHeight = 18;
  获取商品 SKU 数据
  */
 - (void)thn_getGoodsSkuDataWithGoodsId:(NSString *)goodsId {
+    WEAKSELF;
+    
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
         if (error) return;
         
-        [self.skuView thn_setGoodsSkuModel:model];
+        [weakSelf.skuView thn_setGoodsSkuModel:model];
     }];
 }
 
@@ -180,6 +183,7 @@ static NSInteger const kFooterHeight = 18;
  */
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
     WEAKSELF;
+    
     THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^{
         [weakSelf thn_setLikedGoodsUserWithGoodsId:model.rid isReload:YES];
     }];
@@ -197,6 +201,7 @@ static NSInteger const kFooterHeight = 18;
  */
 - (void)thn_setDirectSelectWithGoodsModel:(THNGoodsModel *)model {
     WEAKSELF;
+    
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^{
         [weakSelf.skuView thn_showGoodsSkuViewType:weakSelf.functionView.type titleAttributedString:[weakSelf thn_getGoodsTitle]];
     }];
@@ -234,6 +239,8 @@ static NSInteger const kFooterHeight = 18;
  设置商品描述
  */
 - (void)thn_setDescribeCellWithGoodsModel:(THNGoodsModel *)goodsModel {
+    WEAKSELF;
+    
     THNGoodsTableViewCells *desCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     desCells.height = [self thn_getGoodsFeaturesHeightWithModel:goodsModel];
     desCells.goodsModel = goodsModel;
@@ -250,7 +257,7 @@ static NSInteger const kFooterHeight = 18;
     
     THNGoodsTableViewCells *checkCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe) didSelectedItem:^{
         THNGoodsDescribeViewController *describeVC = [[THNGoodsDescribeViewController alloc] initWithGoodsModel:goodsModel];
-        [self presentViewController:describeVC animated:YES completion:nil];
+        [weakSelf presentViewController:describeVC animated:YES completion:nil];
     }];
     checkCells.height = 56;
     
@@ -268,7 +275,7 @@ static NSInteger const kFooterHeight = 18;
         [THNGoodsManager getOfficialStoreInfoWithId:goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
             dispatchCells.storeModel = model;
             
-            [self thn_setStoreInfoWithModel:model];
+            [weakSelf thn_setStoreInfoWithModel:model];
         }];
     });
     
@@ -647,6 +654,10 @@ static NSInteger const kFooterHeight = 18;
         _skuView = [[THNGoodsSkuView alloc] init];
     }
     return _skuView;
+}
+
+- (void)dealloc {
+    
 }
 
 @end
