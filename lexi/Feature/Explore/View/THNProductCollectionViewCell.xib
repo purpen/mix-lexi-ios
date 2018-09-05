@@ -133,6 +133,7 @@
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="286" height="304"/>
             <connections>
+                <outlet property="amountMoneyLabel" destination="kaM-MP-F0h" id="gmp-h3-e5x"/>
                 <outlet property="centerButtonView" destination="TZG-aF-OMZ" id="1Qz-GY-yUH"/>
                 <outlet property="centerButtonViewComstraint" destination="0E0-N1-IBp" id="f22-9d-wGk"/>
                 <outlet property="nameLabelLeftConstraint" destination="ka1-2V-G2e" id="hDs-1L-Y3J"/>

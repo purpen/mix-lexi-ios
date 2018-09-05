@@ -36,13 +36,17 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataSections ? self.dataSections.count : 1;
+    return self.dataSections.count ? self.dataSections.count : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    THNTableViewSections *secitons = self.dataSections[section];
-    
-    return secitons.dataCells.count;
+     if (self.dataSections.count) {
+         THNTableViewSections *secitons = self.dataSections[section];
+         
+         return secitons.dataCells.count;
+     }
+
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -69,7 +73,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.dataSections.class) {
+    if (self.dataSections.count) {
         THNTableViewSections *secitons = self.dataSections[section];
         
         return secitons.footerHeight;
@@ -125,6 +129,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;
+        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
     }
     return _tableView;
 }
