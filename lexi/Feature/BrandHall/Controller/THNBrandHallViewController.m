@@ -142,7 +142,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelega
         NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
         NSPredicate *couponPredicate = [NSPredicate predicateWithFormat:@"type = 1 || type = 2"];
         self.fullReductions = [allCoupons filteredArrayUsingPredicate:fullReductionPredicate];
-        self.noLoginCoupons = [allCoupons filteredArrayUsingPredicate:couponPredicate];
+        
+        if (![THNLoginManager isLogin]) {
+              self.noLoginCoupons = [allCoupons filteredArrayUsingPredicate:couponPredicate];
+        }
+      
         [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons withHeightBlock:^(CGFloat couponViewHeight) {
             self.couponViewHeight = couponViewHeight;
             [self setupLayout];
@@ -271,10 +275,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelega
     [self loadProductsByStoreData];
 }
 
-- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
+- (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title {
     [self.functionView thn_setFunctionButtonSelected:NO];
     [self.functionView thn_setSelectedButtonTitle:title];
-    self.producrConditionParams = @{@"sort_type": @(type)};
+    
+    if (viewType == THNFunctionPopupViewTypeSort) {
+        self.producrConditionParams = @{@"sort_type": @(type)};
+    } else if (viewType == THNFunctionPopupViewTypeProfitSort) {
+        self.producrConditionParams = @{@"profit_type" : @(type)};
+    }
+    
     [self loadProductsByStoreData];
 }
 
@@ -453,6 +463,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelega
 - (THNFunctionPopupView *)popupView {
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
+        _popupView.sid = self.rid;
         [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeBrandHall];
         [_popupView thn_setCategoryId:0];
         _popupView.delegate = self;

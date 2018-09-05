@@ -104,10 +104,19 @@ static CGFloat interitemSpacing = 10;
     [self loadProdctCenterAllData];
 }
 
-- (void)thn_functionPopupViewSortType:(NSInteger)type title:(NSString *)title {
+- (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title {
     [self.functionView thn_setFunctionButtonSelected:NO];
     [self.functionView thn_setSelectedButtonTitle:title];
-    self.producrConditionParams = @{@"sort_type": @(type)};
+    
+    if (viewType == THNFunctionPopupViewTypeSort) {
+        self.producrConditionParams = @{@"sort_type": @(type)};
+    } else if (viewType == THNFunctionPopupViewTypeProfitSort) {
+        if (type != 0) {
+            type -= 1;
+        }
+        self.producrConditionParams = @{@"profit_type" : @(type )};
+    }
+    
     [self loadProdctCenterAllData];
 }
 
