@@ -83,8 +83,16 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (void)layoutPageControl {
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
+        switch (self.carouselBannerType) {
+            case CarouselBannerTypeBrandHallFeatured:
+                make.centerX.equalTo(self);
+                make.bottom.equalTo(self);
+                break;
+            default:
+                make.bottom.right.equalTo(self);
+                break;
+        }
+       make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
     }];
 }
 
@@ -120,8 +128,24 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellIdentifier forIndexPath:indexPath];
-    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
-    [cell setBannerModel:bannerModel];
+    
+    switch (self.carouselBannerType) {
+        case CarouselBannerTypeBrandHallFeatured:
+        {
+            cell.setLabelsView.hidden = YES;
+            [cell.cellImageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[indexPath.row]]];
+            break;
+        }
+
+        default:
+        {
+            THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+            [cell setBannerModel:bannerModel];
+             break;
+        }
+           
+    }
+    
     return cell;
 }
 

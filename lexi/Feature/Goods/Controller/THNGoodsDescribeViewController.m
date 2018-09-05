@@ -180,4 +180,8 @@
     return _closeButton;
 }
 
+- (void)dealloc {
+    
+}
+
 @end
