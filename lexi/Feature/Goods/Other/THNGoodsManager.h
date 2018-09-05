@@ -103,4 +103,15 @@
                               storeId:(NSString *)storeId
                            completion:(void (^)(THNFreightModel *model, NSError *error))completion;
 
+/**
+ 获取喜欢商品的用户列表
+
+ @param goodsId 商品 id
+ @param params 附加参数
+ @param completion 完成回调
+ */
++ (void)getLikeGoodsUserDataWithGoodsId:(NSString *)goodsId
+                                 params:(NSDictionary *)params
+                             completion:(void (^)(NSArray *userData, NSError *error))completion;
+
 @end

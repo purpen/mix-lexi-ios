@@ -57,19 +57,17 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
 
 #pragma mark - private methods
 - (void)thn_setImageCount:(NSInteger)count index:(NSInteger)index {
-    BOOL isFullScreen = CGRectGetHeight(self.bounds) > CGRectGetWidth(self.bounds);
-    
     NSString *countString = [NSString stringWithFormat:@" / %zi", count];
     NSMutableAttributedString *countAttString = [[NSMutableAttributedString alloc] initWithString:countString];
     countAttString.font = [UIFont systemFontOfSize:14];
-    countAttString.color = [UIColor colorWithHexString:isFullScreen ? @"#DADADA" : @"#FCFCFC"];
+    countAttString.color = [UIColor colorWithHexString:_isFull ? @"#DADADA" : @"#FCFCFC"];
     
     NSString *indexString = [NSString stringWithFormat:@"%zi", index];
     NSMutableAttributedString *indexAttString = [[NSMutableAttributedString alloc] initWithString:indexString];
-    indexAttString.font = isFullScreen ? [UIFont systemFontOfSize:17 weight:(UIFontWeightMedium)] : [UIFont systemFontOfSize:14];
-    indexAttString.color = [UIColor colorWithHexString:isFullScreen ? @"#DADADA" : @"#FCFCFC"];
+    indexAttString.font = _isFull ? [UIFont systemFontOfSize:17 weight:(UIFontWeightMedium)] : [UIFont systemFontOfSize:14];
+    indexAttString.color = [UIColor colorWithHexString:_isFull ? @"#DADADA" : @"#FCFCFC"];
     [indexAttString appendAttributedString:countAttString];
-    indexAttString.alignment = isFullScreen ? NSTextAlignmentCenter : NSTextAlignmentRight;
+    indexAttString.alignment = _isFull ? NSTextAlignmentCenter : NSTextAlignmentRight;
     
     self.countLabel.attributedText = indexAttString;
     self.countLabel.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
@@ -107,6 +105,13 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
     return cell;
 }
 
+#pragma mark delegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectImageAtIndex:)]) {
+        [self.delegate thn_didSelectImageAtIndex:indexPath.row];
+    }
+}
+
 #pragma mark - getters and setters
 - (UICollectionView *)imageCollecitonView {
     if (!_imageCollecitonView) {
@@ -134,8 +139,8 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
     if (!_countLabel) {
         _countLabel = [[YYLabel alloc] init];
         
-        CGFloat originY = _isFull ? CGRectGetMinY(self.imageCollecitonView.bounds) : CGRectGetMaxY(self.imageCollecitonView.bounds);
-        _countLabel.frame = CGRectMake(20, originY - 30, CGRectGetWidth(self.bounds) - 40, 20);
+        CGFloat originY = _isFull ? CGRectGetMinY(self.imageCollecitonView.bounds) - 40 : CGRectGetMaxY(self.imageCollecitonView.bounds) - 30;
+        _countLabel.frame = CGRectMake(20, originY, CGRectGetWidth(self.bounds) - 40, 20);
     }
     return _countLabel;
 }

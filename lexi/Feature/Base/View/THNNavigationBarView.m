@@ -29,7 +29,7 @@ static const NSInteger kRightButtonTag = 123;
 /// 关闭按钮
 @property (nonatomic, strong) UIButton *closeButton;
 /// 背景透明时的渐变遮罩
-@property (nonatomic, strong) CAGradientLayer *shadow;
+@property (nonatomic, strong) UIView *shadow;
 /// 导航栏功能按钮操作
 @property (nonatomic, copy) void (^leftButtonActionBlock)(void);
 @property (nonatomic, copy) void (^rightButtonActionBlock)(void);
@@ -62,11 +62,7 @@ static const NSInteger kRightButtonTag = 123;
  */
 - (void)setNavigationTransparent:(BOOL)transparent showShadow:(BOOL)show {
     self.transparent = transparent;
-    
-    if (show) {
-        [self.layer addSublayer:self.shadow];
-        [self bringSubviewToFront:self.backButton];
-    }
+    self.shadow.hidden = !show;
 }
 
 /**
@@ -267,6 +263,7 @@ static const NSInteger kRightButtonTag = 123;
 - (void)setupViewUI {
     self.backgroundColor = [UIColor colorWithHexString:kColorWhite];
     
+    [self addSubview:self.shadow];
     [self addSubview:self.titleLabel];
     [self addSubview:self.leftButton];
     [self addSubview:self.rightButton];
@@ -301,8 +298,6 @@ static const NSInteger kRightButtonTag = 123;
         make.bottom.right.mas_equalTo(0);
     }];
     
-    self.shadow.frame = CGRectMake(0, 0, SCREEN_WIDTH, NAVIGATION_BAR_HEIGHT);
-    
     if (self.rightButtonArr.count) {
         for (UIView *view in self.rightButtonArr) {
             [self addSubview:(UIButton *)view];
@@ -322,23 +317,32 @@ static const NSInteger kRightButtonTag = 123;
 #pragma mark - getters and setters
 - (void)setTransparent:(BOOL)transparent {
     if (transparent) {
+        self.shadow.hidden = NO;
         [self setNavigationButton:self.backButton imageName:@"icon_back_white"];
         self.backgroundColor = [UIColor colorWithHexString:kColorWhite alpha:0];
         
     } else {
+        self.shadow.hidden = YES;
         [self setNavigationButton:self.backButton imageName:@"icon_back_gray"];
         self.backgroundColor = [UIColor colorWithHexString:kColorWhite alpha:1];
     }
 }
 
-- (CAGradientLayer *)shadow {
+- (UIView *)shadow {
     if (!_shadow) {
-        _shadow = [CAGradientLayer layer];
-        _shadow.startPoint = CGPointMake(0, 2);
-        _shadow.endPoint = CGPointMake(0, 0);
-        _shadow.locations = @[@(0.5f), @(2.5f)];
-        _shadow.colors = @[(__bridge id)[UIColor colorWithHexString:kColorBlack alpha:0].CGColor,
-                           (__bridge id)[UIColor colorWithHexString:kColorBlack alpha:1].CGColor];
+        _shadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NAVIGATION_BAR_HEIGHT)];
+        _shadow.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
+        
+        CAGradientLayer *shadowLayer = [CAGradientLayer layer];
+        shadowLayer.frame = _shadow.bounds;
+        shadowLayer.startPoint = CGPointMake(0, 2);
+        shadowLayer.endPoint = CGPointMake(0, 0);
+        shadowLayer.locations = @[@(0.5f), @(2.5f)];
+        shadowLayer.colors = @[(__bridge id)[UIColor colorWithHexString:kColorBlack alpha:0].CGColor,
+                               (__bridge id)[UIColor colorWithHexString:kColorBlack alpha:1].CGColor];
+        [_shadow.layer addSublayer:shadowLayer];
+        
+        _shadow.hidden = YES;
     }
     return _shadow;
 }

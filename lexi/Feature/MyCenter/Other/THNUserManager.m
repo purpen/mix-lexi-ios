@@ -40,17 +40,14 @@ static NSString *const kKeyStores       = @"stores";
  请求个人中心
  */
 - (void)requestUserCenterCompletion:(void (^)(THNUserModel *, NSError *))completion {
-    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         THNUserModel *model = [THNUserModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -58,16 +55,13 @@ static NSString *const kKeyStores       = @"stores";
  请求已喜欢橱窗列表
  */
 - (void)requestUserLikedWindowWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         completion((NSArray *)result.data[kKeyShopWindows], nil);
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -75,17 +69,14 @@ static NSString *const kKeyStores       = @"stores";
  请求关注的店铺列表
  */
 - (void)requestUserFollowStoreWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
         completion((NSArray *)result.data[kKeyStores], nil);
-        [SVProgressHUD dismiss];
-        
+    
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

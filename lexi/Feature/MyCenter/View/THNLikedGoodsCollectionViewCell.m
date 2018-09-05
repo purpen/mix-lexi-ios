@@ -7,8 +7,7 @@
 //
 
 #import "THNLikedGoodsCollectionViewCell.h"
-#import <YYKit/YYLabel.h>
-#import <YYKit/NSAttributedString+YYText.h>
+#import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
@@ -46,13 +45,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
     self.viewType = cellViewType;
-    
-    [self.goodsImageView downloadImage:goodsModel.cover
-                               placess:[UIImage imageNamed:@"default_goods_place"]
-                             completed:^(UIImage *image, NSError *error) {
-                                 if (error) return;
-                                 [self thn_showLoadImageAnimate:YES];
-                             }];
+
+    [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"]];
     
     if (show) {
         self.infoView.hidden = NO;
@@ -86,6 +80,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 }
 
 - (void)thn_showLoadImageAnimate:(BOOL)show {
+    if (!show) return;
+    
     self.goodsImageView.alpha = 0.0f;
     [UIView animateWithDuration:0.4 animations:^{
         self.goodsImageView.alpha = 1.0f;
@@ -150,6 +146,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _goodsImageView.image = [UIImage imageNamed:@"default_goods_place"];
     }
     return _goodsImageView;
 }

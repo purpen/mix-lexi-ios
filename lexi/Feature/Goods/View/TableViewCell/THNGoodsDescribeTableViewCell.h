@@ -32,6 +32,8 @@ typedef NS_ENUM(NSUInteger, THNGoodsDescribeCellType) {
  */
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type storeModel:(THNStoreModel *)model;
 
+- (void)thn_hiddenLine;
+
 /**
  设置显示内容
  */

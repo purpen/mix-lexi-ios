@@ -56,7 +56,7 @@
     [SVProgressHUD setDefaultAnimationType:(SVProgressHUDAnimationTypeNative)];
     [SVProgressHUD setMinimumSize:CGSizeMake(5, 5)];
     [SVProgressHUD setDefaultMaskType:(SVProgressHUDMaskTypeNone)];
-    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:0]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:1]];
     [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)2];
     
     //  键盘弹起模式
