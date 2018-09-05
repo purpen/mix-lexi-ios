@@ -121,6 +121,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
                                                   style:(UITableViewStyleGrouped)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;

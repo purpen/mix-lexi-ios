@@ -13,6 +13,8 @@
 #import "THNGoodsSkuView.h"
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
+#import "THNGoodsImagesViewController.h"
+#import "THNGoodsDescribeViewController.h"
 #import "THNGoodsTitleTableViewCell.h"
 #import "THNGoodsTagTableViewCell.h"
 #import "THNGoodsActionTableViewCell.h"
@@ -28,7 +30,9 @@
 
 static NSInteger const kFooterHeight = 18;
 
-@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate>
+@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate> {
+    UIStatusBarStyle _statusBarStyle;
+}
 
 /// 商品的 id
 @property (nonatomic, strong) NSString *goodsId;
@@ -46,7 +50,7 @@ static NSInteger const kFooterHeight = 18;
 @implementation THNGoodsInfoViewController
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return _statusBarStyle;
 }
 
 - (instancetype)initWithGoodsId:(NSString *)idx {
@@ -81,6 +85,18 @@ static NSInteger const kFooterHeight = 18;
     }
 }
 
+- (void)thn_didSelectImageAtIndex:(NSInteger)index {
+    WEAKSELF;
+    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel];
+    goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
+    goodsImageVC.buyGoodsCompleted = ^{
+        [weakSelf.skuView thn_showGoodsSkuViewType:weakSelf.functionView.type
+                                        handleType:weakSelf.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
+                             titleAttributedString:[weakSelf thn_getGoodsTitle]];
+    };
+    [self presentViewController:goodsImageVC animated:YES completion:nil];
+}
+
 #pragma mark - network
 /**
  获取商品详情数据
@@ -91,14 +107,15 @@ static NSInteger const kFooterHeight = 18;
         [SVProgressHUD dismiss];
         if (error) return;
         
+        self.goodsModel = model;
         [self thn_setHeaderViewWithGoodsImageAssets:model.assets];
         [self thn_setTitleInfoWithGoodsModel:model];
         [self thn_setTagsContentWithGoodsModel:model];
         [self thn_setActionButtonWithGoodsModel:model];
         [self thn_setDirectSelectWithGoodsModel:model];
-        [self thn_setLikedUserHeaderWithGoodsModel:model];
+        [self thn_setLikedGoodsUserWithGoodsId:model.rid isReload:NO];
         [self thn_setDescribeCellWithGoodsModel:model];
-        [self thn_setSimilarGoodsWithGoodsId:model.storeRid];
+        [self thn_setSimilarGoodsWithGoodsId:model.rid];
         [self thn_setGoodsDealContentWithGoodsModel:model];
         
         [self.functionView thn_setGoodsModel:model];
@@ -162,7 +179,10 @@ static NSInteger const kFooterHeight = 18;
  商品操作的按钮
  */
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
-    THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction)];
+    WEAKSELF;
+    THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^{
+        [weakSelf thn_setLikedGoodsUserWithGoodsId:model.rid isReload:YES];
+    }];
     actionCells.height = 49;
     actionCells.goodsModel = model;
     
@@ -192,18 +212,22 @@ static NSInteger const kFooterHeight = 18;
 /**
  喜欢商品的用户
  */
-- (void)thn_setLikedUserHeaderWithGoodsModel:(THNGoodsModel *)model {
-    THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^{
-        [SVProgressHUD showInfoWithStatus:@"查看全部用户"];
+- (void)thn_setLikedGoodsUserWithGoodsId:(NSString *)goodsId isReload:(BOOL)reload {
+    if (reload) [self.dataSections removeObjectAtIndex:4];
+    
+    [THNGoodsManager getLikeGoodsUserDataWithGoodsId:goodsId params:@{} completion:^(NSArray *userData, NSError *error) {
+        THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^{
+            [SVProgressHUD showInfoWithStatus:@"查看全部用户"];
+        }];
+        userCells.height = userData.count == 0 ? 0.01 : 50;
+        userCells.likeUserData = userData;
+        
+        THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[userCells] mutableCopy]];
+        sections.index = 4;
+        sections.footerHeight = kFooterHeight;
+
+        [self thn_addSections:sections];
     }];
-    userCells.height = model.likeCount == 0 ? 0.01 : 50;
-    userCells.goodsModel = model;
-    
-    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[userCells] mutableCopy]];
-    sections.index = 4;
-    sections.footerHeight = kFooterHeight;
-    
-    [self thn_addSections:sections];
 }
 
 /**
@@ -215,17 +239,18 @@ static NSInteger const kFooterHeight = 18;
     desCells.goodsModel = goodsModel;
     
     THNGoodsTableViewCells *salesReturnCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    salesReturnCells.height = 129;
+    salesReturnCells.height = 130;
     salesReturnCells.goodsModel = goodsModel;
     
     THNGoodsTableViewCells *timeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    timeCells.height = 77;
+    timeCells.height = 80;
     
     THNGoodsTableViewCells *dispatchCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    dispatchCells.height = 77;
+    dispatchCells.height = 80;
     
     THNGoodsTableViewCells *checkCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe) didSelectedItem:^{
-        [SVProgressHUD showInfoWithStatus:@"查看全部描述"];
+        THNGoodsDescribeViewController *describeVC = [[THNGoodsDescribeViewController alloc] initWithGoodsModel:goodsModel];
+        [self presentViewController:describeVC animated:YES completion:nil];
     }];
     checkCells.height = 56;
     
@@ -272,15 +297,10 @@ static NSInteger const kFooterHeight = 18;
     THNGoodsTableViewCells *storeGoodsCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^{
         [SVProgressHUD showInfoWithStatus:@"查看商品信息"];
     }];
-    storeGoodsCells.height = 90;
+    storeGoodsCells.height = 105;
     storeGoodsCells.storeGoodsData = model.products;
     
-    THNGoodsTableViewCells *contactCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^{
-        [SVProgressHUD showInfoWithStatus:@"联系店铺"];
-    }];
-    contactCells.height = 50;
-    
-    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, storeGoodsCells, contactCells] mutableCopy]];
+    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, storeGoodsCells] mutableCopy]];
     sections.index = 6;
     sections.footerHeight = kFooterHeight;
     
@@ -381,7 +401,7 @@ static NSInteger const kFooterHeight = 18;
  获取商品描述的高度
  */
 - (CGFloat)thn_getGoodsFeaturesHeightWithModel:(THNGoodsModel *)model {
-    CGFloat contentH = 55.0;
+    CGFloat contentH = 50.0;
     
     contentH += model.isCustomService ? 30 : 0;
     contentH += model.materialName.length ? 30 : 0;
@@ -391,7 +411,7 @@ static NSInteger const kFooterHeight = 18;
     CGFloat featuresH = model.features.length > 24 ? 50 : 30;
     contentH += isHaveFeatures ? featuresH : 0;
     
-    return contentH;
+    return contentH == 50.0 ? 0.01 : contentH;
 }
 
 #pragma mark - tableView datasource
@@ -441,7 +461,7 @@ static NSInteger const kFooterHeight = 18;
             THNGoodsUserTableViewCell *userCell = [THNGoodsUserTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.userCell = userCell;
             userCell.baseCell = goodsCells;
-            [userCell thn_setLikedUserData:goodsCells.goodsModel.productLikeUsers];
+            [userCell thn_setLikedUserData:goodsCells.likeUserData];
             
             return userCell;
         }
@@ -451,6 +471,7 @@ static NSInteger const kFooterHeight = 18;
                 THNGoodsDescribeTableViewCell *desInfoCell = [THNGoodsDescribeTableViewCell initGoodsCellWithTableView:tableView];
                 goodsCells.desInfoCell = desInfoCell;
                 desInfoCell.baseCell = goodsCells;
+                [desInfoCell thn_hiddenLine];
                 [desInfoCell thn_setDescribeType:(THNGoodsDescribeCellTypeDes) goodsModel:goodsCells.goodsModel];
                 
                 return desInfoCell;
@@ -507,13 +528,6 @@ static NSInteger const kFooterHeight = 18;
                 [storeGoodsCell thn_setLikedGoodsData:goodsCells.storeGoodsData];
                 
                 return storeGoodsCell;
-                
-            } else if (indexPath.row == 2) {
-                THNGoodsContactTableViewCell *contactCell = [THNGoodsContactTableViewCell initGoodsCellWithTableView:tableView];
-                goodsCells.contactCell = contactCell;
-                contactCell.baseCell = goodsCells;
-                
-                return contactCell;
             }
         }
             
@@ -562,13 +576,30 @@ static NSInteger const kFooterHeight = 18;
 }
 
 #pragma mark - setup UI
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y >= (SCREEN_WIDTH - 44)) {
+        [self thn_showNavigationBarView:YES];
+        
+    } else if (scrollView.contentOffset.y < (SCREEN_WIDTH - 44)) {
+        [self thn_showNavigationBarView:NO];
+    }
+}
+
+- (void)thn_showNavigationBarView:(BOOL)show {
+    NSString *iconName = show ? @"icon_share_gray" : @"icon_share_white";
+    NSString *title = show ? self.goodsModel.name : @"";
     
-    [self setNavigationBar];
+    self.navigationBarView.transparent = !show;
+    self.navigationBarView.title = title;
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:iconName];
+    
+    _statusBarStyle = show ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)setupUI {
+    [self setNavigationBar];
+    
     self.tableView.contentInset = UIEdgeInsetsMake(-44, 0, 55, 0);
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
@@ -579,7 +610,10 @@ static NSInteger const kFooterHeight = 18;
 
 - (void)setNavigationBar {
     [self.navigationBarView setNavigationTransparent:YES showShadow:YES];
-    [self.navigationBarView setNavigationTitleHidden:YES];
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_white"];
+    [self.navigationBarView didNavigationRightButtonCompletion:^{
+        [SVProgressHUD showInfoWithStatus:@"分享商品"];
+    }];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -593,6 +627,7 @@ static NSInteger const kFooterHeight = 18;
     if (!_imagesView) {
         _imagesView = [[THNImagesView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)
                                                 fullScreen:NO];
+        _imagesView.delegate = self;
     }
     return _imagesView;
 }

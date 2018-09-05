@@ -11,6 +11,7 @@
 #import "THNMarco.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "NSString+Helper.h"
+#import "THNUserModel.h"
 
 #define kURLFreightTemplate(rid) [NSString stringWithFormat:@"/logistics/core_freight_template/%@", rid]
 
@@ -20,6 +21,7 @@ static NSString *const kURLUserBrowses      = @"/user_browses";
 static NSString *const kURLUserWishlist     = @"/wishlist";
 static NSString *const kURLProductsCategory = @"/category/products";
 static NSString *const kURLSimilar          = @"/products/similar";
+static NSString *const kURLLikeGoodsUser    = @"/product/userlike";
 /// 分类商品数量
 static NSString *const kURLProductsCountC   = @"/category/products/count";
 static NSString *const kURLProductsSku      = @"/products/skus";
@@ -39,6 +41,7 @@ static NSString *const kKeyPid              = @"pid";
 static NSString *const kKeyProductId        = @"product_rid";
 static NSString *const kKeyStoreId          = @"store_rid";
 static NSString *const kKeyCount            = @"count";
+static NSString *const kKeyLikeUsers        = @"product_like_users";
 
 @implementation THNGoodsManager
 
@@ -83,7 +86,15 @@ static NSString *const kKeyCount            = @"count";
     NSDictionary *param = @{kKeyRid: rid,
                             kKeyProductId: goodsId,
                             kKeyStoreId: storeId};
+    
     [[THNGoodsManager sharedManager] requestFreightTemplateDataWithUrl:kURLFreightTemplate(rid) params:param completion:completion];
+}
+
++ (void)getLikeGoodsUserDataWithGoodsId:(NSString *)goodsId params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
+    [paramDict setObject:goodsId forKey:kKeyRid];
+    
+    [[THNGoodsManager sharedManager] requestLikeGoodsUserDataWithParams:paramDict completion:completion];
 }
 
 + (void)getProductCountWithType:(THNGoodsListViewType)type params:(NSDictionary *)params completion:(void (^)( NSInteger, NSError *))completion {
@@ -249,9 +260,29 @@ static NSString *const kKeyCount            = @"count";
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-        THNLog(@"\n ===  运费模版 === \n%@", [NSString jsonStringWithObject:result.responseDict]);
+//        THNLog(@"\n ===  运费模版 === \n%@", [NSString jsonStringWithObject:result.responseDict]);
         THNFreightModel *model = [[THNFreightModel alloc] initWithDictionary:result.data];
         completion(model, nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+/**
+ 喜欢商品的用户列表
+ */
+- (void)requestLikeGoodsUserDataWithParams:(NSDictionary *)params completion:(void (^)(NSArray *userData, NSError *error))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLLikeGoodsUser requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || !result.isSuccess) return;
+//        THNLog(@"\n ===  喜欢商品的用户 === \n%@", [NSString jsonStringWithObject:result.responseDict]);
+        NSMutableArray *userModelArr = [NSMutableArray array];
+        for (NSDictionary *dict in result.data[kKeyLikeUsers]) {
+            THNUserModel *model = [THNUserModel mj_objectWithKeyValues:dict];
+            [userModelArr addObject:model];
+        }
+        completion([userModelArr copy], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);

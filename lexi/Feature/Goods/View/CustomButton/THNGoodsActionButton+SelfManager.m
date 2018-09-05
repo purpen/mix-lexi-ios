@@ -68,6 +68,7 @@ static NSString *const kKeyRids = @"rids";
             self.selected = !self.selected;
             [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
             self.likeCount -= 1;
+            self.likeGoodsCompleted(self.likeCount);
         }];
         
     } else {
@@ -77,6 +78,7 @@ static NSString *const kKeyRids = @"rids";
             self.selected = !self.selected;
             [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
             self.likeCount += 1;
+            self.likeGoodsCompleted(self.likeCount);
         }];
     }
 }
@@ -88,6 +90,7 @@ static NSString *const kKeyRids = @"rids";
             
             self.selected = !self.selected;
             [self setWishGoodsStatus:self.selected];
+            self.wishGoodsCompleted(self.selected);
         }];
         
     } else {
@@ -96,6 +99,7 @@ static NSString *const kKeyRids = @"rids";
             
             self.selected = !self.selected;
             [self setWishGoodsStatus:self.selected];
+            self.wishGoodsCompleted(self.selected);
         }];
     }
 }
