@@ -13,7 +13,7 @@
 
 static NSString *const kTitleBuy        = @"购买";
 static NSString *const kTitleAddCart    = @"加入购物车";
-static NSString *const kTitleCustom     = @"接单定制";
+static NSString *const kTitleCustom     = @"接单订制";
 static NSString *const kTitleSell       = @"卖";
 
 @interface THNGoodsButton ()

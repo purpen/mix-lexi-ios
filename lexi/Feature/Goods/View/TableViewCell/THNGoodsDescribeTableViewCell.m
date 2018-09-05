@@ -15,7 +15,9 @@ static NSString *const kTitleDispatch    = @"发货地";
 static NSString *const kTitleTime        = @"交货时间";
 static NSString *const kTitleSalesReturn = @"退货政策";
 
-@interface THNGoodsDescribeTableViewCell ()
+@interface THNGoodsDescribeTableViewCell () {
+    BOOL _drawLine;
+}
 
 /// 标题
 @property (nonatomic, strong) YYLabel *titleLabel;
@@ -50,7 +52,9 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type storeModel:(THNStoreModel *)model {
     if (type == THNGoodsDescribeCellTypeDispatch) {
-        NSString *dispatch = [NSString stringWithFormat:@"%@.%@", model.country, model.city];
+        NSString *country = model.country ? model.country : @"";
+        NSString *city = model.city ? model.city : @"";
+        NSString *dispatch = [NSString stringWithFormat:@"%@.%@", country, city];
         [self thn_setDescribeType:(THNGoodsDescribeCellTypeDispatch) content:dispatch];
     }
 }
@@ -58,7 +62,9 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type freightModel:(THNFreightModel *)model {
     if (type == THNGoodsDescribeCellTypeTime) {
         THNFreightModelItem *item = model.items[0];
-        NSString *time = [NSString stringWithFormat:@"预计%zi-%zi天到达", item.minDays, item.maxDays];
+        NSString *minDay = item.minDays ? [NSString stringWithFormat:@"%zi", item.minDays] : @"";
+        NSString *maxDay = item.maxDays ? [NSString stringWithFormat:@"%zi", item.maxDays] : @"";
+        NSString *time = [NSString stringWithFormat:@"预计%@-%@天到达", minDay, maxDay];
         [self thn_setDescribeType:(THNGoodsDescribeCellTypeTime) content:time];
     }
 }
@@ -72,6 +78,10 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     [self thn_setContentText:content];
 }
 
+- (void)thn_hiddenLine {
+    _drawLine = NO;
+}
+
 #pragma mark - private methods
 - (void)thn_setTitleWithType:(THNGoodsDescribeCellType)tyep {
     [self thn_setTitleText:self.titleArr[(NSUInteger)tyep]];
@@ -83,7 +93,6 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 
 - (void)thn_setContentText:(NSString *)text {
     self.contentLabel.text = text;
-    self.contentLabel.hidden = NO;
 }
 
 /**
@@ -103,7 +112,6 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     textAtt.color = [UIColor colorWithHexString:@"#333333"];
     
     self.contentLabel.attributedText = textAtt;
-    self.contentLabel.hidden = NO;
 }
 
 /**
@@ -114,8 +122,7 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 - (void)thn_setDescribeInfoWithGoodsModel:(THNGoodsModel *)model {
     // 亮点
     NSString *showFeatures = model.features.length > 40 ? [model.features substringToIndex:44] : model.features;
-    NSString *featuresText = showFeatures.length ? showFeatures : @"";
-    NSString *features = [NSString stringWithFormat:@"亮点：%@\n", featuresText];
+    NSString *features = showFeatures.length ? [NSString stringWithFormat:@"亮点：%@\n", showFeatures] : @"";
     
     // 材质
     BOOL showMaterial = model.materialName.length > 0;
@@ -141,12 +148,12 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     textAtt.color = [UIColor colorWithHexString:@"#333333"];
     
     self.contentLabel.attributedText = textAtt;
-    self.contentLabel.hidden = NO;
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.titleArr = @[kTitleDes, kTitleDispatch, kTitleTime, kTitleSalesReturn];
+    _drawLine = YES;
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.contentLabel];
@@ -155,26 +162,32 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.top.mas_equalTo(20);
-        make.height.mas_equalTo(15);
-    }];
-    
-    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(9);
-        make.bottom.mas_equalTo(-20);
-    }];
+    if (CGRectGetHeight(self.bounds) > 1) {
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15);
+            make.right.mas_equalTo(-15);
+            make.top.mas_equalTo(20);
+            make.height.mas_equalTo(15);
+        }];
+        
+        [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15);
+            make.right.mas_equalTo(-15);
+            make.top.equalTo(self.titleLabel.mas_bottom).with.offset(9);
+            make.bottom.mas_equalTo(-20);
+        }];
+    }
 }
 
 - (void)drawRect:(CGRect)rect {
-    [UIView drawRectLineStart:CGPointMake(15, 0)
-                          end:CGPointMake(CGRectGetWidth(self.bounds), 0)
-                        width:0.5
-                        color:[UIColor colorWithHexString:@"#E9E9E9"]];
+    if (CGRectGetHeight(self.bounds) >= 80) {
+        if (_drawLine) {
+            [UIView drawRectLineStart:CGPointMake(15, 0)
+                                  end:CGPointMake(CGRectGetWidth(self.bounds), 0)
+                                width:0.5
+                                color:[UIColor colorWithHexString:@"#E9E9E9"]];
+        }
+    }
 }
 
 #pragma mark - getters and setters
@@ -193,7 +206,6 @@ static NSString *const kTitleSalesReturn = @"退货政策";
         _contentLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightLight)];
         _contentLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _contentLabel.numberOfLines = 0;
-        _contentLabel.height = YES;
     }
     return _contentLabel;
 }
