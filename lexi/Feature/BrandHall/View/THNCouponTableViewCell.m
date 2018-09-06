@@ -59,8 +59,8 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
     
     self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", couponModel.amount];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%.2f使用", couponModel.min_amount];
-    NSString *startDate = [NSString timeConversion:couponModel.start_date];
-    NSString *endDate = [NSString timeConversion:couponModel.end_date];
+    NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
+    NSString *endDate = [NSString timeConversion:couponModel.end_date initWithFormatterType:FormatterDay];
     self.validityPeriodLabel.text = [NSString stringWithFormat:@"有效期%@至%@",startDate,endDate];
 }
 

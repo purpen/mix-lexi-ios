@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIButton *selectBtn;
 @property (nonatomic, strong) UIButton *defaultButton;
 @property (nonatomic, strong) UIButton *triangleButton;
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) ButtonType buttonType;
 
 @end
@@ -46,11 +47,9 @@
             CGSize btnSize = [btnName sizeWithAttributes:@{NSFontAttributeName:btn.titleLabel.font}];
             
            
-            if (type == ButtonTypeTriangle) {
+            if (type == ButtonTypeLine) {
                 btn.viewWidth = self.viewWidth / titleArray.count;
                 btn.viewHeight = btnSize.height + 14;
-                btn.imageEdgeInsets = UIEdgeInsetsMake(0, (btn.viewWidth - btnSize.width) / 2 + btnSize.width, 0, 0);
-                btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
                 btn.viewY = 5;
             } else {
                 btn.viewWidth = btnSize.width + 34;
@@ -62,8 +61,13 @@
                 
                 if (type == ButtonTypeDefault) {
                     btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
-                    btn.selected = YES;
+                } else {
+                    [self addSubview:self.lineView];
+                    self.lineView.viewX = (btn.viewWidth - btnSize.width) / 2;
+                    self.lineView.viewWidth = btnSize.width;
                 }
+                
+                btn.selected = YES;
                 btnWidth += CGRectGetMaxX(btn.frame);
                 
             } else {
@@ -84,28 +88,41 @@
 
 - (void)btnClick:(UIButton *)btn {
     
+    if (btn == self.selectBtn) {
+        return;
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(selectButtonsDidClickedAtIndex:)]) {
         [self.delegate selectButtonsDidClickedAtIndex:btn.tag];
     }
     
-    if (btn == self.selectBtn || self.buttonType == ButtonTypeTriangle) {
-        return;
-    }
+    
     
     for (UIButton *button in self.buttons) {
+        
+        if (self.buttonType == ButtonTypeDefault) {
+             button.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+        }
+        
         button.selected = NO;
-        button.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+       
     }
     
     btn.selected = YES;
     self.selectBtn.selected = NO;
+    self.selectBtn = btn;
     
-    [UIView animateWithDuration:0.5 animations:^{
+    if (self.buttonType == ButtonTypeLine) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.lineView.viewX = btn.viewX + (btn.viewWidth - btn.titleLabel.viewWidth) / 2;
+            self.lineView.viewWidth = btn.titleLabel.viewWidth;
+        }];
+        
+    } else {
         btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
         self.selectBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
-    }];
-    
-    self.selectBtn = btn;
+    }
 }
 
 - (NSMutableArray *)buttons {
@@ -123,12 +140,22 @@
     return _defaultButton;
 }
 
--(UIButton *)triangleButton {
+- (UIButton *)triangleButton {
     _triangleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_triangleButton setTitleColor:[UIColor colorWithHexString:@"555555"] forState:UIControlStateNormal];
+    [_triangleButton setTitleColor:[UIColor colorWithHexString:@"A9B1B8"] forState:UIControlStateNormal];
+    [_triangleButton setTitleColor:[UIColor colorWithHexString:@"5FE4B1"] forState:UIControlStateSelected];
     _triangleButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
-    [_triangleButton setImage:[UIImage imageNamed:@"icon_sort_down"] forState:UIControlStateNormal];
     return _triangleButton;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc]init];
+        _lineView.viewHeight = 2;
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"5FE4B1"];
+        _lineView.viewY = self.viewHeight - 2;
+    }
+    return _lineView;
 }
 
 @end
