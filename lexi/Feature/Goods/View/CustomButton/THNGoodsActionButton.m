@@ -48,6 +48,7 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_showBorder:NO borderColor:@"#2D343A"];
     [self thn_setIconImageName:liked ? @"" : @"icon_like_white"];
     [self thn_setTitleLabelText:liked ? kTextLiked : kTextLike textColor:kColorWhite];
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:liked ? @"#2D343A" : kColorMain];
 }
 
@@ -80,6 +81,13 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_setIconImageName:@"icon_putaway_gray"];
     [self thn_setTitleLabelText:kTextPutaway textColor:@"#949EA6"];
     [self thn_setBackgroundColorHex:kColorWhite];
+}
+
+- (void)setBuyGoodsButton {
+    [self thn_showIcon:NO];
+    [self thn_setTitleLabelText:kTextBuy textColor:@"#FFFFFF"];
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
+    [self thn_setBackgroundColorHex:@"#2D343A"];
 }
 
 #pragma mark - private methods
@@ -116,6 +124,8 @@ static NSString *const kTextPutaway = @"上架";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    if (CGRectGetWidth(self.bounds) <= 0 ) return;
+    
     self.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
     
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -128,7 +138,7 @@ static NSString *const kTextPutaway = @"上架";
         make.height.mas_equalTo(15);
         make.centerY.equalTo(self.mas_centerY).with.offset(1.5);
         make.left.mas_equalTo(self.iconImageView.hidden ? 10 : 28);
-        make.right.mas_equalTo(-5);
+        make.right.mas_equalTo(-10);
     }];
 }
 

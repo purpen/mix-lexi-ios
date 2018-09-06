@@ -60,7 +60,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.tableView.contentInset = UIEdgeInsetsMake(STATUS_BAR_HEIGHT, 0, 20, 0);
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     _selectedDataType = THNHeaderViewSelectedTypeLiked;
@@ -71,7 +70,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 // 头部用户信息
 - (void)thn_setUserHeaderView {
+    [SVProgressHUD show];
     [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
+        [SVProgressHUD dismiss];
+        
         if (error) return;
         
         self.userName = model.username;

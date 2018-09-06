@@ -10,10 +10,14 @@
 #import "THNGoodsActionButton.h"
 #import "THNGoodsActionButton+SelfManager.h"
 #import "NSString+Helper.h"
+#import "YYLabel+Helper.h"
+#import "THNMarco.h"
 
 static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCellId";
 
-@interface THNGoodsActionTableViewCell ()
+@interface THNGoodsActionTableViewCell () {
+    BOOL _isStatus;
+}
 
 /// 喜欢按钮
 @property (nonatomic, strong) THNGoodsActionButton *likeButton;
@@ -42,17 +46,36 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 }
 
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model canPutaway:(BOOL)putaway {
+    if (_isStatus) return;
+    
+    _isStatus = YES;
+    
     self.canPutaway = putaway;
     self.isWish = model.isWish;
+    self.likeCountW = [self thn_getLikeButtonWidthWithLikeCount:model.likeCount];
     
-    NSString *countStr = model.likeCount > 0 ? [NSString stringWithFormat:@"+%zi", model.likeCount] : @"喜欢";
-    self.likeCountW = [countStr boundingSizeWidthWithFontSize:13];
+    WEAKSELF;
     
     [self.likeButton selfManagerLikeGoodsStatus:model.isLike count:model.likeCount goodsId:model.rid];
+    self.likeButton.likeGoodsCompleted = ^(NSInteger count) {
+        weakSelf.likeCountW = [weakSelf thn_getLikeButtonWidthWithLikeCount:count];
+        weakSelf.baseCell.selectedCellBlock();
+    };
+    
     [self.wishButton selfManagerWishGoodsStatus:model.isWish goodsId:model.rid];
+    self.wishButton.wishGoodsCompleted = ^(BOOL isWish) {
+        weakSelf.isWish = isWish;
+    };
+    
     [self.putawayButton setPutawayGoodsStauts:putaway];
     
     [self layoutIfNeeded];
+}
+
+#pragma mark - private methods
+- (CGFloat)thn_getLikeButtonWidthWithLikeCount:(NSInteger)likeCount {
+    NSString *countStr = likeCount > 0 ? [NSString stringWithFormat:@"+%zi", likeCount] : @"喜欢";
+    return [countStr boundingSizeWidthWithFontSize:13];
 }
 
 #pragma mark - setup UI
@@ -71,18 +94,20 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
         make.top.mas_equalTo(0);
     }];
 
-    [self.putawayButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.canPutaway ? 67 : 0, 29));
-        make.right.mas_equalTo(-15);
-        make.centerY.mas_equalTo(self.likeButton);
-    }];
-    self.putawayButton.hidden = !self.canPutaway;
-
     [self.wishButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.isWish ? 59 : 79, 29));
+        make.size.mas_equalTo(CGSizeMake(self.isWish ? 63 : 79, 29));
         make.right.mas_equalTo(self.canPutaway ? -92 : -15);
         make.centerY.mas_equalTo(self.likeButton);
     }];
+    
+    self.putawayButton.hidden = !self.canPutaway;
+    if (self.canPutaway) {
+        [self.putawayButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(self.canPutaway ? 67 : 0, 29));
+            make.right.mas_equalTo(-15);
+            make.centerY.mas_equalTo(self.likeButton);
+        }];
+    }
 }
 
 #pragma mark - getters and setters
