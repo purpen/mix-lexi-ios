@@ -14,7 +14,7 @@
  */
 typedef NS_ENUM(NSUInteger, ButtonType) {
     ButtonTypeDefault,
-    ButtonTypeTriangle
+    ButtonTypeLine
 };
 
 @protocol THNSelectButtonViewDelegate <NSObject>
