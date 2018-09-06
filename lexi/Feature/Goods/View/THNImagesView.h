@@ -18,6 +18,8 @@
 
 @property (nonatomic, weak) id <THNImagesViewDelegate> delegate;
 
+@property (nonatomic, strong) UIColor *thn_backgroundColor;
+
 /**
  是否全屏展示
  */
