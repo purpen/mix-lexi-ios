@@ -51,11 +51,32 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
 }
 
 #pragma mark - 时间戳转换Date
-+ (NSString *)timeConversion:(NSString *)timeStampString {
++ (NSString *)timeConversion:(NSString *)timeStampString initWithFormatterType:(Formatter)type {
     NSTimeInterval interval = [timeStampString doubleValue];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM"];
+    
+    switch (type) {
+        case FormatterYear:
+            [formatter setDateFormat:@"yyyy"];
+            break;
+        case FormatterMonth:
+             [formatter setDateFormat:@"yyyy-MM"];
+            break;
+        case FormatterDay:
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            break;
+        case FormatterHour:
+            [formatter setDateFormat:@"yyyy-MM-dd HH"];
+            break;
+        case FormatterMin:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            break;
+        case FormatterSecond:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            break;
+    }
+    
     NSString *dateString = [formatter stringFromDate: date];
     return dateString;
 }
