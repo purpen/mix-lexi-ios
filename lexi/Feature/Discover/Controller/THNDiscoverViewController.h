@@ -6,8 +6,8 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNBaseViewController.h"
+#import "THNBaseTableViewController.h"
 
-@interface THNDiscoverViewController : THNBaseViewController
+@interface THNDiscoverViewController : THNBaseTableViewController
 
 @end

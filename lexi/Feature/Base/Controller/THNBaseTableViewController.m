@@ -114,6 +114,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 #pragma mark - setup UI
 - (void)setupTableViewUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self setSeparatorStyle:THNTableViewCellSeparatorStyleNone];
     [self.view addSubview:self.tableView];
 }
 

@@ -181,7 +181,9 @@ CGFloat const cellOtherHeight = 190;
         case ExploreFeaturedBrand:
         {
             THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
-            self.brandBlock(featuredBrandModel);
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushBrandHall:)]) {
+                [self.delagate pushBrandHall:featuredBrandModel];
+            }
             
         }
             break;
@@ -193,6 +195,9 @@ CGFloat const cellOtherHeight = 190;
         case ExploreSet:
         {
             THNSetModel *setModel = [THNSetModel mj_objectWithKeyValues:self.setDataArray[indexPath.row]];
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushSetDetail:)]) {
+                [self.delagate pushSetDetail:setModel];
+            }
         }
            break;
             
