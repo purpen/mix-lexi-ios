@@ -9,6 +9,24 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/**
+ 时间戳转换类型
+ - FormatterYear: 年
+ - FormatterMonth: 月
+ - FormatterDay: 天
+ - FormatterHour: 时
+ - FormatterMin: 分
+ - FormatterSecond: 秒
+ */
+typedef NS_ENUM(NSUInteger,Formatter) {
+    FormatterYear,
+    FormatterMonth,
+    FormatterDay,
+    FormatterHour,
+    FormatterMin,
+    FormatterSecond
+};
+
 @interface NSString (Helper)
 
 /**
@@ -110,7 +128,7 @@
  @param timeStampString 时间戳
  @return date
  */
-+ (NSString *)timeConversion:(NSString *)timeStampString;
++ (NSString *)timeConversion:(NSString *)timeStampString initWithFormatterType:(Formatter)type;
 
 /**
  获取文字的宽度
