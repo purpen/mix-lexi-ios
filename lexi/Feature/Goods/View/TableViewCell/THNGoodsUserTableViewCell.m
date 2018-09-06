@@ -9,6 +9,7 @@
 #import "THNGoodsUserTableViewCell.h"
 #import "THNGoodsModelProductLikeUser.h"
 #include "UIImageView+SDWedImage.h"
+#import "THNUserModel.h"
 
 static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 
@@ -33,8 +34,14 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 - (void)thn_setLikedUserData:(NSArray *)data {
     self.moreButton.hidden = !data.count;
     
+    for (UIView *view in self.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            [view removeFromSuperview];
+        };
+    }
+    
     for (NSUInteger idx = 0; idx < data.count; idx ++) {
-        THNGoodsModelProductLikeUser *model = data[idx];
+        THNUserModel *model = data[idx];
         UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + 24 * idx, 10, 30, 30)];
         headerView.contentMode = UIViewContentModeScaleAspectFill;
         headerView.layer.borderWidth = 1;
@@ -46,6 +53,11 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];
     }
+}
+
+#pragma mark - event response
+- (void)moreButtonAction:(id)sender {
+    self.baseCell.selectedCellBlock();
 }
 
 #pragma mark - setup UI
@@ -75,6 +87,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         _moreButton.backgroundColor = [UIColor whiteColor];
         _moreButton.layer.borderWidth = 1;
         _moreButton.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
+        [_moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _moreButton;
 }

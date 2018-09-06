@@ -16,6 +16,9 @@ typedef NS_ENUM(NSUInteger, THNGoodsActionButtonType) {
     THNGoodsActionButtonTypeBuy         // 购买
 };
 
+typedef void (^LikeGoodsCompleted)(NSInteger count);
+typedef void (^WishGoodsCompleted)(BOOL isWish);
+
 @interface THNGoodsActionButton : UIButton
 
 @property (nonatomic, assign) THNGoodsActionButtonType type;
@@ -26,21 +29,24 @@ typedef NS_ENUM(NSUInteger, THNGoodsActionButtonType) {
  喜欢的状态
  */
 - (void)setLikedGoodsStatus:(BOOL)liked;
-
-/**
- 喜欢的状态
- */
 - (void)setLikedGoodsStatus:(BOOL)liked count:(NSInteger)count;
+@property (nonatomic, copy) LikeGoodsCompleted likeGoodsCompleted;
 
 /**
  加入心愿单的状态
  */
 - (void)setWishGoodsStatus:(BOOL)wish;
+@property (nonatomic, copy) WishGoodsCompleted wishGoodsCompleted;
 
 /**
  上架商品的状态
  */
 - (void)setPutawayGoodsStauts:(BOOL)putaway;
+
+/**
+ 购买商品
+ */
+- (void)setBuyGoodsButton;
 
 - (instancetype)initWithType:(THNGoodsActionButtonType)type;
 

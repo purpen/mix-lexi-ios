@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsFunctionViewType) {
 typedef NS_ENUM(NSUInteger, THNGoodsButtonType) {
     THNGoodsButtonTypeBuy = 0,  //  购买
     THNGoodsButtonTypeAddCart,  //  加入购物车
-    THNGoodsButtonTypeCustom,   //  接单定制
+    THNGoodsButtonTypeCustom,   //  接单订制
     THNGoodsButtonTypeSell      //  卖
 };
 
