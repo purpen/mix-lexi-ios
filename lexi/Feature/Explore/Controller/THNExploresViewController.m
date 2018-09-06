@@ -22,6 +22,8 @@
 #import "THNGoodsListViewController.h"
 #import "THNAllBrandHallViewController.h"
 #import "THNAllsetTableViewController.h"
+#import "THNSetDetailViewController.h"
+#import "THNSetModel.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -214,11 +216,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     }
     
     cell.delagate = self;
-    cell.brandBlock = ^(THNFeaturedBrandModel *featuredBrandModel) {
-        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
-        brandHall.rid = featuredBrandModel.rid;
-        [self.navigationController pushViewController:brandHall animated:YES];
-    };
     
     NSArray *dataArray = [NSArray array];
     NSString *title;
@@ -319,6 +316,18 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
             
            
     }
+}
+
+- (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = featuredBrandModel.rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)pushSetDetail:(THNSetModel *)setModel {
+    THNSetDetailViewController *setDetail = [[THNSetDetailViewController alloc]init];
+    setDetail.collectionID = setModel.collectionID;
+    [self.navigationController pushViewController:setDetail animated:YES];
 }
 
 #pragma mark -lazy

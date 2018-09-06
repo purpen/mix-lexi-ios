@@ -376,8 +376,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                     CGFloat grassLabelHeight = titleHeight + contentHeight;
                     [self.grassLabelHeights addObject:@(grassLabelHeight)];
                 }];
-                
-               
             }
              CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
              return kCellGrassListHeight * 2 + customGrassCellHeight + 20 + kFeaturedCellTopBottomHeight;
