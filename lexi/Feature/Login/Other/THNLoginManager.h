@@ -38,9 +38,14 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 @property (nonatomic, assign) NSInteger firstLogin;
 
 /**
+ 登录用户 ID
+ */
+@property (nonatomic, copy) NSString *userId;
+
+/**
  店铺ID
  */
-@property (nonatomic, strong) NSString *storeRid;
+@property (nonatomic, copy) NSString *storeRid;
 
 /**
  是否小B用户
