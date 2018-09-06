@@ -65,6 +65,7 @@ typedef void(^GoodsInfoSelectedCellBlock)(void);
 @property (nonatomic, weak) THNGoodsHeaderTableViewCell     *similarHeaderCell;
 @property (nonatomic, weak) THNLikedGoodsTableViewCell      *similarGoodsCell;
 /// 详情内容
+@property (nonatomic, weak) THNGoodsHeaderTableViewCell     *infoHeaderCell;
 @property (nonatomic, weak) THNGoodsContentTableViewCell    *contentCell;
 
 /**

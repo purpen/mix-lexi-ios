@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, THNGoodsHeaderCellType) {
     THNGoodsHeaderCellTypeDefualt = 0,  // 默认
     THNGoodsHeaderCellTypeSimilar,      // 相似商品
+    THNGoodsHeaderCellTypeGoodsInfo,    // 商品详情
 };
 
 @interface THNGoodsHeaderTableViewCell : THNGoodsBaseTableViewCell
