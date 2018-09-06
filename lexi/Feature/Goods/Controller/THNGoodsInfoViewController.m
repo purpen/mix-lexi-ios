@@ -15,6 +15,7 @@
 #import "YYLabel+Helper.h"
 #import "THNGoodsImagesViewController.h"
 #import "THNGoodsDescribeViewController.h"
+#import "THNUserListViewController.h"
 #import "THNGoodsTitleTableViewCell.h"
 #import "THNGoodsTagTableViewCell.h"
 #import "THNGoodsActionTableViewCell.h"
@@ -219,10 +220,13 @@ static NSInteger const kFooterHeight = 18;
  */
 - (void)thn_setLikedGoodsUserWithGoodsId:(NSString *)goodsId isReload:(BOOL)reload {
     if (reload) [self.dataSections removeObjectAtIndex:4];
+    WEAKSELF;
     
     [THNGoodsManager getLikeGoodsUserDataWithGoodsId:goodsId params:@{} completion:^(NSArray *userData, NSError *error) {
         THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^{
-            [SVProgressHUD showInfoWithStatus:@"查看全部用户"];
+            THNUserListViewController *userListVC = [[THNUserListViewController alloc] initWithType:(THNUserListTypeLikeGoods)
+                                                                                          requestId:weakSelf.goodsId];
+            [weakSelf.navigationController pushViewController:userListVC animated:YES];
         }];
         userCells.height = userData.count == 0 ? 0.01 : 50;
         userCells.likeUserData = userData;
@@ -478,8 +482,7 @@ static NSInteger const kFooterHeight = 18;
                 THNGoodsDescribeTableViewCell *desInfoCell = [THNGoodsDescribeTableViewCell initGoodsCellWithTableView:tableView];
                 goodsCells.desInfoCell = desInfoCell;
                 desInfoCell.baseCell = goodsCells;
-                [desInfoCell thn_hiddenLine];
-                [desInfoCell thn_setDescribeType:(THNGoodsDescribeCellTypeDes) goodsModel:goodsCells.goodsModel];
+                [desInfoCell thn_setDescribeType:(THNGoodsDescribeCellTypeDes) goodsModel:goodsCells.goodsModel showIcon:NO];
                 
                 return desInfoCell;
                 
@@ -503,7 +506,8 @@ static NSInteger const kFooterHeight = 18;
                 THNGoodsDescribeTableViewCell *salesReturnCell = [THNGoodsDescribeTableViewCell initGoodsCellWithTableView:tableView];
                 goodsCells.salesReturnCell = salesReturnCell;
                 salesReturnCell.baseCell = goodsCells;
-                [salesReturnCell thn_setDescribeType:(THNGoodsDescribeCellTypeSalesReturn) goodsModel:goodsCells.goodsModel];
+                [salesReturnCell thn_hiddenLine];
+                [salesReturnCell thn_setDescribeType:(THNGoodsDescribeCellTypeSalesReturn) goodsModel:goodsCells.goodsModel showIcon:NO];
                 
                 return salesReturnCell;
                 
