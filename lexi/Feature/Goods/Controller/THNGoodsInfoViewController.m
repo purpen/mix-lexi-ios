@@ -165,12 +165,10 @@ static NSInteger const kFooterHeight = 18;
  设置商品标签
  */
 - (void)thn_setTagsContentWithGoodsModel:(THNGoodsModel *)model {
-    if (!model.labels.count) return;
-    
     THNGoodsTableViewCells *tagCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeTag) didSelectedItem:^{
         
     }];
-    tagCells.height = 32;
+    tagCells.height = model.labels.count ? 32 : 0.01;
     tagCells.goodsModel = model;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[tagCells] mutableCopy]];
@@ -219,7 +217,10 @@ static NSInteger const kFooterHeight = 18;
  喜欢商品的用户
  */
 - (void)thn_setLikedGoodsUserWithGoodsId:(NSString *)goodsId isReload:(BOOL)reload {
-    if (reload) [self.dataSections removeObjectAtIndex:4];
+    if (reload) {
+        [self.dataSections removeObjectAtIndex:4];
+    }
+
     WEAKSELF;
     
     [THNGoodsManager getLikeGoodsUserDataWithGoodsId:goodsId params:@{} completion:^(NSArray *userData, NSError *error) {
@@ -346,11 +347,14 @@ static NSInteger const kFooterHeight = 18;
  设置商品详情内容
  */
 - (void)thn_setGoodsDealContentWithGoodsModel:(THNGoodsModel *)model {
+    THNGoodsTableViewCells *headerCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeContent)];
+    headerCells.height = 56;
+    
     THNGoodsTableViewCells *contentCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeContent)];
     contentCells.height = [self thn_getGoodsDealContentHeightWithContent:model.dealContent];
     contentCells.goodsModel = model;
     
-    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[contentCells] mutableCopy]];
+    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[headerCells, contentCells] mutableCopy]];
     sections.index = 8;
     sections.footerHeight = kFooterHeight;
     
@@ -564,12 +568,22 @@ static NSInteger const kFooterHeight = 18;
         }
             
         case THNGoodsTableViewCellTypeContent: {
-            THNGoodsContentTableViewCell *contentCell = [THNGoodsContentTableViewCell initGoodsCellWithTableView:tableView];
-            goodsCells.contentCell = contentCell;
-            contentCell.baseCell = goodsCells;
-            [contentCell thn_setContentWithGoodsModel:goodsCells.goodsModel];
-            
-            return contentCell;
+            if (indexPath.row == 0) {
+                THNGoodsHeaderTableViewCell *headerCell = [THNGoodsHeaderTableViewCell initGoodsCellWithTableView:tableView];
+                goodsCells.infoHeaderCell = headerCell;
+                headerCell.baseCell = goodsCells;
+                [headerCell thn_setHeaderCellType:(THNGoodsHeaderCellTypeGoodsInfo)];
+                
+                return headerCell;
+                
+            } else if (indexPath.row == 1) {
+                THNGoodsContentTableViewCell *contentCell = [THNGoodsContentTableViewCell initGoodsCellWithTableView:tableView];
+                goodsCells.contentCell = contentCell;
+                contentCell.baseCell = goodsCells;
+                [contentCell thn_setContentWithGoodsModel:goodsCells.goodsModel];
+                
+                return contentCell;
+            }
         }
             
         default:
@@ -660,8 +674,5 @@ static NSInteger const kFooterHeight = 18;
     return _skuView;
 }
 
-- (void)dealloc {
-    
-}
 
 @end

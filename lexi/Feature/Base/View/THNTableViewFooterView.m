@@ -90,18 +90,18 @@ static NSString *const kHintTextStore    = @"你当前还未关注任何原创�
     
     switch (type) {
         case THNHeaderViewSelectedTypeLiked: {
-            [self setHintLabelText:kHintTextLiked iconImageName:@"default_liked"];
-            [self setSubHintLabelText:kSubHintTextLiked iconImageName:@"default_heart" iconLocation:10];
+            [self setHintLabelText:kHintTextLiked iconImageName:@"icon_liked_default"];
+            [self setSubHintLabelText:kSubHintTextLiked iconImageName:@"icon_heart_default" iconLocation:10];
         }
             break;
             
         case THNHeaderViewSelectedTypeCollect: {
-            [self setHintLabelText:kHintTextCollect iconImageName:@"default_collect"];
+            [self setHintLabelText:kHintTextCollect iconImageName:@"icon_collect_default"];
         }
             break;
             
         case THNHeaderViewSelectedTypeStore: {
-            [self setHintLabelText:kHintTextStore iconImageName:@"default_store"];
+            [self setHintLabelText:kHintTextStore iconImageName:@"icon_store_default"];
         }
             break;
             
