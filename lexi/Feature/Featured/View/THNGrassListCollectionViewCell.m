@@ -26,7 +26,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 4;
+    self.productImageView.layer.cornerRadius = 4;
     self.productImageView.layer.masksToBounds = YES;
     [self.avatarImageView drawCornerWithType:0 radius:self.avatarImageView.viewHeight / 2];
 }
