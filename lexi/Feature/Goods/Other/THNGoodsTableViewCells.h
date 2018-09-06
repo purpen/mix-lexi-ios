@@ -93,6 +93,11 @@ typedef void(^GoodsInfoSelectedCellBlock)(void);
 @property (nonatomic, strong) NSArray *similarGoodsData;
 
 /**
+ 喜欢商品用户数据
+ */
+@property (nonatomic, strong) NSArray *likeUserData;
+
+/**
  cell 类型
  */
 @property (nonatomic, assign) THNGoodsTableViewCellType cellType;

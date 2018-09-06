@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol THNImagesViewDelegate <NSObject>
+
+- (void)thn_didSelectImageAtIndex:(NSInteger)index;
+
+@end
+
 @interface THNImagesView : UIView
+
+@property (nonatomic, weak) id <THNImagesViewDelegate> delegate;
 
 /**
  是否全屏展示
