@@ -26,4 +26,6 @@
  */
 @property (nonatomic, strong) THNNavigationBarView *navigationBarView;
 
+- (void)setupUI;
+
 @end

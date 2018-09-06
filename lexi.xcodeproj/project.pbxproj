@@ -144,6 +144,7 @@
 		D8A9C28F213ADC790059CAFD /* THNStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C28B213ADC790059CAFD /* THNStoreModel.m */; };
 		D8A9C290213ADC790059CAFD /* THNStoreModelProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C28E213ADC790059CAFD /* THNStoreModelProduct.m */; };
 		D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */; };
+		D8AE21E62140FB7B00A179C4 /* THNUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */; };
 		D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */; };
 		D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BF213D1C2E0047808C /* THNGoodsCheckTableViewCell.m */; };
 		D8B4F4C6213D40010047808C /* THNFreightModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4C2213D40010047808C /* THNFreightModelItem.m */; };
@@ -227,7 +228,10 @@
 		D8BAC9D6211A949100667D6F /* THNBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC97C211A949100667D6F /* THNBaseViewController.m */; };
 		D8BAC9D7211A949100667D6F /* THNNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC981211A949100667D6F /* THNNavigationBarView.m */; };
 		D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BAC984211A949100667D6F /* THNShareViewController.m */; };
+		D8DFAF3A2140FEE900B45BE0 /* THNUserListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */; };
+		D8DFAF3D2141008300B45BE0 /* THNFollowUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */; };
 		D8E04AA3213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */; };
+		D8EA5A912141401000857A03 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -510,6 +514,8 @@
 		D8A9C28E213ADC790059CAFD /* THNStoreModelProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNStoreModelProduct.m; sourceTree = "<group>"; };
 		D8A9C291213AF28E0059CAFD /* THNGoodsContactTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsContactTableViewCell.h; sourceTree = "<group>"; };
 		D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsContactTableViewCell.m; sourceTree = "<group>"; };
+		D8AE21E42140FB7B00A179C4 /* THNUserListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserListViewController.h; sourceTree = "<group>"; };
+		D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserListViewController.m; sourceTree = "<group>"; };
 		D8B4F4BB213D1BFF0047808C /* THNGoodsDescribeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsDescribeTableViewCell.h; sourceTree = "<group>"; };
 		D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsDescribeTableViewCell.m; sourceTree = "<group>"; };
 		D8B4F4BE213D1C2E0047808C /* THNGoodsCheckTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsCheckTableViewCell.h; sourceTree = "<group>"; };
@@ -661,8 +667,14 @@
 		D8BAC981211A949100667D6F /* THNNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNNavigationBarView.m; sourceTree = "<group>"; };
 		D8BAC984211A949100667D6F /* THNShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShareViewController.m; sourceTree = "<group>"; };
 		D8BAC985211A949100667D6F /* THNShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShareViewController.h; sourceTree = "<group>"; };
+		D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserListTableViewCell.h; sourceTree = "<group>"; };
+		D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserListTableViewCell.m; sourceTree = "<group>"; };
+		D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFollowUserButton.h; sourceTree = "<group>"; };
+		D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFollowUserButton.m; sourceTree = "<group>"; };
 		D8E04AA1213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsHeaderTableViewCell.h; sourceTree = "<group>"; };
 		D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsHeaderTableViewCell.m; sourceTree = "<group>"; };
+		D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNFollowUserButton+SelfManager.h"; sourceTree = "<group>"; };
+		D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNFollowUserButton+SelfManager.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1057,6 +1069,12 @@
 				D82FA77C212559A400E14A22 /* THNLikedWindowTableViewCell.m */,
 				D82FA77E212559C600E14A22 /* THNLikedWindowCollectionViewCell.h */,
 				D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */,
+				D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */,
+				D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */,
+				D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */,
+				D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */,
+				D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */,
+				D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1421,6 +1439,8 @@
 				D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */,
 				D82FA7B82127F0CF00E14A22 /* THNDynamicTableViewController.h */,
 				D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */,
+				D8AE21E42140FB7B00A179C4 /* THNUserListViewController.h */,
+				D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2109,6 +2129,7 @@
 				4B2168DE2137E78B00B1B796 /* THNAllAnnouncementView.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
+				D8AE21E62140FB7B00A179C4 /* THNUserListViewController.m in Sources */,
 				D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */,
 				D8BAC9BE211A949100667D6F /* THNLoginViewController.m in Sources */,
 				D8B4F4C7213D40010047808C /* THNFreightModel.m in Sources */,
@@ -2124,6 +2145,7 @@
 				D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */,
 				D8BAC9BA211A949100667D6F /* THNActivityView.m in Sources */,
 				D8F998BB213919FA0012AED3 /* THNGoodsSkuCollecitonView.m in Sources */,
+				D8DFAF3A2140FEE900B45BE0 /* THNUserListTableViewCell.m in Sources */,
 				4B720600212D65F4002606EE /* THNToolBarView.m in Sources */,
 				D8F99861213641510012AED3 /* NSObject+EnumManagement.m in Sources */,
 				D8BAC9C9211A949100667D6F /* THNDoneButton.m in Sources */,
@@ -2217,6 +2239,7 @@
 				4B240EA1212C1ED30077EDD4 /* THNShopWindowDetailViewController.m in Sources */,
 				D8BAC991211A949100667D6F /* THNLivingHallViewController.m in Sources */,
 				4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */,
+				D8DFAF3D2141008300B45BE0 /* THNFollowUserButton.m in Sources */,
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				4B56C91B213D02EE0052FD80 /* THNCouponModel.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
@@ -2265,6 +2288,7 @@
 				D8BAC99E211A949100667D6F /* THNFeaturedBrandModel.m in Sources */,
 				4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */,
 				D8BAC990211A949100667D6F /* THNMyCenterViewController.m in Sources */,
+				D8EA5A912141401000857A03 /* THNFollowUserButton+SelfManager.m in Sources */,
 				D82FA77421250D4C00E14A22 /* THNLikedGoodsTableViewCell.m in Sources */,
 				D85DA8012106030200A36A71 /* UIImage+Helper.m in Sources */,
 				D8BAC9C8211A949100667D6F /* THNPasswordTextField.m in Sources */,
