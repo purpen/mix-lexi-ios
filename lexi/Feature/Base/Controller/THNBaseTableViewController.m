@@ -42,10 +42,11 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
      if (self.dataSections.count) {
          THNTableViewSections *secitons = self.dataSections[section];
+         
          return secitons.dataCells.count;
      }
 
-    return 1;
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -125,6 +126,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
                                                   style:(UITableViewStyleGrouped)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;

@@ -45,6 +45,10 @@
     return _similarGoodsData ? _similarGoodsData : [NSArray array];
 }
 
+- (NSArray *)likeUserData {
+    return _likeUserData ? _likeUserData : [NSArray array];
+}
+
 - (THNGoodsModel *)goodsModel {
     return _goodsModel ? _goodsModel : [THNGoodsModel new];
 }

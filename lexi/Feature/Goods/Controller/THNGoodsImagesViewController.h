@@ -7,7 +7,14 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNGoodsModel.h"
+
+typedef void(^BuyGoodsCompleted)(void);
 
 @interface THNGoodsImagesViewController : THNBaseViewController
+
+@property (nonatomic, copy) BuyGoodsCompleted buyGoodsCompleted;
+
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)model;
 
 @end
