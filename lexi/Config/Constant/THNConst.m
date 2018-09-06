@@ -64,3 +64,4 @@ NSString *const kColorBackground    = @"#f7f9fb";
 #pragma mark - 本地记录状态
 NSString *const kIsCloseLivingHallView = @"kIsCloseLivingHallView";
 NSString *const kLoginSuccess = @"kLoginSuccess";
+NSString *const kBrandHallRid = @"kBrandHallRid"; // 进入他人品牌馆的ID

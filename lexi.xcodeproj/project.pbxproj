@@ -61,6 +61,11 @@
 		4B56C953213E48680052FD80 /* THNCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C94D213E48680052FD80 /* THNCollectionModel.m */; };
 		4B56C954213E48680052FD80 /* THNAllsetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C950213E48680052FD80 /* THNAllsetTableViewCell.m */; };
 		4B56C955213E48680052FD80 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B56C951213E48680052FD80 /* THNAllsetTableViewCell.xib */; };
+		4B56C95B213E70D70052FD80 /* THNSetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C95A213E70D70052FD80 /* THNSetDetailViewController.m */; };
+		4B56C95E213FA6540052FD80 /* THNTextCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C95D213FA6540052FD80 /* THNTextCollectionView.m */; };
+		4B56C964213FE21B0052FD80 /* THNDiscoverThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C963213FE21B0052FD80 /* THNDiscoverThemeViewController.m */; };
+		4B56C96A213FF1840052FD80 /* THNDiscoverTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C968213FF1840052FD80 /* THNDiscoverTableViewCell.m */; };
+		4B56C96B213FF1840052FD80 /* THNDiscoverTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B56C969213FF1840052FD80 /* THNDiscoverTableViewCell.xib */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		4B720600212D65F4002606EE /* THNToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7205FE212D65F4002606EE /* THNToolBarView.m */; };
 		4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7205FF212D65F4002606EE /* THNToolBarView.xib */; };
@@ -357,6 +362,15 @@
 		4B56C94F213E48680052FD80 /* THNAllsetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewCell.h; sourceTree = "<group>"; };
 		4B56C950213E48680052FD80 /* THNAllsetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewCell.m; sourceTree = "<group>"; };
 		4B56C951213E48680052FD80 /* THNAllsetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNAllsetTableViewCell.xib; sourceTree = "<group>"; };
+		4B56C959213E70D70052FD80 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
+		4B56C95A213E70D70052FD80 /* THNSetDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSetDetailViewController.m; sourceTree = "<group>"; };
+		4B56C95C213FA6540052FD80 /* THNTextCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTextCollectionView.h; sourceTree = "<group>"; };
+		4B56C95D213FA6540052FD80 /* THNTextCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTextCollectionView.m; sourceTree = "<group>"; };
+		4B56C962213FE21B0052FD80 /* THNDiscoverThemeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDiscoverThemeViewController.h; sourceTree = "<group>"; };
+		4B56C963213FE21B0052FD80 /* THNDiscoverThemeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNDiscoverThemeViewController.m; sourceTree = "<group>"; };
+		4B56C967213FF1840052FD80 /* THNDiscoverTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDiscoverTableViewCell.h; sourceTree = "<group>"; };
+		4B56C968213FF1840052FD80 /* THNDiscoverTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNDiscoverTableViewCell.m; sourceTree = "<group>"; };
+		4B56C969213FF1840052FD80 /* THNDiscoverTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNDiscoverTableViewCell.xib; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		4B7205FD212D65F4002606EE /* THNToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNToolBarView.h; sourceTree = "<group>"; };
@@ -925,6 +939,8 @@
 			children = (
 				4B56C949213E48680052FD80 /* THNAllsetTableViewController.h */,
 				4B56C94A213E48680052FD80 /* THNAllsetTableViewController.m */,
+				4B56C959213E70D70052FD80 /* THNSetDetailViewController.h */,
+				4B56C95A213E70D70052FD80 /* THNSetDetailViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -947,6 +963,25 @@
 			);
 			path = View;
 			sourceTree = "<group>";
+		};
+		4B56C965213FF1540052FD80 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			path = lexi/Feature/Discover/Model;
+			sourceTree = SOURCE_ROOT;
+		};
+		4B56C966213FF1540052FD80 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4B56C967213FF1840052FD80 /* THNDiscoverTableViewCell.h */,
+				4B56C968213FF1840052FD80 /* THNDiscoverTableViewCell.m */,
+				4B56C969213FF1840052FD80 /* THNDiscoverTableViewCell.xib */,
+			);
+			name = View;
+			path = lexi/Feature/Discover/View;
+			sourceTree = SOURCE_ROOT;
 		};
 		4B720605212D70BB002606EE /* Other */ = {
 			isa = PBXGroup;
@@ -1102,6 +1137,8 @@
 		D82FA7A52126A96B00E14A22 /* ReuseView */ = {
 			isa = PBXGroup;
 			children = (
+				4B56C95C213FA6540052FD80 /* THNTextCollectionView.h */,
+				4B56C95D213FA6540052FD80 /* THNTextCollectionView.m */,
 				D8F9982E212D64820012AED3 /* THNFollowStoreButton.h */,
 				D8F9982F212D64820012AED3 /* THNFollowStoreButton.m */,
 				D8F99834212D64CC0012AED3 /* THNFollowStoreButton+SelfManager.h */,
@@ -1368,6 +1405,8 @@
 			isa = PBXGroup;
 			children = (
 				D8BAC8D5211A949100667D6F /* Controller */,
+				4B56C965213FF1540052FD80 /* Model */,
+				4B56C966213FF1540052FD80 /* View */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1377,6 +1416,8 @@
 			children = (
 				D8BAC8D6211A949100667D6F /* THNDiscoverViewController.h */,
 				D8BAC8D7211A949100667D6F /* THNDiscoverViewController.m */,
+				4B56C962213FE21B0052FD80 /* THNDiscoverThemeViewController.h */,
+				4B56C963213FE21B0052FD80 /* THNDiscoverThemeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1971,6 +2012,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B56C96B213FF1840052FD80 /* THNDiscoverTableViewCell.xib in Resources */,
 				4B56C913213CD0D50052FD80 /* THNCouponDetailView.xib in Resources */,
 				4B2644EF2125590700665A6D /* showWindow.json in Resources */,
 				4B56C918213CDCC80052FD80 /* THNCouponTableViewCell.xib in Resources */,
@@ -2097,6 +2139,7 @@
 				4B2439AB2135430E00C94940 /* THNAnnouncementView.m in Sources */,
 				4B2439A32135168F00C94940 /* THNBrandHallViewController.m in Sources */,
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
+				4B56C95B213E70D70052FD80 /* THNSetDetailViewController.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
 				D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
@@ -2171,6 +2214,7 @@
 				4B2168D82136B78D00B1B796 /* THNOffcialStoreModel.m in Sources */,
 				D8BAC9C5211A949100667D6F /* THNNewPasswordViewController.m in Sources */,
 				4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
+				4B56C964213FE21B0052FD80 /* THNDiscoverThemeViewController.m in Sources */,
 				4B720613212E46CE002606EE /* THNCommentTableViewCell.m in Sources */,
 				4B56C911213CD0C50052FD80 /* THNCouponDetailView.m in Sources */,
 				D8BAC996211A949100667D6F /* THNObtainedView.m in Sources */,
@@ -2213,6 +2257,7 @@
 				D8BAC991211A949100667D6F /* THNLivingHallViewController.m in Sources */,
 				4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */,
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
+				4B56C95E213FA6540052FD80 /* THNTextCollectionView.m in Sources */,
 				4B56C91B213D02EE0052FD80 /* THNCouponModel.m in Sources */,
 				D8BAC9A1211A949100667D6F /* THNBannnerCollectionViewCell.m in Sources */,
 				D8A9C275213A6A990059CAFD /* THNGoodsButton+SelfManager.m in Sources */,
@@ -2274,6 +2319,7 @@
 				D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */,
 				D8F9988D21382F6F0012AED3 /* THNGoodsFunctionView.m in Sources */,
 				D8BAC9CC211A949100667D6F /* THNAuthCodeButton.m in Sources */,
+				4B56C96A213FF1840052FD80 /* THNDiscoverTableViewCell.m in Sources */,
 				D8BAC9CF211A949100667D6F /* THNLoginView.m in Sources */,
 				4B2644E12123FA1C00665A6D /* THNShopWindowViewController.m in Sources */,
 				D8BAC9AC211A949100667D6F /* THNFeaturedViewController.m in Sources */,

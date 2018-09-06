@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "THNFeaturedBrandModel.h"
 
 /**
  - ExploreRecommend: 推荐
@@ -27,13 +26,15 @@ typedef NS_ENUM(NSInteger, ExploreCellType) {
 };
 
 @class THNExploreTableViewCell;
-
-typedef void(^BrandBlock)(THNFeaturedBrandModel *featuredBrandModel);
+@class THNSetModel;
+@class THNFeaturedBrandModel;
 
 @protocol THNExploreTableViewCellDelegate<NSObject>
 
 @optional
 - (void)lookAllWithType:(ExploreCellType)cellType;
+- (void)pushSetDetail:(THNSetModel *)setModel;
+- (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel;
 
 @end
 
@@ -47,7 +48,6 @@ UIKIT_EXTERN  CGFloat const cellOtherHeight;
        initWithDataArray:(NSArray *)dataArray
            initWithTitle:(NSString *)title;
 
-@property (nonatomic, copy) BrandBlock brandBlock;
 @property (nonatomic, weak) id <THNExploreTableViewCellDelegate> delagate;
 
 @end
