@@ -12,6 +12,7 @@
 
 @protocol THNGoodsFunctionViewDelegate <NSObject>
 
+@optional
 /// 打开购物车
 - (void)thn_openGoodsCart;
 /// 打开 SKU 视图
@@ -27,11 +28,19 @@
 @property (nonatomic, assign) THNGoodsFunctionViewType type;
 
 /**
+ 绘制分割线
+ */
+@property (nonatomic, assign) BOOL drawLine;
+
+/**
  代理
  */
 @property (nonatomic, weak) id <THNGoodsFunctionViewDelegate> delegate;
 
+- (void)thn_showGoodsCart:(BOOL)show;
 - (void)thn_setGoodsModel:(THNGoodsModel *)model;
+
+- (instancetype)initWithType:(THNGoodsFunctionViewType)type;
 - (instancetype)initWithFrame:(CGRect)frame type:(THNGoodsFunctionViewType)type;
 
 @end

@@ -13,11 +13,6 @@
 @interface THNGoodsSkuView : UIView
 
 /**
- 视图类型
- */
-@property (nonatomic, assign) THNGoodsFunctionViewType viewType;
-
-/**
  执行的操作类型
  */
 @property (nonatomic, assign) THNGoodsButtonType handleType;
@@ -28,21 +23,9 @@
 @property (nonatomic, copy) NSString *goodsId;
 
 /**
- 显示视图的类型，执行的操作类型
-
- @param viewType 视图类型
- @param string 标题文字
+ SKU 数据
  */
-- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType titleAttributedString:(NSAttributedString *)string;
-
-/**
- 显示视图的类型，执行的操作类型
- 
- @param viewType 视图类型
- @param handleType 执行的操作
- @param string 标题文字
- */
-- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string;
+- (void)thn_setGoodsSkuModel:(THNSkuModel *)model;
 
 /**
  设置商品标题
@@ -50,8 +33,12 @@
 - (void)thn_setTitleAttributedString:(NSAttributedString *)string;
 
 /**
- 设置 Sku 信息
+ 执行的操作类型
+ 
+ @param handleType 执行的操作
+ @param string 标题文字
  */
-- (void)thn_setGoodsSkuModel:(THNSkuModel *)model;
+- (void)thn_setGoodsSkuViewHandleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string;
+
 
 @end

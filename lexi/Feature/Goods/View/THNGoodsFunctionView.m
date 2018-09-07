@@ -21,18 +21,22 @@
 @property (nonatomic, strong) THNGoodsButton *subButton;
 /// 购物车
 @property (nonatomic, strong) THNCartButton *cartButton;
+/// 是否显示购物车
+@property (nonatomic, assign) BOOL showGoodsCart;
 
 @end
 
 @implementation THNGoodsFunctionView
 
-//- (instancetype)initWithFrame:(CGRect)frame {
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        [self setupViewUI];
-//    }
-//    return self;
-//}
+- (instancetype)initWithType:(THNGoodsFunctionViewType)type {
+    self = [super self];
+    if (self) {
+        self.type = type;
+        [self setupViewUI];
+        [self thn_setFunctionButtonWithType:type];
+    }
+    return self;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame type:(THNGoodsFunctionViewType)type {
     self = [super initWithFrame:frame];
@@ -50,6 +54,13 @@
     } else {
         self.type = THNGoodsFunctionViewTypeDefault;
     }
+    
+    [self thn_setFunctionButtonWithType:self.type];
+}
+
+- (void)thn_showGoodsCart:(BOOL)show {
+    self.cartButton.hidden = YES;
+    self.showGoodsCart = show;
 }
 
 #pragma mark - private methods
@@ -70,13 +81,6 @@
         case THNGoodsFunctionViewTypeSell: {
             self.mainButton.type = THNGoodsButtonTypeBuy;
             self.subButton.type = THNGoodsButtonTypeSell;
-        }
-            break;
-            
-        case THNGoodsFunctionViewTypeDirectSelect: {
-            self.mainButton.type = THNGoodsButtonTypeAddCart;
-            self.subButton.type = THNGoodsButtonTypeBuy;
-            self.cartButton.hidden = YES;
         }
             break;
     }
@@ -104,6 +108,7 @@
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
+    self.showGoodsCart = YES;
     
     [self addSubview:self.mainButton];
     [self addSubview:self.subButton];
@@ -113,9 +118,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    // 是否是直接选择规格
-    BOOL isDirectSelect = self.type == THNGoodsFunctionViewTypeDirectSelect;
-    CGFloat cartWidth = !isDirectSelect ? 59 : 0;
+    CGFloat cartWidth = self.showGoodsCart ? 59 : 0;
     CGFloat buttonWidth = (CGRectGetWidth(self.bounds) - 40 - cartWidth) / 2;
     
     self.mainButton.frame = CGRectMake(20 + cartWidth, 5, buttonWidth, 40);
@@ -124,16 +127,18 @@
     self.subButton.frame = CGRectMake(CGRectGetMaxX(self.mainButton.frame), 5, buttonWidth, 40);
     [self.subButton drawCornerWithType:(UILayoutCornerRadiusRight) radius:4];
     
-    if (!isDirectSelect) {
+    if (self.showGoodsCart) {
         self.cartButton.frame = CGRectMake(0, 5, 79, 40);
     }
 }
 
 - (void)drawRect:(CGRect)rect {
-    [UIView drawRectLineStart:CGPointMake(0, 0)
-                          end:CGPointMake(CGRectGetWidth(self.bounds), 0)
-                        width:0.5
-                        color:[UIColor colorWithHexString:@"#E9E9E9"]];
+    if (self.drawLine) {
+        [UIView drawRectLineStart:CGPointMake(0, 0)
+                              end:CGPointMake(CGRectGetWidth(self.bounds), 0)
+                            width:0.5
+                            color:[UIColor colorWithHexString:@"#E9E9E9"]];
+    }
 }
 
 #pragma mark - getters and setters
