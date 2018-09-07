@@ -10,9 +10,9 @@
 #import "THNGoodsManager.h"
 #import "THNImagesView.h"
 #import "THNGoodsFunctionView.h"
-#import "THNGoodsSkuView.h"
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
+#import "THNGoodsSkuViewController.h"
 #import "THNGoodsImagesViewController.h"
 #import "THNGoodsDescribeViewController.h"
 #import "THNUserListViewController.h"
@@ -49,8 +49,6 @@ static NSInteger const kFooterHeight = 18;
 @property (nonatomic, strong) THNImagesView *imagesView;
 /// 底部功能视图
 @property (nonatomic, strong) THNGoodsFunctionView *functionView;
-/// sku 视图
-@property (nonatomic, strong) THNGoodsSkuView *skuView;
 
 @end
 
@@ -86,18 +84,23 @@ static NSInteger const kFooterHeight = 18;
         [self thn_openGoodsSellShareView];
         
     } else {
-        [self.skuView thn_showGoodsSkuViewType:self.functionView.type
-                                    handleType:type
-                         titleAttributedString:[self thn_getGoodsTitle]];
+        THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:self.skuModel
+                                                                                         goodsModel:self.goodsModel
+                                                                                           viewType:(THNGoodsSkuTypeDefault)];
+        goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        goodsSkuVC.functionType = self.functionView.type;
+        [goodsSkuVC.skuView thn_setGoodsSkuViewHandleType:type titleAttributedString:[self thn_getGoodsTitle]];
+        [self presentViewController:goodsSkuVC animated:YES completion:nil];
     }
 }
 
 - (void)thn_didSelectImageAtIndex:(NSInteger)index {
     THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
                                                                                                  skuModel:self.skuModel];
-    [goodsImageVC thn_showImageGoodsSkuViewType:self.functionView.type
-                                     handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
-                          titleAttributedString:[self thn_getGoodsTitle]];
+    [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
+                                  handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
+                       titleAttributedString:[self thn_getGoodsTitle]];
     goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
     
     [self presentViewController:goodsImageVC animated:YES completion:nil];
@@ -137,9 +140,7 @@ static NSInteger const kFooterHeight = 18;
     
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
         if (error) return;
-        
         weakSelf.skuModel = model;
-        [weakSelf.skuView thn_setGoodsSkuModel:model];
     }];
 }
 
@@ -208,7 +209,14 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^{
-        [weakSelf.skuView thn_showGoodsSkuViewType:weakSelf.functionView.type titleAttributedString:[weakSelf thn_getGoodsTitle]];
+        THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:weakSelf.skuModel
+                                                                                         goodsModel:model
+                                                                                           viewType:(THNGoodsSkuTypeDirectSelect)];
+        goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        goodsSkuVC.functionType = weakSelf.functionView.type;
+        [goodsSkuVC.skuView thn_setTitleAttributedString:[weakSelf thn_getGoodsTitle]];
+        [weakSelf presentViewController:goodsSkuVC animated:YES completion:nil];
     }];
     directCells.height = model.isCustomMade ? 80 : 55;
     directCells.goodsModel = model;
@@ -640,7 +648,6 @@ static NSInteger const kFooterHeight = 18;
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     
     [self.view addSubview:self.functionView];
-    [self.view addSubview:self.skuView];
 }
 
 - (void)setNavigationBar {
@@ -649,12 +656,6 @@ static NSInteger const kFooterHeight = 18;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         [SVProgressHUD showInfoWithStatus:@"分享商品"];
     }];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    
-    [self.view bringSubviewToFront:self.skuView];
 }
 
 #pragma mark - getters and setters
@@ -672,17 +673,10 @@ static NSInteger const kFooterHeight = 18;
         CGFloat viewH = kDeviceiPhoneX ? 80 : 50;
         _functionView = [[THNGoodsFunctionView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - viewH, SCREEN_WIDTH, viewH)
                                                                type:(THNGoodsFunctionViewTypeDefault)];
+        _functionView.drawLine = YES;
         _functionView.delegate = self;
     }
     return _functionView;
 }
-
-- (THNGoodsSkuView *)skuView {
-    if (!_skuView) {
-        _skuView = [[THNGoodsSkuView alloc] init];
-    }
-    return _skuView;
-}
-
 
 @end

@@ -252,6 +252,7 @@
 		D8DFAF3D2141008300B45BE0 /* THNFollowUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */; };
 		D8E04AA3213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */; };
 		D8EA5A912141401000857A03 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */; };
+		D8EA5A942142640900857A03 /* THNGoodsSkuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EA5A932142640900857A03 /* THNGoodsSkuViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -729,6 +730,8 @@
 		D8E04AA2213CFF7300AD2036 /* THNGoodsHeaderTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsHeaderTableViewCell.m; sourceTree = "<group>"; };
 		D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNFollowUserButton+SelfManager.h"; sourceTree = "<group>"; };
 		D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNFollowUserButton+SelfManager.m"; sourceTree = "<group>"; };
+		D8EA5A922142640900857A03 /* THNGoodsSkuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsSkuViewController.h; sourceTree = "<group>"; };
+		D8EA5A932142640900857A03 /* THNGoodsSkuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsSkuViewController.m; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1786,6 +1789,8 @@
 				D8F998782137BA220012AED3 /* THNGoodsImagesViewController.m */,
 				D83CCF7E21400914006A1251 /* THNGoodsDescribeViewController.h */,
 				D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */,
+				D8EA5A922142640900857A03 /* THNGoodsSkuViewController.h */,
+				D8EA5A932142640900857A03 /* THNGoodsSkuViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2337,6 +2342,7 @@
 				D8F998492133E1AC0012AED3 /* THNFunctionPopupView.m in Sources */,
 				D8BAC9C6211A949100667D6F /* THNAreaModel.m in Sources */,
 				D8BAC9D2211A949100667D6F /* THNNewUserInfoView.m in Sources */,
+				D8EA5A942142640900857A03 /* THNGoodsSkuViewController.m in Sources */,
 				D8BAC9A5211A949100667D6F /* THNBannerView.m in Sources */,
 				D8BAC99D211A949100667D6F /* THNBannerModel.m in Sources */,
 				D8F9987C2137BB460012AED3 /* THNImageCollectionViewCell.m in Sources */,
@@ -2630,7 +2636,7 @@
 				APPLY_RULES_IN_COPY_FILES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
@@ -2642,7 +2648,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.taihuoniao.lexi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9a09aa41-77e2-48fc-835c-97d3796cd194";
-				PROVISIONING_PROFILE_SPECIFIER = lexi_dis_profiles;
+				PROVISIONING_PROFILE_SPECIFIER = lexi_dev_profiles;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

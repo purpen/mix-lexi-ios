@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString *productId;
 
 /**
- 类型
+ 操作类型
  */
 @property (nonatomic, assign) THNGoodsButtonType type;
 
