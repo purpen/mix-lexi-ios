@@ -16,6 +16,7 @@
 #import <MJExtension/MJExtension.h>
 
 static NSString *const kUrlBrandHallFeatured = @"/column/handpick_store";
+static NSString *const kUrlBrandHallBannerStore = @"/banners/store_ad";
 static NSString *const kBrandHallFeaturedCollectionCellIdentifier = @"kBrandHallFeaturedCollectionCellIdentifier";
 static CGFloat const kBrandHallHeight = 375;
 
@@ -32,6 +33,7 @@ static CGFloat const kBrandHallHeight = 375;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self loadBrandHallBannerData];
     [self loadBrandHallFeaturedData];
 }
 
@@ -41,13 +43,23 @@ static CGFloat const kBrandHallHeight = 375;
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
+// 品牌馆列表
 - (void)loadBrandHallFeaturedData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallFeatured requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.bannerView.carouselBannerType = CarouselBannerTypeBrandHallFeatured;
-        [self.bannerView setBannerView:result.data[@"banner_images"]];
         self.handpickStores = result.data[@"handpick_store"];
         [self.collectionView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// banner
+- (void)loadBrandHallBannerData {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallBannerStore requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.bannerView.carouselBannerType = CarouselBannerTypeBrandHallFeatured;
+        [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

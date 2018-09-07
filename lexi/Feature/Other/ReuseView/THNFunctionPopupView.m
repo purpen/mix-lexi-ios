@@ -252,7 +252,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         params = @{
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice)};
-    } else if (self.goodsListType == THNGoodsListViewTypeBrandHall){
+    } else if (self.goodsListType == THNGoodsListViewTypeStore){
         params = @{kKeyId: @(self.categoryId),
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
                    kKeyMinPrice: @(self.minPrice),

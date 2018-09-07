@@ -20,7 +20,8 @@
 @property (nonatomic, strong) NSString *type_text;
 @property (nonatomic, strong) NSString *end_date;
 @property (nonatomic, strong) NSString *start_date;
-
+// 优惠券code
+@property (nonatomic, strong) NSString *code;
 
 
 @end
