@@ -23,6 +23,8 @@
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNShopWindowViewController.h"
+#import "THNGoodsListViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -72,6 +74,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 @property (nonatomic, assign) NSInteger optimalPerPageCount;
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
+@property (nonatomic, assign) CGFloat customGrassCellHeight;
 
 @end
 
@@ -332,12 +335,15 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         case 4:
             self.cellType = FearuredGrassList;
-           __block CGFloat firstRowMaxtitleHeight = 0;
-           __block CGFloat firstRowMaxcontentHeight = 0;
-           __block CGFloat secondRowMaxtitleHeight = 0;
-            __block CGFloat secondRowMaxcontentHeight = 0;
+         
             // 多次执行该方法造成重复的计算
             if (self.grassLabelHeights.count == 0) {
+                    
+                __block CGFloat firstRowMaxtitleHeight = 0;
+                __block CGFloat firstRowMaxcontentHeight = 0;
+                __block CGFloat secondRowMaxtitleHeight = 0;
+                __block CGFloat secondRowMaxcontentHeight = 0;
+                
                 [self.grassListDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
                     //  设置最大size
@@ -374,11 +380,14 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                     }
                     
                     CGFloat grassLabelHeight = titleHeight + contentHeight;
+                    
                     [self.grassLabelHeights addObject:@(grassLabelHeight)];
+                    
+                    self.customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
                 }];
             }
-             CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
-             return kCellGrassListHeight * 2 + customGrassCellHeight + 20 + kFeaturedCellTopBottomHeight;
+         
+            return kCellGrassListHeight * 2 + self.customGrassCellHeight + 25 + kFeaturedCellTopBottomHeight;
             break;
     }
     
@@ -406,9 +415,36 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
+// 橱窗主页
 - (void)pushShopWindow:(NSString *)rid {
     THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
     [self.navigationController pushViewController:shopWindow animated:YES];
+}
+
+- (void)lookAllWithType:(FeaturedCellType)cellType {
+    switch (cellType) {
+            
+        case FeaturedLifeAesthetics: {
+            break;
+        }
+        case FearuredOptimal: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:self.optimalTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+        case FearuredGrassList: {
+
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 #pragma mark - lazy

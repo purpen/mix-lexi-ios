@@ -89,11 +89,8 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
     switch (indexPath.row) {
         case 0:
             return [self getCellHeight:self.guessLikes];
-            break;
-            
         default:
             return [self getCellHeight:self.wonderfulStories];
-            break;
     }
     
 }
