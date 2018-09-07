@@ -36,12 +36,13 @@ typedef NS_ENUM(NSUInteger, OrderType) {
 static NSString *const kOrderCellIdentifier = @"kOrderCellIdentifier";
 static NSString *const kUrlOrders = @"/orders";
 
+
 @interface THNOrderViewController ()<THNSelectButtonViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) OrderType orderType;
-@property (nonatomic, strong) NSArray *orders;
+@property (nonatomic, strong) NSMutableArray *orders;
 @property (nonatomic, strong) NSArray *allOrders;
 @property (nonatomic, strong) NSArray *waitDeliveryOrders;
 @property (nonatomic, strong) NSArray *waiteReceiptOrders;
@@ -70,28 +71,28 @@ static NSString *const kUrlOrders = @"/orders";
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        [self.orders removeAllObjects];
         switch (self.orderType) {
             
             case OrderTypeAll:
                 self.allOrders = result.data[@"orders"];
-                self.orders = self.allOrders;
+                [self.orders setArray:self.allOrders];
                 break;
             case OrderTypeWaitDelivery:
                 self.waitDeliveryOrders = result.data[@"orders"];
-                self.orders = self.waitDeliveryOrders;
+                [self.orders setArray:self.waitDeliveryOrders];
                 break;
             case OrderTypWaiteReceipt:
                 self.waiteReceiptOrders = result.data[@"orders"];
-                self.orders = self.waiteReceiptOrders;
+                 [self.orders setArray:self.waiteReceiptOrders];
                 break;
             case OrderTypeEvaluation:
                 self.evaluationOrders = result.data[@"orders"];
-                self.orders = self.evaluationOrders;
+                 [self.orders setArray:self.evaluationOrders];
                 break;
             case OrderTypePayment:
                 self.paymentOrders= result.data[@"orders"];
-                self.orders = self.paymentOrders;
+                 [self.orders setArray:self.paymentOrders];
                 break;
         }
 
@@ -103,26 +104,29 @@ static NSString *const kUrlOrders = @"/orders";
 
 #pragma THNSelectButtonViewDelegate
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
+    
+    [self.orders removeAllObjects];
+    
     switch (index) {
         case 0:
             self.orderType = OrderTypeAll;
-            self.orders = self.allOrders;
+            [self.orders setArray:self.allOrders];
             break;
         case 1:
             self.orderType = OrderTypePayment;
-            self.orders = self.paymentOrders;
+            [self.orders setArray:self.paymentOrders];
             break;
         case 2:
             self.orderType = OrderTypeWaitDelivery;
-            self.orders = self.waitDeliveryOrders;
+            [self.orders setArray:self.waitDeliveryOrders];
             break;
         case 3:
             self.orderType = OrderTypWaiteReceipt;
-            self.orders = self.waiteReceiptOrders;
+            [self.orders setArray:self.waiteReceiptOrders];
             break;
         case 4:
             self.orderType = OrderTypeEvaluation;
-            self.orders = self.evaluationOrders;
+            [self.orders setArray:self.evaluationOrders];
             break;
     }
     
@@ -142,6 +146,12 @@ static NSString *const kUrlOrders = @"/orders";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
+    
+    cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
+        NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
+        [self.orders removeObjectAtIndex:currentIndexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+    };
     
     // 解决滑动没结束切换视图刷新tableView 数据越界问题
     if (self.orders.count == 0) {
@@ -166,7 +176,7 @@ static NSString *const kUrlOrders = @"/orders";
     }
     
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-    return orderModel.items.count * 75 + 114 + 15;
+    return orderModel.items.count * orderProductCellHeight + 114 + orderCellLineSpacing;
 }
 
 #pragma mark - lazy
@@ -196,6 +206,13 @@ static NSString *const kUrlOrders = @"/orders";
         _tableView.showsVerticalScrollIndicator = NO;
     }
     return _tableView;
+}
+
+- (NSMutableArray *)orders {
+    if (!_orders) {
+        _orders = [NSMutableArray array];
+    }
+    return _orders;
 }
 
 @end
