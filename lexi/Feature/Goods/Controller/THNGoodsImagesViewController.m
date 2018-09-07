@@ -11,7 +11,7 @@
 #import "THNGoodsActionButton.h"
 #import "THNGoodsActionButton+SelfManager.h"
 #import "UIView+Helper.h"
-#import "THNGoodsSkuView.h"
+#import "THNGoodsSkuViewController.h"
 
 @interface THNGoodsImagesViewController () <THNNavigationBarViewDelegate>
 
@@ -21,8 +21,6 @@
 @property (nonatomic, strong) THNGoodsActionButton *likeButton;
 /// 购买按钮
 @property (nonatomic, strong) THNGoodsActionButton *buyButton;
-/// sku 视图
-@property (nonatomic, strong) THNGoodsSkuView *skuView;
 /// 分享按钮
 @property (nonatomic, strong) UIButton *shareButton;
 /// 商品数据
@@ -33,9 +31,9 @@
 @property (nonatomic, assign) BOOL isLike;
 /// sku 数据
 @property (nonatomic, strong) THNSkuModel *skuModel;
-@property (nonatomic, assign) THNGoodsFunctionViewType skuViewType;
-@property (nonatomic, assign) THNGoodsButtonType skuHandleType;
-@property (nonatomic, strong) NSAttributedString *skuTitleString;
+@property (nonatomic, assign) THNGoodsFunctionViewType functionType;
+@property (nonatomic, assign) THNGoodsButtonType handleType;
+@property (nonatomic, strong) NSAttributedString *titleString;
 
 @end
 
@@ -56,21 +54,28 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self.skuView thn_setGoodsSkuModel:self.skuModel];
 }
 
 #pragma mark - public methods
-- (void)thn_showImageGoodsSkuViewType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string {
-    self.skuViewType = viewType;
-    self.skuHandleType = handleType;
-    self.skuTitleString = string;
+- (void)thn_setSkuFunctionViewType:(THNGoodsFunctionViewType)functionType
+                        handleType:(THNGoodsButtonType)handleType
+             titleAttributedString:(NSAttributedString *)string {
+    
+    self.functionType = functionType;
+    self.handleType = handleType;
+    self.titleString = string;
 }
 
 #pragma mark - event response
 - (void)buyButtonAction:(id)sender {
-    [self.skuView thn_showGoodsSkuViewType:self.skuViewType
-                                handleType:self.skuHandleType
-                     titleAttributedString:self.skuTitleString];
+    THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:self.skuModel
+                                                                                     goodsModel:self.goodsModel
+                                                                                       viewType:(THNGoodsSkuTypeDefault)];
+    goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    goodsSkuVC.functionType = self.functionType;
+    [goodsSkuVC.skuView thn_setGoodsSkuViewHandleType:self.handleType titleAttributedString:self.titleString];
+    [self presentViewController:goodsSkuVC animated:YES completion:nil];
 }
 
 - (void)shareButtonAction:(UIButton *)button {
@@ -99,7 +104,6 @@
     [self.view addSubview:self.likeButton];
     [self.view addSubview:self.buyButton];
     [self.view addSubview:self.shareButton];
-    [self.view addSubview:self.skuView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,12 +122,6 @@
         weakSelf.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    
-    [self.view bringSubviewToFront:self.skuView];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -187,13 +185,6 @@
         [_shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _shareButton;
-}
-
-- (THNGoodsSkuView *)skuView {
-    if (!_skuView) {
-        _skuView = [[THNGoodsSkuView alloc] init];
-    }
-    return _skuView;
 }
 
 @end
