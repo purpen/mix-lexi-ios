@@ -17,7 +17,6 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 
 @interface THNFeaturedCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
 
-
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
 @property (assign,nonatomic) CGFloat m_dragEndX;

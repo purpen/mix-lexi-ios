@@ -14,7 +14,7 @@
 #import <MJExtension/MJExtension.h>
 #import "UIView+Helper.h"
 
-static NSString *const kUrlFeatureStore = @"/column/feature_store";
+static NSString *const kUrlFeatureStore = @"/column/feature_store_all";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
 static CGFloat const kBrandHallFeaturesHeight = 300;
 

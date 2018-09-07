@@ -23,6 +23,7 @@
 #import "THNGoodsManager.h"
 #import "THNLoginManager.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNOrderViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -323,7 +324,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeOrder:{
-            [SVProgressHUD showInfoWithStatus:@"订单"];
+            THNOrderViewController *order = [[THNOrderViewController alloc]init];
+            [self.navigationController pushViewController:order animated:YES];
         }
             break;
             

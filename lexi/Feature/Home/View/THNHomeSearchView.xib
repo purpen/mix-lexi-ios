@@ -41,6 +41,9 @@
             </connections>
             <point key="canvasLocation" x="-70.5" y="-265"/>
         </view>
+        <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="jS6-a5-RZg">
+            <point key="canvasLocation" x="61" y="86"/>
+        </pageViewController>
     </objects>
     <resources>
         <image name="icon_search_main" width="14" height="14"/>
