@@ -29,12 +29,14 @@ typedef NS_ENUM(NSInteger, ExploreCellType) {
 @class THNSetModel;
 @class THNFeaturedBrandModel;
 
+
 @protocol THNExploreTableViewCellDelegate<NSObject>
 
 @optional
 - (void)lookAllWithType:(ExploreCellType)cellType;
 - (void)pushSetDetail:(THNSetModel *)setModel;
 - (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel;
+- (void)pushGoodInfo:(NSString *)rid;
 
 @end
 

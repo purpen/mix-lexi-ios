@@ -14,12 +14,22 @@
 #import "THNOrdersModel.h"
 #import "THNOrderDetailViewController.h"
 
+
+/**
+ 请求订单类型
+
+ - OrderTypeAll: 全部订单
+ - OrderTypeWaitDelivery: 待发货
+ - OrderTypWaiteReceipt: 待收货
+ - OrderTypeEvaluation: 评价
+ - OrderTypePayment: 待付款
+ */
 typedef NS_ENUM(NSUInteger, OrderType) {
     OrderTypeAll,
     OrderTypeWaitDelivery,
-    OrderTypeReceipt,
+    OrderTypWaiteReceipt,
     OrderTypeEvaluation,
-    OrderTyPepayment
+    OrderTypePayment
 };
 
 
@@ -32,6 +42,11 @@ static NSString *const kUrlOrders = @"/orders";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) OrderType orderType;
 @property (nonatomic, strong) NSArray *orders;
+@property (nonatomic, strong) NSArray *allOrders;
+@property (nonatomic, strong) NSArray *waitDeliveryOrders;
+@property (nonatomic, strong) NSArray *waiteReceiptOrders;
+@property (nonatomic, strong) NSArray *evaluationOrders;
+@property (nonatomic, strong) NSArray *paymentOrders;
 
 @end
 
@@ -55,7 +70,31 @@ static NSString *const kUrlOrders = @"/orders";
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.orders = result.data[@"orders"];
+        
+        switch (self.orderType) {
+            
+            case OrderTypeAll:
+                self.allOrders = result.data[@"orders"];
+                self.orders = self.allOrders;
+                break;
+            case OrderTypeWaitDelivery:
+                self.waitDeliveryOrders = result.data[@"orders"];
+                self.orders = self.waitDeliveryOrders;
+                break;
+            case OrderTypWaiteReceipt:
+                self.waiteReceiptOrders = result.data[@"orders"];
+                self.orders = self.waiteReceiptOrders;
+                break;
+            case OrderTypeEvaluation:
+                self.evaluationOrders = result.data[@"orders"];
+                self.orders = self.evaluationOrders;
+                break;
+            case OrderTypePayment:
+                self.paymentOrders= result.data[@"orders"];
+                self.orders = self.paymentOrders;
+                break;
+        }
+
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -67,22 +106,33 @@ static NSString *const kUrlOrders = @"/orders";
     switch (index) {
         case 0:
             self.orderType = OrderTypeAll;
+            self.orders = self.allOrders;
             break;
         case 1:
-            self.orderType = OrderStatuspayment;
+            self.orderType = OrderTypePayment;
+            self.orders = self.paymentOrders;
             break;
         case 2:
             self.orderType = OrderTypeWaitDelivery;
+            self.orders = self.waitDeliveryOrders;
             break;
         case 3:
-            self.orderType = OrderTypeReceipt;
+            self.orderType = OrderTypWaiteReceipt;
+            self.orders = self.waiteReceiptOrders;
             break;
         case 4:
             self.orderType = OrderTypeEvaluation;
+            self.orders = self.evaluationOrders;
             break;
     }
     
-    [self loadOrdersData];
+    if (self.orders.count == 0) {
+        [self loadOrdersData];
+    } else {
+        [self.tableView reloadData];
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 
 #pragma UITableViewDelegate && UITableViewDataSource
@@ -92,7 +142,12 @@ static NSString *const kUrlOrders = @"/orders";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
-    // UITableViewCell点击背景色不改变
+    
+    // 解决滑动没结束切换视图刷新tableView 数据越界问题
+    if (self.orders.count == 0) {
+        return cell;
+    }
+    
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
     [cell setOrdersModel:orderModel];
     return cell;
@@ -104,6 +159,12 @@ static NSString *const kUrlOrders = @"/orders";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // 解决滑动没结束切换视图刷新tableView 数据越界问题
+    if (self.orders.count == 0) {
+        return 0.1;
+    }
+    
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
     return orderModel.items.count * 75 + 114 + 15;
 }
