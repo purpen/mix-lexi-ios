@@ -70,6 +70,7 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_showBorder:YES borderColor:@"#EDEDEF"];
     [self thn_setIconImageName:wish ? @"" : @"icon_add_gray"];
     [self thn_setTitleLabelText:wish ? kTextAlready : kTextWish textColor:@"#949EA6"];
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:kColorWhite];
 }
 
