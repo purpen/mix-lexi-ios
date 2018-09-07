@@ -45,7 +45,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
     self.viewType = cellViewType;
-
     [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"]];
     
     if (show) {
@@ -99,25 +98,25 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)));
         make.top.left.mas_equalTo(0);
     }];
     [self thn_drawCorner];
     
-    [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.infoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
 
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
         make.height.mas_equalTo(12);
     }];
 
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(11);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
@@ -146,7 +145,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _goodsImageView.image = [UIImage imageNamed:@"default_goods_place"];
     }
     return _goodsImageView;
 }

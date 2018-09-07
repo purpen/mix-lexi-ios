@@ -48,7 +48,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         headerView.layer.borderColor = [UIColor whiteColor].CGColor;
         headerView.layer.cornerRadius = 30/2;
         headerView.layer.masksToBounds = YES;
-        [headerView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
+        [headerView downloadImage:model.avatar place:[UIImage imageNamed:@"default_header_place"]];
         
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];
