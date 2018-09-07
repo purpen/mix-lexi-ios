@@ -39,6 +39,12 @@ static NSInteger const kFooterHeight = 18;
 @property (nonatomic, strong) NSString *goodsId;
 /// 商品 model
 @property (nonatomic, strong) THNGoodsModel *goodsModel;
+/// 店铺 model
+@property (nonatomic, strong) THNStoreModel *storeModel;
+/// 运费 model
+@property (nonatomic, strong) THNFreightModel *freightModel;
+/// sku model
+@property (nonatomic, strong) THNSkuModel *skuModel;
 /// 图片列表
 @property (nonatomic, strong) THNImagesView *imagesView;
 /// 底部功能视图
@@ -87,15 +93,13 @@ static NSInteger const kFooterHeight = 18;
 }
 
 - (void)thn_didSelectImageAtIndex:(NSInteger)index {
-    WEAKSELF;
-    
-    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel];
+    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
+                                                                                                 skuModel:self.skuModel];
+    [goodsImageVC thn_showImageGoodsSkuViewType:self.functionView.type
+                                     handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
+                          titleAttributedString:[self thn_getGoodsTitle]];
     goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
-    goodsImageVC.buyGoodsCompleted = ^{
-        [weakSelf.skuView thn_showGoodsSkuViewType:weakSelf.functionView.type
-                                        handleType:weakSelf.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
-                             titleAttributedString:[weakSelf thn_getGoodsTitle]];
-    };
+    
     [self presentViewController:goodsImageVC animated:YES completion:nil];
 }
 
@@ -105,6 +109,7 @@ static NSInteger const kFooterHeight = 18;
  */
 - (void)thn_getGoodsInfoDataWithGoodsId:(NSString *)goodsId {
     [SVProgressHUD show];
+    
     [THNGoodsManager getProductAllDetailWithId:self.goodsId completion:^(THNGoodsModel *model, NSError *error) {
         [SVProgressHUD dismiss];
         if (error) return;
@@ -133,6 +138,7 @@ static NSInteger const kFooterHeight = 18;
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
         if (error) return;
         
+        weakSelf.skuModel = model;
         [weakSelf.skuView thn_setGoodsSkuModel:model];
     }];
 }
@@ -261,7 +267,9 @@ static NSInteger const kFooterHeight = 18;
     dispatchCells.height = 80;
     
     THNGoodsTableViewCells *checkCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe) didSelectedItem:^{
-        THNGoodsDescribeViewController *describeVC = [[THNGoodsDescribeViewController alloc] initWithGoodsModel:goodsModel];
+        THNGoodsDescribeViewController *describeVC = [[THNGoodsDescribeViewController alloc] initWithGoodsModel:goodsModel
+                                                                                                     storeModel:weakSelf.storeModel
+                                                                                                   freightModel:weakSelf.freightModel];
         [weakSelf presentViewController:describeVC animated:YES completion:nil];
     }];
     checkCells.height = 56;
@@ -272,6 +280,7 @@ static NSInteger const kFooterHeight = 18;
         // 获取发货时间信息
         [THNGoodsManager getFreightTemplateDataWithRid:goodsModel.fid goodsId:goodsModel.rid storeId:goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
             timeCells.freightModel = model;
+            weakSelf.freightModel = model;
         }];
     });
     
@@ -279,6 +288,7 @@ static NSInteger const kFooterHeight = 18;
         // 获取店铺信息
         [THNGoodsManager getOfficialStoreInfoWithId:goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
             dispatchCells.storeModel = model;
+            weakSelf.storeModel = model;
             
             [weakSelf thn_setStoreInfoWithModel:model];
         }];
