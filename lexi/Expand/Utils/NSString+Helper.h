@@ -98,6 +98,25 @@ typedef NS_ENUM(NSUInteger,Formatter) {
  */
 + (NSTimeInterval)comparisonStartTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime;
 
+
+/**
+ timeInterval转分钟秒
+
+ @param timeInterval timeInterval
+ @return 分秒字符串
+ */
++ (NSString *)stringWithNSTimeInterval:(NSTimeInterval)timeInterval;
+
+/**
+ 时间戳差转化分钟秒
+ 
+ 
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @return 间隔时间
+ */
++ (NSString *)stringWithTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime;
+
 /**
  数据转json格式
 
@@ -123,7 +142,7 @@ typedef NS_ENUM(NSUInteger,Formatter) {
 + (NSString *)getImagePath:(UIImage *)image;
 
 /**
- 时间戳转换Date
+ 时间戳转换日期
 
  @param timeStampString 时间戳
  @return date
