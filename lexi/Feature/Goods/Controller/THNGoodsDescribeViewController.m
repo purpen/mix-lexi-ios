@@ -7,14 +7,17 @@
 //
 
 #import "THNGoodsDescribeViewController.h"
-#import "THNGoodsManager.h"
 #import "THNGoodsDescribeTableViewCell.h"
 #import "YYLabel+Helper.h"
 
 @interface THNGoodsDescribeViewController ()
 
 /// 商品数据
-@property (nonatomic, strong) THNGoodsModel *model;
+@property (nonatomic, strong) THNGoodsModel *goodsModel;
+/// 店铺 model
+@property (nonatomic, strong) THNStoreModel *storeModel;
+/// 运费 model
+@property (nonatomic, strong) THNFreightModel *freightModel;
 /// 关闭按钮
 @property (nonatomic, strong) UIButton *closeButton;
 
@@ -22,10 +25,14 @@
 
 @implementation THNGoodsDescribeViewController
 
-- (instancetype)initWithGoodsModel:(THNGoodsModel *)model {
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel
+                        storeModel:(THNStoreModel *)storeModel
+                      freightModel:(THNFreightModel *)freightModel {
     self = [super init];
     if (self) {
-        self.model = model;
+        self.goodsModel = goodsModel;
+        self.storeModel = storeModel;
+        self.freightModel = freightModel;
     }
     return self;
 }
@@ -34,7 +41,7 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self thn_setDescribeCellWithGoodsModel:self.model];
+    [self thn_setDescribeCell];
 }
 
 #pragma mark - event response
@@ -45,31 +52,46 @@
 /**
  设置商品描述
  */
-- (void)thn_setDescribeCellWithGoodsModel:(THNGoodsModel *)goodsModel {
+- (void)thn_setDescribeCell {
+    if (!self.goodsModel) return;
+    
     THNGoodsTableViewCells *desCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    desCells.height = [self thn_getGoodsFeaturesHeightWithModel:goodsModel];
-    desCells.goodsModel = goodsModel;
+    desCells.height = [self thn_getGoodsFeaturesHeightWithModel:self.goodsModel];
+    desCells.goodsModel = self.goodsModel;
     
     THNGoodsTableViewCells *salesReturnCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    NSString *salesReturnText = [self thn_getSalesReturnTextWithTitle:goodsModel.returnPolicyTitle content:goodsModel.productReturnPolicy];
+    NSString *salesReturnText = [self thn_getSalesReturnTextWithTitle:self.goodsModel.returnPolicyTitle
+                                                              content:self.goodsModel.productReturnPolicy];
     salesReturnCells.height = [self thn_getContentHeightWithText:salesReturnText] + 75;
-    salesReturnCells.goodsModel = goodsModel;
+    salesReturnCells.goodsModel = self.goodsModel;
     
     THNGoodsTableViewCells *timeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     timeCells.height = 80;
-    // 获取发货时间信息
-    [THNGoodsManager getFreightTemplateDataWithRid:goodsModel.fid goodsId:goodsModel.rid storeId:goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
-        timeCells.freightModel = model;
+    if (!self.freightModel) {
+        // 获取发货时间信息
+        [THNGoodsManager getFreightTemplateDataWithRid:self.goodsModel.fid goodsId:self.goodsModel.rid storeId:self.goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
+            timeCells.freightModel = model;
+            [self.tableView reloadData];
+        }];
+        
+    } else {
+        timeCells.freightModel = self.freightModel;
         [self.tableView reloadData];
-    }];
+    }
     
     THNGoodsTableViewCells *dispatchCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     dispatchCells.height = 80;
-    // 获取店铺信息
-    [THNGoodsManager getOfficialStoreInfoWithId:goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
-        dispatchCells.storeModel = model;
+    if (!self.storeModel) {
+        // 获取店铺信息
+        [THNGoodsManager getOfficialStoreInfoWithId:self.goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
+            dispatchCells.storeModel = model;
+            [self.tableView reloadData];
+        }];
+        
+    } else {
+        dispatchCells.storeModel = self.storeModel;
         [self.tableView reloadData];
-    }];
+    }
     
     NSMutableArray *cellArr = [NSMutableArray arrayWithArray:@[desCells, dispatchCells, timeCells, salesReturnCells]];
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:cellArr];
