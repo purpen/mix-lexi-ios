@@ -11,8 +11,14 @@
 #import "UIColor+Extension.h"
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
+#import "THNAPI.h"
+#import "THNConst.h"
+#import "THNSaveTool.h"
+
+static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 
 @interface THNCouponTableViewCell()
+
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 // ¥样式
 @property (weak, nonatomic) IBOutlet UILabel *moneyMarkLabel;
@@ -22,6 +28,7 @@
 // 有效期
 @property (weak, nonatomic) IBOutlet UILabel *validityPeriodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *receiveTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *receiveButton;
 
 @end
 
@@ -45,27 +52,45 @@
         self.validityPeriodLabel.textColor = [UIColor colorWithHexString:@"666666"];
         self.backgroundImageView.image = [UIImage imageNamed:@"icon_coupon_background_unaccalimed"];
         self.receiveTitleLabel.text = @"分享领取";
+        self.receiveButton.enabled = YES;
     } else {
-        self.moneyMarkLabel.textColor = [UIColor colorWithHexString:@"999999"];
-        self.moneyLabel.textColor = [UIColor colorWithHexString:@"999999"];
-        self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"999999"];
-        self.validityPeriodLabel.textColor = [UIColor colorWithHexString:@"B2B2B2"];
-        self.backgroundImageView.image = [UIImage imageNamed:@"icon_coupon_background_received"];
-        self.receiveTitleLabel.text = @"已领取";
-        
+        [self receivedStyle];
     }
     
     self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", couponModel.amount];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%.2f使用", couponModel.min_amount];
-    NSString *startDate = [NSString timeConversion:couponModel.start_date];
-    NSString *endDate = [NSString timeConversion:couponModel.end_date];
+    NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
+    NSString *endDate = [NSString timeConversion:couponModel.end_date initWithFormatterType:FormatterDay];
     self.validityPeriodLabel.text = [NSString stringWithFormat:@"有效期%@至%@",startDate,endDate];
-    
-    
+}
+
+// 已领取优惠券样式
+- (void)receivedStyle {
+    self.moneyMarkLabel.textColor = [UIColor colorWithHexString:@"999999"];
+    self.moneyLabel.textColor = [UIColor colorWithHexString:@"999999"];
+    self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"999999"];
+    self.validityPeriodLabel.textColor = [UIColor colorWithHexString:@"B2B2B2"];
+    self.backgroundImageView.image = [UIImage imageNamed:@"icon_coupon_background_received"];
+    self.receiveTitleLabel.text = @"已领取";
+    self.receiveButton.enabled = NO;
+}
+
+// 调用领取优惠券接口
+- (void)receiveCoupon {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.couponModel.code;
+    params[@"store_rid"] = @"99130748";
+//    [THNSaveTool objectForKey:kBrandHallRid];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlCouponsGrant requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self receivedStyle];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 - (IBAction)receive:(id)sender {
-    
+    [self receiveCoupon];
 }
 
 @end

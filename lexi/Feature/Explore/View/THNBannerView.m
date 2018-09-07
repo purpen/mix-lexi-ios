@@ -111,7 +111,6 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     NSInteger pageIndex = [[[self.collectionView indexPathsForVisibleItems] lastObject] row];
     pageIndex++;
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:pageIndex inSection:0];
-   
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 
@@ -128,24 +127,8 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellIdentifier forIndexPath:indexPath];
-    
-    switch (self.carouselBannerType) {
-        case CarouselBannerTypeBrandHallFeatured:
-        {
-            cell.setLabelsView.hidden = YES;
-            [cell.cellImageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[indexPath.row]]];
-            break;
-        }
-
-        default:
-        {
-            THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
-            [cell setBannerModel:bannerModel];
-             break;
-        }
-           
-    }
-    
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    [cell setBannerModel:bannerModel];
     return cell;
 }
 

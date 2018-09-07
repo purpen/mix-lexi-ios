@@ -32,9 +32,9 @@
 
 - (void)setAnnouncementModel:(THNAnnouncementModel *)announcementModel {
     _announcementModel = announcementModel;
-    NSString *beginDate = [NSString timeConversion:announcementModel.begin_date];
-    NSString *endDate = [NSString timeConversion:announcementModel.end_date];
-    NSString *deliveryDate = [NSString timeConversion:announcementModel.delivery_date];
+    NSString *beginDate = [NSString timeConversion:announcementModel.begin_date initWithFormatterType:FormatterDay];
+    NSString *endDate = [NSString timeConversion:announcementModel.end_date initWithFormatterType:FormatterDay];
+    NSString *deliveryDate = [NSString timeConversion:announcementModel.delivery_date initWithFormatterType:FormatterDay];
     self.closedTimeLabel.text = [NSString stringWithFormat:@"%@-%@",beginDate,endDate];
     self.deliveryTimeLabel.text = deliveryDate;
     

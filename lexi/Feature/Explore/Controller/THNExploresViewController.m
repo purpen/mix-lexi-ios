@@ -22,6 +22,10 @@
 #import "THNGoodsListViewController.h"
 #import "THNAllBrandHallViewController.h"
 #import "THNAllsetTableViewController.h"
+#import "THNSetDetailViewController.h"
+#import "THNSetModel.h"
+#import "THNGoodsListViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -214,11 +218,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     }
     
     cell.delagate = self;
-    cell.brandBlock = ^(THNFeaturedBrandModel *featuredBrandModel) {
-        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
-        brandHall.rid = featuredBrandModel.rid;
-        [self.navigationController pushViewController:brandHall animated:YES];
-    };
     
     NSArray *dataArray = [NSArray array];
     NSString *title;
@@ -298,27 +297,61 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 #pragma mark - THNExploreTableViewCellDelegate
 - (void)lookAllWithType:(ExploreCellType)cellType {
     switch (cellType) {
-        case ExploreFeaturedBrand:
-        {
+        case ExploreRecommend: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeEditors title:self.recommendTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+        case ExploreFeaturedBrand: {
             THNAllBrandHallViewController *brandHall = [[THNAllBrandHallViewController alloc]init];
             [self.navigationController pushViewController:brandHall animated:YES];
             break;
         }
             
-        case ExploreSet:
-        {
+        case ExploreNewProduct: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewProduct title:self.productNewTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+            
+        case ExploreSet: {
             THNAllsetTableViewController *set = [[THNAllsetTableViewController alloc]init];
             [self.navigationController pushViewController:set animated:YES];
             break;
         }
-           
-        default :
-        {
+            
+        case ExploreGoodDesign: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeDesign title:self.goodDesignTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
             break;
         }
             
-           
+        case ExploreGoodThings: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeGoodThing title:self.goodThingTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
     }
+}
+
+// 品牌馆详情
+- (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = featuredBrandModel.rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+// 集合详情
+- (void)pushSetDetail:(THNSetModel *)setModel {
+    THNSetDetailViewController *setDetail = [[THNSetDetailViewController alloc]init];
+    setDetail.collectionID = setModel.collectionID;
+    [self.navigationController pushViewController:setDetail animated:YES];
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 #pragma mark -lazy

@@ -44,6 +44,8 @@ CGFloat const kCellGrassListHeight = 158;
 @property (nonatomic, strong) NSArray *weekPopularDataArray;
 @property (nonatomic, strong) NSArray *lifeAestheticDataArray;
 @property (nonatomic, strong) NSArray *dailyDataArray;
+@property (weak, nonatomic) IBOutlet UIButton *lookAllButton;
+@property (weak, nonatomic) IBOutlet UIImageView *instructionImageView;
 
 @end
 
@@ -59,26 +61,43 @@ CGFloat const kCellGrassListHeight = 158;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
+- (IBAction)lookAll:(id)sender {
+    if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
+        [self.delagate lookAllWithType:self.cellType];
+    }
+}
 
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.dailyDataArray = dataArray;
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             break;
         case FeaturedRecommendationPopular:
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             self.popularDataArray = dataArray;
             break;
         case FeaturedLifeAesthetics:
             self.lifeAestheticDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FearuredOptimal:
             self.optimalDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FearuredGrassList:
             self.grassListDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FeaturedNo:
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             self.weekPopularDataArray = dataArray;
             break;
     }
@@ -201,25 +220,60 @@ CGFloat const kCellGrassListHeight = 158;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.cellType == FeaturedLifeAesthetics) {
-        THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
-        
-        if (self.delagate && [self.delagate respondsToSelector:@selector(pushShopWindow:)]) {
-            [self.delagate pushShopWindow:lifeRecordModel.rid];
+    
+    THNProductModel *productModel;
+    
+    switch (self.cellType) {
+           
+        case FeaturedRecommendedToday:{
+            
+            break;
         }
         
-    } else if (self.cellType == FearuredGrassList) {
-       
-        
-    } else if (self.cellType == FeaturedRecommendedToday) {
-       
-    } else {
-        
-        
+        case FeaturedRecommendationPopular: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FeaturedLifeAesthetics: {
+            THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushShopWindow:)]) {
+                [self.delagate pushShopWindow:lifeRecordModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FearuredOptimal: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FearuredGrassList: {
+            break;
+        }
+            
+        case FeaturedNo: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.weekPopularDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
     }
 }
-
-
-
 
 @end

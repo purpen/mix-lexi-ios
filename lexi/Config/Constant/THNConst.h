@@ -58,3 +58,4 @@ UIKIT_EXTERN NSString *const kColorBackground;
 #pragma mark - 本地记录状态
 UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
 UIKIT_EXTERN NSString *const kLoginSuccess;
+UIKIT_EXTERN NSString *const kBrandHallRid;

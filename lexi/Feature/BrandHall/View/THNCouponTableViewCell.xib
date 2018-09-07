@@ -115,6 +115,7 @@
                 <outlet property="backgroundImageView" destination="g6M-rB-hh6" id="PLu-ON-Zpq"/>
                 <outlet property="moneyLabel" destination="yez-iw-VId" id="8RX-Ie-eHO"/>
                 <outlet property="moneyMarkLabel" destination="Q7o-xo-XGO" id="1fx-G3-bKo"/>
+                <outlet property="receiveButton" destination="hy6-eD-hfD" id="VUd-wa-clJ"/>
                 <outlet property="receiveTitleLabel" destination="qrz-1t-hcR" id="qWf-dp-wDc"/>
                 <outlet property="restrictionPromptLabel" destination="MUj-45-8OE" id="RPE-XH-9jz"/>
                 <outlet property="validityPeriodLabel" destination="eWr-7H-gb3" id="n1y-Yn-W5D"/>
