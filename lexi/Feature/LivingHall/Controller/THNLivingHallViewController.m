@@ -21,6 +21,7 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNPruductCenterViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -33,9 +34,10 @@ static NSString *const kUrlDeleteProduct = @"/fx_distribute/remove";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
-@interface THNLivingHallViewController ()
+@interface THNLivingHallViewController ()<THNFeatureTableViewCellDelegate>
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
+// 本周最受人气欢迎Cell
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
 @property (nonatomic, strong)  THNLivingHallExpandView *expandView;
 @property (nonatomic, strong) NSArray *recommendedArray;
@@ -158,8 +160,6 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
          THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
         [weakSelf deleteProduct:productModel.rid];
     };
-    
-    
     return cell;
 }
 
@@ -191,6 +191,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+    // 展开更多好物是否已隐藏
     if (self.expandView.hidden) {
         self.featureCell.viewY = 0;
     }
@@ -203,14 +204,19 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         weakSelf.pageCount++;
         [weakSelf loadCuratorRecommendedData];
     };
-    
-    [footerView addSubview:self.featureCell];
     [footerView addSubview:self.expandView];
+    [footerView addSubview:self.featureCell];
     return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kCellOptimalHeight * 2 + 20 + 90;
+    return kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 - (void)dealloc {
@@ -228,6 +234,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (THNFeatureTableViewCell *)featureCell {
     if (!_featureCell) {
         _featureCell = [THNFeatureTableViewCell viewFromXib];
+        _featureCell.delagate = self;
         _featureCell.frame = CGRectMake(0, -cellSpacing + expandViewHeight, SCREEN_WIDTH, 200 * 2 + 90 + 20);
     }
     return _featureCell;

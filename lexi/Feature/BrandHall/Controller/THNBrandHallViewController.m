@@ -188,7 +188,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [self.headerView addSubview:self.couponView];
     [self.headerView addSubview:self.announcementView];
     [self.headerView addSubview:self.functionView];
-    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeBrandHall];
+    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeStore];
     [self.headerView addSubview:self.lineView];
     
     
@@ -449,7 +449,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
         _popupView.sid = self.rid;
-        [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeBrandHall];
+        [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeStore];
         [_popupView thn_setCategoryId:0];
         _popupView.delegate = self;
     }
