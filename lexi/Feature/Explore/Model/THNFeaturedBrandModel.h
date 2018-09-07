@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *logo;
 // 店铺名
 @property (nonatomic, strong) NSString *name;
+
 @property (nonatomic, strong) NSArray *products_cover;
 // 品牌馆ID
 @property (nonatomic, strong) NSString *rid;

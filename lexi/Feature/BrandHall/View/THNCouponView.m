@@ -46,16 +46,15 @@ static CGFloat const couponViewHeight = 65;
     self.receiveButton.layer.cornerRadius = 13;
 }
 
-- (void)layoutCouponView:(NSArray *)fullReductions 
+- (CGFloat)layoutCouponView:(NSArray *)fullReductions
         withLoginCoupons:(NSArray *)loginCoupons
-       withNologinCoupos:(NSArray *)noLoginCoupons
-         withHeightBlock:(CouponViewHeightBlock)couponViewHeightBlock {
+       withNologinCoupos:(NSArray *)noLoginCoupons {
     
     CGFloat height = 0.0;
     self.fullReductions = fullReductions;
     self.loginCoupons = loginCoupons;
     self.noLoginCoupons = noLoginCoupons;
-    
+
     if ([THNLoginManager isLogin]) {
         self.redEnvelopeView.hidden = loginCoupons.count == 0;
     } else {
@@ -91,7 +90,7 @@ static CGFloat const couponViewHeight = 65;
     
     self.fullReductionLabel.text = self.mutableString;
     
-    couponViewHeightBlock(height);
+    return height;
 }
 
 // 点击领取
