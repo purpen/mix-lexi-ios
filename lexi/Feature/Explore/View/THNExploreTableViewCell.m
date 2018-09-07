@@ -176,11 +176,17 @@ CGFloat const cellOtherHeight = 190;
  
         case ExploreRecommend:
             productModel = [THNProductModel mj_objectWithKeyValues:self.recommendDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
             break;
             
         case ExploreFeaturedBrand:
         {
             THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
+            
             if (self.delagate && [self.delagate respondsToSelector:@selector(pushBrandHall:)]) {
                 [self.delagate pushBrandHall:featuredBrandModel];
             }
@@ -190,11 +196,17 @@ CGFloat const cellOtherHeight = 190;
             
         case ExploreNewProduct:
             productModel = [THNProductModel mj_objectWithKeyValues:self.productNewDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
             break;
             
         case ExploreSet:
         {
             THNSetModel *setModel = [THNSetModel mj_objectWithKeyValues:self.setDataArray[indexPath.row]];
+            
             if (self.delagate && [self.delagate respondsToSelector:@selector(pushSetDetail:)]) {
                 [self.delagate pushSetDetail:setModel];
             }
@@ -203,10 +215,20 @@ CGFloat const cellOtherHeight = 190;
             
         case ExploreGoodDesign:
             productModel = [THNProductModel mj_objectWithKeyValues:self.goodDesignDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
             break;
             
         case ExploreGoodThings:
             productModel = [THNProductModel mj_objectWithKeyValues:self.goodThingDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
             break;
     }
 }

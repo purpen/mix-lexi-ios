@@ -105,7 +105,7 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
         case THNGoodsListViewTypeProductCenter:
             [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLChooseCenterCount completion:completion];
             break;
-        case THNGoodsListViewTypeBrandHall:
+        case THNGoodsListViewTypeStore:
             [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLProductsByStoreCount completion:completion];
         default:
             break;

@@ -48,6 +48,9 @@
                         <state key="normal" title="查看全部">
                             <color key="titleColor" red="0.58039215690000001" green="0.61960784310000006" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="lookAll:" destination="tOr-c8-7m2" eventType="touchUpInside" id="ihi-64-y4Z"/>
+                        </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ arrow_right_gray" translatesAutoresizingMaskIntoConstraints="NO" id="nRx-ht-5fh">
                         <rect key="frame" x="448" y="32" width="4" height="9"/>
@@ -72,6 +75,8 @@
             <viewLayoutGuide key="safeArea" id="2iy-lz-EE8"/>
             <connections>
                 <outlet property="collectionViewConstraint" destination="pE6-22-MQk" id="m1e-L1-Oyx"/>
+                <outlet property="instructionImageView" destination="nRx-ht-5fh" id="3ai-8d-eSR"/>
+                <outlet property="lookAllButton" destination="ZmH-ps-M0q" id="DZg-Ej-duF"/>
                 <outlet property="productCollectionView" destination="A8s-Tc-jQf" id="rVk-1p-eu7"/>
                 <outlet property="titleLabel" destination="vCq-2U-Ad6" id="BBd-SJ-qDH"/>
             </connections>
