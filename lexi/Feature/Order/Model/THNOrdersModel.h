@@ -38,7 +38,8 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 
 // 订单创建时间
 @property (nonatomic, strong) NSString *created_at;
-
+// 当前时间
+@property (nonatomic, strong) NSString *current_time;
 // 1、待发货 2、待收货 3、待评价 4、待付款 5、已完成 6、已取消
 @property (nonatomic, assign) OrderStatus user_order_status;
 

@@ -182,6 +182,33 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return interval;
 }
 
+#pragma mark timeInterval转分秒
++ (NSString *)stringWithNSTimeInterval:(NSTimeInterval)timeInterval {
+    NSInteger min = timeInterval / 60;
+    NSInteger sec = (NSInteger)timeInterval % 60;
+    
+    if (min < 10 && sec < 10) {
+        return [NSString stringWithFormat:@"0%ld:0%ld",min,sec];
+    } else if (min < 10) {
+        return [NSString stringWithFormat:@"0%ld:%ld",min,sec];
+    } else if (sec < 10) {
+        return [NSString stringWithFormat:@"%ld:0%ld",min,sec];
+    } else {
+        return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+    }
+}
+
+#pragma mark 时间戳差转分秒
++ (NSString *)stringWithTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime {
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[endTime doubleValue]];
+    
+    NSTimeInterval interval = [endDate timeIntervalSinceDate:startDate];
+    NSInteger min = interval / 60;
+    NSInteger sec = (NSInteger)interval % 60;
+    return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+}
+
 #pragma mark - 数据转json格式
 + (NSString *)jsonStringWithObject:(id)object {
     NSData *data = [NSJSONSerialization dataWithJSONObject:object
