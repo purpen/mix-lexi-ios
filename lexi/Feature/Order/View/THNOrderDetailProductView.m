@@ -8,14 +8,15 @@
 
 #import "THNOrderDetailProductView.h"
 
+@interface THNOrderDetailProductView()
+@property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *orderStatusLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@end
+
 @implementation THNOrderDetailProductView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end
