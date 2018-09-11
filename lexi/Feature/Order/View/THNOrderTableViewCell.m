@@ -83,6 +83,7 @@ CGFloat orderCellLineSpacing = 10;
             self.backgroundButtonWidthConstraint.constant = 80;
             self.borderButtonRightConstraint.constant = 15;
             self.backgroundButton.hidden = NO;
+            self.borderButton.hidden = NO;
             break;
         case OrderStatusReceipt:
             self.statusLabel.text = @"待收货";
@@ -91,6 +92,7 @@ CGFloat orderCellLineSpacing = 10;
             self.backgroundButtonWidthConstraint.constant = 80;
             self.borderButtonRightConstraint.constant = 15;
             self.backgroundButton.hidden = NO;
+            self.borderButton.hidden = NO;
             break;
         case OrderStatusCancel:
             self.statusLabel.text = @"交易取消";
@@ -98,22 +100,22 @@ CGFloat orderCellLineSpacing = 10;
             self.backgroundButtonWidthConstraint.constant = 0;
             self.borderButtonRightConstraint.constant = 0;
             self.backgroundButton.hidden = YES;
+            self.borderButton.hidden = NO;
             break;
         case OrderStatuspayment:
             self.payView.hidden = NO;
-            self.statusLabel.text = @"去付款";
-            
-            NSLog(@"============ %@", self.payCountDownTextLabel.text);
-            if (self.payCountDownTextLabel.text.length == 0) {
-                self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
-                // 十分钟的倒计时显示的值
-                self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
-                self.payCountDownTextLabel.text = self.countDownText;
-                [self addTimer];
-            }
-            
             self.borderButton.hidden = YES;
             self.backgroundButton.hidden = YES;
+            self.statusLabel.text = @"去付款";
+            NSLog(@"============ %@", self.payCountDownTextLabel.text);
+            if (self.timeInterval) {
+                return;
+            }
+            self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
+            // 十分钟的倒计时显示的值
+            self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
+            self.payCountDownTextLabel.text = self.countDownText;
+            [self addTimer];
             break;
         case OrderStatusEvaluation:
             self.statusLabel.text = @"交易成功";
@@ -122,6 +124,7 @@ CGFloat orderCellLineSpacing = 10;
             self.backgroundButtonWidthConstraint.constant = 80;
             self.borderButtonRightConstraint.constant = 15;
             self.backgroundButton.hidden = NO;
+            self.borderButton.hidden = NO;
             break;
         case OrderStatusFinish:
             self.statusLabel.text = @"交易成功";
@@ -129,6 +132,7 @@ CGFloat orderCellLineSpacing = 10;
             self.backgroundButtonWidthConstraint.constant = 0;
             self.borderButtonRightConstraint.constant = 0;
             self.backgroundButton.hidden = YES;
+            self.borderButton.hidden = NO;
             break;
     }
     
@@ -154,6 +158,25 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (IBAction)pay:(id)sender {
+    
+}
+
+- (IBAction)backGroundButton:(id)sender {
+    
+}
+
+- (IBAction)borderButton:(id)sender {
+    switch (self.ordersModel.user_order_status) {
+        case OrderStatusWaitDelivery:
+        case OrderStatusReceipt:
+            break;
+            
+        default:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:)]) {
+                [self.delegate deleteOrder:self.ordersModel.rid];
+            }
+            break;
+    }
 }
 
 // 边框按钮样式
@@ -171,7 +194,6 @@ CGFloat orderCellLineSpacing = 10;
     self.backgroundButton.backgroundColor = [UIColor colorWithHexString:@"5FE4B1"];
     [self.backgroundButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.ordersModel.items.count;

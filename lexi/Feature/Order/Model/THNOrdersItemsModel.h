@@ -23,5 +23,9 @@
 @property (nonatomic, assign) CGFloat discount_amount;
 // 实付款
 @property (nonatomic, assign) CGFloat sale_price;
+// 物流公司编码
+@property (nonatomic, strong) NSString *express_code;
+// 运单号
+@property (nonatomic, strong) NSString *express_no;
 
 @end
