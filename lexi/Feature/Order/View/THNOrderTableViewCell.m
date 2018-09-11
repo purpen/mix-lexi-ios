@@ -103,7 +103,6 @@ CGFloat orderCellLineSpacing = 10;
             self.payView.hidden = NO;
             self.statusLabel.text = @"去付款";
             
-            NSLog(@"============ %@", self.payCountDownTextLabel.text);
             if (self.payCountDownTextLabel.text.length == 0) {
                 self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
                 // 十分钟的倒计时显示的值

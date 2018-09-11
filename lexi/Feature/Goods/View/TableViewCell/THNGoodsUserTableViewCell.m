@@ -48,7 +48,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         headerView.layer.borderColor = [UIColor whiteColor].CGColor;
         headerView.layer.cornerRadius = 30/2;
         headerView.layer.masksToBounds = YES;
-        [headerView downloadImage:model.avatar place:[UIImage imageNamed:@"default_header_place"]];
+        [headerView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
         
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];
@@ -57,7 +57,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 
 #pragma mark - event response
 - (void)moreButtonAction:(id)sender {
-    self.baseCell.selectedCellBlock();
+    self.baseCell.selectedCellBlock(@"");
 }
 
 #pragma mark - setup UI

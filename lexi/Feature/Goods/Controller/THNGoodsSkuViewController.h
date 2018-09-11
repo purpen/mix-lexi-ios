@@ -16,6 +16,8 @@ typedef NS_ENUM(NSUInteger, THNGoodsSkuType) {
     THNGoodsSkuTypeDirectSelect  // 直接选择SKU（购物功能按钮）
 };
 
+typedef void(^SelectGoodsSkuCompleted)(NSDictionary *params);
+
 @interface THNGoodsSkuViewController : THNBaseViewController
 
 /**
@@ -27,6 +29,11 @@ typedef NS_ENUM(NSUInteger, THNGoodsSkuType) {
  功能视图类型
  */
 @property (nonatomic, assign) THNGoodsFunctionViewType functionType;
+
+/**
+ 选中SKU
+ */
+@property (nonatomic, copy) SelectGoodsSkuCompleted selectGoodsSkuCompleted;
 
 - (instancetype)initWithSkuModel:(THNSkuModel *)model goodsModel:(THNGoodsModel *)goodsModel viewType:(THNGoodsSkuType)viewTpye;
 

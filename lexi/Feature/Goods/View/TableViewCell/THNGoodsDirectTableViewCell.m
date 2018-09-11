@@ -41,7 +41,7 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
 
 #pragma mark - event response
 - (void)directButtonAction:(id)sender {
-    self.baseCell.selectedCellBlock();
+    self.baseCell.selectedCellBlock(@"");
 }
 
 #pragma mark - setup UI

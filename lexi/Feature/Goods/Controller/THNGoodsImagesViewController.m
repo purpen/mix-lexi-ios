@@ -66,6 +66,10 @@
     self.titleString = string;
 }
 
+- (void)thn_scrollContentWithIndex:(NSInteger)index {
+    [self.imagesView thn_setContentOffsetWithIndex:index];
+}
+
 #pragma mark - event response
 - (void)buyButtonAction:(id)sender {
     THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:self.skuModel
