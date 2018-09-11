@@ -18,16 +18,16 @@
 
 @property (nonatomic, weak) id <THNImagesViewDelegate> delegate;
 
-@property (nonatomic, strong) UIColor *thn_backgroundColor;
-
-/**
- 是否全屏展示
- */
-- (instancetype)initWithFrame:(CGRect)frame fullScreen:(BOOL)fullScreen;
+- (void)thn_setContentOffsetWithIndex:(NSInteger)index;
 
 /**
  设置图片数据
  */
 - (void)thn_setImageAssets:(NSArray *)assets;
+
+/**
+ 是否全屏展示
+ */
+- (instancetype)initWithFrame:(CGRect)frame fullScreen:(BOOL)fullScreen;
 
 @end

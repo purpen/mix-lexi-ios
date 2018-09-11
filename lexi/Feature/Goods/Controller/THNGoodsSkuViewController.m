@@ -9,6 +9,8 @@
 #import "THNGoodsSkuViewController.h"
 #import "THNGoodsFunctionView.h"
 #import "UIView+Helper.h"
+#import "THNSelectAddressViewController.h"
+#import "THNBaseNavigationController.h"
 
 static NSString *const kTitleSure = @"确定";
 
@@ -24,6 +26,8 @@ static NSString *const kTitleSure = @"确定";
 @property (nonatomic, assign) THNGoodsSkuType viewType;
 /// 确认按钮
 @property (nonatomic, strong) UIButton *sureButton;
+/// 背景遮罩
+@property (nonatomic, strong) UIView *maskView;
 
 @end
 
@@ -69,17 +73,19 @@ static NSString *const kTitleSure = @"确定";
             [SVProgressHUD showInfoWithStatus:@"卖货"];
         }
             break;
-            
+
         case THNGoodsButtonTypeBuy: {
-            [SVProgressHUD showInfoWithStatus:@"立即购买"];
+            THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
+            THNBaseNavigationController *orderNav = [[THNBaseNavigationController alloc] initWithRootViewController:selectAddressVC];
+            [self presentViewController:orderNav animated:YES completion:nil];
         }
             break;
-            
+
         case THNGoodsButtonTypeCustom: {
             [SVProgressHUD showInfoWithStatus:@"接单订制"];
         }
             break;
-            
+
         case THNGoodsButtonTypeAddCart: {
             [SVProgressHUD showInfoWithStatus:@"加入购物车"];
         }
@@ -88,13 +94,14 @@ static NSString *const kTitleSure = @"确定";
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if (![[touches anyObject].view isKindOfClass:[THNGoodsSkuView class]]) {
+    if ([touches anyObject].view == self.maskView) {
         [self dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
+    [self.view addSubview:self.maskView];
     [self.view addSubview:self.skuView];
     [self.skuView thn_setGoodsSkuModel:self.skuModel];
     
@@ -127,6 +134,13 @@ static NSString *const kTitleSure = @"确定";
 }
 
 #pragma mark - getters and setters
+- (UIView *)maskView {
+    if (!_maskView) {
+        _maskView = [[UIView alloc] initWithFrame:self.view.bounds];
+    }
+    return _maskView;
+}
+
 - (THNGoodsSkuView *)skuView {
     if (!_skuView) {
         _skuView = [[THNGoodsSkuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 320)];

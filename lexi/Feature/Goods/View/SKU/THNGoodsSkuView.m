@@ -85,6 +85,14 @@ static NSString *const kTitleSize  = @"尺寸";
     self.priceLabel.attributedText = salePriceAtt;
 }
 
+- (void)thn_getColorContentHeight:(NSArray *)colors {
+    
+}
+
+- (void)thn_getModeContentHeight:(NSArray *)modes {
+    
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
