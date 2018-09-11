@@ -8,14 +8,16 @@
 
 #import "THNOrderDetailPayView.h"
 
-@implementation THNOrderDetailPayView
+@interface THNOrderDetailPayView()
+@property (weak, nonatomic) IBOutlet UILabel *orderNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *payMethodLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *payMethodImageView;
+@property (weak, nonatomic) IBOutlet UILabel *subtotalLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalMoneyLabel;
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+@end
+
+@implementation THNOrderDetailPayView
 
 @end

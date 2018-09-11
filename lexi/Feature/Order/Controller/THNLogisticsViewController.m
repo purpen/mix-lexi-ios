@@ -9,6 +9,11 @@
 #import "THNLogisticsViewController.h"
 
 @interface THNLogisticsViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *waybillNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
+@property (weak, nonatomic) IBOutlet UILabel *logisticsStatusLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *logisticsStatusImageView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
