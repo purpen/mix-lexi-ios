@@ -60,7 +60,7 @@ NSString *const kTHNFreightModelItemRid = @"rid";
 		self.expressName = dictionary[kTHNFreightModelItemExpressName];
 	}	
 	if(![dictionary[kTHNFreightModelItemFirstAmount] isKindOfClass:[NSNull class]]){
-		self.firstAmount = [dictionary[kTHNFreightModelItemFirstAmount] integerValue];
+		self.firstAmount = [dictionary[kTHNFreightModelItemFirstAmount] floatValue];
 	}
 
 	if(![dictionary[kTHNFreightModelItemFirstItem] isKindOfClass:[NSNull class]]){

@@ -40,7 +40,7 @@
 }
 
 - (void)thn_setUserListCellModel:(THNUserModel *)model {
-    [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_header_place"]];
+    [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
     self.nameLabel.text = model.username;
 
     if (model.uid == [[THNLoginManager sharedManager].userId integerValue]) {

@@ -72,7 +72,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    [self.contentView addSubview:self.goodsCollectionView];
+    [self addSubview:self.goodsCollectionView];
 }
 
 - (void)layoutSubviews {
@@ -116,9 +116,13 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNGoodsModel *model = self.modelArray[indexPath.row];
+    
     if (self.cell.selectedCellBlock) {
-        THNGoodsModel *model = self.modelArray[indexPath.row];
         self.cell.selectedCellBlock(model.rid);
+    
+    } else if (self.goodsCell.selectedCellBlock) {
+        self.goodsCell.selectedCellBlock(model.rid);
     }
 }
 

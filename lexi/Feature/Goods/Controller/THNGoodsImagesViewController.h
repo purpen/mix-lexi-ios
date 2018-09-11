@@ -13,6 +13,8 @@
 
 @interface THNGoodsImagesViewController : THNBaseViewController
 
+- (void)thn_scrollContentWithIndex:(NSInteger)index;
+
 - (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel skuModel:(THNSkuModel *)skuModel;
 
 /**

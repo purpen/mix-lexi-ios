@@ -56,7 +56,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self.headerImageView downloadImage:model.logo place:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
-    [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeRid:model.rid];
+    [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeRid:model.rid];
     
     [self layoutIfNeeded];
 }
@@ -80,8 +80,8 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(16);
-        make.left.equalTo(self.headerImageView.mas_right).with.offset(10);
-        make.top.equalTo(self.headerImageView.mas_top).with.offset(0);
+        make.left.mas_offset(75);
+        make.top.mas_offset(12);
         make.right.mas_equalTo(-100);
     }];
     
@@ -95,7 +95,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(64, 30));
         make.right.mas_equalTo(-20);
-        make.centerY.mas_equalTo(self.headerImageView);
+        make.centerY.mas_equalTo(self);
     }];
     [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }

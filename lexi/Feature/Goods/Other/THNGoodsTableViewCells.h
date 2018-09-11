@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
     THNGoodsTableViewCellTypeContent    // 商品详情内容
 };
 
-typedef void(^GoodsInfoSelectedCellBlock)(void);
+typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
 
 @interface THNGoodsTableViewCells : NSObject
 

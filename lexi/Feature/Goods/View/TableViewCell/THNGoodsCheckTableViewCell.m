@@ -43,7 +43,7 @@ static NSString *const kTitleAll = @"查看全部";
 
 #pragma mark - event response
 - (void)checkButtonAction:(id)sender {
-    self.baseCell.selectedCellBlock();
+    self.baseCell.selectedCellBlock(@"");
 }
 
 #pragma mark - private methods
