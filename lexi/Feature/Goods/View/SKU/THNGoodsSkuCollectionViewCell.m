@@ -51,6 +51,7 @@
 
 #pragma mark - getters and setters
 - (void)setSelected:(BOOL)selected {
+    NSLog(@"==================== %d", selected);
     [self thn_changeLabelBackgroundStyleWithSelect:selected];
 }
 
@@ -58,9 +59,9 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
         _titleLabel.font = [UIFont systemFontOfSize:12];
-        _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.backgroundColor = [UIColor colorWithHexString:kColorWhite];
+        _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _titleLabel.layer.cornerRadius = 4;
         _titleLabel.layer.borderWidth = 0.5;
         _titleLabel.layer.borderColor = [UIColor colorWithHexString:@"#333333"].CGColor;

@@ -98,12 +98,13 @@ static NSInteger const kFooterHeight = 18;
 - (void)thn_didSelectImageAtIndex:(NSInteger)index {
     THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
                                                                                                  skuModel:self.skuModel];
+    [goodsImageVC thn_scrollContentWithIndex:index];
     [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
                                   handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
                        titleAttributedString:[self thn_getGoodsTitle]];
     goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
     
-    [self presentViewController:goodsImageVC animated:YES completion:nil];
+    [self presentViewController:goodsImageVC animated:NO completion:nil];
 }
 
 #pragma mark - network
@@ -172,9 +173,10 @@ static NSInteger const kFooterHeight = 18;
  设置商品标签
  */
 - (void)thn_setTagsContentWithGoodsModel:(THNGoodsModel *)model {
-    THNGoodsTableViewCells *tagCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeTag) didSelectedItem:^{
+    THNGoodsTableViewCells *tagCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeTag)
+                                                                didSelectedItem:^(NSString *rid) {
         
-    }];
+                                                                }];
     tagCells.height = model.labels.count ? 32 : 0.01;
     tagCells.goodsModel = model;
     
@@ -190,7 +192,8 @@ static NSInteger const kFooterHeight = 18;
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
     WEAKSELF;
     
-    THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^{
+    THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction)
+                                                                   didSelectedItem:^(NSString *rid) {
         [weakSelf thn_setLikedGoodsUserWithGoodsId:model.rid isReload:YES];
     }];
     actionCells.height = 49;
@@ -208,7 +211,8 @@ static NSInteger const kFooterHeight = 18;
 - (void)thn_setDirectSelectWithGoodsModel:(THNGoodsModel *)model {
     WEAKSELF;
     
-    THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^{
+    THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose)
+                                                                   didSelectedItem:^(NSString *rid) {
         THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:weakSelf.skuModel
                                                                                          goodsModel:model
                                                                                            viewType:(THNGoodsSkuTypeDirectSelect)];
@@ -238,7 +242,8 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     [THNGoodsManager getLikeGoodsUserDataWithGoodsId:goodsId params:@{} completion:^(NSArray *userData, NSError *error) {
-        THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^{
+        THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser)
+                                                                     didSelectedItem:^(NSString *rid) {
             THNUserListViewController *userListVC = [[THNUserListViewController alloc] initWithType:(THNUserListTypeLikeGoods)
                                                                                           requestId:weakSelf.goodsId];
             [weakSelf.navigationController pushViewController:userListVC animated:YES];
@@ -274,7 +279,7 @@ static NSInteger const kFooterHeight = 18;
     THNGoodsTableViewCells *dispatchCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     dispatchCells.height = 80;
     
-    THNGoodsTableViewCells *checkCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe) didSelectedItem:^{
+    THNGoodsTableViewCells *checkCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe) didSelectedItem:^(NSString *rid) {
         THNGoodsDescribeViewController *describeVC = [[THNGoodsDescribeViewController alloc] initWithGoodsModel:goodsModel
                                                                                                      storeModel:weakSelf.storeModel
                                                                                                    freightModel:weakSelf.freightModel];
@@ -318,14 +323,17 @@ static NSInteger const kFooterHeight = 18;
  设置店铺信息
  */
 - (void)thn_setStoreInfoWithModel:(THNStoreModel *)model {
-    THNGoodsTableViewCells *storeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^{
+    WEAKSELF;
+    
+    THNGoodsTableViewCells *storeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^(NSString *rid) {
         [SVProgressHUD showInfoWithStatus:@"查看店铺信息"];
     }];
     storeCells.height = 85;
     storeCells.storeModel = model;
     
-    THNGoodsTableViewCells *storeGoodsCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^{
-        [SVProgressHUD showInfoWithStatus:@"查看商品信息"];
+    THNGoodsTableViewCells *storeGoodsCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^(NSString *rid) {
+        THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:rid];
+        [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
     }];
     storeGoodsCells.height = 105;
     storeGoodsCells.storeGoodsData = model.products;
@@ -341,14 +349,17 @@ static NSInteger const kFooterHeight = 18;
  设置相似商品
  */
 - (void)thn_setSimilarGoodsWithGoodsId:(NSString *)goodsId {
+    WEAKSELF;
+    
     [THNGoodsManager getSimilarGoodsWithGoodsId:goodsId completion:^(NSArray *goodsData, NSError *error) {
         if (error) return;
         
         THNGoodsTableViewCells *headerCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeSimilar)];
         headerCells.height = 56;
         
-        THNGoodsTableViewCells *similarGoodsCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeSimilar) didSelectedItem:^{
-            [SVProgressHUD showInfoWithStatus:@"查看商品信息"];
+        THNGoodsTableViewCells *similarGoodsCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeSimilar) didSelectedItem:^(NSString *rid) {
+            THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:rid];
+            [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
         }];
         similarGoodsCells.height = 105;
         similarGoodsCells.similarGoodsData = goodsData;
