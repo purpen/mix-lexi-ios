@@ -52,9 +52,6 @@ static NSString *kKeyData    = @"data";
         
         for (NSDictionary *dict in result.responseDict[kKeyData]) {
             THNAddressModel *model = [[THNAddressModel alloc] initWithDictionary:dict];
-            if (model.isDefault) {
-                [self.addressArr insertObject:model atIndex:0];
-            }
             [self.addressArr addObject:model];
         }
         
@@ -129,22 +126,19 @@ static NSString *kKeyData    = @"data";
     if (indexPath.section == 0) {
         THNAddressTableViewCell *addressCell = [THNAddressTableViewCell initAddressCellWithTableView:tableView];
         
-        if (!self.addressArr.count) {
-            return addressCell;
+        if (self.addressArr.count) {
+            [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
+            
+            WEAKSELF;
+            addressCell.selectedCellCompleted = ^{
+                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"选中地址: %zi", indexPath.row]];
+                if (indexPath != weakSelf.selectedIndex) {
+                    THNAddressTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:weakSelf.selectedIndex];
+                    selectedCell.isSelected = NO;
+                    weakSelf.selectedIndex = indexPath;
+                }
+            };
         }
-        
-        [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
-        
-        WEAKSELF;
-        addressCell.selectedCellCompleted = ^{
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"选中地址: %zi", indexPath.row]];
-            if (indexPath != weakSelf.selectedIndex) {
-                THNAddressTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:weakSelf.selectedIndex];
-                selectedCell.isSelected = NO;
-                weakSelf.selectedIndex = indexPath;
-            }
-        };
-        
         return addressCell;
         
     } else {

@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
 @interface THNGoodsInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, assign) THNGoodsInfoCellType cellType;
+@property (nonatomic, assign) BOOL showLine;
 
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model;
 
