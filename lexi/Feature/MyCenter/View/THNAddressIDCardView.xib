@@ -77,23 +77,32 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清晰正面照片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chS-zq-IcP">
-                            <rect key="frame" x="68" y="190" width="72" height="17"/>
+                            <rect key="frame" x="68.5" y="190" width="72" height="17"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清晰反面照片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UDs-on-d0n">
-                            <rect key="frame" x="263" y="190" width="72" height="17"/>
+                            <rect key="frame" x="263.5" y="190" width="72" height="17"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入身份证号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sVZ-HY-Yzz">
+                            <rect key="frame" x="135" y="18.5" width="253" height="17"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="UDs-on-d0n" firstAttribute="centerX" secondItem="aAE-5h-hLG" secondAttribute="centerX" id="4SF-W8-8I6"/>
+                        <constraint firstItem="sVZ-HY-Yzz" firstAttribute="centerY" secondItem="DTn-fu-eTu" secondAttribute="centerY" id="B8c-sJ-EoM"/>
                         <constraint firstAttribute="trailing" secondItem="kEM-Tu-fA9" secondAttribute="trailing" constant="15" id="COf-oA-bQL"/>
                         <constraint firstItem="kEM-Tu-fA9" firstAttribute="leading" secondItem="Utf-Ef-PSs" secondAttribute="leading" constant="15" id="G0m-4t-NFl"/>
+                        <constraint firstItem="sVZ-HY-Yzz" firstAttribute="leading" secondItem="DTn-fu-eTu" secondAttribute="trailing" constant="7.5" id="Jzq-AZ-WyX"/>
+                        <constraint firstAttribute="trailing" secondItem="sVZ-HY-Yzz" secondAttribute="trailing" constant="15" id="LVj-2F-czQ"/>
                         <constraint firstItem="4GK-tt-KZR" firstAttribute="leading" secondItem="Utf-Ef-PSs" secondAttribute="leading" id="Mjb-8q-Prc"/>
                         <constraint firstItem="UDs-on-d0n" firstAttribute="top" secondItem="kEM-Tu-fA9" secondAttribute="bottom" constant="10" id="YoD-5F-nRU"/>
                         <constraint firstItem="chS-zq-IcP" firstAttribute="top" secondItem="kEM-Tu-fA9" secondAttribute="bottom" constant="10" id="dpB-Jb-7bn"/>
@@ -120,6 +129,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="cardTextField" destination="sVZ-HY-Yzz" id="C4h-3W-78m"/>
                 <outlet property="negativeButton" destination="aAE-5h-hLG" id="Ixe-sh-J1H"/>
                 <outlet property="positiveButton" destination="29Z-nX-IRg" id="5Va-sz-wpr"/>
             </connections>

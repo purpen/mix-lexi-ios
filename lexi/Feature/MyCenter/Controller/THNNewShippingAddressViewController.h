@@ -7,9 +7,15 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNAddressModel.h"
 
 @interface THNNewShippingAddressViewController : THNBaseViewController
 
-@property (nonatomic, assign) BOOL isHiddenCardView;
+/**
+ 地址
+ */
+@property (nonatomic, strong) THNAddressModel *addressModel;
+// 后台是否保存海关信息
+@property (nonatomic, assign) BOOL isSaveCustom;
 
 @end

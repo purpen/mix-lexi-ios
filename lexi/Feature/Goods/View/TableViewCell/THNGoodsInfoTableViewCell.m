@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIImageView+SDWedImage.h"
 #import "YYLabel+Helper.h"
+#import "UIView+Helper.h"
 
 static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 
@@ -125,6 +126,8 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
+    self.showLine = YES;
+    
     [self addSubview:self.goodsImageView];
     [self addSubview:self.priceLabel];
     [self addSubview:self.oriPriceLabel];
@@ -230,6 +233,15 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
         make.right.mas_equalTo(self.titleLabel.mas_right).with.offset(0);
         make.height.mas_equalTo(15);
     }];
+}
+
+- (void)drawRect:(CGRect)rect {
+    if (!self.showLine) return;
+    
+    [UIView drawRectLineStart:CGPointMake(15, CGRectGetHeight(self.bounds) - 1)
+                          end:CGPointMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)
+                        width:0.5
+                        color:[UIColor colorWithHexString:@"#E9E9E9"]];
 }
 
 #pragma mark - setup UI

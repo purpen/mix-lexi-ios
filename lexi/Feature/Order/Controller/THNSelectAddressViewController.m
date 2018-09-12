@@ -12,6 +12,7 @@
 #import "THNAddressTableViewCell.h"
 #import "THNNewlyAddressTableViewCell.h"
 #import "NSString+Helper.h"
+#import "THNNewShippingAddressViewController.h"
 
 static NSString *kTitleDone  = @"继续以确认订单";
 ///
@@ -52,9 +53,6 @@ static NSString *kKeyData    = @"data";
         
         for (NSDictionary *dict in result.responseDict[kKeyData]) {
             THNAddressModel *model = [[THNAddressModel alloc] initWithDictionary:dict];
-            if (model.isDefault) {
-                [self.addressArr insertObject:model atIndex:0];
-            }
             [self.addressArr addObject:model];
         }
         
@@ -69,6 +67,18 @@ static NSString *kKeyData    = @"data";
 - (void)doneButtonAction:(UIButton *)button {
     THNOrderPreviewViewController *orderPreviewVC = [[THNOrderPreviewViewController alloc] init];
     [self.navigationController pushViewController:orderPreviewVC animated:YES];
+}
+
+- (void)thn_tableView:(UITableView *)tableView selectAddressAtIndexPath:(NSIndexPath *)indexPath {
+    WEAKSELF;
+    
+    THNAddressTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:weakSelf.selectedIndex];
+    selectedCell.isSelected = NO;
+    
+    THNAddressTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.isSelected = YES;
+    
+    weakSelf.selectedIndex = indexPath;
 }
 
 #pragma mark - setup UI
@@ -129,22 +139,14 @@ static NSString *kKeyData    = @"data";
     if (indexPath.section == 0) {
         THNAddressTableViewCell *addressCell = [THNAddressTableViewCell initAddressCellWithTableView:tableView];
         
-        if (!self.addressArr.count) {
-            return addressCell;
+        if (self.addressArr.count) {
+            [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
+            
+            WEAKSELF;
+            addressCell.selectedCellCompleted = ^{
+                [weakSelf thn_tableView:tableView selectAddressAtIndexPath:indexPath];
+            };
         }
-        
-        [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
-        
-        WEAKSELF;
-        addressCell.selectedCellCompleted = ^{
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"选中地址: %zi", indexPath.row]];
-            if (indexPath != weakSelf.selectedIndex) {
-                THNAddressTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:weakSelf.selectedIndex];
-                selectedCell.isSelected = NO;
-                weakSelf.selectedIndex = indexPath;
-            }
-        };
-        
         return addressCell;
         
     } else {
@@ -156,12 +158,12 @@ static NSString *kKeyData    = @"data";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNNewShippingAddressViewController *newAddressVC = [[THNNewShippingAddressViewController alloc] init];
     if (indexPath.section == 0) {
-        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"编辑地址：%zi", indexPath.row]];
-        
-    } else {
-        [SVProgressHUD showInfoWithStatus:@"新建地址"];
+        newAddressVC.addressModel = self.addressArr[indexPath.row];
     }
+    
+    [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
 #pragma mark - getters and setters

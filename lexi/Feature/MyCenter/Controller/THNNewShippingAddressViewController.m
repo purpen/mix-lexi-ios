@@ -12,6 +12,7 @@
 #import "UIView+Helper.h"
 #import "THNAddressIDCardView.h"
 #import "THNQiNiuUpload.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kAddressCellIdentifier = @"kAddressCellIdentifier";
 static CGFloat const addressPickerViewHeight = 255;
@@ -20,11 +21,12 @@ static CGFloat const pickerViewHeight = 215;
 static NSString *const kUrlPlaces = @"/places/provinces_cities";
 static NSString *const kUrlAreaCode = @"/auth/area_code";
 static NSString *const kUrlAddress = @"/address";
+static NSString *const kUrlGetaddressCustoms = @"/address/custom";
 
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
 
-@interface THNNewShippingAddressViewController ()<UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, YYTextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface THNNewShippingAddressViewController ()<UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, YYTextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 // textView默认提示文字数组
@@ -64,10 +66,13 @@ static NSString *const kOid = @"oid";
 @property (nonatomic, assign) BOOL isDefaultAddress;
 // 详细地址
 @property (nonatomic, assign) NSString *streetAddress;
+@property (nonatomic, strong) NSString *countryName;
 @property (nonatomic, assign) NSInteger countryID;
 @property (nonatomic, assign) NSInteger provinceID;
 @property (nonatomic, assign) NSInteger cityID;
 @property (nonatomic, assign) NSInteger townID;
+// 是否隐藏身份证所在的View
+@property (nonatomic, assign) BOOL isShowCardView;
 
 @end
 
@@ -85,6 +90,10 @@ static NSString *const kOid = @"oid";
     [self loadAreaCodeData];
     [self initData];
     [self setupUI];
+    
+    if (self.addressModel) {
+        [self loadGetaddressCustomData];
+    }
 }
 
 - (void)setupUI {
@@ -103,6 +112,7 @@ static NSString *const kOid = @"oid";
     _provinceIndex = _cityIndex = _districtIndex = 0;
 }
 
+// 获取区号,国家ID 等等
 - (void)loadAreaCodeData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlAreaCode requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -127,11 +137,42 @@ static NSString *const kOid = @"oid";
     }];
 }
 
+// 获取海关信息
+- (void)loadGetaddressCustomData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"user_name"] = self.addressModel.firstName;
+    params[@"mobile"] = self.addressModel.mobile;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (result.data.count == 0) { 
+            self.isShowCardView = NO;
+        } else {
+            self.isShowCardView = YES;
+            self.cardView.cardTextField.text = result.data[@"id_card"];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
+                UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.cardView.positiveButton setImage:positiveImage forState:UIControlStateNormal];
+                    [self.cardView.negativeButton setImage:negativeImage forState:UIControlStateNormal];
+                });
+            });
+            
+            [self.tableView reloadData];
+        }
+        
+        
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 // 点击完成
 - (void)finish {
-    
     if (self.textView.tag == 2) {
-        self.textView.text = self.areaCodes[_countryIndex][kName] ? : @"";
+        self.countryName = self.areaCodes[_countryIndex][kName] ? : @"";
+        self.textView.text = self.countryName;
         self.countryID = [self.areaCodes[_countryIndex][@"id"]integerValue];
         [self loadPlacesDataCountryID:self.countryID];
         [self.textView resignFirstResponder];
@@ -151,10 +192,18 @@ static NSString *const kOid = @"oid";
 
 // 保存
 - (void)save {
+    // 当默认收货地址取消默认
+    if (self.isDefaultAddress == NO && self.addressModel.isDefault == YES) {
+        [SVProgressHUD showInfoWithStatus:@"必须有一个默认收货地址"];
+        [SVProgressHUD dismissWithDelay:2];
+        return;
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"first_name"] = self.name;
     params[@"mobile"] = self.mobile;
     params[@"country_id"] = @(self.countryID);
+    params[@"country_name"] = self.countryName;
     params[@"province_id"] = @(self.provinceID);
     params[@"city_id"] = @(self.cityID);
     params[@"town_id"] = @(self.townID);
@@ -163,18 +212,40 @@ static NSString *const kOid = @"oid";
     params[@"is_default"] = @(self.isDefaultAddress);
     params[@"id_card_front"] = @(self.positiveImageID);
     params[@"id_card_back"] = @(self.negativeImageID);
-    THNRequest *request = [THNAPI postWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
+    params[@"is_overseas"] = @(self.isSaveCustom);
+    params[@"id_card"] = self.cardView.cardTextField.text;
     
+    if (self.addressModel.rid) {
+        params[@"rid"] = self.addressModel.rid;
+        THNRequest *request = [THNAPI putWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
+        [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            [self.navigationController popViewControllerAnimated:YES];
+        } failure:^(THNRequest *request, NSError *error) {
+            
+        }];
+    } else {
+        THNRequest *request = [THNAPI postWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
+        [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            [self.navigationController popViewControllerAnimated:YES];
+        } failure:^(THNRequest *request, NSError *error) {
+            
+        }];
+    }
 }
 
 //  设置默认地址
 - (void)setDefaultAddress:(UISwitch *)swich {
     self.isDefaultAddress = swich.on;
+    
+    if (self.addressModel.rid) {
+        NSString *requestUrl = [NSString stringWithFormat:@"/address/%@/set_default",self.addressModel.rid];
+        THNRequest *request = [THNAPI putWithUrlString:requestUrl requestDictionary:nil delegate:nil];
+        [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            
+        } failure:^(THNRequest *request, NSError *error) {
+            
+        }];
+    }
 }
 
 #pragma mark 上传身份证
@@ -251,6 +322,8 @@ static NSString *const kOid = @"oid";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.row == 1) {
+        cell.textView.text = self.addressModel.mobile;
+        self.mobile = self.addressModel.mobile;
         [cell addSubview:cell.areaCodeTextView];
         cell.areaCodeTextView.inputView = self.addressPickerView;
         cell.areaCodeTextView.text = self.areaCodes[0][@"areacode"];
@@ -259,12 +332,38 @@ static NSString *const kOid = @"oid";
         cell.areaCodeTextView.viewWidth = 60;
         cell.areaCodeTextView.tintColor = [UIColor clearColor];
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
-    } else if (indexPath.row == 2 || indexPath.row == 3) {
+    } else if (indexPath.row == 2) {
+        cell.textView.text = self.addressModel.countryName;
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 0;
         cell.textView.inputView = self.addressPickerView;
         cell.textView.tintColor = [UIColor clearColor];
-    } else {
+    }else if (indexPath.row == 3) {
+        
+        if (self.addressModel.province.length > 0) {
+            cell.textView.text = [NSString stringWithFormat:@"%@ %@ %@",self.addressModel.province ?: @"", self.addressModel.city ?: @"", self.addressModel.town ?: @""];
+            self.provinceID = self.addressModel.provinceId;
+            self.cityID = self.addressModel.cityId;
+            self.townID = self.addressModel.townId;
+        }
+        
+        cell.rightImageView.hidden = NO;
+        cell.areaCodeTextView.viewWidth = 0;
+        cell.textView.inputView = self.addressPickerView;
+        cell.textView.tintColor = [UIColor clearColor];
+    }else if (indexPath.row == 4) {
+        cell.textView.text = self.addressModel.streetAddress;
+        self.streetAddress = self.addressModel.streetAddress;
+        cell.areaCodeTextView.viewWidth = 0;
+        cell.rightImageView.hidden = YES;
+    }else if (indexPath.row == 5) {
+        cell.textView.text = self.addressModel.zipcode;
+        self.zipcode = self.addressModel.zipcode;
+        cell.areaCodeTextView.viewWidth = 0;
+        cell.rightImageView.hidden = YES;
+    } else if (indexPath.row == 0) {
+        cell.textView.text = self.addressModel.firstName;
+        self.name = self.addressModel.firstName;
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
     }
@@ -292,11 +391,12 @@ static NSString *const kOid = @"oid";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    if (self.isHiddenCardView) {
+    if (self.isShowCardView) {
+        self.cardView.hidden = NO;
+        return 315;
+    } else {
         self.cardView.hidden = YES;
         return 58;
-    } else {
-        return 315;
     }
    
 }
@@ -348,7 +448,11 @@ static NSString *const kOid = @"oid";
     }
     
     return YES;
-    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - PickerView Delegate
@@ -479,6 +583,7 @@ static NSString *const kOid = @"oid";
     if (!_footerView) {
         _footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 315)];
         THNAddressIDCardView *cardView = [THNAddressIDCardView viewFromXib];
+        cardView.cardTextField.delegate = self;
         
         cardView.openCameraBlcok = ^(PhotoType photoType) {
             self.photoTyoe = photoType;
@@ -510,6 +615,7 @@ static NSString *const kOid = @"oid";
         label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
         label.text = @"设为默认地址";
         UISwitch *addressSwitch = [[UISwitch alloc]init];
+        [addressSwitch setOn:self.addressModel.isDefault animated:YES];
         [addressSwitch addTarget:self action:@selector(setDefaultAddress:) forControlEvents:UIControlEventTouchUpInside];
         [_footerView addSubview:addressSwitch];
         _footerView.backgroundColor = [UIColor whiteColor];
