@@ -28,6 +28,8 @@ static NSString *const kTitleSure = @"确定";
 @property (nonatomic, strong) UIButton *sureButton;
 /// 背景遮罩
 @property (nonatomic, strong) UIView *maskView;
+///
+@property (nonatomic, strong) UIView *mainView;
 
 @end
 
@@ -63,7 +65,7 @@ static NSString *const kTitleSure = @"确定";
 
 #pragma mark - event response
 - (void)sureButtonAction:(UIButton *)button {
-    [self thn_getGoodsButtonType:self.skuView.handleType];
+    [self thn_getGoodsButtonType:self.handleType];
 }
 
 #pragma mark - private methods
@@ -94,7 +96,7 @@ static NSString *const kTitleSure = @"确定";
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if ([touches anyObject].view == self.maskView) {
+    if ([touches anyObject].view == self.mainView) {
         [self dismissViewControllerAnimated:NO completion:nil];
     }
 }
@@ -102,34 +104,38 @@ static NSString *const kTitleSure = @"确定";
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.maskView];
-    [self.view addSubview:self.skuView];
-    [self.skuView thn_setGoodsSkuModel:self.skuModel];
+    [self.view addSubview:self.mainView];
+    
+    if (self.skuModel) {
+        [self.mainView addSubview:self.skuView];
+    }
     
     if (self.viewType == THNGoodsSkuTypeDirectSelect) {
-        [self.view addSubview:self.functionView];
+        [self.mainView addSubview:self.functionView];
         [self.functionView thn_setGoodsModel:self.goodsModel];
         
     } else if (self.viewType == THNGoodsSkuTypeDefault) {
-        [self.view addSubview:self.sureButton];
+        [self.mainView addSubview:self.sureButton];
     }
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    self.skuView.frame = CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300);
     [self thn_showSkuView:YES];
 }
 
 - (void)thn_showSkuView:(BOOL)show {
-    CGFloat originY = show ? SCREEN_HEIGHT - 320 : SCREEN_HEIGHT;
-    CGRect viewFrame = CGRectMake(0, originY, SCREEN_WIDTH, 320);
+    CGFloat originY = show ? 0 : SCREEN_HEIGHT;
+    CGRect viewFrame = CGRectMake(0, originY, SCREEN_WIDTH, SCREEN_HEIGHT);
     
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:0.5
                           delay:0
          usingSpringWithDamping:1.0
           initialSpringVelocity:1.0
                         options:(UIViewAnimationOptionCurveEaseOut) animations:^{
-                            self.skuView.frame = viewFrame;
+                            self.mainView.frame = viewFrame;
                         } completion:nil];
 }
 
@@ -141,16 +147,23 @@ static NSString *const kTitleSure = @"确定";
     return _maskView;
 }
 
+- (UIView *)mainView {
+    if (!_mainView) {
+        _mainView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    }
+    return _mainView;
+}
+
 - (THNGoodsSkuView *)skuView {
     if (!_skuView) {
-        _skuView = [[THNGoodsSkuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 320)];
+        _skuView = [[THNGoodsSkuView alloc] initWithSkuModel:self.skuModel goodsModel:self.goodsModel];
     }
     return _skuView;
 }
 
 - (THNGoodsFunctionView *)functionView {
     if (!_functionView) {
-        CGFloat viewH = kDeviceiPhoneX ? 80 : 50;
+        CGFloat viewH = kDeviceiPhoneX ? 80 : 60;
         _functionView = [[THNGoodsFunctionView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - viewH, SCREEN_WIDTH, viewH)
                                                                type:(THNGoodsFunctionViewTypeDefault)];
         [_functionView thn_showGoodsCart:NO];

@@ -100,7 +100,11 @@ static NSString *const kTextHint  = @"注：采用不同的配送方式的到达
         att.font = [UIFont systemFontOfSize:11];
         att.lineSpacing = 5;
         att.color = [UIColor colorWithHexString:@"#333333"];
-        [att setAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"#FF6666"] range:NSMakeRange(0, 2)];
+
+        [att setTextHighlightRange:NSMakeRange(0, 2)
+                             color:[UIColor colorWithHexString:@"#FF6666"]
+                   backgroundColor:[UIColor clearColor]
+                          userInfo:nil];
         
         _hintLabel.attributedText = att;
     }

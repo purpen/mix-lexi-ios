@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSString * phone;
 @property (nonatomic, strong) NSString * province;
 @property (nonatomic, assign) NSInteger provinceId;
+@property (nonatomic, strong) NSString *countryName;
 @property (nonatomic, strong) NSString * rid;
 @property (nonatomic, strong) NSString * streetAddress;
 @property (nonatomic, strong) NSString * streetAddressTwo;
