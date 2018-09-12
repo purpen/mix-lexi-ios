@@ -24,7 +24,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
 /// 名称
 @property (nonatomic, strong) NSMutableArray *nameArr;
 /// 选中的下标
-@property (nonatomic, assign) NSInteger selectedIndex;
+@property (nonatomic, strong) NSIndexPath *selectedIndex;
 
 @end
 
@@ -47,7 +47,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
     for (THNSkuModelColor *model in data) {
         [self.nameArr addObject:model.name];
     }
-    
+
     [self.textCollecitonView reloadData];
 }
 
@@ -60,13 +60,13 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(30, 24));
     }];
     
-    [self.textCollecitonView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.textCollecitonView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel.mas_right).with.offset(15);
         make.top.bottom.right.mas_equalTo(0);
     }];
@@ -94,8 +94,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    THNGoodsSkuCollectionViewCell *cell = (THNGoodsSkuCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    self.selectedIndex = indexPath.row;
+
 }
 
 #pragma mark - getters and setters

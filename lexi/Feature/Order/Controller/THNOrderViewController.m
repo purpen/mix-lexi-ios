@@ -151,7 +151,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 
-#pragma UITableViewDelegate && UITableViewDataSource
+#pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.orders.count;
 }
@@ -180,10 +180,10 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNNewShippingAddressViewController *detail = [[THNNewShippingAddressViewController alloc]init];
-//    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
-//    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-//    detail.rid = orderModel.rid;
+//    THNNewShippingAddressViewController *detail = [[THNNewShippingAddressViewController alloc]init];
+    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
+    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
+    detail.rid = orderModel.rid;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

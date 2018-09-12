@@ -20,6 +20,9 @@ UIKIT_EXTERN NSString *const kTitleFindPWD;
 UIKIT_EXTERN NSString *const kTitleLikedWindow;
 UIKIT_EXTERN NSString *const kTitleLikedGoods;
 UIKIT_EXTERN NSString *const kTitleLikedDynamic;
+UIKIT_EXTERN NSString *const kTitleSelectAddress;
+UIKIT_EXTERN NSString *const kTitleSubmitOrder;
+UIKIT_EXTERN NSString *const kTitleSelectLogistics;
 
 #pragma mark - 网络请求
 UIKIT_EXTERN NSString *const kTextRequestError;

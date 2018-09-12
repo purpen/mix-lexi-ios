@@ -11,6 +11,7 @@
 
 @interface THNUserModel : NSObject
 
+@property (nonatomic, assign) NSInteger uid;
 @property (nonatomic, assign) NSInteger user_id;
 @property (nonatomic, assign) NSInteger fans_counts;
 @property (nonatomic, assign) NSInteger followed_status;

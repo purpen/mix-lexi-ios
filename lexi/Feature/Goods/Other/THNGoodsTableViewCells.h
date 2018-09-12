@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
     THNGoodsTableViewCellTypeContent    // 商品详情内容
 };
 
-typedef void(^GoodsInfoSelectedCellBlock)(void);
+typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
 
 @interface THNGoodsTableViewCells : NSObject
 
@@ -65,6 +65,7 @@ typedef void(^GoodsInfoSelectedCellBlock)(void);
 @property (nonatomic, weak) THNGoodsHeaderTableViewCell     *similarHeaderCell;
 @property (nonatomic, weak) THNLikedGoodsTableViewCell      *similarGoodsCell;
 /// 详情内容
+@property (nonatomic, weak) THNGoodsHeaderTableViewCell     *infoHeaderCell;
 @property (nonatomic, weak) THNGoodsContentTableViewCell    *contentCell;
 
 /**

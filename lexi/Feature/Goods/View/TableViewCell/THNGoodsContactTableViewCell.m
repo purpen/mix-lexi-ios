@@ -30,7 +30,7 @@ static NSString *const kTextContact = @"在线咨询";
 
 #pragma mark - event response
 - (void)contactButtonAction:(id)sender {
-    self.baseCell.selectedCellBlock();
+    self.baseCell.selectedCellBlock(@"");
 }
 
 #pragma mark - setup UI

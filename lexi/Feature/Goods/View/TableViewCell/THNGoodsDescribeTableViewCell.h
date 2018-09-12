@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsDescribeCellType) {
 /**
  设置商品描述
  */
-- (void)thn_setDescribeType:(THNGoodsDescribeCellType)type goodsModel:(THNGoodsModel *)model;
+- (void)thn_setDescribeType:(THNGoodsDescribeCellType)type goodsModel:(THNGoodsModel *)model showIcon:(BOOL)showIcon;
 
 /**
  设置发货地

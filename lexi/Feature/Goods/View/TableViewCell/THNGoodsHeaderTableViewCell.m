@@ -9,13 +9,16 @@
 #import "THNGoodsHeaderTableViewCell.h"
 
 static NSString *const kGoodsHeaderTableViewCellId = @"kGoodsHeaderTableViewCellId";
-static NSString *const kTextDefault = @"默认";
-static NSString *const kTextSimilar = @"相似商品";
+static NSString *const kTextDefault   = @"默认";
+static NSString *const kTextSimilar   = @"相似商品";
+static NSString *const kTextGoodsInfo = @"作品详情";
 
 @interface THNGoodsHeaderTableViewCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSArray *titleArr;
+@property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, assign) THNGoodsHeaderCellType cellType;
 
 @end;
 
@@ -30,36 +33,49 @@ static NSString *const kTextSimilar = @"相似商品";
     return cell;
 }
 
-- (void)thn_setHeaderCellWithText:(NSString *)text {
+- (void)thn_setHeaderCellWithText:(NSString *)text fontSize:(CGFloat)fontSize colorHex:(NSString *)colorHex {
     self.titleLabel.text = text;
+    self.titleLabel.textColor = [UIColor colorWithHexString:colorHex];
+    self.titleLabel.font = [UIFont systemFontOfSize:fontSize weight:(UIFontWeightMedium)];
 }
 
 - (void)thn_setHeaderCellType:(THNGoodsHeaderCellType)type {
-    [self thn_setHeaderCellWithText:self.titleArr[(NSUInteger)type]];
+    self.cellType = type;
+    
+    if (type == THNGoodsHeaderCellTypeGoodsInfo) {
+        self.lineView.hidden = YES;
+        [self thn_setHeaderCellWithText:self.titleArr[(NSUInteger)type] fontSize:16 colorHex:@"#333333"];
+        
+    } else {
+        self.lineView.hidden = NO;
+        [self thn_setHeaderCellWithText:self.titleArr[(NSUInteger)type] fontSize:14 colorHex:kColorMain];
+    }
+    
+    [self layoutIfNeeded];
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    self.titleArr = @[kTextDefault, kTextSimilar];
+    self.titleArr = @[kTextDefault, kTextSimilar, kTextGoodsInfo];
     
     [self addSubview:self.titleLabel];
-}
-
-- (void)drawRect:(CGRect)rect {
-    [UIView drawRectLineStart:CGPointMake(15, 39)
-                          end:CGPointMake(30, 39)
-                        width:3
-                        color:[UIColor colorWithHexString:kColorMain]];
+    [self addSubview:self.lineView];
 }
 
 #pragma mark - getters and setters
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 200, 15)];
-        _titleLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightMedium)];
-        _titleLabel.textColor = [UIColor colorWithHexString:kColorMain];
     }
     return _titleLabel;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 39, 15, 3)];
+        _lineView.backgroundColor = [UIColor colorWithHexString:kColorMain];
+    }
+    return _lineView;
 }
 
 @end
