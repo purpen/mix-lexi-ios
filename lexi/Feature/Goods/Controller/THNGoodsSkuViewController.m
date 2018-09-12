@@ -65,7 +65,7 @@ static NSString *const kTitleSure = @"确定";
 
 #pragma mark - event response
 - (void)sureButtonAction:(UIButton *)button {
-    [self thn_getGoodsButtonType:self.skuView.handleType];
+    [self thn_getGoodsButtonType:self.handleType];
 }
 
 #pragma mark - private methods
@@ -107,7 +107,6 @@ static NSString *const kTitleSure = @"确定";
     [self.view addSubview:self.mainView];
     
     if (self.skuModel) {
-//        [self.skuView thn_setGoodsSkuModel:self.skuModel];
         [self.mainView addSubview:self.skuView];
     }
     
@@ -123,7 +122,7 @@ static NSString *const kTitleSure = @"确定";
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.skuView.frame = CGRectMake(0, SCREEN_HEIGHT - 337, SCREEN_WIDTH, 337);
+    self.skuView.frame = CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300);
     [self thn_showSkuView:YES];
 }
 
@@ -131,7 +130,7 @@ static NSString *const kTitleSure = @"确定";
     CGFloat originY = show ? 0 : SCREEN_HEIGHT;
     CGRect viewFrame = CGRectMake(0, originY, SCREEN_WIDTH, SCREEN_HEIGHT);
     
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:0.5
                           delay:0
          usingSpringWithDamping:1.0
           initialSpringVelocity:1.0
@@ -157,14 +156,14 @@ static NSString *const kTitleSure = @"确定";
 
 - (THNGoodsSkuView *)skuView {
     if (!_skuView) {
-        _skuView = [[THNGoodsSkuView alloc] initWithSkuModel:self.skuModel];
+        _skuView = [[THNGoodsSkuView alloc] initWithSkuModel:self.skuModel goodsModel:self.goodsModel];
     }
     return _skuView;
 }
 
 - (THNGoodsFunctionView *)functionView {
     if (!_functionView) {
-        CGFloat viewH = kDeviceiPhoneX ? 80 : 50;
+        CGFloat viewH = kDeviceiPhoneX ? 80 : 60;
         _functionView = [[THNGoodsFunctionView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - viewH, SCREEN_WIDTH, viewH)
                                                                type:(THNGoodsFunctionViewTypeDefault)];
         [_functionView thn_showGoodsCart:NO];

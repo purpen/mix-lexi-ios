@@ -58,10 +58,6 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     NSString *province = model.province.length ? [NSString stringWithFormat:@"%@，", model.province] : @"";
     self.citylabel.text = [NSString stringWithFormat:@"%@%@  %@", province, model.city, model.zipcode];
     self.phonelabel.text = model.mobile;
-    
-    if (model.isDefault) {
-        self.isSelected = YES;
-    }
 }
 
 #pragma mark - event response
