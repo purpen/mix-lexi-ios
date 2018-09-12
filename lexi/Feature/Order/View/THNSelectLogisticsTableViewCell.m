@@ -9,6 +9,7 @@
 #import "THNSelectLogisticsTableViewCell.h"
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
+#import "UIView+Helper.h"
 
 static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTableViewCellId";
 ///
@@ -57,11 +58,15 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
     self.nameLabel.text = model.expressName;
     self.timeLabel.text = kTextExpressTime(@(model.minDays), @(model.maxDays));
     self.pricelabel.text = [NSString stringWithFormat:@"￥%.2f", model.firstAmount];
+    
+    self.price = model.firstAmount;
     self.selected = model.isDefault;
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
+    self.showLine = YES;
+    
     [self addSubview:self.selectButton];
     [self addSubview:self.iconImageView];
     [self addSubview:self.nameLabel];
@@ -110,6 +115,15 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
     }];
 }
 
+- (void)drawRect:(CGRect)rect {
+    if (!self.showLine) return;
+    
+    [UIView drawRectLineStart:CGPointMake(15, CGRectGetHeight(self.bounds) - 1)
+                          end:CGPointMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)
+                        width:0.5
+                        color:[UIColor colorWithHexString:@"#E9E9E9"]];
+}
+
 #pragma mark - getters and setters
 - (void)setSelected:(BOOL)selected {
     self.selectButton.selected = selected;
@@ -121,7 +135,6 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
         [_selectButton setImage:[UIImage imageNamed:@"icon_selected_none"] forState:(UIControlStateNormal)];
         [_selectButton setImage:[UIImage imageNamed:@"icon_selected_main"] forState:(UIControlStateSelected)];
         _selectButton.imageView.contentMode = UIViewContentModeCenter;
-        [_selectButton setImageEdgeInsets:(UIEdgeInsetsMake(0, -15, 0, 0))];
         _selectButton.selected = NO;
     }
     return _selectButton;
@@ -129,7 +142,7 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
 
 - (UIImageView *)iconImageView {
     if (!_iconImageView) {
-        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_store_practice"]];
+        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_order_plain"]];
         _iconImageView.contentMode = UIViewContentModeCenter;
     }
     return _iconImageView;
