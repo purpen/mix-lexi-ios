@@ -129,7 +129,6 @@ static NSString *const kOid = @"oid";
 
 // 点击完成
 - (void)finish {
-    
     if (self.textView.tag == 2) {
         self.textView.text = self.areaCodes[_countryIndex][kName] ? : @"";
         self.countryID = [self.areaCodes[_countryIndex][@"id"]integerValue];

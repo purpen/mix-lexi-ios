@@ -142,7 +142,7 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
 
 - (UIImageView *)iconImageView {
     if (!_iconImageView) {
-        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_store_practice"]];
+        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_order_plain"]];
         _iconImageView.contentMode = UIViewContentModeCenter;
     }
     return _iconImageView;
