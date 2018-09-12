@@ -13,7 +13,7 @@
 #import "THNAPI.h"
 #import "THNOrdersModel.h"
 #import "THNOrderDetailViewController.h"
-
+#import "THNNewShippingAddressViewController.h"
 
 /**
  请求订单类型
@@ -35,9 +35,9 @@ typedef NS_ENUM(NSUInteger, OrderType) {
 
 static NSString *const kOrderCellIdentifier = @"kOrderCellIdentifier";
 static NSString *const kUrlOrders = @"/orders";
+static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
-
-@interface THNOrderViewController ()<THNSelectButtonViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface THNOrderViewController ()<THNSelectButtonViewDelegate, UITableViewDelegate, UITableViewDataSource ,THNOrderTableViewCellDelegate>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -102,6 +102,18 @@ static NSString *const kUrlOrders = @"/orders";
     }];
 }
 
+// 删除订单
+- (void)deleteOrderData:(NSString *)rid {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = rid;
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlOrdersDelete requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self loadOrdersData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 #pragma THNSelectButtonViewDelegate
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
     
@@ -146,7 +158,11 @@ static NSString *const kUrlOrders = @"/orders";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
-    
+    cell.delegate = self;
+//    if (!cell) {
+//        cell = [THNOrderTableViewCell viewFromXib];
+//    }
+//
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
         [self.orders removeObjectAtIndex:currentIndexPath.row];
@@ -164,7 +180,10 @@ static NSString *const kUrlOrders = @"/orders";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
+    THNNewShippingAddressViewController *detail = [[THNNewShippingAddressViewController alloc]init];
+//    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
+//    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
+//    detail.rid = orderModel.rid;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
@@ -172,11 +191,16 @@ static NSString *const kUrlOrders = @"/orders";
     
     // 解决滑动没结束切换视图刷新tableView 数据越界问题
     if (self.orders.count == 0) {
-        return 0.1;
+        return 0;
     }
     
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
     return orderModel.items.count * orderProductCellHeight + 114 + orderCellLineSpacing;
+}
+
+#pragma mark - THNOrderTableViewCellDelegate
+- (void)deleteOrder:(NSString *)rid {
+    [self deleteOrderData:rid];
 }
 
 #pragma mark - lazy

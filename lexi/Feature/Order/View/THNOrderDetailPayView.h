@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNOrderDetailModel;
+
 @interface THNOrderDetailPayView : UIView
+
+@property (nonatomic, strong) THNOrderDetailModel *detailModel;
 
 @end
