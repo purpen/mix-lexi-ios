@@ -7,8 +7,10 @@
 //
 
 #import "THNOrderDetailLogisticsView.h"
+#import "THNOrderDetailModel.h"
 
 @interface THNOrderDetailLogisticsView()
+
 @property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
 @property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -22,6 +24,20 @@
 
 @implementation THNOrderDetailLogisticsView
 
+- (void)setDetailModel:(THNOrderDetailModel *)detailModel {
+    _detailModel = detailModel;
+    self.nameLabel.text = detailModel.buyer_name;
+    self.addressLabel.text = detailModel.buyer_address;
+    
+    if (detailModel.buyer_country.length == 0 || [detailModel.buyer_country isEqualToString:@"中国"]) {
+        self.countyLabel.text = detailModel.buyer_province;
+    } else {
+        self.countyLabel.text = [NSString stringWithFormat:@"%@,%@",detailModel.buyer_country,detailModel.buyer_province];
+    }
+    
+    self.cityLabel.text = detailModel.buyer_city;
+    self.numberLabel.text = detailModel.buyer_tel;
+}
 
 
 @end
