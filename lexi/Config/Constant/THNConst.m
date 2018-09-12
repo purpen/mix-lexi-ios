@@ -14,6 +14,9 @@
 NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";   //  开发环境
 
 #pragma mark - 测试账号
+NSString *const kAdminUrl           = @"https://lx.taihuoniao.com/#/";
+NSString *const kAdminPhone         = @"13716171560";
+NSString *const kAdminPWD           = @"123456";
 // 大B账号
 //NSString *const kTestEmail          = @"18548918450";
 NSString *const kTestEmail          = @"18518391827";

@@ -80,6 +80,8 @@ static NSInteger const kFooterHeight = 18;
 }
 
 - (void)thn_openGoodsSkuWithType:(THNGoodsButtonType)type {
+    if (!self.goodsModel && !self.skuModel) return;
+    
     if (type == THNGoodsButtonTypeSell) {
         [self thn_openGoodsSellShareView];
         
