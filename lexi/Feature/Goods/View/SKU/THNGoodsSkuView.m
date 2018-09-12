@@ -40,16 +40,20 @@ static CGFloat const kMaxHeight = 337.0;
 
 @implementation THNGoodsSkuView
 
-- (instancetype)initWithSkuModel:(THNSkuModel *)model {
+- (instancetype)initWithSkuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
     self = [super init];
     if (self) {
-        [self thn_setGoodsSkuModel:model];
+        [self thn_setGoodsSkuModel:skuModel];
+        [self thn_setTitleText:goodsModel];
         [self setupViewUI];
     }
     return self;
 }
 
-#pragma mark - public methods
+#pragma mark - private methods
+/**
+ 设置 SKU
+ */
 - (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
     [self thn_setPriceTextWithValue:189.2];
     
@@ -59,7 +63,7 @@ static CGFloat const kMaxHeight = 337.0;
     }
     
     if (model.modes.count) {
-         [self.sizeCollectionView thn_setSkuNameData:model.modes];
+        [self.sizeCollectionView thn_setSkuNameData:model.modes];
         self.sizeHeight = [self thn_getModeContentHeightWithModelData:model.modes];
     }
 }
@@ -67,24 +71,31 @@ static CGFloat const kMaxHeight = 337.0;
 /**
  设置商品标题
  */
-- (void)thn_setTitleAttributedString:(NSAttributedString *)string {
-    self.titleLabel.attributedText = string;
-    self.titleH = [self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 40];
+- (void)thn_setTitleText:(THNGoodsModel *)model {
+    NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:model.name];
+    UIFont *titleFont = [UIFont systemFontOfSize:16 weight:(UIFontWeightMedium)];
+    titleAtt.color = [UIColor colorWithHexString:@"#333333"];
+    titleAtt.font = titleFont;
     
-    [self layoutIfNeeded];
+    // 包邮标签
+    UIImage *iconImage = [UIImage imageNamed:@"icon_express_free"];
+    
+    if (model.isFreePostage) {
+        NSMutableAttributedString *iconAtt = [NSMutableAttributedString \
+                                              attachmentStringWithContent:iconImage
+                                              contentMode:UIViewContentModeLeft
+                                              attachmentSize:CGSizeMake(iconImage.size.width + 5, iconImage.size.height)
+                                              alignToFont:titleFont
+                                              alignment:YYTextVerticalAlignmentCenter];
+        
+        [titleAtt insertAttributedString:iconAtt atIndex:0];
+    }
+    titleAtt.lineSpacing = 5;
+    
+    self.titleLabel.attributedText = titleAtt;
+    self.titleH = [self.titleLabel thn_getLabelHeightWithMaxWidth:SCREEN_WIDTH - 40];
 }
 
-/**
- 已选择“购买” / “加购物车”
- */
-- (void)thn_setGoodsSkuViewHandleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string {
-    self.handleType = handleType;
-    [self thn_setTitleAttributedString:string];
-    
-    [self layoutIfNeeded];
-}
-
-#pragma mark - private methods
 /**
  设置商品价格
  */
@@ -147,7 +158,7 @@ static CGFloat const kMaxHeight = 337.0;
     [self.contentView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.priceLabel.mas_bottom).with.offset(15);
         make.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(kDeviceiPhoneX ? -90 : -75);
+        make.bottom.mas_equalTo(kDeviceiPhoneX ? -90 : -70);
     }];
     self.contentView.contentSize = CGSizeMake(SCREEN_WIDTH, [self thn_getContentSizeHeight]);
     

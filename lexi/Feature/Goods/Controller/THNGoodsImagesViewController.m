@@ -76,10 +76,9 @@
                                                                                      goodsModel:self.goodsModel
                                                                                        viewType:(THNGoodsSkuTypeDefault)];
     goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     goodsSkuVC.functionType = self.functionType;
-    [goodsSkuVC.skuView thn_setGoodsSkuViewHandleType:self.handleType titleAttributedString:self.titleString];
-    [self presentViewController:goodsSkuVC animated:YES completion:nil];
+    goodsSkuVC.handleType = self.handleType;
+    [self presentViewController:goodsSkuVC animated:NO completion:nil];
 }
 
 - (void)shareButtonAction:(UIButton *)button {

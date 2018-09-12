@@ -7,8 +7,14 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNAddressModel.h"
 
 @interface THNNewShippingAddressViewController : THNBaseViewController
+
+/**
+ 地址
+ */
+@property (nonatomic, strong) THNAddressModel *addressModel;
 
 @property (nonatomic, assign) BOOL isHiddenCardView;
 
