@@ -31,10 +31,17 @@ typedef void(^SelectGoodsSkuCompleted)(NSDictionary *params);
 @property (nonatomic, assign) THNGoodsFunctionViewType functionType;
 
 /**
+ 操作类型
+ */
+@property (nonatomic, assign) THNGoodsButtonType handleType;
+
+/**
  选中SKU
  */
 @property (nonatomic, copy) SelectGoodsSkuCompleted selectGoodsSkuCompleted;
 
-- (instancetype)initWithSkuModel:(THNSkuModel *)model goodsModel:(THNGoodsModel *)goodsModel viewType:(THNGoodsSkuType)viewTpye;
+- (instancetype)initWithSkuModel:(THNSkuModel *)model
+                      goodsModel:(THNGoodsModel *)goodsModel
+                        viewType:(THNGoodsSkuType)viewTpye;
 
 @end

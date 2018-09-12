@@ -126,6 +126,7 @@
 		D8247EC92147E96D000C8E37 /* THNOrderDetailPayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8247EB62147E96D000C8E37 /* THNOrderDetailPayView.xib */; };
 		D8247ECA2147E96D000C8E37 /* THNOrderDetailPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8247EB72147E96D000C8E37 /* THNOrderDetailPayView.m */; };
 		D8247ECC2147E9C8000C8E37 /* THNLogisticsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8247ECB2147E9C8000C8E37 /* THNLogisticsViewController.xib */; };
+		D8247ECF2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8247ECE2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m */; };
 		D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */; };
 		D82FA7622123FEB800E14A22 /* THNTableViewSections.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7612123FEB800E14A22 /* THNTableViewSections.m */; };
 		D82FA765212401C200E14A22 /* THNTableViewCells.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA764212401C200E14A22 /* THNTableViewCells.m */; };
@@ -516,6 +517,8 @@
 		D8247EB62147E96D000C8E37 /* THNOrderDetailPayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNOrderDetailPayView.xib; sourceTree = "<group>"; };
 		D8247EB72147E96D000C8E37 /* THNOrderDetailPayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrderDetailPayView.m; sourceTree = "<group>"; };
 		D8247ECB2147E9C8000C8E37 /* THNLogisticsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNLogisticsViewController.xib; sourceTree = "<group>"; };
+		D8247ECD2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLogisticsPlaceTableViewCell.h; sourceTree = "<group>"; };
+		D8247ECE2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLogisticsPlaceTableViewCell.m; sourceTree = "<group>"; };
 		D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helper.h"; sourceTree = "<group>"; };
 		D82A0A1B210EFD3D0040F70A /* NSDictionary+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helper.m"; sourceTree = "<group>"; };
 		D82FA7602123FEB800E14A22 /* THNTableViewSections.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTableViewSections.h; sourceTree = "<group>"; };
@@ -962,8 +965,8 @@
 			isa = PBXGroup;
 			children = (
 				4B25B45D2140D08400654390 /* Controller */,
-				4B25B45E2140D08400654390 /* Model */,
 				4B25B45F2140D08400654390 /* View */,
+				4B25B45E2140D08400654390 /* Model */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -1013,6 +1016,8 @@
 				D8247E9A2147E967000C8E37 /* THNAddressTableViewCell.m */,
 				D8247EA82147E96A000C8E37 /* THNBuyProgressView.h */,
 				D8247EA72147E968000C8E37 /* THNBuyProgressView.m */,
+				D8247ECD2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.h */,
+				D8247ECE2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m */,
 				D8247E9F2147E967000C8E37 /* THNLogisticsPriceView.h */,
 				D8247E9B2147E967000C8E37 /* THNLogisticsPriceView.m */,
 				D8247EA02147E968000C8E37 /* THNLogisticsTableViewCell.h */,
@@ -1306,18 +1311,28 @@
 				D82FA77C212559A400E14A22 /* THNLikedWindowTableViewCell.m */,
 				D82FA77E212559C600E14A22 /* THNLikedWindowCollectionViewCell.h */,
 				D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */,
-				4B223CE12146505A001E5F94 /* THNNewShippingAddressTableViewCell.h */,
-				4B223CE22146505A001E5F94 /* THNNewShippingAddressTableViewCell.m */,
-				4B223CE32146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib */,
-				4B27A6702147F4990082BA22 /* THNAddressIDCardView.h */,
-				4B27A6712147F4990082BA22 /* THNAddressIDCardView.m */,
-				4B27A6732147F4AE0082BA22 /* THNAddressIDCardView.xib */,
+
 				D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */,
 				D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */,
 				D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */,
 				D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */,
 				D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */,
 				D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */,
+
+				4B223CE12146505A001E5F94 /* THNNewShippingAddressTableViewCell.h */,
+				4B223CE22146505A001E5F94 /* THNNewShippingAddressTableViewCell.m */,
+				4B223CE32146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib */,
+				4B27A6702147F4990082BA22 /* THNAddressIDCardView.h */,
+				4B27A6712147F4990082BA22 /* THNAddressIDCardView.m */,
+				4B27A6732147F4AE0082BA22 /* THNAddressIDCardView.xib */,
+
+				D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */,
+				D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */,
+				D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */,
+				D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */,
+				D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */,
+				D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */,
+
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1704,10 +1719,17 @@
 				D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */,
 				D82FA7B82127F0CF00E14A22 /* THNDynamicTableViewController.h */,
 				D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */,
+
 				4B223CDE21464E21001E5F94 /* THNNewShippingAddressViewController.h */,
 				4B223CDF21464E21001E5F94 /* THNNewShippingAddressViewController.m */,
 				D8AE21E42140FB7B00A179C4 /* THNUserListViewController.h */,
 				D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */,
+
+				D8AE21E42140FB7B00A179C4 /* THNUserListViewController.h */,
+				D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */,
+				4B223CDE21464E21001E5F94 /* THNNewShippingAddressViewController.h */,
+				4B223CDF21464E21001E5F94 /* THNNewShippingAddressViewController.m */,
+
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2404,6 +2426,7 @@
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				4B2168DE2137E78B00B1B796 /* THNAllAnnouncementView.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
+				D8247ECF2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
 				D8AE21E62140FB7B00A179C4 /* THNUserListViewController.m in Sources */,
 				D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */,

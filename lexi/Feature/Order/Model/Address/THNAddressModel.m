@@ -14,6 +14,7 @@ NSString *const kTHNAddressModelCity = @"city";
 NSString *const kTHNAddressModelCityId = @"city_id";
 NSString *const kTHNAddressModelCountryId = @"country_id";
 NSString *const kTHNAddressModelFirstName = @"first_name";
+NSString *const kTHNAddressModelCountryName = @"country_name";
 NSString *const kTHNAddressModelFullAddress = @"full_address";
 NSString *const kTHNAddressModelFullName = @"full_name";
 NSString *const kTHNAddressModelIsDefault = @"is_default";
@@ -41,7 +42,7 @@ NSString *const kTHNAddressModelZipcode = @"zipcode";
  * Instantiate the instance using the passed dictionary values to set the properties values
  */
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
 	self = [super init];
 	if(![dictionary[kTHNAddressModelArea] isKindOfClass:[NSNull class]]){
@@ -64,7 +65,12 @@ NSString *const kTHNAddressModelZipcode = @"zipcode";
 
 	if(![dictionary[kTHNAddressModelFirstName] isKindOfClass:[NSNull class]]){
 		self.firstName = dictionary[kTHNAddressModelFirstName];
-	}	
+	}
+    
+    if(![dictionary[kTHNAddressModelCountryName] isKindOfClass:[NSNull class]]){
+        self.countryName = dictionary[kTHNAddressModelCountryName];
+    }
+    
 	if(![dictionary[kTHNAddressModelFullAddress] isKindOfClass:[NSNull class]]){
 		self.fullAddress = dictionary[kTHNAddressModelFullAddress];
 	}	

@@ -9,6 +9,7 @@
 #import "THNSelectLogisticsViewController.h"
 #import "THNGoodsInfoTableViewCell.h"
 #import "THNSelectLogisticsTableViewCell.h"
+#import "THNLogisticsPlaceTableViewCell.h"
 #import "THNLogisticsPriceView.h"
 
 @interface THNSelectLogisticsViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) NSMutableArray *logisticsArr;
 /// 运费预览视图
 @property (nonatomic, strong) THNLogisticsPriceView *priceView;
+/// 选中的
+@property (nonatomic, strong) NSIndexPath *selectIndex;
 
 @end
 
@@ -40,6 +43,18 @@
     [self setupUI];
 }
 
+#pragma mark - private methods
+- (void)thn_tableView:(UITableView *)tableView selectAtIndexPath:(NSIndexPath *)indexPath {
+    THNSelectLogisticsTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
+    selectedCell.selected = NO;
+    
+    THNSelectLogisticsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = YES;
+    
+    [self.priceView thn_setLogisticsPriceValue:cell.price];
+    self.selectIndex = indexPath;
+}
+
 #pragma mark - tableView datasource & delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -50,15 +65,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.section == 0 ? 85 : 90;
+    if (indexPath.section == 0) {
+        return 85.0;
+    }
+    
+    return indexPath.row == 0 ? 44.0 : 90.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return section == 0 ? [UIView new] : [UIView new];
+    return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return section == 0 ? 0.01 : 44.0;
+    return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -75,20 +94,37 @@
                                                                                                     type:(THNGoodsInfoCellTypeSelectLogistics)];
         if (self.goodsArr.count) {
             [goodsCell thn_setGoodsInfoWithModel:self.goodsArr[indexPath.row]];
+            goodsCell.showLine = indexPath.row == self.goodsArr.count - 1 ? NO : YES;
         }
         
         return goodsCell;
         
     } else if (indexPath.section == 1) {
-        THNSelectLogisticsTableViewCell *logisticsCell = [THNSelectLogisticsTableViewCell initSelectLogisticsCellWithTableView:tableView];
-        if (self.logisticsArr.count) {
-            [logisticsCell thn_setLogisticsDataWithModel:self.logisticsArr[indexPath.row]];
+        if (indexPath.row == 0) {
+            THNLogisticsPlaceTableViewCell *placeCell = [THNLogisticsPlaceTableViewCell initPlaceCellWithTableView:tableView];
+            placeCell.place = @"上海";
+            
+            return placeCell;
+            
+        } else {
+            THNSelectLogisticsTableViewCell *logisticsCell = [THNSelectLogisticsTableViewCell initSelectLogisticsCellWithTableView:tableView];
+            if (self.logisticsArr.count) {
+                [logisticsCell thn_setLogisticsDataWithModel:self.logisticsArr[indexPath.row - 1]];
+                logisticsCell.showLine = indexPath.row - 1 == self.goodsArr.count - 1 ? NO : YES;
+            }
+            
+            return logisticsCell;
         }
-        
-        return logisticsCell;
     }
     
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) return;
+    if (indexPath.row == 0) return;
+    
+    [self thn_tableView:tableView selectAtIndexPath:indexPath];
 }
 
 #pragma mark - setup UI
@@ -117,6 +153,7 @@
         _iTableView.showsVerticalScrollIndicator = NO;
         _iTableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
         _iTableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+        _iTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _iTableView.tableFooterView = self.priceView;
     }
     return _iTableView;
