@@ -8,10 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^OpenCameraBlcok)(void);
+
+/**
+ 照片类型
+
+ - PhotoTypePositive: 正面
+ - PhotoTypeNegative: 反面
+ */
+typedef NS_ENUM(NSUInteger, PhotoType) {
+    PhotoTypePositive,
+    PhotoTypeNegative
+};
+
+typedef void(^OpenCameraBlcok)(PhotoType photoType);
 
 @interface THNAddressIDCardView : UIView
 
 @property (nonatomic, copy) OpenCameraBlcok openCameraBlcok;
+@property (weak, nonatomic) IBOutlet UIButton *positiveButton;
+@property (weak, nonatomic) IBOutlet UIButton *negativeButton;
 
 @end

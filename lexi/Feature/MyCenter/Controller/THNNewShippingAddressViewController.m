@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 #import "THNAddressIDCardView.h"
+#import "THNQiNiuUpload.h"
 
 static NSString *const kAddressCellIdentifier = @"kAddressCellIdentifier";
 static CGFloat const addressPickerViewHeight = 255;
@@ -18,6 +19,7 @@ static CGFloat const pickerViewHeight = 215;
 
 static NSString *const kUrlPlaces = @"/places/provinces_cities";
 static NSString *const kUrlAreaCode = @"/auth/area_code";
+static NSString *const kUrlAddress = @"/address";
 
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
@@ -39,7 +41,6 @@ static NSString *const kOid = @"oid";
 // 手机区号编码 + 国家id 名字的字典数组
 @property (nonatomic, strong) NSArray *areaCodes;
 @property (nonatomic, strong) YYTextView *textView;
-@property (nonatomic, assign) NSInteger countryID;
 @property (nonatomic, strong) NSDictionary *resultDict;
 // 选择器列数
 @property (nonatomic, assign) NSInteger numberOfComponents;
@@ -47,6 +48,26 @@ static NSString *const kOid = @"oid";
 @property (nonatomic, strong) UIView *saveView;
 @property (nonatomic, strong) THNAddressIDCardView *cardView;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
+// 身份证照片类型
+@property (nonatomic, assign) PhotoType photoTyoe;
+// 身份证正面照片Data数据
+@property (nonatomic, strong) NSData *positiveImageData;
+@property (nonatomic, assign) NSInteger positiveImageID;
+// 身份证反面照片Data数据
+@property (nonatomic, strong) NSData *negativeImageData;
+@property (nonatomic, assign) NSInteger negativeImageID;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *mobile;
+// 邮编
+@property (nonatomic, strong) NSString *zipcode;
+// 是否默认地址
+@property (nonatomic, assign) BOOL isDefaultAddress;
+// 详细地址
+@property (nonatomic, assign) NSString *streetAddress;
+@property (nonatomic, assign) NSInteger countryID;
+@property (nonatomic, assign) NSInteger provinceID;
+@property (nonatomic, assign) NSInteger cityID;
+@property (nonatomic, assign) NSInteger townID;
 
 @end
 
@@ -78,6 +99,10 @@ static NSString *const kOid = @"oid";
     self.imagePickerController.allowsEditing = YES;
 }
 
+- (void)initData {
+    _provinceIndex = _cityIndex = _districtIndex = 0;
+}
+
 - (void)loadAreaCodeData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlAreaCode requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -106,19 +131,19 @@ static NSString *const kOid = @"oid";
 - (void)finish {
     
     if (self.textView.tag == 2) {
-        
         self.textView.text = self.areaCodes[_countryIndex][kName] ? : @"";
         self.countryID = [self.areaCodes[_countryIndex][@"id"]integerValue];
         [self loadPlacesDataCountryID:self.countryID];
         [self.textView resignFirstResponder];
         
     } else if (self.textView.tag == 3) {
-        
+        self.provinceID = [self.provinces[_provinceIndex][kOid]integerValue];
+        self.cityID = [self.citys[_cityIndex][kOid]integerValue];
+        self.townID = [self.towns[_districtIndex][kOid]integerValue];
         self.textView.text = [NSString stringWithFormat:@"%@ %@ %@",self.provinces[_provinceIndex][kName] ? : @"", self.citys[_cityIndex][kName] ? : @"" , self.towns[_districtIndex][kName] ? : @""];
         [self.textView resignFirstResponder];
         
     } else {
-        
         self.textView.text = self.areaCodes[_areacodeIndex][@"areacode"] ? : @"";
         [self.textView resignFirstResponder];
     }
@@ -126,21 +151,35 @@ static NSString *const kOid = @"oid";
 
 // 保存
 - (void)save {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"first_name"] = self.name;
+    params[@"mobile"] = self.mobile;
+    params[@"country_id"] = @(self.countryID);
+    params[@"province_id"] = @(self.provinceID);
+    params[@"city_id"] = @(self.cityID);
+    params[@"town_id"] = @(self.townID);
+    params[@"street_address"] = self.streetAddress;
+    params[@"zipcode"] = self.zipcode;
+    params[@"is_default"] = @(self.isDefaultAddress);
+    params[@"id_card_front"] = @(self.positiveImageID);
+    params[@"id_card_back"] = @(self.negativeImageID);
+    THNRequest *request = [THNAPI postWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
     
 }
 
 //  设置默认地址
 - (void)setDefaultAddress:(UISwitch *)swich {
-    if (swich.on) {
-        
-    } else {
-        
-    }
+    self.isDefaultAddress = swich.on;
 }
 
-// 相机
+#pragma mark 上传身份证
+//打开相机
 - (void)openCamera {
-    
     //判断是否可以打开照相机
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         //摄像头
@@ -152,9 +191,7 @@ static NSString *const kOid = @"oid";
     }
 }
 
-/**
- *  打开相册
- */
+// 打开相册
 - (void)openPhotoLibrary {
     
     // 进入相册
@@ -170,26 +207,37 @@ static NSString *const kOid = @"oid";
 }
 
 #pragma mark - UIImagePickerControllerDelegate
-//// 拍照完成回调
-//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo NS_DEPRECATED_IOS(2_0, 3_0){
-//    
-//    NSLog(@"finish..");
-//    if(picker.sourceType == UIImagePickerControllerSourceTypeCamera)
-//    {
-//        //图片存入相册
-//        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-//    }
-//    self.imgv.image =image;
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+// 照片完成回调
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    if (!editedImage) {
+        editedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        if (self.photoTyoe == PhotoTypePositive) {
+           self.positiveImageData = UIImagePNGRepresentation(editedImage);
+            [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:self.positiveImageData
+                                                           compltion:^(NSDictionary *result) {
+                                                             self.positiveImageID = [result[@"ids"][0]integerValue];
+                                                           }];
+           [self.cardView.positiveButton setImage:editedImage forState:UIControlStateNormal];
+        } else {
+           self.negativeImageData = UIImagePNGRepresentation(editedImage);
+           [self.cardView.negativeButton setImage:editedImage forState:UIControlStateNormal];
+            [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:self.negativeImageData
+                                                           compltion:^(NSDictionary *result) {
+                                                              self.negativeImageID = [result[@"ids"][0]integerValue];
+                                                           }];
+        }
+        
+    }];
+}
 
 //进入拍摄页面点击取消按钮
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)initData {
-    _provinceIndex = _cityIndex = _districtIndex = 0;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -200,6 +248,7 @@ static NSString *const kOid = @"oid";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNNewShippingAddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAddressCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.row == 1) {
         [cell addSubview:cell.areaCodeTextView];
@@ -208,11 +257,13 @@ static NSString *const kOid = @"oid";
         cell.areaCodeTextView.delegate = self;
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 60;
+        cell.areaCodeTextView.tintColor = [UIColor clearColor];
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2 || indexPath.row == 3) {
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 0;
         cell.textView.inputView = self.addressPickerView;
+        cell.textView.tintColor = [UIColor clearColor];
     } else {
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
@@ -252,7 +303,7 @@ static NSString *const kOid = @"oid";
 
 #pragma mark - YYTextViewDelegate
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
-   
+    
     if (textView.tag == 3 && !self.countryID) {
         [self loadPlacesDataCountryID:[self.areaCodes[0][@"id"]integerValue]];
     }
@@ -269,6 +320,23 @@ static NSString *const kOid = @"oid";
     self.textView = textView;
 }
 
+- (void)textViewDidEndEditing:(YYTextView *)textView {
+    switch (textView.tag) {
+        case 0:
+            self.name = textView.text;
+            break;
+        case 1:
+            self.mobile = textView.text;
+        case 4:
+            self.streetAddress = textView.text;
+        case 5:
+            self.zipcode = textView.text;
+        default:
+            break;
+    }
+}
+
+// 点击Return 隐藏键盘
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
     if ([text isEqualToString:@"\n"]){
@@ -412,15 +480,14 @@ static NSString *const kOid = @"oid";
         _footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 315)];
         THNAddressIDCardView *cardView = [THNAddressIDCardView viewFromXib];
         
-        cardView.openCameraBlcok = ^{
+        cardView.openCameraBlcok = ^(PhotoType photoType) {
+            self.photoTyoe = photoType;
+            
             UIAlertController *alertCtl =[[UIAlertController alloc]init];
             
             UIAlertAction *cancel =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                NSLog(@"cancel");
             }];
             UIAlertAction *camaraAction =[UIAlertAction actionWithTitle:@"拍摄身份证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSLog(@"xiangji");
-                
                 [self openCamera];
             }];
             UIAlertAction *photoAction =[UIAlertAction actionWithTitle:@"从相册选择身份证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
