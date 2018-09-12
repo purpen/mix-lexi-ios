@@ -40,5 +40,6 @@
  */
 - (void)thn_setGoodsSkuViewHandleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string;
 
+- (instancetype)initWithSkuModel:(THNSkuModel *)model;
 
 @end

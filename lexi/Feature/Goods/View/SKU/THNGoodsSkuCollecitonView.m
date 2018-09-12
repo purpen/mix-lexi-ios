@@ -48,6 +48,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
         [self.nameArr addObject:model.name];
     }
 
+    self.titleLabel.hidden = NO;
     [self.textCollecitonView reloadData];
 }
 
@@ -109,6 +110,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
         _textCollecitonView.delegate = self;
         _textCollecitonView.dataSource = self;
         _textCollecitonView.showsVerticalScrollIndicator = NO;
+        _textCollecitonView.scrollEnabled = NO;
         _textCollecitonView.backgroundColor = [UIColor whiteColor];
         [_textCollecitonView registerClass:[THNGoodsSkuCollectionViewCell class] forCellWithReuseIdentifier:kGoodsSkuCollectionViewCellId];
     }
@@ -120,6 +122,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightLight)];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
+        _titleLabel.hidden = YES;
     }
     return _titleLabel;
 }
