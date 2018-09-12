@@ -59,7 +59,7 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     [self.likeButton selfManagerLikeGoodsStatus:model.isLike count:model.likeCount goodsId:model.rid];
     self.likeButton.likeGoodsCompleted = ^(NSInteger count) {
         weakSelf.likeCountW = [weakSelf thn_getLikeButtonWidthWithLikeCount:count];
-        weakSelf.baseCell.selectedCellBlock();
+        weakSelf.baseCell.selectedCellBlock(@"");
     };
     
     [self.wishButton selfManagerWishGoodsStatus:model.isWish goodsId:model.rid];

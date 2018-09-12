@@ -68,9 +68,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
  @param completed 成功后的回调
  */
 - (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSString *)storeId completed:(void (^)(NSError *error))completed {
-    THNRequest *request = [THNAPI postWithUrlString:url
-                                  requestDictionary:@{@"rid": storeId}
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:url requestDictionary:@{@"rid": storeId} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.success) {
             completed(nil);

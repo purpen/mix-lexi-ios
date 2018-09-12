@@ -19,10 +19,6 @@ static NSString *const kTitleSize  = @"尺寸";
 
 @interface THNGoodsSkuView ()
 
-/// 背景遮罩
-@property (nonatomic, strong) UIView *backgroudMaskView;
-/// 控件容器
-@property (nonatomic, strong) UIView *containerView;
 /// 商品标题
 @property (nonatomic, strong) YYLabel *titleLabel;
 @property (nonatomic, assign) CGFloat titleH;
@@ -38,7 +34,11 @@ static NSString *const kTitleSize  = @"尺寸";
 @implementation THNGoodsSkuView
 
 - (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self = [super init];
+    if (self) {
+        [self setupViewUI];
+    }
+    return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -49,40 +49,33 @@ static NSString *const kTitleSize  = @"尺寸";
     return self;
 }
 
+#pragma mark - public methods
 - (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
     [self thn_setPriceTextWithValue:189.2];
     [self.colorCollectionView thn_setSkuNameData:model.colors];
     [self.sizeCollectionView thn_setSkuNameData:model.modes];
 }
 
-- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType titleAttributedString:(NSAttributedString *)string {
-    self.viewType = viewType;
-    [self thn_setTitleAttributedString:string];
-    [self thn_showView:YES];
-}
-
-- (void)thn_showGoodsSkuViewType:(THNGoodsFunctionViewType)viewType handleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string {
-    self.viewType = viewType;
-    self.handleType = handleType;
-    [self thn_setTitleAttributedString:string];
-    [self thn_showView:YES];
-}
-
+/**
+ 设置商品标题
+ */
 - (void)thn_setTitleAttributedString:(NSAttributedString *)string {
     self.titleLabel.attributedText = string;
-    
     self.titleH = [self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 40];
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.titleH);
-    }];
 }
 
-#pragma mark - event response
-- (void)closeView:(UITapGestureRecognizer *)tap {
-    [self thn_showView:NO];
+/**
+ 已选择“购买” / “加购物车”
+ */
+- (void)thn_setGoodsSkuViewHandleType:(THNGoodsButtonType)handleType titleAttributedString:(NSAttributedString *)string {
+    self.handleType = handleType;
+    [self thn_setTitleAttributedString:string];
 }
 
 #pragma mark - private methods
+/**
+ 设置商品价格
+ */
 - (void)thn_setPriceTextWithValue:(CGFloat)value {
     NSString *salePriceStr = [NSString stringWithFormat:@"￥%.2f", value];
     NSMutableAttributedString *salePriceAtt = [[NSMutableAttributedString alloc] initWithString:salePriceStr];
@@ -92,62 +85,49 @@ static NSString *const kTitleSize  = @"尺寸";
     self.priceLabel.attributedText = salePriceAtt;
 }
 
-- (void)thn_showView:(BOOL)show {
-    CGFloat backgroudAlpha = show ? 1 : 0;
-    CGRect selfRect = CGRectMake(0, show ? 0 : SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+- (void)thn_getColorContentHeight:(NSArray *)colors {
     
-    [UIView animateWithDuration:(NSTimeInterval)0.4 animations:^{
-        self.backgroudMaskView.hidden = YES;
-        self.frame = selfRect;
-        self.backgroudMaskView.alpha = backgroudAlpha;
-        
-    } completion:^(BOOL finished) {
-        self.backgroudMaskView.hidden = !show;
-    }];
+}
+
+- (void)thn_getModeContentHeight:(NSArray *)modes {
+    
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    [self addSubview:self.backgroudMaskView];
-    [self.containerView addSubview:self.titleLabel];
-    [self.containerView addSubview:self.priceLabel];
-    [self.containerView addSubview:self.colorCollectionView];
-    [self.containerView addSubview:self.sizeCollectionView];
-    [self addSubview:self.containerView];
+    self.backgroundColor = [UIColor whiteColor];
+    
+    [self addSubview:self.titleLabel];
+    [self addSubview:self.priceLabel];
+    [self addSubview:self.colorCollectionView];
+    [self addSubview:self.sizeCollectionView];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat viewH = CGRectGetHeight(self.bounds);
-    CGFloat viewW = CGRectGetWidth(self.bounds);
-    
-    self.backgroudMaskView.frame = self.bounds;
-    CGFloat containerViewH = 350;
-    self.containerView.frame = CGRectMake(0, viewH - containerViewH, viewW, containerViewH);
-    
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.top.mas_equalTo(15);
         make.height.mas_equalTo(self.titleH);
     }];
     
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(10);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(20);
     }];
     
-    [self.colorCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.colorCollectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.top.equalTo(self.priceLabel.mas_bottom).with.offset(30);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(24);
     }];
     
-    [self.sizeCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.sizeCollectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.top.equalTo(self.colorCollectionView.mas_bottom).with.offset(20);
         make.right.mas_equalTo(-20);
@@ -156,25 +136,6 @@ static NSString *const kTitleSize  = @"尺寸";
 }
 
 #pragma mark - getters and setters
-- (UIView *)backgroudMaskView {
-    if (!_backgroudMaskView) {
-        _backgroudMaskView = [[UIView alloc] init];
-        _backgroudMaskView.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.5];
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeView:)];
-        [_backgroudMaskView addGestureRecognizer:tap];
-    }
-    return _backgroudMaskView;
-}
-
-- (UIView *)containerView {
-    if (!_containerView) {
-        _containerView = [[UIView alloc] init];
-        _containerView.backgroundColor = [UIColor whiteColor];
-    }
-    return _containerView;
-}
-
 - (YYLabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[YYLabel alloc] init];

@@ -7,14 +7,17 @@
 //
 
 #import "THNGoodsDescribeViewController.h"
-#import "THNGoodsManager.h"
 #import "THNGoodsDescribeTableViewCell.h"
 #import "YYLabel+Helper.h"
 
 @interface THNGoodsDescribeViewController ()
 
 /// 商品数据
-@property (nonatomic, strong) THNGoodsModel *model;
+@property (nonatomic, strong) THNGoodsModel *goodsModel;
+/// 店铺 model
+@property (nonatomic, strong) THNStoreModel *storeModel;
+/// 运费 model
+@property (nonatomic, strong) THNFreightModel *freightModel;
 /// 关闭按钮
 @property (nonatomic, strong) UIButton *closeButton;
 
@@ -22,10 +25,14 @@
 
 @implementation THNGoodsDescribeViewController
 
-- (instancetype)initWithGoodsModel:(THNGoodsModel *)model {
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel
+                        storeModel:(THNStoreModel *)storeModel
+                      freightModel:(THNFreightModel *)freightModel {
     self = [super init];
     if (self) {
-        self.model = model;
+        self.goodsModel = goodsModel;
+        self.storeModel = storeModel;
+        self.freightModel = freightModel;
     }
     return self;
 }
@@ -34,7 +41,7 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self thn_setDescribeCellWithGoodsModel:self.model];
+    [self thn_setDescribeCell];
 }
 
 #pragma mark - event response
@@ -45,30 +52,46 @@
 /**
  设置商品描述
  */
-- (void)thn_setDescribeCellWithGoodsModel:(THNGoodsModel *)goodsModel {
+- (void)thn_setDescribeCell {
+    if (!self.goodsModel) return;
+    
     THNGoodsTableViewCells *desCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    desCells.height = [self thn_getGoodsFeaturesHeightWithModel:goodsModel];
-    desCells.goodsModel = goodsModel;
+    desCells.height = [self thn_getGoodsFeaturesHeightWithModel:self.goodsModel];
+    desCells.goodsModel = self.goodsModel;
     
     THNGoodsTableViewCells *salesReturnCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
-    salesReturnCells.height = [self thn_getSalesReturnHeightWithModel:goodsModel];
-    salesReturnCells.goodsModel = goodsModel;
+    NSString *salesReturnText = [self thn_getSalesReturnTextWithTitle:self.goodsModel.returnPolicyTitle
+                                                              content:self.goodsModel.productReturnPolicy];
+    salesReturnCells.height = [self thn_getContentHeightWithText:salesReturnText] + 75;
+    salesReturnCells.goodsModel = self.goodsModel;
     
     THNGoodsTableViewCells *timeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     timeCells.height = 80;
-    // 获取发货时间信息
-    [THNGoodsManager getFreightTemplateDataWithRid:goodsModel.fid goodsId:goodsModel.rid storeId:goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
-        timeCells.freightModel = model;
+    if (!self.freightModel) {
+        // 获取发货时间信息
+        [THNGoodsManager getFreightTemplateDataWithRid:self.goodsModel.fid goodsId:self.goodsModel.rid storeId:self.goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
+            timeCells.freightModel = model;
+            [self.tableView reloadData];
+        }];
+        
+    } else {
+        timeCells.freightModel = self.freightModel;
         [self.tableView reloadData];
-    }];
+    }
     
     THNGoodsTableViewCells *dispatchCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     dispatchCells.height = 80;
-    // 获取店铺信息
-    [THNGoodsManager getOfficialStoreInfoWithId:goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
-        dispatchCells.storeModel = model;
+    if (!self.storeModel) {
+        // 获取店铺信息
+        [THNGoodsManager getOfficialStoreInfoWithId:self.goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
+            dispatchCells.storeModel = model;
+            [self.tableView reloadData];
+        }];
+        
+    } else {
+        dispatchCells.storeModel = self.storeModel;
         [self.tableView reloadData];
-    }];
+    }
     
     NSMutableArray *cellArr = [NSMutableArray arrayWithArray:@[desCells, dispatchCells, timeCells, salesReturnCells]];
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:cellArr];
@@ -85,27 +108,34 @@
 - (CGFloat)thn_getGoodsFeaturesHeightWithModel:(THNGoodsModel *)model {
     CGFloat contentH = 50.0;
     
+    contentH += model.features.length > 0 ? [self thn_getContentHeightWithText:model.features] + 10 : 0;
     contentH += model.isCustomService ? 30 : 0;
     contentH += model.materialName.length ? 30 : 0;
     contentH += model.stockCount < 10 ? 30 : 0;
-    
-    BOOL isHaveFeatures = model.features.length > 0;
-    CGFloat featuresH = model.features.length > 24 ? 50 : 30;
-    contentH += isHaveFeatures ? featuresH : 0;
     
     return contentH == 50.0 ? 0.01 : contentH;
 }
 
 /**
- 售后政策内容的高度
+ 售后服务的内容
  */
-- (CGFloat)thn_getSalesReturnHeightWithModel:(THNGoodsModel *)model {
+- (NSString *)thn_getSalesReturnTextWithTitle:(NSString *)title content:(NSString *)content {
+    NSString *titleText = title.length ? [NSString stringWithFormat:@"· %@\n", title] : @"";
+    NSString *text = [NSString stringWithFormat:@"%@%@", titleText, content];
     
-    CGFloat policyH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:model.productReturnPolicy
-                                                           fontSize:14
-                                                        lineSpacing:7
-                                                            fixSize:CGSizeMake(SCREEN_WIDTH - 30, MAXFLOAT)].height;
-    return policyH + 100;
+    return text;
+}
+
+/**
+ 内容的高度
+ */
+- (CGFloat)thn_getContentHeightWithText:(NSString *)text {
+    CGFloat contentH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:text
+                                                            fontSize:14
+                                                         lineSpacing:7
+                                                             fixSize:CGSizeMake(SCREEN_WIDTH - 30, MAXFLOAT)].height;
+    
+    return contentH;
 }
 
 #pragma mark - tableView datasource
@@ -117,8 +147,7 @@
         THNGoodsDescribeTableViewCell *desInfoCell = [THNGoodsDescribeTableViewCell initGoodsCellWithTableView:tableView];
         goodsCells.desInfoCell = desInfoCell;
         desInfoCell.baseCell = goodsCells;
-        [desInfoCell thn_hiddenLine];
-        [desInfoCell thn_setDescribeType:(THNGoodsDescribeCellTypeDes) goodsModel:goodsCells.goodsModel];
+        [desInfoCell thn_setDescribeType:(THNGoodsDescribeCellTypeDes) goodsModel:goodsCells.goodsModel showIcon:YES];
         
         return desInfoCell;
         
@@ -142,7 +171,8 @@
         THNGoodsDescribeTableViewCell *salesReturnCell = [THNGoodsDescribeTableViewCell initGoodsCellWithTableView:tableView];
         goodsCells.salesReturnCell = salesReturnCell;
         salesReturnCell.baseCell = goodsCells;
-        [salesReturnCell thn_setDescribeType:(THNGoodsDescribeCellTypeSalesReturn) goodsModel:goodsCells.goodsModel];
+        [salesReturnCell thn_hiddenLine];
+        [salesReturnCell thn_setDescribeType:(THNGoodsDescribeCellTypeSalesReturn) goodsModel:goodsCells.goodsModel showIcon:NO];
         
         return salesReturnCell;
     }

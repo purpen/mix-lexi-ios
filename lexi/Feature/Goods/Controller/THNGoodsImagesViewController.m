@@ -11,6 +11,7 @@
 #import "THNGoodsActionButton.h"
 #import "THNGoodsActionButton+SelfManager.h"
 #import "UIView+Helper.h"
+#import "THNGoodsSkuViewController.h"
 
 @interface THNGoodsImagesViewController () <THNNavigationBarViewDelegate>
 
@@ -23,22 +24,28 @@
 /// 分享按钮
 @property (nonatomic, strong) UIButton *shareButton;
 /// 商品数据
-@property (nonatomic, strong) THNGoodsModel *model;
+@property (nonatomic, strong) THNGoodsModel *goodsModel;
 /// 图片数据
 @property (nonatomic, strong) NSArray *imagesArr;
 /// 喜欢状态
 @property (nonatomic, assign) BOOL isLike;
+/// sku 数据
+@property (nonatomic, strong) THNSkuModel *skuModel;
+@property (nonatomic, assign) THNGoodsFunctionViewType functionType;
+@property (nonatomic, assign) THNGoodsButtonType handleType;
+@property (nonatomic, strong) NSAttributedString *titleString;
 
 @end
 
 @implementation THNGoodsImagesViewController
 
-- (instancetype)initWithGoodsModel:(THNGoodsModel *)model {
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel skuModel:(THNSkuModel *)skuModel {
     self = [super init];
     if (self) {
-        self.model = model;
-        self.imagesArr = model.assets;
-        self.isLike = model.isLike;
+        self.goodsModel = goodsModel;
+        self.skuModel = skuModel;
+        self.imagesArr = goodsModel.assets;
+        self.isLike = goodsModel.isLike;
     }
     return self;
 }
@@ -49,12 +56,30 @@
     [self setupUI];
 }
 
+#pragma mark - public methods
+- (void)thn_setSkuFunctionViewType:(THNGoodsFunctionViewType)functionType
+                        handleType:(THNGoodsButtonType)handleType
+             titleAttributedString:(NSAttributedString *)string {
+    
+    self.functionType = functionType;
+    self.handleType = handleType;
+    self.titleString = string;
+}
+
+- (void)thn_scrollContentWithIndex:(NSInteger)index {
+    [self.imagesView thn_setContentOffsetWithIndex:index];
+}
+
 #pragma mark - event response
 - (void)buyButtonAction:(id)sender {
-    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self dismissViewControllerAnimated:YES completion:^{
-        self.buyGoodsCompleted();
-    }];
+    THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:self.skuModel
+                                                                                     goodsModel:self.goodsModel
+                                                                                       viewType:(THNGoodsSkuTypeDefault)];
+    goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    goodsSkuVC.functionType = self.functionType;
+    [goodsSkuVC.skuView thn_setGoodsSkuViewHandleType:self.handleType titleAttributedString:self.titleString];
+    [self presentViewController:goodsSkuVC animated:YES completion:nil];
 }
 
 - (void)shareButtonAction:(UIButton *)button {
@@ -141,7 +166,7 @@
 - (THNGoodsActionButton *)likeButton {
     if (!_likeButton) {
         _likeButton = [[THNGoodsActionButton alloc] initWithType:(THNGoodsActionButtonTypeLike)];
-        [_likeButton selfManagerLikeGoodsStatus:self.isLike goodsId:self.model.rid];
+        [_likeButton selfManagerLikeGoodsStatus:self.isLike goodsId:self.goodsModel.rid];
     }
     return _likeButton;
 }
@@ -164,10 +189,6 @@
         [_shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _shareButton;
-}
-
-- (void)dealloc {
-    
 }
 
 @end

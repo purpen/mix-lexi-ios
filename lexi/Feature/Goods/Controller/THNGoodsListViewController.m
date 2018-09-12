@@ -92,6 +92,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
             
         case THNGoodsListViewTypeCategory: {
             [self.paramDict setObject:@(self.categoryId) forKey:@"id"];
+            [self.paramDict setObject:@(10) forKey:@"per_page"];
             [self thn_getCategoryProductsWithParams:self.paramDict];
             [self.popupView thn_setCategoryId:self.categoryId];
         }
