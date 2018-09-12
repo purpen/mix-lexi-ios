@@ -8,6 +8,11 @@
 
 #import "THNBaseViewController.h"
 
+
+
+
 @interface THNOrderDetailViewController : THNBaseViewController
+// 订单编号
+@property (nonatomic, strong) NSString *rid;
 
 @end

@@ -76,6 +76,9 @@
                         <state key="normal">
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
+                        <connections>
+                            <action selector="backGroundButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="TQz-si-bbr"/>
+                        </connections>
                     </button>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cAl-7u-rBx">
                         <rect key="frame" x="48" y="63" width="284" height="111"/>
@@ -90,6 +93,9 @@
                         <state key="normal">
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
+                        <connections>
+                            <action selector="borderButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="guK-Hf-70A"/>
+                        </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cUC-QR-hRg">
                         <rect key="frame" x="251" y="175.5" width="81" height="29"/>
