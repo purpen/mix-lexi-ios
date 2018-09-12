@@ -72,7 +72,7 @@ static NSString *const kKeyStores       = @"stores";
     THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
-        
+
         completion((NSArray *)result.data[kKeyStores], nil);
     
     } failure:^(THNRequest *request, NSError *error) {

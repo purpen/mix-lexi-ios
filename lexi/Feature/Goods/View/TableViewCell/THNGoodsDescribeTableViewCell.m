@@ -39,14 +39,14 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     return cell;
 }
 
-- (void)thn_setDescribeType:(THNGoodsDescribeCellType)type goodsModel:(THNGoodsModel *)model {
+- (void)thn_setDescribeType:(THNGoodsDescribeCellType)type goodsModel:(THNGoodsModel *)model showIcon:(BOOL)showIcon {
     if (type == THNGoodsDescribeCellTypeSalesReturn) {
         [self thn_setTitleWithType:type];
         [self thn_setSalesReturnTitle:model.returnPolicyTitle info:model.productReturnPolicy];
     
     } else if (type == THNGoodsDescribeCellTypeDes) {
         [self thn_setTitleWithType:type];
-        [self thn_setDescribeInfoWithGoodsModel:model];
+        [self thn_setDescribeInfoWithGoodsModel:model showIcon:showIcon];
     }
 }
 
@@ -119,35 +119,74 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 
  @param model 商品数据
  */
-- (void)thn_setDescribeInfoWithGoodsModel:(THNGoodsModel *)model {
+- (void)thn_setDescribeInfoWithGoodsModel:(THNGoodsModel *)model showIcon:(BOOL)showIcon {
+    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] init];
+    
     // 亮点
-    NSString *showFeatures = model.features.length > 40 ? [model.features substringToIndex:44] : model.features;
-    NSString *features = showFeatures.length ? [NSString stringWithFormat:@"亮点：%@\n", showFeatures] : @"";
+    BOOL showFeatures = model.features.length > 0;
+    if (showFeatures) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"亮点" content:model.features showIcon:showIcon]];
+    }
     
     // 材质
     BOOL showMaterial = model.materialName.length > 0;
-    NSString *material = showMaterial ? [NSString stringWithFormat:@"材质：%@\n", model.materialName] : @"";
+    if (showMaterial) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"材质" content:model.materialName showIcon:showIcon]];
+    }
     
     // 特点
-    BOOL isCustomService = model.isCustomService;
-    NSString *custom = isCustomService ? [NSString stringWithFormat:@"特点：可提供订制化服务\n"] : @"";
+    if (model.isCustomService) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"特点" content:@"可提供订制化服务" showIcon:showIcon]];
+    }
     
     // 数量
     BOOL showCount = model.stockCount < 10;
     BOOL isSellOut = model.stockCount == 0;
-    NSString *stockCount = showCount ? [NSString stringWithFormat:@"数量：仅剩最后%zi件", model.stockCount] : @"";
-    stockCount = isSellOut ? @"数量：已售罄" : stockCount;
+    if (showCount) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量"
+                                                                content:[NSString stringWithFormat:@"仅剩最后%zi件", model.stockCount]
+                                                               showIcon:showIcon]];
+    }
+    if (isSellOut) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量" content:@"已售罄" showIcon:showIcon]];
+    }
     
-    NSString *text = [NSString stringWithFormat:@"%@%@%@%@", features, material, custom, stockCount];
-    text = text.length ? text : @"";
-    
-    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
     textAtt.lineSpacing = 7;
     textAtt.paragraphSpacing = 3;
-    textAtt.font = [UIFont systemFontOfSize:14];
-    textAtt.color = [UIColor colorWithHexString:@"#333333"];
     
     self.contentLabel.attributedText = textAtt;
+}
+
+/**
+ 描述内容
+ */
+- (NSMutableAttributedString *)thn_getDescribePrefixText:(NSString *)text content:(NSString *)content showIcon:(BOOL)showIcon {
+    NSMutableAttributedString *prefixAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@：", text]];
+    prefixAtt.font = [UIFont systemFontOfSize:14 weight:showIcon ? UIFontWeightMedium : UIFontWeightRegular];
+    prefixAtt.color = [UIColor colorWithHexString:@"#333333"];
+    
+    NSMutableAttributedString *contentAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", content]];
+    contentAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+    contentAtt.color = [UIColor colorWithHexString:@"#333333"];
+    
+    [prefixAtt appendAttributedString:contentAtt];
+    
+    if (showIcon) {
+        [prefixAtt insertAttributedString:[self thn_getSymbolText] atIndex:0];
+    }
+    
+    return prefixAtt;
+}
+
+/**
+ 前缀符号
+ */
+- (NSMutableAttributedString *)thn_getSymbolText {
+    NSMutableAttributedString *symbolAtt = [[NSMutableAttributedString alloc] initWithString:@"·  "];
+    symbolAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightBold)];
+    symbolAtt.color = [UIColor colorWithHexString:kColorMain];
+    
+    return symbolAtt;
 }
 
 #pragma mark - setup UI
@@ -182,8 +221,8 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 - (void)drawRect:(CGRect)rect {
     if (CGRectGetHeight(self.bounds) >= 80) {
         if (_drawLine) {
-            [UIView drawRectLineStart:CGPointMake(15, 0)
-                                  end:CGPointMake(CGRectGetWidth(self.bounds), 0)
+            [UIView drawRectLineStart:CGPointMake(15, CGRectGetHeight(self.bounds) - 1)
+                                  end:CGPointMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)
                                 width:0.5
                                 color:[UIColor colorWithHexString:@"#E9E9E9"]];
         }

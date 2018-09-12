@@ -57,7 +57,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 
 #pragma mark - event response
 - (void)moreButtonAction:(id)sender {
-    self.baseCell.selectedCellBlock();
+    self.baseCell.selectedCellBlock(@"");
 }
 
 #pragma mark - setup UI

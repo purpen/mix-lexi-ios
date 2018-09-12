@@ -55,6 +55,13 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
     [self.imageCollecitonView reloadData];
 }
 
+- (void)thn_setContentOffsetWithIndex:(NSInteger)index {
+    CGPoint offsetX = CGPointMake(CGRectGetWidth(self.bounds) * index, 0);
+    self.imageCollecitonView.contentOffset = offsetX;
+    
+    [self thn_setImageCount:self.imageUrlArr.count index:index + 1];
+}
+
 #pragma mark - private methods
 - (void)thn_setImageCount:(NSInteger)count index:(NSInteger)index {
     NSString *countString = [NSString stringWithFormat:@" / %zi", count];

@@ -69,6 +69,59 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_changTableViewDataSourceWithType:_selectedDataType];
 }
 
+#pragma mark - custom delegate
+- (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type {
+    switch (type) {
+        case THNHeaderViewSelectedTypeLiked:
+        case THNHeaderViewSelectedTypeCollect:
+        case THNHeaderViewSelectedTypeStore:{
+            [self thn_changTableViewDataSourceWithType:type];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeDynamic:{
+            THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
+            [self.navigationController pushViewController:dynamicVC animated:YES];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeActivity:{
+            [SVProgressHUD showInfoWithStatus:@"活动"];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeOrder:{
+            THNOrderViewController *order = [[THNOrderViewController alloc]init];
+            [self.navigationController pushViewController:order animated:YES];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeCoupon:{
+            [SVProgressHUD showInfoWithStatus:@"优惠券"];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeService:{
+            [SVProgressHUD showInfoWithStatus:@"客服"];
+        }
+            break;
+    }
+}
+
+- (void)didNavigationRightButtonOfIndex:(NSInteger)index {
+    if (index == 0) {
+        THNApplyStoreViewController *applyVC = [[THNApplyStoreViewController alloc] init];
+        [self.navigationController pushViewController:applyVC animated:YES];
+        
+    } else if (index == 1) {
+        [THNLoginManager userLogoutCompletion:^(NSError *error) {
+            if (error) return;
+            [SVProgressHUD showSuccessWithStatus:@"退出登录"];
+        }];
+    }
+}
+
+#pragma mark - network
 // 头部用户信息
 - (void)thn_setUserHeaderView {
     [SVProgressHUD show];
@@ -88,12 +141,15 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
     
+    WEAKSELF;
+    [SVProgressHUD show];
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        [SVProgressHUD dismiss];
         if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:^(NSString *ids) {
             THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
-            [self.navigationController pushViewController:goodsInfoVC animated:YES];
+            [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
         }];
         goodsCells.height = kCellHeightGoods;
         goodsCells.goodsDataArr = goodsData;
@@ -106,29 +162,32 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle moreCompletion:^{
                 THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] \
                                                            initWithUserCenterGoodsType:type title:headerTitle];
-                [self.navigationController pushViewController:goodsListVC animated:YES];
+                [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
             }];
         }
         sections.index = (NSInteger)type;
         sections.dataCells = [@[goodsCells] mutableCopy];
         
         if (goodsData.count) {
-            [self.dataSections addObject:sections];
-            [self thn_sortDataSecitons];
+            [weakSelf.dataSections addObject:sections];
+            [weakSelf thn_sortDataSecitons];
         }
         
         if (type == THNUserCenterGoodsTypeLikedGoods) {
-            [self thn_setLikedWindowTableViewCell];
+            [weakSelf thn_setLikedWindowTableViewCell];
         }
         
-        [self thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
-        self.tableView.backgroundColor = [UIColor whiteColor];
+        [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
+        weakSelf.tableView.backgroundColor = [UIColor whiteColor];
     }];
 }
 
 // 喜欢的橱窗
 - (void)thn_setLikedWindowTableViewCell {
+    WEAKSELF;
+    [SVProgressHUD show];
     [THNUserManager getUserLikedWindowWithParams:@{} completion:^(NSArray *windowData, NSError *error) {
+        [SVProgressHUD dismiss];
         if (error) return;
         
         THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow) didSelectedItem:^(NSString *ids) {
@@ -139,24 +198,27 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         
         THNTableViewSections *sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleWindow moreCompletion:^{
             THNLikedWindowViewController *likedWindowVC = [[THNLikedWindowViewController alloc] init];
-            [self.navigationController pushViewController:likedWindowVC animated:YES];
+            [weakSelf.navigationController pushViewController:likedWindowVC animated:YES];
         }];
         sections.index = 1;
         sections.dataCells = [@[cells] mutableCopy];
         
         if (windowData.count) {
-            [self.dataSections addObject:sections];
-            [self thn_sortDataSecitons];
+            [weakSelf.dataSections addObject:sections];
+            [weakSelf thn_sortDataSecitons];
         }
         
-        [self thn_setTableViewFooterViewWithType:THNHeaderViewSelectedTypeLiked];
-        self.tableView.backgroundColor = [UIColor whiteColor];
+        [weakSelf thn_setTableViewFooterViewWithType:THNHeaderViewSelectedTypeLiked];
+        weakSelf.tableView.backgroundColor = [UIColor whiteColor];
     }];
 }
 
 // 关注的设计馆
 - (void)thn_setFollowStoreTableViewCell {
+    WEAKSELF;
+    [SVProgressHUD show];
     [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
+        [SVProgressHUD dismiss];
         if (error) return;
         
         for (NSDictionary *storeDict in storesData) {
@@ -169,18 +231,19 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             storeCells.storeModel = model;
             
             THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore) didSelectedItem:^(NSString *ids) {
-                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"商品ID == %@", ids]];
+                THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
+                [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
             }];
             goodsCells.height = kCellHeightGoods + 15.0;
             goodsCells.goodsDataArr = model.products;
 
             THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, goodsCells] mutableCopy]];
             sections.footerHeight = kSectionFooterHeight;
-            [self.dataSections addObject:sections];
+            [weakSelf.dataSections addObject:sections];
         }
         
-        [self thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeStore)];
-        self.tableView.backgroundColor = [UIColor colorWithHexString:self.dataSections.count ? kColorBackground : kColorWhite];
+        [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeStore)];
+        weakSelf.tableView.backgroundColor = [UIColor colorWithHexString:weakSelf.dataSections.count ? kColorBackground : kColorWhite];
     }];
 }
 
@@ -298,60 +361,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_nav_share_gray",
                                                                         @"icon_setting_gray"]];
-}
-
-#pragma mark - custom delegate
-- (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type {
-    switch (type) {
-        case THNHeaderViewSelectedTypeLiked:
-        case THNHeaderViewSelectedTypeCollect:
-        case THNHeaderViewSelectedTypeStore:{
-            [self thn_changTableViewDataSourceWithType:type];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeDynamic:{
-            THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
-            [self.navigationController pushViewController:dynamicVC animated:YES];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeActivity:{
-//            [SVProgressHUD showInfoWithStatus:@"活动"];
-            THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:85 categoryName:@"分类"];
-            [self.navigationController pushViewController:goodsListVC animated:YES];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeOrder:{
-            THNOrderViewController *order = [[THNOrderViewController alloc]init];
-            [self.navigationController pushViewController:order animated:YES];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeCoupon:{
-            [SVProgressHUD showInfoWithStatus:@"优惠券"];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeService:{
-            [SVProgressHUD showInfoWithStatus:@"客服"];
-        }
-            break;
-    }
-}
-
-- (void)didNavigationRightButtonOfIndex:(NSInteger)index {
-    if (index == 0) {
-        THNApplyStoreViewController *applyVC = [[THNApplyStoreViewController alloc] init];
-        [self.navigationController pushViewController:applyVC animated:YES];
-        
-    } else if (index == 1) {
-        [THNLoginManager userLogoutCompletion:^(NSError *error) {
-            if (error) return;
-            [SVProgressHUD showSuccessWithStatus:@"退出登录"];
-        }];
-    }
 }
 
 #pragma mark - getters and setters

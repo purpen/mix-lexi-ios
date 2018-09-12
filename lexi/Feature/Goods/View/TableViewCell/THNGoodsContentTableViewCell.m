@@ -33,7 +33,8 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
 
 - (void)thn_setContentWithGoodsModel:(THNGoodsModel *)model {
     if (self.subviews.count > 1) return;
-    self.originY = 15;
+    
+    self.originY = 0;
     
     for (THNGoodsModelDealContent *contentModel in model.dealContent) {
         if ([contentModel.type isEqualToString:@"text"]) {
@@ -50,8 +51,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
  文字内容
  */
 - (void)thn_creatAttributedStringWithText:(NSString *)text {
-    NSArray *boldTextArr = @[@"作品详情", @"礼物描述", @"注意事项"];
-    BOOL isBold = [boldTextArr containsObject:text];
+    [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     YYLabel *textLabel = [[YYLabel alloc] init];
     textLabel.numberOfLines = 0;
@@ -59,7 +59,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     textLabel.ignoreCommonProperties = YES;
     
     NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
-    textAtt.font = [UIFont systemFontOfSize:isBold ? 16 : 14 weight:isBold ? UIFontWeightMedium : UIFontWeightRegular];
+    textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
     textAtt.color = [UIColor colorWithHexString:@"#333333"];
     textAtt.lineSpacing = 7;
     
