@@ -16,12 +16,12 @@
 
 // 上传正面照片
 - (IBAction)pushPositive:(id)sender {
-    self.openCameraBlcok();
+    self.openCameraBlcok(PhotoTypePositive);
 }
 
 // 上传反面照片
 - (IBAction)pushNegative:(id)sender {
-    self.openCameraBlcok();
+    self.openCameraBlcok(PhotoTypeNegative);
 }
 
 @end

@@ -51,7 +51,7 @@
                                     <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <state key="normal" image="icon_order_addCard"/>
                                     <connections>
-                                        <action selector="pushPositive:" destination="iN0-l3-epB" eventType="touchUpInside" id="gfQ-du-vgN"/>
+                                        <action selector="pushPositive:" destination="iN0-l3-epB" eventType="touchUpInside" id="Vzw-pM-whV"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAE-5h-hLG">
@@ -59,7 +59,7 @@
                                     <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <state key="normal" image="icon_order_addCard"/>
                                     <connections>
-                                        <action selector="pushNegative:" destination="iN0-l3-epB" eventType="touchUpInside" id="HdL-Hm-sjs"/>
+                                        <action selector="pushNegative:" destination="iN0-l3-epB" eventType="touchUpInside" id="kl2-oJ-NKc"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -119,6 +119,10 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="negativeButton" destination="aAE-5h-hLG" id="Ixe-sh-J1H"/>
+                <outlet property="positiveButton" destination="29Z-nX-IRg" id="5Va-sz-wpr"/>
+            </connections>
             <point key="canvasLocation" x="49.5" y="-140.5"/>
         </view>
     </objects>
