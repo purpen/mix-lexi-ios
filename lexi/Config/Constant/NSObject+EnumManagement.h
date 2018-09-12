@@ -34,7 +34,6 @@ typedef NS_ENUM(NSUInteger, THNGoodsFunctionViewType) {
     THNGoodsFunctionViewTypeDefault = 0,  // 默认
     THNGoodsFunctionViewTypeCustom,       // 可定制
     THNGoodsFunctionViewTypeSell,         // 可卖
-    THNGoodsFunctionViewTypeDirectSelect  // 直接选择SKU
 };
 
 typedef NS_ENUM(NSUInteger, THNGoodsButtonType) {

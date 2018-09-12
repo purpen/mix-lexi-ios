@@ -84,10 +84,14 @@ static NSString *const kTitleSell       = @"卖";
 
 #pragma mark - getters and setters
 - (void)setType:(THNGoodsButtonType)type {
+    _type = type;
+    
     [self thn_setButtonStyleWithType:type];
 }
 
 - (void)setTitle:(NSString *)title {
+    _title = title;
+    
     [self thn_setTitleLableText:title];
 }
 

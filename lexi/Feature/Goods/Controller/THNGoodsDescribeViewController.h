@@ -7,10 +7,12 @@
 //
 
 #import "THNBaseTableViewController.h"
-#import "THNGoodsModel.h"
+#import "THNGoodsManager.h"
 
 @interface THNGoodsDescribeViewController : THNBaseTableViewController
 
-- (instancetype)initWithGoodsModel:(THNGoodsModel *)model;
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel
+                        storeModel:(THNStoreModel *)storeModel
+                      freightModel:(THNFreightModel *)freightModel;
 
 @end
