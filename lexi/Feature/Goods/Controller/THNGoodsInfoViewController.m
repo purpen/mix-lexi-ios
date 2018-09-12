@@ -90,10 +90,9 @@ static NSInteger const kFooterHeight = 18;
                                                                                          goodsModel:self.goodsModel
                                                                                            viewType:(THNGoodsSkuTypeDefault)];
         goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         goodsSkuVC.functionType = self.functionView.type;
-        [goodsSkuVC.skuView thn_setGoodsSkuViewHandleType:type titleAttributedString:[self thn_getGoodsTitle]];
-        [self presentViewController:goodsSkuVC animated:YES completion:nil];
+        goodsSkuVC.handleType = type;
+        [self presentViewController:goodsSkuVC animated:NO completion:nil];
     }
 }
 
@@ -213,16 +212,13 @@ static NSInteger const kFooterHeight = 18;
 - (void)thn_setDirectSelectWithGoodsModel:(THNGoodsModel *)model {
     WEAKSELF;
     
-    THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose)
-                                                                   didSelectedItem:^(NSString *rid) {
+    THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^(NSString *rid) {
         THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:weakSelf.skuModel
                                                                                          goodsModel:model
                                                                                            viewType:(THNGoodsSkuTypeDirectSelect)];
         goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        goodsSkuVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         goodsSkuVC.functionType = weakSelf.functionView.type;
-        [goodsSkuVC.skuView thn_setTitleAttributedString:[weakSelf thn_getGoodsTitle]];
-        [weakSelf presentViewController:goodsSkuVC animated:YES completion:nil];
+        [weakSelf presentViewController:goodsSkuVC animated:NO completion:nil];
     }];
     directCells.height = model.isCustomMade ? 80 : 55;
     directCells.goodsModel = model;
