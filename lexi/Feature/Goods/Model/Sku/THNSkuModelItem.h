@@ -14,14 +14,14 @@
 @property (nonatomic, strong) NSString * deliveryCountry;
 @property (nonatomic, assign) NSInteger deliveryCountryId;
 @property (nonatomic, strong) NSString * mode;
-@property (nonatomic, strong) NSString * price;
+@property (nonatomic, assign) CGFloat price;
+@property (nonatomic, assign) CGFloat salePrice;
 @property (nonatomic, strong) NSString * productName;
 @property (nonatomic, strong) NSString * productRid;
 @property (nonatomic, strong) NSString * rid;
 @property (nonatomic, strong) NSString * sColor;
 @property (nonatomic, strong) NSString * sModel;
 @property (nonatomic, strong) NSString * sWeight;
-@property (nonatomic, strong) NSString * salePrice;
 @property (nonatomic, assign) NSInteger stockCount;
 @property (nonatomic, strong) NSString * storeLogo;
 @property (nonatomic, strong) NSString * storeName;

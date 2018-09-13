@@ -13,9 +13,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *payMethodLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *payMethodImageView;
+// 小计
 @property (weak, nonatomic) IBOutlet UILabel *subtotalLabel;
+// 配送请求方式
 @property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLabel;
+// 首单优惠
+@property (weak, nonatomic) IBOutlet UILabel *firstOfferLabel;
+// 满减
+@property (weak, nonatomic) IBOutlet UILabel *fullReductionLabel;
+// 优惠券
+@property (weak, nonatomic) IBOutlet UILabel *couponLabel;
+// 订单详情顶部订单号以及支付方式的View
+@property (weak, nonatomic) IBOutlet UIView *orderDetailTopView;
 
 @end
 
