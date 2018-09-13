@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "THNAddressModel.h"
+@class THNAddressTableViewCell;
 
-typedef void(^SelectedCellCompleted)(void);
+@protocol THNAddressTableViewCellDelegate <NSObject>
+
+@optional
+- (void)thn_didSelectedAddressCell:(THNAddressTableViewCell *)cell;
+
+@end
 
 @interface THNAddressTableViewCell : UITableViewCell
 
+@property (nonatomic, strong) THNAddressModel *model;
 @property (nonatomic, assign) BOOL isSelected;
-@property (nonatomic, copy) SelectedCellCompleted selectedCellCompleted;
-
-- (void)thn_setAddressModel:(THNAddressModel *)model;
+@property (nonatomic, weak) id <THNAddressTableViewCellDelegate> delegate;
 
 + (instancetype)initAddressCellWithTableView:(UITableView *)tableView;
 
