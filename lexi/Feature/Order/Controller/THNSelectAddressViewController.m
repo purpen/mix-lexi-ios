@@ -79,7 +79,11 @@ static NSString *kKeyData    = @"data";
         return;
     }
     
+    THNAddressTableViewCell *selectedCell = [self.addressTable cellForRowAtIndexPath:self.selectedIndex];
+    selectedCell.isSelected = NO;
     
+    self.selectedIndex = [self.addressTable indexPathForCell:cell];
+    cell.isSelected = YES;
 }
 
 #pragma mark - setup UI

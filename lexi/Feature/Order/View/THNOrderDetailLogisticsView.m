@@ -11,8 +11,6 @@
 
 @interface THNOrderDetailLogisticsView()
 
-@property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
-@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;

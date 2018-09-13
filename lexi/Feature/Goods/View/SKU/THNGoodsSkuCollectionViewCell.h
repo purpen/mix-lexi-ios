@@ -8,8 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, THNGoodsSkuCellType) {
+    THNGoodsSkuCellTypeNormal = 0,  // 默认
+    THNGoodsSkuCellTypeSelected,    // 选中
+    THNGoodsSkuCellTypeDisable      // 不可选
+};
+
 @interface THNGoodsSkuCollectionViewCell : UICollectionViewCell
 
-- (void)thn_setSkuName:(NSString *)name;
+/**
+ 显示状态类型
+ */
+@property (nonatomic, assign) THNGoodsSkuCellType cellType;
+
+/**
+ 型号名称
+ */
+@property (nonatomic, strong) NSString *modeName;
 
 @end

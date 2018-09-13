@@ -734,7 +734,7 @@ static const NSString *kResponseInfoMessage = @"message";
     if (requestType) {
         manager.requestSerializer = [THNRequest requestSerializerWith:requestType];
         [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept" ];
-        [manager.requestSerializer setValue:@"application/json; charset=gb2312" forHTTPHeaderField:@"Content-Type" ];
+        [manager.requestSerializer setValue:@"application/json; charset:utf-8" forHTTPHeaderField:@"Content-Type" ];
         manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", nil];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/html", @"text/plain",nil];
         
