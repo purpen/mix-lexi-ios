@@ -351,6 +351,10 @@ static const NSInteger kRightButtonTag = 123;
     self.titleLabel.text = title;
 }
 
+- (void)setTitleColor:(UIColor *)titleColor {
+    self.titleLabel.textColor = titleColor;
+}
+
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
