@@ -9,6 +9,7 @@
 #import "THNGoodsSkuCollectionViewCell.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import "NSString+Helper.h"
 
 @interface THNGoodsSkuCollectionViewCell ()
 
@@ -26,20 +27,36 @@
     return self;
 }
 
-- (void)thn_setSkuName:(NSString *)name {
-    self.titleLabel.text = name;
+- (void)setModeName:(NSString *)modeName {
+    _modeName = modeName;
+    
+    self.titleLabel.text = modeName;
+}
+
+- (void)setCellType:(THNGoodsSkuCellType)cellType {
+    switch (cellType) {
+        case THNGoodsSkuCellTypeNormal: {
+            [self thn_setCellStyleWithBackgroundColor:kColorWhite borderColor:@"#333333" textColor:@"#333333"];
+        }
+            break;
+            
+        case THNGoodsSkuCellTypeDisable: {
+            [self thn_setCellStyleWithBackgroundColor:kColorWhite borderColor:@"#B2B2B2" textColor:@"#B2B2B2"];
+        }
+            break;
+            
+        case THNGoodsSkuCellTypeSelected: {
+            [self thn_setCellStyleWithBackgroundColor:kColorMain borderColor:kColorMain textColor:kColorWhite];
+        }
+            break;
+    }
 }
 
 #pragma mark - private methods
-/**
- 选中改变背景样式
- 
- @param select 是否选中
- */
-- (void)thn_changeLabelBackgroundStyleWithSelect:(BOOL)select {
-    self.titleLabel.backgroundColor = [UIColor colorWithHexString:select ? kColorMain : kColorWhite];
-    self.titleLabel.layer.borderColor = [UIColor colorWithHexString:select ? kColorMain : @"#333333"].CGColor;
-    self.titleLabel.textColor = [UIColor colorWithHexString:select ? kColorWhite : @"#333333"];
+- (void)thn_setCellStyleWithBackgroundColor:(NSString *)backgroundColor borderColor:(NSString *)borderColor textColor:(NSString *)textColor {
+    self.titleLabel.backgroundColor = [UIColor colorWithHexString:backgroundColor];
+    self.titleLabel.layer.borderColor = [UIColor colorWithHexString:borderColor].CGColor;
+    self.titleLabel.textColor = [UIColor colorWithHexString:textColor];
 }
 
 #pragma mark - setup UI
@@ -49,15 +66,16 @@
     [self addSubview:self.titleLabel];
 }
 
-#pragma mark - getters and setters
-- (void)setSelected:(BOOL)selected {
-    NSLog(@"==================== %d", selected);
-    [self thn_changeLabelBackgroundStyleWithSelect:selected];
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.titleLabel.frame = self.bounds;
 }
 
+#pragma mark - getters and setters
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:12];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.backgroundColor = [UIColor colorWithHexString:kColorWhite];
