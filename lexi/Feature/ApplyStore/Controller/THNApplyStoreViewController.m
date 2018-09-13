@@ -9,7 +9,7 @@
 #import "THNApplyStoreViewController.h"
 #import <WebKit/WebKit.h>
 
-static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guide";
+static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
 //static NSString *const kURLApplyStore = @"http://m.taihuoniao.com";
 
 @interface THNApplyStoreViewController () <WKNavigationDelegate, WKUIDelegate>
@@ -38,8 +38,6 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     [SVProgressHUD dismiss];
-    [webView evaluateJavaScript:@"document.documentElement.style.webkitTouchCallout='none';" completionHandler:nil];
-    [webView evaluateJavaScript:@"document.documentElement.style.webkitUserSelect='none';"completionHandler:nil];
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
@@ -48,15 +46,18 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
-    NSLog(@"======= 0 -- %@", navigationAction.request.URL.scheme);
+    NSLog(@"======= 0 -- %@", navigationAction.targetFrame);
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
     
-    NSLog(@"======= 1 -- %@", navigationAction.request);
-    
+    NSLog(@"======= 1 -- %@", navigationAction.targetFrame);
     return nil;
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    
 }
 
 #pragma mark - setup UI

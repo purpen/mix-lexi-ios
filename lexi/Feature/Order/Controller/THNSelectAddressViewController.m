@@ -19,7 +19,11 @@ static NSString *kTitleDone  = @"继续以确认订单";
 static NSString *kURLAddress = @"/address";
 static NSString *kKeyData    = @"data";
 
-@interface THNSelectAddressViewController () <THNNavigationBarViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface THNSelectAddressViewController () <
+    THNNavigationBarViewDelegate,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    THNAddressTableViewCellDelegate>
 
 /// 完成按钮
 @property (nonatomic, strong) UIButton *doneButton;
@@ -69,16 +73,17 @@ static NSString *kKeyData    = @"data";
     [self.navigationController pushViewController:orderPreviewVC animated:YES];
 }
 
-- (void)thn_tableView:(UITableView *)tableView selectAddressAtIndexPath:(NSIndexPath *)indexPath {
-    WEAKSELF;
+#pragma mark - custom delegate
+- (void)thn_didSelectedAddressCell:(THNAddressTableViewCell *)cell {
+    if (self.selectedIndex == [self.addressTable indexPathForCell:cell]) {
+        return;
+    }
     
-    THNAddressTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:weakSelf.selectedIndex];
+    THNAddressTableViewCell *selectedCell = [self.addressTable cellForRowAtIndexPath:self.selectedIndex];
     selectedCell.isSelected = NO;
     
-    THNAddressTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.selectedIndex = [self.addressTable indexPathForCell:cell];
     cell.isSelected = YES;
-    
-    weakSelf.selectedIndex = indexPath;
 }
 
 #pragma mark - setup UI
@@ -140,12 +145,8 @@ static NSString *kKeyData    = @"data";
         THNAddressTableViewCell *addressCell = [THNAddressTableViewCell initAddressCellWithTableView:tableView];
         
         if (self.addressArr.count) {
-            [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
-            
-            WEAKSELF;
-            addressCell.selectedCellCompleted = ^{
-                [weakSelf thn_tableView:tableView selectAddressAtIndexPath:indexPath];
-            };
+            addressCell.model = self.addressArr[indexPath.row];
+            addressCell.delegate = self;
         }
         return addressCell;
         

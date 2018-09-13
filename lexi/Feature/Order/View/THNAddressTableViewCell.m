@@ -52,7 +52,9 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     return [self initAddressCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault)];
 }
 
-- (void)thn_setAddressModel:(THNAddressModel *)model {
+- (void)setModel:(THNAddressModel *)model {
+    _model = model;
+    
     self.namelabel.text = model.fullName;
     self.addresslabel.text = model.fullAddress;
     NSString *province = model.province.length ? [NSString stringWithFormat:@"%@，", model.province] : @"";
@@ -62,10 +64,8 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
 
 #pragma mark - event response
 - (void)selectButtonAction:(UIButton *)button {
-    button.selected = YES;
-    
-    if (self.selectedCellCompleted) {
-        self.selectedCellCompleted();
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedAddressCell:)]) {
+        [self.delegate thn_didSelectedAddressCell:self];
     }
 }
 
