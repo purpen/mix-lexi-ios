@@ -8,6 +8,12 @@
 
 #import "THNBaseViewController.h"
 
+@class THNSkuModelItem;
+@class THNAddressModel;
+
 @interface THNOrderPreviewViewController : THNBaseViewController
+
+@property (nonatomic, strong) THNSkuModelItem *skuItemModel;
+@property (nonatomic, strong) THNAddressModel *addressModel;
 
 @end
