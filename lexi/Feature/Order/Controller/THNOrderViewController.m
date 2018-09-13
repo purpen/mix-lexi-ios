@@ -184,6 +184,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
     detail.rid = orderModel.rid;
+    detail.pushOrderDetailType = PushOrderDetailTypeOrder;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

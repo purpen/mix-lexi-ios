@@ -32,5 +32,5 @@
 @property (nonatomic, strong) NSString * tagLine;
 @property (nonatomic, strong) NSString * town;
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

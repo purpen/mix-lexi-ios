@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -60,6 +60,7 @@
                     <constraint firstItem="hLB-Tb-aCR" firstAttribute="centerX" secondItem="4qG-mv-kxx" secondAttribute="centerX" id="GnT-ps-oDT"/>
                     <constraint firstItem="hLB-Tb-aCR" firstAttribute="top" secondItem="4qG-mv-kxx" secondAttribute="bottom" id="Kvq-Ei-r65"/>
                     <constraint firstItem="fUQ-oD-sTi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="OM8-HK-ee8"/>
+                    <constraint firstAttribute="bottom" secondItem="GnJ-zA-b9I" secondAttribute="bottom" constant="20.5" id="TTU-pg-Rfc"/>
                     <constraint firstItem="4qG-mv-kxx" firstAttribute="bottom" secondItem="fUQ-oD-sTi" secondAttribute="bottom" constant="6" id="YNr-El-0k1"/>
                     <constraint firstAttribute="bottom" secondItem="hLB-Tb-aCR" secondAttribute="bottom" constant="-6" id="bgx-K9-wps"/>
                     <constraint firstItem="GnJ-zA-b9I" firstAttribute="leading" secondItem="uHy-EO-JmN" secondAttribute="leading" id="cfC-zz-AWs"/>
