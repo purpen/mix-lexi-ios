@@ -107,15 +107,14 @@ CGFloat orderCellLineSpacing = 10;
             self.borderButton.hidden = YES;
             self.backgroundButton.hidden = YES;
             self.statusLabel.text = @"去付款";
-            NSLog(@"============ %@", self.payCountDownTextLabel.text);
-            if (self.timeInterval) {
-                return;
+
+            if (self.payCountDownTextLabel.text.length == 0) {
+                self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
+                // 十分钟的倒计时显示的值
+                self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
+                self.payCountDownTextLabel.text = self.countDownText;
+                [self addTimer];
             }
-            self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
-            // 十分钟的倒计时显示的值
-            self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
-            self.payCountDownTextLabel.text = self.countDownText;
-            [self addTimer];
             break;
         case OrderStatusEvaluation:
             self.statusLabel.text = @"交易成功";

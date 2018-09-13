@@ -25,8 +25,9 @@
     self.textView.placeholderText = placeholderText;
     self.textView.frame = CGRectMake(15, 7.5, SCREEN_WIDTH - self.areaCodeTextView.viewWidth - 40, self.viewHeight - 7.5);
     [self addSubview:self.textView];
-    
 }
+
+
 
 - (YYTextView *)textView {
     if (!_textView) {

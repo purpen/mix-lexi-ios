@@ -7,6 +7,7 @@
 //
 
 #import "THNOrderDetailTableViewCell.h"
+#import "UIView+Helper.h"
 
 @interface THNOrderDetailTableViewCell()
 
@@ -16,6 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *saleMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originalMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *modeLabel;
+// 物流跟踪
+@property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
+// 配送方式
+@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
+// 物流信息的View
+@property (weak, nonatomic) IBOutlet UIView *logisticsView;
 
 @end
 
@@ -23,13 +30,11 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    [self.logisticsButton drawCornerWithType:0 radius:4];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

@@ -53,7 +53,7 @@ NSString *const kTHNSkuModelItemStoreRid = @"store_rid";
 		self.mode = dictionary[kTHNSkuModelItemMode];
 	}	
 	if(![dictionary[kTHNSkuModelItemPrice] isKindOfClass:[NSNull class]]){
-		self.price = dictionary[kTHNSkuModelItemPrice];
+		self.price = [dictionary[kTHNSkuModelItemPrice] floatValue];
 	}	
 	if(![dictionary[kTHNSkuModelItemProductName] isKindOfClass:[NSNull class]]){
 		self.productName = dictionary[kTHNSkuModelItemProductName];
@@ -74,7 +74,7 @@ NSString *const kTHNSkuModelItemStoreRid = @"store_rid";
 		self.sWeight = dictionary[kTHNSkuModelItemSWeight];
 	}	
 	if(![dictionary[kTHNSkuModelItemSalePrice] isKindOfClass:[NSNull class]]){
-		self.salePrice = dictionary[kTHNSkuModelItemSalePrice];
+		self.salePrice = [dictionary[kTHNSkuModelItemSalePrice] floatValue];
 	}	
 	if(![dictionary[kTHNSkuModelItemStockCount] isKindOfClass:[NSNull class]]){
 		self.stockCount = [dictionary[kTHNSkuModelItemStockCount] integerValue];
