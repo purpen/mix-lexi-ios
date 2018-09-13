@@ -27,5 +27,14 @@
 @property (nonatomic, strong) NSString *express_code;
 // 运单号
 @property (nonatomic, strong) NSString *express_no;
+// 发货时间
+@property (nonatomic, strong) NSString *express_at;
+// 物流公司
+@property (nonatomic, strong) NSString *express_name;
+@property (nonatomic, strong) NSString *mode;
+// 发货所在省
+@property (nonatomic, strong) NSString *delivery_province;
+// 发货所在国家
+@property (nonatomic, strong) NSString *delivery_country;
 
 @end

@@ -10,4 +10,10 @@
 
 @interface THNLogisticsTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *informationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *logisticsImageView;
+@property (weak, nonatomic) IBOutlet UIView *topLineView;
+@property (weak, nonatomic) IBOutlet UIView *bottomLineView;
+
 @end

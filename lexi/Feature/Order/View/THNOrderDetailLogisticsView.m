@@ -34,7 +34,8 @@
     }
     
     self.cityLabel.text = detailModel.buyer_city;
-    self.numberLabel.text = detailModel.buyer_tel;
+    self.numberLabel.text = detailModel.buyer_phone;
+    self.areaCodeLabel.text = detailModel.buyer_zipcode;
 }
 
 

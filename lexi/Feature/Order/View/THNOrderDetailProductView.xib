@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -58,15 +58,18 @@
                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Da-lt-OYs">
-                    <rect key="frame" x="0.0" y="80" width="434" height="142"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Da-lt-OYs">
+                    <rect key="frame" x="15" y="80" width="404" height="142"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="iN0-l3-epB" id="28E-bV-dhy"/>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="E90-wz-TTk"/>
+                    </connections>
                 </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="mht-zV-xRR" firstAttribute="leading" secondItem="fzB-dI-8a8" secondAttribute="trailing" constant="5" id="0sU-JX-V1d"/>
-                <constraint firstItem="6Da-lt-OYs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="0sf-ZX-Hk6"/>
                 <constraint firstItem="m9a-QX-y7k" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="39W-kv-peO"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="fT2-rS-UpC" secondAttribute="trailing" constant="15" id="5oJ-4y-pdl"/>
                 <constraint firstItem="AXG-OZ-RAO" firstAttribute="leading" secondItem="m9a-QX-y7k" secondAttribute="trailing" constant="5" id="70C-Vn-FDx"/>
@@ -75,20 +78,22 @@
                 <constraint firstItem="VU6-4B-uCE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DbM-3F-fHL"/>
                 <constraint firstItem="fzB-dI-8a8" firstAttribute="centerY" secondItem="m9a-QX-y7k" secondAttribute="centerY" id="FU3-Dk-uQ9"/>
                 <constraint firstItem="AXG-OZ-RAO" firstAttribute="centerY" secondItem="m9a-QX-y7k" secondAttribute="centerY" id="Fw5-82-XoI"/>
+                <constraint firstItem="6Da-lt-OYs" firstAttribute="trailing" secondItem="fT2-rS-UpC" secondAttribute="trailing" id="GU0-5T-qyI"/>
                 <constraint firstItem="oAx-vd-eEb" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="K5d-PC-4vE"/>
                 <constraint firstItem="m9a-QX-y7k" firstAttribute="top" secondItem="VU6-4B-uCE" secondAttribute="bottom" constant="20" id="Km6-re-XJ4"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="6Da-lt-OYs" secondAttribute="trailing" id="OLI-sY-B0Z"/>
                 <constraint firstItem="6Da-lt-OYs" firstAttribute="top" secondItem="fzB-dI-8a8" secondAttribute="bottom" id="TZc-LF-kOI"/>
                 <constraint firstItem="mht-zV-xRR" firstAttribute="centerY" secondItem="fzB-dI-8a8" secondAttribute="centerY" id="Ua6-kD-tq9"/>
                 <constraint firstItem="AXG-OZ-RAO" firstAttribute="leading" secondItem="m9a-QX-y7k" secondAttribute="trailing" constant="5" id="jMy-wh-jSs"/>
                 <constraint firstItem="oAx-vd-eEb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="kiD-Wl-abO"/>
                 <constraint firstItem="fT2-rS-UpC" firstAttribute="centerY" secondItem="mht-zV-xRR" secondAttribute="centerY" id="p6o-Vr-kvq"/>
+                <constraint firstItem="6Da-lt-OYs" firstAttribute="leading" secondItem="oAx-vd-eEb" secondAttribute="leading" id="ub8-BB-7d3"/>
                 <constraint firstItem="VU6-4B-uCE" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="44" id="ucf-ve-2f6"/>
                 <constraint firstAttribute="trailing" secondItem="VU6-4B-uCE" secondAttribute="trailing" id="wug-ig-KLL"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="deliveryAddressLabel" destination="fT2-rS-UpC" id="jf2-cm-wXg"/>
                 <outlet property="orderStatusLabel" destination="mht-zV-xRR" id="3y4-RV-hT2"/>
                 <outlet property="storeNameLabel" destination="oAx-vd-eEb" id="Fkl-WB-Ol9"/>
                 <outlet property="tableView" destination="6Da-lt-OYs" id="cm9-SR-S9g"/>

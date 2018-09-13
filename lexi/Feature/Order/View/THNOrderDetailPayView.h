@@ -12,6 +12,6 @@
 
 @interface THNOrderDetailPayView : UIView
 
-@property (nonatomic, strong) THNOrderDetailModel *detailModel;
+- (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel;
 
 @end
