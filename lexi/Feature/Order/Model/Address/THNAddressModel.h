@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSString * town;
 @property (nonatomic, assign) NSInteger townId;
 @property (nonatomic, strong) NSString * zipcode;
+@property (nonatomic, assign) BOOL selected;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
