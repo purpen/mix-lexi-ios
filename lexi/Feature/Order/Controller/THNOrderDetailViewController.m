@@ -55,7 +55,7 @@
 - (THNOrderDetailPayView *)payDetailView {
     if (!_payDetailView) {
         _payDetailView = [THNOrderDetailPayView viewFromXib];
-        _payDetailView.frame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 257);
+        _payDetailView.frame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 350);
     }
     return _payDetailView;
 }

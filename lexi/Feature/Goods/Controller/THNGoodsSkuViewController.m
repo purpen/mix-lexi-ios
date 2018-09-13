@@ -11,6 +11,8 @@
 #import "UIView+Helper.h"
 #import "THNSelectAddressViewController.h"
 #import "THNBaseNavigationController.h"
+#import "THNLoginViewController.h"
+#import "THNLoginManager.h"
 
 static NSString *const kTitleSure = @"确定";
 
@@ -65,7 +67,16 @@ static NSString *const kTitleSure = @"确定";
 
 #pragma mark - event response
 - (void)sureButtonAction:(UIButton *)button {
-    [self thn_getGoodsButtonType:self.handleType];
+    if ([THNLoginManager isLogin]) {
+        [self thn_getGoodsButtonType:self.handleType];
+        
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
+            THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
+            [self presentViewController:loginNavController animated:YES completion:nil];
+        });
+    }
 }
 
 #pragma mark - private methods

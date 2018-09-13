@@ -98,6 +98,7 @@
 		4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */; };
 		4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
+		D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D8002A37214A4F850023EA1E /* THNSkuFilter.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
@@ -148,7 +149,6 @@
 		D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B62126CDB400E14A22 /* THNUserManager.m */; };
 		D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */; };
 		D83CCF8021400914006A1251 /* THNGoodsDescribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */; };
-		D85CC8A72143B8FC0040E172 /* THNGoodsSkuCollecitonView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CC8A32143B8FC0040E172 /* THNGoodsSkuCollecitonView.m */; };
 		D85CC8A82143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CC8A42143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.m */; };
 		D85CC8A92143B8FC0040E172 /* THNGoodsSkuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CC8A52143B8FC0040E172 /* THNGoodsSkuView.m */; };
 		D85DA7DD2106030200A36A71 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -471,6 +471,8 @@
 		4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCenterProductTableViewCell.xib; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8002A36214A4F850023EA1E /* THNSkuFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSkuFilter.h; sourceTree = "<group>"; };
+		D8002A37214A4F850023EA1E /* THNSkuFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSkuFilter.m; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
@@ -563,10 +565,8 @@
 		D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsDescribeViewController.m; sourceTree = "<group>"; };
 		D85CC8A12143B8FC0040E172 /* THNGoodsSkuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsSkuView.h; sourceTree = "<group>"; };
 		D85CC8A22143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsSkuCollectionViewCell.h; sourceTree = "<group>"; };
-		D85CC8A32143B8FC0040E172 /* THNGoodsSkuCollecitonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsSkuCollecitonView.m; sourceTree = "<group>"; };
 		D85CC8A42143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsSkuCollectionViewCell.m; sourceTree = "<group>"; };
 		D85CC8A52143B8FC0040E172 /* THNGoodsSkuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsSkuView.m; sourceTree = "<group>"; };
-		D85CC8A62143B8FC0040E172 /* THNGoodsSkuCollecitonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsSkuCollecitonView.h; sourceTree = "<group>"; };
 		D85DA7AB2106030100A36A71 /* THNResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNResponse.m; sourceTree = "<group>"; };
 		D85DA7AC2106030100A36A71 /* THNRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNRequest.h; sourceTree = "<group>"; };
 		D85DA7AD2106030100A36A71 /* THNAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAPI.m; sourceTree = "<group>"; };
@@ -1311,18 +1311,18 @@
 				D82FA77C212559A400E14A22 /* THNLikedWindowTableViewCell.m */,
 				D82FA77E212559C600E14A22 /* THNLikedWindowCollectionViewCell.h */,
 				D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */,
-				D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */,
-				D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */,
-				D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */,
-				D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */,
-				D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */,
-				D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */,
 				4B223CE12146505A001E5F94 /* THNNewShippingAddressTableViewCell.h */,
 				4B223CE22146505A001E5F94 /* THNNewShippingAddressTableViewCell.m */,
 				4B223CE32146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib */,
 				4B27A6702147F4990082BA22 /* THNAddressIDCardView.h */,
 				4B27A6712147F4990082BA22 /* THNAddressIDCardView.m */,
 				4B27A6732147F4AE0082BA22 /* THNAddressIDCardView.xib */,
+				D8DFAF382140FEE900B45BE0 /* THNUserListTableViewCell.h */,
+				D8DFAF392140FEE900B45BE0 /* THNUserListTableViewCell.m */,
+				D8DFAF3B2141008300B45BE0 /* THNFollowUserButton.h */,
+				D8DFAF3C2141008300B45BE0 /* THNFollowUserButton.m */,
+				D8EA5A8F2141401000857A03 /* THNFollowUserButton+SelfManager.h */,
+				D8EA5A902141401000857A03 /* THNFollowUserButton+SelfManager.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1400,8 +1400,6 @@
 			children = (
 				D85CC8A12143B8FC0040E172 /* THNGoodsSkuView.h */,
 				D85CC8A52143B8FC0040E172 /* THNGoodsSkuView.m */,
-				D85CC8A62143B8FC0040E172 /* THNGoodsSkuCollecitonView.h */,
-				D85CC8A32143B8FC0040E172 /* THNGoodsSkuCollecitonView.m */,
 				D85CC8A22143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.h */,
 				D85CC8A42143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.m */,
 			);
@@ -1608,8 +1606,8 @@
 				4B2644CC2122D62D00665A6D /* Window */,
 				D8BAC8D4211A949100667D6F /* Discover */,
 				D8BAC93E211A949100667D6F /* Goods */,
-				D8BAC91D211A949100667D6F /* Cart */,
 				4B25B45C2140D08400654390 /* Order */,
+				D8BAC91D211A949100667D6F /* Cart */,
 				D8BAC8D8211A949100667D6F /* Inbox */,
 				D8BAC8E7211A949100667D6F /* MyCenter */,
 				D8F99809212A91850012AED3 /* Store */,
@@ -2170,6 +2168,8 @@
 				D8F998422133944E0012AED3 /* THNGoodsManager.m */,
 				D8F998802137C2420012AED3 /* THNGoodsTableViewCells.h */,
 				D8F998812137C2420012AED3 /* THNGoodsTableViewCells.m */,
+				D8002A36214A4F850023EA1E /* THNSkuFilter.h */,
+				D8002A37214A4F850023EA1E /* THNSkuFilter.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -2469,6 +2469,7 @@
 				D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */,
 				4B223CDD2146144A001E5F94 /* THNOrderDetailModel.m in Sources */,
 				D8BAC9C4211A949100667D6F /* THNSignUpViewController.m in Sources */,
+				D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */,
 				4B25B4722141091A00654390 /* THNOrdersItemsModel.m in Sources */,
 				D8F998B72138ECD70012AED3 /* THNGoodsModel.m in Sources */,
 				D8BAC9CE211A949100667D6F /* THNSetPasswordView.m in Sources */,
@@ -2612,7 +2613,6 @@
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,
 				D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */,
 				4B223CDA21428FC0001E5F94 /* THNLogisticsViewController.m in Sources */,
-				D85CC8A72143B8FC0040E172 /* THNGoodsSkuCollecitonView.m in Sources */,
 				D8F9988D21382F6F0012AED3 /* THNGoodsFunctionView.m in Sources */,
 				D8BAC9CC211A949100667D6F /* THNAuthCodeButton.m in Sources */,
 				4B56C96A213FF1840052FD80 /* THNDiscoverTableViewCell.m in Sources */,

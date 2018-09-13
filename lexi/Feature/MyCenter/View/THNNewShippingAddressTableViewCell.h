@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <YYKit/YYTextView.h>
 
+@class THNAddressModel;
+
 typedef NS_ENUM(NSUInteger, AddressSelectType) {
     AddressSelectTypeDefault,
     AddressSelectTypeImageView,
@@ -21,5 +23,7 @@ typedef NS_ENUM(NSUInteger, AddressSelectType) {
 @property (weak, nonatomic) IBOutlet UIImageView *rightImageView;
 @property (nonatomic, strong) YYTextView *textView;
 @property (nonatomic, strong) YYTextView *areaCodeTextView;
+
+@property (nonatomic, strong) THNAddressModel *addressModel;
 
 @end
