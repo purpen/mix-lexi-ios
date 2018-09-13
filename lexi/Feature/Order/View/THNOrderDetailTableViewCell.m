@@ -8,6 +8,8 @@
 
 #import "THNOrderDetailTableViewCell.h"
 #import "UIView+Helper.h"
+#import "THNOrdersItemsModel.h"
+#import "UIImageView+WebCache.h"
 
 @interface THNOrderDetailTableViewCell()
 
@@ -21,8 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
 // 配送方式
 @property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
-// 物流信息的View
-@property (weak, nonatomic) IBOutlet UIView *logisticsView;
 
 @end
 
@@ -33,8 +33,26 @@
     [self.logisticsButton drawCornerWithType:0 radius:4];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+- (void)setItemsModel:(THNOrdersItemsModel *)itemsModel {
+    _itemsModel = itemsModel;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]];
+    self.productNameLabel.text = itemsModel.product_name;
+    self.productCountLabel.text = [NSString stringWithFormat:@"x%ld", itemsModel.quantity];
+    self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.sale_price];
+    self.originalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.price];
+    self.modeLabel.text = itemsModel.mode;
+    self.deliveryMethodLabel.text = itemsModel.express_name;
+}
+
+// 物流跟踪
+- (IBAction)logisticsTracking:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"OrderDetailLogisticsTracking" object:nil userInfo:@{@"itemModel":self.itemsModel}];
+}
+
+- (void)setFrame:(CGRect)frame {
+    frame.origin.y += 15;
+    frame.size.height -= 15;
+    [super setFrame:frame];
 }
 
 @end

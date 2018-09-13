@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNOrdersModel.h"
+
+@class THNOrderDetailModel;
 
 @interface THNOrderDetailProductView : UIView
+
+- (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel;
 
 @end

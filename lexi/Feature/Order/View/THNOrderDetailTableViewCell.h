@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNOrdersItemsModel;
+
 @interface THNOrderDetailTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) THNOrdersItemsModel *itemsModel;
+// 物流信息的View
+@property (weak, nonatomic) IBOutlet UIView *logisticsView;
 
 @end

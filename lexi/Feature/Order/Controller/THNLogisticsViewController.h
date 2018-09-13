@@ -6,8 +6,12 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "THNBaseViewController.h"
 
-@interface THNLogisticsViewController : UIViewController
+@class THNOrdersItemsModel;
+
+@interface THNLogisticsViewController : THNBaseViewController
+
+@property (nonatomic, strong) THNOrdersItemsModel *itemsModel;
 
 @end
