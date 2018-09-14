@@ -23,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
 // 配送方式
 @property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
+@property (weak, nonatomic) IBOutlet UIView *deliveryView;
+@property (weak, nonatomic) IBOutlet UIButton *selectDeliveryButton;
+@property (weak, nonatomic) IBOutlet UILabel *logisticsTimeLabel;
 
 @end
 
@@ -47,6 +50,11 @@
 // 物流跟踪
 - (IBAction)logisticsTracking:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"OrderDetailLogisticsTracking" object:nil userInfo:@{@"itemModel":self.itemsModel}];
+}
+
+// 选择配送方式
+- (IBAction)selectDelivery:(id)sender {
+    
 }
 
 - (void)setFrame:(CGRect)frame {

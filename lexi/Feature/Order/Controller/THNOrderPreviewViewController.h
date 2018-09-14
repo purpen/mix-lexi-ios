@@ -15,5 +15,7 @@
 
 @property (nonatomic, strong) THNSkuModelItem *skuItemModel;
 @property (nonatomic, strong) THNAddressModel *addressModel;
+// 购物车商品数组
+@property (nonatomic, strong) NSArray *items;
 
 @end
