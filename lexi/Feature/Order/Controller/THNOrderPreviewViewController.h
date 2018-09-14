@@ -7,7 +7,19 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNAddressModel.h"
+#import "THNSkuModelItem.h"
 
 @interface THNOrderPreviewViewController : THNBaseViewController
+
+/**
+ 选择的地址
+ */
+@property (nonatomic, strong) THNAddressModel *addressModel;
+
+/**
+ 选择的 sku
+ */
+@property (nonatomic, strong) NSArray *skuItems;
 
 @end
