@@ -135,18 +135,21 @@ static CGFloat const kMaxHeight = 337.0;
     [self.skuFilter thn_didSelectedModeWithIndexPath:indexPath];
     [collectionView reloadData];
     
-    [self thn_getDidSelectSkuResult];
+    [self thn_getSelectedSkuItem];
 }
 
 #pragma mark - private methods
-- (void)thn_getDidSelectSkuResult {
-    NSLog(@"========= 选择的 sku %@", self.skuFilter.currentResult);
-    if (!self.skuFilter.currentResult) return;
+- (void)thn_getSelectedSkuItem {
+    if (!self.skuFilter.currentResult) {
+        self.selectSkuItem = nil;
+        return;
+    };
     
     NSInteger skuIndex = [self.skuArr indexOfObject:self.skuFilter.currentResult];
     THNSkuModelItem *item = self.skuModel.items[skuIndex];
-    
     [self thn_setPriceTextWithValue:item.price];
+    
+    self.selectSkuItem = item;
 }
 
 /**
@@ -171,6 +174,7 @@ static CGFloat const kMaxHeight = 337.0;
     
     // 默认选中
     [self.skuFilter thn_didSelectedModeWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [self thn_getSelectedSkuItem];
 }
 
 /**
