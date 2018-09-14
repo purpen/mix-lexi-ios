@@ -54,6 +54,10 @@ static NSString *const kTextGoodsInfo = @"作品详情";
     [self layoutIfNeeded];
 }
 
+- (void)thn_setHeaderCellWithText:(NSString *)text {
+    self.titleLabel.text = text;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.titleArr = @[kTextDefault, kTextSimilar, kTextGoodsInfo];
