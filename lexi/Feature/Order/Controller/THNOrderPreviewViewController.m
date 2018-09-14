@@ -32,11 +32,11 @@ static NSString *kTitleDone = @"提交订单";
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
-//    THNPaySuccessViewController *paySuccessVC = [[THNPaySuccessViewController alloc] init];
-//    [self.navigationController pushViewController:paySuccessVC animated:YES];
+    THNPaySuccessViewController *paySuccessVC = [[THNPaySuccessViewController alloc] init];
+    [self.navigationController pushViewController:paySuccessVC animated:YES];
     
-    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] init];
-    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
+//    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] init];
+//    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
 }
 
 #pragma mark - setup UI
