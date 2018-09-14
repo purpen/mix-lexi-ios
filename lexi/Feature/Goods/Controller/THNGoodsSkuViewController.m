@@ -11,10 +11,16 @@
 #import "UIView+Helper.h"
 #import "THNSelectAddressViewController.h"
 #import "THNBaseNavigationController.h"
-#import "THNLoginViewController.h"
+#import "THNSignInViewController.h"
 #import "THNLoginManager.h"
 
 static NSString *const kTitleSure = @"确定";
+/// 自定义的 key
+static NSString *const kKeyItems    = @"items";
+static NSString *const kKeyStoreId  = @"rid";
+static NSString *const kKeySkuItems = @"sku_items";
+static NSString *const kKeySkuId    = @"sku";
+static NSString *const kKeyQuantity = @"quantity";
 
 @interface THNGoodsSkuViewController () <THNGoodsFunctionViewDelegate>
 
@@ -72,8 +78,8 @@ static NSString *const kTitleSure = @"确定";
         
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
-            THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
+            THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+            THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
             [self presentViewController:loginNavController animated:YES completion:nil];
         });
     }
@@ -88,14 +94,12 @@ static NSString *const kTitleSure = @"确定";
             break;
 
         case THNGoodsButtonTypeBuy: {
-            THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
-            THNBaseNavigationController *orderNav = [[THNBaseNavigationController alloc] initWithRootViewController:selectAddressVC];
-            [self presentViewController:orderNav animated:YES completion:nil];
+            [self thn_openAddressSelectedController];
         }
             break;
 
         case THNGoodsButtonTypeCustom: {
-            [SVProgressHUD showInfoWithStatus:@"接单订制"];
+            [self thn_openAddressSelectedController];
         }
             break;
 
@@ -106,10 +110,33 @@ static NSString *const kTitleSure = @"确定";
     }
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if ([touches anyObject].view == self.mainView) {
-        [self dismissViewControllerAnimated:NO completion:nil];
+/**
+ 组合选择的 sku 信息
+ */
+- (NSArray *)thn_getSelectedGoodsSkuItems {
+    // 每件商品 sku 的信息
+    NSDictionary *skuItem = @{kKeySkuId: self.skuView.selectSkuItem.rid,
+                              kKeyQuantity: @(1)};
+    NSArray *skuItems = @[skuItem];
+    
+    // 店铺的信息
+    NSDictionary *storeItem = @{kKeyStoreId: self.skuView.selectSkuItem.storeRid,
+                                kKeySkuItems: skuItems};
+    
+    return @[storeItem];
+}
+
+- (void)thn_openAddressSelectedController {
+    if (!self.skuView.selectSkuItem) {
+        [SVProgressHUD showInfoWithStatus:@"请选择商品属性"];
+        return;
     }
+    
+    THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
+    selectAddressVC.selectedSkuItems = [self thn_getSelectedGoodsSkuItems];
+    selectAddressVC.deliveryCountrys = @[self.skuView.selectSkuItem.deliveryCountry];
+    THNBaseNavigationController *orderNav = [[THNBaseNavigationController alloc] initWithRootViewController:selectAddressVC];
+    [self presentViewController:orderNav animated:YES completion:nil];
 }
 
 #pragma mark - setup UI
@@ -148,6 +175,12 @@ static NSString *const kTitleSure = @"确定";
                         options:(UIViewAnimationOptionCurveEaseOut) animations:^{
                             self.mainView.frame = viewFrame;
                         } completion:nil];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    if ([touches anyObject].view == self.mainView) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 #pragma mark - getters and setters
