@@ -14,4 +14,5 @@
 
 - (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel;
 
+
 @end

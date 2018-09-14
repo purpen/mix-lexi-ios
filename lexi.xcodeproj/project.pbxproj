@@ -59,6 +59,8 @@
 		4B27A6742147F4AE0082BA22 /* THNAddressIDCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B27A6732147F4AE0082BA22 /* THNAddressIDCardView.xib */; };
 		4B27A67C214A65520082BA22 /* THNNoLogisticsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27A67B214A65520082BA22 /* THNNoLogisticsView.m */; };
 		4B27A67E214A65680082BA22 /* THNNoLogisticsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B27A67D214A65680082BA22 /* THNNoLogisticsView.xib */; };
+		4B27A682214B3F2B0082BA22 /* THNPreViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27A680214B3F2B0082BA22 /* THNPreViewTableViewCell.m */; };
+		4B27A683214B3F2B0082BA22 /* THNPreViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B27A681214B3F2B0082BA22 /* THNPreViewTableViewCell.xib */; };
 		4B56C911213CD0C50052FD80 /* THNCouponDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C910213CD0C50052FD80 /* THNCouponDetailView.m */; };
 		4B56C913213CD0D50052FD80 /* THNCouponDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B56C912213CD0D50052FD80 /* THNCouponDetailView.xib */; };
 		4B56C917213CDCC80052FD80 /* THNCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C915213CDCC80052FD80 /* THNCouponTableViewCell.m */; };
@@ -407,6 +409,9 @@
 		4B27A67A214A65520082BA22 /* THNNoLogisticsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNoLogisticsView.h; sourceTree = "<group>"; };
 		4B27A67B214A65520082BA22 /* THNNoLogisticsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNoLogisticsView.m; sourceTree = "<group>"; };
 		4B27A67D214A65680082BA22 /* THNNoLogisticsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNNoLogisticsView.xib; sourceTree = "<group>"; };
+		4B27A67F214B3F2B0082BA22 /* THNPreViewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPreViewTableViewCell.h; sourceTree = "<group>"; };
+		4B27A680214B3F2B0082BA22 /* THNPreViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPreViewTableViewCell.m; sourceTree = "<group>"; };
+		4B27A681214B3F2B0082BA22 /* THNPreViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPreViewTableViewCell.xib; sourceTree = "<group>"; };
 		4B56C90F213CD0C50052FD80 /* THNCouponDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponDetailView.h; sourceTree = "<group>"; };
 		4B56C910213CD0C50052FD80 /* THNCouponDetailView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponDetailView.m; sourceTree = "<group>"; };
 		4B56C912213CD0D50052FD80 /* THNCouponDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCouponDetailView.xib; sourceTree = "<group>"; };
@@ -1053,6 +1058,9 @@
 				4B27A67A214A65520082BA22 /* THNNoLogisticsView.h */,
 				4B27A67B214A65520082BA22 /* THNNoLogisticsView.m */,
 				4B27A67D214A65680082BA22 /* THNNoLogisticsView.xib */,
+				4B27A67F214B3F2B0082BA22 /* THNPreViewTableViewCell.h */,
+				4B27A680214B3F2B0082BA22 /* THNPreViewTableViewCell.m */,
+				4B27A681214B3F2B0082BA22 /* THNPreViewTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2300,6 +2308,7 @@
 				D8247EC92147E96D000C8E37 /* THNOrderDetailPayView.xib in Resources */,
 				D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */,
 				D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */,
+				4B27A683214B3F2B0082BA22 /* THNPreViewTableViewCell.xib in Resources */,
 				D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */,
 				D8BAC9A4211A949100667D6F /* THNProductCollectionViewCell.xib in Resources */,
 				D8BAC998211A949100667D6F /* THNLivingHallRecommendTableViewCell.xib in Resources */,
@@ -2634,6 +2643,7 @@
 				D8BAC9B7211A949100667D6F /* THNFeaturedOpeningView.m in Sources */,
 				4B240E95212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m in Sources */,
 				4B2644E9212533AB00665A6D /* THNThreeImageStitchingView.m in Sources */,
+				4B27A682214B3F2B0082BA22 /* THNPreViewTableViewCell.m in Sources */,
 				D8BAC98B211A949100667D6F /* THNInboxViewController.m in Sources */,
 				D82FA76E21241A9D00E14A22 /* THNMyCenterHeaderView.m in Sources */,
 				D82FA77A21252DD500E14A22 /* THNUserModel.m in Sources */,

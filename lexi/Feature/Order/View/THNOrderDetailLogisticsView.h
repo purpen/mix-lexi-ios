@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class THNOrderDetailModel;
+@class THNAddressModel;
 
 @interface THNOrderDetailLogisticsView : UIView
 
 @property (nonatomic, strong) THNOrderDetailModel *detailModel;
+@property (nonatomic, strong) THNAddressModel *addressModel;
 
 @end
