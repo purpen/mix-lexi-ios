@@ -8,6 +8,7 @@
 
 #import "THNOrderDetailLogisticsView.h"
 #import "THNOrderDetailModel.h"
+#import "THNAddressModel.h"
 
 @interface THNOrderDetailLogisticsView()
 
@@ -36,6 +37,22 @@
     self.cityLabel.text = detailModel.buyer_city;
     self.numberLabel.text = detailModel.buyer_phone;
     self.areaCodeLabel.text = detailModel.buyer_zipcode;
+}
+
+- (void)setAddressModel:(THNAddressModel *)addressModel {
+    _addressModel = addressModel;
+    self.nameLabel.text = addressModel.firstName;
+    self.addressLabel.text = addressModel.streetAddress;
+    
+    if (addressModel.countryName.length == 0 || [addressModel.countryName isEqualToString:@"中国"]) {
+        self.countyLabel.text = addressModel.province;
+    } else {
+        self.countyLabel.text = [NSString stringWithFormat:@"%@,%@",addressModel.countryName,addressModel.province];
+    }
+    
+    self.cityLabel.text = addressModel.city;
+    self.numberLabel.text = addressModel.mobile;
+    self.areaCodeLabel.text = addressModel.zipcode;
 }
 
 
