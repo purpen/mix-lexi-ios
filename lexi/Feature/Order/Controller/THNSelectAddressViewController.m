@@ -59,7 +59,7 @@ static NSString *kKeyData    = @"data";
             THNAddressModel *model = [[THNAddressModel alloc] initWithDictionary:dict];
             [self.addressArr addObject:model];
         }
-        
+        [self thn_setDefaultAddress];
         [self.addressTable reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -70,6 +70,8 @@ static NSString *kKeyData    = @"data";
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
     THNOrderPreviewViewController *orderPreviewVC = [[THNOrderPreviewViewController alloc] init];
+    orderPreviewVC.addressModel = [self thn_getSelectedAddress];
+    orderPreviewVC.skuItems = self.selectedSkuItems;
     [self.navigationController pushViewController:orderPreviewVC animated:YES];
 }
 
@@ -79,36 +81,54 @@ static NSString *kKeyData    = @"data";
         return;
     }
     
-    THNAddressTableViewCell *selectedCell = [self.addressTable cellForRowAtIndexPath:self.selectedIndex];
-    selectedCell.isSelected = NO;
-    
     self.selectedIndex = [self.addressTable indexPathForCell:cell];
-    cell.isSelected = YES;
+    [self.addressTable reloadData];
+
 }
 
-#pragma mark - setup UI
-- (void)setupUI {
-    [self.view addSubview:self.progressView];
-    [self.view addSubview:self.addressTable];
-    [self.view addSubview:self.doneButton];
+#pragma mark - private methods
+- (void)thn_setDefaultAddress {
+    if (!self.addressArr.count) {
+        self.selectedIndex = nil;
+        [self thn_setDoneButtonStatus:NO];
+        
+        return;
+    }
+    
+    self.selectedIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self thn_setDoneButtonStatus:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+/**
+ 跨境物流
+ */
+- (BOOL)thn_isOverseasLogistics {
+    THNAddressModel *selectAddress = self.addressArr[self.selectedIndex.row];
     
-    [self setNavigationBar];
+    if (![self.deliveryCountrys containsObject:selectAddress.countryName]) {
+        return YES;
+    }
+    
+    return NO;
 }
 
-- (void)setNavigationBar {
-    self.navigationBarView.delegate = self;
-    self.navigationBarView.title = kTitleSelectAddress;
-    [self.navigationBarView setNavigationLeftButtonOfImageNamed:@"icon_back_gray"];
+/**
+ 获取选择的地址
+ */
+- (THNAddressModel *)thn_getSelectedAddress {
+    if (!self.addressArr.count && !self.selectedIndex) {
+        return nil;
+    }
     
-    WEAKSELF;
-    
-    [self.navigationBarView didNavigationLeftButtonCompletion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+    return self.addressArr[self.selectedIndex.row];
+}
+
+/**
+ 完成按钮是否可选
+ */
+- (void)thn_setDoneButtonStatus:(BOOL)status {
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:status ? 1 : 0.5];
+    self.doneButton.userInteractionEnabled = status;
 }
 
 #pragma mark - tableView datasource & delegate
@@ -146,8 +166,10 @@ static NSString *kKeyData    = @"data";
         
         if (self.addressArr.count) {
             addressCell.model = self.addressArr[indexPath.row];
+            addressCell.isSelected = indexPath == self.selectedIndex;
             addressCell.delegate = self;
         }
+        
         return addressCell;
         
     } else {
@@ -163,8 +185,33 @@ static NSString *kKeyData    = @"data";
     if (indexPath.section == 0) {
         newAddressVC.addressModel = self.addressArr[indexPath.row];
     }
-    
+    newAddressVC.isSaveCustom = [self thn_isOverseasLogistics];
     [self.navigationController pushViewController:newAddressVC animated:YES];
+}
+
+#pragma mark - setup UI
+- (void)setupUI {
+    [self.view addSubview:self.progressView];
+    [self.view addSubview:self.addressTable];
+    [self.view addSubview:self.doneButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setNavigationBar];
+}
+
+- (void)setNavigationBar {
+    self.navigationBarView.delegate = self;
+    self.navigationBarView.title = kTitleSelectAddress;
+    [self.navigationBarView setNavigationLeftButtonOfImageNamed:@"icon_back_gray"];
+    
+    WEAKSELF;
+    
+    [self.navigationBarView didNavigationLeftButtonCompletion:^{
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 #pragma mark - getters and setters
