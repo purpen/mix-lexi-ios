@@ -54,8 +54,6 @@
     } else {
         self.type = THNGoodsFunctionViewTypeDefault;
     }
-    
-    [self thn_setFunctionButtonWithType:self.type];
 }
 
 - (void)thn_showGoodsCart:(BOOL)show {

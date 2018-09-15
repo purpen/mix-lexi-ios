@@ -12,6 +12,7 @@
 #import "THNStoreModel.h"
 #import "THNSkuModel.h"
 #import "THNFreightModel.h"
+#import "THNCartModel.h"
 
 @interface THNGoodsManager : NSObject
 
@@ -113,5 +114,27 @@
 + (void)getLikeGoodsUserDataWithGoodsId:(NSString *)goodsId
                                  params:(NSDictionary *)params
                              completion:(void (^)(NSArray *userData, NSError *error))completion;
+
+/**
+ 商品添加到购物车
+
+ @param params sku 信息
+ @param completion 完成回调
+ */
++ (void)postAddGoodsToCartWithSkuParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion;
+
+/**
+ 获取购物车的商品
+ 
+ @param completion 完成回调
+ */
++ (void)getCartGoodsCompletion:(void (^)(NSArray *cartData, NSError *error))completion;
+
+/**
+ 获取购物车的商品数量
+ 
+ @param completion 完成回调
+ */
++ (void)getCartGoodsCountCompletion:(void (^)(NSInteger goodsCount, NSError *error))completion;
 
 @end
