@@ -103,6 +103,10 @@ static NSString *kKeyData    = @"data";
  跨境物流
  */
 - (BOOL)thn_isOverseasLogistics {
+    if (!self.selectedIndex) {
+        return NO;
+    }
+    
     THNAddressModel *selectAddress = self.addressArr[self.selectedIndex.row];
     
     if (![self.deliveryCountrys containsObject:selectAddress.countryName]) {

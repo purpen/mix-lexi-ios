@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "THNGoodsModel.h"
+#import "THNCartModel.h"
 
 typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
     THNGoodsInfoCellTypeDefault = 0,        // 默认
@@ -27,7 +28,9 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
 @property (nonatomic, assign) BOOL showLine;
 
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model;
+- (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model;
 
 + (instancetype)initGoodsInfoCellWithTableView:(UITableView *)tableView type:(THNGoodsInfoCellType)type;
++ (instancetype)initGoodsInfoCellWithTableView:(UITableView *)tableView type:(THNGoodsInfoCellType)type reuseIdentifier:(NSString *)reuseIdentifier;
 
 @end

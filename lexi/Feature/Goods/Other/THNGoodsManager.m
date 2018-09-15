@@ -16,20 +16,24 @@
 #define kURLFreightTemplate(rid) [NSString stringWithFormat:@"/logistics/core_freight_template/%@", rid]
 
 #pragma mark - api 拼接地址
-static NSString *const kURLUserLikedGoods   = @"/userlike";
-static NSString *const kURLUserBrowses      = @"/user_browses";
-static NSString *const kURLUserWishlist     = @"/wishlist";
-static NSString *const kURLProductsCategory = @"/category/products";
-static NSString *const kURLSimilar          = @"/products/similar";
-static NSString *const kURLLikeGoodsUser    = @"/product/userlike";
-/// 分类商品数量
-static NSString *const kURLProductsCountC   = @"/category/products/count";
-static NSString *const kURLProductsSku      = @"/products/skus";
-static NSString *const kURLOfficialStore    = @"/official_store/info";
-static NSString *const kURLCategories       = @"/categories";
-/// 选品中心商品数量
+#pragma mark 用户商品
+static NSString *const kURLUserLikedGoods       = @"/userlike";
+static NSString *const kURLUserBrowses          = @"/user_browses";
+static NSString *const kURLUserWishlist         = @"/wishlist";
+#pragma mark 分类商品
+static NSString *const kURLCategories           = @"/categories";
+static NSString *const kURLProductsCategory     = @"/category/products";
+static NSString *const kURLSimilar              = @"/products/similar";
+static NSString *const kURLLikeGoodsUser        = @"/product/userlike";
+static NSString *const kURLProductsCountC       = @"/category/products/count";
+static NSString *const kURLProductsSku          = @"/products/skus";
 static NSString *const kURLChooseCenterCount    = @"/fx_distribute/choose_center/count";
 static NSString *const kURLProductsByStoreCount = @"/core_platforms/products/by_store/count";
+#pragma mark 店铺信息
+static NSString *const kURLOfficialStore        = @"/official_store/info";
+#pragma mark 商品下单/购物车
+static NSString *const kURLCart                 = @"/cart";
+static NSString *const kURLCartCount            = @"/cart/item_count";
 
 #pragma mark - 接收数据参数
 static NSString *const kKeyProducts         = @"products";
@@ -42,6 +46,8 @@ static NSString *const kKeyProductId        = @"product_rid";
 static NSString *const kKeyStoreId          = @"store_rid";
 static NSString *const kKeyCount            = @"count";
 static NSString *const kKeyLikeUsers        = @"product_like_users";
+static NSString *const kKeyItems            = @"items";
+static NSString *const kKeyItemCount        = @"item_count";
 
 @implementation THNGoodsManager
 
@@ -112,6 +118,18 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     }
 }
 
++ (void)postAddGoodsToCartWithSkuParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+    [[THNGoodsManager sharedManager] requestAddGoodsToCartWithParams:params completion:completion];
+}
+
++ (void)getCartGoodsCompletion:(void (^)(NSArray *, NSError *))completion {
+    [[THNGoodsManager sharedManager] requestCartGoodsCompletion:completion];
+}
+
++ (void)getCartGoodsCountCompletion:(void (^)(NSInteger, NSError *))completion {
+    [[THNGoodsManager sharedManager] requestCartGoodsCountCompletion:completion];
+}
+
 #pragma mark - request
 /**
  获取商品全部信息
@@ -153,7 +171,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:kURLSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n === 相似商品信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
             THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
@@ -176,7 +193,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        NSLog(@"\n === 个人中心商品 === \n%@\n", result.data);
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
             THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
@@ -196,7 +212,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n === 分类商品 === \n%@\n", result.data);
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -225,7 +240,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:kURLOfficialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n === 店铺信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
@@ -241,7 +255,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:kURLCategories requestDictionary:@{kKeyPid: @(pid)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n ===  分类 === \n%@", result.data);
         completion((NSArray *)result.data[kKeyCategories], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -260,7 +273,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n ===  运费模版 === \n%@", [NSString jsonStringWithObject:result.responseDict]);
         THNFreightModel *model = [[THNFreightModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
@@ -276,7 +288,6 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
     THNRequest *request = [THNAPI getWithUrlString:kURLLikeGoodsUser requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n ===  喜欢商品的用户 === \n%@", [NSString jsonStringWithObject:result.responseDict]);
         NSMutableArray *userModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyLikeUsers]) {
             THNUserModel *model = [THNUserModel mj_objectWithKeyValues:dict];
@@ -286,6 +297,58 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
+    }];
+}
+
+/**
+ 商品添加到购物车
+ */
+- (void)requestAddGoodsToCartWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLCart requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (result.isSuccess) {
+            completion(nil);
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(error);
+    }];
+}
+
+/**
+ 获取购物车商品
+ */
+- (void)requestCartGoodsCompletion:(void (^)(NSArray *cartData, NSError *error))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLCart requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"=========  购物车的商品 = \n%@", [NSString jsonStringWithObject:result.responseDict]);
+        
+        if (![result hasData] || !result.isSuccess) return;
+        NSMutableArray *cartModelArr = [NSMutableArray array];
+        for (NSDictionary *dict in result.data[kKeyItems]) {
+            THNCartModelItem *model = [[THNCartModelItem alloc] initWithDictionary:dict];
+            [cartModelArr addObject:model];
+        }
+        completion([cartModelArr copy], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+/**
+ 获取购物车商品数量
+ */
+- (void)requestCartGoodsCountCompletion:(void (^)(NSInteger goodsCount, NSError *error))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLCartCount requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || !result.isSuccess) return;
+        NSInteger count = [result.data[kKeyItemCount] integerValue];
+        
+        completion(count, nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(0, error);
     }];
 }
 
