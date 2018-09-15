@@ -34,16 +34,20 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhk-3S-ZqZ">
-                        <rect key="frame" x="312" y="16.5" width="60" height="17"/>
+                        <rect key="frame" x="332" y="16.5" width="60" height="17"/>
                         <string key="text">从上海发货
 </string>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O1u-ca-XFX">
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O1u-ca-XFX">
                         <rect key="frame" x="0.0" y="44.5" width="407" height="196"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <connections>
+                            <outlet property="dataSource" destination="KGk-i7-Jjw" id="1Fc-bE-Hg8"/>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="QXQ-US-3td"/>
+                        </connections>
                     </tableView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RXh-Sy-hEb">
                         <rect key="frame" x="15" y="473.5" width="392" height="40"/>
@@ -192,7 +196,6 @@
                 <constraints>
                     <constraint firstItem="J2V-GC-KIT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="1Qz-uV-BkM"/>
                     <constraint firstAttribute="trailingMargin" secondItem="psR-tY-gXh" secondAttribute="trailing" constant="15" id="4zQ-i4-a8i"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="zhk-3S-ZqZ" secondAttribute="trailing" constant="15" id="8WS-jK-JRg"/>
                     <constraint firstAttribute="trailing" secondItem="qJK-j8-HFP" secondAttribute="trailing" constant="15" id="C9n-Qb-t97"/>
                     <constraint firstItem="zhk-3S-ZqZ" firstAttribute="centerY" secondItem="PCt-Im-5Fm" secondAttribute="centerY" id="E3Y-7F-5un"/>
                     <constraint firstItem="PCt-Im-5Fm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="EMD-F7-UBO"/>
@@ -200,7 +203,6 @@
                     <constraint firstItem="PCt-Im-5Fm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="IQf-8V-kLt"/>
                     <constraint firstAttribute="trailing" secondItem="E6m-zq-Qke" secondAttribute="trailing" constant="15" id="JrT-eN-4yj"/>
                     <constraint firstItem="F6s-DL-UAV" firstAttribute="top" secondItem="J2V-GC-KIT" secondAttribute="bottom" constant="15" id="KtW-zp-hJM"/>
-                    <constraint firstAttribute="trailing" secondItem="O1u-ca-XFX" secondAttribute="trailing" id="Lir-lq-7qF"/>
                     <constraint firstAttribute="trailing" secondItem="RXh-Sy-hEb" secondAttribute="trailing" id="O1l-V2-wbv"/>
                     <constraint firstItem="E6m-zq-Qke" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="RjT-hE-1aA"/>
                     <constraint firstItem="O1u-ca-XFX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="UN1-Yd-AHO"/>
@@ -210,9 +212,11 @@
                     <constraint firstAttribute="trailing" secondItem="F6s-DL-UAV" secondAttribute="trailing" id="Xpy-yG-OnI"/>
                     <constraint firstItem="RXh-Sy-hEb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="YqF-XA-L0F"/>
                     <constraint firstAttribute="trailing" secondItem="XJ2-oV-1B0" secondAttribute="trailing" id="Z8i-s3-3E5"/>
+                    <constraint firstAttribute="trailing" secondItem="zhk-3S-ZqZ" secondAttribute="trailing" constant="15" id="cbb-mI-Hev"/>
                     <constraint firstItem="RXh-Sy-hEb" firstAttribute="top" secondItem="F6s-DL-UAV" secondAttribute="bottom" id="f5e-IE-ldv"/>
                     <constraint firstItem="E6m-zq-Qke" firstAttribute="top" secondItem="qJK-j8-HFP" secondAttribute="bottom" constant="10" id="fOk-0f-LNO"/>
                     <constraint firstItem="XJ2-oV-1B0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hia-1P-C1i"/>
+                    <constraint firstAttribute="trailing" secondItem="O1u-ca-XFX" secondAttribute="trailing" id="iYR-6M-6GO"/>
                     <constraint firstItem="J2V-GC-KIT" firstAttribute="top" secondItem="E6m-zq-Qke" secondAttribute="bottom" constant="28" id="kgg-gv-jwL"/>
                     <constraint firstItem="qJK-j8-HFP" firstAttribute="top" secondItem="O1u-ca-XFX" secondAttribute="bottom" constant="30" id="lXS-mr-nTW"/>
                     <constraint firstItem="O1u-ca-XFX" firstAttribute="top" secondItem="XJ2-oV-1B0" secondAttribute="bottom" id="n1R-J8-gDN"/>
@@ -221,7 +225,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="couponLabel" destination="LSH-A1-MKt" id="cMi-gl-lC1"/>
+                <outlet property="couponView" destination="RXh-Sy-hEb" id="s9e-Fc-RHP"/>
                 <outlet property="deliveryAddressLabel" destination="zhk-3S-ZqZ" id="Uc5-rp-Ol9"/>
+                <outlet property="freightLabel" destination="psR-tY-gXh" id="nkz-Xc-iaK"/>
+                <outlet property="fullReductionLabel" destination="gwk-VK-77a" id="67u-O1-asM"/>
+                <outlet property="fullReductionView" destination="F6s-DL-UAV" id="ED4-vu-yGe"/>
                 <outlet property="giftTextField" destination="wkM-N1-qae" id="I6h-mJ-bt2"/>
                 <outlet property="nameLabel" destination="PCt-Im-5Fm" id="WbK-lP-7pa"/>
                 <outlet property="remarksTextField" destination="8Gy-gS-e1s" id="meP-Ss-sa9"/>
