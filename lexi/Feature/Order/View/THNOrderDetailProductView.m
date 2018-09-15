@@ -69,7 +69,13 @@ static CGFloat const loginsticsViewHeight = 80;
     }
     
     self.loginsticsViewCount = 2;
-    self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@发货",itemsModel.delivery_province];
+    
+    if (itemsModel.delivery_country.length == 0 || [itemsModel.delivery_country isEqualToString:@"中国"]) {
+            self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@发货",itemsModel.delivery_province];
+    } else {
+      self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@,%@发货",itemsModel.delivery_country,itemsModel.delivery_province];
+    }
+
     return 90 + self.detailModel.items.count * (productViewHeight + loginsticsViewHeight);
     
 }

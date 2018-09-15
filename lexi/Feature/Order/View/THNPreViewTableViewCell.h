@@ -12,6 +12,6 @@
 
 @interface THNPreViewTableViewCell : UITableViewCell
 
-- (void)setPreViewCell:(THNSkuModelItem *)itemModel;
+- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus;
 
 @end
