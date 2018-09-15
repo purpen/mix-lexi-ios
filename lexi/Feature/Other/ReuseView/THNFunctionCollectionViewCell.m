@@ -53,10 +53,16 @@
     [self addSubview:self.titleLabel];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.titleLabel.frame = self.bounds;
+}
+
 #pragma mark - getters and setters
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:12];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;

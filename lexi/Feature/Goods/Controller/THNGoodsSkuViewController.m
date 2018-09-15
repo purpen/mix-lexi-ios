@@ -13,11 +13,12 @@
 #import "THNBaseNavigationController.h"
 #import "THNSignInViewController.h"
 #import "THNLoginManager.h"
+#import "THNGoodsManager.h"
 
 static NSString *const kTitleSure = @"确定";
 /// 自定义的 key
 static NSString *const kKeyItems    = @"items";
-static NSString *const kKeyStoreId  = @"rid";
+static NSString *const kKeyRid      = @"rid";
 static NSString *const kKeySkuItems = @"sku_items";
 static NSString *const kKeySkuId    = @"sku";
 static NSString *const kKeyQuantity = @"quantity";
@@ -104,7 +105,7 @@ static NSString *const kKeyQuantity = @"quantity";
             break;
 
         case THNGoodsButtonTypeAddCart: {
-            [SVProgressHUD showInfoWithStatus:@"加入购物车"];
+            [self thn_addCartWithSkuItem];
         }
             break;
     }
@@ -114,18 +115,40 @@ static NSString *const kKeyQuantity = @"quantity";
  组合选择的 sku 信息
  */
 - (NSArray *)thn_getSelectedGoodsSkuItems {
-    // 每件商品 sku 的信息
     NSDictionary *skuItem = @{kKeySkuId: self.skuView.selectSkuItem.rid,
                               kKeyQuantity: @(1)};
     NSArray *skuItems = @[skuItem];
     
-    // 店铺的信息
-    NSDictionary *storeItem = @{kKeyStoreId: self.skuView.selectSkuItem.storeRid,
+    NSDictionary *storeItem = @{kKeyRid: self.skuView.selectSkuItem.storeRid,
                                 kKeySkuItems: skuItems};
     
     return @[storeItem];
 }
 
+/**
+ 添加到购物车
+ */
+- (void)thn_addCartWithSkuItem {
+    if (!self.skuView.selectSkuItem) {
+        [SVProgressHUD showInfoWithStatus:@"请选择商品属性"];
+        return;
+    }
+    
+    NSDictionary *skuParam = @{kKeyRid: self.skuView.selectSkuItem.rid,
+                               kKeyQuantity: @(1)};
+    
+    [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
+        if (!error) {
+            [self dismissViewControllerAnimated:NO completion:^{
+                [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+            }];
+        }
+    }];
+}
+
+/**
+ 选择收货地址
+ */
 - (void)thn_openAddressSelectedController {
     if (!self.skuView.selectSkuItem) {
         [SVProgressHUD showInfoWithStatus:@"请选择商品属性"];
