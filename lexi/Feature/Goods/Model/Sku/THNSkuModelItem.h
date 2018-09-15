@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString * cover;
 @property (nonatomic, strong) NSString * deliveryCountry;
+@property (nonatomic, strong) NSString * deliveryProvince;
 @property (nonatomic, assign) NSInteger deliveryCountryId;
 @property (nonatomic, strong) NSString * mode;
 @property (nonatomic, assign) CGFloat price;
@@ -27,5 +28,7 @@
 @property (nonatomic, strong) NSString * storeName;
 @property (nonatomic, strong) NSString * storeRid;
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 @end
