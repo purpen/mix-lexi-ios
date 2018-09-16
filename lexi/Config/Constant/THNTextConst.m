@@ -23,6 +23,7 @@ NSString *const kTitleLikedDynamic      = @"动态";
 NSString *const kTitleSelectAddress     = @"选择收货地址";
 NSString *const kTitleSubmitOrder       = @"提交订单";
 NSString *const kTitleSelectLogistics   = @"选择配送方式";
+NSString *const kTitlePayment           = @"付款方式";
 
 #pragma mark - 网络请求
 NSString *const kTextRequestError   = @"请求失败";
