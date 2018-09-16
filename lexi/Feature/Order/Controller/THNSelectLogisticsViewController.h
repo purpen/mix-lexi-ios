@@ -7,8 +7,14 @@
 //
 
 #import "THNBaseViewController.h"
+@class THNFreightModelItem;
+
+/// 选择物流公司
+typedef void(^DidSelectedExpressItemBlock)(THNFreightModelItem *expressModel);
 
 @interface THNSelectLogisticsViewController : THNBaseViewController
+
+@property (nonatomic, copy) DidSelectedExpressItemBlock didSelectedExpressItem;
 
 /**
  初始化商品、物流信息

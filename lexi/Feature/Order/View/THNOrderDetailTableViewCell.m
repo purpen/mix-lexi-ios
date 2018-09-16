@@ -11,6 +11,10 @@
 #import "THNOrdersItemsModel.h"
 #import "UIImageView+WebCache.h"
 #import "THNSkuModelItem.h"
+#import "THNFreightModelItem.h"
+
+NSString *const kSelectDelivery = @"kSelectDelivery";
+NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
 
 @interface THNOrderDetailTableViewCell()
 
@@ -21,11 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *modeLabel;
 // 物流跟踪
 @property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
-// 配送方式
-@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
 @property (weak, nonatomic) IBOutlet UIView *deliveryView;
 @property (weak, nonatomic) IBOutlet UIButton *selectDeliveryButton;
-@property (weak, nonatomic) IBOutlet UILabel *logisticsTimeLabel;
 
 @end
 
@@ -60,12 +61,12 @@
 
 // 物流跟踪
 - (IBAction)logisticsTracking:(id)sender {
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"OrderDetailLogisticsTracking" object:nil userInfo:@{@"itemModel":self.itemsModel}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];
 }
 
 // 选择配送方式
 - (IBAction)selectDelivery:(id)sender {
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"SelectDelivery" object:nil userInfo:@{@"selectProducIndex":@(self.tag), @"selectStoreIndex":@(self.superview.tag)}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kSelectDelivery object:nil userInfo:@{@"selectProducIndex":@(self.tag), @"selectStoreIndex":@(self.superview.tag)}];
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -73,5 +74,6 @@
     frame.size.height -= 15;
     [super setFrame:frame];
 }
+
 
 @end
