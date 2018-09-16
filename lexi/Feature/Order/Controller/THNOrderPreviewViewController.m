@@ -40,8 +40,12 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
 @property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) UITableView *tableView;
+// sku
 @property (nonatomic, strong) NSDictionary *skuDict;
+// 物流
 @property (nonatomic, strong) NSDictionary *logisticsDict;
+// 满减
+@property (nonatomic, strong) NSDictionary *fullReductionDict;
 
 @end
 
@@ -199,12 +203,15 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNPreViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KOrderPreviewCellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
     // 店铺id作为Key取商品的SKU信息
-    NSString *key = self.skuItems[indexPath.row][@"rid"];
-    // 取对应的商品数量
+    NSString *storekey = self.skuItems[indexPath.row][@"rid"];
+    // 每个商品的sku
     NSArray *skuItems = self.skuItems[indexPath.row][@"sku_items"];
-    self.skus = self.skuDict[key];
+    // 每个店铺的商品的sku
+    NSArray *skus = self.skuDict[storekey];
+    // 每个店铺的满减
+    NSArray *fullReductions = self.fullReductionDict[storekey];
 
-    [cell setPreViewCell:self.skus initWithItmeSkus:skuItems];
+    [cell setPreViewCell:skus initWithItmeSkus:skuItems];
     return cell;
 }
 

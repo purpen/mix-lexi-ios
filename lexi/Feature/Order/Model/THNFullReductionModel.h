@@ -1,15 +1,15 @@
 //
-//  THNCouponModel.h
+//  THNFullReductionModel.h
 //  lexi
 //
-//  Created by HongpingRao on 2018/9/3.
+//  Created by rhp on 2018/9/16.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface THNCouponModel : NSObject
+@interface THNFullReductionModel : NSObject
 
 // 面值
 @property (nonatomic, assign) CGFloat amount;
