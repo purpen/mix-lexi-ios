@@ -212,7 +212,7 @@ static NSString *const kOid = @"oid";
     params[@"is_default"] = @(self.isDefaultAddress);
     params[@"id_card_front"] = @(self.positiveImageID);
     params[@"id_card_back"] = @(self.negativeImageID);
-    params[@"is_overseas"] = @(self.isSaveCustom);
+    params[@"is_overseas"] = @(NO);
     params[@"id_card"] = self.cardView.cardTextField.text;
     
     if (self.addressModel.rid) {
