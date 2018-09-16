@@ -29,6 +29,7 @@
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupViewUI];
         self.title = title;
     }
     return self;
