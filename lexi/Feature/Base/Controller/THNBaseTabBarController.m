@@ -53,7 +53,6 @@
         THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
         THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
         [appDelegate.window.rootViewController presentViewController:navController animated:YES completion:nil];
-//        [appDelegate thn_loadLoginController];
         
         return NO;
     }
