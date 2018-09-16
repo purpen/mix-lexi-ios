@@ -16,6 +16,7 @@
 #import "THNPreViewTableViewCell.h"
 #import "THNSkuModelItem.h"
 #import "THNFreightModelItem.h"
+#import "THNPaymentViewController.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -79,11 +80,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
-    THNPaySuccessViewController *paySuccessVC = [[THNPaySuccessViewController alloc] init];
-    [self.navigationController pushViewController:paySuccessVC animated:YES];
-
-
-
+    THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
+    [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
 // 按店铺编号分类根据sku编号获取的信息
@@ -175,7 +173,6 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 #pragma mark - setup UI
 - (void)setupUI {
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.doneButton];
     [self.view addSubview:self.saveView];
@@ -191,8 +188,6 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleSubmitOrder;
 }
-
-
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -271,11 +266,15 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.progressView.frame) + 18, SCREEN_WIDTH, SCREEN_HEIGHT - 81) style:UITableViewStyleGrouped];
-        _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+        CGFloat originBottom = kDeviceiPhoneX ? 82 : 50;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.progressView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.progressView.frame) - originBottom)
+                                                 style:UITableViewStyleGrouped];
+        _tableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.contentInset = UIEdgeInsetsMake(14, 0, 0, 0);
+        _tableView.showsVerticalScrollIndicator = NO;
         [_tableView registerNib:[UINib nibWithNibName:@"THNPreViewTableViewCell" bundle:nil] forCellReuseIdentifier:KOrderPreviewCellIdentifier];
     }
     return _tableView;

@@ -11,7 +11,8 @@
 #import "THNConst.h"
 
 static NSString *const kTitleAddress = @"寄送";
-static NSString *const kTitlePreview = @"预览";
+static NSString *const kTitlePreview = @"明细";
+static NSString *const kTitlePay     = @"付款";
 
 @interface THNBuyProgressView ()
 
@@ -46,7 +47,7 @@ static NSString *const kTitlePreview = @"预览";
 #pragma mark - private methods
 - (void)thn_creatProgressWithTitles:(NSArray *)titles {
     for (NSUInteger idx = 0; idx < titles.count; idx ++) {
-        CGFloat titleW = CGRectGetWidth(self.bounds) / 2;
+        CGFloat titleW = CGRectGetWidth(self.bounds) / titles.count;
         CGFloat titleH = CGRectGetHeight(self.bounds) - 8;
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleW * idx, 0, titleW, titleH)];
@@ -60,19 +61,13 @@ static NSString *const kTitlePreview = @"预览";
         dotView.layer.cornerRadius = 4;
         dotView.layer.borderWidth = 2;
         
-        if (self.selectIndex == 1) {
+        if (idx <= self.selectIndex) {
             titleLabel.textColor = [UIColor colorWithHexString:kColorMain];
             dotView.layer.borderColor = [UIColor colorWithHexString:kColorMain].CGColor;
             
         } else {
-            if (idx == self.selectIndex) {
-                titleLabel.textColor = [UIColor colorWithHexString:kColorMain];
-                dotView.layer.borderColor = [UIColor colorWithHexString:kColorMain].CGColor;
-                
-            } else {
-                titleLabel.textColor = [UIColor colorWithHexString:@"#999999"];
-                dotView.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
-            }
+            titleLabel.textColor = [UIColor colorWithHexString:@"#999999"];
+            dotView.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
         }
         
         [self addSubview:titleLabel];
@@ -95,7 +90,7 @@ static NSString *const kTitlePreview = @"预览";
     [self addSubview:self.defaultProgressView];
     [self addSubview:self.selectedProgressView];
     
-    [self thn_creatProgressWithTitles:@[kTitleAddress, kTitlePreview]];
+    [self thn_creatProgressWithTitles:@[kTitleAddress, kTitlePreview, kTitlePay]];
 }
 
 #pragma mark - getters and setters
