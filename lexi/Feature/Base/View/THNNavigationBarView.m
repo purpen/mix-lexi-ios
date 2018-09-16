@@ -162,10 +162,14 @@ static const NSInteger kRightButtonTag = 123;
 }
 
 - (void)setNavigationRightButtonOfText:(NSString *)text textHexColor:(NSString *)hexColor fontSize:(CGFloat)size {
+    if (!text.length) {
+        self.rightButton.hidden = YES;
+    }
+    
     self.rightButton.hidden = NO;
     [self.rightButton setTitle:text forState:(UIControlStateNormal)];
     [self.rightButton setTitleColor:[UIColor colorWithHexString:hexColor] forState:(UIControlStateNormal)];
-    self.rightButton.titleLabel.font = [UIFont systemFontOfSize:size weight:(UIFontWeightMedium)];
+    self.rightButton.titleLabel.font = [UIFont systemFontOfSize:size weight:(UIFontWeightRegular)];
 }
 
 - (void)didNavigationRightButtonCompletion:(THNNavigationBarRightButtonCompletion)completion {

@@ -91,8 +91,9 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
             break;
             
         case THNGoodsListViewTypeCategory: {
-            [self.paramDict setObject:@(self.categoryId) forKey:@"id"];
-            [self.paramDict setObject:@(10) forKey:@"per_page"];
+            [self.paramDict setDictionary:@{@"id": @(self.categoryId),
+                                            @"per_page": @(20)}];
+
             [self thn_getCategoryProductsWithParams:self.paramDict];
             [self.popupView thn_setCategoryId:self.categoryId];
         }
@@ -140,8 +141,15 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 - (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
     if (index == 0) {
         [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeSort)];
+        
     } else if (index == 1) {
-        [SVProgressHUD showInfoWithStatus:@"新品"];
+        if (self.goodsListType == THNGoodsListViewTypeUser) {
+            [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];
+            
+        } else {
+            [SVProgressHUD showInfoWithStatus:@"新品"];
+        }
+        
     } else if (index == 2) {
         [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];
     }
@@ -197,9 +205,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
     
-    //    CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
-    CGFloat itemWidth = (SCREEN_WIDTH - 50) / 2;
     return CGSizeMake(itemWidth, itemWidth + 50);
 }
 

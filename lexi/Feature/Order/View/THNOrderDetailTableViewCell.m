@@ -45,6 +45,7 @@
     self.originalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.price];
     self.modeLabel.text = itemsModel.mode;
     self.deliveryMethodLabel.text = itemsModel.express_name;
+    self.deliveryView.hidden = YES;
 }
 
 - (void)setSkuItemModel:(THNSkuModelItem *)skuItemModel {
@@ -54,6 +55,7 @@
     self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.salePrice];
     self.originalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.price];
     self.modeLabel.text = skuItemModel.mode;
+    self.logisticsButton.hidden = YES;
 }
 
 // 物流跟踪
@@ -63,7 +65,7 @@
 
 // 选择配送方式
 - (IBAction)selectDelivery:(id)sender {
-    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"SelectDelivery" object:nil userInfo:@{@"selectProducIndex":@(self.tag), @"selectStoreIndex":@(self.superview.tag)}];
 }
 
 - (void)setFrame:(CGRect)frame {
