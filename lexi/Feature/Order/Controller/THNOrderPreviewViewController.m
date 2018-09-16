@@ -15,6 +15,8 @@
 #import "THNOrderDetailPayView.h"
 #import "THNPreViewTableViewCell.h"
 #import "THNSkuModelItem.h"
+#import <MJExtension/MJExtension.h>
+#import "THNCouponModel.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -210,8 +212,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSArray *skus = self.skuDict[storekey];
     // 每个店铺的满减
     NSArray *fullReductions = self.fullReductionDict[storekey];
-
-    [cell setPreViewCell:skus initWithItmeSkus:skuItems];
+    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductions[indexPath.row]];
+    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel];
     return cell;
 }
 
