@@ -15,6 +15,7 @@
 #import "THNOrderDetailPayView.h"
 #import "THNPreViewTableViewCell.h"
 #import "THNSkuModelItem.h"
+#import "THNFreightModelItem.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -38,8 +39,10 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) THNOrderDetailLogisticsView *logisticsView;
 // 支付价格等明细
 @property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
+@property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSDictionary *resultDict;
+@property (nonatomic, strong) NSDictionary *skuDict;
+@property (nonatomic, strong) NSDictionary *logisticsDict;
 
 @end
 
@@ -54,6 +57,24 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
     [self setupUI];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:@"SelectDelivery" object:nil];
+}
+
+// 选择配送物流
+- (void)pushSelectLogistics:(NSNotification *)notification {
+    // 选中商品所在的行
+    NSInteger productIndex = [notification.userInfo[@"selectProducIndex"]integerValue];
+    // 选中店铺所在的行
+    NSInteger storeIndex = [notification.userInfo[@"selectStoreIndex"]integerValue];
+    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+    NSArray *skus = self.skuDict[storeKey];
+    NSString *skuKey = self.skuItems[storeIndex][@"sku_items"][productIndex][@"sku"];
+    NSArray *expressArray = self.logisticsDict[storeKey][skuKey][@"express"];
+    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:skus logisticsData:expressArray];
+    selectLogisticsVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
+        NSLog(@"============ 获取的物流： %@", expressModel.expressName);
+    };
+    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
 }
 
 #pragma mark - event response
@@ -61,8 +82,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNPaySuccessViewController *paySuccessVC = [[THNPaySuccessViewController alloc] init];
     [self.navigationController pushViewController:paySuccessVC animated:YES];
 
-//    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] init];
-//    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
+
 
 }
 
@@ -82,7 +102,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"rids"] = [skus componentsJoinedByString:@","];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductStoreSkus requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.resultDict = result.data;
+        self.skuDict = result.data;
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -119,7 +139,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.logisticsDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -149,6 +169,10 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     }];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
@@ -168,21 +192,23 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     self.navigationBarView.title = kTitleSubmitOrder;
 }
 
+
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.resultDict.count;
+    return self.skuDict.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPreViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KOrderPreviewCellIdentifier forIndexPath:indexPath];
-    
+    cell.tag = indexPath.row;
     // 店铺id作为Key取商品的SKU信息
     NSString *key = self.skuItems[indexPath.row][@"rid"];
     // 取对应的商品数量
     NSArray *skuItems = self.skuItems[indexPath.row][@"sku_items"];
-    NSArray *skus = self.resultDict[key];
+    self.skus = self.skuDict[key];
 
-    [cell setPreViewCell:skus initWithItmeSkus:skuItems];
+    [cell setPreViewCell:self.skus initWithItmeSkus:skuItems];
     return cell;
 }
 
