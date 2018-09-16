@@ -23,6 +23,7 @@ UIKIT_EXTERN NSString *const kTitleLikedDynamic;
 UIKIT_EXTERN NSString *const kTitleSelectAddress;
 UIKIT_EXTERN NSString *const kTitleSubmitOrder;
 UIKIT_EXTERN NSString *const kTitleSelectLogistics;
+UIKIT_EXTERN NSString *const kTitlePayment;
 
 #pragma mark - 网络请求
 UIKIT_EXTERN NSString *const kTextRequestError;
