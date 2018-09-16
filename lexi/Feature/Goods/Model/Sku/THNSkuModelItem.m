@@ -10,6 +10,7 @@
 
 NSString *const kTHNSkuModelItemCover = @"cover";
 NSString *const kTHNSkuModelItemDeliveryCountry = @"delivery_country";
+NSString *const kTHNSkuModelItemDeliveryProvince = @"delivery_province";
 NSString *const kTHNSkuModelItemDeliveryCountryId = @"delivery_country_id";
 NSString *const kTHNSkuModelItemMode = @"mode";
 NSString *const kTHNSkuModelItemPrice = @"price";
@@ -44,7 +45,10 @@ NSString *const kTHNSkuModelItemStoreRid = @"store_rid";
 	}	
 	if(![dictionary[kTHNSkuModelItemDeliveryCountry] isKindOfClass:[NSNull class]]){
 		self.deliveryCountry = dictionary[kTHNSkuModelItemDeliveryCountry];
-	}	
+	}
+    if(![dictionary[kTHNSkuModelItemDeliveryProvince] isKindOfClass:[NSNull class]]){
+        self.deliveryProvince = dictionary[kTHNSkuModelItemDeliveryProvince];
+    }
 	if(![dictionary[kTHNSkuModelItemDeliveryCountryId] isKindOfClass:[NSNull class]]){
 		self.deliveryCountryId = [dictionary[kTHNSkuModelItemDeliveryCountryId] integerValue];
 	}
