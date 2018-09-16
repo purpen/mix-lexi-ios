@@ -102,6 +102,7 @@
 		4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */; };
 		4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
+		CD3D01C8214DEDEB0030E3B0 /* THNFullReductionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3D01C7214DEDEB0030E3B0 /* THNFullReductionModel.m */; };
 		D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D8002A37214A4F850023EA1E /* THNSkuFilter.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
@@ -486,6 +487,8 @@
 		4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCenterProductTableViewCell.xib; sourceTree = "<group>"; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD3D01C6214DEDEB0030E3B0 /* THNFullReductionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = THNFullReductionModel.h; path = lexi/Feature/Order/Model/THNFullReductionModel.h; sourceTree = SOURCE_ROOT; };
+		CD3D01C7214DEDEB0030E3B0 /* THNFullReductionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = THNFullReductionModel.m; path = lexi/Feature/Order/Model/THNFullReductionModel.m; sourceTree = SOURCE_ROOT; };
 		D8002A36214A4F850023EA1E /* THNSkuFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSkuFilter.h; sourceTree = "<group>"; };
 		D8002A37214A4F850023EA1E /* THNSkuFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSkuFilter.m; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
@@ -1030,6 +1033,8 @@
 				4B25B47421410E8D00654390 /* THNOrderStoreModel.m */,
 				4B223CDB2146144A001E5F94 /* THNOrderDetailModel.h */,
 				4B223CDC2146144A001E5F94 /* THNOrderDetailModel.m */,
+				CD3D01C6214DEDEB0030E3B0 /* THNFullReductionModel.h */,
+				CD3D01C7214DEDEB0030E3B0 /* THNFullReductionModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2635,6 +2640,7 @@
 				4B56C933213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.m in Sources */,
 				4B72060B212D7124002606EE /* WBModel.m in Sources */,
 				D8BAC9D8211A949100667D6F /* THNShareViewController.m in Sources */,
+				CD3D01C8214DEDEB0030E3B0 /* THNFullReductionModel.m in Sources */,
 				D8247E8F2146727D000C8E37 /* THNSelectLogisticsViewController.m in Sources */,
 				4B1B891D2133CE44008A1C8F /* THNProductAllViewController.m in Sources */,
 				D8247E7C21461A17000C8E37 /* THNOrderPreviewViewController.m in Sources */,
