@@ -11,14 +11,17 @@
 #import "THNSelectLogisticsTableViewCell.h"
 #import "THNLogisticsPlaceTableViewCell.h"
 #import "THNLogisticsPriceView.h"
+#import "THNSkuModelItem.h"
 
 @interface THNSelectLogisticsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *iTableView;
 /// 商品数组
-@property (nonatomic, strong) NSMutableArray *goodsArr;
+@property (nonatomic, strong) NSArray *goodsArr;
 /// 快递数组
-@property (nonatomic, strong) NSMutableArray *logisticsArr;
+@property (nonatomic, strong) NSArray *expressArr;
+/// 发货地
+@property (nonatomic, strong) NSString *country;
 /// 运费预览视图
 @property (nonatomic, strong) THNLogisticsPriceView *priceView;
 /// 选中的
@@ -31,8 +34,8 @@
 - (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSArray *)logisticsData {
     self = [super self];
     if (self) {
-        [self.goodsArr addObjectsFromArray:goodsData];
-        [self.logisticsArr addObjectsFromArray:logisticsData];
+        self.goodsArr = [self thn_changeGoodsSkuDataToModes:goodsData];
+        self.expressArr = [self thn_changeExpressDataToModels:logisticsData];
     }
     return self;
 }
@@ -44,6 +47,29 @@
 }
 
 #pragma mark - private methods
+- (NSArray *)thn_changeGoodsSkuDataToModes:(NSArray *)goodsData {
+    NSMutableArray *models = [NSMutableArray array];
+    
+    for (NSDictionary *dict in goodsData) {
+        THNSkuModelItem *item = [[THNSkuModelItem alloc] initWithDictionary:dict];
+        self.country = item.deliveryProvince;
+        [models addObject:item];
+    }
+    
+    return [models copy];
+}
+
+- (NSArray *)thn_changeExpressDataToModels:(NSArray *)expressData {
+    NSMutableArray *models = [NSMutableArray array];
+    
+    for (NSDictionary *dict in expressData) {
+        THNFreightModelItem *item = [[THNFreightModelItem alloc] initWithDictionary:dict];
+        [models addObject:item];
+    }
+    
+    return [models copy];
+}
+
 - (void)thn_tableView:(UITableView *)tableView selectAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectLogisticsTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
     selectedCell.selected = NO;
@@ -53,6 +79,8 @@
     
     [self.priceView thn_setLogisticsPriceValue:cell.price];
     self.selectIndex = indexPath;
+    
+    self.didSelectedExpressItem(self.expressArr[indexPath.row - 1]);
 }
 
 #pragma mark - tableView datasource & delegate
@@ -61,7 +89,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return section == 0 ? self.goodsArr.count : self.expressArr.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,7 +121,7 @@
         THNGoodsInfoTableViewCell *goodsCell = [THNGoodsInfoTableViewCell initGoodsInfoCellWithTableView:tableView
                                                                                                     type:(THNGoodsInfoCellTypeSelectLogistics)];
         if (self.goodsArr.count) {
-            [goodsCell thn_setGoodsInfoWithModel:self.goodsArr[indexPath.row]];
+            [goodsCell thn_setSkuGoodsInfoWithModel:self.goodsArr[indexPath.row]];
             goodsCell.showLine = indexPath.row == self.goodsArr.count - 1 ? NO : YES;
         }
         
@@ -102,14 +130,14 @@
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             THNLogisticsPlaceTableViewCell *placeCell = [THNLogisticsPlaceTableViewCell initPlaceCellWithTableView:tableView];
-            placeCell.place = @"上海";
+                placeCell.place = self.country;
             
             return placeCell;
             
         } else {
             THNSelectLogisticsTableViewCell *logisticsCell = [THNSelectLogisticsTableViewCell initSelectLogisticsCellWithTableView:tableView];
-            if (self.logisticsArr.count) {
-                [logisticsCell thn_setLogisticsDataWithModel:self.logisticsArr[indexPath.row - 1]];
+            if (self.expressArr.count) {
+                [logisticsCell thn_setLogisticsDataWithModel:self.expressArr[indexPath.row - 1]];
                 logisticsCell.showLine = indexPath.row - 1 == self.goodsArr.count - 1 ? NO : YES;
             }
             
@@ -165,20 +193,6 @@
         [_priceView thn_setLogisticsPriceValue:18.0];
     }
     return _priceView;
-}
-
-- (NSMutableArray *)goodsArr {
-    if (!_goodsArr) {
-        _goodsArr = [NSMutableArray array];
-    }
-    return _goodsArr;
-}
-
-- (NSMutableArray *)logisticsArr {
-    if (!_logisticsArr) {
-        _logisticsArr = [NSMutableArray array];
-    }
-    return _logisticsArr;
 }
 
 @end
