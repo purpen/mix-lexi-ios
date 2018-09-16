@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @class THNSkuModelItem;
+@cla
 
 @interface THNPreViewTableViewCell : UITableViewCell
 
-- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus;
+- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus ;
 
 @end
