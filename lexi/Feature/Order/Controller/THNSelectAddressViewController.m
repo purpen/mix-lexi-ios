@@ -106,6 +106,7 @@ static NSString *kKeyData    = @"data";
     if (!self.selectedIndex) {
         return NO;
     }
+    
     THNAddressModel *selectAddress = self.addressArr[self.selectedIndex.row];
     if (![self.deliveryCountrys containsObject:selectAddress.countryName]) {
         return YES;
