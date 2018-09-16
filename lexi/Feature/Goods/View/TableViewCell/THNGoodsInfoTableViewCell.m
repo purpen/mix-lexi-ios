@@ -102,6 +102,11 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     }
 }
 
+- (void)thn_setSkuGoodsInfoWithModel:(THNSkuModelItem *)model {
+    [self.goodsImageView downloadImage:model.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self thn_setGoodsTitleWithText:model.productName font:[UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)]];
+}
+
 - (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model {
     [self.goodsImageView downloadImage:model.product.cover place:[UIImage imageNamed:@"default_goods_place"]];
     [self thn_setGoodsTitleWithText:model.product.productName font:[UIFont systemFontOfSize:13 weight:(UIFontWeightMedium)]];
