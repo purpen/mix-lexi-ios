@@ -197,13 +197,14 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPreViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KOrderPreviewCellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
+
     // 店铺id作为Key取商品的SKU信息
     NSString *key = self.skuItems[indexPath.row][@"rid"];
     // 取对应的商品数量
     NSArray *skuItems = self.skuItems[indexPath.row][@"sku_items"];
     self.skus = self.skuDict[key];
-
     [cell setPreViewCell:self.skus initWithItmeSkus:skuItems];
+    
     return cell;
 }
 
