@@ -10,12 +10,12 @@
 #import "UIView+Helper.h"
 #import "THNOrdersItemsModel.h"
 #import "UIImageView+WebCache.h"
+#import "THNSkuModelItem.h"
 
 @interface THNOrderDetailTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *saleMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originalMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *modeLabel;
@@ -45,6 +45,15 @@
     self.originalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.price];
     self.modeLabel.text = itemsModel.mode;
     self.deliveryMethodLabel.text = itemsModel.express_name;
+}
+
+- (void)setSkuItemModel:(THNSkuModelItem *)skuItemModel {
+    _skuItemModel = skuItemModel;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:skuItemModel.cover]];
+    self.productNameLabel.text = skuItemModel.productName;
+    self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.salePrice];
+    self.originalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.price];
+    self.modeLabel.text = skuItemModel.mode;
 }
 
 // 物流跟踪
