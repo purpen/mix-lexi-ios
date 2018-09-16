@@ -72,10 +72,6 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
     [self addSubview:self.nameLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.pricelabel];
-    
-    self.nameLabel.text = @"顺丰速运";
-    self.timeLabel.text = kTextExpressTime(@1, @3);
-    self.pricelabel.text = [NSString stringWithFormat:@"￥%.2f", 18.0];
 }
 
 - (void)layoutSubviews {
@@ -135,6 +131,7 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
         [_selectButton setImage:[UIImage imageNamed:@"icon_selected_none"] forState:(UIControlStateNormal)];
         [_selectButton setImage:[UIImage imageNamed:@"icon_selected_main"] forState:(UIControlStateSelected)];
         _selectButton.imageView.contentMode = UIViewContentModeCenter;
+        _selectButton.userInteractionEnabled = NO;
         _selectButton.selected = NO;
     }
     return _selectButton;

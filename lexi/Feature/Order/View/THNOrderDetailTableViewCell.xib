@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -69,7 +69,7 @@
                                 <rect key="frame" x="228" y="0.0" width="180" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="物流时长：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZuZ-W1-d5h">
-                                        <rect key="frame" x="0.0" y="27" width="60" height="17"/>
+                                        <rect key="frame" x="43" y="27" width="60" height="17"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Thin" family="PingFang SC" pointSize="12"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -89,7 +89,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10至15天送达" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="new-Kz-rrJ">
-                                        <rect key="frame" x="65" y="27" width="72" height="17"/>
+                                        <rect key="frame" x="108" y="27" width="72" height="17"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Thin" family="PingFang SC" pointSize="12"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -98,9 +98,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="new-Kz-rrJ" secondAttribute="bottom" id="2m5-w1-TkN"/>
-                                    <constraint firstItem="ZuZ-W1-d5h" firstAttribute="leading" secondItem="Mjq-h6-0c5" secondAttribute="leading" id="5hg-hY-cA8"/>
                                     <constraint firstAttribute="trailing" secondItem="DNi-tR-P9K" secondAttribute="trailing" constant="15" id="5jy-7E-V2f"/>
                                     <constraint firstAttribute="width" constant="180" id="9dB-py-ruz"/>
+                                    <constraint firstAttribute="trailing" secondItem="new-Kz-rrJ" secondAttribute="trailing" id="QGk-87-LaI"/>
                                     <constraint firstItem="new-Kz-rrJ" firstAttribute="leading" secondItem="ZuZ-W1-d5h" secondAttribute="trailing" constant="5" id="X21-sE-NPA"/>
                                     <constraint firstAttribute="bottom" secondItem="ZuZ-W1-d5h" secondAttribute="bottom" id="ZTb-nR-YOT"/>
                                     <constraint firstItem="DNi-tR-P9K" firstAttribute="top" secondItem="Mjq-h6-0c5" secondAttribute="top" id="zQU-4p-BxC"/>
