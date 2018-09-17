@@ -26,9 +26,9 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
 /// 购物车商品列表
 @property (nonatomic, strong) UITableView *cartTableView;
 /// 商品数据
-@property (nonatomic, strong) NSMutableArray *cartGoodsArr;
+@property (nonatomic, strong) NSArray *cartGoodsArr;
 /// 心愿单数据
-@property (nonatomic, strong) NSMutableArray *wishGoodsArr;
+@property (nonatomic, strong) NSArray *wishGoodsArr;
 /// 商品数量
 @property (nonatomic, assign) NSInteger goodsCount;
 /// 底部功能栏
@@ -57,7 +57,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
             return;
         }
         
-        [self.cartGoodsArr addObjectsFromArray:goodsData];
+        self.cartGoodsArr = [NSArray arrayWithArray:goodsData];
         [self thn_showEditButton];
         [self.cartTableView reloadData];
     }];
@@ -73,7 +73,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
             return;
         }
         
-        [self.wishGoodsArr addObjectsFromArray:goodsData];
+        self.wishGoodsArr = [NSArray arrayWithArray:goodsData];
         [self.cartTableView reloadData];
     }];
 }
@@ -150,6 +150,10 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
@@ -170,7 +174,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleCart;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [SVProgressHUD showInfoWithStatus:@"编辑"];
+        [SVProgressHUD showInfoWithStatus:kTextEdit];
     }];
 }
 
@@ -203,20 +207,6 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
         _functionView.totalPrice = 613.4;
     }
     return _functionView;
-}
-
-- (NSMutableArray *)cartGoodsArr {
-    if (!_cartGoodsArr) {
-        _cartGoodsArr = [NSMutableArray array];
-    }
-    return _cartGoodsArr;
-}
-
-- (NSMutableArray *)wishGoodsArr {
-    if (!_wishGoodsArr) {
-        _wishGoodsArr = [NSMutableArray array];
-    }
-    return _wishGoodsArr;
 }
 
 @end

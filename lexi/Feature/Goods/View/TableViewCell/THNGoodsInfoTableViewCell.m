@@ -228,7 +228,7 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     switch (self.cellType) {
         case THNGoodsInfoCellTypeCartWish:
         case THNGoodsInfoCellTypeOrderList: {
-            titleH = [self.titleLabel thn_getLabelHeightWithMaxWidth:200];
+            titleH = [self.titleLabel thn_getLabelHeightWithMaxWidth:kScreenWidth - 190];
         }
             break;
             
