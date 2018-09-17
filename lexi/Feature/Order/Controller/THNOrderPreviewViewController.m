@@ -53,6 +53,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) NSDictionary *fullReductionDict;
 // 物流公司ID
 @property (nonatomic, strong) NSMutableArray *expressIDArray;
+// 运费
+@property (nonatomic, strong) NSDictionary *freightDict;
 
 @end
 
@@ -62,8 +64,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     [super viewDidLoad];
     [self loadProductStoreSkuData];
     [self loadOrderCoupons];
-    [self loadOrderFullReduction];
     [self loadLogisticsFreightData];
+    [self loadOrderFullReduction];
     [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
     [self setupUI];
@@ -94,6 +96,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
         cell.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)expressModel.minDays,(long)expressModel.maxDays];
         // 替换为选中的expressId
         [self.expressIDArray replaceObjectAtIndex:productIndex withObject:@(expressModel.expressId)];
+        // 计算运费
+        [self loadLogisticsFreightData];
 
     };
     [self.navigationController pushViewController:selectLogisticsVC animated:YES];
@@ -182,7 +186,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderFullReduction requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.freightDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -203,7 +207,18 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 // 计算运费
 - (void)loadLogisticsFreightData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSMutableArray *items = [NSMutableArray array];
     params[@"address_rid"] = self.addressModel.rid;
+    
+    for (NSDictionary *dict in self.skuItems) {
+        [items  setArray:dict[@"sku_items"]];
+    }
+    
+    // 为sku字典添加express_id
+    [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [items[idx] setValue:obj forKey:@"express_id"];
+    }];
+    
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -265,7 +280,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     // 每个店铺的满减
     NSArray *fullReductions = self.fullReductionDict[storekey];
     THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductions[indexPath.row]];
-    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel];
+    CGFloat freight = [self.freightDict[storekey]floatValue];
+    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:5.0];
     return cell;
 }
 

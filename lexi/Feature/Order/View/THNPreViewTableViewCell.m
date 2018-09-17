@@ -45,7 +45,7 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 }
 
 
-- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel {
+- (CGFloat)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel initWithFreight:(CGFloat)freight {
     self.skus = skus;
     self.itemSkus = itemSkus;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
@@ -56,9 +56,21 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
     } else {
         self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@,%@发货",itemModel.deliveryCountry,itemModel.deliveryProvince];
     }
+    
+    if (freight == 0) {
+        self.fullReductionLabel.text = @"包邮";
+    } else {
+        self.fullReductionLabel.text = [NSString stringWithFormat:@"¥%.2f",freight];
+    }
 
-    self.fullReductionLabel.text = couponModel.type_text;
-
+    if (couponModel.type_text.length == 0) {
+        self.fullReductionView.hidden = YES;
+    } else {
+        self.fullReductionView.hidden = NO;
+        self.fullReductionLabel.text = couponModel.type_text;
+    }
+    
+    return freight - couponModel.amount;
 }
 
 - (IBAction)selectCouponButton:(id)sender {
