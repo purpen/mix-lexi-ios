@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import <MJExtension/MJExtension.h>
 #import "THNOrderDetailTableViewCell.h"
+#import "THNCouponModel.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
 
@@ -44,7 +45,7 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 }
 
 
-- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus {
+- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel {
     self.skus = skus;
     self.itemSkus = itemSkus;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
@@ -55,6 +56,8 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
     } else {
         self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@,%@发货",itemModel.deliveryCountry,itemModel.deliveryProvince];
     }
+
+    self.fullReductionLabel.text = couponModel.type_text;
 
 }
 
