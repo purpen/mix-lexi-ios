@@ -11,6 +11,9 @@
 @class THNOrdersItemsModel;
 @class THNSkuModelItem;
 
+UIKIT_EXTERN NSString *const kSelectDelivery;
+UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
+
 @interface THNOrderDetailTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNOrdersItemsModel *itemsModel;
@@ -18,5 +21,8 @@
 // 物流信息的View
 @property (weak, nonatomic) IBOutlet UIView *logisticsView;
 @property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
+// 配送方式
+@property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
+@property (weak, nonatomic) IBOutlet UILabel *logisticsTimeLabel;
 
 @end

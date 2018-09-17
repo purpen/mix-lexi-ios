@@ -115,8 +115,8 @@ static NSString *const kKeyQuantity = @"quantity";
  组合选择的 sku 信息
  */
 - (NSArray *)thn_getSelectedGoodsSkuItems {
-    NSDictionary *skuItem = @{kKeySkuId: self.skuView.selectSkuItem.rid,
-                              kKeyQuantity: @(1)};
+    NSMutableDictionary *skuItem = [@{kKeySkuId: self.skuView.selectSkuItem.rid,
+                              kKeyQuantity: @(1)} mutableCopy];
     NSArray *skuItems = @[skuItem];
     
     NSDictionary *storeItem = @{kKeyRid: self.skuView.selectSkuItem.storeRid,
