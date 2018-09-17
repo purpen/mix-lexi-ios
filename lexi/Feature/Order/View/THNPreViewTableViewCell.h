@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNSkuModelItem;
+@class THNCouponModel;
 
 @interface THNPreViewTableViewCell : UITableViewCell
 
-- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus;
+- (void)setPreViewCell:(NSArray *)skus
+      initWithItmeSkus:(NSArray *)itemSkus
+   initWithCouponModel:(THNCouponModel *)couponModel;
 
 @end
