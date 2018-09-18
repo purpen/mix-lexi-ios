@@ -27,6 +27,7 @@
 #import "THNFunctionButtonView.h"
 #import "THNConst.h"
 #import "THNSaveTool.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -85,6 +86,8 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadProductsByStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
+    // 商品类别 0: 全部; 1：自营商品；2：分销商品
+    params[@"is_distributed"] = @(1);
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -125,7 +128,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 //已登录用户获取商家优惠券列表
 - (void)loadUserMasterCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"store_rid"] = @"99130748";
+    params[@"store_rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.loginCoupons = result.data[@"coupons"];
@@ -138,7 +141,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 //未登录用户获取商家优惠券列表
 - (void)loadNotLoginCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"store_rid"] = @"99130748";
+    params[@"store_rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSArray *allCoupons = result.data[@"coupons"];
@@ -377,7 +380,22 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     
 }
 
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (self.brandShowType) {
+        case BrandShowTypeProduct: {
+            THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
+            THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
+            [self.navigationController pushViewController:goodInfo animated:YES];
+        
+        }
+            
+        case BrandShowTypelifeRecord: {
+            
+        }
+            
+    }
+    
+}
 
 #pragma mark - THNBrandHallHeaderViewDelegate
 - (void)showProduct {

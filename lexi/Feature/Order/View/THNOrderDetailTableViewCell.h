@@ -10,6 +10,7 @@
 
 @class THNOrdersItemsModel;
 @class THNSkuModelItem;
+@class THNFreightModelItem;
 
 UIKIT_EXTERN NSString *const kSelectDelivery;
 UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
@@ -24,5 +25,7 @@ UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 // 配送方式
 @property (weak, nonatomic) IBOutlet UILabel *deliveryMethodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *logisticsTimeLabel;
+// 物流公司名字
+@property (nonatomic, strong) THNFreightModelItem *freightModel;
 
 @end
