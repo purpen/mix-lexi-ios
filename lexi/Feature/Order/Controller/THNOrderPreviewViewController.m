@@ -55,6 +55,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) NSMutableArray *expressIDArray;
 // 运费
 @property (nonatomic, strong) NSDictionary *freightDict;
+// 优惠券
+@property (nonatomic, strong) NSDictionary *couponDict;
 
 @end
 
@@ -64,7 +66,6 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     [super viewDidLoad];
     [self loadProductStoreSkuData];
     [self loadOrderCoupons];
-    [self loadLogisticsFreightData];
     [self loadOrderFullReduction];
     [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
@@ -82,7 +83,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSArray *skus = self.skuDict[storeKey];
     NSString *skuKey = self.skuItems[storeIndex][@"sku_items"][productIndex][@"sku"];
     NSArray *expressArray = self.logisticsDict[storeKey][skuKey][@"express"];
-
+    [self.expressIDArray removeAllObjects];
     // 取出所有的物流ID
     for (NSDictionary *dict in expressArray) {
         [self.expressIDArray addObject:dict[@"express_id"]];
@@ -90,12 +91,13 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
     THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:skus logisticsData:expressArray];
     selectLogisticsVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
+         [self.expressIDArray removeAllObjects];
         // 取出THNOrderDetailTableViewCell
-        THNOrderDetailTableViewCell *cell = self.tableView.subviews[0].subviews[0].subviews[3].subviews[0];
+        THNOrderDetailTableViewCell *cell = self.tableView.subviews[0].subviews[0].subviews[0].subviews[3].subviews[0].subviews[0];
         cell.deliveryMethodLabel.text = expressModel.expressName;
         cell.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)expressModel.minDays,(long)expressModel.maxDays];
         // 替换为选中的expressId
-        [self.expressIDArray replaceObjectAtIndex:productIndex withObject:@(expressModel.expressId)];
+        [self.expressIDArray addObject:@(expressModel.expressId)];
         // 计算运费
         [self loadLogisticsFreightData];
 
@@ -150,6 +152,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableArray *items = [NSMutableArray array];
     NSMutableArray *skus = [NSMutableArray array];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
     for (NSDictionary *dict in self.skuItems) {
         [items  setArray:dict[@"sku_items"]];
     }
@@ -174,7 +177,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.couponDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -186,7 +189,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderFullReduction requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.freightDict = result.data;
+        self.fullReductionDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -222,7 +225,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-    
+        self.freightDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -268,6 +271,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPreViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KOrderPreviewCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
 
     // 店铺id作为Key取商品的SKU信息
@@ -278,10 +282,39 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     // 每个店铺的商品的sku
     NSArray *skus = self.skuDict[storekey];
     // 每个店铺的满减
-    NSArray *fullReductions = self.fullReductionDict[storekey];
-    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductions[indexPath.row]];
-    CGFloat freight = [self.freightDict[storekey]floatValue];
-    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:5.0];
+    NSDictionary *fullReductionDict = self.fullReductionDict[storekey];
+   
+    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
+    
+    NSArray *coupons = self.couponDict[storekey];
+  
+    NSMutableArray *logistics = [NSMutableArray array];
+    
+    for (int i = 0; i < skus.count; i++) {
+          NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
+        [logistics setArray:self.logisticsDict[storekey][skuKey][@"express"]];
+    }
+  
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+    NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
+    [self.expressIDArray removeAllObjects];
+    // 取出所有的物流ID
+    for (NSDictionary *dict in defaultLogistics) {
+        [self.expressIDArray addObject:dict[@"express_id"]];
+    }
+    
+    [self loadLogisticsFreightData];
+    
+    CGFloat freight = 0.0;
+    
+    if (!self.freightDict) {
+        freight  = [self.freightDict[storekey] floatValue];
+    }
+    
+    THNFreightModelItem *freighModel = [[THNFreightModelItem alloc]initWithDictionary:defaultLogistics[0]];
+    
+    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
+    
     return cell;
 }
 

@@ -79,8 +79,7 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 - (void)receiveCoupon {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.couponModel.code;
-    params[@"store_rid"] = @"99130748";
-//    [THNSaveTool objectForKey:kBrandHallRid];
+    params[@"store_rid"] = [THNSaveTool objectForKey:kBrandHallRid];
     THNRequest *request = [THNAPI postWithUrlString:kUrlCouponsGrant requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self receivedStyle];
