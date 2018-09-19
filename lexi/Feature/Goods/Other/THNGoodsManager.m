@@ -138,7 +138,7 @@ static NSString *const kKeyItemCount        = @"item_count";
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:@{kKeyUserRecord: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
-//        THNLog(@"\n === 商品全部信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
+        THNLog(@"\n === 商品全部信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
 //        THNLog(@"\n === 商品详情信息 === \n%@\n", [NSString jsonStringWithObject:result.data[@"deal_content"]]);
         THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:result.data];
         completion(model, nil);
@@ -192,6 +192,7 @@ static NSString *const kKeyItemCount        = @"item_count";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
