@@ -69,19 +69,20 @@ static NSString *const kParamMobile         = @"mobile";
 - (void)thn_loginSuccessWithModeType:(THNLoginModeType)type {
     WEAKSELF;
     if (type == THNLoginModeTypePassword) {
-        [self back];
+        [self thn_loginSuccessBack];
+        
     } else if (type == THNLoginModeTypeVeriDynamic) {
         if ([THNLoginManager isFirstLogin]) {
             THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
             [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
             
         } else {
-            [self back];
+            [self thn_loginSuccessBack];
         }
     }
 }
 
-- (void)back {
+- (void)thn_loginSuccessBack {
     WEAKSELF;
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {
@@ -94,18 +95,27 @@ static NSString *const kParamMobile         = @"mobile";
             return;
         }
         
-        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
+/**
+ 获取错误信息提示
+ */
+- (NSString *)thn_getErrorMessage:(NSError *)error {
+    NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    
+    return body[@"status"][@"message"];
+}
 
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
     WEAKSELF;
     [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
         if (error) {
-            [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
+            [weakSelf.signInView thn_setErrorHintText:[weakSelf thn_getErrorMessage:error]];
             return ;
         }
         
@@ -113,6 +123,7 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
+        
         [weakSelf thn_loginSuccessWithModeType:type];
     }];
 }

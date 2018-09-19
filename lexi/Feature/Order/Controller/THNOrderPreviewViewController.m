@@ -166,7 +166,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSDictionary *dict in self.skuItems) {
-        [items  setArray:dict[@"sku_items"]];
+        [items addObjectsFromArray:dict[@"sku_items"]];
     }
     
     for (NSDictionary *dict in items) {
@@ -210,10 +210,20 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 // 获取每件商品的物流公司列表
 - (void)loadLogisticsProductExpressData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSMutableArray *items = [NSMutableArray array];
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.logisticsDict = result.data;
+        
+        for (NSDictionary *dict in self.skuItems) {
+            [items addObjectsFromArray:dict[@"sku_items"]];
+        }
+        
+        for (NSDictionary *dict in items) {
+            [self.expressIDArray addObject:self.logisticsDict[dict[@"sku"]]];
+        }
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -226,7 +236,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     params[@"address_rid"] = self.addressModel.rid;
     
     for (NSDictionary *dict in self.skuItems) {
-        [items  setArray:dict[@"sku_items"]];
+        [items  addObjectsFromArray:dict[@"sku_items"]];
     }
     
     // 为sku字典添加express_id
@@ -304,15 +314,14 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     
     for (int i = 0; i < skus.count; i++) {
         NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
-        [logistics setArray:self.logisticsDict[storekey][skuKey][@"express"]];
+        [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
     
     // 删选出默认物流
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
-    [self.expressIDArray removeAllObjects];
     // 取出所有的物流ID
-    for (NSDictionary *dict in defaultLogistics) {
+    for (NSDictionary *dict in logistics) {
         [self.expressIDArray addObject:dict[@"express_id"]];
     }
     
