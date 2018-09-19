@@ -136,13 +136,16 @@ static NSString *const kKeyQuantity = @"quantity";
     NSMutableArray *cartItems = [NSMutableArray array];
     
     for (THNCartModelItem *item in self.cartGoodsArr) {
-        NSDictionary *skuItem = @{kKeySkuId: item.rid,
-                                  kKeyQuantity: @(item.quantity)};
-        
-        NSDictionary *storeItem = @{kKeyRid: item.product.storeRid,
-                                    kKeySkuItems: @[skuItem]};
-        
-        [cartItems addObject:storeItem];
+
+        if (item.product.status == 1) {
+            NSDictionary *skuItem = @{kKeySkuId: item.rid,
+                                      kKeyQuantity: @(item.quantity)};
+            
+            NSDictionary *storeItem = @{kKeyRid: item.product.storeRid,
+                                        kKeySkuItems: @[skuItem]};
+            
+            [cartItems addObject:storeItem];
+        }
     }
     
     return [cartItems copy];
@@ -209,12 +212,13 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    THNHeaderTitleView *headerView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     if (self.cartGoodsArr.count || self.wishGoodsArr.count) {
+        THNHeaderTitleView *headerView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
         headerView.title = section == 0 ? kTextGoodsCount(self.goodsCount) : kTextWish;
+        
+        return headerView;
     }
-    
-    return headerView;
+    return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
