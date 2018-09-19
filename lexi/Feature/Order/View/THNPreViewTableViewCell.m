@@ -12,6 +12,8 @@
 #import <MJExtension/MJExtension.h>
 #import "THNOrderDetailTableViewCell.h"
 #import "THNCouponModel.h"
+#import "THNSelectCouponView.h"
+#import "UIView+Helper.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
 
@@ -32,8 +34,15 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 // 满减
 @property (weak, nonatomic) IBOutlet UILabel *fullReductionLabel;
 @property (weak, nonatomic) IBOutlet UIView *fullReductionView;
+@property (nonatomic, strong) THNSelectCouponView *selectCouponView;
 @property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) NSArray *itemSkus;
+// 优惠卷
+@property (nonatomic, strong) NSArray *coupons;
+// 物流公司名字
+@property (nonatomic, strong) NSString *logisticsName;
+
+@property (nonatomic, strong) THNFreightModelItem *freightModel;
 
 @end
 
@@ -45,9 +54,10 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 }
 
 
-- (void)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel {
+- (CGFloat)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel initWithFreight:(CGFloat)freight initWithCoupons:(NSArray *)coupons initWithLogisticsNames:(THNFreightModelItem *)freightModel {
     self.skus = skus;
     self.itemSkus = itemSkus;
+    self.coupons = coupons;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
     self.nameLabel.text = itemModel.storeName;
     
@@ -56,13 +66,48 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
     } else {
         self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@,%@发货",itemModel.deliveryCountry,itemModel.deliveryProvince];
     }
+    
+    if (freight == 0) {
+        self.freightLabel.text = @"包邮";
+    } else {
+        self.freightLabel.text = [NSString stringWithFormat:@"¥%.2f",freight];
+    }
 
-    self.fullReductionLabel.text = couponModel.type_text;
-
+    if (couponModel.type_text.length == 0) {
+        self.fullReductionView.hidden = YES;
+    } else {
+        self.fullReductionView.hidden = NO;
+        self.fullReductionLabel.text = couponModel.type_text;
+    }
+    
+    if (self.coupons.count > 0) {
+        self.couponLabel.text = [NSString stringWithFormat:@"有%ld张可用",self.coupons.count];
+    } else {
+        self.couponLabel.text = @"当前没有优惠券";
+    }
+    
+    
+    self.freightModel = freightModel;
+    
+    return freight - couponModel.amount;
 }
 
 - (IBAction)selectCouponButton:(id)sender {
     
+    if (self.coupons.count == 0) {
+        return;
+    }
+    
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    self.selectCouponView.frame = window.bounds;
+    self.selectCouponView.coupons = self.coupons;
+    __weak typeof(self)weakSelf = self;
+    
+    self.selectCouponView.selectCouponBlock = ^(NSString *text) {
+        weakSelf.couponLabel.text = text;
+    };
+    
+    [window addSubview:self.selectCouponView];
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -78,15 +123,25 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPreViewOrderDetailCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
      THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:self.skus[indexPath.row]];
     [cell setSkuItemModel:itemModel];
+    [cell setFreightModel:self.freightModel];
     cell.productCountLabel.text = [NSString stringWithFormat:@"x%@",self.itemSkus[indexPath.row][@"quantity"]];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 155;
+}
+
+#pragma mark - lazy
+- (THNSelectCouponView *)selectCouponView {
+    if (!_selectCouponView) {
+        _selectCouponView = [THNSelectCouponView viewFromXib];
+    }
+    return _selectCouponView;
 }
 
 @end

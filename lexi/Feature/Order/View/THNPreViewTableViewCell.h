@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @class THNCouponModel;
+@class THNFreightModelItem;
 
 @interface THNPreViewTableViewCell : UITableViewCell
 
-- (void)setPreViewCell:(NSArray *)skus
+- (CGFloat)setPreViewCell:(NSArray *)skus
       initWithItmeSkus:(NSArray *)itemSkus
-   initWithCouponModel:(THNCouponModel *)couponModel;
+   initWithCouponModel:(THNCouponModel *)couponModel
+          initWithFreight:(CGFloat)freight
+          initWithCoupons:(NSArray *)coupons
+   initWithLogisticsNames:(THNFreightModelItem *)freightModel;
 
 @end
