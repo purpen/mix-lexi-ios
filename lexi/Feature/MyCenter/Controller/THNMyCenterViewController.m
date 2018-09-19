@@ -24,6 +24,7 @@
 #import "THNLoginManager.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNOrderViewController.h"
+#import "THNBrandHallViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -225,7 +226,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
             
             THNTableViewCells *storeCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore) didSelectedItem:^(NSString *ids) {
-                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"店铺ID == %@", ids]];
+                THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+                brandHallVC.rid = ids;
+                [self.navigationController pushViewController:brandHallVC animated:YES];
             }];
             storeCells.height = kCellHeightStore;
             storeCells.storeModel = model;
