@@ -166,6 +166,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSDictionary *dict in self.skuItems) {
+
         [items addObjectsFromArray:dict[@"sku_items"]];
     }
     
@@ -210,19 +211,30 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 // 获取每件商品的物流公司列表
 - (void)loadLogisticsProductExpressData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSMutableArray *items = [NSMutableArray array];
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.logisticsDict = result.data;
+         NSMutableDictionary *itemDict = [NSMutableDictionary dictionary];
+        NSMutableArray *items = [NSMutableArray array];
+        NSMutableArray *expressArray = [NSMutableArray array];
+         NSString *storeRid;
         
         for (NSDictionary *dict in self.skuItems) {
+             storeRid = dict[@"rid"];
+            [itemDict addEntriesFromDictionary:self.logisticsDict[storeRid]];
             [items addObjectsFromArray:dict[@"sku_items"]];
         }
         
-        for (NSDictionary *dict in items) {
-            [self.expressIDArray addObject:self.logisticsDict[dict[@"sku"]]];
+        for (int i = 0; i < items.count; i++) {
+            [expressArray addObjectsFromArray:itemDict[items[i][@"sku"]][@"express"]];
         }
+        
+        for (NSDictionary *dict in expressArray) {
+            [self.expressIDArray addObject:dict[@"express_id"]];
+        }
+        
+        NSLog(@"%@",self.expressIDArray);
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -232,19 +244,22 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 // 计算运费
 - (void)loadLogisticsFreightData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSMutableArray *skuItems = [NSMutableArray array];
     NSMutableArray *items = [NSMutableArray array];
     params[@"address_rid"] = self.addressModel.rid;
     
-    for (NSDictionary *dict in self.skuItems) {
-        [items  addObjectsFromArray:dict[@"sku_items"]];
+    for (NSMutableDictionary *dict in self.skuItems) {
+        [skuItems  addObjectsFromArray:dict[@"sku_items"]];
     }
     
     // 为sku字典添加express_id
     [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [items[idx] setValue:obj forKey:@"express_id"];
+        NSMutableDictionary *mutableDict =  [skuItems[idx] mutableCopy];
+        [mutableDict setValue:obj forKey:@"express_id"];
+        [items addObject:mutableDict];
     }];
     
-    params[@"items"] = self.skuItems;
+    params[@"items"] = items;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.freightDict = result.data;
@@ -321,10 +336,10 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
     // 取出所有的物流ID
-    for (NSDictionary *dict in logistics) {
-        [self.expressIDArray addObject:dict[@"express_id"]];
-    }
-    
+//    for (NSDictionary *dict in logistics) {
+//        [self.expressIDArray addObject:dict[@"express_id"]];
+//    }
+//
     [self loadLogisticsFreightData];
     
     CGFloat freight = 0.0;
