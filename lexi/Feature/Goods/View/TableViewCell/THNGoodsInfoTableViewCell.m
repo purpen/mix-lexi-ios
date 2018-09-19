@@ -115,6 +115,13 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     [self thn_setGoodsColorText:model.product.sColor mode:model.product.sModel];
 }
 
+#pragma mark - event response
+- (void)addCartAction:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedAddGoodsToCart:)]) {
+        [self.delegate thn_didSelectedAddGoodsToCart:self];
+    }
+}
+
 #pragma mark - private methods
 /**
  设置商品名称
@@ -477,6 +484,7 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
         [_addCart setTitle:@"＋" forState:(UIControlStateNormal)];
         [_addCart setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         [_addCart setTitleEdgeInsets:(UIEdgeInsetsMake(0, 5, 0, 0))];
+        [_addCart addTarget:self action:@selector(addCartAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _addCart;
 }
