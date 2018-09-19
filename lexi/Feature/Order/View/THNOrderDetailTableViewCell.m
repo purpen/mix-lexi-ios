@@ -59,6 +59,12 @@ NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
     self.logisticsButton.hidden = YES;
 }
 
+- (void)setFreightModel:(THNFreightModelItem *)freightModel {
+    _freightModel = freightModel;
+    self.deliveryMethodLabel.text = freightModel.expressName;
+    self.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)freightModel.minDays,(long)freightModel.maxDays];
+}
+
 // 物流跟踪
 - (IBAction)logisticsTracking:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];

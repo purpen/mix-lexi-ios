@@ -86,6 +86,7 @@ static NSString *const kCouponCellIdentifier = @"kCouponCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNCouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     THNCouponModel *couponModel;
     if ([THNLoginManager isLogin]) {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.loginCoupons[indexPath.row]];

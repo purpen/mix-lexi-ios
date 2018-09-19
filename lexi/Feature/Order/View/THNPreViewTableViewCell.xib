@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,25 +58,25 @@
                                     <constraint firstAttribute="height" constant="0.5" id="aA3-Pe-qbO"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="设计馆优惠券" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="08G-e6-OlY">
-                                <rect key="frame" x="8" y="11" width="84" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设计馆优惠券" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="08G-e6-OlY">
+                                <rect key="frame" x="-1" y="10" width="84" height="20"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Xz-ud-iyW">
-                                <rect key="frame" x="362" y="0.5" width="30" height="39.5"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Xz-ud-iyW">
+                                <rect key="frame" x="292" y="0.5" width="100" height="39.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="A9t-yT-R3c"/>
+                                    <constraint firstAttribute="width" constant="100" id="A9t-yT-R3c"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="80" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="   " image="icon_ arrow_right_gray"/>
                                 <connections>
                                     <action selector="selectCouponButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="92n-cL-7ZX"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSH-A1-MKt">
-                                <rect key="frame" x="331.5" y="11.5" width="30.5" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSH-A1-MKt">
+                                <rect key="frame" x="367" y="20" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                                 <color key="textColor" red="0.96862745100000003" green="0.43229166670000002" blue="0.40237087669999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -86,12 +85,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="cA0-wx-V9p" secondAttribute="trailing" id="9c3-5e-Ixf"/>
+                            <constraint firstItem="LSH-A1-MKt" firstAttribute="trailing" secondItem="4Xz-ud-iyW" secondAttribute="trailing" constant="-25" id="Gpm-HQ-oo4"/>
                             <constraint firstItem="cA0-wx-V9p" firstAttribute="top" secondItem="RXh-Sy-hEb" secondAttribute="top" id="HoW-0K-Wxi"/>
                             <constraint firstAttribute="height" constant="40" id="NW3-D1-GMm"/>
-                            <constraint firstItem="4Xz-ud-iyW" firstAttribute="leading" secondItem="LSH-A1-MKt" secondAttribute="trailing" id="bva-vu-LRg"/>
                             <constraint firstItem="4Xz-ud-iyW" firstAttribute="top" secondItem="cA0-wx-V9p" secondAttribute="bottom" id="bwe-qV-q0H"/>
                             <constraint firstItem="cA0-wx-V9p" firstAttribute="leading" secondItem="RXh-Sy-hEb" secondAttribute="leading" id="cpm-KL-c4w"/>
                             <constraint firstItem="LSH-A1-MKt" firstAttribute="centerY" secondItem="RXh-Sy-hEb" secondAttribute="centerY" id="htU-85-48F"/>
+                            <constraint firstItem="08G-e6-OlY" firstAttribute="centerY" secondItem="RXh-Sy-hEb" secondAttribute="centerY" id="jnI-UY-1jw"/>
                             <constraint firstAttribute="bottom" secondItem="4Xz-ud-iyW" secondAttribute="bottom" id="kue-8I-4wj"/>
                             <constraint firstAttribute="trailing" secondItem="4Xz-ud-iyW" secondAttribute="trailing" id="tSC-t6-sOS"/>
                         </constraints>
@@ -125,7 +125,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psR-tY-gXh">
-                        <rect key="frame" x="341.5" y="400.5" width="30.5" height="17"/>
+                        <rect key="frame" x="361.5" y="400.5" width="30.5" height="17"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -195,7 +195,6 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="J2V-GC-KIT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="1Qz-uV-BkM"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="psR-tY-gXh" secondAttribute="trailing" constant="15" id="4zQ-i4-a8i"/>
                     <constraint firstAttribute="trailing" secondItem="qJK-j8-HFP" secondAttribute="trailing" constant="15" id="C9n-Qb-t97"/>
                     <constraint firstItem="zhk-3S-ZqZ" firstAttribute="centerY" secondItem="PCt-Im-5Fm" secondAttribute="centerY" id="E3Y-7F-5un"/>
                     <constraint firstItem="PCt-Im-5Fm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="EMD-F7-UBO"/>
@@ -212,6 +211,7 @@
                     <constraint firstAttribute="trailing" secondItem="F6s-DL-UAV" secondAttribute="trailing" id="Xpy-yG-OnI"/>
                     <constraint firstItem="RXh-Sy-hEb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="YqF-XA-L0F"/>
                     <constraint firstAttribute="trailing" secondItem="XJ2-oV-1B0" secondAttribute="trailing" id="Z8i-s3-3E5"/>
+                    <constraint firstItem="psR-tY-gXh" firstAttribute="trailing" secondItem="gwk-VK-77a" secondAttribute="trailing" id="ZJa-1c-tF2"/>
                     <constraint firstAttribute="trailing" secondItem="zhk-3S-ZqZ" secondAttribute="trailing" constant="15" id="cbb-mI-Hev"/>
                     <constraint firstItem="RXh-Sy-hEb" firstAttribute="top" secondItem="F6s-DL-UAV" secondAttribute="bottom" id="f5e-IE-ldv"/>
                     <constraint firstItem="E6m-zq-Qke" firstAttribute="top" secondItem="qJK-j8-HFP" secondAttribute="bottom" constant="10" id="fOk-0f-LNO"/>
@@ -221,6 +221,7 @@
                     <constraint firstItem="qJK-j8-HFP" firstAttribute="top" secondItem="O1u-ca-XFX" secondAttribute="bottom" constant="30" id="lXS-mr-nTW"/>
                     <constraint firstItem="O1u-ca-XFX" firstAttribute="top" secondItem="XJ2-oV-1B0" secondAttribute="bottom" id="n1R-J8-gDN"/>
                     <constraint firstItem="XJ2-oV-1B0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="44" id="r0O-W1-qjY"/>
+                    <constraint firstItem="08G-e6-OlY" firstAttribute="leading" secondItem="J2V-GC-KIT" secondAttribute="leading" id="wNa-8D-HPQ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
