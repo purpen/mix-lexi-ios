@@ -12,6 +12,9 @@
 #import "THNCartButton.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNConst.h"
+
+static NSString *const kTextNone = @"已售罄";
 
 @interface THNGoodsFunctionView ()
 
@@ -21,6 +24,8 @@
 @property (nonatomic, strong) THNGoodsButton *subButton;
 /// 购物车
 @property (nonatomic, strong) THNCartButton *cartButton;
+/// 售罄提示
+@property (nonatomic, strong) UILabel *noneLabel;
 /// 是否显示购物车
 @property (nonatomic, assign) BOOL showGoodsCart;
 
@@ -49,6 +54,13 @@
 }
 
 - (void)thn_setGoodsModel:(THNGoodsModel *)model {
+    if (model.stockCount <= 0) {
+        [self thn_hasStockCount:NO];
+        return;
+    }
+    
+    [self thn_hasStockCount:YES];
+    
     if (model.isCustomMade) {
         self.type = THNGoodsFunctionViewTypeCustom;
     } else {
@@ -84,6 +96,15 @@
     }
 }
 
+/**
+ 是否有库存
+ */
+- (void)thn_hasStockCount:(BOOL)has {
+    self.noneLabel.hidden = has;
+    self.mainButton.hidden = !has;
+    self.subButton.hidden = !has;
+}
+
 #pragma mark - event response
 - (void)mainButtonAction:(THNGoodsButton *)button {
     if ([self.delegate respondsToSelector:@selector(thn_openGoodsSkuWithType:)]) {
@@ -111,6 +132,7 @@
     [self addSubview:self.mainButton];
     [self addSubview:self.subButton];
     [self addSubview:self.cartButton];
+    [self addSubview:self.noneLabel];
 }
 
 - (void)layoutSubviews {
@@ -124,6 +146,9 @@
 
     self.subButton.frame = CGRectMake(CGRectGetMaxX(self.mainButton.frame), 5, buttonWidth, 40);
     [self.subButton drawCornerWithType:(UILayoutCornerRadiusRight) radius:4];
+    
+    self.noneLabel.frame = CGRectMake(20 + cartWidth, 5, buttonWidth * 2, 40);
+    [self.noneLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
     
     if (self.showGoodsCart) {
         self.cartButton.frame = CGRectMake(0, 5, 79, 40);
@@ -166,6 +191,19 @@
         [_cartButton addTarget:self action:@selector(cartButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _cartButton;
+}
+
+- (UILabel *)noneLabel {
+    if (!_noneLabel) {
+        _noneLabel = [[UILabel alloc] init];
+        _noneLabel.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:0.5];
+        _noneLabel.font = [UIFont systemFontOfSize:16];
+        _noneLabel.textColor = [UIColor whiteColor];
+        _noneLabel.textAlignment = NSTextAlignmentCenter;
+        _noneLabel.text = kTextNone;
+        _noneLabel.hidden = YES;
+    }
+    return _noneLabel;
 }
 
 @end
