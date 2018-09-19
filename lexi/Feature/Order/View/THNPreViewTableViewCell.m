@@ -55,8 +55,10 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 
 
 - (CGFloat)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel initWithFreight:(CGFloat)freight initWithCoupons:(NSArray *)coupons initWithLogisticsNames:(THNFreightModelItem *)freightModel {
-    self.skus = skus;
-    self.itemSkus = itemSkus;
+    
+    NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"fid" ascending:YES]];
+    self.skus = [skus sortedArrayUsingDescriptors:sortArr];
+    self.itemSkus = self.itemSkus;
     self.coupons = coupons;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
     self.nameLabel.text = itemModel.storeName;
