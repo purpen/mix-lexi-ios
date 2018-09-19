@@ -128,7 +128,7 @@ static NSString *const kKeyQuantity = @"quantity";
     THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
     selectAddressVC.selectedSkuItems = [self thn_getCartGoodsSkuItems];
     selectAddressVC.deliveryCountrys = [self thn_getCartGoodsDeliveryCountrys];
-//    [self.navigationController pushViewController:selectAddressVC animated:YES];
+    [self.navigationController pushViewController:selectAddressVC animated:YES];
 }
 
 // 购物车商品 sku 数据
