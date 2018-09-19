@@ -154,7 +154,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSDictionary *dict in self.skuItems) {
-        [items  setArray:dict[@"sku_items"]];
+        [items setArray:dict[@"sku_items"]];
     }
     
     for (NSDictionary *dict in items) {
