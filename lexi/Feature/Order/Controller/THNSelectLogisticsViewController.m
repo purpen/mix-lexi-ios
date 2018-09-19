@@ -13,6 +13,8 @@
 #import "THNLogisticsPriceView.h"
 #import "THNSkuModelItem.h"
 
+static NSString *const kURLExpress = @"/logistics/same_template_express";
+
 @interface THNSelectLogisticsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *iTableView;
@@ -44,6 +46,16 @@
     [super viewDidLoad];
     
     [self setupUI];
+}
+
+#pragma mark - network
+- (void)requestSameTemplateExpress {
+    THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 #pragma mark - private methods
@@ -160,6 +172,13 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     
     [self.view addSubview:self.iTableView];
+    
+    if (self.goodsArr.count && self.expressArr.count) {
+        self.selectIndex = [NSIndexPath indexPathForRow:1 inSection:1];
+        [self.iTableView selectRowAtIndexPath:self.selectIndex
+                                     animated:NO
+                               scrollPosition:(UITableViewScrollPositionNone)];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

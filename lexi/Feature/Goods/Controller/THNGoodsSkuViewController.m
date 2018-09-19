@@ -15,7 +15,8 @@
 #import "THNLoginManager.h"
 #import "THNGoodsManager.h"
 
-static NSString *const kTitleSure = @"确定";
+static NSString *const kTitleSure   = @"确定";
+static NSString *const kTextNone    = @"已售罄";
 /// 自定义的 key
 static NSString *const kKeyItems    = @"items";
 static NSString *const kKeyRid      = @"rid";
@@ -44,11 +45,23 @@ static NSString *const kKeyQuantity = @"quantity";
 
 @implementation THNGoodsSkuViewController
 
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel {
+    self = [super init];
+    if (self) {
+        self.goodsModel = goodsModel;
+        [self thn_getGoodsSkuDataWithGoodsId:goodsModel.rid];
+        [self thn_setSureButtonStatusWithStockCount:goodsModel.totalStock];
+        self.viewType = THNGoodsSkuTypeDefault;
+    }
+    return self;
+}
+
 - (instancetype)initWithSkuModel:(THNSkuModel *)model goodsModel:(THNGoodsModel *)goodsModel viewType:(THNGoodsSkuType)viewTpye {
     self = [super init];
     if (self) {
         self.skuModel = model;
         self.goodsModel = goodsModel;
+        [self thn_setSureButtonStatusWithStockCount:goodsModel.stockCount];
         self.viewType = viewTpye;
     }
     return self;
@@ -65,6 +78,23 @@ static NSString *const kKeyQuantity = @"quantity";
     
     self.navigationBarView.hidden = YES;
     self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
+}
+
+#pragma mark - network
+/**
+ 获取商品 SKU 数据
+ */
+- (void)thn_getGoodsSkuDataWithGoodsId:(NSString *)goodsId {
+    WEAKSELF;
+    
+    [SVProgressHUD show];
+    [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
+        [SVProgressHUD dismiss];
+        
+        if (error) return;
+        weakSelf.skuModel = model;
+        weakSelf.skuView.skuModel = model;
+    }];
 }
 
 #pragma mark - custom delegate
@@ -162,14 +192,23 @@ static NSString *const kKeyQuantity = @"quantity";
     [self presentViewController:orderNav animated:YES completion:nil];
 }
 
+/**
+ 根据有库存设置按钮状态
+ */
+- (void)thn_setSureButtonStatusWithStockCount:(NSInteger)count {
+    BOOL hasStockCount = count > 0;
+    
+    NSString *title = hasStockCount ? kTitleSure : kTextNone;
+    [self.sureButton setTitle:title forState:(UIControlStateNormal)];
+    self.sureButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:hasStockCount ? 1 : 0.5];
+    self.sureButton.userInteractionEnabled = hasStockCount;
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.maskView];
     [self.view addSubview:self.mainView];
-    
-    if (self.skuModel) {
-        [self.mainView addSubview:self.skuView];
-    }
+    [self.mainView addSubview:self.skuView];
     
     if (self.viewType == THNGoodsSkuTypeDirectSelect) {
         [self.mainView addSubview:self.functionView];
@@ -245,7 +284,6 @@ static NSString *const kKeyQuantity = @"quantity";
         CGFloat originBottom = kDeviceiPhoneX ? 35 : 15;
         _sureButton = [[UIButton alloc] initWithFrame:CGRectMake(15, SCREEN_HEIGHT - (40 + originBottom), SCREEN_WIDTH - 30, 40)];
         _sureButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
-        [_sureButton setTitle:kTitleSure forState:(UIControlStateNormal)];
         [_sureButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _sureButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightMedium)];
         [_sureButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
