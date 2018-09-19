@@ -114,6 +114,7 @@ static NSInteger const kFooterHeight = 18;
  */
 - (void)thn_getGoodsInfoDataWithGoodsId:(NSString *)goodsId {
     [SVProgressHUD show];
+    if (!goodsId.length) return;
     
     [THNGoodsManager getProductAllDetailWithId:self.goodsId completion:^(THNGoodsModel *model, NSError *error) {
         [SVProgressHUD dismiss];

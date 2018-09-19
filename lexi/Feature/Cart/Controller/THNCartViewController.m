@@ -9,8 +9,11 @@
 #import "THNCartViewController.h"
 #import "THNGoodsManager.h"
 #import "THNGoodsInfoTableViewCell.h"
+#import "THNGoodsInfoViewController.h"
 #import "THNHeaderTitleView.h"
 #import "THNCartFunctionView.h"
+#import "THNGoodsSkuViewController.h"
+#import "THNSelectAddressViewController.h"
 
 #define kTextGoodsCount(count) [NSString stringWithFormat:@"%zi件礼品", count]
 
@@ -20,15 +23,25 @@ static NSString *const kTextWish = @"心愿单";
 static NSString *const kCartNormalGoodsCellId   = @"kCartNormalGoodsCellId";
 static NSString *const kCartEditGoodsCellId     = @"kCartEditGoodsCellId";
 static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
+/// 自定义的 key
+static NSString *const kKeyItems    = @"items";
+static NSString *const kKeyRid      = @"rid";
+static NSString *const kKeySkuItems = @"sku_items";
+static NSString *const kKeySkuId    = @"sku";
+static NSString *const kKeyQuantity = @"quantity";
 
-@interface THNCartViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNCartViewController () <
+    UITableViewDelegate,
+    UITableViewDataSource,
+    THNGoodsInfoTableViewCellDelegate,
+    THNCartFunctionViewDelegate>
 
 /// 购物车商品列表
 @property (nonatomic, strong) UITableView *cartTableView;
 /// 商品数据
-@property (nonatomic, strong) NSMutableArray *cartGoodsArr;
+@property (nonatomic, strong) NSArray *cartGoodsArr;
 /// 心愿单数据
-@property (nonatomic, strong) NSMutableArray *wishGoodsArr;
+@property (nonatomic, strong) NSArray *wishGoodsArr;
 /// 商品数量
 @property (nonatomic, assign) NSInteger goodsCount;
 /// 底部功能栏
@@ -57,7 +70,8 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
             return;
         }
         
-        [self.cartGoodsArr addObjectsFromArray:goodsData];
+        self.cartGoodsArr = [NSArray arrayWithArray:goodsData];
+        [self thn_setCartGoodsTotalPriceWithData:goodsData];
         [self thn_showEditButton];
         [self.cartTableView reloadData];
     }];
@@ -73,7 +87,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
             return;
         }
         
-        [self.wishGoodsArr addObjectsFromArray:goodsData];
+        self.wishGoodsArr = [NSArray arrayWithArray:goodsData];
         [self.cartTableView reloadData];
     }];
 }
@@ -90,6 +104,91 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
         
         self.goodsCount = goodsCount;
     }];
+}
+
+#pragma mark - custom delegate
+- (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell {
+    NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
+    if (indexPath.section == 1) {
+        THNGoodsModel *model = self.wishGoodsArr[indexPath.row];
+        [self thn_openGoodsSkuControllerWithGoodsModel:model];
+    }
+}
+
+- (void)thn_didSettleShoppingCartItems {
+    [self thn_openAddressSelectedController];
+}
+
+#pragma mark - private methods
+- (void)thn_openAddressSelectedController {
+    if (!self.cartGoodsArr.count) {
+        return;
+    }
+    
+    THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
+    selectAddressVC.selectedSkuItems = [self thn_getCartGoodsSkuItems];
+    selectAddressVC.deliveryCountrys = [self thn_getCartGoodsDeliveryCountrys];
+    [self.navigationController pushViewController:selectAddressVC animated:YES];
+}
+
+// 购物车商品 sku 数据
+- (NSArray *)thn_getCartGoodsSkuItems {
+    NSMutableArray *cartItems = [NSMutableArray array];
+    
+    for (THNCartModelItem *item in self.cartGoodsArr) {
+        NSDictionary *skuItem = @{kKeySkuId: item.rid,
+                                  kKeyQuantity: @(item.quantity)};
+        
+        NSDictionary *storeItem = @{kKeyRid: item.product.storeRid,
+                                    kKeySkuItems: @[skuItem]};
+        
+        [cartItems addObject:storeItem];
+    }
+    
+    return [cartItems copy];
+}
+
+// 结算时合并同一家店铺的商品
+- (NSArray *)thn_getSettleShoppingCartWithItems:(NSArray *)items {
+    NSMutableArray *itemArr = [NSMutableArray array];
+    
+    for (NSDictionary *itemDict in items) {
+        
+    }
+    
+    return [itemArr copy];
+}
+
+// 每件商品的发货国家
+- (NSArray *)thn_getCartGoodsDeliveryCountrys {
+    NSMutableArray *countrys = [NSMutableArray array];
+    
+    for (THNCartModelItem *item in self.cartGoodsArr) {
+        [countrys addObject:item.product.deliveryCountry];
+    }
+    
+    return [countrys copy];
+}
+
+- (void)thn_setCartGoodsTotalPriceWithData:(NSArray *)data {
+    CGFloat totalPrice = 0.0;
+    
+    for (THNCartModelItem *item in data) {
+        CGFloat goodsPrice = item.product.salePrice == 0 ? item.product.price : item.product.salePrice;
+        totalPrice += item.quantity * goodsPrice;
+    }
+    
+    self.functionView.totalPrice = totalPrice;
+    [self.view addSubview:self.functionView];
+}
+
+- (void)thn_openGoodsSkuControllerWithGoodsModel:(THNGoodsModel *)goodsModel {
+    if (!goodsModel.rid.length) return;
+    
+    THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithGoodsModel:goodsModel];
+    goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    goodsSkuVC.handleType = THNGoodsButtonTypeAddCart;
+    [self presentViewController:goodsSkuVC animated:NO completion:nil];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -143,6 +242,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
                                                                                              reuseIdentifier:kCartWishGoodsCellId];
         
         if (self.wishGoodsArr.count) {
+            wishGoodsCell.delegate = self;
             [wishGoodsCell thn_setGoodsInfoWithModel:self.wishGoodsArr[indexPath.row]];
         }
         
@@ -150,12 +250,27 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *goodsId = nil;
+    
+    if (indexPath.section == 0) {
+        THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
+        goodsId = item.product.productRid;
+        
+    } else {
+        THNGoodsModel *goodsModel = self.wishGoodsArr[indexPath.row];
+        goodsId = goodsModel.rid;
+    }
+    
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:goodsId];
+    [self.navigationController pushViewController:goodsInfoVC animated:YES];
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     
     [self.view addSubview:self.cartTableView];
-    [self.view addSubview:self.functionView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -170,7 +285,7 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleCart;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [SVProgressHUD showInfoWithStatus:@"编辑"];
+        [SVProgressHUD showInfoWithStatus:kTextEdit];
     }];
 }
 
@@ -200,23 +315,9 @@ static NSString *const kCartWishGoodsCellId     = @"kCartWishGoodsCellId";
 - (THNCartFunctionView *)functionView {
     if (!_functionView) {
         _functionView = [[THNCartFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cartTableView.frame), SCREEN_WIDTH, 50)];
-        _functionView.totalPrice = 613.4;
+        _functionView.delegate = self;
     }
     return _functionView;
-}
-
-- (NSMutableArray *)cartGoodsArr {
-    if (!_cartGoodsArr) {
-        _cartGoodsArr = [NSMutableArray array];
-    }
-    return _cartGoodsArr;
-}
-
-- (NSMutableArray *)wishGoodsArr {
-    if (!_wishGoodsArr) {
-        _wishGoodsArr = [NSMutableArray array];
-    }
-    return _wishGoodsArr;
 }
 
 @end

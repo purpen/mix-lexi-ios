@@ -19,6 +19,11 @@
 @property (nonatomic, copy) NSString *goodsId;
 
 /**
+ sku 信息
+ */
+@property (nonatomic, strong) THNSkuModel *skuModel;
+
+/**
  选择的 SKU 结果
  */
 @property (nonatomic, strong) THNSkuModelItem *selectSkuItem;
