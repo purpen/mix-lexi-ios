@@ -223,7 +223,9 @@ static NSString *const kKeyQuantity = @"quantity";
     [super viewDidLayoutSubviews];
     
     self.skuView.frame = CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300);
-    [self thn_showSkuView:YES];
+    if (self.skuModel) {
+        [self thn_showSkuView:YES];
+    }
 }
 
 - (void)thn_showSkuView:(BOOL)show {
