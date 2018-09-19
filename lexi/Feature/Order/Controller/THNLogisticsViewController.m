@@ -71,7 +71,8 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
             
         }
         
-        self.traces = result.data[@"Traces"];
+        // 倒序排列
+        self.traces = [[result.data[@"Traces"] reversedSortDescriptor] allObjects];
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {

@@ -73,37 +73,49 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:kSelectDelivery object:nil];
 }
 
-// 选择配送物流
-- (void)pushSelectLogistics:(NSNotification *)notification {
-    // 选中商品所在的行
-    NSInteger productIndex = [notification.userInfo[@"selectProducIndex"]integerValue];
-    // 选中店铺所在的行
-    NSInteger storeIndex = [notification.userInfo[@"selectStoreIndex"]integerValue];
-    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
-    NSArray *skus = self.skuDict[storeKey];
-    NSString *skuKey = self.skuItems[storeIndex][@"sku_items"][productIndex][@"sku"];
-    NSArray *expressArray = self.logisticsDict[storeKey][skuKey][@"express"];
-    [self.expressIDArray removeAllObjects];
-    // 取出所有的物流ID
-    for (NSDictionary *dict in expressArray) {
-        [self.expressIDArray addObject:dict[@"express_id"]];
-    }
-
-    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:skus logisticsData:expressArray];
-    selectLogisticsVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
-         [self.expressIDArray removeAllObjects];
-        // 取出THNOrderDetailTableViewCell
-        THNOrderDetailTableViewCell *cell = self.tableView.subviews[0].subviews[0].subviews[0].subviews[3].subviews[0].subviews[0];
-        cell.deliveryMethodLabel.text = expressModel.expressName;
-        cell.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)expressModel.minDays,(long)expressModel.maxDays];
-        // 替换为选中的expressId
-        [self.expressIDArray addObject:@(expressModel.expressId)];
-        // 计算运费
-        [self loadLogisticsFreightData];
-
-    };
-    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
-}
+//// 选择配送物流
+//- (void)pushSelectLogistics:(NSNotification *)notification {
+//    // 选中店铺所在的行
+//    NSInteger storeIndex = [notification.userInfo[@"selectStoreIndex"]integerValue];
+//    // 选中商品所在的行
+//    NSInteger productIndex = [notification.userInfo[@"selectProducIndex"]integerValue];
+////    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+////    NSArray *skus = self.skuDict[storeKey];
+////    params[@"address_rid"] = self.addressModel.rid;
+////
+////    for (NSDictionary *dict in self.skuItems) {
+////        [items  setArray:dict[@"sku_items"]];
+////    }
+////
+////    // 为sku字典添加express_id
+////    [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+////        [items[idx] setValue:obj forKey:@"express_id"];
+////    }];
+//
+//    params[@"items"] = self.skuItems;
+//    NSString *skuKey = self.skuItems[storeIndex][@"sku_items"][productIndex][@"sku"];
+//    NSArray *expressArray = self.logisticsDict[storeKey][skuKey][@"express"];
+//    [self.expressIDArray removeAllObjects];
+//    // 取出所有的物流ID
+//    for (NSDictionary *dict in expressArray) {
+//        [self.expressIDArray addObject:dict[@"express_id"]];
+//    }
+//
+//    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:skus logisticsData:expressArray];
+//    selectLogisticsVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
+//         [self.expressIDArray removeAllObjects];
+//        // 取出THNOrderDetailTableViewCell
+//        THNOrderDetailTableViewCell *cell = self.tableView.subviews[0].subviews[0].subviews[0].subviews[3].subviews[0].subviews[0];
+//        cell.deliveryMethodLabel.text = expressModel.expressName;
+//        cell.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)expressModel.minDays,(long)expressModel.maxDays];
+//        // 替换为选中的expressId
+//        [self.expressIDArray addObject:@(expressModel.expressId)];
+//        // 计算运费
+//        [self loadLogisticsFreightData];
+//
+//    };
+//    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
+//}
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
@@ -291,10 +303,11 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableArray *logistics = [NSMutableArray array];
     
     for (int i = 0; i < skus.count; i++) {
-          NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
+        NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
         [logistics setArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
-  
+    
+    // 删选出默认物流
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
     [self.expressIDArray removeAllObjects];
