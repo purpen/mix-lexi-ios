@@ -62,6 +62,15 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 @implementation THNOrderPreviewViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadProductStoreSkuData];
