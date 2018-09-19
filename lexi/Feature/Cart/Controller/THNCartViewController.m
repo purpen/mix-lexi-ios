@@ -140,7 +140,7 @@ static NSString *const kKeyQuantity = @"quantity";
                                   kKeyQuantity: @(item.quantity)};
         
         NSDictionary *storeItem = @{kKeyRid: item.product.storeRid,
-                                    kKeySkuItems: skuItem};
+                                    kKeySkuItems: @[skuItem]};
         
         [cartItems addObject:storeItem];
     }
