@@ -108,6 +108,8 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 }
 
 - (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model {
+    if (!model.product.rid) return;
+    
     [self.goodsImageView downloadImage:model.product.cover place:[UIImage imageNamed:@"default_goods_place"]];
     [self thn_setGoodsTitleWithText:model.product.productName font:[UIFont systemFontOfSize:13 weight:(UIFontWeightMedium)]];
     [self thn_setStoreNameWithText:model.product.storeName];
