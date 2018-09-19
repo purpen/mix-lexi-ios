@@ -40,6 +40,13 @@ static NSString *const kTextClearing    = @"结算";
     [self thn_setTotalPriceWithValue:totalPrice];
 }
 
+#pragma mark - event response
+- (void)clearButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_didSettleShoppingCartItems)]) {
+        [self.delegate thn_didSettleShoppingCartItems];
+    }
+}
+
 #pragma mark - private methods
 - (void)thn_setTotalPriceWithValue:(CGFloat)value {
     NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", value]];
@@ -102,6 +109,7 @@ static NSString *const kTextClearing    = @"结算";
         [_clearButton setTitle:kTextClearing forState:(UIControlStateNormal)];
         [_clearButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _clearButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
+        [_clearButton addTarget:self action:@selector(clearButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _clearButton;
 }

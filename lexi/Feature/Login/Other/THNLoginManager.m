@@ -65,7 +65,6 @@ MJCodingImplementation
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
-        
         completion(nil, error);
     }];
 }
