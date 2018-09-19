@@ -40,8 +40,7 @@ typedef void(^SelectGoodsSkuCompleted)(NSDictionary *params);
  */
 @property (nonatomic, copy) SelectGoodsSkuCompleted selectGoodsSkuCompleted;
 
-- (instancetype)initWithSkuModel:(THNSkuModel *)model
-                      goodsModel:(THNGoodsModel *)goodsModel
-                        viewType:(THNGoodsSkuType)viewTpye;
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel;
+- (instancetype)initWithSkuModel:(THNSkuModel *)model goodsModel:(THNGoodsModel *)goodsModel viewType:(THNGoodsSkuType)viewTpye;
 
 @end

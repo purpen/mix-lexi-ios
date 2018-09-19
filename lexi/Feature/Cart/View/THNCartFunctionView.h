@@ -8,11 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol THNCartFunctionViewDelegate <NSObject>
+
+@optional
+/// 结算购物车商品
+- (void)thn_didSettleShoppingCartItems;
+
+@end
+
 @interface THNCartFunctionView : UIView
 
 /**
  合计总价
  */
 @property (nonatomic, assign) CGFloat totalPrice;
+
+@property (nonatomic, weak) id <THNCartFunctionViewDelegate> delegate;
 
 @end

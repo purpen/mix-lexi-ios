@@ -49,8 +49,6 @@ static CGFloat const kMaxHeight = 337.0;
 @property (nonatomic, strong) UILabel *sizeLabel;
 /// sku 筛选器
 @property (nonatomic, strong) THNSkuFilter *skuFilter;
-///
-@property (nonatomic, strong) THNSkuModel *skuModel;
 
 @end
 
@@ -60,11 +58,15 @@ static CGFloat const kMaxHeight = 337.0;
     self = [super init];
     if (self) {
         self.skuModel = skuModel;
-        [self thn_setGoodsSkuModel:skuModel];
         [self thn_setTitleText:goodsModel];
         [self setupViewUI];
     }
     return self;
+}
+
+- (void)setSkuModel:(THNSkuModel *)skuModel {
+    _skuModel = skuModel;
+    [self thn_setGoodsSkuModel:skuModel];
 }
 
 #pragma mark - sku filter datasource
@@ -159,7 +161,8 @@ static CGFloat const kMaxHeight = 337.0;
     THNSkuModelItem *itemModel = model.items[0];
     [self thn_setPriceTextWithValue:itemModel.price];
     [self thn_getSkuWithModelData:model.items];
-   
+    [self.modeArr removeAllObjects];
+    
     if (model.colors.count) {
         self.colorLabel.hidden = NO;
         [self thn_getModeContentTextWithModelData:model.colors];
@@ -234,7 +237,7 @@ static CGFloat const kMaxHeight = 337.0;
 - (void)thn_getModeContentTextWithModelData:(NSArray *)data {
     NSMutableArray *contentArr = [NSMutableArray array];
     for (THNSkuModelColor *model in data) {
-        [contentArr addObject:model.name];
+        [contentArr addObject:[model.name stringByReplacingOccurrencesOfString:@" " withString:@""]];
     }
     
     [self.modeArr addObject:contentArr];

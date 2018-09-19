@@ -11,6 +11,8 @@
 #import "THNCartModel.h"
 #import "THNSkuModel.h"
 
+@class THNGoodsInfoTableViewCell;
+
 typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
     THNGoodsInfoCellTypeDefault = 0,        // 默认
     THNGoodsInfoCellTypeCartNormal,         // 购物车正常状态
@@ -23,10 +25,18 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
     THNGoodsInfoCellTypeOrderInfo,          // 订单详情
 };
 
+@protocol THNGoodsInfoTableViewCellDelegate <NSObject>
+
+@optional
+- (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell;
+
+@end
+
 @interface THNGoodsInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, assign) THNGoodsInfoCellType cellType;
 @property (nonatomic, assign) BOOL showLine;
+@property (nonatomic, weak) id <THNGoodsInfoTableViewCellDelegate> delegate;
 
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model;
 - (void)thn_setSkuGoodsInfoWithModel:(THNSkuModelItem *)model;
