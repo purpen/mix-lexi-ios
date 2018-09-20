@@ -34,7 +34,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 - (void)thn_setGoodsTitleWithModel:(THNGoodsModel *)model {
     [self thn_setTitleText:model];
     [self thn_setPriceTextWithValue:model.minSalePrice ? model.minSalePrice : model.minPrice];
-    [self thn_setOriginalPriceTextWithValue:model.maxSalePrice ? model.maxSalePrice : model.maxPrice];
+    [self thn_setOriginalPriceTextWithValue:model.minSalePrice == 0 ? 0 : model.minPrice];
 }
 
 #pragma mark - private methods
@@ -72,12 +72,18 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 }
 
 - (void)thn_setOriginalPriceTextWithValue:(CGFloat)value {
+    if (value == 0) {
+        self.originalPriceLabel.hidden = YES;
+        return;
+    }
+    
     NSString *originalPriceStr = [NSString stringWithFormat:@"¥%.2f", value];
     NSMutableAttributedString *originalPriceAtt = [[NSMutableAttributedString alloc] initWithString:originalPriceStr];
     originalPriceAtt.color = [UIColor colorWithHexString:@"#949EA6"];
     originalPriceAtt.font = [UIFont systemFontOfSize:14];
     originalPriceAtt.textStrikethrough = [YYTextDecoration decorationWithStyle:(YYTextLineStyleSingle)];
 
+    self.originalPriceLabel.hidden = NO;
     self.originalPriceLabel.attributedText = originalPriceAtt;
 }
 
