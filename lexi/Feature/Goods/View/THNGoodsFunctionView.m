@@ -24,6 +24,8 @@ static NSString *const kTextNone = @"已售罄";
 @property (nonatomic, strong) THNGoodsButton *subButton;
 /// 购物车
 @property (nonatomic, strong) THNCartButton *cartButton;
+/// 购物车商品数量
+@property (nonatomic, strong) UILabel *countLabel;
 /// 售罄提示
 @property (nonatomic, strong) UILabel *noneLabel;
 /// 是否显示购物车
@@ -71,6 +73,13 @@ static NSString *const kTextNone = @"已售罄";
 - (void)thn_showGoodsCart:(BOOL)show {
     self.cartButton.hidden = YES;
     self.showGoodsCart = show;
+}
+
+- (void)thn_setCartGoodsCount:(NSInteger)count {
+    self.countLabel.hidden = count == 0;
+    
+    NSString *countStr = count > 9 ? @"9+" : [NSString stringWithFormat:@"%zi", count];
+    self.countLabel.text = countStr;
 }
 
 #pragma mark - private methods
@@ -132,6 +141,7 @@ static NSString *const kTextNone = @"已售罄";
     [self addSubview:self.mainButton];
     [self addSubview:self.subButton];
     [self addSubview:self.cartButton];
+    [self addSubview:self.countLabel];
     [self addSubview:self.noneLabel];
 }
 
@@ -152,6 +162,8 @@ static NSString *const kTextNone = @"已售罄";
     
     if (self.showGoodsCart) {
         self.cartButton.frame = CGRectMake(0, 5, 79, 40);
+        self.countLabel.frame = CGRectMake(45, 6, 12, 12);
+        [self.countLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:6];
     }
 }
 
@@ -191,6 +203,18 @@ static NSString *const kTextNone = @"已售罄";
         [_cartButton addTarget:self action:@selector(cartButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _cartButton;
+}
+
+- (UILabel *)countLabel {
+    if (!_countLabel) {
+        _countLabel = [[UILabel alloc] init];
+        _countLabel.textColor = [UIColor whiteColor];
+        _countLabel.backgroundColor = [UIColor colorWithHexString:@"#FF6666"];
+        _countLabel.font = [UIFont systemFontOfSize:8];
+        _countLabel.textAlignment = NSTextAlignmentCenter;
+        _countLabel.hidden = YES;
+    }
+    return _countLabel;
 }
 
 - (UILabel *)noneLabel {
