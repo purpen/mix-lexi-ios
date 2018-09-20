@@ -39,6 +39,7 @@
 
 - (void)thn_showGoodsCart:(BOOL)show;
 - (void)thn_setGoodsModel:(THNGoodsModel *)model;
+- (void)thn_setCartGoodsCount:(NSInteger)count;
 
 - (instancetype)initWithType:(THNGoodsFunctionViewType)type;
 - (instancetype)initWithFrame:(CGRect)frame type:(THNGoodsFunctionViewType)type;
