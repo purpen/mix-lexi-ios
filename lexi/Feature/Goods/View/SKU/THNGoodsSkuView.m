@@ -157,7 +157,7 @@ static CGFloat const kMaxHeight = 337.0;
     
     NSInteger skuIndex = [self.skuArr indexOfObject:self.skuFilter.currentResult];
     THNSkuModelItem *item = self.skuModel.items[skuIndex];
-    [self thn_setPriceTextWithValue:item.price];
+    [self thn_setPriceTextWithValue:item.salePrice > 0 ? item.salePrice : item.price];
     
     self.selectSkuItem = item;
 }
@@ -167,7 +167,7 @@ static CGFloat const kMaxHeight = 337.0;
  */
 - (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
     THNSkuModelItem *itemModel = model.items[0];
-    [self thn_setPriceTextWithValue:itemModel.price];
+    [self thn_setPriceTextWithValue:itemModel.salePrice > 0 ? itemModel.salePrice : itemModel.price];
     [self thn_getSkuWithModelData:model.items];
     [self.modeArr removeAllObjects];
     
@@ -327,7 +327,7 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 - (CGFloat)thn_getContentSizeHeight {
-    return self.colorHeight + self.sizeHeight;
+    return self.colorHeight + self.sizeHeight + 15;
 }
 
 - (CGFloat)thn_getSkuViewSizeHeight {

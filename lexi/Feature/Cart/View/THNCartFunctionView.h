@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, THNCartFunctionStatus) {
+    THNCartFunctionStatusDefault = 0, // 默认
+    THNCartFunctionStatusEdit         // 编辑
+};
+
 @protocol THNCartFunctionViewDelegate <NSObject>
 
 @optional
 /// 结算购物车商品
 - (void)thn_didSettleShoppingCartItems;
+/// 移除购物车商品
+- (void)thn_didRemoveShoppingCartItems;
+/// 添加商品到心愿单
+- (void)thn_didShoppingCartItemsToWishlist;
 
 @end
 
@@ -22,6 +31,11 @@
  合计总价
  */
 @property (nonatomic, assign) CGFloat totalPrice;
+
+/**
+ 状态
+ */
+@property (nonatomic, assign) THNCartFunctionStatus status;
 
 @property (nonatomic, weak) id <THNCartFunctionViewDelegate> delegate;
 

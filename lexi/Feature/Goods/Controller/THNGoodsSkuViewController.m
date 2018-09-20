@@ -171,6 +171,9 @@ static NSString *const kKeyQuantity = @"quantity";
         if (!error) {
             [self dismissViewControllerAnimated:NO completion:^{
                 [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                if (self.selectGoodsAddCartCompleted) {
+                    self.selectGoodsAddCartCompleted();
+                }
             }];
         }
     }];

@@ -23,6 +23,8 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 /// 发送验证码 key
 static NSString *const kParamAreaCode1      = @"area_code";
 static NSString *const kParamMobile         = @"mobile";
+///
+static NSString *const kTextSkip            = @"跳过";
 
 @interface THNSignInViewController () <THNSignInViewDelegate>
 
@@ -146,6 +148,7 @@ static NSString *const kParamMobile         = @"mobile";
 
 - (void)thn_goToRegister {
     THNSignUpViewController *signUpVC = [[THNSignUpViewController alloc] init];
+    signUpVC.canSkip = self.canSkip;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
@@ -166,11 +169,13 @@ static NSString *const kParamMobile         = @"mobile";
         return;
     }
     
-    WEAKSELF;
-    [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
-    [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+    if (self.canSkip) {
+        WEAKSELF;
+        [self.navigationBarView setNavigationRightButtonOfText:kTextSkip textHexColor:@"#666666"];
+        [self.navigationBarView didNavigationRightButtonCompletion:^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
 }
 
 #pragma mark - getters and setters
