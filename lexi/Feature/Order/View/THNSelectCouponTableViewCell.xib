@@ -53,7 +53,7 @@
                         <color key="textColor" red="1" green="0.41176470588235292" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_coupon_dot" translatesAutoresizingMaskIntoConstraints="NO" id="szO-hh-MJm">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_coupon_diamond" translatesAutoresizingMaskIntoConstraints="NO" id="szO-hh-MJm">
                         <rect key="frame" x="125" y="52" width="5" height="5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="5" id="NEc-J2-JbS"/>
@@ -97,6 +97,8 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="hBs-Ez-9Ho"/>
             <connections>
+                <outlet property="backGroundImageView" destination="ZQS-4Y-2fB" id="CWu-6r-p8I"/>
+                <outlet property="diamondImageView" destination="szO-hh-MJm" id="A1x-fT-HXe"/>
                 <outlet property="moneyLabel" destination="meW-iU-EIw" id="FMW-VM-mpk"/>
                 <outlet property="restrictionPromptLabel" destination="WyF-Ys-yAR" id="qZe-w7-kQF"/>
                 <outlet property="selectButton" destination="Nf9-zN-O7j" id="rWl-7X-4dD"/>
@@ -268,7 +270,7 @@ GyOHI4kjjiOcI6AjpyOsI7kjvCPJI84j1iPZI94j5iPpI/sj/iQDAAAAAAAAAgEAAAAAAAAAWQAAAAAA
 AAAAAAAAAAAAJAU
 </mutableData>
         </image>
-        <image name="icon_coupon_dot" width="5" height="5"/>
+        <image name="icon_coupon_diamond" width="5" height="5"/>
         <image name="icon_coupon_select" width="331" height="75"/>
         <image name="icon_selected_main" width="22" height="22"/>
         <image name="icon_selected_none" width="22" height="22"/>

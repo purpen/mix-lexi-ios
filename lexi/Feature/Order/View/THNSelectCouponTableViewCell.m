@@ -10,6 +10,7 @@
 #import "THNCouponModel.h"
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
+#import "UIColor+Extension.h"
 
 @interface THNSelectCouponTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *validityPeriodLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
+@property (weak, nonatomic) IBOutlet UIImageView *backGroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *diamondImageView;
 
 @end
 
@@ -33,6 +36,17 @@
 
 - (void)setCouponModel:(THNCouponModel *)couponModel {
     _couponModel = couponModel;
+    
+    if (self.couponType == CouponTypeStore) {
+        self.backGroundImageView.image = [UIImage imageNamed:@"icon_coupon_select"];
+        self.diamondImageView.image = [UIImage imageNamed:@"icon_coupon_diamond"];
+        self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"FF6934"];
+    } else {
+        self.backGroundImageView.image = [UIImage imageNamed:@"icon_officalCoupon_select"];
+        self.diamondImageView.image = [UIImage imageNamed:@"icon_officalCoupon_diamond"];
+        self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"DAB867"];
+    }
+    
     self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", couponModel.amount];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%.2f使用", couponModel.min_amount];
     NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
