@@ -35,6 +35,7 @@
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, assign) NSInteger stockCount;
 @property (nonatomic, assign) NSInteger stockQuantity;
+@property (nonatomic, assign) NSInteger productTotalCount;
 @property (nonatomic, strong) NSString * storeLogo;
 @property (nonatomic, strong) NSString * storeName;
 @property (nonatomic, strong) NSString * storeRid;

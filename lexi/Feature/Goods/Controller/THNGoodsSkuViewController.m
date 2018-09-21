@@ -167,13 +167,14 @@ static NSString *const kKeyQuantity = @"quantity";
     NSDictionary *skuParam = @{kKeyRid: self.skuView.selectSkuItem.rid,
                                kKeyQuantity: @(1)};
     
+    WEAKSELF;
     [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
         if (error) return;
         
-        self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
-        [self dismissViewControllerAnimated:YES completion:^{
-            if (self.selectGoodsAddCartCompleted) {
-                self.selectGoodsAddCartCompleted();
+        weakSelf.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
+        [weakSelf dismissViewControllerAnimated:YES completion:^{
+            if (weakSelf.selectGoodsAddCartCompleted) {
+                weakSelf.selectGoodsAddCartCompleted(weakSelf.skuView.selectSkuItem.rid);
             }
         }];
     }];
@@ -246,7 +247,8 @@ static NSString *const kKeyQuantity = @"quantity";
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     if ([touches anyObject].view == self.mainView) {
-        [self dismissViewControllerAnimated:NO completion:nil];
+        self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
