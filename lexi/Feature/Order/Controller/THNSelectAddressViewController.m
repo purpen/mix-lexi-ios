@@ -83,7 +83,6 @@ static NSString *kKeyData    = @"data";
     
     self.selectedIndex = [self.addressTable indexPathForCell:cell];
     [self.addressTable reloadData];
-
 }
 
 #pragma mark - private methods

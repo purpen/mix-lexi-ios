@@ -10,4 +10,9 @@
 
 @interface THNSignInViewController : THNBaseViewController
 
+/**
+ 显示“跳过”
+ */
+@property (nonatomic, assign) BOOL canSkip;
+
 @end

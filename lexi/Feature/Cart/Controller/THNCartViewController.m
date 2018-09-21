@@ -20,6 +20,7 @@
 #define kTextGoodsCount(count) [NSString stringWithFormat:@"%zi件礼品", count]
 
 static NSString *const kTextEdit = @"编辑";
+static NSString *const kTextDone = @"完成";
 static NSString *const kTextWish = @"心愿单";
 ///
 static NSString *const kCartNormalGoodsCellId   = @"kCartNormalGoodsCellId";
@@ -41,15 +42,23 @@ static NSString *const kKeyQuantity = @"quantity";
 /// 购物车商品列表
 @property (nonatomic, strong) UITableView *cartTableView;
 /// 商品数据
-@property (nonatomic, strong) NSArray *cartGoodsArr;
+@property (nonatomic, strong) NSMutableArray *cartGoodsArr;
 /// 心愿单数据
-@property (nonatomic, strong) NSArray *wishGoodsArr;
+@property (nonatomic, strong) NSMutableArray *wishGoodsArr;
+/// 记录心愿单数据
+@property (nonatomic, strong) NSMutableArray *recordWishArr;
 /// 商品数量
 @property (nonatomic, assign) NSInteger goodsCount;
 /// 底部功能栏
 @property (nonatomic, strong) THNCartFunctionView *functionView;
 /// 缺省视图
 @property (nonatomic, strong) THNCartDefaultView *defaultView;
+/// 编辑状态
+@property (nonatomic, assign) BOOL isCartEdit;
+/// 记录选中
+@property (nonatomic, strong) NSMutableArray *selectedArr;
+/// 购物车商品数量视图
+@property (nonatomic, strong) THNHeaderTitleView *countHeaderView;
 
 @end
 
@@ -74,11 +83,9 @@ static NSString *const kKeyQuantity = @"quantity";
             return;
         }
         
-        self.cartGoodsArr = [NSArray arrayWithArray:goodsData];
-        [self thn_setCartGoodsTotalPriceWithData:goodsData];
-        [self thn_showEditButton];
+        self.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
+        [self thn_getCartGoodsCount];
         [self thn_setDefaultCartView];
-        [self.cartTableView reloadData];
     }];
 }
 
@@ -86,13 +93,16 @@ static NSString *const kKeyQuantity = @"quantity";
  心愿单商品
  */
 - (void)thn_getWishListGoodsData {
-    [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+    [SVProgressHUD show];
+    [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        [SVProgressHUD dismiss];
         if (error) {
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             return;
         }
         
-        self.wishGoodsArr = [NSArray arrayWithArray:goodsData];
+        self.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
+        self.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
         [self.cartTableView reloadData];
     }];
 }
@@ -112,6 +122,7 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 #pragma mark - custom delegate
+// 心愿单商品加购物车
 - (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell {
     NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
     if (indexPath.section == 1) {
@@ -120,8 +131,63 @@ static NSString *const kKeyQuantity = @"quantity";
     }
 }
 
+// 选中的商品
+- (void)thn_didSelectedEditGoodsCell:(THNGoodsInfoTableViewCell *)cell {
+    NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
+    
+    if ([self.selectedArr containsObject:indexPath]) {
+        [self.selectedArr removeObject:indexPath];
+        
+    } else {
+        [self.selectedArr addObject:indexPath];
+    }
+    
+    [self.cartTableView reloadData];
+}
+
+// 修改选中的商品数量
+- (void)thn_didSelectedEditGoodsCountCell:(THNGoodsInfoTableViewCell *)cell count:(NSInteger)count {
+    NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
+    THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
+    item.quantity = count;
+    
+    [self thn_setCartGoodsTotalPriceWithData:self.cartGoodsArr];
+    [THNGoodsManager putCartGoodsCountWithSkuId:item.rid count:count completion:nil];
+}
+
+// 结算商品
 - (void)thn_didSettleShoppingCartItems {
     [self thn_openAddressSelectedController];
+}
+
+// 删除商品
+- (void)thn_didRemoveShoppingCartItems {
+    NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
+    
+    if (!skuIds.count) return;
+    
+    [SVProgressHUD show];
+    [THNGoodsManager postRemoveCartGoodsWithSkuRids:skuIds completion:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error) return;
+        
+        [self thn_removeCartGoods];
+    }];
+}
+
+// 添加到心愿单
+- (void)thn_didShoppingCartItemsToWishlist {
+    NSArray *productIds = [[NSSet setWithArray:[self thn_getSelectedDataWithType:(THNSelectedCartDataTypeProduct)]] allObjects];
+    
+    if (!productIds.count) return;
+    
+    [SVProgressHUD show];
+    [THNGoodsManager postAddGoodsToWishListWithRids:productIds completion:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error) return;
+        
+        [self thn_didRemoveShoppingCartItems];
+    }];
 }
 
 #pragma mark - private methods
@@ -199,22 +265,122 @@ static NSString *const kKeyQuantity = @"quantity";
     }
     
     self.functionView.totalPrice = totalPrice;
-    [self.view addSubview:self.functionView];
 }
 
 // 打开商品的 SKU 选择视图
 - (void)thn_openGoodsSkuControllerWithGoodsModel:(THNGoodsModel *)goodsModel {
     if (!goodsModel.rid.length) return;
     
+    WEAKSELF;
+    
     THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithGoodsModel:goodsModel];
     goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     goodsSkuVC.handleType = THNGoodsButtonTypeAddCart;
+    goodsSkuVC.selectGoodsAddCartCompleted = ^{
+        [weakSelf thn_removeWishListGoods:goodsModel];
+    };
     [self presentViewController:goodsSkuVC animated:NO completion:nil];
 }
 
-// 商品数据缺省提示视图
+// 默认购物车商品视图
 - (void)thn_setDefaultCartView {
-    self.cartTableView.tableHeaderView = self.cartGoodsArr.count ? [UIView new] : self.defaultView;
+    // 编辑按钮
+    if (self.isCartEdit) {
+        [self thn_showEditButtonWithText:kTextDone];
+        
+    } else {
+        [self thn_showEditButtonWithText:self.cartGoodsArr.count ? kTextEdit : @""];
+    }
+    
+    // 缺省视图
+    UIView *tableHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.01)];
+    self.cartTableView.tableHeaderView = self.cartGoodsArr.count ? tableHeader : self.defaultView;
+    
+    // 结算视图
+    [self thn_setCartGoodsTotalPriceWithData:[self.cartGoodsArr copy]];
+    self.functionView.hidden = self.cartGoodsArr.count ? NO : YES;
+    
+    [self.cartTableView reloadData];
+}
+
+// 开始编辑购物车商品
+- (void)thn_startEditCartGoods {
+    self.isCartEdit = !self.isCartEdit;
+    self.functionView.status = self.isCartEdit ? THNCartFunctionStatusEdit : THNCartFunctionStatusDefault;
+    [self.selectedArr removeAllObjects];
+    
+    if (self.isCartEdit) {
+        [self.wishGoodsArr removeAllObjects];
+        
+    } else {
+        [self.wishGoodsArr addObjectsFromArray:[self.recordWishArr copy]];
+    }
+    
+    [self thn_setDefaultCartView];
+}
+
+// 删除所选商品
+- (void)thn_removeCartGoods {
+    NSMutableArray *selectedItems = [NSMutableArray array];
+    
+    for (NSIndexPath *indexPath in self.selectedArr) {
+        THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
+        [selectedItems addObject:item];
+    }
+    
+    [self.cartGoodsArr removeObjectsInArray:[selectedItems copy]];
+    [self.selectedArr removeAllObjects];
+    [self thn_getCartGoodsCount];
+    [self thn_setDefaultCartView];
+}
+
+// 移除心愿单商品
+- (void)thn_removeWishListGoods:(THNGoodsModel *)goodsModel {
+    [self.wishGoodsArr removeObject:goodsModel];
+    [self.recordWishArr removeObject:goodsModel];
+    
+    [self thn_getCartGoodsData];
+    [self.cartTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
+// 清除数据
+- (void)thn_clearData {
+    [self.cartGoodsArr removeAllObjects];
+    [self.wishGoodsArr removeAllObjects];
+    [self.recordWishArr removeAllObjects];
+    [self.selectedArr removeAllObjects];
+    [self thn_setDefaultCartView];
+}
+
+// 获取选中的数据
+- (NSArray *)thn_getSelectedDataWithType:(THNSelectedCartDataType)type {
+    NSMutableArray *selectedArr = [NSMutableArray array];
+    
+    for (NSIndexPath *indexPath in self.selectedArr) {
+        THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
+        switch (type) {
+            case THNSelectedCartDataTypeItem:
+                [selectedArr addObject:item];
+                break;
+                
+            case THNSelectedCartDataTypeSku:
+                [selectedArr addObject:item.rid];
+                break;
+                
+            case THNSelectedCartDataTypeProduct:
+                [selectedArr addObject:item.product.productRid];
+                break;
+        }
+    }
+    
+    return [selectedArr copy];
+}
+
+// 购物车商品数量
+- (void)setGoodsCount:(NSInteger)goodsCount {
+    _goodsCount = goodsCount;
+    
+    self.countHeaderView.title = kTextGoodsCount(goodsCount);
 }
 
 #pragma mark - tableView datasource & delegate
@@ -231,21 +397,25 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44.0;
+    if (section == 0) {
+        return self.cartGoodsArr.count ? 44.0 : 0.01;
+        
+    } else {
+        return self.wishGoodsArr.count ? 44.0 : 0.01;
+    }
+    
+    return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        THNHeaderTitleView *headerView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-        headerView.title = kTextGoodsCount(self.goodsCount);
-        
-        return headerView;
+        return self.cartGoodsArr.count ? self.countHeaderView : [UIView new];
         
     } else {
         THNHeaderTitleView *headerView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
         headerView.title = kTextWish;
         
-        return headerView;
+        return self.wishGoodsArr.count ? headerView : [UIView new];
     }
     
     return [UIView new];
@@ -261,11 +431,28 @@ static NSString *const kKeyQuantity = @"quantity";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        THNGoodsInfoTableViewCell *cartGoodsCell = [THNGoodsInfoTableViewCell initGoodsInfoCellWithTableView:tableView
-                                                                                                        type:(THNGoodsInfoCellTypeCartNormal)
-                                                                                             reuseIdentifier:kCartNormalGoodsCellId];
+        THNGoodsInfoTableViewCell *cartGoodsCell = [[THNGoodsInfoTableViewCell alloc] init];
+    
+        if (self.isCartEdit) {
+            cartGoodsCell = [THNGoodsInfoTableViewCell initGoodsInfoCellWithTableView:tableView
+                                                                                 type:(THNGoodsInfoCellTypeCartEdit)
+                                                                      reuseIdentifier:kCartEditGoodsCellId];
+        } else {
+            cartGoodsCell = [THNGoodsInfoTableViewCell initGoodsInfoCellWithTableView:tableView
+                                                                                 type:(THNGoodsInfoCellTypeCartNormal)
+                                                                      reuseIdentifier:kCartNormalGoodsCellId];
+        }
+        
+        cartGoodsCell.delegate = self;
+        
         if (self.cartGoodsArr.count) {
             [cartGoodsCell thn_setCartGoodsInfoWithModel:self.cartGoodsArr[indexPath.row]];
+        }
+        
+        if (self.selectedArr.count) {
+            cartGoodsCell.isSelected = [self.selectedArr containsObject:indexPath];
+        } else {
+            cartGoodsCell.isSelected = NO;
         }
         
         if (indexPath.row == self.cartGoodsArr.count - 1) {
@@ -293,6 +480,8 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isCartEdit) return;
+    
     NSString *goodsId = nil;
     
     if (indexPath.section == 0) {
@@ -304,6 +493,8 @@ static NSString *const kKeyQuantity = @"quantity";
         goodsId = goodsModel.rid;
     }
     
+    if (!goodsId.length) return;
+    
     THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:goodsId];
     [self.navigationController pushViewController:goodsInfoVC animated:YES];
 }
@@ -312,8 +503,10 @@ static NSString *const kKeyQuantity = @"quantity";
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     
-    [self thn_setDefaultCartView];
     [self.view addSubview:self.cartTableView];
+    [self.view addSubview:self.functionView];
+    
+    [self thn_setDefaultCartView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -324,35 +517,37 @@ static NSString *const kKeyQuantity = @"quantity";
     if ([THNLoginManager isLogin]) {
         [self thn_getCartGoodsData];
         [self thn_getWishListGoodsData];
-        [self thn_getCartGoodsCount];
+        
+    } else {
+        [self thn_clearData];
     }
 }
 
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleCart;
+    
+    WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [SVProgressHUD showInfoWithStatus:kTextEdit];
+        [weakSelf thn_startEditCartGoods];
     }];
 }
 
-- (void)thn_showEditButton {
-    NSString *editText = self.cartGoodsArr.count ? kTextEdit : @"";
-    
-    [self.navigationBarView setNavigationRightButtonOfText:editText textHexColor:kColorMain fontSize:15];
+- (void)thn_showEditButtonWithText:(NSString *)text {
+    [self.navigationBarView setNavigationRightButtonOfText:text textHexColor:kColorMain fontSize:15];
 }
 
 #pragma mark - getters and setters
 - (UITableView *)cartTableView {
     if (!_cartTableView) {
-        CGFloat originBottom = kDeviceiPhoneX ? 133 : 99;
+        CGFloat originBottom = kDeviceiPhoneX ? 83 : 49;
         _cartTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - originBottom)
-                                                      style:(UITableViewStyleGrouped)];
+                                                      style:(UITableViewStylePlain)];
         _cartTableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _cartTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _cartTableView.delegate = self;
         _cartTableView.dataSource = self;
         _cartTableView.showsVerticalScrollIndicator = NO;
-        _cartTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        _cartTableView.contentInset = UIEdgeInsetsMake(44, 0, 50, 0);
         _cartTableView.tableFooterView = [UIView new];
     }
     return _cartTableView;
@@ -360,8 +555,9 @@ static NSString *const kKeyQuantity = @"quantity";
 
 - (THNCartFunctionView *)functionView {
     if (!_functionView) {
-        _functionView = [[THNCartFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cartTableView.frame), SCREEN_WIDTH, 50)];
+        _functionView = [[THNCartFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cartTableView.frame) - 50, SCREEN_WIDTH, 50)];
         _functionView.delegate = self;
+        _functionView.status = THNCartFunctionStatusDefault;
     }
     return _functionView;
 }
@@ -371,6 +567,20 @@ static NSString *const kKeyQuantity = @"quantity";
         _defaultView = [[THNCartDefaultView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 295)];
     }
     return _defaultView;
+}
+
+- (NSMutableArray *)selectedArr {
+    if (!_selectedArr) {
+        _selectedArr = [NSMutableArray array];
+    }
+    return _selectedArr;
+}
+
+- (THNHeaderTitleView *)countHeaderView {
+    if (!_countHeaderView) {
+        _countHeaderView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+    }
+    return _countHeaderView;
 }
 
 @end

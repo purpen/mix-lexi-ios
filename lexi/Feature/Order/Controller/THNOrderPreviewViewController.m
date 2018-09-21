@@ -20,6 +20,7 @@
 #import "THNFreightModelItem.h"
 #import "THNPaymentViewController.h"
 #import "THNOrderDetailTableViewCell.h"
+#import "THNOrderDetailModel.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -219,6 +220,13 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderFullReduction requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.fullReductionDict = result.data;
+        
+        for (NSDictionary *dict in self.skuItems) {
+            NSDictionary *fullReductionDict = self.fullReductionDict[dict[@"rid"]];
+            THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
+            self.totalReductionAmount += couponModel.amount;
+        }
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -267,6 +275,11 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.freightDict = result.data;
+        // 遍历所有总运费
+        for (NSDictionary *dict in self.skuItems) {
+            CGFloat freight  = [self.freightDict[dict[@"rid"]] floatValue];
+            self.totalFreight += freight;
+        }
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -330,13 +343,12 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
             [goods addObjectsFromArray:[self.skuDict[storeKey] filteredArrayUsingPredicate:productPredicate]];
         }
         
-        THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]init];
-        selectLogistcisVC.expressParams = @{
-                                            @"address_rid":self.addressModel.rid,
-                                            @"fid":fid,
-                                            @"items":items
-                                            };
-        NSLog(@"%@%@",selectLogistcisVC.expressParams,goods);
+        NSDictionary *expressParams = @{
+                                        @"address_rid":self.addressModel.rid,
+                                        @"fid":fid,
+                                        @"items":items
+                                        };
+         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]initWithGoodsData:goods logisticsData:expressParams];
         [self.navigationController pushViewController:selectLogistcisVC animated:YES];
     };
 
@@ -366,17 +378,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     // 筛选出默认物流
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
-    
-    
     // 运费
    CGFloat freight  = [self.freightDict[storekey] floatValue];
-    
-    
-    self.totalFreight += freight;
-    self.totalCouponAmount += couponModel.amount;
-    NSLog(@"%.2f",self.totalFreight);
-    NSLog(@"%.2f",self.totalCouponAmount);
-    
     THNFreightModelItem *freighModel = [[THNFreightModelItem alloc]initWithDictionary:defaultLogistics[0]];
 
    self.fullReductionViewHeight =  [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
@@ -406,6 +409,15 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
     [headerView addSubview:self.payDetailView];
+    NSDictionary *payParams = @{@"freight":@(self.totalFreight),
+                                @"coupon_amount":@(0),
+                                @"reach_minus":@(self.totalReductionAmount)
+                                };
+    THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
+    CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
+    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH, payDetailViewHeight);
+    
+    
     return headerView;
 }
 
@@ -444,7 +456,6 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 - (THNOrderDetailPayView *)payDetailView {
     if (!_payDetailView) {
         _payDetailView = [THNOrderDetailPayView viewFromXib];
-        _payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH, 350);
     }
     return _payDetailView;
 }

@@ -34,6 +34,7 @@ static NSString *const kURLOfficialStore        = @"/official_store/info";
 #pragma mark 商品下单/购物车
 static NSString *const kURLCart                 = @"/cart";
 static NSString *const kURLCartCount            = @"/cart/item_count";
+static NSString *const kURLCartRemove           = @"/cart/remove";
 
 #pragma mark - 接收数据参数
 static NSString *const kKeyProducts         = @"products";
@@ -41,6 +42,7 @@ static NSString *const kKeyCategories       = @"categories";
 static NSString *const kKeyUserRecord       = @"user_record";
 static NSString *const kKeyId               = @"id";
 static NSString *const kKeyRid              = @"rid";
+static NSString *const kKeyRids             = @"rids";
 static NSString *const kKeyPid              = @"pid";
 static NSString *const kKeyProductId        = @"product_rid";
 static NSString *const kKeyStoreId          = @"store_rid";
@@ -48,6 +50,7 @@ static NSString *const kKeyCount            = @"count";
 static NSString *const kKeyLikeUsers        = @"product_like_users";
 static NSString *const kKeyItems            = @"items";
 static NSString *const kKeyItemCount        = @"item_count";
+static NSString *const kKeyQuantity         = @"quantity";
 
 @implementation THNGoodsManager
 
@@ -130,6 +133,21 @@ static NSString *const kKeyItemCount        = @"item_count";
     [[THNGoodsManager sharedManager] requestCartGoodsCountCompletion:completion];
 }
 
++ (void)postRemoveCartGoodsWithSkuRids:(NSArray *)skuRids completion:(void (^)(NSError *))completion {
+    [[THNGoodsManager sharedManager] requestRemoveCartGoodsWithParams:@{kKeyRids: skuRids} completion:completion];
+}
+
++ (void)postAddGoodsToWishListWithRids:(NSArray *)rids completion:(void (^)(NSError *))completion {
+    [[THNGoodsManager sharedManager] requestAddGoodsToWishListWithParams:@{kKeyRids: rids} completion:completion];
+}
+
++ (void)putCartGoodsCountWithSkuId:(NSString *)skuId count:(NSInteger)count completion:(void (^)(NSError *))completion {
+    NSDictionary *param = @{kKeyRid: skuId,
+                            kKeyQuantity: @(count)};
+    
+    [[THNGoodsManager sharedManager] requestUpdateCartGoodsCountWithParams:param completion:completion];
+}
+
 #pragma mark - request
 /**
  获取商品全部信息
@@ -192,7 +210,7 @@ static NSString *const kKeyItemCount        = @"item_count";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
+//        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
@@ -302,6 +320,22 @@ static NSString *const kKeyItemCount        = @"item_count";
 }
 
 /**
+ 商品添加到心愿单
+ */
+- (void)requestAddGoodsToWishListWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLUserWishlist requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (result.isSuccess) {
+            completion(nil);
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(error);
+    }];
+}
+
+
+/**
  商品添加到购物车
  */
 - (void)requestAddGoodsToCartWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
@@ -350,6 +384,40 @@ static NSString *const kKeyItemCount        = @"item_count";
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(0, error);
+    }];
+}
+
+/**
+ 删除购物车商品
+ */
+- (void)requestRemoveCartGoodsWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLCartRemove requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (result.isSuccess) {
+            completion(nil);
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(error);
+    }];
+}
+
+/**
+ 更新购物车商品数量
+ */
+- (void)requestUpdateCartGoodsCountWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
+    THNRequest *request = [THNAPI putWithUrlString:kURLCart requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (result.isSuccess) {
+            if (completion) {
+                completion(nil);
+            }
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
     }];
 }
 
