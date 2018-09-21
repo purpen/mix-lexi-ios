@@ -20,6 +20,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 @property (weak, nonatomic) IBOutlet UIButton *sureButton;
 @property (weak, nonatomic) IBOutlet UILabel *couponMoneyLabel;
 @property (nonatomic, strong) NSIndexPath *selectIndex;
+@property (nonatomic, strong) NSArray *dataArray;
 
 @end
 
@@ -33,7 +34,6 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     self.tableView.rowHeight = 95;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSelectCouponTableViewCell" bundle:nil] forCellReuseIdentifier:kSelectCouponCellIdentifier];
 }
-
 
 - (IBAction)cancel:(id)sender {
     [self remove];
@@ -55,7 +55,14 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectCouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectCouponCellIdentifier forIndexPath:indexPath];
-    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+    THNCouponModel *couponModel;
+    
+    if (self.couponType == CouponTypeStore) {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+    } else {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
+    }
+    cell.couponType = self.couponType;
     self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
     [cell setCouponModel:couponModel];
     return cell;
@@ -69,7 +76,13 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     cell.selected = YES;
     
     self.selectIndex = indexPath;
-    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+    THNCouponModel *couponModel;
+    
+    if (self.couponType == CouponTypeStore) {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+    } else {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
+    }
     self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
 }
 

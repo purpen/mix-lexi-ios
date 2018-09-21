@@ -10,4 +10,11 @@
 
 @interface THNPaymentViewController : THNBaseViewController
 
+// 商品总价
+@property (nonatomic, assign) CGFloat totalPrice;
+// 支付金额
+@property (nonatomic, assign) CGFloat paymentAmount;
+// 总运费
+@property (nonatomic, assign) CGFloat totalFreight;
+
 @end

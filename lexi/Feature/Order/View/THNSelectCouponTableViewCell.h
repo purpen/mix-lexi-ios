@@ -10,9 +10,22 @@
 
 @class THNCouponModel;
 
+/**
+ 优惠券类型
+ 
+ - CouponTypeStore: 店铺优惠券 以coupon为key取值
+ - CouponTypeOffical: 官方优惠券 直接取值
+ */
+typedef NS_ENUM(NSUInteger, CouponType) {
+    CouponTypeStore,
+    CouponTypeOffical
+};
+
+
 @interface THNSelectCouponTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNCouponModel *couponModel;
+@property (nonatomic, assign) CouponType couponType;
 
 
 @end

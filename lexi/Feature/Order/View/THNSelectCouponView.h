@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNSelectCouponTableViewCell.h"
+
 
 typedef void(^SelectCouponBlock)(NSString *text);
 
 @interface THNSelectCouponView : UIView
 
 @property (nonatomic, strong) NSArray *coupons;
+@property (nonatomic, assign) CouponType couponType;
 
 @property (nonatomic, copy) SelectCouponBlock selectCouponBlock;
 
