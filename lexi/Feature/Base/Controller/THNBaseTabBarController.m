@@ -101,8 +101,10 @@
     for (NSUInteger idx = 0; idx < controllers.count; idx ++) {
         UIViewController *contorller = controllers[idx];
         contorller.tabBarItem.title = titles[idx];
-        contorller.tabBarItem.image = [UIImage imageNamed:defaultImages[idx]];
-        contorller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImages[idx]] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+        contorller.tabBarItem.image = [[UIImage imageNamed:defaultImages[idx]]
+                                       imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+        contorller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImages[idx]]
+                                               imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
         
         THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:contorller];
         [self addChildViewController:navController];

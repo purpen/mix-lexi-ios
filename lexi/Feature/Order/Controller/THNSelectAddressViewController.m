@@ -72,6 +72,7 @@ static NSString *kKeyData    = @"data";
     THNOrderPreviewViewController *orderPreviewVC = [[THNOrderPreviewViewController alloc] init];
     orderPreviewVC.addressModel = [self thn_getSelectedAddress];
     orderPreviewVC.skuItems = self.selectedSkuItems;
+    orderPreviewVC.totalPrice = self.goodsTotalPrice;
     [self.navigationController pushViewController:orderPreviewVC animated:YES];
 }
 
