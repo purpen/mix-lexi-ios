@@ -21,6 +21,7 @@
 #import "THNPaymentViewController.h"
 #import "THNOrderDetailTableViewCell.h"
 #import "THNOrderDetailModel.h"
+#import "THNSelectOfficalCouponView.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -31,6 +32,7 @@ static NSString *const kUrlOrderFullReduction = @"/market/user_order_full_reduct
 static NSString *const kUrlLogisticsFreight = @"/logistics/freight/calculate";
 static NSString *const kUrlLogisticsProductExpress = @"/logistics/product/express";
 static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount";
+static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 @interface THNOrderPreviewViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -44,6 +46,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) THNOrderDetailLogisticsView *logisticsView;
 // 支付价格等明细
 @property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
+// 底部选择官方优惠券
+@property (nonatomic, strong) THNSelectOfficalCouponView *selectOfficalCouponView;
 @property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) UITableView *tableView;
 // sku
@@ -58,7 +62,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, strong) NSDictionary *freightDict;
 // 优惠券
 @property (nonatomic, strong) NSDictionary *couponDict;
-
+//官方优惠券
+@property (nonatomic, strong) NSArray *officalCoupons;
 // 满减View的高度
 @property (nonatomic, assign) CGFloat fullReductionViewHeight;
 // 总运费
@@ -67,6 +72,12 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 @property (nonatomic, assign) CGFloat totalCouponAmount;
 // 总满减金额
 @property (nonatomic, assign) CGFloat totalReductionAmount;
+// 首单优惠折扣
+@property (nonatomic, assign) CGFloat discountRatio;
+// 首单优惠金额
+@property (nonatomic, assign) CGFloat firstDiscount;
+// 支付金额
+@property (nonatomic, assign) CGFloat payAmount;
 
 @end
 
@@ -79,6 +90,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
     [self loadProductStoreSkuData];
+    [self loadOfficialCouponData];
     [self setupUI];
 //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:kSelectDelivery object:nil];
 }
@@ -170,6 +182,9 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
+        paymentVC.totalPrice = self.totalPrice;
+        paymentVC.paymentAmount = self.payAmount;
+        paymentVC.totalFreight = self.totalFreight;
         [self.navigationController pushViewController:paymentVC animated:YES];
     } failure:^(THNRequest *request, NSError *error) {
 
@@ -208,6 +223,18 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.couponDict = result.data;
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// 官方优惠券
+- (void)loadOfficialCouponData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"amount"] = @(self.totalPrice);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlOfficialFill requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.officalCoupons = result.data[@"coupons"];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -290,7 +317,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlNewUserDiscount requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        self.discountRatio = [result.data[@"discount_ratio"]floatValue];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -409,16 +436,32 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
     [headerView addSubview:self.payDetailView];
+    self.firstDiscount = (self.totalFreight + self.totalReductionAmount + self.totalPrice) * (1 - self.discountRatio);
+    //  实际支付金额 = 订单总金额 + 运费 - 首单优惠 - 满减 - 优惠券/红包
+    self.payAmount = self.totalPrice + self.totalFreight - self.totalReductionAmount - self.firstDiscount - self.totalCouponAmount;
     NSDictionary *payParams = @{@"freight":@(self.totalFreight),
-                                @"coupon_amount":@(0),
-                                @"reach_minus":@(self.totalReductionAmount)
+                                @"coupon_amount":@(self.totalCouponAmount),
+                                @"reach_minus":@(self.totalReductionAmount),
+                                @"total_amount":@(self.totalPrice),
+                                @"first_discount":@(self.firstDiscount),
+                                @"pay_amount":@(self.payAmount)
                                 };
+    
     THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
     CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
     self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH, payDetailViewHeight);
     
     
     return headerView;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    self.selectOfficalCouponView.officalCoupons = self.officalCoupons;
+    return self.selectOfficalCouponView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 80;
 }
 
 #pragma mark - getters and setters
@@ -482,5 +525,14 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     }
     return _expressIDArray;
 }
+
+- (THNSelectOfficalCouponView *)selectOfficalCouponView {
+    if (!_selectOfficalCouponView) {
+        _selectOfficalCouponView = [THNSelectOfficalCouponView viewFromXib];
+        _selectOfficalCouponView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
+    }
+    return _selectOfficalCouponView;
+}
+
 
 @end
