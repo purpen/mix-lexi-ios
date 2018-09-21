@@ -12,6 +12,7 @@
 @interface THNSelectLogisticsTableViewCell : UITableViewCell
 
 @property (nonatomic, assign) BOOL showLine;
+@property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, assign) CGFloat price;
 
 - (void)thn_setLogisticsDataWithModel:(THNFreightModelItem *)model;

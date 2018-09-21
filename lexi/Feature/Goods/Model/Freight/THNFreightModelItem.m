@@ -15,6 +15,7 @@ NSString *const kTHNFreightModelItemExpressCode = @"express_code";
 NSString *const kTHNFreightModelItemExpressId = @"express_id";
 NSString *const kTHNFreightModelItemExpressName = @"express_name";
 NSString *const kTHNFreightModelItemFirstAmount = @"first_amount";
+NSString *const kTHNFreightModelItemFreight = @"freight";
 NSString *const kTHNFreightModelItemFirstItem = @"first_item";
 NSString *const kTHNFreightModelItemFirstWeight = @"first_weight";
 NSString *const kTHNFreightModelItemIsDefault = @"is_default";
@@ -59,9 +60,12 @@ NSString *const kTHNFreightModelItemRid = @"rid";
 	if(![dictionary[kTHNFreightModelItemExpressName] isKindOfClass:[NSNull class]]){
 		self.expressName = dictionary[kTHNFreightModelItemExpressName];
 	}	
-	if(![dictionary[kTHNFreightModelItemFirstAmount] isKindOfClass:[NSNull class]]){
-		self.firstAmount = [dictionary[kTHNFreightModelItemFirstAmount] floatValue];
-	}
+    if(![dictionary[kTHNFreightModelItemFirstAmount] isKindOfClass:[NSNull class]]){
+        self.firstAmount = [dictionary[kTHNFreightModelItemFirstAmount] floatValue];
+    }
+    if(![dictionary[kTHNFreightModelItemFreight] isKindOfClass:[NSNull class]]){
+        self.freight = [dictionary[kTHNFreightModelItemFreight] floatValue];
+    }
 
 	if(![dictionary[kTHNFreightModelItemFirstItem] isKindOfClass:[NSNull class]]){
 		self.firstItem = [dictionary[kTHNFreightModelItemFirstItem] integerValue];
