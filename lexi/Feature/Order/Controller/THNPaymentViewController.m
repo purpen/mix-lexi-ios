@@ -72,7 +72,7 @@ static NSString *kTextPayment   = @"选择支付方式";
     [self.view addSubview:self.doneButton];
     
     // 示例
-    [self.priceView thn_setPriceValue:1852.2 totalPriceValue:1867.2 freightValue:15];
+    [self.priceView thn_setPriceValue:self.paymentAmount totalPriceValue:self.totalPrice freightValue:self.totalFreight];
     self.paymentTable.tableHeaderView = self.priceView;
 }
 
