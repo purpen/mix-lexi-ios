@@ -20,9 +20,10 @@ typedef void(^DidSelectedExpressItemBlock)(THNFreightModelItem *expressModel);
  初始化商品、物流信息
 
  @param goodsData 商品数据
- @param logisticsData 物流数据
+ @param expressParam 物流数据
  @return self
  */
-- (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSArray *)logisticsData;
+- (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSDictionary *)expressParam;
+
 
 @end

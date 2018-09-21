@@ -12,6 +12,8 @@
 @class THNSkuModelItem;
 @class THNFreightModelItem;
 
+typedef void(^SelectDeliveryBlcok)(NSString *fid);
+
 UIKIT_EXTERN NSString *const kSelectDelivery;
 UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 
@@ -27,5 +29,7 @@ UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 @property (weak, nonatomic) IBOutlet UILabel *logisticsTimeLabel;
 // 物流公司名字
 @property (nonatomic, strong) THNFreightModelItem *freightModel;
+
+@property (nonatomic, copy) SelectDeliveryBlcok selectDeliveryBlcok;
 
 @end
