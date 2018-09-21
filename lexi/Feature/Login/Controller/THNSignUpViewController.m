@@ -23,6 +23,8 @@ static NSString *const kURLAppRegister      = @"/auth/app_register";
 static NSString *const kParamEmail          = @"email";
 static NSString *const kParamAreaCode1      = @"areacode";
 static NSString *const kParamVerifyCode     = @"verify_code";
+///
+static NSString *const kTextSkip            = @"跳过";
 
 @interface THNSignUpViewController () <THNSignUpViewDelegate>
 
@@ -127,11 +129,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)setNavigationBar {
-    WEAKSELF;
-    [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
-    [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+    if (self.canSkip) {
+        WEAKSELF;
+        [self.navigationBarView setNavigationRightButtonOfText:kTextSkip textHexColor:@"#666666"];
+        [self.navigationBarView didNavigationRightButtonCompletion:^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
 }
 
 #pragma mark - getters and setters

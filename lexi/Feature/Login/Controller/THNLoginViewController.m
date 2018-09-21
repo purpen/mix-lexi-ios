@@ -51,11 +51,13 @@
 
 - (void)thn_loginViewDidSelectSignUpButton:(UIButton *)button {
     THNSignUpViewController *signUpVC = [[THNSignUpViewController alloc] init];
+    signUpVC.canSkip = YES;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
 - (void)thn_loginViewDidSelectSignInButton:(UIButton *)button {
     THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+    signInVC.canSkip = YES;
     [self.navigationController pushViewController:signInVC animated:YES];
 }
 

@@ -10,7 +10,7 @@
 #import <WebKit/WebKit.h>
 
 static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
-//static NSString *const kURLApplyStore = @"http://m.taihuoniao.com";
+static NSString *const kTextLexi = @"乐喜";
 
 @interface THNApplyStoreViewController () <WKNavigationDelegate, WKUIDelegate>
 
@@ -20,10 +20,6 @@ static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
 @end
 
 @implementation THNApplyStoreViewController
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,14 +70,7 @@ static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
 }
 
 - (void)setNavigationBar {
-    [self.navigationBarView setNavigationTransparent:YES showShadow:YES];;
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-
-    CGFloat originY = kDeviceiPhoneX ? -44 : -22;
-    self.applyWebView.scrollView.contentInset = UIEdgeInsetsMake(originY, 0, 0, 0);
+    self.navigationBarView.title = kTextLexi;
 }
 
 #pragma mark - getters and setters
@@ -99,6 +88,8 @@ static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
         _applyWebView.UIDelegate = self;
         _applyWebView.backgroundColor = [UIColor whiteColor];
         _applyWebView.scrollView.bounces = NO;
+        _applyWebView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        _applyWebView.scrollView.showsVerticalScrollIndicator = NO;
         NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:kURLApplyStore]];
         [_applyWebView loadRequest:urlRequest];
     }

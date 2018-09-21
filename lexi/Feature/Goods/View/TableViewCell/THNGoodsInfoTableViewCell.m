@@ -14,8 +14,11 @@
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
 #import "THNConst.h"
+#import "UIColor+Extension.h"
 
 static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
+///
+static NSString *const kTextSaleOut = @"售罄";
 
 @interface THNGoodsInfoTableViewCell ()
 
@@ -38,8 +41,24 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 @property (nonatomic, strong) YYLabel *colorLabel;
 /// 店铺
 @property (nonatomic, strong) YYLabel *storeLabel;
+/// 商品销售状态提示
+@property (nonatomic, strong) YYLabel *statusLabel;
 /// 加入购物车按钮
 @property (nonatomic, strong) UIButton *addCart;
+/// 选择按钮
+@property (nonatomic, strong) UIButton *selectButton;
+/// 数量编辑视图
+@property (nonatomic, strong) UIView *editCountView;
+/// 数量加
+@property (nonatomic, strong) UIButton *addCountButton;
+/// 数量减
+@property (nonatomic, strong) UIButton *subCountButton;
+/// 编辑数量
+@property (nonatomic, strong) UILabel *editCountLabel;
+/// 商品数量
+@property (nonatomic, assign) NSInteger goodsCount;
+/// 库存数量
+@property (nonatomic, assign) NSInteger stockCount;
 
 @end
 
@@ -93,7 +112,7 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
             
         case THNGoodsInfoCellTypeCartWish: {
             [self thn_setGoodsTitleWithText:model.name font:[UIFont systemFontOfSize:13]];
-            [self thn_setSalePriceWithValue:model.minPrice oriPrice:0.0];
+            [self thn_setSalePriceWithValue:model.minSalePrice > 0 ? model.minSalePrice : model.minPrice oriPrice:0.0];
         }
             break;
             
@@ -113,8 +132,29 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     [self.goodsImageView downloadImage:model.product.cover place:[UIImage imageNamed:@"default_goods_place"]];
     [self thn_setGoodsTitleWithText:model.product.productName font:[UIFont systemFontOfSize:13 weight:(UIFontWeightMedium)]];
     [self thn_setStoreNameWithText:model.product.storeName];
-    [self thn_setSalePriceWithValue:model.product.price oriPrice:model.product.salePrice];
+    [self thn_setSalePriceWithValue:model.product.salePrice oriPrice:model.product.price];
     [self thn_setGoodsColorText:model.product.sColor mode:model.product.sModel];
+    
+    if (self.cellType == THNGoodsInfoCellTypeCartNormal) {
+        self.editCountView.hidden = NO;
+    }
+    self.goodsCount = model.quantity;
+    self.stockCount = model.product.stockCount;
+    if (model.product.stockCount == 0) {
+        [self thn_setGoodsStatusInfoWithText:kTextSaleOut];
+    }
+}
+
+- (void)setIsSelected:(BOOL)isSelected {
+    _isSelected = isSelected;
+    
+    self.selectButton.selected = isSelected;
+}
+
+- (void)setGoodsCount:(NSInteger)goodsCount {
+    _goodsCount = goodsCount;
+    
+    self.editCountLabel.text = [NSString stringWithFormat:@"%zi", goodsCount];
 }
 
 #pragma mark - event response
@@ -122,6 +162,30 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     if ([self.delegate respondsToSelector:@selector(thn_didSelectedAddGoodsToCart:)]) {
         [self.delegate thn_didSelectedAddGoodsToCart:self];
     }
+}
+
+- (void)selectButtonAction:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedEditGoodsCell:)]) {
+        [self.delegate thn_didSelectedEditGoodsCell:self];
+    }
+}
+
+- (void)subCountButtonAction:(id)sender {
+    if (self.goodsCount == 1) {
+        return;
+    }
+    
+    self.goodsCount -= 1;
+    [self thn_setEditCountValue:self.goodsCount];
+}
+
+- (void)addCountButtonAction:(id)sender {
+    if (self.goodsCount == self.stockCount) {
+        return;
+    }
+    
+    self.goodsCount += 1;
+    [self thn_setEditCountValue:self.goodsCount];
 }
 
 #pragma mark - private methods
@@ -164,6 +228,11 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
  设置价格信息
  */
 - (void)thn_setSalePriceWithValue:(CGFloat)salePrice oriPrice:(CGFloat)oriPrice {
+    if (salePrice == 0) {
+        salePrice = oriPrice;
+        self.oriPriceLabel.hidden = YES;
+    }
+    
     NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", salePrice]];
     priceAtt.color = [UIColor colorWithHexString:@"#333333"];
     priceAtt.font = [self thn_getPriceFont];
@@ -201,6 +270,23 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     NSString *skuMode = [NSString stringWithFormat:@"%@ / %@", color, mode];
     
     self.colorLabel.text = skuMode;
+}
+
+/**
+ 设置商品状态
+ */
+- (void)thn_setGoodsStatusInfoWithText:(NSString *)text {
+    self.statusLabel.text = text;
+    self.statusLabel.hidden = NO;
+}
+
+/**
+ 设置编辑数量
+ */
+- (void)thn_setEditCountValue:(NSInteger)value {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedEditGoodsCountCell:count:)]) {
+        [self.delegate thn_didSelectedEditGoodsCountCell:self count:value];
+    }
 }
 
 - (CGSize)thn_getImageSize {
@@ -278,7 +364,13 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     [self addSubview:self.colorLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.storeLabel];
+    [self addSubview:self.statusLabel];
     [self addSubview:self.addCart];
+    [self addSubview:self.selectButton];
+    [self.editCountView addSubview:self.subCountButton];
+    [self.editCountView addSubview:self.addCountButton];
+    [self.editCountView addSubview:self.editCountLabel];
+    [self addSubview:self.editCountView];
 }
 
 - (void)layoutSubviews {
@@ -286,14 +378,34 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     BOOL isSelectLogistics = self.cellType == THNGoodsInfoCellTypeSelectLogistics;
     self.backgroundColor = isSelectLogistics ? [UIColor colorWithHexString:@"#F7F9FB"] : [UIColor whiteColor];
     
-    CGFloat originX = self.cellType == THNGoodsInfoCellTypeCartEdit ? 52 : 15;
-    
     // 图片
-    [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo([self thn_getImageSize]);
-        make.left.mas_equalTo(originX);
-        make.centerY.mas_equalTo(self);
+    if (self.cellType == THNGoodsInfoCellTypeCartEdit) {
+        [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo([self thn_getImageSize]);
+            make.left.mas_equalTo(52);
+            make.centerY.mas_equalTo(self);
+        }];
+        
+        [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(22, 22));
+            make.left.mas_equalTo(15);
+            make.centerY.mas_equalTo(self);
+        }];
+        
+    } else {
+        [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo([self thn_getImageSize]);
+            make.left.mas_equalTo(15);
+            make.centerY.mas_equalTo(self);
+        }];
+    }
+    
+    // 销售状态
+    [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(31, 18));
+        make.top.left.equalTo(self.goodsImageView).with.offset(5);
     }];
+    [self.statusLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:2];
     
     // 价格
     if (self.cellType != THNGoodsInfoCellTypeCartWish) {
@@ -392,8 +504,34 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     [self.storeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.goodsImageView.mas_right).with.offset(10);
         make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
-        make.right.mas_equalTo(self.titleLabel.mas_right).with.offset(0);
+        make.right.mas_equalTo(-130);
         make.height.mas_equalTo(15);
+    }];
+    
+    // 编辑数量
+    [self.editCountView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100, 24));
+        make.right.mas_equalTo(-15);
+        make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
+    }];
+    
+    [self.subCountButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(35, 24));
+        make.left.mas_equalTo(0);
+        make.centerY.mas_equalTo(self.editCountView);
+    }];
+    
+    [self.addCountButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(35, 24));
+        make.right.mas_equalTo(0);
+        make.centerY.mas_equalTo(self.editCountView);
+    }];
+    
+    [self.editCountLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.subCountButton.mas_right).with.offset(-4);
+        make.right.equalTo(self.addCountButton.mas_left).with.offset(4);
+        make.centerY.mas_equalTo(self.editCountView);
+        make.height.mas_equalTo(24);
     }];
 }
 
@@ -476,6 +614,19 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
     return _storeLabel;
 }
 
+- (YYLabel *)statusLabel {
+    if (!_statusLabel) {
+        _statusLabel = [[YYLabel alloc] init];
+        _statusLabel.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
+        _statusLabel.textColor = [UIColor whiteColor];
+        _statusLabel.font = [UIFont systemFontOfSize:10];
+        _statusLabel.textAlignment = NSTextAlignmentCenter;
+        _statusLabel.textContainerInset = UIEdgeInsetsMake(2, 0, 0, 0);
+        _statusLabel.hidden = YES;
+    }
+    return _statusLabel;
+}
+
 - (UIButton *)addCart {
     if (!_addCart) {
         _addCart = [[UIButton alloc] init];
@@ -489,6 +640,71 @@ static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
         [_addCart addTarget:self action:@selector(addCartAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _addCart;
+}
+
+- (UIButton *)selectButton {
+    if (!_selectButton) {
+        _selectButton = [[UIButton alloc] init];
+        [_selectButton setImage:[UIImage imageNamed:@"icon_selected_none"] forState:(UIControlStateNormal)];
+        [_selectButton setImage:[UIImage imageNamed:@"icon_selected_main"] forState:(UIControlStateSelected)];
+        _selectButton.imageView.contentMode = UIViewContentModeCenter;
+        _selectButton.selected = NO;
+        [_selectButton addTarget:self action:@selector(selectButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _selectButton;
+}
+
+#pragma mark 编辑数量视图
+- (UIView *)editCountView {
+    if (!_editCountView) {
+        _editCountView = [[UIView alloc] init];
+        _editCountView.backgroundColor = [UIColor whiteColor];
+        _editCountView.hidden = YES;
+    }
+    return _editCountView;
+}
+
+- (UIButton *)addCountButton {
+    if (!_addCountButton) {
+        _addCountButton = [[UIButton alloc] init];
+        [_addCountButton setTitle:@"+" forState:(UIControlStateNormal)];
+        [_addCountButton setTitleColor:[UIColor colorWithHexString:@"#949EA6"] forState:(UIControlStateNormal)];
+        [_addCountButton setTitleEdgeInsets:(UIEdgeInsetsMake(-2, 5, 0, 0))];
+        _addCountButton.titleLabel.font = [UIFont systemFontOfSize:22 weight:(UIFontWeightLight)];
+        _addCountButton.layer.borderWidth = 0.5;
+        _addCountButton.layer.borderColor = [UIColor colorWithHexString:@"#D5D5D6"].CGColor;
+        _addCountButton.layer.cornerRadius = 4;
+        [_addCountButton addTarget:self action:@selector(addCountButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _addCountButton;
+}
+
+- (UIButton *)subCountButton {
+    if (!_subCountButton) {
+        _subCountButton = [[UIButton alloc] init];
+        [_subCountButton setTitle:@"−" forState:(UIControlStateNormal)];
+        [_subCountButton setTitleColor:[UIColor colorWithHexString:@"#949EA6"] forState:(UIControlStateNormal)];
+        [_subCountButton setTitleEdgeInsets:(UIEdgeInsetsMake(-2, -5, 0, 0))];
+        _subCountButton.titleLabel.font = [UIFont systemFontOfSize:22 weight:(UIFontWeightLight)];
+        _subCountButton.layer.borderWidth = 0.5;
+        _subCountButton.layer.borderColor = [UIColor colorWithHexString:@"#D5D5D6"].CGColor;
+        _subCountButton.layer.cornerRadius = 4;
+        [_subCountButton addTarget:self action:@selector(subCountButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _subCountButton;
+}
+
+- (UILabel *)editCountLabel {
+    if (!_editCountLabel) {
+        _editCountLabel = [[UILabel alloc] init];
+        _editCountLabel.font = [UIFont systemFontOfSize:12];
+        _editCountLabel.textColor = [UIColor colorWithHexString:@"#333333"];
+        _editCountLabel.textAlignment = NSTextAlignmentCenter;
+        _editCountLabel.layer.borderWidth = 0.5;
+        _editCountLabel.layer.borderColor = [UIColor colorWithHexString:@"#D5D5D6"].CGColor;
+        _editCountLabel.backgroundColor = [UIColor whiteColor];
+    }
+    return _editCountLabel;
 }
 
 @end
