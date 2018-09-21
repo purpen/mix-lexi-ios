@@ -58,6 +58,7 @@
 @property (nonatomic, assign) CGFloat minSalePrice;
 @property (nonatomic, strong) NSArray * modes;
 @property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * productName;
 @property (nonatomic, strong) NSArray * productLikeUsers;
 @property (nonatomic, strong) NSString * productReturnPolicy;
 @property (nonatomic, strong) NSString * province;
@@ -72,6 +73,7 @@
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, assign) BOOL sticked;
 @property (nonatomic, assign) NSInteger stockCount;
+@property (nonatomic, assign) NSInteger productTotalCount;
 @property (nonatomic, strong) NSString * storeLogo;
 @property (nonatomic, strong) NSString * storeName;
 @property (nonatomic, strong) NSString * storeRid;
