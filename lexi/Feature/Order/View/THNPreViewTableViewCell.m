@@ -122,6 +122,7 @@ const CGFloat kLogisticsViewHeight = 65;
     __weak typeof(self)weakSelf = self;
     
     self.selectCouponView.selectCouponBlock = ^(NSString *text) {
+        
         weakSelf.couponLabel.text = text;
     };
     
