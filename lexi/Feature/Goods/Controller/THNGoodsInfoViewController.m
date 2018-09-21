@@ -29,6 +29,7 @@
 #import "THNGoodsHeaderTableViewCell.h"
 #import "THNGoodsContactTableViewCell.h"
 #import "THNGoodsContentTableViewCell.h"
+#import "THNCartViewController.h"
 
 static NSInteger const kFooterHeight = 18;
 
@@ -73,12 +74,18 @@ static NSInteger const kFooterHeight = 18;
     [self setupUI];
     [self thn_getGoodsInfoDataWithGoodsId:self.goodsId];
     [self thn_getGoodsSkuDataWithGoodsId:self.goodsId];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [self thn_getCartGoodsCount];
 }
 
 #pragma mark - custom delegate
 - (void)thn_openGoodsCart {
-    [SVProgressHUD showInfoWithStatus:@"打开购物车"];
+    THNCartViewController *cartVC = [[THNCartViewController alloc] init];
+    [self.navigationController pushViewController:cartVC animated:YES];
 }
 
 - (void)thn_openGoodsSkuWithType:(THNGoodsButtonType)type {
@@ -94,6 +101,11 @@ static NSInteger const kFooterHeight = 18;
         goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         goodsSkuVC.functionType = self.functionView.type;
         goodsSkuVC.handleType = type;
+        
+        goodsSkuVC.selectGoodsAddCartCompleted = ^{
+            [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+            [self thn_getCartGoodsCount];
+        };
         [self presentViewController:goodsSkuVC animated:NO completion:nil];
     }
 }
@@ -118,22 +130,23 @@ static NSInteger const kFooterHeight = 18;
     [SVProgressHUD show];
     if (!goodsId.length) return;
     
+    WEAKSELF;
+    
     [THNGoodsManager getProductAllDetailWithId:self.goodsId completion:^(THNGoodsModel *model, NSError *error) {
         [SVProgressHUD dismiss];
         if (error) return;
         
-        self.goodsModel = model;
-        [self thn_setHeaderViewWithGoodsImageAssets:model.assets];
-        [self thn_setTitleInfoWithGoodsModel:model];
-        [self thn_setTagsContentWithGoodsModel:model];
-        [self thn_setActionButtonWithGoodsModel:model];
-        [self thn_setDirectSelectWithGoodsModel:model];
-        [self thn_setLikedGoodsUserWithGoodsId:model.rid isReload:NO];
-        [self thn_setDescribeCellWithGoodsModel:model];
-        [self thn_setSimilarGoodsWithGoodsId:model.rid];
-        [self thn_setGoodsDealContentWithGoodsModel:model];
-        
-        [self.functionView thn_setGoodsModel:model];
+        weakSelf.goodsModel = model;
+        [weakSelf.functionView thn_setGoodsModel:model];
+        [weakSelf thn_setHeaderViewWithGoodsImageAssets:model.assets];
+        [weakSelf thn_setTitleInfoWithGoodsModel:model];
+        [weakSelf thn_setTagsContentWithGoodsModel:model];
+        [weakSelf thn_setActionButtonWithGoodsModel:model];
+        [weakSelf thn_setDirectSelectWithGoodsModel:model];
+        [weakSelf thn_setLikedGoodsUserWithGoodsId:model.rid isReload:NO];
+        [weakSelf thn_setDescribeCellWithGoodsModel:model];
+        [weakSelf thn_setSimilarGoodsWithGoodsId:model.rid];
+        [weakSelf thn_setGoodsDealContentWithGoodsModel:model];
     }];
 }
 
