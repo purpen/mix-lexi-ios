@@ -29,5 +29,6 @@
 @property (nonatomic, strong) THNSkuModelItem *selectSkuItem;
 
 - (instancetype)initWithSkuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel;
+- (instancetype)initWithFrame:(CGRect)frame skuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel;
 
 @end

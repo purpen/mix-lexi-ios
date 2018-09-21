@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString * productName;
 @property (nonatomic, strong) NSString * productRid;
 @property (nonatomic, strong) NSString * rid;
+@property (nonatomic, strong) NSString * fid;
 @property (nonatomic, strong) NSString * sColor;
 @property (nonatomic, strong) NSString * sModel;
 @property (nonatomic, strong) NSString * sWeight;

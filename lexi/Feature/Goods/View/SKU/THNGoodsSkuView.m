@@ -54,19 +54,27 @@ static CGFloat const kMaxHeight = 337.0;
 
 @implementation THNGoodsSkuView
 
-- (instancetype)initWithSkuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame skuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
+    self = [super initWithFrame:frame];
     if (self) {
-        self.skuModel = skuModel;
+        if (skuModel) {
+            self.skuModel = skuModel;
+        }
+        
         [self thn_setTitleText:goodsModel];
-        [self setupViewUI];
     }
     return self;
 }
 
+- (instancetype)initWithSkuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
+    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300) skuModel:skuModel goodsModel:goodsModel];
+}
+
 - (void)setSkuModel:(THNSkuModel *)skuModel {
     _skuModel = skuModel;
+    
     [self thn_setGoodsSkuModel:skuModel];
+    [self setupViewUI];
 }
 
 #pragma mark - sku filter datasource
@@ -273,6 +281,8 @@ static CGFloat const kMaxHeight = 337.0;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    if (!self.skuModel) return;
     
     self.frame = CGRectMake(0, SCREEN_HEIGHT - [self thn_getSkuViewSizeHeight], SCREEN_WIDTH, [self thn_getSkuViewSizeHeight]);
     

@@ -157,6 +157,7 @@
 		D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B62126CDB400E14A22 /* THNUserManager.m */; };
 		D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */; };
 		D83CCF8021400914006A1251 /* THNGoodsDescribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */; };
+		D846AC072152440600ACC32F /* THNCartDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D846AC062152440600ACC32F /* THNCartDefaultView.m */; };
 		D84CC2FE214D269F007B7B25 /* THNCartModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D84CC2FA214D269E007B7B25 /* THNCartModelItem.m */; };
 		D84CC2FF214D269F007B7B25 /* THNCartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D84CC2FB214D269F007B7B25 /* THNCartModel.m */; };
 		D84CC300214D269F007B7B25 /* THNCartModelProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = D84CC2FC214D269F007B7B25 /* THNCartModelProduct.m */; };
@@ -591,6 +592,8 @@
 		D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNDynamicTableViewController.m; sourceTree = "<group>"; };
 		D83CCF7E21400914006A1251 /* THNGoodsDescribeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsDescribeViewController.h; sourceTree = "<group>"; };
 		D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsDescribeViewController.m; sourceTree = "<group>"; };
+		D846AC052152440600ACC32F /* THNCartDefaultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCartDefaultView.h; sourceTree = "<group>"; };
+		D846AC062152440600ACC32F /* THNCartDefaultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCartDefaultView.m; sourceTree = "<group>"; };
 		D84CC2F8214D269E007B7B25 /* THNCartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCartModel.h; sourceTree = "<group>"; };
 		D84CC2F9214D269E007B7B25 /* THNCartModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCartModelItem.h; sourceTree = "<group>"; };
 		D84CC2FA214D269E007B7B25 /* THNCartModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCartModelItem.m; sourceTree = "<group>"; };
@@ -2145,6 +2148,8 @@
 			children = (
 				D84CC304214D59FF007B7B25 /* THNCartFunctionView.h */,
 				D84CC305214D59FF007B7B25 /* THNCartFunctionView.m */,
+				D846AC052152440600ACC32F /* THNCartDefaultView.h */,
+				D846AC062152440600ACC32F /* THNCartDefaultView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2642,6 +2647,7 @@
 				4B720624212EB281002606EE /* UITableView+Helper.m in Sources */,
 				D8247EB82147E96D000C8E37 /* THNAddressTableViewCell.m in Sources */,
 				D8247EC62147E96D000C8E37 /* THNOrderDetailLogisticsView.m in Sources */,
+				D846AC072152440600ACC32F /* THNCartDefaultView.m in Sources */,
 				D8BAC9B8211A949100667D6F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8BAC9B0211A949100667D6F /* THNFeatureTableViewCell.m in Sources */,
 				D8F998432133944E0012AED3 /* THNGoodsManager.m in Sources */,

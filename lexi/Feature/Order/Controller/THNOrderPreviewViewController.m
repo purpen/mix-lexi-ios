@@ -58,19 +58,28 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 // 优惠券
 @property (nonatomic, strong) NSDictionary *couponDict;
 
+// 满减View的高度
+@property (nonatomic, assign) CGFloat fullReductionViewHeight;
+// 总运费
+@property (nonatomic, assign) CGFloat totalFreight;
+// 总优惠券
+@property (nonatomic, assign) CGFloat totalCouponAmount;
+// 总满减金额
+@property (nonatomic, assign) CGFloat totalReductionAmount;
+
 @end
 
 @implementation THNOrderPreviewViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadProductStoreSkuData];
     [self loadOrderCoupons];
     [self loadOrderFullReduction];
     [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
+    [self loadProductStoreSkuData];
     [self setupUI];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:kSelectDelivery object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:kSelectDelivery object:nil];
 }
 
 //// 选择配送物流
@@ -79,7 +88,14 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 //    NSInteger storeIndex = [notification.userInfo[@"selectStoreIndex"]integerValue];
 //    // 选中商品所在的行
 //    NSInteger productIndex = [notification.userInfo[@"selectProducIndex"]integerValue];
-////    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+//    // storeKey
+//    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+//
+//    NSMutableDictionary *expressDict = [NSMutableDictionary dictionary];
+//    expressDict[@"address_rid"] = self.addressModel.rid;
+//    expressDict[@"fid"] = self.skuDict[storeKey][productIndex][@"fid"];
+//
+//
 ////    NSArray *skus = self.skuDict[storeKey];
 ////    params[@"address_rid"] = self.addressModel.rid;
 ////
@@ -215,26 +231,7 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.logisticsDict = result.data;
-         NSMutableDictionary *itemDict = [NSMutableDictionary dictionary];
-        NSMutableArray *items = [NSMutableArray array];
-        NSMutableArray *expressArray = [NSMutableArray array];
-         NSString *storeRid;
-        
-        for (NSDictionary *dict in self.skuItems) {
-             storeRid = dict[@"rid"];
-            [itemDict addEntriesFromDictionary:self.logisticsDict[storeRid]];
-            [items addObjectsFromArray:dict[@"sku_items"]];
-        }
-        
-        for (int i = 0; i < items.count; i++) {
-            [expressArray addObjectsFromArray:itemDict[items[i][@"sku"]][@"express"]];
-        }
-        
-        for (NSDictionary *dict in expressArray) {
-            [self.expressIDArray addObject:dict[@"express_id"]];
-        }
-        
-        NSLog(@"%@",self.expressIDArray);
+        [self loadLogisticsFreightData];
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -243,28 +240,35 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
 // 计算运费
 - (void)loadLogisticsFreightData {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSMutableArray *skuItems = [NSMutableArray array];
-    NSMutableArray *items = [NSMutableArray array];
-    params[@"address_rid"] = self.addressModel.rid;
     
-    for (NSMutableDictionary *dict in self.skuItems) {
-        [skuItems  addObjectsFromArray:dict[@"sku_items"]];
+    NSMutableArray *newSkuItems = [NSMutableArray array];
+
+    for (NSDictionary *skuDict in self.skuItems) {
+        NSMutableDictionary *oriSkuDict = [NSMutableDictionary dictionaryWithDictionary:skuDict];
+        NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
+        NSMutableArray *newSkuArr = [NSMutableArray array];
+
+        for (NSDictionary *goodsDict in (NSArray *)skuDict[@"sku_items"]) {
+            NSMutableDictionary *newSku = [NSMutableDictionary dictionaryWithDictionary:goodsDict];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+            NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
+            NSString *logId = expressArray[0][@"express_id"];
+            [newSku setObject:logId forKey:@"express_id"];
+            [newSkuArr addObject:newSku];
+        }
+
+        [oriSkuDict setObject:newSkuArr forKey:@"sku_items"];
+        [newSkuItems addObject:oriSkuDict];
     }
     
-    // 为sku字典添加express_id
-    [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSMutableDictionary *mutableDict =  [skuItems[idx] mutableCopy];
-        [mutableDict setValue:obj forKey:@"express_id"];
-        [items addObject:mutableDict];
-    }];
-    
-    params[@"items"] = items;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"address_rid"] = self.addressModel.rid;
+    params[@"items"] = newSkuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.freightDict = result.data;
     } failure:^(THNRequest *request, NSError *error) {
-        
+
     }];
 }
 
@@ -307,9 +311,34 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNPreViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KOrderPreviewCellIdentifier forIndexPath:indexPath];
+    THNPreViewTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [THNPreViewTableViewCell viewFromXib];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
+    
+    // 选择配送方式
+    cell.preViewCellBlock = ^(NSMutableArray *skuIds, NSString *fid, NSInteger storeIndex) {
+        NSMutableArray *items = [NSMutableArray array];
+        NSMutableArray *goods = [NSMutableArray array];
+         NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+        for (NSString *skuId in skuIds) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sku == %@",skuId];
+            NSPredicate *productPredicate = [NSPredicate predicateWithFormat:@"rid == %@",skuId];
+            [items addObjectsFromArray:[self.skuItems[storeIndex][@"sku_items"] filteredArrayUsingPredicate:predicate]];
+            [goods addObjectsFromArray:[self.skuDict[storeKey] filteredArrayUsingPredicate:productPredicate]];
+        }
+        
+        THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]init];
+        selectLogistcisVC.expressParams = @{
+                                            @"address_rid":self.addressModel.rid,
+                                            @"fid":fid,
+                                            @"items":items
+                                            };
+        NSLog(@"%@%@",selectLogistcisVC.expressParams,goods);
+        [self.navigationController pushViewController:selectLogistcisVC animated:YES];
+    };
 
     // 店铺id作为Key取商品的SKU信息
     NSString *storekey = self.skuItems[indexPath.row][@"rid"];
@@ -318,45 +347,53 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 
     // 每个店铺的商品的sku
     NSArray *skus = self.skuDict[storekey];
+    self.skus = skus;
     // 每个店铺的满减
     NSDictionary *fullReductionDict = self.fullReductionDict[storekey];
    
     THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
-    
+    // 每个店铺优惠券数组
     NSArray *coupons = self.couponDict[storekey];
   
     NSMutableArray *logistics = [NSMutableArray array];
+    
     
     for (int i = 0; i < skus.count; i++) {
         NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
         [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
     
-    // 删选出默认物流
+    // 筛选出默认物流
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
-    // 取出所有的物流ID
-//    for (NSDictionary *dict in logistics) {
-//        [self.expressIDArray addObject:dict[@"express_id"]];
-//    }
-//
-    [self loadLogisticsFreightData];
     
-    CGFloat freight = 0.0;
     
-    if (!self.freightDict) {
-        freight  = [self.freightDict[storekey] floatValue];
-    }
+    // 运费
+   CGFloat freight  = [self.freightDict[storekey] floatValue];
+    
+    
+    self.totalFreight += freight;
+    self.totalCouponAmount += couponModel.amount;
+    NSLog(@"%.2f",self.totalFreight);
+    NSLog(@"%.2f",self.totalCouponAmount);
     
     THNFreightModelItem *freighModel = [[THNFreightModelItem alloc]initWithDictionary:defaultLogistics[0]];
-    
-    [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
+
+   self.fullReductionViewHeight =  [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 500;
+    // 获取不隐藏运费模板的数量
+    NSMutableArray *fids = [NSMutableArray array];
+    for (NSDictionary *dict in self.skus) {
+        [fids addObject:dict[@"fid"]];
+    }
+    
+    NSSet *set = [NSSet setWithArray:fids];
+    // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
+    return set.count * (kProductViewHeight + kLogisticsViewHeight) + (self.skus.count - set.count) * kProductViewHeight + self.fullReductionViewHeight + 300;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

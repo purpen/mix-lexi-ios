@@ -49,6 +49,8 @@ static NSString *const kTextClearing    = @"结算";
 
 #pragma mark - private methods
 - (void)thn_setTotalPriceWithValue:(CGFloat)value {
+    if (!value) return;
+    
     NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", value]];
     priceAtt.color = [UIColor colorWithHexString:@"#333333"];
     priceAtt.font = [UIFont systemFontOfSize:15 weight:(UIFontWeightMedium)];
