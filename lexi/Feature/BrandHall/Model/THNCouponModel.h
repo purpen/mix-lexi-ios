@@ -13,7 +13,7 @@
 
 // 面值
 @property (nonatomic, assign) CGFloat amount;
-// 满足金额
+// 满减金额
 @property (nonatomic, assign) CGFloat reach_amount;
 // 最小金额
 @property (nonatomic, assign) CGFloat min_amount;

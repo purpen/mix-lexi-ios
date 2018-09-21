@@ -8,6 +8,7 @@
 
 #import "THNGoodsInfoViewController.h"
 #import "THNGoodsManager.h"
+#import "THNLoginManager.h"
 #import "THNImagesView.h"
 #import "THNGoodsFunctionView.h"
 #import "NSString+Helper.h"
@@ -72,6 +73,7 @@ static NSInteger const kFooterHeight = 18;
     [self setupUI];
     [self thn_getGoodsInfoDataWithGoodsId:self.goodsId];
     [self thn_getGoodsSkuDataWithGoodsId:self.goodsId];
+    [self thn_getCartGoodsCount];
 }
 
 #pragma mark - custom delegate
@@ -387,6 +389,18 @@ static NSInteger const kFooterHeight = 18;
     sections.footerHeight = kFooterHeight;
     
     [self thn_addSections:sections];
+}
+
+/**
+ 购物车商品数量
+ */
+- (void)thn_getCartGoodsCount {
+    if (![THNLoginManager isLogin]) return;
+    
+    WEAKSELF;
+    [THNGoodsManager getCartGoodsCountCompletion:^(NSInteger goodsCount, NSError *error) {
+        [weakSelf.functionView thn_setCartGoodsCount:error ? 0 : goodsCount];
+    }];
 }
 
 #pragma mark - private methods

@@ -8,6 +8,12 @@
 
 #import "THNBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, THNSelectedCartDataType) {
+    THNSelectedCartDataTypeItem = 0,    // 商品数据
+    THNSelectedCartDataTypeSku,         // sku id
+    THNSelectedCartDataTypeProduct,     // 商品 id
+};
+
 @interface THNCartViewController : THNBaseViewController
 
 @end
