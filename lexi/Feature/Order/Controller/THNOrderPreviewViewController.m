@@ -348,7 +348,8 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
                                         @"fid":fid,
                                         @"items":items
                                         };
-         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]initWithGoodsData:goods logisticsData:expressParams];
+         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:goods
+                                                                                                             logisticsData:expressParams];
         [self.navigationController pushViewController:selectLogistcisVC animated:YES];
     };
 
