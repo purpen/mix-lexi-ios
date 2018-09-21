@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CartDefaultDiscoverBlock)(void);
+
 @interface THNCartDefaultView : UIView
+
+@property (nonatomic, copy) CartDefaultDiscoverBlock cartDefaultDiscoverBlock;
 
 @end

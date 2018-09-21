@@ -25,4 +25,9 @@
  */
 @property (nonatomic, strong) NSArray *skuItems;
 
+/**
+ 结算商品总价
+ */
+@property (nonatomic, assign) CGFloat totalPrice;
+
 @end

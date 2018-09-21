@@ -21,4 +21,9 @@
  */
 @property (nonatomic, strong) NSArray *deliveryCountrys;
 
+/**
+ 结算商品总价
+ */
+@property (nonatomic, assign) CGFloat goodsTotalPrice;
+
 @end
