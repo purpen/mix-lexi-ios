@@ -261,6 +261,7 @@
                 <outlet property="fullReductionView" destination="yyc-VN-CAk" id="Faa-K1-s4H"/>
                 <outlet property="fullReductionViewHeightConstraint" destination="CDz-S1-7Az" id="dQZ-J4-dnR"/>
                 <outlet property="orderDetailTopView" destination="ebA-ef-MTC" id="GWx-pa-sIZ"/>
+                <outlet property="orderDetailTopViewHeightConstraint" destination="587-0h-R3N" id="dtp-XU-hUo"/>
                 <outlet property="orderNumberLabel" destination="06d-wf-czT" id="eW2-kB-I9B"/>
                 <outlet property="payMethodImageView" destination="dLO-5n-OEi" id="RkY-Ui-jU1"/>
                 <outlet property="payMethodLabel" destination="Zd4-9b-cSd" id="3HF-HU-nVz"/>

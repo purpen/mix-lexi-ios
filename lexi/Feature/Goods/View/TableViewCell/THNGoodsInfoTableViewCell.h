@@ -29,6 +29,8 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
 
 @optional
 - (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell;
+- (void)thn_didSelectedEditGoodsCell:(THNGoodsInfoTableViewCell *)cell;
+- (void)thn_didSelectedEditGoodsCountCell:(THNGoodsInfoTableViewCell *)cell count:(NSInteger)count;
 
 @end
 
@@ -36,6 +38,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
 
 @property (nonatomic, assign) THNGoodsInfoCellType cellType;
 @property (nonatomic, assign) BOOL showLine;
+@property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, weak) id <THNGoodsInfoTableViewCellDelegate> delegate;
 
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model;

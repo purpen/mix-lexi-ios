@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsSkuType) {
 };
 
 typedef void(^SelectGoodsSkuCompleted)(NSDictionary *params);
+typedef void(^SelectGoodsAddCartCompleted)(void);
 
 @interface THNGoodsSkuViewController : THNBaseViewController
 
@@ -39,6 +40,11 @@ typedef void(^SelectGoodsSkuCompleted)(NSDictionary *params);
  选中SKU
  */
 @property (nonatomic, copy) SelectGoodsSkuCompleted selectGoodsSkuCompleted;
+
+/**
+ 加入购物车
+ */
+@property (nonatomic, copy) SelectGoodsAddCartCompleted selectGoodsAddCartCompleted;
 
 - (instancetype)initWithGoodsModel:(THNGoodsModel *)goodsModel;
 - (instancetype)initWithSkuModel:(THNSkuModel *)model goodsModel:(THNGoodsModel *)goodsModel viewType:(THNGoodsSkuType)viewTpye;

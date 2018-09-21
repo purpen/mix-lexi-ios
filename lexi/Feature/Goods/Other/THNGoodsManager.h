@@ -116,6 +116,14 @@
                              completion:(void (^)(NSArray *userData, NSError *error))completion;
 
 /**
+ 商品添加到心愿单
+ 
+ @param rids 商品 sku id
+ @param completion 完成回调
+ */
++ (void)postAddGoodsToWishListWithRids:(NSArray *)rids completion:(void (^)(NSError *error))completion;
+
+/**
  商品添加到购物车
 
  @param params sku 信息
@@ -136,5 +144,22 @@
  @param completion 完成回调
  */
 + (void)getCartGoodsCountCompletion:(void (^)(NSInteger goodsCount, NSError *error))completion;
+
+/**
+ 删除购物车的商品
+ 
+ @param skuRids 商品 sku id
+ @param completion 完成回调
+ */
++ (void)postRemoveCartGoodsWithSkuRids:(NSArray *)skuRids completion:(void (^)(NSError *error))completion;
+
+/**
+ 更新购物车商品数量
+
+ @param skuId id
+ @param count 数量
+ @param completion 完成回调
+ */
++ (void)putCartGoodsCountWithSkuId:(NSString *)skuId count:(NSInteger)count completion:(void (^)(NSError *error))completion;
 
 @end
