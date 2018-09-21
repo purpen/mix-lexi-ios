@@ -168,14 +168,14 @@ static NSString *const kKeyQuantity = @"quantity";
                                kKeyQuantity: @(1)};
     
     [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
-        if (!error) {
-            [self dismissViewControllerAnimated:NO completion:^{
-                [SVProgressHUD showSuccessWithStatus:@"添加成功"];
-                if (self.selectGoodsAddCartCompleted) {
-                    self.selectGoodsAddCartCompleted();
-                }
-            }];
-        }
+        if (error) return;
+        
+        self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (self.selectGoodsAddCartCompleted) {
+                self.selectGoodsAddCartCompleted();
+            }
+        }];
     }];
 }
 

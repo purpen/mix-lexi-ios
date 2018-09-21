@@ -460,7 +460,7 @@ static NSString *const kTextSaleOut = @"售罄";
             make.left.equalTo(self.goodsImageView.mas_right).with.offset(10);
             make.top.equalTo(self.goodsImageView.mas_top).with.offset(1);
             if (self.cellType == THNGoodsInfoCellTypeCartWish) {
-                make.right.mas_equalTo(-80);
+                make.right.mas_equalTo(-90);
             } else {
                 make.right.equalTo(self.countLabel.mas_left).with.offset(-10);
             }
