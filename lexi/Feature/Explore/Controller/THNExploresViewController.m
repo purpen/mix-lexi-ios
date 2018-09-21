@@ -298,7 +298,8 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)lookAllWithType:(ExploreCellType)cellType {
     switch (cellType) {
         case ExploreRecommend: {
-            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeEditors title:self.recommendTitle];
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc] initWithGoodsListType:THNGoodsListViewTypeEditors
+                                                                                                        title:self.recommendTitle];
             [self.navigationController pushViewController:goodsList animated:YES];
             break;
         }
@@ -309,7 +310,8 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         }
             
         case ExploreNewProduct: {
-            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewProduct title:self.productNewTitle];
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc] initWithGoodsListType:THNGoodsListViewTypeNewProduct
+                                                                                                        title:self.productNewTitle];
             [self.navigationController pushViewController:goodsList animated:YES];
             break;
         }
@@ -321,13 +323,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         }
             
         case ExploreGoodDesign: {
-            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeDesign title:self.goodDesignTitle];
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc] initWithGoodsListType:THNGoodsListViewTypeDesign
+                                                                                                        title:self.goodDesignTitle];
             [self.navigationController pushViewController:goodsList animated:YES];
             break;
         }
             
         case ExploreGoodThings: {
-            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeGoodThing title:self.goodThingTitle];
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc] initWithGoodsListType:THNGoodsListViewTypeGoodThing
+                                                                                                        title:self.goodThingTitle];
             [self.navigationController pushViewController:goodsList animated:YES];
             break;
         }

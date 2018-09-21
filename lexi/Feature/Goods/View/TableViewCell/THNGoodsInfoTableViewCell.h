@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsInfoCellType) {
 - (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell;
 - (void)thn_didSelectedEditGoodsCell:(THNGoodsInfoTableViewCell *)cell;
 - (void)thn_didSelectedEditGoodsCountCell:(THNGoodsInfoTableViewCell *)cell count:(NSInteger)count;
+- (void)thn_didSelectedResetSkuGoodsCell:(THNGoodsInfoTableViewCell *)cell;
 
 @end
 

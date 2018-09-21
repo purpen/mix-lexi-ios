@@ -92,7 +92,8 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
             
         case THNGoodsListViewTypeCategory: {
             [self.paramDict setDictionary:@{@"id": @(self.categoryId),
-                                            @"per_page": @(20)}];
+                                            @"per_page": @(20),
+                                            @"status": @(1)}];
 
             [self thn_getCategoryProductsWithParams:self.paramDict];
             [self.popupView thn_setCategoryId:self.categoryId];
@@ -135,6 +136,11 @@ static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCell
         
         [self.goodsCollectionView reloadData];
     }];
+}
+
+// 获取栏目商品
+- (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type {
+    
 }
 
 #pragma mark - custom delegate
