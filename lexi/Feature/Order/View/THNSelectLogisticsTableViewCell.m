@@ -57,10 +57,16 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
 - (void)thn_setLogisticsDataWithModel:(THNFreightModelItem *)model {
     self.nameLabel.text = model.expressName;
     self.timeLabel.text = kTextExpressTime(@(model.minDays), @(model.maxDays));
-    self.pricelabel.text = [NSString stringWithFormat:@"￥%.2f", model.firstAmount];
+    self.pricelabel.text = [NSString stringWithFormat:@"￥%.2f", model.freight];
     
-    self.price = model.firstAmount;
+    self.price = model.freight;
     self.selected = model.isDefault;
+}
+
+- (void)setIsSelected:(BOOL)isSelected {
+    _isSelected = isSelected;
+    
+    self.selectButton.selected = isSelected;
 }
 
 #pragma mark - setup UI
@@ -121,11 +127,6 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
 }
 
 #pragma mark - getters and setters
-- (void)setSelected:(BOOL)selected {
-    self.selectButton.selected = selected;
-}
-
-
 - (UIButton *)selectButton {
     if (!_selectButton) {
         _selectButton = [[UIButton alloc] init];
