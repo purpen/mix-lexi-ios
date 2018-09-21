@@ -18,6 +18,8 @@
 		4B223CE021464E21001E5F94 /* THNNewShippingAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B223CDF21464E21001E5F94 /* THNNewShippingAddressViewController.m */; };
 		4B223CE42146505A001E5F94 /* THNNewShippingAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B223CE22146505A001E5F94 /* THNNewShippingAddressTableViewCell.m */; };
 		4B223CE52146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B223CE32146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib */; };
+		4B23433D2154B57D006E80B3 /* THNSelectOfficalCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B23433C2154B57D006E80B3 /* THNSelectOfficalCouponView.m */; };
+		4B23433F2154B593006E80B3 /* THNSelectOfficalCouponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B23433E2154B593006E80B3 /* THNSelectOfficalCouponView.xib */; };
 		4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */; };
 		4B240E90212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B240E8E212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m */; };
 		4B240E91212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B240E8F212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.xib */; };
@@ -355,6 +357,9 @@
 		4B223CE12146505A001E5F94 /* THNNewShippingAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNewShippingAddressTableViewCell.h; sourceTree = "<group>"; };
 		4B223CE22146505A001E5F94 /* THNNewShippingAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNewShippingAddressTableViewCell.m; sourceTree = "<group>"; };
 		4B223CE32146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNNewShippingAddressTableViewCell.xib; sourceTree = "<group>"; };
+		4B23433B2154B57D006E80B3 /* THNSelectOfficalCouponView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectOfficalCouponView.h; sourceTree = "<group>"; };
+		4B23433C2154B57D006E80B3 /* THNSelectOfficalCouponView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectOfficalCouponView.m; sourceTree = "<group>"; };
+		4B23433E2154B593006E80B3 /* THNSelectOfficalCouponView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSelectOfficalCouponView.xib; sourceTree = "<group>"; };
 		4B240E8A212BA2580077EDD4 /* THNCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentViewController.h; sourceTree = "<group>"; };
 		4B240E8B212BA2580077EDD4 /* THNCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentViewController.m; sourceTree = "<group>"; };
 		4B240E8D212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFirstLevelCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -1110,6 +1115,9 @@
 				4B26A708214F516600F8017C /* THNSelectCouponTableViewCell.h */,
 				4B26A709214F516600F8017C /* THNSelectCouponTableViewCell.m */,
 				4B26A70A214F516600F8017C /* THNSelectCouponTableViewCell.xib */,
+				4B23433B2154B57D006E80B3 /* THNSelectOfficalCouponView.h */,
+				4B23433C2154B57D006E80B3 /* THNSelectOfficalCouponView.m */,
+				4B23433E2154B593006E80B3 /* THNSelectOfficalCouponView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2422,6 +2430,7 @@
 				4B720619212E601E002606EE /* THNFiveImagesStitchView.xib in Resources */,
 				4B27A6742147F4AE0082BA22 /* THNAddressIDCardView.xib in Resources */,
 				4B2439AD2135431700C94940 /* THNAnnouncementView.xib in Resources */,
+				4B23433F2154B593006E80B3 /* THNSelectOfficalCouponView.xib in Resources */,
 				D8BAC988211A949100667D6F /* THNHomeSearchView.xib in Resources */,
 				4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */,
 				4B2644E62125263300665A6D /* THNShopWindowTableViewCell.xib in Resources */,
@@ -2583,6 +2592,7 @@
 				D8BAC9CE211A949100667D6F /* THNSetPasswordView.m in Sources */,
 				D8BAC9CB211A949100667D6F /* THNSignUpView.m in Sources */,
 				D82FA7A32126A8FE00E14A22 /* THNApplySuccessView.m in Sources */,
+				4B23433D2154B57D006E80B3 /* THNSelectOfficalCouponView.m in Sources */,
 				D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */,
 				D8A9C28A213AD0D60059CAFD /* THNGoodsStoreTableViewCell.m in Sources */,
 				D8F998492133E1AC0012AED3 /* THNFunctionPopupView.m in Sources */,
