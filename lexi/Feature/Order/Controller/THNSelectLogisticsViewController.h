@@ -25,4 +25,6 @@ typedef void(^DidSelectedExpressItemBlock)(THNFreightModelItem *expressModel);
  */
 - (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSArray *)logisticsData;
 
+@property (nonatomic, strong) NSDictionary *expressParams;
+
 @end

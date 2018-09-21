@@ -11,7 +11,13 @@
 @class THNCouponModel;
 @class THNFreightModelItem;
 
+UIKIT_EXTERN const CGFloat kProductViewHeight;
+UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
+
+typedef void(^PreViewCellBlock)(NSMutableArray *skuIds, NSString *fid, NSInteger storeIndex);
+
 @interface THNPreViewTableViewCell : UITableViewCell
+
 
 - (CGFloat)setPreViewCell:(NSArray *)skus
       initWithItmeSkus:(NSArray *)itemSkus
@@ -19,5 +25,7 @@
           initWithFreight:(CGFloat)freight
           initWithCoupons:(NSArray *)coupons
    initWithLogisticsNames:(THNFreightModelItem *)freightModel;
+
+@property (nonatomic, copy) PreViewCellBlock preViewCellBlock;
 
 @end
