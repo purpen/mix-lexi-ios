@@ -14,8 +14,12 @@
 #import "THNCouponModel.h"
 #import "THNSelectCouponView.h"
 #import "UIView+Helper.h"
+#import <UIKit/UIKit.h>
+#import "UIColor+Extension.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
+const CGFloat kProductViewHeight = 85;
+const CGFloat kLogisticsViewHeight = 65;
 
 @interface THNPreViewTableViewCell()<UITableViewDelegate, UITableViewDataSource>
 
@@ -23,9 +27,11 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 
 @property (weak, nonatomic) IBOutlet UILabel *deliveryAddressLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *remarksView;
 // 备注
 @property (weak, nonatomic) IBOutlet UITextField *remarksTextField;
 // 赠语
+@property (weak, nonatomic) IBOutlet UIView *giftView;
 @property (weak, nonatomic) IBOutlet UITextField *giftTextField;
 @property (weak, nonatomic) IBOutlet UILabel *couponLabel;
 @property (weak, nonatomic) IBOutlet UIView *couponView;
@@ -34,6 +40,7 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 // 满减
 @property (weak, nonatomic) IBOutlet UILabel *fullReductionLabel;
 @property (weak, nonatomic) IBOutlet UIView *fullReductionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fullReductionViewHeightConstraint;
 @property (nonatomic, strong) THNSelectCouponView *selectCouponView;
 @property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) NSArray *itemSkus;
@@ -51,11 +58,19 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNOrderDetailTableViewCell" bundle:nil] forCellReuseIdentifier:kPreViewOrderDetailCellIdentifier];
+    self.maskView.layer.cornerRadius = 4;
+    self.giftView.layer.cornerRadius = 4;
+    self.remarksView.layer.borderWidth = 0.5;
+    self.giftView.layer.borderWidth = 0.5;
+    self.remarksView.layer.borderColor = [UIColor colorWithHexString:@"E9E9E9"].CGColor;
+    self.giftView.layer.borderColor = [UIColor colorWithHexString:@"E9E9E9"].CGColor;
 }
 
 
 - (CGFloat)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel initWithFreight:(CGFloat)freight initWithCoupons:(NSArray *)coupons initWithLogisticsNames:(THNFreightModelItem *)freightModel {
-    self.skus = skus;
+    
+    NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"fid" ascending:YES]];
+    self.skus = [skus sortedArrayUsingDescriptors:sortArr];
     self.itemSkus = itemSkus;
     self.coupons = coupons;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
@@ -73,10 +88,13 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
         self.freightLabel.text = [NSString stringWithFormat:@"¥%.2f",freight];
     }
 
+    // 满减
     if (couponModel.type_text.length == 0) {
+        self.fullReductionViewHeightConstraint.constant = 0;
         self.fullReductionView.hidden = YES;
     } else {
         self.fullReductionView.hidden = NO;
+        self.fullReductionViewHeightConstraint.constant = 40;
         self.fullReductionLabel.text = couponModel.type_text;
     }
     
@@ -89,7 +107,7 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
     
     self.freightModel = freightModel;
     
-    return freight - couponModel.amount;
+    return self.fullReductionViewHeightConstraint.constant;
 }
 
 - (IBAction)selectCouponButton:(id)sender {
@@ -125,7 +143,35 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
     THNOrderDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPreViewOrderDetailCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
-     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:self.skus[indexPath.row]];
+    
+    cell.selectDeliveryBlcok = ^(NSString *fid) {
+        NSMutableArray *skuIds = [NSMutableArray array];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fid == %@",fid];
+        NSArray *fidForItems = [self.skus filteredArrayUsingPredicate:predicate];
+        
+        for (NSDictionary *dict in fidForItems) {
+           [skuIds addObject:dict[@"rid"]];
+        }
+        
+        self.preViewCellBlock(skuIds, fid, self.tag);
+        
+    };
+    
+    THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:self.skus[indexPath.row]];
+    
+    // 最后一行不隐藏运费模板
+    if (indexPath.row < self.skus.count - 1) {
+        // 该商品后面运费模板一样，隐藏选择运费模板
+        if (itemModel.fid == self.skus[indexPath.row + 1][@"fid"]) {
+            
+            cell.logisticsView.hidden = YES;
+        } else {
+            cell.logisticsView.hidden = NO;
+        }
+    } else {
+        cell.logisticsView.hidden = NO;
+    }
+    
     [cell setSkuItemModel:itemModel];
     [cell setFreightModel:self.freightModel];
     cell.productCountLabel.text = [NSString stringWithFormat:@"x%@",self.itemSkus[indexPath.row][@"quantity"]];
@@ -133,7 +179,19 @@ static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetail
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 155;
+    THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:self.skus[indexPath.row]];
+    
+    if (indexPath.row < self.skus.count - 1) {
+        // 该商品后面运费模板一样，设置为商品的高度
+        if (itemModel.fid == self.skus[indexPath.row + 1][@"fid"]) {
+            return kProductViewHeight;
+        } else {
+            return kProductViewHeight + kLogisticsViewHeight;
+        }
+    } else {
+        return kProductViewHeight + kLogisticsViewHeight;
+    }
+    
 }
 
 #pragma mark - lazy

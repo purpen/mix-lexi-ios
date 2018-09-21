@@ -17,6 +17,7 @@ NSString *const kTHNSkuModelItemPrice = @"price";
 NSString *const kTHNSkuModelItemProductName = @"product_name";
 NSString *const kTHNSkuModelItemProductRid = @"product_rid";
 NSString *const kTHNSkuModelItemRid = @"rid";
+NSString *const kTHNSkuModelItemFid = @"fid";
 NSString *const kTHNSkuModelItemSColor = @"s_color";
 NSString *const kTHNSkuModelItemSModel = @"s_model";
 NSString *const kTHNSkuModelItemSWeight = @"s_weight";
@@ -67,7 +68,10 @@ NSString *const kTHNSkuModelItemStoreRid = @"store_rid";
 	}	
 	if(![dictionary[kTHNSkuModelItemRid] isKindOfClass:[NSNull class]]){
 		self.rid = dictionary[kTHNSkuModelItemRid];
-	}	
+	}
+    if(![dictionary[kTHNSkuModelItemFid] isKindOfClass:[NSNull class]]){
+        self.fid = dictionary[kTHNSkuModelItemFid];
+    }
 	if(![dictionary[kTHNSkuModelItemSColor] isKindOfClass:[NSNull class]]){
 		self.sColor = dictionary[kTHNSkuModelItemSColor];
 	}	

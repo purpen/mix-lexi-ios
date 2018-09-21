@@ -173,7 +173,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qJK-j8-HFP">
                         <rect key="frame" x="15" y="270.5" width="377" height="45"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_order_gift" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-CI-J6n">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_order_edit" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-CI-J6n">
                                 <rect key="frame" x="11" y="15" width="15" height="15"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="给商家的说明和注意事项" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Gy-gS-e1s">
@@ -232,9 +232,12 @@
                 <outlet property="freightLabel" destination="psR-tY-gXh" id="nkz-Xc-iaK"/>
                 <outlet property="fullReductionLabel" destination="gwk-VK-77a" id="67u-O1-asM"/>
                 <outlet property="fullReductionView" destination="F6s-DL-UAV" id="ED4-vu-yGe"/>
+                <outlet property="fullReductionViewHeightConstraint" destination="RBb-1F-YSa" id="W3a-IQ-lww"/>
                 <outlet property="giftTextField" destination="wkM-N1-qae" id="I6h-mJ-bt2"/>
+                <outlet property="giftView" destination="E6m-zq-Qke" id="Sxs-yD-lkh"/>
                 <outlet property="nameLabel" destination="PCt-Im-5Fm" id="WbK-lP-7pa"/>
                 <outlet property="remarksTextField" destination="8Gy-gS-e1s" id="meP-Ss-sa9"/>
+                <outlet property="remarksView" destination="qJK-j8-HFP" id="m1M-BG-rEb"/>
                 <outlet property="tableView" destination="O1u-ca-XFX" id="hZ4-j1-Cks"/>
             </connections>
             <point key="canvasLocation" x="205.5" y="123"/>
@@ -243,6 +246,7 @@
     <resources>
         <image name="icon_ arrow_right_gray" width="4" height="9"/>
         <image name="icon_less" width="15" height="15"/>
+        <image name="icon_order_edit" width="15" height="15"/>
         <image name="icon_order_gift" width="15" height="15"/>
     </resources>
 </document>

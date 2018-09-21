@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstOfferViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fullReductionViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderDetailTopViewHeightConstraint;
 
 
 @end
@@ -39,6 +40,15 @@
 @implementation THNOrderDetailPayView
 
 - (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel {
+    
+    if (!detailModel.outside_target_id) {
+        self.orderDetailTopView.hidden = YES;
+        self.orderDetailTopViewHeightConstraint.constant = 0;
+    } else {
+        self.orderDetailTopView.hidden = NO;
+        self.orderDetailTopViewHeightConstraint.constant = 138;
+    }
+    
     self.orderNumberLabel.text = detailModel.outside_target_id;
     self.payMethodLabel.text = @"微信在线支付";
     self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
@@ -55,6 +65,7 @@
         self.fitstOfferView.hidden = YES;
         self.firstOfferViewHeightConstraint.constant = 0;
     } else {
+        self.fitstOfferView.hidden = NO;
         self.firstOfferViewHeightConstraint.constant = 30;
         self.firstOfferLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.first_discount];
     }
@@ -63,6 +74,7 @@
         self.couponView.hidden = YES;
         self.couponViewHeightConstraint.constant = 0;
     } else {
+        self.couponView.hidden = NO;
         self.couponViewHeightConstraint.constant = 30;
          self.couponLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.coupon_amount];
     }
@@ -71,11 +83,12 @@
         self.fullReductionView.hidden = YES;
         self.fullReductionViewHeightConstraint.constant = 0;
     } else {
+        self.fullReductionView.hidden = NO;
         self.fullReductionViewHeightConstraint.constant = 30;
         self.fullReductionLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.reach_minus];
     }
     
-    return 260 + self.firstOfferViewHeightConstraint.constant + self.fullReductionViewHeightConstraint.constant + self.couponViewHeightConstraint.constant;
+    return 122 + self.firstOfferViewHeightConstraint.constant + self.fullReductionViewHeightConstraint.constant + self.couponViewHeightConstraint.constant +  self.orderDetailTopViewHeightConstraint.constant;
 }
 
 @end
