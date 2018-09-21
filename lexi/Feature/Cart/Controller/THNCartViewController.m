@@ -75,17 +75,12 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品
  */
 - (void)thn_getCartGoodsData {
-    [SVProgressHUD show];
+    WEAKSELF;
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
-        [SVProgressHUD dismiss];
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-            return;
-        }
+        if (error) return;
         
-        self.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
-        [self thn_getCartGoodsCount];
-        [self thn_setDefaultCartView];
+        weakSelf.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
+        [weakSelf thn_getCartGoodsCount];
     }];
 }
 
@@ -94,16 +89,15 @@ static NSString *const kKeyQuantity = @"quantity";
  */
 - (void)thn_getWishListGoodsData {
     [SVProgressHUD show];
+    
+    WEAKSELF;
     [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         [SVProgressHUD dismiss];
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-            return;
-        }
+        if (error) return;
         
-        self.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
-        self.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
-        [self.cartTableView reloadData];
+        weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
+        weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
+        [weakSelf thn_setDefaultCartView];
     }];
 }
 
@@ -111,13 +105,11 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品数量
  */
 - (void)thn_getCartGoodsCount {
+    WEAKSELF;
     [THNGoodsManager getCartGoodsCountCompletion:^(NSInteger goodsCount, NSError *error) {
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-            return;
-        }
+        if (error) return;
         
-        self.goodsCount = goodsCount;
+        weakSelf.goodsCount = goodsCount;
     }];
 }
 
@@ -199,6 +191,7 @@ static NSString *const kKeyQuantity = @"quantity";
     THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
     selectAddressVC.selectedSkuItems = [self thn_getCartGoodsSkuItems];
     selectAddressVC.deliveryCountrys = [self thn_getCartGoodsDeliveryCountrys];
+    selectAddressVC.goodsTotalPrice = self.functionView.totalPrice;
     [self.navigationController pushViewController:selectAddressVC animated:YES];
 }
 
@@ -270,13 +263,12 @@ static NSString *const kKeyQuantity = @"quantity";
 - (void)thn_openGoodsSkuControllerWithGoodsModel:(THNGoodsModel *)goodsModel {
     if (!goodsModel.rid.length) return;
     
-    WEAKSELF;
-    
     THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithGoodsModel:goodsModel];
     goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     goodsSkuVC.handleType = THNGoodsButtonTypeAddCart;
     goodsSkuVC.selectGoodsAddCartCompleted = ^{
-        [weakSelf thn_removeWishListGoods:goodsModel];
+        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+        [self thn_getCartGoodsData];
     };
     [self presentViewController:goodsSkuVC animated:NO completion:nil];
 }
@@ -328,18 +320,15 @@ static NSString *const kKeyQuantity = @"quantity";
     }
     
     [self.cartGoodsArr removeObjectsInArray:[selectedItems copy]];
+    
+    if (!self.cartGoodsArr.count) {
+        [self thn_startEditCartGoods];
+        return;
+    }
+    
     [self.selectedArr removeAllObjects];
     [self thn_getCartGoodsCount];
     [self thn_setDefaultCartView];
-}
-
-// 移除心愿单商品
-- (void)thn_removeWishListGoods:(THNGoodsModel *)goodsModel {
-    [self.wishGoodsArr removeObject:goodsModel];
-    [self.recordWishArr removeObject:goodsModel];
-    
-    [self thn_getCartGoodsData];
-    [self.cartTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
 // 清除数据
@@ -349,6 +338,17 @@ static NSString *const kKeyQuantity = @"quantity";
     [self.recordWishArr removeAllObjects];
     [self.selectedArr removeAllObjects];
     [self thn_setDefaultCartView];
+}
+
+// 返回
+- (void)thn_defaultCartBack {
+    if (self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else {
+        self.navigationController.tabBarController.hidesBottomBarWhenPushed = NO;
+        self.navigationController.tabBarController.selectedIndex = 0;
+    }
 }
 
 // 获取选中的数据
@@ -500,7 +500,7 @@ static NSString *const kKeyQuantity = @"quantity";
 
 #pragma mark - setup UI
 - (void)setupUI {
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:self.cartTableView];
     [self.view addSubview:self.functionView];
@@ -536,10 +536,16 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 #pragma mark - getters and setters
+- (CGFloat)thn_originBottom {
+    CGFloat tabbarH = self.tabBarController.tabBar.frame.size.height;
+    CGFloat originBottom = self.navigationController.viewControllers.count == 1 ? tabbarH : 32.0;
+    
+    return originBottom;
+}
+
 - (UITableView *)cartTableView {
     if (!_cartTableView) {
-        CGFloat originBottom = kDeviceiPhoneX ? 83 : 49;
-        _cartTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - originBottom)
+        _cartTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [self thn_originBottom])
                                                       style:(UITableViewStylePlain)];
         _cartTableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _cartTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -564,6 +570,12 @@ static NSString *const kKeyQuantity = @"quantity";
 - (THNCartDefaultView *)defaultView {
     if (!_defaultView) {
         _defaultView = [[THNCartDefaultView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 295)];
+        
+        WEAKSELF;
+        
+        _defaultView.cartDefaultDiscoverBlock = ^{
+            [weakSelf thn_defaultCartBack];
+        };
     }
     return _defaultView;
 }
