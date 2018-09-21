@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozl-Ri-DfG">
-                        <rect key="frame" x="85" y="0.0" width="212" height="20"/>
+                        <rect key="frame" x="85" y="0.0" width="218" height="20"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -39,10 +39,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lc-Nq-a0V">
-                        <rect key="frame" x="368" y="0.0" width="40" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="40" id="wfV-4z-KR8"/>
-                        </constraints>
+                        <rect key="frame" x="372.5" y="0.0" width="35.5" height="20"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -54,7 +51,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfa-bD-lLg">
-                        <rect key="frame" x="312" y="1.5" width="40" height="17"/>
+                        <rect key="frame" x="316.5" y="1.5" width="40" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="zXf-dT-A6h"/>
                         </constraints>
@@ -165,7 +162,6 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="hfa-bD-lLg" firstAttribute="leading" secondItem="ozl-Ri-DfG" secondAttribute="trailing" constant="15" id="2b0-vc-6Y3"/>
                     <constraint firstItem="BCy-gR-kyk" firstAttribute="top" secondItem="5lc-Nq-a0V" secondAttribute="bottom" constant="5" id="9Sf-ZY-fQU"/>
                     <constraint firstAttribute="trailing" secondItem="5lc-Nq-a0V" secondAttribute="trailing" constant="15" id="Aae-Em-Lr9"/>
                     <constraint firstAttribute="trailing" secondItem="2wU-Pa-sG8" secondAttribute="trailing" id="ItG-Zy-YdP"/>
@@ -174,6 +170,7 @@
                     <constraint firstItem="5lc-Nq-a0V" firstAttribute="leading" secondItem="hfa-bD-lLg" secondAttribute="trailing" constant="16" id="VbD-iQ-irv"/>
                     <constraint firstItem="2wU-Pa-sG8" firstAttribute="leading" secondItem="yaX-f3-Ehr" secondAttribute="leading" id="XF4-gD-EqA"/>
                     <constraint firstItem="J96-Sg-VCJ" firstAttribute="leading" secondItem="ozl-Ri-DfG" secondAttribute="leading" id="dI2-Ll-7M9"/>
+                    <constraint firstAttribute="trailing" secondItem="ozl-Ri-DfG" secondAttribute="trailing" constant="120" id="eKM-ey-99k"/>
                     <constraint firstItem="hfa-bD-lLg" firstAttribute="centerY" secondItem="5lc-Nq-a0V" secondAttribute="centerY" id="f2q-1R-ara"/>
                     <constraint firstItem="5lc-Nq-a0V" firstAttribute="centerY" secondItem="ozl-Ri-DfG" secondAttribute="centerY" id="fWG-oo-iL9"/>
                     <constraint firstItem="BCy-gR-kyk" firstAttribute="trailing" secondItem="5lc-Nq-a0V" secondAttribute="trailing" id="fas-2e-ajh"/>
@@ -185,6 +182,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="TXM-ie-9bD"/>
             <connections>
+                <outlet property="deliveryDesLabel" destination="J35-Ac-s9c" id="z0m-ax-GP8"/>
                 <outlet property="deliveryMethodLabel" destination="Jic-Tu-6DH" id="sWQ-Ms-9yC"/>
                 <outlet property="deliveryView" destination="Mjq-h6-0c5" id="tqf-yd-0fF"/>
                 <outlet property="logisticsButton" destination="wQf-2l-Brf" id="arW-hl-NWX"/>

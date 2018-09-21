@@ -201,6 +201,7 @@ static NSString *const kKeyQuantity = @"quantity";
     NSMutableArray *storeIdArr = [NSMutableArray array];
     
     for (THNCartModelItem *item in self.cartGoodsArr) {
+
         if (item.product.status == 1) {
             NSDictionary *skuItem = @{kKeySkuId: item.rid,
                                       kKeyQuantity: @(item.quantity)};
