@@ -64,6 +64,7 @@ static NSInteger const kFooterHeight = 18;
     self = [super init];
     if (self) {
         self.goodsId = idx;
+    
     }
     return self;
 }

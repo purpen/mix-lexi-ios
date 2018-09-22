@@ -34,7 +34,7 @@ static NSString *const kUrlLogisticsProductExpress = @"/logistics/product/expres
 static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount";
 static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
-@interface THNOrderPreviewViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface THNOrderPreviewViewController () <UITableViewDelegate, UITableViewDataSource>
 
 /// 完成按钮
 @property (nonatomic, strong) UIButton *doneButton;
@@ -187,6 +187,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         paymentVC.paymentAmount = self.payAmount;
         paymentVC.totalFreight = self.totalFreight;
         [self.navigationController pushViewController:paymentVC animated:YES];
+        
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -199,7 +200,6 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSDictionary *dict in self.skuItems) {
-
         [items addObjectsFromArray:dict[@"sku_items"]];
     }
     
@@ -212,8 +212,9 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.skuDict = result.data;
         [self.tableView reloadData];
-    } failure:^(THNRequest *request, NSError *error) {
         
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@""];
     }];
 }
 
@@ -325,7 +326,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - setup UI
@@ -363,7 +364,8 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     cell.preViewCellBlock = ^(NSMutableArray *skuIds, NSString *fid, NSInteger storeIndex) {
         NSMutableArray *items = [NSMutableArray array];
         NSMutableArray *goods = [NSMutableArray array];
-         NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+        NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+        
         for (NSString *skuId in skuIds) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sku == %@",skuId];
             NSPredicate *productPredicate = [NSPredicate predicateWithFormat:@"rid == %@",skuId];
@@ -376,8 +378,9 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
                                         @"fid":fid,
                                         @"items":items
                                         };
-         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]initWithGoodsData:goods logisticsData:expressParams];
+         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:goods logisticsData:expressParams];
         [self.navigationController pushViewController:selectLogistcisVC animated:YES];
+
     };
 
     // 店铺id作为Key取商品的SKU信息
@@ -407,10 +410,15 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
     // 运费
-   CGFloat freight  = [self.freightDict[storekey] floatValue];
+    CGFloat freight  = [self.freightDict[storekey] floatValue];
     THNFreightModelItem *freighModel = [[THNFreightModelItem alloc]initWithDictionary:defaultLogistics[0]];
 
-   self.fullReductionViewHeight =  [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
+    self.fullReductionViewHeight = [cell setPreViewCell:skus
+                                       initWithItmeSkus:skuItems
+                                     initWithCouponModel:couponModel
+                                         initWithFreight:freight
+                                         initWithCoupons:coupons
+                                  initWithLogisticsNames:freighModel];
     
     return cell;
 }
