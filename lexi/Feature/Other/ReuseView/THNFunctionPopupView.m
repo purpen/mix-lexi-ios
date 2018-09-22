@@ -252,12 +252,14 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         params = @{
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice)};
+        
     } else if (self.goodsListType == THNGoodsListViewTypeStore){
         params = @{kKeyId: @(self.categoryId),
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice),
                    kKeySid : self.sid};
+        
     } else {
         params = @{kKeyId: @(self.categoryId),
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
@@ -270,7 +272,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self thn_setDoneButtonTitleWithGoodsCount:0 show:NO];
     [self.doneLoadingView startAnimating];
     
-    // 网络请求
+    // 筛选的商品结果数量
     if (self.goodsListType == THNGoodsListViewTypeUser) {
         [THNGoodsManager getUserCenterProductsWithType:self.userGoodsType
                                                 params:self.paramsDict
@@ -281,12 +283,14 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                                                 [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             }];
     } else {
-        [THNGoodsManager getProductCountWithType:self.goodsListType params:params completion:^(NSInteger count, NSError *error) {
-            [self.doneLoadingView stopAnimating];
-            if (error) return;
-            
-            [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-        }];
+        [THNGoodsManager getProductCountWithType:self.goodsListType
+                                          params:params
+                                      completion:^(NSInteger count, NSError *error) {
+                                          [self.doneLoadingView stopAnimating];
+                                          if (error) return;
+                                          
+                                          [self thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+                                      }];
     }
 }
 

@@ -65,8 +65,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     self.tableView.contentInset = UIEdgeInsetsMake(STATUS_BAR_HEIGHT, 0, 20, 0);
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
     _selectedDataType = THNHeaderViewSelectedTypeLiked;
-    
-    [self thn_setUserHeaderView];
+
     [self thn_changTableViewDataSourceWithType:_selectedDataType];
 }
 
@@ -145,8 +144,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     WEAKSELF;
     [SVProgressHUD show];
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
-        if (error) return;
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+            return;
+        }
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:^(NSString *ids) {
             THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
@@ -180,6 +181,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         
         [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
         weakSelf.tableView.backgroundColor = [UIColor whiteColor];
+        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -316,6 +319,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_changTableViewDataSourceWithType:(THNHeaderViewSelectedType)type {
     _selectedDataType = type;
     [self.dataSections removeAllObjects];
+    [self.tableView reloadData];
     
     switch (type) {
         case THNHeaderViewSelectedTypeLiked: {
@@ -358,6 +362,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_setUserHeaderView];
 }
 
 - (void)setNavigationBar {
