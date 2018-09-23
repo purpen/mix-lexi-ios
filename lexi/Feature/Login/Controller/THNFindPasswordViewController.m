@@ -46,17 +46,14 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
-    
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return ;
         }
         
+        NSLog(@"获取验证码 ======== %@", result.responseDict);
         [self.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -68,18 +65,13 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  忘记密码
  */
 - (void)networkPostFindPasswordWith:(NSDictionary *)param completion:(void (^)(NSString *email))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
-    
+    [SVProgressHUD showWithStatus:@"正在验证..."];
+    THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
             [self.findPasswordView thn_setErrorHintText:result.statusMessage];
             return;
         }
-        
-        if (![result hasData]) return;
         
         if (completion) {
             completion(result.data[kParamEmail]);
@@ -96,10 +88,11 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
                                 kParamAreaCode1: zipCode,
                                 kParamVerifyCode: code};
     
-    WEAKSELF;
     [self networkPostFindPasswordWith:paramDict completion:^(NSString *email) {
-        weakSelf.newPasswordVC.email = email;
-        [weakSelf.navigationController pushViewController:weakSelf.newPasswordVC animated:YES];
+        [SVProgressHUD dismiss];
+        
+        self.newPasswordVC.email = email;
+        [self.navigationController pushViewController:self.newPasswordVC animated:YES];
     }];
 }
 
@@ -133,10 +126,9 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
         _zipCodeVC = [[THNZipCodeViewController alloc] init];
         
         WEAKSELF;
-        
         _zipCodeVC.SelectAreaCode = ^(NSString *code) {
             [weakSelf.findPasswordView thn_setAreaCode:code];
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf.zipCodeVC dismissViewControllerAnimated:YES completion:nil];
         };
     }
     return _zipCodeVC;
@@ -147,6 +139,13 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
         _newPasswordVC = [[THNNewPasswordViewController alloc] init];
     }
     return _newPasswordVC;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.findPasswordView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

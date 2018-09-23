@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^ChangeHeaderViewBlock)(void);
+typedef void(^PushProductCenterBlock)(void);
 
 @interface THNLivingHallHeaderView : UIView
 
@@ -17,5 +18,6 @@ typedef void(^ChangeHeaderViewBlock)(void);
 - (void)setLifeStore;
 @property (nonatomic, strong) NSString *storeAvatarUrl;
 @property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
+@property (nonatomic, copy) PushProductCenterBlock pushProductCenterBlock;
 
 @end

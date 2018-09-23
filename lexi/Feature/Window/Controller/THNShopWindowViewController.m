@@ -16,7 +16,8 @@
 #import "THNShopWindowTableViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNShopWindowModel.h"
-#import "THNShopWindowDetailTableViewController.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNCommentViewController.h"
 
 static CGFloat const showImageViewHeight = 256;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
@@ -65,6 +66,14 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
     THNShopWindowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kShopWindowCellIdentifier forIndexPath:indexPath];
     THNShopWindowModel *shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:self.showWindows[indexPath.row]];
     [cell setShopWindowModel:shopWindowModel];
+    cell.imageType = ShopWindowImageTypeThree;
+    
+    cell.contentBlock = ^{
+        THNCommentViewController *comment = [[THNCommentViewController alloc]init];
+        comment.rid = shopWindowModel.rid;
+        [self.navigationController pushViewController:comment animated:YES];
+    };
+    
     return cell;
 }
 
@@ -84,7 +93,9 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNShopWindowDetailTableViewController *shopWindowDetail = [[THNShopWindowDetailTableViewController alloc]init];
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.shopWindowCellHeight = [tableView rectForRowAtIndexPath:indexPath].size.height;
+    shopWindowDetail.shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:self.showWindows[indexPath.row]];
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
@@ -92,7 +103,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray =  @[@"关注",@"推荐"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.backgroundColor = [UIColor whiteColor];
     }
     return _selectButtonView;

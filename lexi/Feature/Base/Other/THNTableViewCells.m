@@ -18,12 +18,25 @@
     return cells;
 }
 
++ (instancetype)initWithCellType:(THNTableViewCellType)type cellHeight:(CGFloat)height didSelectedItem:(THNSelectedCellBlock)completion {
+    THNTableViewCells *cells = [[THNTableViewCells alloc] init];
+    cells.cellType = type;
+    cells.height = height;
+    cells.selectedCellBlock = completion;
+    
+    return cells;
+}
+
 - (NSArray *)goodsDataArr {
     return _goodsDataArr ? _goodsDataArr : [NSArray array];
 }
 
 - (NSArray *)windowDataArr {
     return _windowDataArr ? _windowDataArr : [NSArray array];
+}
+
+- (THNStoreModel *)storeModel {
+    return _storeModel ? _storeModel : [THNStoreModel new];
 }
 
 - (CGFloat)height {

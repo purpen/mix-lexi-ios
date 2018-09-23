@@ -23,6 +23,8 @@ static NSString *const kURLAppRegister      = @"/auth/app_register";
 static NSString *const kParamEmail          = @"email";
 static NSString *const kParamAreaCode1      = @"areacode";
 static NSString *const kParamVerifyCode     = @"verify_code";
+///
+static NSString *const kTextSkip            = @"跳过";
 
 @interface THNSignUpViewController () <THNSignUpViewDelegate>
 
@@ -45,10 +47,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"注册验证码 ==== %@", result.responseDict);
@@ -69,10 +68,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  app 注册验证
  */
 - (void)networkPostAppRegisterWithParam:(NSDictionary *)param completion:(void (^)(NSString *areaCode, NSString *email))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
@@ -133,11 +129,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)setNavigationBar {
-    WEAKSELF;
-    [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
-    [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+    if (self.canSkip) {
+        WEAKSELF;
+        [self.navigationBarView setNavigationRightButtonOfText:kTextSkip textHexColor:@"#666666"];
+        [self.navigationBarView didNavigationRightButtonCompletion:^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
 }
 
 #pragma mark - getters and setters
@@ -160,6 +158,13 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         };
     }
     return _zipCodeVC;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.signUpView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

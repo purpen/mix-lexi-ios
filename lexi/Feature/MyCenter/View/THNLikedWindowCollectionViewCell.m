@@ -7,7 +7,8 @@
 //
 
 #import "THNLikedWindowCollectionViewCell.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
@@ -48,9 +49,9 @@
 #pragma mark - private methods
 - (void)thn_setTitleLabelText:(NSString *)text {
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:text];
-    attStr.yy_lineSpacing = 5;
-    attStr.yy_font = [UIFont systemFontOfSize:15 weight:(UIFontWeightMedium)];
-    attStr.yy_color = [UIColor whiteColor];
+    attStr.lineSpacing = 5;
+    attStr.font = [UIFont systemFontOfSize:15 weight:(UIFontWeightMedium)];
+    attStr.color = [UIColor whiteColor];
     self.titleLabel.attributedText = attStr;
     
     // 标题的动态高度
