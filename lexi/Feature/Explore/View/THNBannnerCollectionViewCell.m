@@ -12,9 +12,9 @@
 #import "THNSetModel.h"
 #import "THNBannerModel.h"
 #import "THNUserPartieModel.h"
+#import "THNProductModel.h"
 
 @interface THNBannnerCollectionViewCell()
-
 
 @property (weak, nonatomic) IBOutlet UIView *backGroundView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -46,6 +46,12 @@
     self.setLabelsView.hidden = YES;
     self.layer.cornerRadius = self.viewHeight / 2;
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:userPartieModel.avatar]];
+}
+
+- (void)setProductModel:(THNProductModel *)productModel {
+    _productModel = productModel;
+    self.setLabelsView.hidden = YES;
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
 }
 
 @end

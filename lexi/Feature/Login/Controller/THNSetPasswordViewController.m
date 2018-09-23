@@ -74,4 +74,11 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
     return _setPasswordView;
 }
 
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.setPasswordView removeFromSuperview];
+    
+    return YES;
+}
+
 @end

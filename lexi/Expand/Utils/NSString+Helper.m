@@ -50,6 +50,38 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     }
 }
 
+#pragma mark - 时间戳转换Date
++ (NSString *)timeConversion:(NSString *)timeStampString initWithFormatterType:(Formatter)type {
+    NSTimeInterval interval = [timeStampString doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    switch (type) {
+        case FormatterYear:
+            [formatter setDateFormat:@"yyyy"];
+            break;
+        case FormatterMonth:
+             [formatter setDateFormat:@"yyyy-MM"];
+            break;
+        case FormatterDay:
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            break;
+        case FormatterHour:
+            [formatter setDateFormat:@"yyyy-MM-dd HH"];
+            break;
+        case FormatterMin:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            break;
+        case FormatterSecond:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            break;
+    }
+    
+    NSString *dateString = [formatter stringFromDate: date];
+    return dateString;
+}
+
+
 #pragma mark - 判断是否是手机号
 - (BOOL)checkTel {
     //^((13[0-9])|(147)|(15[^4,\\D])|(18[0,5-9]))\\d{8}$
@@ -150,6 +182,33 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return interval;
 }
 
+#pragma mark timeInterval转分秒
++ (NSString *)stringWithNSTimeInterval:(NSTimeInterval)timeInterval {
+    NSInteger min = timeInterval / 60;
+    NSInteger sec = (NSInteger)timeInterval % 60;
+    
+    if (min < 10 && sec < 10) {
+        return [NSString stringWithFormat:@"0%ld:0%ld",min,sec];
+    } else if (min < 10) {
+        return [NSString stringWithFormat:@"0%ld:%ld",min,sec];
+    } else if (sec < 10) {
+        return [NSString stringWithFormat:@"%ld:0%ld",min,sec];
+    } else {
+        return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+    }
+}
+
+#pragma mark 时间戳差转分秒
++ (NSString *)stringWithTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime {
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[endTime doubleValue]];
+    
+    NSTimeInterval interval = [endDate timeIntervalSinceDate:startDate];
+    NSInteger min = interval / 60;
+    NSInteger sec = (NSInteger)interval % 60;
+    return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+}
+
 #pragma mark - 数据转json格式
 + (NSString *)jsonStringWithObject:(id)object {
     NSData *data = [NSJSONSerialization dataWithJSONObject:object
@@ -198,6 +257,17 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     //得到选择后沙盒中图片的完整路径
     filePath = [[NSString alloc] initWithFormat:@"%@%@", DocumentsPath, ImagePath];
     return filePath;
+}
+
+#pragma mark - 获取文字的宽度
+- (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize {
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    
+    CGSize retSize = [self boundingRectWithSize:CGSizeMake(MAXFLOAT, fontSize + 1)
+                                          options:NSStringDrawingUsesFontLeading
+                                       attributes:attribute
+                                          context:nil].size;
+    return retSize.width;
 }
 
 @end

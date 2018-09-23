@@ -83,8 +83,16 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (void)layoutPageControl {
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
+        switch (self.carouselBannerType) {
+            case CarouselBannerTypeBrandHallFeatured:
+                make.centerX.equalTo(self);
+                make.bottom.equalTo(self);
+                break;
+            default:
+                make.bottom.right.equalTo(self);
+                break;
+        }
+       make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
     }];
 }
 
@@ -103,7 +111,6 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     NSInteger pageIndex = [[[self.collectionView indexPathsForVisibleItems] lastObject] row];
     pageIndex++;
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:pageIndex inSection:0];
-   
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 

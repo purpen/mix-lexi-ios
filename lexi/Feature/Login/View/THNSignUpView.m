@@ -7,7 +7,7 @@
 //
 
 #import "THNSignUpView.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
@@ -86,11 +86,10 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
         return;
     }
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
-        [weakSelf.delegate thn_signUpSetPasswordWithPhoneNum:[weakSelf getPhoneNum]
-                                                     zipCode:[weakSelf getZipCode]
-                                                  verifyCode:[weakSelf getVerifyCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_signUpSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
+        [self.delegate thn_signUpSetPasswordWithPhoneNum:[self getPhoneNum]
+                                                 zipCode:[self getZipCode]
+                                              verifyCode:[self getVerifyCode]];
     }
 }
 
@@ -273,12 +272,11 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }
@@ -299,12 +297,12 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
         _signInLabel = [[YYLabel alloc] init];
         
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kSignInText];
-        attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#333333"];
-        attText.yy_alignment = NSTextAlignmentCenter;
+        attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#333333"];
+        attText.alignment = NSTextAlignmentCenter;
         
         WEAKSELF;
-        [attText yy_setTextHighlightRange:NSMakeRange(5, 4)
+        [attText setTextHighlightRange:NSMakeRange(5, 4)
                                  color:[UIColor colorWithHexString:kColorMain]
                        backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                              tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
@@ -322,17 +320,17 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     if (!_protocolLabel) {
         _protocolLabel = [[YYLabel alloc] init];
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kProtocolText];
-        attText.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#B2B2B2"];
-        attText.yy_alignment = NSTextAlignmentCenter;
-        [attText yy_setTextHighlightRange:NSMakeRange(8, 6)
+        attText.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#B2B2B2"];
+        attText.alignment = NSTextAlignmentCenter;
+        [attText setTextHighlightRange:NSMakeRange(8, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                                     [SVProgressHUD showInfoWithStatus:@"打开《服务条款》"];
                                 }];
         
-        [attText yy_setTextHighlightRange:NSMakeRange(15, 6)
+        [attText setTextHighlightRange:NSMakeRange(15, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
