@@ -29,6 +29,8 @@ static NSString *const kRequestFirstLogin   = @"is_first_login";
 static NSString *const kRequestToken        = @"token";
 static NSString *const kRequestStoreRid     = @"store_rid";
 static NSString *const kRequestIsSmallB     = @"is_small_b";
+static NSString *const kRequestProfile      = @"profile";
+static NSString *const kRequestUserId       = @"uid";
 
 @implementation THNLoginManager
 
@@ -46,11 +48,7 @@ MJCodingImplementation
     
     NSString *postUrl = [self thn_getLoginUrlWithType:type];
     
-    THNRequest *request = [THNAPI postWithUrlString:postUrl
-                                  requestDictionary:params
-                                             isSign:NO
-                                           delegate:nil];
-    
+    THNRequest *request = [THNAPI postWithUrlString:postUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) {
             [SVProgressHUD dismiss];
@@ -67,7 +65,6 @@ MJCodingImplementation
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
-        
         completion(nil, error);
     }];
 }
@@ -76,13 +73,11 @@ MJCodingImplementation
  获取用户信息
  */
 - (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion {
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile
-                                  requestDictionary:nil
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = result.data[kRequestIsSmallB];
+        self.userId = result.data[kRequestProfile][kRequestUserId];
         [self saveLoginInfo];
         completion(result, nil);
         
@@ -97,10 +92,7 @@ MJCodingImplementation
 - (void)requestUserRegister:(NSDictionary *)params completion:(void (^)(NSError *))completion {
     [SVProgressHUD show];
     
-    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister
-                                  requestDictionary:params
-                                             isSign:NO
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:params delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) {
@@ -129,10 +121,7 @@ MJCodingImplementation
 - (void)requestLogoutCompletion:(void (^)(NSError *))completion {
     [SVProgressHUD show];
     
-    THNRequest *request = [THNAPI postWithUrlString:kURLLogout
-                                  requestDictionary:nil
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLLogout requestDictionary:nil delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self clearLoginInfo];
@@ -244,7 +233,6 @@ MJCodingImplementation
 }
 
 #pragma mark - private methods
-
 /**
  根据登录类型获取 api url地址
 

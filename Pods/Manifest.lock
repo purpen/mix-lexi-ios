@@ -29,7 +29,9 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
-  - YYText (1.0.7)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -42,7 +44,7 @@ DEPENDENCIES:
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
   - TYAlertController (~> 1.2.0)
-  - YYText
+  - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -58,7 +60,7 @@ SPEC REPOS:
     - SDWebImage
     - SVProgressHUD
     - TYAlertController
-    - YYText
+    - YYKit
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -73,8 +75,8 @@ SPEC CHECKSUMS:
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
-  YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 19926358bf697a3ccfafd61bbf5c299eb0486e48
+PODFILE CHECKSUM: d5cba009f6521524f21f001c853f0eec6cdf22fa
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

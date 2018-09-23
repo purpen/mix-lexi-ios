@@ -16,6 +16,16 @@
 #import "THNRequest.h"
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
+#import "UITableView+Helper.h"
+#import "THNBrandHallViewController.h"
+#import "THNFeaturedBrandModel.h"
+#import "THNGoodsListViewController.h"
+#import "THNAllBrandHallViewController.h"
+#import "THNAllsetTableViewController.h"
+#import "THNSetDetailViewController.h"
+#import "THNSetModel.h"
+#import "THNGoodsListViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -43,7 +53,7 @@ static NSString *const kUrlGoodDesign = @"/column/preferential_design";
 // 百元好物
 static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
-@interface THNExploresViewController () 
+@interface THNExploresViewController ()<THNExploreTableViewCellDelegate>
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) THNCategoriesCollectionView *categoriesCollectionView;
@@ -67,7 +77,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self loadBannerData];
     [self loadCategorieData];
     [self loadRecommendData];
@@ -85,6 +94,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 }
 
 - (void)setupUI {
+    
+    // 抖动闪动漂移等问题
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -94,7 +109,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 #pragma mark - 请求数据
 // banner
 - (void)loadBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
@@ -104,9 +119,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 分类列表
 - (void)loadCategorieData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.categoriesCollectionView.categorieDataArray = result.data[@"categories"];
+        
         [self.categoriesCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -115,11 +131,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 编辑推荐
 - (void)loadRecommendData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlRecommend requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlRecommend requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
-        [self reloadRowData:0];
+        //刷新的闪烁问题
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadRowData:0];
+        }];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -127,11 +147,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 特色品牌馆
 - (void)loadBrandHallData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.brandHallDataArray = result.data[@"stores"];
         self.brandHallTitle = result.data[@"title"];
-        [self reloadRowData:1];
+        [self.tableView reloadRowData:1];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -139,11 +159,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 优质新品
 - (void)loadNewProductData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlNewProduct requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlNewProduct requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.productNewTitle = result.data[@"title"];
         self.productNewDataArray = result.data[@"products"];
-       [self reloadRowData:2];
+       [self.tableView reloadRowData:2];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -151,11 +171,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 集合
 - (void)loadSetData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlSet requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlSet requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.setTitle = result.data[@"title"];
         self.setDataArray = result.data[@"collections"];
-        [self reloadRowData:3];
+        [self.tableView reloadRowData:3];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -163,11 +183,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 特惠好设计
 - (void)loadGoodDesignData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlGoodDesign requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlGoodDesign requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodDesignTitle = result.data[@"title"];
         self.goodDesignDataArray = result.data[@"products"];
-        [self reloadRowData:4];
+        [self.tableView reloadRowData:4];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -175,19 +195,14 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 // 百元好物
 - (void)loadGoodThingData {
-    THNRequest *request= [THNAPI getWithUrlString:kUrlHundredGoodThings requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlHundredGoodThings requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodThingTitle = result.data[@"title"];
         self.goodThingDataArray = result.data[@"products"];
-        [self reloadRowData:5];
+        [self.tableView reloadRowData:5];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-}
-
-- (void)reloadRowData:(NSInteger)index {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark UITableViewDataSource method 实现
@@ -197,9 +212,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNExploreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
+    
+    cell.delagate = self;
     
     NSArray *dataArray = [NSArray array];
     NSString *title;
@@ -261,6 +279,13 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.categoriesCollectionView.frame))];
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.bannerView];
+
+    WEAKSELF;
+    self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
+        THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+        [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
+    };
+    
     [headerView addSubview:self.categoriesCollectionView];
     return headerView;
 }
@@ -269,8 +294,64 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+#pragma mark - THNExploreTableViewCellDelegate
+- (void)lookAllWithType:(ExploreCellType)cellType {
+    switch (cellType) {
+        case ExploreRecommend: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeEditors title:self.recommendTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+        case ExploreFeaturedBrand: {
+            THNAllBrandHallViewController *brandHall = [[THNAllBrandHallViewController alloc]init];
+            [self.navigationController pushViewController:brandHall animated:YES];
+            break;
+        }
+            
+        case ExploreNewProduct: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewProduct title:self.productNewTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+            
+        case ExploreSet: {
+            THNAllsetTableViewController *set = [[THNAllsetTableViewController alloc]init];
+            [self.navigationController pushViewController:set animated:YES];
+            break;
+        }
+            
+        case ExploreGoodDesign: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeDesign title:self.goodDesignTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+            
+        case ExploreGoodThings: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeGoodThing title:self.goodThingTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+    }
+}
+
+// 品牌馆详情
+- (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = featuredBrandModel.rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+// 集合详情
+- (void)pushSetDetail:(THNSetModel *)setModel {
+    THNSetDetailViewController *setDetail = [[THNSetDetailViewController alloc]init];
+    setDetail.collectionID = setModel.collectionID;
+    [self.navigationController pushViewController:setDetail animated:YES];
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 #pragma mark -lazy
@@ -286,7 +367,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
                                                                                        initWithWidth:kCaregoriesCellWidth
                                                                                       initwithHeight:kCategoriesViewHeight];
-        _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: \
+        _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: 
                                      CGRectMake(20, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight)
                                                                   collectionViewLayout:layout];
     }

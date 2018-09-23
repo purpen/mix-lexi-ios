@@ -30,7 +30,7 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
  @param place 还未下载成功时的替换图片
  @param completed 成功后的回调
  */
-- (void)downloadImage:(NSString *)url placess:(UIImage *)place completed:(DownloadCompleted)completed;
+- (void)downloadImage:(NSString *)url place:(UIImage *)place completed:(DownloadCompleted)completed;
 
 /**
  SDWebImage 下载并缓存图片和下载进度

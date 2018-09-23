@@ -13,7 +13,6 @@
 
 @interface THNShopWindowModel : NSObject
 
-@property (nonatomic, strong) NSString *rid;
 @property (nonatomic, strong) NSArray *keywords;
 //是否关注过该橱窗
 @property (nonatomic, assign) BOOL is_follow;
@@ -29,5 +28,7 @@
 @property (nonatomic, strong) NSString *des;
 //橱窗图片数组
 @property (nonatomic, strong) NSArray *product_covers;
+//橱窗编号
+@property (nonatomic, strong) NSString *rid;
 
 @end

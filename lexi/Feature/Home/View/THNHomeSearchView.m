@@ -21,15 +21,27 @@
 
 @implementation THNHomeSearchView
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         self = [THNHomeSearchView viewFromXib];
-        
+        self.frame = frame;
         [self.searchTextField setValue:[UIColor colorWithHexString:@"555555"] forKeyPath:@"_placeholderLabel.textColor"];
-        [self drwaShadow];
     }
     return self;
+}
+
+- (void)setSearchType:(SearchType)searchType {
+    switch (searchType) {
+        case SearchTypeHome:
+            [self drwaShadow];
+            break;
+        case SearchTypeProductCenter:
+            self.backgroundColor = [UIColor colorWithHexString:@"F6F5F5"];
+            [self drawCornerWithType:0 radius:self.viewHeight / 2];
+            self.searchTextField.placeholder = @"商品名称， 关键词";
+            break;
+    }
 }
 
 

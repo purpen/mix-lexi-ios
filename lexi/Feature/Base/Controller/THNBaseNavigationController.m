@@ -7,6 +7,7 @@
 //
 
 #import "THNBaseNavigationController.h"
+#import "THNBaseViewController.h"
 
 @interface THNBaseNavigationController ()
 
@@ -27,7 +28,6 @@
         viewController.hidesBottomBarWhenPushed = YES;
         self.navigationBar.hidden = YES;
     }
-    
     
     [super pushViewController:viewController animated:animated];
 }

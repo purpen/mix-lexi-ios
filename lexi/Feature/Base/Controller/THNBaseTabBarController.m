@@ -78,8 +78,8 @@
     
     NSArray *controllerArr = @[_homeVC, _discoverVC, _cartVC, _myCenterVC];
     NSArray *titleArr = @[@"首页", @"发现", @"购物车", @"我的"];
-    NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_inbox_default", @"tabbar_cart_default", @"tabbar_myCenter_default"];
-    NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_inbox_selected", @"tabbar_cart_selected", @"tabbar_myCenter_selected"];
+    NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_discover_default", @"tabbar_cart_default", @"tabbar_myCenter_default"];
+    NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_discover_selected", @"tabbar_cart_selected", @"tabbar_myCenter_selected"];
     
     [self setChildViewController:controllerArr
                    defaultImages:defaultimageArr
@@ -101,8 +101,10 @@
     for (NSUInteger idx = 0; idx < controllers.count; idx ++) {
         UIViewController *contorller = controllers[idx];
         contorller.tabBarItem.title = titles[idx];
-        contorller.tabBarItem.image = [UIImage imageNamed:defaultImages[idx]];
-        contorller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImages[idx]] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+        contorller.tabBarItem.image = [[UIImage imageNamed:defaultImages[idx]]
+                                       imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+        contorller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImages[idx]]
+                                               imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
         
         THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:contorller];
         [self addChildViewController:navController];

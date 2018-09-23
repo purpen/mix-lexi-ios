@@ -17,7 +17,6 @@
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupBaseUI];
 }
 
@@ -29,6 +28,10 @@
     if (self.navigationController.viewControllers.count > 1) {
         [self.navigationBarView setNavigationBackButton];
     }
+}
+
+- (void)setupUI {
+    
 }
 
 - (void)viewWillLayoutSubviews {
