@@ -7,7 +7,8 @@
 //
 
 #import "THNMyCenterHeaderView.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
@@ -80,7 +81,7 @@ static NSInteger const kSelectedButtonTag = 452;
 
 - (void)thn_setUserInfoModel:(THNUserModel *)model {
     self.nameLabel.text = model.username;
-    [self.headerImageView downloadImage:model.avatar place:[UIImage new]];
+    [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
     [self thn_setFollowLabelTextWithValue:model.followed_users_counts];
     [self thn_setFansLabelTextWithValue:model.fans_counts];
     [self thn_setSignatureLabelTextWith:model.about_me];
@@ -105,9 +106,9 @@ static NSInteger const kSelectedButtonTag = 452;
 - (void)thn_setFollowLabelTextWithValue:(NSInteger)value {
     NSString *jointStr = [NSString stringWithFormat:@"%@ %zi", kTextFollow, value];
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFollow.length)
+    attStr.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+    attStr.color = [UIColor colorWithHexString:@"#333333"];
+    [attStr setTextHighlightRange:NSMakeRange(0, kTextFollow.length)
                                color:[UIColor colorWithHexString:@"#949EA6"]
                      backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                            tapAction:nil];
@@ -123,9 +124,9 @@ static NSInteger const kSelectedButtonTag = 452;
 - (void)thn_setFansLabelTextWithValue:(NSInteger)value {
     NSString *jointStr = [NSString stringWithFormat:@"%@ %zi", kTextFans, value];
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFans.length)
+    attStr.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+    attStr.color = [UIColor colorWithHexString:@"#333333"];
+    [attStr setTextHighlightRange:NSMakeRange(0, kTextFans.length)
                                   color:[UIColor colorWithHexString:@"#949EA6"]
                         backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                               tapAction:nil];
@@ -140,17 +141,20 @@ static NSInteger const kSelectedButtonTag = 452;
  */
 - (void)thn_setSignatureLabelTextWith:(NSString *)signature {
     signature = !signature.length ? @"" : signature;
-    
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:signature];
-    attStr.yy_font = [UIFont systemFontOfSize:13 weight:(UIFontWeightRegular)];
-    attStr.yy_lineSpacing = 6;
-    attStr.yy_color = [UIColor colorWithHexString:@"#555555"];
+    attStr.font = [UIFont systemFontOfSize:13 weight:(UIFontWeightRegular)];
+    attStr.lineSpacing = 6;
+    attStr.color = [UIColor colorWithHexString:@"#555555"];
     self.signatureLabel.attributedText = attStr;
     
     // 签名的动态高度
     self.signatureHeight = [self.signatureLabel thn_getLabelHeightWithMaxWidth:SCREEN_WIDTH - 40];
+    self.signatureHeight = self.signatureHeight > 44 ? 44 : self.signatureHeight;
 }
 
+/**
+ 显示优惠券提示小红点
+ */
 - (void)thn_showCouponDot:(BOOL)show {
     self.couponDotView.hidden = !show;
 }

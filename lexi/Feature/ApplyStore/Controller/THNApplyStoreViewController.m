@@ -9,8 +9,8 @@
 #import "THNApplyStoreViewController.h"
 #import <WebKit/WebKit.h>
 
-static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guide";
-//static NSString *const kURLApplyStore = @"http://m.taihuoniao.com";
+static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
+static NSString *const kTextLexi = @"乐喜";
 
 @interface THNApplyStoreViewController () <WKNavigationDelegate, WKUIDelegate>
 
@@ -20,10 +20,6 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 @end
 
 @implementation THNApplyStoreViewController
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,8 +34,6 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     [SVProgressHUD dismiss];
-    [webView evaluateJavaScript:@"document.documentElement.style.webkitTouchCallout='none';" completionHandler:nil];
-    [webView evaluateJavaScript:@"document.documentElement.style.webkitUserSelect='none';"completionHandler:nil];
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
@@ -48,15 +42,18 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
-    NSLog(@"======= 0 -- %@", navigationAction.request.URL.scheme);
+    NSLog(@"======= 0 -- %@", navigationAction.targetFrame);
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
     
-    NSLog(@"======= 1 -- %@", navigationAction.request);
-    
+    NSLog(@"======= 1 -- %@", navigationAction.targetFrame);
     return nil;
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    
 }
 
 #pragma mark - setup UI
@@ -73,14 +70,7 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
 }
 
 - (void)setNavigationBar {
-    [self.navigationBarView setNavigationTransparent:YES showShadow:YES];;
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-
-    CGFloat originY = kDeviceiPhoneX ? -44 : -22;
-    self.applyWebView.scrollView.contentInset = UIEdgeInsetsMake(originY, 0, 0, 0);
+    self.navigationBarView.title = kTextLexi;
 }
 
 #pragma mark - getters and setters
@@ -98,6 +88,8 @@ static NSString *const kURLApplyStore = @"http://m.fx.taihuoniao.com/#/shop/guid
         _applyWebView.UIDelegate = self;
         _applyWebView.backgroundColor = [UIColor whiteColor];
         _applyWebView.scrollView.bounces = NO;
+        _applyWebView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        _applyWebView.scrollView.showsVerticalScrollIndicator = NO;
         NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:kURLApplyStore]];
         [_applyWebView loadRequest:urlRequest];
     }

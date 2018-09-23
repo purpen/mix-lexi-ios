@@ -67,8 +67,8 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.windowCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-    self.flowLayout.itemSize = CGSizeMake(244, CGRectGetHeight(self.frame));
+    self.windowCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    self.flowLayout.itemSize = CGSizeMake(244, CGRectGetHeight(self.bounds));
 }
 
 #pragma mark - collectionView delegate & dataSource

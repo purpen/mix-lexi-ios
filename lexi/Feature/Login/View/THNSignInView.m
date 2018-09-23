@@ -7,7 +7,7 @@
 //
 
 #import "THNSignInView.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "THNPasswordTextField.h"
 #import "THNAuthCodeButton.h"
@@ -118,13 +118,10 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     
     NSDictionary *paramDict = [self getRequestParamsWithType:self.loginModeType];
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
-        [weakSelf.delegate thn_signInWithParam:paramDict
-                                 loginModeType:weakSelf.loginModeType];
+    if ([self.delegate respondsToSelector:@selector(thn_signInWithParam:loginModeType:)]) {
+        [self.delegate thn_signInWithParam:paramDict loginModeType:self.loginModeType];
     }
 }
-
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
@@ -490,12 +487,11 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }
@@ -516,12 +512,12 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     if (!_signUpLabel) {
         _signUpLabel = [[YYLabel alloc] init];
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kSignUpText];
-        attText.yy_font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-        attText.yy_color = [UIColor colorWithHexString:@"#333333"];
-        attText.yy_alignment = NSTextAlignmentCenter;
+        attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+        attText.color = [UIColor colorWithHexString:@"#333333"];
+        attText.alignment = NSTextAlignmentCenter;
         
         WEAKSELF;
-        [attText yy_setTextHighlightRange:NSMakeRange(6, 4)
+        [attText setTextHighlightRange:NSMakeRange(6, 4)
                                     color:[UIColor colorWithHexString:kColorMain]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {

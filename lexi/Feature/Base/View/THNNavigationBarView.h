@@ -30,6 +30,12 @@ typedef void (^THNNavigationBarRightButtonCompletion)(void);
  */
 @property (nonatomic, copy) NSString *title;
 
+
+/**
+ 导航栏颜色
+ */
+@property (nonatomic, strong) UIColor *titleColor;
+
 /**
  是否透明
  */

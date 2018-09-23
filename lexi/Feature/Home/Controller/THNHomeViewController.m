@@ -25,7 +25,6 @@
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 // 承载selectButton切换展示Controller的View
 @property (nonatomic, strong) UIView *publicView;
-@property (nonatomic, strong) UIView *lineView;
 // 当前控制器
 @property (nonatomic, strong) UIViewController *currentSubViewController;
 @property (nonatomic, strong) THNFeaturedViewController *featured;
@@ -38,8 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavigationBar];
     [self setupUI];
+    [self setNavigationBar];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kLoginSuccess object:nil];
 }
 
@@ -61,27 +60,13 @@
     [self.view addSubview:self.searchView];
     [self.view addSubview:self.selectButtonView];
     self.selectButtonView.delegate = self;
-    
-    [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).with.offset(20);
-        make.right.equalTo(self.view).with.offset(-20);
-        make.top.equalTo(self.view).with.offset(35 + STATUS_BAR_HEIGHT);
-        make.height.equalTo(@40);
-    }];
-    
-    [self.view addSubview:self.lineView];
-    
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.selectButtonView.mas_bottom);
-        make.height.equalTo(@0.5);
-    }];
-    
+    UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
+    [self.view addSubview:lineView];
     [self.view addSubview:self.publicView];
     
     [self.publicView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(self.lineView.mas_bottom);
+        make.top.equalTo(lineView.mas_bottom);
     }];
     
     if ([THNLoginManager sharedManager].openingUser) {
@@ -111,9 +96,19 @@
 #pragma mark - lazy
 - (THNHomeSearchView *)searchView {
     if (!_searchView) {
-        _searchView = [[THNHomeSearchView alloc]init];
+        _searchView = [[THNHomeSearchView alloc]
+                       initWithFrame:CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
+        [_searchView setSearchType:SearchTypeHome];
     }
     return _searchView;
+}
+
+- (THNSelectButtonView *)selectButtonView {
+    if (!_selectButtonView) {
+        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+    }
+    return _selectButtonView;
 }
 
 - (UIView *)publicView {
@@ -121,22 +116,6 @@
         _publicView = [[UIView alloc]init];
     }
     return _publicView;
-}
-
-- (UIView *)lineView {
-    if (!_lineView) {
-        _lineView = [[UIView alloc]init];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
-    }
-    return _lineView;
-}
-
-- (THNSelectButtonView *)selectButtonView {
-    if (!_selectButtonView) {
-        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray];
-    }
-    return _selectButtonView;
 }
 
 #pragma mark - THNSelectButtonViewDelegate Method 实现

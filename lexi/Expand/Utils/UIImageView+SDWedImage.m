@@ -13,16 +13,18 @@
 
 #pragma mark SDWebImage缓存图片
 - (void)downloadImage:(NSString *)url place:(UIImage *)place {
-    [self sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:place options:SDWebImageLowPriority | SDWebImageRetryFailed];
+    [self sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:place
+                     options:SDWebImageDelayPlaceholder | SDWebImageLowPriority | SDWebImageRetryFailed];
 }
 
 #pragma mark SDWebImage缓存图片后的回调
-- (void)downloadImage:(NSString *)url placess:(UIImage *)place completed:(DownloadCompleted)completed {
-    [self sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:place completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        if (!error) {
-            completed(image, error);
-        }
-    }];
+- (void)downloadImage:(NSString *)url place:(UIImage *)place completed:(DownloadCompleted)completed {
+    [self sd_setImageWithURL:[NSURL URLWithString:url]
+            placeholderImage:place
+                     options:SDWebImageDelayPlaceholder | SDWebImageLowPriority | SDWebImageRetryFailed
+                   completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                       completed(image, error);
+                   }];
 }
 
 #pragma mark SDWebImage图片下载进度

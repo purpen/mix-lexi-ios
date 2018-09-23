@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface THNGrassListModel : NSObject
 
@@ -15,5 +16,6 @@
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *user_avator;
+@property (nonatomic, assign) CGFloat grassLabelHeight;
 
 @end

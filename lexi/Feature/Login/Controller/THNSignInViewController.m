@@ -23,6 +23,8 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 /// 发送验证码 key
 static NSString *const kParamAreaCode1      = @"area_code";
 static NSString *const kParamMobile         = @"mobile";
+///
+static NSString *const kTextSkip            = @"跳过";
 
 @interface THNSignInViewController () <THNSignInViewDelegate>
 
@@ -45,10 +47,7 @@ static NSString *const kParamMobile         = @"mobile";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode
-                                  requestDictionary:param
-                                             isSign:NO
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"登录验证码 ==== %@", result.responseDict);
@@ -72,19 +71,20 @@ static NSString *const kParamMobile         = @"mobile";
 - (void)thn_loginSuccessWithModeType:(THNLoginModeType)type {
     WEAKSELF;
     if (type == THNLoginModeTypePassword) {
-        [self back];
+        [self thn_loginSuccessBack];
+        
     } else if (type == THNLoginModeTypeVeriDynamic) {
         if ([THNLoginManager isFirstLogin]) {
             THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
             [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
             
         } else {
-            [self back];
+            [self thn_loginSuccessBack];
         }
     }
 }
 
-- (void)back {
+- (void)thn_loginSuccessBack {
     WEAKSELF;
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {
@@ -96,18 +96,28 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
-        [[NSNotificationCenter defaultCenter]postNotificationName:kLoginSuccess object:nil];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
+/**
+ 获取错误信息提示
+ */
+- (NSString *)thn_getErrorMessage:(NSError *)error {
+    NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    id body = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    
+    return body[@"status"][@"message"];
+}
 
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
     WEAKSELF;
     [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
         if (error) {
-            [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
+            [weakSelf.signInView thn_setErrorHintText:[weakSelf thn_getErrorMessage:error]];
             return ;
         }
         
@@ -115,6 +125,7 @@ static NSString *const kParamMobile         = @"mobile";
             [weakSelf.signInView thn_setErrorHintText:result.statusMessage];
             return;
         }
+        
         [weakSelf thn_loginSuccessWithModeType:type];
     }];
 }
@@ -137,6 +148,7 @@ static NSString *const kParamMobile         = @"mobile";
 
 - (void)thn_goToRegister {
     THNSignUpViewController *signUpVC = [[THNSignUpViewController alloc] init];
+    signUpVC.canSkip = self.canSkip;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
@@ -152,11 +164,18 @@ static NSString *const kParamMobile         = @"mobile";
 }
 
 - (void)setNavigationBar {
-    WEAKSELF;
-    [self.navigationBarView setNavigationRightButtonOfText:@"跳过" textHexColor:@"#666666"];
-    [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+    if (self.navigationController.viewControllers.count == 1) {
+        [self.navigationBarView setNavigationBackButton];
+        return;
+    }
+    
+    if (self.canSkip) {
+        WEAKSELF;
+        [self.navigationBarView setNavigationRightButtonOfText:kTextSkip textHexColor:@"#666666"];
+        [self.navigationBarView didNavigationRightButtonCompletion:^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
 }
 
 #pragma mark - getters and setters
@@ -173,13 +192,19 @@ static NSString *const kParamMobile         = @"mobile";
         _zipCodeVC = [[THNZipCodeViewController alloc] init];
         
         WEAKSELF;
-        
         _zipCodeVC.SelectAreaCode = ^(NSString *code) {
             [weakSelf.signInView thn_setAreaCode:code];
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf.zipCodeVC dismissViewControllerAnimated:YES completion:nil];
         };
     }
     return _zipCodeVC;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.signInView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

@@ -20,6 +20,8 @@
 #import "THNLivingHallExpandView.h"
 #import "THNSaveTool.h"
 #import "THNConst.h"
+#import "THNPruductCenterViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -32,9 +34,10 @@ static NSString *const kUrlDeleteProduct = @"/fx_distribute/remove";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
-@interface THNLivingHallViewController ()
+@interface THNLivingHallViewController ()<THNFeatureTableViewCellDelegate>
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
+// 本周最受人气欢迎Cell
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
 @property (nonatomic, strong)  THNLivingHallExpandView *expandView;
 @property (nonatomic, strong) NSArray *recommendedArray;
@@ -52,8 +55,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self loadAllData];
+     [self loadAllData];
     [self setupUI];
 }
 
@@ -91,7 +93,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
     params[@"user_record"] = @(1);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendedArray = result.data[@"products"];
         self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
@@ -115,7 +117,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)deleteProduct:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self loadCuratorRecommendedData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -128,7 +130,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(1);
     params[@"per_page"] = @(self.weekPopularPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.weekPopularArray = result.data[@"products"];
         self.title = result.data[@"title"];
@@ -179,11 +181,17 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         [weakSelf.tableView reloadData];
     };
     
+    self.livingHallHeaderView.pushProductCenterBlock = ^{
+        THNPruductCenterViewController *productCenter = [[THNPruductCenterViewController alloc]init];
+        [weakSelf.navigationController pushViewController:productCenter animated:YES];
+    };
+    
     return self.livingHallHeaderView;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+    // 展开更多好物是否已隐藏
     if (self.expandView.hidden) {
         self.featureCell.viewY = 0;
     }
@@ -196,14 +204,19 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         weakSelf.pageCount++;
         [weakSelf loadCuratorRecommendedData];
     };
-    
-    [footerView addSubview:self.featureCell];
     [footerView addSubview:self.expandView];
+    [footerView addSubview:self.featureCell];
     return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kCellOptimalHeight * 2 + 20 + 90;
+    return kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 - (void)dealloc {
@@ -221,6 +234,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (THNFeatureTableViewCell *)featureCell {
     if (!_featureCell) {
         _featureCell = [THNFeatureTableViewCell viewFromXib];
+        _featureCell.delagate = self;
         _featureCell.frame = CGRectMake(0, -cellSpacing + expandViewHeight, SCREEN_WIDTH, 200 * 2 + 90 + 20);
     }
     return _featureCell;

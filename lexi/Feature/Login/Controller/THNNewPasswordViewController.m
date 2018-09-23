@@ -35,10 +35,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 #pragma mark - network
 - (void)networdPostNewPasswordWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
     [SVProgressHUD show];
-    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd requestDictionary:param delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
@@ -70,7 +67,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [self networdPostNewPasswordWithParam:paramDict completion:^{
+    [weakSelf networdPostNewPasswordWithParam:paramDict completion:^{
         [SVProgressHUD showSuccessWithStatus:@"修改成功"];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -92,6 +89,13 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         };
     }
     return _setPasswordView;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.setPasswordView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

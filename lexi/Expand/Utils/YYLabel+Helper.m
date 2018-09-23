@@ -7,6 +7,7 @@
 //
 
 #import "YYLabel+Helper.h"
+#import <YYKit/NSAttributedString+YYText.h>
 
 @implementation YYLabel (Helper)
 
@@ -28,6 +29,20 @@
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:text];
     
     return attStr;
+}
+
++ (CGSize)thn_getYYLabelTextLayoutSizeWithText:(NSString *)text
+                                      fontSize:(NSInteger)fontSize
+                                   lineSpacing:(NSInteger)lineSpacing
+                                       fixSize:(CGSize)fixSize {
+    
+    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
+    textAtt.font = [UIFont systemFontOfSize:fontSize];
+    textAtt.lineSpacing = lineSpacing;
+    
+    YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:fixSize text:textAtt];
+    
+    return layout.textBoundingSize;
 }
 
 @end

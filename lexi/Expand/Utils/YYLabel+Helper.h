@@ -6,7 +6,7 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 
 @interface YYLabel (Helper)
 
@@ -33,5 +33,19 @@
  @return 字符串
  */
 - (NSMutableAttributedString *)thn_getAttributedStringWithText:(NSString *)text;
+
+/**
+ 获取文本布局大小
+
+ @param text 文本
+ @param fontSize 字体大小
+ @param lineSpacing 行高
+ @param fixSize 固定尺寸
+ @return 大小
+ */
++ (CGSize)thn_getYYLabelTextLayoutSizeWithText:(NSString *)text
+                                      fontSize:(NSInteger)fontSize
+                                   lineSpacing:(NSInteger)lineSpacing
+                                       fixSize:(CGSize)fixSize;
 
 @end
