@@ -14,7 +14,16 @@
 UIKIT_EXTERN const CGFloat kProductViewHeight;
 UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
 
-typedef void(^PreViewCellBlock)(NSMutableArray *skuIds, NSString *fid, NSInteger storeIndex);
+@protocol THNPreViewTableViewCellDelegate<NSObject>
+
+@optional
+- (void)selectLogistic:(NSMutableArray *)skuIds
+               WithFid:(NSString *)fid
+        withStoreIndex:(NSInteger)storeIndex;
+- (void)updateTotalCouponAcount:(CGFloat)couponSpread withCode:(NSString *)code withTag:(NSInteger)tag;
+- (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag;
+
+@end
 
 @interface THNPreViewTableViewCell : UITableViewCell
 
@@ -24,8 +33,10 @@ typedef void(^PreViewCellBlock)(NSMutableArray *skuIds, NSString *fid, NSInteger
    initWithCouponModel:(THNCouponModel *)couponModel
           initWithFreight:(CGFloat)freight
           initWithCoupons:(NSArray *)coupons
-   initWithLogisticsNames:(THNFreightModelItem *)freightModel;
+        initWithLogistics:(NSArray *)defaultLogistics
+           initWithRemark:(NSString *)remarkStr
+             initWithGift:(NSString *)giftStr;
 
-@property (nonatomic, copy) PreViewCellBlock preViewCellBlock;
+@property (nonatomic,weak) id <THNPreViewTableViewCellDelegate> delagate;
 
 @end

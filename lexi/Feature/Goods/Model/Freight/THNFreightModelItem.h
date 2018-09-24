@@ -17,6 +17,7 @@
 @property (nonatomic, assign) NSInteger expressId;
 @property (nonatomic, strong) NSString * expressName;
 @property (nonatomic, assign) CGFloat firstAmount;
+@property (nonatomic, assign) CGFloat freight;
 @property (nonatomic, assign) NSInteger firstItem;
 @property (nonatomic, assign) NSInteger firstWeight;
 @property (nonatomic, assign) BOOL isDefault;

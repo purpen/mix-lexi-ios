@@ -15,10 +15,14 @@
 #import "NSString+Helper.h"
 #import "THNConst.h"
 #import "UIColor+Extension.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 ///
-static NSString *const kTextSaleOut = @"售罄";
+static NSString *const kTextSaleOut         = @"售罄";
+static NSString *const kTextGoodsOut        = @"该商品已下架";
+static NSString *const kTextGoodsSaleOut    = @"该商品已售罄";
+static NSString *const kTextResetSku        = @"重选规格";
 
 @interface THNGoodsInfoTableViewCell ()
 
@@ -41,6 +45,8 @@ static NSString *const kTextSaleOut = @"售罄";
 @property (nonatomic, strong) YYLabel *colorLabel;
 /// 店铺
 @property (nonatomic, strong) YYLabel *storeLabel;
+/// 商品销售状态标签
+@property (nonatomic, strong) YYLabel *tagLabel;
 /// 商品销售状态提示
 @property (nonatomic, strong) YYLabel *statusLabel;
 /// 加入购物车按钮
@@ -59,6 +65,10 @@ static NSString *const kTextSaleOut = @"售罄";
 @property (nonatomic, assign) NSInteger goodsCount;
 /// 库存数量
 @property (nonatomic, assign) NSInteger stockCount;
+/// 商品状态
+@property (nonatomic, assign) NSInteger goodsStatus;
+/// 重选 sku 规格
+@property (nonatomic, strong) UIButton *resetSkuButton;
 
 @end
 
@@ -113,6 +123,10 @@ static NSString *const kTextSaleOut = @"售罄";
         case THNGoodsInfoCellTypeCartWish: {
             [self thn_setGoodsTitleWithText:model.name font:[UIFont systemFontOfSize:13]];
             [self thn_setSalePriceWithValue:model.minSalePrice > 0 ? model.minSalePrice : model.minPrice oriPrice:0.0];
+            
+            self.stockCount = model.totalStock;
+            self.goodsStatus = model.status;
+            [self thn_setStatusTagAndHintText];
         }
             break;
             
@@ -137,11 +151,14 @@ static NSString *const kTextSaleOut = @"售罄";
     
     if (self.cellType == THNGoodsInfoCellTypeCartNormal) {
         self.editCountView.hidden = NO;
-    }
-    self.goodsCount = model.quantity;
-    self.stockCount = model.product.stockCount;
-    if (model.product.stockCount == 0) {
-        [self thn_setGoodsStatusInfoWithText:kTextSaleOut];
+        
+        self.goodsCount = model.quantity;
+        self.stockCount = model.product.stockCount;
+        self.goodsStatus = model.product.status;
+        
+        [self thn_setStatusTagAndHintText];
+        [self thn_setShowResetSkuButtonWithSkuStock:model.product.stockCount
+                                         totalStock:model.product.productTotalCount];
     }
 }
 
@@ -172,6 +189,7 @@ static NSString *const kTextSaleOut = @"售罄";
 
 - (void)subCountButtonAction:(id)sender {
     if (self.goodsCount == 1) {
+        [SVProgressHUD showInfoWithStatus:@"数量不能再减少了"];
         return;
     }
     
@@ -181,11 +199,18 @@ static NSString *const kTextSaleOut = @"售罄";
 
 - (void)addCountButtonAction:(id)sender {
     if (self.goodsCount == self.stockCount) {
+        [SVProgressHUD showInfoWithStatus:@"超出可售数量范围"];
         return;
     }
     
     self.goodsCount += 1;
     [self thn_setEditCountValue:self.goodsCount];
+}
+
+- (void)resetSkuButtonAction:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedResetSkuGoodsCell:)]) {
+        [self.delegate thn_didSelectedResetSkuGoodsCell:self];
+    }
 }
 
 #pragma mark - private methods
@@ -276,8 +301,8 @@ static NSString *const kTextSaleOut = @"售罄";
  设置商品状态
  */
 - (void)thn_setGoodsStatusInfoWithText:(NSString *)text {
-    self.statusLabel.text = text;
-    self.statusLabel.hidden = NO;
+    self.tagLabel.text = text;
+    self.tagLabel.hidden = text.length == 0;
 }
 
 /**
@@ -289,12 +314,61 @@ static NSString *const kTextSaleOut = @"售罄";
     }
 }
 
+/**
+ 商品状态提示信息
+ */
+- (void)thn_setHintStatusText:(NSString *)text {
+    self.statusLabel.hidden = text.length == 0;
+    self.statusLabel.text = text;
+}
+
+- (void)thn_setStatusTagAndHintText {
+    if (self.cellType == THNGoodsInfoCellTypeCartNormal) {
+        [self thn_setGoodsStatusInfoWithText:self.stockCount ? @"" : kTextSaleOut];
+        self.editCountView.hidden = self.goodsStatus == 2;
+        [self thn_setHintStatusText:self.goodsStatus == 2 ? kTextGoodsOut : @""];
+        
+    } else if (self.cellType == THNGoodsInfoCellTypeCartWish) {
+        self.addCart.hidden = self.stockCount == 0;
+        [self thn_setHintStatusText:self.stockCount ? @"" : kTextGoodsSaleOut];
+    }
+}
+
+/**
+ 设置重选规格按钮
+
+ @param skuStock sku 的库存
+ @param totalStock 该商品的总库存
+ */
+- (void)thn_setShowResetSkuButtonWithSkuStock:(NSInteger)skuStock totalStock:(NSInteger)totalStock {
+    // 存在其他 sku
+    BOOL hasOtherSku = totalStock - skuStock > 0;
+    
+    if (skuStock == 0 && hasOtherSku) {
+        self.resetSkuButton.hidden = NO;
+        self.editCountView.hidden = YES;
+        self.statusLabel.hidden = YES;
+        
+    } else {
+        self.resetSkuButton.hidden = YES;
+    }
+}
+
+/**
+ 设置背景颜色
+ */
+- (void)thn_setBackgroundColor {
+    BOOL isSelectLogistics = self.cellType == THNGoodsInfoCellTypeSelectLogistics;
+    self.backgroundColor = isSelectLogistics ? [UIColor colorWithHexString:@"#F7F9FB"] : [UIColor whiteColor];
+}
+
 - (CGSize)thn_getImageSize {
     CGFloat imageH = 60.0;
     
     switch (self.cellType) {
         case THNGoodsInfoCellTypeCartNormal:
-        case THNGoodsInfoCellTypeCartEdit: {
+        case THNGoodsInfoCellTypeCartEdit:
+        case THNGoodsInfoCellTypeCartWish: {
             imageH = 70.0;
         }
             break;
@@ -364,19 +438,21 @@ static NSString *const kTextSaleOut = @"售罄";
     [self addSubview:self.colorLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.storeLabel];
-    [self addSubview:self.statusLabel];
+    [self addSubview:self.tagLabel];
     [self addSubview:self.addCart];
     [self addSubview:self.selectButton];
     [self.editCountView addSubview:self.subCountButton];
     [self.editCountView addSubview:self.addCountButton];
     [self.editCountView addSubview:self.editCountLabel];
     [self addSubview:self.editCountView];
+    [self addSubview:self.resetSkuButton];
+    [self addSubview:self.statusLabel];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    BOOL isSelectLogistics = self.cellType == THNGoodsInfoCellTypeSelectLogistics;
-    self.backgroundColor = isSelectLogistics ? [UIColor colorWithHexString:@"#F7F9FB"] : [UIColor whiteColor];
+    
+    [self thn_setBackgroundColor];
     
     // 图片
     if (self.cellType == THNGoodsInfoCellTypeCartEdit) {
@@ -401,11 +477,11 @@ static NSString *const kTextSaleOut = @"售罄";
     }
     
     // 销售状态
-    [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.tagLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(31, 18));
         make.top.left.equalTo(self.goodsImageView).with.offset(5);
     }];
-    [self.statusLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:2];
+    [self.tagLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:2];
     
     // 价格
     if (self.cellType != THNGoodsInfoCellTypeCartWish) {
@@ -415,6 +491,13 @@ static NSString *const kTextSaleOut = @"售罄";
             make.height.mas_equalTo(15);
             make.right.mas_equalTo(-15);
             make.top.equalTo(self.goodsImageView.mas_top).with.offset(0);
+        }];
+        
+        // 下架提示信息在右边
+        [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(70, 12));
+            make.right.mas_equalTo(-13);
+            make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         }];
     }
     
@@ -474,13 +557,20 @@ static NSString *const kTextSaleOut = @"售罄";
             make.width.mas_equalTo(self.priceW);
             make.height.mas_equalTo(15);
             make.left.equalTo(self.titleLabel.mas_left).with.offset(0);
-            make.top.equalTo(self.titleLabel.mas_bottom).with.offset(7);
+            make.top.equalTo(self.titleLabel.mas_bottom).with.offset(5);
         }];
         
         [self.addCart mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(52, 25));
             make.right.mas_equalTo(-15);
             make.centerY.mas_equalTo(self);
+        }];
+        
+        // 下架提示信息在左边
+        [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(70, 12));
+            make.left.equalTo(self.titleLabel.mas_left).with.offset(0);
+            make.top.equalTo(self.priceLabel.mas_bottom).with.offset(10);
         }];
     }
     
@@ -532,6 +622,13 @@ static NSString *const kTextSaleOut = @"售罄";
         make.right.equalTo(self.addCountButton.mas_left).with.offset(4);
         make.centerY.mas_equalTo(self.editCountView);
         make.height.mas_equalTo(24);
+    }];
+    
+    // 重选规格
+    [self.resetSkuButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(64, 24));
+        make.right.mas_equalTo(-15);
+        make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
     }];
 }
 
@@ -614,13 +711,24 @@ static NSString *const kTextSaleOut = @"售罄";
     return _storeLabel;
 }
 
+- (YYLabel *)tagLabel {
+    if (!_tagLabel) {
+        _tagLabel = [[YYLabel alloc] init];
+        _tagLabel.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
+        _tagLabel.textColor = [UIColor whiteColor];
+        _tagLabel.font = [UIFont systemFontOfSize:10];
+        _tagLabel.textAlignment = NSTextAlignmentCenter;
+        _tagLabel.textContainerInset = UIEdgeInsetsMake(2, 0, 0, 0);
+        _tagLabel.hidden = YES;
+    }
+    return _tagLabel;
+}
+
 - (YYLabel *)statusLabel {
     if (!_statusLabel) {
         _statusLabel = [[YYLabel alloc] init];
-        _statusLabel.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
-        _statusLabel.textColor = [UIColor whiteColor];
-        _statusLabel.font = [UIFont systemFontOfSize:10];
-        _statusLabel.textAlignment = NSTextAlignmentCenter;
+        _statusLabel.textColor = [UIColor colorWithHexString:@"#FF6666"];
+        _statusLabel.font = [UIFont systemFontOfSize:11];
         _statusLabel.textContainerInset = UIEdgeInsetsMake(2, 0, 0, 0);
         _statusLabel.hidden = YES;
     }
@@ -705,6 +813,22 @@ static NSString *const kTextSaleOut = @"售罄";
         _editCountLabel.backgroundColor = [UIColor whiteColor];
     }
     return _editCountLabel;
+}
+
+- (UIButton *)resetSkuButton {
+    if (!_resetSkuButton) {
+        _resetSkuButton = [[UIButton alloc] init];
+        [_resetSkuButton setTitle:kTextResetSku forState:(UIControlStateNormal)];
+        [_resetSkuButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:(UIControlStateNormal)];
+        _resetSkuButton.titleLabel.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
+        _resetSkuButton.layer.borderWidth = 1;
+        _resetSkuButton.layer.borderColor = [UIColor colorWithHexString:@"#999999"].CGColor;
+        _resetSkuButton.layer.cornerRadius = 4;
+        _resetSkuButton.backgroundColor = [UIColor whiteColor];
+        _resetSkuButton.hidden = YES;
+        [_resetSkuButton addTarget:self action:@selector(resetSkuButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _resetSkuButton;
 }
 
 @end

@@ -34,7 +34,11 @@ static NSString *const kUrlLogisticsProductExpress = @"/logistics/product/expres
 static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount";
 static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
-@interface THNOrderPreviewViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface THNOrderPreviewViewController ()<
+UITableViewDelegate,
+UITableViewDataSource,
+THNPreViewTableViewCellDelegate
+>
 
 /// 完成按钮
 @property (nonatomic, strong) UIButton *doneButton;
@@ -53,7 +57,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 // sku
 @property (nonatomic, strong) NSDictionary *skuDict;
 // 物流
-@property (nonatomic, strong) NSDictionary *logisticsDict;
+@property (nonatomic, strong) NSMutableDictionary *logisticsDict;
 // 满减
 @property (nonatomic, strong) NSDictionary *fullReductionDict;
 // 物流公司ID
@@ -78,6 +82,9 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 @property (nonatomic, assign) CGFloat firstDiscount;
 // 支付金额
 @property (nonatomic, assign) CGFloat payAmount;
+// 官方红包优惠券码
+@property (nonatomic, strong) NSString *officalCouponCode;
+
 
 @end
 
@@ -85,66 +92,14 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadLogisticsProductExpressData];
+    [self loadProductStoreSkuData];
     [self loadOrderCoupons];
     [self loadOrderFullReduction];
-    [self loadLogisticsProductExpressData];
     [self loadNewUserDiscountData];
-    [self loadProductStoreSkuData];
     [self loadOfficialCouponData];
     [self setupUI];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushSelectLogistics:) name:kSelectDelivery object:nil];
 }
-
-//// 选择配送物流
-//- (void)pushSelectLogistics:(NSNotification *)notification {
-//    // 选中店铺所在的行
-//    NSInteger storeIndex = [notification.userInfo[@"selectStoreIndex"]integerValue];
-//    // 选中商品所在的行
-//    NSInteger productIndex = [notification.userInfo[@"selectProducIndex"]integerValue];
-//    // storeKey
-//    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
-//
-//    NSMutableDictionary *expressDict = [NSMutableDictionary dictionary];
-//    expressDict[@"address_rid"] = self.addressModel.rid;
-//    expressDict[@"fid"] = self.skuDict[storeKey][productIndex][@"fid"];
-//
-//
-////    NSArray *skus = self.skuDict[storeKey];
-////    params[@"address_rid"] = self.addressModel.rid;
-////
-////    for (NSDictionary *dict in self.skuItems) {
-////        [items  setArray:dict[@"sku_items"]];
-////    }
-////
-////    // 为sku字典添加express_id
-////    [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-////        [items[idx] setValue:obj forKey:@"express_id"];
-////    }];
-//
-//    params[@"items"] = self.skuItems;
-//    NSString *skuKey = self.skuItems[storeIndex][@"sku_items"][productIndex][@"sku"];
-//    NSArray *expressArray = self.logisticsDict[storeKey][skuKey][@"express"];
-//    [self.expressIDArray removeAllObjects];
-//    // 取出所有的物流ID
-//    for (NSDictionary *dict in expressArray) {
-//        [self.expressIDArray addObject:dict[@"express_id"]];
-//    }
-//
-//    THNSelectLogisticsViewController *selectLogisticsVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:skus logisticsData:expressArray];
-//    selectLogisticsVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
-//         [self.expressIDArray removeAllObjects];
-//        // 取出THNOrderDetailTableViewCell
-//        THNOrderDetailTableViewCell *cell = self.tableView.subviews[0].subviews[0].subviews[0].subviews[3].subviews[0].subviews[0];
-//        cell.deliveryMethodLabel.text = expressModel.expressName;
-//        cell.logisticsTimeLabel.text = [NSString stringWithFormat:@"%ld至%ld天送达",(long)expressModel.minDays,(long)expressModel.maxDays];
-//        // 替换为选中的expressId
-//        [self.expressIDArray addObject:@(expressModel.expressId)];
-//        // 计算运费
-//        [self loadLogisticsFreightData];
-//
-//    };
-//    [self.navigationController pushViewController:selectLogisticsVC animated:YES];
-//}
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
@@ -155,30 +110,25 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 - (void)createOrder {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSMutableArray *items = [NSMutableArray array];
-    NSString *storeRid;
-    NSMutableDictionary *item;
 
     // 取出字典的storeRid,重新命名key
     for (NSDictionary *dict in self.skuItems) {
-        storeRid = dict[@"rid"];
-        [items setArray:dict[@"sku_items"]];
+        NSMutableDictionary *itemDict = [NSMutableDictionary dictionary];
+        NSString *storeRid = dict[@"rid"];
+        itemDict[@"store_rid"] = storeRid;
+        itemDict[@"coupon_codes"] = dict[@"coupon_codes"];
+        itemDict[@"blessing_utterance"] = dict[@"blessing_utterance"];
+        itemDict[@"buyer_remark"] = dict[@"buyer_remark"];
+        itemDict[@"items"] = dict[@"sku_items"];
+        [items addObject:itemDict];
     }
-
-    // 取出每个sku信息，重新命名key
-    for (NSDictionary *dict in items) {
-        item = [@{@"rid":dict[@"sku"],@"quantity":dict[@"quantity"]} mutableCopy];
-    }
-
-    // 为sku字典添加express_id
-    [self.expressIDArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [item setValue:obj forKey:@"express_id"];
-    }];
 
     // 组合成后台对应的格式
     params[@"address_rid"] = self.addressModel.rid;
-    params[@"store_items"] = @[
-                                @{@"store_rid":storeRid, @"items":@[item]}
-                              ];
+    params[@"bonus_code"] =  self.officalCouponCode;
+    params[@"store_items"] = items;
+
+
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
@@ -186,6 +136,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         paymentVC.paymentAmount = self.payAmount;
         paymentVC.totalFreight = self.totalFreight;
         [self.navigationController pushViewController:paymentVC animated:YES];
+        
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -198,7 +149,6 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSDictionary *dict in self.skuItems) {
-
         [items addObjectsFromArray:dict[@"sku_items"]];
     }
     
@@ -211,8 +161,9 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.skuDict = result.data;
         [self.tableView reloadData];
-    } failure:^(THNRequest *request, NSError *error) {
         
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@""];
     }];
 }
 
@@ -223,6 +174,24 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.couponDict = result.data;
+
+        for (NSMutableDictionary *dict in self.skuItems) {
+            NSMutableArray *coupons = [NSMutableArray array];
+            for (NSDictionary *storeDict in self.couponDict[dict[@"rid"]]) {
+                [coupons addObject:storeDict[@"coupon"]];
+            }
+
+            // 每个店铺的优惠券数组降序，取出最大面值的优惠券金额
+            NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
+            NSArray *storeCoupons = [coupons sortedArrayUsingDescriptors:sortArr];
+
+            if (storeCoupons.count > 0) {
+                dict[@"coupon_codes"] = storeCoupons[0][@"code"];
+                self.totalCouponAmount += [storeCoupons[0][@"amount"] floatValue];
+            }
+
+        }
+
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -234,7 +203,14 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     params[@"amount"] = @(self.totalPrice);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOfficialFill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.officalCoupons = result.data[@"coupons"];
+        NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
+        self.officalCoupons = [result.data[@"coupons"] sortedArrayUsingDescriptors:sortArr];
+
+        if (self.officalCoupons.count > 0) {
+            self.totalCouponAmount += [self.officalCoupons[0][@"amount"] floatValue];
+            self.officalCouponCode = self.officalCoupons[0][@"code"];
+        }
+
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -265,9 +241,8 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.logisticsDict = result.data;
+        self.logisticsDict = [result.data mutableCopy];
         [self loadLogisticsFreightData];
-        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -275,28 +250,20 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 // 计算运费
 - (void)loadLogisticsFreightData {
-
-    for (NSMutableDictionary *skuDict in self.skuItems) {
-        NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
-        for (NSMutableDictionary *goodsDict in [skuDict[@"sku_items"]mutableCopy]) {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
-            NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
-            NSString *logId = expressArray[0][@"express_id"];
-            [goodsDict setObject:logId forKey:@"express_id"];
-        }
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [self changeExpress];
     params[@"address_rid"] = self.addressModel.rid;
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.totalFreight = 0;
         self.freightDict = result.data;
         // 遍历所有总运费
         for (NSDictionary *dict in self.skuItems) {
             CGFloat freight  = [self.freightDict[dict[@"rid"]] floatValue];
             self.totalFreight += freight;
         }
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -313,8 +280,22 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     }];
 }
 
+// 改变物流
+- (void)changeExpress {
+    // 添加或改变默认物流ID
+    for (NSMutableDictionary *skuDict in self.skuItems) {
+        NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
+        for (NSMutableDictionary *goodsDict in [skuDict[@"sku_items"]mutableCopy]) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+            NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
+            NSString *logId = expressArray[0][@"express_id"];
+            [goodsDict setObject:logId forKey:@"express_id"];
+        }
+    }
+}
+
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - setup UI
@@ -337,7 +318,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.skuDict.count;
+    return self.skuItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -345,36 +326,14 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     if (!cell) {
         cell = [THNPreViewTableViewCell viewFromXib];
     }
+    cell.delagate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
-    
-    // 选择配送方式
-    cell.preViewCellBlock = ^(NSMutableArray *skuIds, NSString *fid, NSInteger storeIndex) {
-        NSMutableArray *items = [NSMutableArray array];
-        NSMutableArray *goods = [NSMutableArray array];
-         NSString *storeKey = self.skuItems[storeIndex][@"rid"];
-        for (NSString *skuId in skuIds) {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sku == %@",skuId];
-            NSPredicate *productPredicate = [NSPredicate predicateWithFormat:@"rid == %@",skuId];
-            [items addObjectsFromArray:[self.skuItems[storeIndex][@"sku_items"] filteredArrayUsingPredicate:predicate]];
-            [goods addObjectsFromArray:[self.skuDict[storeKey] filteredArrayUsingPredicate:productPredicate]];
-        }
-        
-        NSDictionary *expressParams = @{
-                                        @"address_rid":self.addressModel.rid,
-                                        @"fid":fid,
-                                        @"items":items
-                                        };
-         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]initWithGoodsData:goods logisticsData:expressParams];
-
-
-
-
-        [self.navigationController pushViewController:selectLogistcisVC animated:YES];
-    };
 
     // 店铺id作为Key取商品的SKU信息
     NSString *storekey = self.skuItems[indexPath.row][@"rid"];
+    NSString *remarkStr = self.skuItems[indexPath.row][@"buyer_remark"];
+    NSString *giftStr = self.skuItems[indexPath.row][@"blessing_utterance"];
     // 每个商品的sku
     NSArray *skuItems = self.skuItems[indexPath.row][@"sku_items"];
 
@@ -387,23 +346,27 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
     // 每个店铺优惠券数组
     NSArray *coupons = self.couponDict[storekey];
-  
+
+    // 运费
+    CGFloat freight  = [self.freightDict[storekey] floatValue];
+
     NSMutableArray *logistics = [NSMutableArray array];
-    
-    
     for (int i = 0; i < skus.count; i++) {
         NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
         [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
-    
     // 筛选出默认物流
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
     NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
-    // 运费
-   CGFloat freight  = [self.freightDict[storekey] floatValue];
-    THNFreightModelItem *freighModel = [[THNFreightModelItem alloc]initWithDictionary:defaultLogistics[0]];
 
-   self.fullReductionViewHeight =  [cell setPreViewCell:skus initWithItmeSkus:skuItems initWithCouponModel:couponModel initWithFreight:freight initWithCoupons:coupons initWithLogisticsNames:freighModel];
+    self.fullReductionViewHeight = [cell setPreViewCell:skus
+                                       initWithItmeSkus:skuItems
+                                     initWithCouponModel:couponModel
+                                         initWithFreight:freight
+                                         initWithCoupons:coupons
+                                       initWithLogistics:defaultLogistics
+                                          initWithRemark:remarkStr
+                                            initWithGift:giftStr];
     
     return cell;
 }
@@ -430,6 +393,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
     [headerView addSubview:self.payDetailView];
+
     self.firstDiscount = (self.totalFreight + self.totalReductionAmount + self.totalPrice) * (1 - self.discountRatio);
     //  实际支付金额 = 订单总金额 + 运费 - 首单优惠 - 满减 - 优惠券/红包
     self.payAmount = self.totalPrice + self.totalFreight - self.totalReductionAmount - self.firstDiscount - self.totalCouponAmount;
@@ -451,11 +415,112 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     self.selectOfficalCouponView.officalCoupons = self.officalCoupons;
+    __weak typeof(self)weakSelf = self;
+
+    self.selectOfficalCouponView.updateCouponAcountBlcok = ^(CGFloat couponSpread, NSString *code) {
+        weakSelf.officalCouponCode = code;
+        weakSelf.totalCouponAmount += couponSpread;
+        [weakSelf.payDetailView setTotalCouponAmount:weakSelf.totalCouponAmount];
+
+    };
+
     return self.selectOfficalCouponView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 80;
+}
+
+#pragma mark - THNPreViewTableViewCellDelegate
+
+/**
+ 选择物流方式
+
+ @param skuIds 相同运费的商品信息
+ @param fid 运费模板ID
+ @param storeIndex 选中的商品对应所在行数
+ */
+- (void)selectLogistic:(NSMutableArray *)skuIds
+               WithFid:(NSString *)fid
+        withStoreIndex:(NSInteger)storeIndex {
+
+    NSMutableArray *items = [NSMutableArray array];
+    NSMutableArray *goods = [NSMutableArray array];
+    NSString *storeKey = self.skuItems[storeIndex][@"rid"];
+
+    for (NSString *skuId in skuIds) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sku == %@",skuId];
+        NSPredicate *productPredicate = [NSPredicate predicateWithFormat:@"rid == %@",skuId];
+        [items addObjectsFromArray:[self.skuItems[storeIndex][@"sku_items"] filteredArrayUsingPredicate:predicate]];
+        [goods addObjectsFromArray:[self.skuDict[storeKey] filteredArrayUsingPredicate:productPredicate]];
+    }
+
+    NSDictionary *expressParams = @{
+                                    @"address_rid":self.addressModel.rid,
+                                    @"fid":fid,
+                                    @"items":items
+                                    };
+
+    THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:goods logisticsData:expressParams];
+
+    // 选择物流配送方式完成回调
+    selectLogistcisVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
+
+        NSMutableDictionary *productDict = [self.logisticsDict[storeKey] mutableCopy];
+        for ( NSMutableDictionary *skuitemDict in items) {
+            NSString *skuKey = skuitemDict[@"sku"];
+            NSMutableDictionary *skuDict = [productDict[skuKey] mutableCopy];
+            NSMutableArray *expressArray = [NSMutableArray array];
+            for (NSMutableDictionary *expressDict in self.logisticsDict[storeKey][skuKey][@"express"]) {
+                NSMutableDictionary *newExpressDict = [NSMutableDictionary dictionaryWithDictionary:expressDict];
+                // 选中的物流替换成默认物流
+                if (expressModel.expressId == [expressDict[@"express_id"]integerValue]) {
+                    newExpressDict[@"is_default"] = @(1);
+                } else {
+                    newExpressDict[@"is_default"] = @(0);
+                }
+
+                // 替换后的物流用该数组保存
+                [expressArray addObject:newExpressDict];
+
+            }
+
+            // 物流数组用express 作为key
+            skuDict[@"express"] = expressArray;
+            // 以店铺id作为key
+            productDict[skuKey] = skuDict;
+        }
+
+        // 替换为重新组合的值
+        self.logisticsDict[storeKey] = productDict;
+        // 重新计算更改默认物流后的运费
+        [self loadLogisticsFreightData];
+    };
+
+    [self.navigationController pushViewController:selectLogistcisVC animated:YES];
+}
+
+
+/**
+ 更新优惠券的信息
+
+ @param couponSpread 本次选择优惠券和上次选中优惠券的差价
+ @param code 选中的优惠券码
+ @param tag 选中cell的tag
+ */
+- (void)updateTotalCouponAcount:(CGFloat)couponSpread withCode:(NSString *)code withTag:(NSInteger)tag {
+    // 优惠券码插入到对应的店铺
+    NSMutableDictionary *skuItemDict = self.skuItems[tag];
+    skuItemDict[@"coupon_codes"] = code;
+    self.totalCouponAmount += couponSpread;
+    [self.payDetailView setTotalCouponAmount:self.totalCouponAmount];
+}
+
+- (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag {
+    // 优惠券码插入到对应的店铺
+    NSMutableDictionary *skuItemDict = self.skuItems[tag];
+    skuItemDict[@"buyer_remark"] = remarkStr;
+    skuItemDict[@"blessing_utterance"] = giftStr;
 }
 
 #pragma mark - getters and setters
@@ -527,6 +592,5 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     }
     return _selectOfficalCouponView;
 }
-
 
 @end

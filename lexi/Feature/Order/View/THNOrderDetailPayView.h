@@ -14,5 +14,7 @@
 
 - (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel;
 
+@property (nonatomic, assign) CGFloat totalCouponAmount;
+
 
 @end
