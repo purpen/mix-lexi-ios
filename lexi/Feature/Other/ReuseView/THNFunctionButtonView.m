@@ -60,20 +60,25 @@ static NSInteger const kFunctionButtonTag = 5123;
     
     switch (type) {
         case THNGoodsListViewTypeUser:
-        case THNGoodsListViewTypeStore:{
+        case THNGoodsListViewTypeStore: {
+            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleScreen]];
+        }
+            break;
+            
+        case THNGoodsListViewTypeProductCenter: {
+            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleProfit, kButtonTitleScreen]];
+        }
+            break;
+            
+        case THNGoodsListViewTypeCategory: {
+            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleNew, kButtonTitleScreen]];
+        }
+            break;
+            
+        default: {
             [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleScreen]];
             break;
         }
-        case THNGoodsListViewTypeProductCenter:{
-            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleProfit, kButtonTitleScreen]];
-            break;
-        }
-            
-        default: {
-            [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleNew, kButtonTitleScreen]];
-            break;
-        }
-            
     }
 }
 

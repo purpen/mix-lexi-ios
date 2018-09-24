@@ -22,7 +22,7 @@
 - (void)setOfficalCoupons:(NSArray *)officalCoupons {
     _officalCoupons = officalCoupons;
     if (self.officalCoupons.count > 0) {
-        self.couponLabel.text = [NSString stringWithFormat:@"有%ld张可用",self.officalCoupons.count];
+        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[self.officalCoupons[0][@"amount"] floatValue]];
     } else {
         self.couponLabel.text = @"当前没有优惠券";
     }
@@ -40,7 +40,9 @@
     self.selectCouponView.coupons = self.officalCoupons;
     __weak typeof(self)weakSelf = self;
     
-    self.selectCouponView.selectCouponBlock = ^(NSString *text) {
+    self.selectCouponView.selectCouponBlock = ^(NSString *text, CGFloat couponAcount, NSString *code) {
+        CGFloat couponSpread = couponAcount - [[weakSelf.couponLabel.text substringFromIndex:3] floatValue];
+        weakSelf.updateCouponAcountBlcok(couponSpread, code);
         weakSelf.couponLabel.text = text;
     };
     

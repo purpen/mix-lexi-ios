@@ -12,15 +12,15 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
     THNGoodsListViewTypeDefault = 0,    //  默认商品列表
     THNGoodsListViewTypeUser,           //  个人中心商品
     THNGoodsListViewTypeCategory,       //  分类商品
-    THNGoodsListViewTypeGather,         //  集合
-    THNGoodsListViewTypeStore,          //  品牌馆
     THNGoodsListViewTypeProductCenter,  //  选品中心
     THNGoodsListViewTypeEditors,        //  编辑推荐
-    THNGoodsListViewTypeGoodThing,      //  百元好物
-    THNGoodsListViewTypeDesign,         //  特惠好设计
-    THNGoodsListViewTypeOptimal,        //  乐喜优选
+    THNGoodsListViewTypeStore,          //  品牌馆
     THNGoodsListViewTypeNewProduct,     //  优质新品
-    
+    THNGoodsListViewTypeGather,         //  集合
+    THNGoodsListViewTypeDesign,         //  特惠好设计
+    THNGoodsListViewTypeGoodThing,      //  百元好物
+    THNGoodsListViewTypeOptimal,        //  乐喜优选
+    THNGoodsListViewTypeRecommend,      //  人气推荐
 };
 
 typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
