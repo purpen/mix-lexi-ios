@@ -75,12 +75,16 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品
  */
 - (void)thn_getCartGoodsData {
+    [SVProgressHUD show];
+    
     WEAKSELF;
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
+        [SVProgressHUD dismiss];
         if (error) return;
         
         weakSelf.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
         [weakSelf thn_getCartGoodsCount];
+        [weakSelf thn_setDefaultCartView];
     }];
 }
 
@@ -97,7 +101,7 @@ static NSString *const kKeyQuantity = @"quantity";
         
         weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
         weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
-        [weakSelf thn_setDefaultCartView];
+        [weakSelf.cartTableView reloadData];
     }];
 }
 
@@ -117,10 +121,15 @@ static NSString *const kKeyQuantity = @"quantity";
 // 心愿单商品加购物车
 - (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell {
     NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
-    if (indexPath.section == 1) {
-        THNGoodsModel *model = self.wishGoodsArr[indexPath.row];
-        [self thn_openGoodsSkuControllerWithGoodsModel:model];
-    }
+    
+    if (indexPath.section != 1) return;
+    
+    THNGoodsModel *model = self.wishGoodsArr[indexPath.row];
+    
+    [self thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
+        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+        [self thn_getCartGoodsData];
+    }];
 }
 
 // 选中的商品
@@ -144,7 +153,36 @@ static NSString *const kKeyQuantity = @"quantity";
     item.quantity = count;
     
     [self thn_setCartGoodsTotalPriceWithData:self.cartGoodsArr];
-    [THNGoodsManager putCartGoodsCountWithSkuId:item.rid count:count completion:nil];
+    
+    // 更新购物车商品数量
+    [THNGoodsManager putCartGoodsCountWithSkuId:item.rid count:count completion:^(NSError *error) {
+        [self thn_getCartGoodsCount];
+    }];
+}
+
+// 重选商品规格
+- (void)thn_didSelectedResetSkuGoodsCell:(THNGoodsInfoTableViewCell *)cell {
+    NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
+    
+    if (indexPath.section != 0) return;
+    
+    [self.selectedArr addObject:indexPath];
+    
+    THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
+    
+    WEAKSELF;
+    [THNGoodsManager getProductAllDetailWithId:item.product.productRid completion:^(THNGoodsModel *model, NSError *error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:@"获取商品信息错误"];
+            return;
+        }
+        
+        NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
+        [weakSelf thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
+            // 添加新 sku 成功后，删除记录的 sku
+            [self thn_deleteSkuItemWithSkuIds:skuIds];
+        }];
+    }];
 }
 
 // 结算商品
@@ -155,16 +193,7 @@ static NSString *const kKeyQuantity = @"quantity";
 // 删除商品
 - (void)thn_didRemoveShoppingCartItems {
     NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
-    
-    if (!skuIds.count) return;
-    
-    [SVProgressHUD show];
-    [THNGoodsManager postRemoveCartGoodsWithSkuRids:skuIds completion:^(NSError *error) {
-        [SVProgressHUD dismiss];
-        if (error) return;
-        
-        [self thn_removeCartGoods];
-    }];
+    [self thn_deleteSkuItemWithSkuIds:skuIds];
 }
 
 // 添加到心愿单
@@ -178,7 +207,9 @@ static NSString *const kKeyQuantity = @"quantity";
         [SVProgressHUD dismiss];
         if (error) return;
         
-        [self thn_didRemoveShoppingCartItems];
+        // 从购物车移除
+        NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
+        [self thn_deleteSkuItemWithSkuIds:skuIds];
     }];
 }
 
@@ -203,10 +234,10 @@ static NSString *const kKeyQuantity = @"quantity";
     for (THNCartModelItem *item in self.cartGoodsArr) {
 
         if (item.product.status == 1) {
-            NSDictionary *skuItem = [@{kKeySkuId: item.rid,
+            NSMutableDictionary *skuItem = [@{kKeySkuId: item.rid,
                                       kKeyQuantity: @(item.quantity)} mutableCopy];
             
-            NSDictionary *storeItem = @{item.product.storeRid: skuItem};
+            NSMutableDictionary *storeItem = [@{item.product.storeRid: skuItem} mutableCopy];
         
             [cartItems addObject:storeItem];
             [storeIdArr addObject:item.product.storeRid];
@@ -230,8 +261,8 @@ static NSString *const kKeyQuantity = @"quantity";
             }
         }
         
-        [skuItems addObject:@{kKeyRid: storeId,
-                              kKeySkuItems: skuItemArr}];
+        [skuItems addObject:[@{kKeyRid: storeId,
+                              kKeySkuItems: skuItemArr} mutableCopy]];
     }
     
     return [skuItems copy];
@@ -261,16 +292,13 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 // 打开商品的 SKU 选择视图
-- (void)thn_openGoodsSkuControllerWithGoodsModel:(THNGoodsModel *)goodsModel {
+- (void)thn_openGoodsSkuControllerWithGoodsModel:(THNGoodsModel *)goodsModel completed:(void (^)(NSString *skuId))completed {
     if (!goodsModel.rid.length) return;
     
     THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithGoodsModel:goodsModel];
     goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     goodsSkuVC.handleType = THNGoodsButtonTypeAddCart;
-    goodsSkuVC.selectGoodsAddCartCompleted = ^{
-        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
-        [self thn_getCartGoodsData];
-    };
+    goodsSkuVC.selectGoodsAddCartCompleted = completed;
     [self presentViewController:goodsSkuVC animated:NO completion:nil];
 }
 
@@ -296,22 +324,38 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 // 开始编辑购物车商品
-- (void)thn_startEditCartGoods {
-    self.isCartEdit = !self.isCartEdit;
-    self.functionView.status = self.isCartEdit ? THNCartFunctionStatusEdit : THNCartFunctionStatusDefault;
+- (void)thn_startEditCartGoods:(BOOL)start {
+    self.isCartEdit = start;
+    self.functionView.status = start ? THNCartFunctionStatusEdit : THNCartFunctionStatusDefault;
     [self.selectedArr removeAllObjects];
     
-    if (self.isCartEdit) {
+    if (start) {
         [self.wishGoodsArr removeAllObjects];
+        [self thn_showEditButtonWithText:kTextDone];
         
     } else {
         [self.wishGoodsArr addObjectsFromArray:[self.recordWishArr copy]];
+        [self thn_showEditButtonWithText:self.cartGoodsArr.count ? kTextEdit : @""];
     }
     
-    [self thn_setDefaultCartView];
+    [self.cartTableView reloadData];
 }
 
 // 删除所选商品
+- (void)thn_deleteSkuItemWithSkuIds:(NSArray *)skuIds {
+    if (!skuIds.count) return;
+
+    [THNGoodsManager postRemoveCartGoodsWithSkuRids:skuIds completion:^(NSError *error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:@"删除失败"];
+            return;
+        };
+        
+        [self thn_removeCartGoods];
+    }];
+}
+
+// 从购物车中移除所选商品
 - (void)thn_removeCartGoods {
     NSMutableArray *selectedItems = [NSMutableArray array];
     
@@ -321,15 +365,13 @@ static NSString *const kKeyQuantity = @"quantity";
     }
     
     [self.cartGoodsArr removeObjectsInArray:[selectedItems copy]];
+    [self.selectedArr removeAllObjects];
+    [self thn_getCartGoodsData];
     
     if (!self.cartGoodsArr.count) {
-        [self thn_startEditCartGoods];
-        return;
+        // 商品删除完，结束编辑状态
+        [self thn_startEditCartGoods:NO];
     }
-    
-    [self.selectedArr removeAllObjects];
-    [self thn_getCartGoodsCount];
-    [self thn_setDefaultCartView];
 }
 
 // 清除数据
@@ -338,6 +380,7 @@ static NSString *const kKeyQuantity = @"quantity";
     [self.wishGoodsArr removeAllObjects];
     [self.recordWishArr removeAllObjects];
     [self.selectedArr removeAllObjects];
+    
     [self thn_setDefaultCartView];
 }
 
@@ -525,10 +568,10 @@ static NSString *const kKeyQuantity = @"quantity";
 
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleCart;
-    
+
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf thn_startEditCartGoods];
+        [weakSelf thn_startEditCartGoods:!self.isCartEdit];
     }];
 }
 

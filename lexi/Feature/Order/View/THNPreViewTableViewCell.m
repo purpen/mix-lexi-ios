@@ -16,12 +16,17 @@
 #import "UIView+Helper.h"
 #import <UIKit/UIKit.h>
 #import "UIColor+Extension.h"
+#import "THNFreightModelItem.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
 const CGFloat kProductViewHeight = 85;
 const CGFloat kLogisticsViewHeight = 65;
 
-@interface THNPreViewTableViewCell()<UITableViewDelegate, UITableViewDataSource>
+@interface THNPreViewTableViewCell()<
+UITableViewDelegate,
+UITableViewDataSource,
+UITextFieldDelegate
+>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
@@ -48,8 +53,8 @@ const CGFloat kLogisticsViewHeight = 65;
 @property (nonatomic, strong) NSArray *coupons;
 // 物流公司名字
 @property (nonatomic, strong) NSString *logisticsName;
-
-@property (nonatomic, strong) THNFreightModelItem *freightModel;
+// 默认物流
+@property (nonatomic, strong) NSArray *defaultLogistics;
 
 @end
 
@@ -64,15 +69,27 @@ const CGFloat kLogisticsViewHeight = 65;
     self.giftView.layer.borderWidth = 0.5;
     self.remarksView.layer.borderColor = [UIColor colorWithHexString:@"E9E9E9"].CGColor;
     self.giftView.layer.borderColor = [UIColor colorWithHexString:@"E9E9E9"].CGColor;
+    self.remarksTextField.delegate = self;
+    self.giftTextField.delegate = self;
 }
 
 
-- (CGFloat)setPreViewCell:(NSArray *)skus initWithItmeSkus:(NSArray *)itemSkus initWithCouponModel:(THNCouponModel *)couponModel initWithFreight:(CGFloat)freight initWithCoupons:(NSArray *)coupons initWithLogisticsNames:(THNFreightModelItem *)freightModel {
-    
+- (CGFloat)setPreViewCell:(NSArray *)skus
+         initWithItmeSkus:(NSArray *)itemSkus
+      initWithCouponModel:(THNCouponModel *)couponModel
+          initWithFreight:(CGFloat)freight
+          initWithCoupons:(NSArray *)coupons
+        initWithLogistics:(NSArray *)defaultLogistics
+           initWithRemark:(NSString *)remarkStr
+             initWithGift:(NSString *)giftStr {
+
+    self.remarksTextField.text = remarkStr;
+    self.giftTextField.text = giftStr;
     NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"fid" ascending:YES]];
     self.skus = [skus sortedArrayUsingDescriptors:sortArr];
     self.itemSkus = itemSkus;
     self.coupons = coupons;
+    self.defaultLogistics = defaultLogistics;
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
     self.nameLabel.text = itemModel.storeName;
     
@@ -97,15 +114,25 @@ const CGFloat kLogisticsViewHeight = 65;
         self.fullReductionViewHeightConstraint.constant = 40;
         self.fullReductionLabel.text = couponModel.type_text;
     }
+
+    NSMutableArray *newCoupons = [NSMutableArray array];
+    for (NSDictionary *storeDict in self.coupons) {
+        [newCoupons addObject:storeDict[@"coupon"]];
+    }
+
+    // 每个店铺的优惠券数组降序，取出最大面值的优惠券金额
+    NSArray *amountSortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
+    NSArray *storeCoupons = [newCoupons sortedArrayUsingDescriptors:amountSortArr];
+
     
-    if (self.coupons.count > 0) {
-        self.couponLabel.text = [NSString stringWithFormat:@"有%ld张可用",self.coupons.count];
+    if (storeCoupons.count > 0) {
+        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[storeCoupons[0][@"amount"] floatValue]];
     } else {
         self.couponLabel.text = @"当前没有优惠券";
     }
     
     
-    self.freightModel = freightModel;
+    self.defaultLogistics = defaultLogistics;
     
     return self.fullReductionViewHeightConstraint.constant;
 }
@@ -121,9 +148,14 @@ const CGFloat kLogisticsViewHeight = 65;
     self.selectCouponView.coupons = self.coupons;
     __weak typeof(self)weakSelf = self;
     
-    self.selectCouponView.selectCouponBlock = ^(NSString *text) {
-        
+    self.selectCouponView.selectCouponBlock = ^(NSString *text, CGFloat couponAcount, NSString *code) {
+
+        CGFloat couponSpread = couponAcount - [[weakSelf.couponLabel.text substringFromIndex:3] floatValue];
         weakSelf.couponLabel.text = text;
+
+        if (weakSelf.delagate && [self.delagate respondsToSelector:@selector(updateTotalCouponAcount:withCode:withTag:)]) {
+            [weakSelf.delagate updateTotalCouponAcount:couponSpread withCode:code withTag:weakSelf.tag];
+        }
     };
     
     [window addSubview:self.selectCouponView];
@@ -144,17 +176,20 @@ const CGFloat kLogisticsViewHeight = 65;
     THNOrderDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPreViewOrderDetailCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tag = indexPath.row;
-    
+
+     __weak typeof(self)weakSelf = self;
     cell.selectDeliveryBlcok = ^(NSString *fid) {
         NSMutableArray *skuIds = [NSMutableArray array];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fid == %@",fid];
-        NSArray *fidForItems = [self.skus filteredArrayUsingPredicate:predicate];
+        NSArray *fidForItems = [weakSelf.skus filteredArrayUsingPredicate:predicate];
         
         for (NSDictionary *dict in fidForItems) {
            [skuIds addObject:dict[@"rid"]];
         }
-        
-        self.preViewCellBlock(skuIds, fid, self.tag);
+
+        if (weakSelf.delagate && [weakSelf.delagate respondsToSelector:@selector(selectLogistic:WithFid:withStoreIndex:)]) {
+            [weakSelf.delagate selectLogistic:skuIds WithFid:fid withStoreIndex:self.tag];
+        }
         
     };
     
@@ -174,8 +209,15 @@ const CGFloat kLogisticsViewHeight = 65;
     }
     
     [cell setSkuItemModel:itemModel];
-    [cell setFreightModel:self.freightModel];
+
+
     cell.productCountLabel.text = [NSString stringWithFormat:@"x%@",self.itemSkus[indexPath.row][@"quantity"]];
+
+    if (self.defaultLogistics.count > 0) {
+        THNFreightModelItem *freightModel = [[THNFreightModelItem alloc]initWithDictionary: self.defaultLogistics[indexPath.row]];
+        [cell setFreightModel:freightModel];
+    }
+
     return cell;
 }
 
@@ -193,6 +235,18 @@ const CGFloat kLogisticsViewHeight = 65;
         return kProductViewHeight + kLogisticsViewHeight;
     }
     
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (self.delagate && [self.delagate respondsToSelector:@selector(setRemarkWithGift:withGift:withTag:)]) {
+        [self.delagate setRemarkWithGift:self.remarksTextField.text withGift:self.giftTextField.text withTag:self.tag];
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - lazy
