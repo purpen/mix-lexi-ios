@@ -43,41 +43,41 @@ static NSString *const kKeyRids = @"rids";
 #pragma mark - event response
 - (void)likeButtonAction:(id)sender {
     if (self.selected) {
+        self.selected = !self.selected;
+        [self setLikedGoodsStatus:self.selected];
+        
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected];
         }];
         
     } else {
+        self.selected = !self.selected;
+        [self setLikedGoodsStatus:self.selected];
+        
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected];
         }];
     }
 }
 
 - (void)likeCountButtonAction:(id)sender {
     if (self.selected) {
+        self.selected = !self.selected;
+        [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
+        self.likeCount -= 1;
+        
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
-            self.likeCount -= 1;
             self.likeGoodsCompleted(self.likeCount);
         }];
         
     } else {
+        self.selected = !self.selected;
+        [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
+        self.likeCount += 1;
+        
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
-            self.likeCount += 1;
             self.likeGoodsCompleted(self.likeCount);
         }];
     }

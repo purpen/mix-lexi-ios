@@ -117,12 +117,12 @@
 + (void)initialize {
     UITabBarItem *tabBarItem = [UITabBarItem appearance];
     
-    [tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:kColorTabDefault],
-                                         NSFontAttributeName:[UIFont systemFontOfSize:kFontSizeTabDefault]}
+    [tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#949EA6"],
+                                         NSFontAttributeName: [UIFont systemFontOfSize:kFontSizeTabDefault]}
                               forState:(UIControlStateNormal)];
     
-    [tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:kColorTabSelected],
-                                         NSFontAttributeName:[UIFont systemFontOfSize:kFontSizeTabSelected]}
+    [tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kColorTabSelected],
+                                         NSFontAttributeName: [UIFont systemFontOfSize:kFontSizeTabSelected]}
                               forState:(UIControlStateSelected)];
 }
 

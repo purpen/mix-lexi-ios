@@ -56,12 +56,34 @@
 
 /**
  获取分类商品数据
-
+ 
  @param params 附加参数
  @param completion 完成回调
  */
 + (void)getCategoryProductsWithParams:(NSDictionary *)params
                            completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
+
+/**
+ 获取各栏目的商品数据
+ 
+ @param type 栏目类型
+ @param params 请求参数
+ @param completion 完成回调
+ */
++ (void)getColumnProductsWithListType:(THNGoodsListViewType)type
+                               params:(NSDictionary *)params
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
+
+/**
+ 获取各栏目的浏览记录
+
+ @param type 栏目类型
+ @param params 请求参数
+ @param completion 完成回调
+ */
++ (void)getColumnRecordWithListType:(THNGoodsListViewType)type
+                             params:(NSDictionary *)params
+                         completion:(void (^)(NSArray *usersData, NSInteger count, NSError *error))completion;
 
 /**
  获取商品数量

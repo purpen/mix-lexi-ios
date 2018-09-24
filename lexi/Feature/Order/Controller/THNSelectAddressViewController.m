@@ -50,17 +50,18 @@ static NSString *kKeyData    = @"data";
 #pragma mark - network
 - (void)thn_requestAddressData {
     [SVProgressHUD show];
+    
+    WEAKSELF;
     THNRequest *request = [THNAPI getWithUrlString:kURLAddress requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"------------- 收货地址：%@", result.responseDict);
         [SVProgressHUD dismiss];
         
         for (NSDictionary *dict in result.responseDict[kKeyData]) {
             THNAddressModel *model = [[THNAddressModel alloc] initWithDictionary:dict];
-            [self.addressArr addObject:model];
+            [weakSelf.addressArr addObject:model];
         }
-        [self thn_setDefaultAddress];
-        [self.addressTable reloadData];
+        [weakSelf thn_setDefaultAddress];
+        [weakSelf.addressTable reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
