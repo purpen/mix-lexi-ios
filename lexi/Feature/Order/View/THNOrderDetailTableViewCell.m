@@ -88,7 +88,7 @@ NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
 
 // 物流跟踪
 - (IBAction)logisticsTracking:(id)sender {
-    [[NSNotificationCenter defaultCenter]postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];
 }
 
 // 选择配送方式
