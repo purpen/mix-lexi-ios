@@ -105,7 +105,7 @@ CGFloat const cellOtherHeight = 190;
     
     [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:lineSpacing initWithWidth:itemWidth initwithHeight:itemHeight];
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 0);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
     [self.productCollectionView setCollectionViewLayout:flowLayout];
 }
 

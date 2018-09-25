@@ -10,6 +10,8 @@
 
 @class THNFeatureOpeningModel;
 
+
+
 typedef void(^OpeningBlcok)(void);
 
 @interface THNFeaturedOpeningView : UIView

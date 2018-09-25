@@ -13,7 +13,8 @@
 #import "THNAPI.h"
 #import "THNOrdersModel.h"
 #import "THNOrderDetailViewController.h"
-#import "THNNewShippingAddressViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNOrderStoreModel.h"
 
 /**
  请求订单类型
@@ -159,10 +160,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
-//    if (!cell) {
-//        cell = [THNOrderTableViewCell viewFromXib];
-//    }
-//
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
         [self.orders removeObjectAtIndex:currentIndexPath.row];
@@ -180,12 +179,11 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    THNNewShippingAddressViewController *detail = [[THNNewShippingAddressViewController alloc]init];
-    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-    detail.rid = orderModel.rid;
-    detail.pushOrderDetailType = PushOrderDetailTypeOrder;
-    [self.navigationController pushViewController:detail animated:YES];
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = orderModel.store.store_rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -202,6 +200,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 #pragma mark - THNOrderTableViewCellDelegate
 - (void)deleteOrder:(NSString *)rid {
     [self deleteOrderData:rid];
+}
+
+- (void)pushOrderDetail:(NSString *)orderRid {
+        THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
+        detail.rid = orderRid;
+        detail.pushOrderDetailType = PushOrderDetailTypeOrder;
+        [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark - lazy
