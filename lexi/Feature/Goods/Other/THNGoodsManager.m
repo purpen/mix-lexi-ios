@@ -35,6 +35,8 @@ static NSString *const kURLOfficialStore        = @"/official_store/info";
 static NSString *const kURLCart                 = @"/cart";
 static NSString *const kURLCartCount            = @"/cart/item_count";
 static NSString *const kURLCartRemove           = @"/cart/remove";
+#pragma mark 栏目浏览记录
+static NSString *const kURLColumnRecords        = @"/column/browse_records";
 
 #pragma mark - 接收数据参数
 static NSString *const kKeyProducts         = @"products";
@@ -51,6 +53,8 @@ static NSString *const kKeyLikeUsers        = @"product_like_users";
 static NSString *const kKeyItems            = @"items";
 static NSString *const kKeyItemCount        = @"item_count";
 static NSString *const kKeyQuantity         = @"quantity";
+static NSString *const kKeyUsers            = @"users";
+static NSString *const kKeyCode             = @"code";
 
 @implementation THNGoodsManager
 
@@ -83,6 +87,19 @@ static NSString *const kKeyQuantity         = @"quantity";
     [[THNGoodsManager sharedManager] requestCategoryProductsWithParams:params completion:completion];
 }
 
++ (void)getColumnProductsWithListType:(THNGoodsListViewType)type params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
+    NSString *columnUrl = [[THNGoodsManager sharedManager] thn_getColumnProductsUrlWithListType:type];
+    [[THNGoodsManager sharedManager] requestColumnProductsWithUrl:columnUrl params:params completion:completion];
+}
+
++ (void)getColumnRecordWithListType:(THNGoodsListViewType)type params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
+    NSString *code = [[THNGoodsManager sharedManager] thn_getColumnCodeWithListType:type];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
+    [paramDict setObject:code forKey:kKeyCode];
+    
+    [[THNGoodsManager sharedManager] requestColumnRecordWithParams:paramDict completion:completion];
+}
+
 + (void)getCategoryDataWithPid:(NSInteger)pid completion:(void (^)(NSArray *, NSError *))completion {
     [[THNGoodsManager sharedManager] requestCategoryWithPid:pid completion:completion];
 }
@@ -107,18 +124,8 @@ static NSString *const kKeyQuantity         = @"quantity";
 }
 
 + (void)getProductCountWithType:(THNGoodsListViewType)type params:(NSDictionary *)params completion:(void (^)( NSInteger, NSError *))completion {
-    switch (type) {
-        case THNGoodsListViewTypeCategory:
-            [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLProductsCountC completion:completion];
-            break;
-        case THNGoodsListViewTypeProductCenter:
-            [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLChooseCenterCount completion:completion];
-            break;
-        case THNGoodsListViewTypeStore:
-            [[THNGoodsManager sharedManager] requestProductsCountWithParams:params withUrl:kURLProductsByStoreCount completion:completion];
-        default:
-            break;
-    }
+    NSString *countUrl = [[THNGoodsManager sharedManager] thn_getProductsCountUrlWithListType:type];
+    [[THNGoodsManager sharedManager] requestProductsCountWithUrl:countUrl params:params completion:completion];
 }
 
 + (void)postAddGoodsToCartWithSkuParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
@@ -210,7 +217,7 @@ static NSString *const kKeyQuantity         = @"quantity";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
+        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
@@ -239,10 +246,39 @@ static NSString *const kKeyQuantity         = @"quantity";
 }
 
 /**
+ 获取栏目的商品
+ */
+- (void)requestColumnProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    
+    THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || !result.isSuccess) return;
+        completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, 0, error);
+    }];
+}
+
+/**
+ 获取栏目的浏览记录
+ */
+- (void)requestColumnRecordWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLColumnRecords requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (![result hasData] || !result.isSuccess) return;
+        completion((NSArray *)result.data[kKeyUsers], [result.data[kKeyCount] integerValue], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, 0, error);
+    }];
+}
+
+/**
  获取商品数量
  */
-- (void)requestProductsCountWithParams:(NSDictionary *)params withUrl:(NSString *)requestUrl completion:(void (^)(NSInteger , NSError *))completion {
-    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:params delegate:nil];
+- (void)requestProductsCountWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSInteger , NSError *))completion {
+    THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
         completion([result.data[kKeyCount] integerValue], nil);
@@ -419,6 +455,53 @@ static NSString *const kKeyQuantity         = @"quantity";
             completion(error);
         }
     }];
+}
+
+#pragma mark - private methods
+/**
+ 不用栏目商品的 api 地址
+ */
+- (NSString *)thn_getColumnProductsUrlWithListType:(THNGoodsListViewType)type {
+    NSDictionary *urlResult = @{
+                                @(THNGoodsListViewTypeEditors):    @"/column/explore_recommend",
+                                @(THNGoodsListViewTypeNewProduct): @"/column/explore_new",
+                                @(THNGoodsListViewTypeGather):     @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeDesign):     @"/column/preferential_design",
+                                @(THNGoodsListViewTypeGoodThing):  @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization",
+                                @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend"
+                                };
+    
+    return urlResult[@(type)];
+}
+
+/**
+ 不同商品的数量 api 地址（筛选）
+ */
+- (NSString *)thn_getProductsCountUrlWithListType:(THNGoodsListViewType)type {
+    NSDictionary *urlResult = @{
+                                 @(THNGoodsListViewTypeEditors):    @"/column/explore_recommend/count",
+                                 @(THNGoodsListViewTypeNewProduct): @"/column/explore_new/count",
+                                 @(THNGoodsListViewTypeDesign):     @"/column/preferential_design/count",
+                                 @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization/count",
+                                 @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend/count"
+                                 };
+    
+    return urlResult[@(type)];
+}
+
+/**
+ 获取栏目商品的编码
+ */
+- (NSString *)thn_getColumnCodeWithListType:(THNGoodsListViewType)type {
+    NSDictionary *codeResult = @{
+                                 @(THNGoodsListViewTypeEditors):    @"e_recommend",
+                                 @(THNGoodsListViewTypeNewProduct): @"e_new",
+                                 @(THNGoodsListViewTypeDesign):     @"preferential_design",
+                                 @(THNGoodsListViewTypeGoodThing):  @"affordable_goods"
+                                 };
+
+    return codeResult[@(type)];
 }
 
 #pragma mark - shared
