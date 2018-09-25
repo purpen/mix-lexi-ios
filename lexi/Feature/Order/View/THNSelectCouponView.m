@@ -21,6 +21,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 @property (weak, nonatomic) IBOutlet UILabel *couponMoneyLabel;
 @property (nonatomic, strong) NSIndexPath *selectIndex;
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) THNCouponModel *couponModel;
 
 @end
 
@@ -45,7 +46,8 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 
 
 - (IBAction)sure:(id)sender {
-    self.selectCouponBlock(self.couponMoneyLabel.text);
+
+    self.selectCouponBlock(self.couponMoneyLabel.text, self.couponModel.amount, self.couponModel.code);
     [self remove];
 }
 
@@ -62,6 +64,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     } else {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
     }
+
     cell.couponType = self.couponType;
     self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
     [cell setCouponModel:couponModel];
@@ -83,6 +86,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     } else {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
     }
+    self.couponModel = couponModel;
     self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
 }
 

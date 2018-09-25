@@ -45,7 +45,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
     self.viewType = cellViewType;
-    [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"] completed:^(UIImage *image, NSError *error) {
+        [self thn_showLoadImageAnimate:YES];
+    }];
     
     if (show) {
         self.infoView.hidden = NO;
@@ -78,6 +80,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     self.priceLabel.attributedText = priceAtt;
 }
 
+// 图片加载渐变
 - (void)thn_showLoadImageAnimate:(BOOL)show {
     if (!show) return;
     
@@ -140,7 +143,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 - (UIImageView *)goodsImageView {
     if (!_goodsImageView) {
         _goodsImageView = [[UIImageView alloc] init];
-        _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
+        _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _goodsImageView;

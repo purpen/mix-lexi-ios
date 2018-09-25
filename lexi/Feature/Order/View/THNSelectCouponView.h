@@ -10,7 +10,7 @@
 #import "THNSelectCouponTableViewCell.h"
 
 
-typedef void(^SelectCouponBlock)(NSString *text);
+typedef void(^SelectCouponBlock)(NSString *text, CGFloat couponAcount, NSString *code);
 
 @interface THNSelectCouponView : UIView
 
