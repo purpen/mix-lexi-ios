@@ -234,10 +234,10 @@ static NSString *const kKeyQuantity = @"quantity";
     for (THNCartModelItem *item in self.cartGoodsArr) {
 
         if (item.product.status == 1) {
-            NSDictionary *skuItem = @{kKeySkuId: item.rid,
-                                      kKeyQuantity: @(item.quantity)};
+            NSMutableDictionary *skuItem = [@{kKeySkuId: item.rid,
+                                      kKeyQuantity: @(item.quantity)} mutableCopy];
             
-            NSDictionary *storeItem = @{item.product.storeRid: skuItem};
+            NSMutableDictionary *storeItem = [@{item.product.storeRid: skuItem} mutableCopy];
         
             [cartItems addObject:storeItem];
             [storeIdArr addObject:item.product.storeRid];
@@ -261,8 +261,8 @@ static NSString *const kKeyQuantity = @"quantity";
             }
         }
         
-        [skuItems addObject:@{kKeyRid: storeId,
-                              kKeySkuItems: skuItemArr}];
+        [skuItems addObject:[@{kKeyRid: storeId,
+                              kKeySkuItems: skuItemArr} mutableCopy]];
     }
     
     return [skuItems copy];

@@ -149,8 +149,8 @@ static NSString *const kKeyQuantity = @"quantity";
                               kKeyQuantity: @(1)} mutableCopy];
     NSArray *skuItems = @[skuItem];
     
-    NSDictionary *storeItem = @{kKeyRid: self.skuView.selectSkuItem.storeRid,
-                                kKeySkuItems: skuItems};
+    NSMutableDictionary *storeItem = [@{kKeyRid: self.skuView.selectSkuItem.storeRid,
+                                kKeySkuItems: skuItems} mutableCopy];
     
     return @[storeItem];
 }
