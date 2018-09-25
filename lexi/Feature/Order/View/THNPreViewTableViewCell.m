@@ -35,8 +35,6 @@ const CGFloat kLogisticsViewHeight = 65;
 @property (weak, nonatomic) IBOutlet UITextField *giftTextField;
 @property (weak, nonatomic) IBOutlet UILabel *couponLabel;
 @property (weak, nonatomic) IBOutlet UIView *couponView;
-// 运费
-@property (weak, nonatomic) IBOutlet UILabel *freightLabel;
 // 满减
 @property (weak, nonatomic) IBOutlet UILabel *fullReductionLabel;
 @property (weak, nonatomic) IBOutlet UIView *fullReductionView;
