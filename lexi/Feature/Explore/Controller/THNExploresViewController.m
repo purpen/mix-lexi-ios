@@ -217,6 +217,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         cell = [[[NSBundle mainBundle] loadNibNamed:@"THNExploreTableViewCell" owner:nil options:nil] lastObject];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delagate = self;
     
     NSArray *dataArray = [NSArray array];
