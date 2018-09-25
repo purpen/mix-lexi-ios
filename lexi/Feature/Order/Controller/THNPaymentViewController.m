@@ -70,10 +70,12 @@ static NSString *kTextPayment   = @"选择支付方式";
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.paymentTable];
     [self.view addSubview:self.doneButton];
-    
-    // 示例
-    [self.priceView thn_setPriceValue:self.paymentAmount totalPriceValue:self.totalPrice freightValue:self.totalFreight];
     self.paymentTable.tableHeaderView = self.priceView;
+    
+    // 显示金额
+    [self.priceView thn_setPriceValue:self.paymentAmount
+                      totalPriceValue:self.totalPrice
+                         freightValue:self.totalFreight];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,7 +94,7 @@ static NSString *kTextPayment   = @"选择支付方式";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -121,7 +123,10 @@ static NSString *kTextPayment   = @"选择支付方式";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPaymentTableViewCell *paymentCell = [THNPaymentTableViewCell initPaymentCellWithTableView:tableView];
     [paymentCell thn_setPaymentTypeWithType:(THNPaymentType)indexPath.row];
-    
+    if ((THNPaymentType)indexPath.row == THNPaymentTypeWechat) {
+        paymentCell.selected = YES;
+        self.selectIndex = indexPath;
+    }
     return paymentCell;
 }
 

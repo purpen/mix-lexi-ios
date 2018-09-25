@@ -25,6 +25,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNOrderViewController.h"
 #import "THNBrandHallViewController.h"
+#import "THNUserApplyViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -110,9 +111,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        THNApplyStoreViewController *applyVC = [[THNApplyStoreViewController alloc] init];
-        [self.navigationController pushViewController:applyVC animated:YES];
-        
+        [SVProgressHUD showInfoWithStatus:@"分享"];
     } else if (index == 1) {
         [THNLoginManager userLogoutCompletion:^(NSError *error) {
             if (error) return;

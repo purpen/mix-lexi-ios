@@ -25,6 +25,7 @@
 #import "THNShopWindowViewController.h"
 #import "THNGoodsListViewController.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNApplyStoreViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -230,6 +231,9 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                 THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
                 THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
                 [weakSelf presentViewController:navController animated:YES completion:nil];
+            } else {
+                THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc]init];
+                [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
             }
         };
         return headerView;
@@ -281,6 +285,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delagate = self;
     NSArray *dataArray = [NSArray array];
     NSString *title;
