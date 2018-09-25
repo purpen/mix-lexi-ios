@@ -89,6 +89,11 @@
 		4B56C96A213FF1840052FD80 /* THNDiscoverTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C968213FF1840052FD80 /* THNDiscoverTableViewCell.m */; };
 		4B56C96B213FF1840052FD80 /* THNDiscoverTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B56C969213FF1840052FD80 /* THNDiscoverTableViewCell.xib */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
+		4B6A9CED2159DE9500C802EE /* THNUserApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CE82159DE9400C802EE /* THNUserApplyViewController.m */; };
+		4B6A9CEE2159DE9500C802EE /* THNApplyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CE92159DE9400C802EE /* THNApplyStoreViewController.m */; };
+		4B6A9CEF2159DE9500C802EE /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CEC2159DE9500C802EE /* THNApplySuccessViewController.m */; };
+		4B6A9CF42159DEA100C802EE /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CF12159DEA000C802EE /* THNUserApplyView.m */; };
+		4B6A9CF52159DEA100C802EE /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CF32159DEA000C802EE /* THNApplySuccessView.m */; };
 		4B720600212D65F4002606EE /* THNToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7205FE212D65F4002606EE /* THNToolBarView.m */; };
 		4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7205FF212D65F4002606EE /* THNToolBarView.xib */; };
 		4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720602212D6678002606EE /* WBEmoticonInputView.m */; };
@@ -151,11 +156,6 @@
 		D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA77F212559C600E14A22 /* THNLikedWindowCollectionViewCell.m */; };
 		D82FA78521256B8000E14A22 /* YYLabel+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA78421256B8000E14A22 /* YYLabel+Helper.m */; };
 		D82FA7882125740000E14A22 /* THNLikedWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */; };
-		D82FA79F2126A8FE00E14A22 /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */; };
-		D82FA7A02126A8FE00E14A22 /* THNUserApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */; };
-		D82FA7A12126A8FE00E14A22 /* THNApplyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7972126A8FE00E14A22 /* THNApplyStoreViewController.m */; };
-		D82FA7A22126A8FE00E14A22 /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79D2126A8FE00E14A22 /* THNUserApplyView.m */; };
-		D82FA7A32126A8FE00E14A22 /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA79E2126A8FE00E14A22 /* THNApplySuccessView.m */; };
 		D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B62126CDB400E14A22 /* THNUserManager.m */; };
 		D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D82FA7B92127F0CF00E14A22 /* THNDynamicTableViewController.m */; };
 		D83CCF8021400914006A1251 /* THNGoodsDescribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D83CCF7F21400914006A1251 /* THNGoodsDescribeViewController.m */; };
@@ -479,6 +479,16 @@
 		4B56C969213FF1840052FD80 /* THNDiscoverTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNDiscoverTableViewCell.xib; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
+		4B6A9CE72159DE9400C802EE /* THNUserApplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyViewController.h; sourceTree = "<group>"; };
+		4B6A9CE82159DE9400C802EE /* THNUserApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyViewController.m; sourceTree = "<group>"; };
+		4B6A9CE92159DE9400C802EE /* THNApplyStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplyStoreViewController.m; sourceTree = "<group>"; };
+		4B6A9CEA2159DE9400C802EE /* THNApplySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessViewController.h; sourceTree = "<group>"; };
+		4B6A9CEB2159DE9500C802EE /* THNApplyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplyStoreViewController.h; sourceTree = "<group>"; };
+		4B6A9CEC2159DE9500C802EE /* THNApplySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessViewController.m; sourceTree = "<group>"; };
+		4B6A9CF02159DEA000C802EE /* THNApplySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessView.h; sourceTree = "<group>"; };
+		4B6A9CF12159DEA000C802EE /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
+		4B6A9CF22159DEA000C802EE /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
+		4B6A9CF32159DEA000C802EE /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
 		4B7205FD212D65F4002606EE /* THNToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNToolBarView.h; sourceTree = "<group>"; };
 		4B7205FE212D65F4002606EE /* THNToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNToolBarView.m; sourceTree = "<group>"; };
 		4B7205FF212D65F4002606EE /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
@@ -586,16 +596,6 @@
 		D82FA78421256B8000E14A22 /* YYLabel+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYLabel+Helper.m"; sourceTree = "<group>"; };
 		D82FA7862125740000E14A22 /* THNLikedWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLikedWindowViewController.h; sourceTree = "<group>"; };
 		D82FA7872125740000E14A22 /* THNLikedWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLikedWindowViewController.m; sourceTree = "<group>"; };
-		D82FA7942126A8FE00E14A22 /* THNApplyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplyStoreViewController.h; sourceTree = "<group>"; };
-		D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessViewController.m; sourceTree = "<group>"; };
-		D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyViewController.m; sourceTree = "<group>"; };
-		D82FA7972126A8FE00E14A22 /* THNApplyStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplyStoreViewController.m; sourceTree = "<group>"; };
-		D82FA7982126A8FE00E14A22 /* THNApplySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessViewController.h; sourceTree = "<group>"; };
-		D82FA7992126A8FE00E14A22 /* THNUserApplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyViewController.h; sourceTree = "<group>"; };
-		D82FA79B2126A8FE00E14A22 /* THNApplySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessView.h; sourceTree = "<group>"; };
-		D82FA79C2126A8FE00E14A22 /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
-		D82FA79D2126A8FE00E14A22 /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
-		D82FA79E2126A8FE00E14A22 /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
 		D82FA7B52126CDB400E14A22 /* THNUserManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserManager.h; sourceTree = "<group>"; };
 		D82FA7B62126CDB400E14A22 /* THNUserManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserManager.m; sourceTree = "<group>"; };
 		D82FA7B82127F0CF00E14A22 /* THNDynamicTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNDynamicTableViewController.h; sourceTree = "<group>"; };
@@ -1411,39 +1411,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		D82FA7922126A8FE00E14A22 /* ApplyStore */ = {
-			isa = PBXGroup;
-			children = (
-				D82FA7932126A8FE00E14A22 /* Controller */,
-				D82FA79A2126A8FE00E14A22 /* View */,
-			);
-			path = ApplyStore;
-			sourceTree = "<group>";
-		};
-		D82FA7932126A8FE00E14A22 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				D82FA7942126A8FE00E14A22 /* THNApplyStoreViewController.h */,
-				D82FA7972126A8FE00E14A22 /* THNApplyStoreViewController.m */,
-				D82FA7982126A8FE00E14A22 /* THNApplySuccessViewController.h */,
-				D82FA7952126A8FE00E14A22 /* THNApplySuccessViewController.m */,
-				D82FA7992126A8FE00E14A22 /* THNUserApplyViewController.h */,
-				D82FA7962126A8FE00E14A22 /* THNUserApplyViewController.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		D82FA79A2126A8FE00E14A22 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D82FA79B2126A8FE00E14A22 /* THNApplySuccessView.h */,
-				D82FA79E2126A8FE00E14A22 /* THNApplySuccessView.m */,
-				D82FA79C2126A8FE00E14A22 /* THNUserApplyView.h */,
-				D82FA79D2126A8FE00E14A22 /* THNUserApplyView.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		D82FA7A42126A91E00E14A22 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -1702,7 +1669,6 @@
 				D8BAC8E7211A949100667D6F /* MyCenter */,
 				D8F99809212A91850012AED3 /* Store */,
 				D8BAC942211A949100667D6F /* Login */,
-				D82FA7922126A8FE00E14A22 /* ApplyStore */,
 				D8BAC982211A949100667D6F /* Share */,
 				D82FA7A42126A91E00E14A22 /* Other */,
 			);
@@ -2238,6 +2204,12 @@
 		D8F9980A212A91850012AED3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B6A9CEB2159DE9500C802EE /* THNApplyStoreViewController.h */,
+				4B6A9CE92159DE9400C802EE /* THNApplyStoreViewController.m */,
+				4B6A9CEA2159DE9400C802EE /* THNApplySuccessViewController.h */,
+				4B6A9CEC2159DE9500C802EE /* THNApplySuccessViewController.m */,
+				4B6A9CE72159DE9400C802EE /* THNUserApplyViewController.h */,
+				4B6A9CE82159DE9400C802EE /* THNUserApplyViewController.m */,
 				D8F99810212A91CB0012AED3 /* THNStoreViewController.h */,
 				D8F99811212A91CB0012AED3 /* THNStoreViewController.m */,
 			);
@@ -2258,6 +2230,10 @@
 		D8F9980C212A91850012AED3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B6A9CF02159DEA000C802EE /* THNApplySuccessView.h */,
+				4B6A9CF32159DEA000C802EE /* THNApplySuccessView.m */,
+				4B6A9CF22159DEA000C802EE /* THNUserApplyView.h */,
+				4B6A9CF12159DEA000C802EE /* THNUserApplyView.m */,
 				D8F9980D212A91B30012AED3 /* THNFollowStoreTableViewCell.h */,
 				D8F9980E212A91B30012AED3 /* THNFollowStoreTableViewCell.m */,
 			);
@@ -2539,12 +2515,14 @@
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
 				4B56C95B213E70D70052FD80 /* THNSetDetailViewController.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
+				4B6A9CED2159DE9500C802EE /* THNUserApplyViewController.m in Sources */,
 				D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */,
 				4B27A67C214A65520082BA22 /* THNNoLogisticsView.m in Sources */,
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				4B26A705214F4E5D00F8017C /* THNSelectCouponView.m in Sources */,
 				4B2168DE2137E78B00B1B796 /* THNAllAnnouncementView.m in Sources */,
+				4B6A9CEF2159DE9500C802EE /* THNApplySuccessViewController.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
 				D8247ECF2147EC56000C8E37 /* THNLogisticsPlaceTableViewCell.m in Sources */,
 				D85DA7FD2106030200A36A71 /* UIImageView+SDWedImage.m in Sources */,
@@ -2575,13 +2553,11 @@
 				D82FA78521256B8000E14A22 /* YYLabel+Helper.m in Sources */,
 				D8F998B42138ECD70012AED3 /* THNGoodsModelAsset.m in Sources */,
 				D8BAC997211A949100667D6F /* THNLivingHallMuseumView.m in Sources */,
-				D82FA7A12126A8FE00E14A22 /* THNApplyStoreViewController.m in Sources */,
 				D8A9C26D213A6A460059CAFD /* THNGoodsDirectTableViewCell.m in Sources */,
 				D82FA765212401C200E14A22 /* THNTableViewCells.m in Sources */,
 				D8247EC32147E96D000C8E37 /* THNOrderProductTableViewCell.m in Sources */,
 				4B25B4622140D0B900654390 /* THNOrderViewController.m in Sources */,
 				D8BAC9AE211A949100667D6F /* THNProductModel.m in Sources */,
-				D82FA7A02126A8FE00E14A22 /* THNUserApplyViewController.m in Sources */,
 				D8F998A82138EBCB0012AED3 /* THNSkuModelItem.m in Sources */,
 				D8F998482133E1AC0012AED3 /* THNFunctionButtonView.m in Sources */,
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
@@ -2612,7 +2588,6 @@
 				D8F998B72138ECD70012AED3 /* THNGoodsModel.m in Sources */,
 				D8BAC9CE211A949100667D6F /* THNSetPasswordView.m in Sources */,
 				D8BAC9CB211A949100667D6F /* THNSignUpView.m in Sources */,
-				D82FA7A32126A8FE00E14A22 /* THNApplySuccessView.m in Sources */,
 				4B23433D2154B57D006E80B3 /* THNSelectOfficalCouponView.m in Sources */,
 				D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */,
 				D8A9C28A213AD0D60059CAFD /* THNGoodsStoreTableViewCell.m in Sources */,
@@ -2623,6 +2598,7 @@
 				D8BAC9A5211A949100667D6F /* THNBannerView.m in Sources */,
 				D84CC306214D59FF007B7B25 /* THNCartFunctionView.m in Sources */,
 				D8BAC99D211A949100667D6F /* THNBannerModel.m in Sources */,
+				4B6A9CF52159DEA100C802EE /* THNApplySuccessView.m in Sources */,
 				D85CC8A82143B8FC0040E172 /* THNGoodsSkuCollectionViewCell.m in Sources */,
 				D8247EB92147E96D000C8E37 /* THNLogisticsPriceView.m in Sources */,
 				D84CC300214D269F007B7B25 /* THNCartModelProduct.m in Sources */,
@@ -2645,7 +2621,6 @@
 				D8A9C281213AB9730059CAFD /* THNGoodsBaseTableViewCell.m in Sources */,
 				D8247EBA2147E96D000C8E37 /* THNLogisticsTableViewCell.m in Sources */,
 				D8BAC9D0211A949100667D6F /* THNZipCodeTableViewCell.m in Sources */,
-				D82FA79F2126A8FE00E14A22 /* THNApplySuccessViewController.m in Sources */,
 				4B720617212E6012002606EE /* THNFiveImagesStitchView.m in Sources */,
 				D8BAC9D6211A949100667D6F /* THNBaseViewController.m in Sources */,
 				4B56C917213CDCC80052FD80 /* THNCouponTableViewCell.m in Sources */,
@@ -2673,7 +2648,6 @@
 				D84CC30F214E062D007B7B25 /* THNPaymentPriceView.m in Sources */,
 				D8BAC99B211A949100667D6F /* THNSetModel.m in Sources */,
 				4B2439A62135387800C94940 /* THNBrandHallHeaderView.m in Sources */,
-				D82FA7A22126A8FE00E14A22 /* THNUserApplyView.m in Sources */,
 				D8F9987F2137BC340012AED3 /* THNImagesView.m in Sources */,
 				4B720624212EB281002606EE /* UITableView+Helper.m in Sources */,
 				D8247EB82147E96D000C8E37 /* THNAddressTableViewCell.m in Sources */,
@@ -2761,12 +2735,14 @@
 				D82FA780212559C600E14A22 /* THNLikedWindowCollectionViewCell.m in Sources */,
 				D8F9984F2133E7AC0012AED3 /* THNFunctionCollectionViewCell.m in Sources */,
 				4B223CDA21428FC0001E5F94 /* THNLogisticsViewController.m in Sources */,
+				4B6A9CEE2159DE9500C802EE /* THNApplyStoreViewController.m in Sources */,
 				D8F9988D21382F6F0012AED3 /* THNGoodsFunctionView.m in Sources */,
 				D8BAC9CC211A949100667D6F /* THNAuthCodeButton.m in Sources */,
 				4B56C96A213FF1840052FD80 /* THNDiscoverTableViewCell.m in Sources */,
 				D8BAC9CF211A949100667D6F /* THNLoginView.m in Sources */,
 				4B2644E12123FA1C00665A6D /* THNShopWindowViewController.m in Sources */,
 				D8BAC9AC211A949100667D6F /* THNFeaturedViewController.m in Sources */,
+				4B6A9CF42159DEA100C802EE /* THNUserApplyView.m in Sources */,
 				D8BAC986211A949100667D6F /* THNHomeViewController.m in Sources */,
 				D82FA7882125740000E14A22 /* THNLikedWindowViewController.m in Sources */,
 				D8BAC9B7211A949100667D6F /* THNFeaturedOpeningView.m in Sources */,

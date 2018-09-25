@@ -105,7 +105,7 @@ CGFloat const kCellGrassListHeight = 158;
     //  放在初始化设置Layout前，否则数据样式错乱，卡顿，以及可能会有崩溃的问题产生
    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 0);
     flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 9;
     flowLayout.minimumLineSpacing = 10;
     
@@ -131,7 +131,7 @@ CGFloat const kCellGrassListHeight = 158;
             itemHeight = kCellTodayHeight;
             break;
         case FeaturedRecommendationPopular:
-            itemWidth = indexPath.row <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
+            itemWidth = indexPath.row  <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
             itemHeight = indexPath.row <= 1 ? 160 : 145;
             break;
         case FeaturedLifeAesthetics:
