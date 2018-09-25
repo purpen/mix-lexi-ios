@@ -28,4 +28,8 @@ typedef void(^PreViewCellBlock)(NSMutableArray *skuIds, NSString *fid, NSInteger
 
 @property (nonatomic, copy) PreViewCellBlock preViewCellBlock;
 
+// 运费
+@property (weak, nonatomic) IBOutlet UILabel *freightLabel;
+
+
 @end

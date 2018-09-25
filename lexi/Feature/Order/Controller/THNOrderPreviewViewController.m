@@ -79,6 +79,9 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 // 支付金额
 @property (nonatomic, assign) CGFloat payAmount;
 
+// 所有带物流ID的数组
+@property (nonatomic, strong) NSArray *allExpressSku;
+
 @end
 
 @implementation THNOrderPreviewViewController
@@ -266,7 +269,31 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.logisticsDict = result.data;
-        [self loadLogisticsFreightData];
+        NSMutableArray *newSkuItems = [NSMutableArray array];
+        
+        for (NSDictionary *skuDict in self.skuItems) {
+            NSMutableDictionary *oriSkuDict = [NSMutableDictionary dictionaryWithDictionary:skuDict];
+            NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
+            NSMutableArray *newSkuArr = [NSMutableArray array];
+            
+            for (NSDictionary *goodsDict in (NSArray *)skuDict[@"sku_items"]) {
+                NSMutableDictionary *newSku = [NSMutableDictionary dictionaryWithDictionary:goodsDict];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+                NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
+                NSString *logId = expressArray[0][@"express_id"];
+                [newSku setObject:logId forKey:@"express_id"];
+                [newSkuArr addObject:newSku];
+            }
+            
+            [oriSkuDict setObject:newSkuArr forKey:@"sku_items"];
+            [newSkuItems addObject:oriSkuDict];
+        }
+        
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"address_rid"] = self.addressModel.rid;
+        self.allExpressSku = newSkuItems;
+        params[@"items"] = newSkuItems;
+        [self loadLogisticsFreightData:params];
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -274,31 +301,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 }
 
 // 计算运费
-- (void)loadLogisticsFreightData {
-    
-    NSMutableArray *newSkuItems = [NSMutableArray array];
-
-    for (NSDictionary *skuDict in self.skuItems) {
-        NSMutableDictionary *oriSkuDict = [NSMutableDictionary dictionaryWithDictionary:skuDict];
-        NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
-        NSMutableArray *newSkuArr = [NSMutableArray array];
-
-        for (NSDictionary *goodsDict in (NSArray *)skuDict[@"sku_items"]) {
-            NSMutableDictionary *newSku = [NSMutableDictionary dictionaryWithDictionary:goodsDict];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
-            NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
-            NSString *logId = expressArray[0][@"express_id"];
-            [newSku setObject:logId forKey:@"express_id"];
-            [newSkuArr addObject:newSku];
-        }
-
-        [oriSkuDict setObject:newSkuArr forKey:@"sku_items"];
-        [newSkuItems addObject:oriSkuDict];
-    }
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"address_rid"] = self.addressModel.rid;
-    params[@"items"] = newSkuItems;
+- (void)loadLogisticsFreightData:(NSDictionary *)params {
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.freightDict = result.data;
@@ -307,6 +310,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
             CGFloat freight  = [self.freightDict[dict[@"rid"]] floatValue];
             self.totalFreight += freight;
         }
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -318,6 +322,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     THNRequest *request = [THNAPI getWithUrlString:kUrlNewUserDiscount requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.discountRatio = [result.data[@"discount_ratio"]floatValue];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -375,7 +380,31 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
                                         @"fid":fid,
                                         @"items":items
                                         };
-         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc]initWithGoodsData:goods logisticsData:expressParams];
+         THNSelectLogisticsViewController *selectLogistcisVC = [[THNSelectLogisticsViewController alloc] initWithGoodsData:goods
+                                                                                                             logisticsData:expressParams];
+        // 选择物流方法回调
+        selectLogistcisVC.didSelectedExpressItem = ^(THNFreightModelItem *expressModel) {
+//
+//            for (NSDictionary *dict in self.logisticsDict[storeKey]) {
+//
+//            }
+//            NSMutableArray *newSkuArr = [NSMutableArray array];
+//            for (NSDictionary *goodsDict in items) {
+//                NSMutableDictionary *newSku = [NSMutableDictionary dictionaryWithDictionary:goodsDict];
+//                [newSku setObject:@(expressModel.expressId) forKey:@"express_id"];
+//                [newSkuArr addObject:newSku];
+//            }
+            
+//            NSDictionary *freightParams = @{@"address_rid":self.addressModel.rid,
+//                                           @"items":@[
+//                                                        @{@"rid":storeKey,
+//                                                          @"sku_items":newSkuArr
+//                                                          }
+//                                                     ]
+//                                           };
+//            [self loadLogisticsFreightData:freightParams];
+            
+        };
         [self.navigationController pushViewController:selectLogistcisVC animated:YES];
     };
 
@@ -383,7 +412,6 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSString *storekey = self.skuItems[indexPath.row][@"rid"];
     // 每个商品的sku
     NSArray *skuItems = self.skuItems[indexPath.row][@"sku_items"];
-
     // 每个店铺的商品的sku
     NSArray *skus = self.skuDict[storekey];
     self.skus = skus;
@@ -436,6 +464,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
     [headerView addSubview:self.payDetailView];
+
     self.firstDiscount = (self.totalFreight + self.totalReductionAmount + self.totalPrice) * (1 - self.discountRatio);
     //  实际支付金额 = 订单总金额 + 运费 - 首单优惠 - 满减 - 优惠券/红包
     self.payAmount = self.totalPrice + self.totalFreight - self.totalReductionAmount - self.firstDiscount - self.totalCouponAmount;
@@ -446,12 +475,10 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
                                 @"first_discount":@(self.firstDiscount),
                                 @"pay_amount":@(self.payAmount)
                                 };
-    
     THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
     CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
+    NSLog(@"%f",payDetailViewHeight);
     self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH, payDetailViewHeight);
-    
-    
     return headerView;
 }
 

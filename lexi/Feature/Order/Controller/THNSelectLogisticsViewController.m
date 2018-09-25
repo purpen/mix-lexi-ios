@@ -17,11 +17,11 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 
 @interface THNSelectLogisticsViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *iTableView;
+@property (nonatomic, strong) UITableView *expressTableView;
 /// 商品数组
 @property (nonatomic, strong) NSArray *goodsArr;
 /// 快递数组
-@property (nonatomic, strong) NSArray *expressArr;
+@property (nonatomic, strong) NSMutableArray *expressArr;
 /// 发货地
 @property (nonatomic, strong) NSString *country;
 /// 运费预览视图
@@ -33,11 +33,11 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 
 @implementation THNSelectLogisticsViewController
 
-- (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSArray *)logisticsData {
+- (instancetype)initWithGoodsData:(NSArray *)goodsData logisticsData:(NSDictionary *)expressParam {
     self = [super self];
     if (self) {
         self.goodsArr = [self thn_changeGoodsSkuDataToModes:goodsData];
-        self.expressArr = [self thn_changeExpressDataToModels:logisticsData];
+        [self requestSameTemplateExpressWithParams:expressParam];
     }
     return self;
 }
@@ -49,12 +49,21 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 }
 
 #pragma mark - network
-- (void)requestSameTemplateExpress {
-    THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:@{} delegate:nil];
+- (void)requestSameTemplateExpressWithParams:(NSDictionary *)params {
+    [SVProgressHUD show];
+    THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (!result.isSuccess) return;
+        for (NSDictionary *dict in result.data) {
+            THNFreightModelItem *model = [[THNFreightModelItem alloc] initWithDictionary:dict];
+            [self.expressArr addObject:model];
+        }
+    
+        [self thn_defaultSelected];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -82,17 +91,33 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
     return [models copy];
 }
 
+- (void)thn_defaultSelected {
+    if (!self.expressArr.count) return;
+    
+    self.selectIndex = [NSIndexPath indexPathForRow:1 inSection:1];
+    [self.expressTableView selectRowAtIndexPath:self.selectIndex
+                                       animated:NO
+                                 scrollPosition:(UITableViewScrollPositionNone)];
+    
+    THNFreightModelItem *item = self.expressArr[0];
+    [self.priceView thn_setLogisticsPriceValue:item.freight];
+    
+    [self.expressTableView reloadData];
+}
+
 - (void)thn_tableView:(UITableView *)tableView selectAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectLogisticsTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
-    selectedCell.selected = NO;
+    selectedCell.isSelected = NO;
     
     THNSelectLogisticsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.selected = YES;
+    cell.isSelected = YES;
     
     [self.priceView thn_setLogisticsPriceValue:cell.price];
     self.selectIndex = indexPath;
     
-    self.didSelectedExpressItem(self.expressArr[indexPath.row - 1]);
+    if (self.didSelectedExpressItem) {
+        self.didSelectedExpressItem(self.expressArr[indexPath.row - 1]);
+    }
 }
 
 #pragma mark - tableView datasource & delegate
@@ -151,6 +176,7 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
             if (self.expressArr.count) {
                 [logisticsCell thn_setLogisticsDataWithModel:self.expressArr[indexPath.row - 1]];
                 logisticsCell.showLine = indexPath.row - 1 == self.goodsArr.count - 1 ? NO : YES;
+                logisticsCell.isSelected = indexPath == self.selectIndex;
             }
             
             return logisticsCell;
@@ -171,14 +197,7 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     
-    [self.view addSubview:self.iTableView];
-    
-    if (self.goodsArr.count && self.expressArr.count) {
-        self.selectIndex = [NSIndexPath indexPathForRow:1 inSection:1];
-        [self.iTableView selectRowAtIndexPath:self.selectIndex
-                                     animated:NO
-                               scrollPosition:(UITableViewScrollPositionNone)];
-    }
+    [self.view addSubview:self.expressTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -192,26 +211,32 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 }
 
 #pragma mark - getters and setters
-- (UITableView *)iTableView {
-    if (!_iTableView) {
-        _iTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStyleGrouped)];
-        _iTableView.delegate = self;
-        _iTableView.dataSource = self;
-        _iTableView.showsVerticalScrollIndicator = NO;
-        _iTableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
-        _iTableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
-        _iTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _iTableView.tableFooterView = self.priceView;
+- (UITableView *)expressTableView {
+    if (!_expressTableView) {
+        _expressTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStyleGrouped)];
+        _expressTableView.delegate = self;
+        _expressTableView.dataSource = self;
+        _expressTableView.showsVerticalScrollIndicator = NO;
+        _expressTableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
+        _expressTableView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+        _expressTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _expressTableView.tableFooterView = self.priceView;
     }
-    return _iTableView;
+    return _expressTableView;
 }
 
 - (THNLogisticsPriceView *)priceView {
     if (!_priceView) {
         _priceView = [[THNLogisticsPriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 97)];
-        [_priceView thn_setLogisticsPriceValue:18.0];
     }
     return _priceView;
+}
+
+- (NSMutableArray *)expressArr {
+    if (!_expressArr) {
+        _expressArr = [NSMutableArray array];
+    }
+    return _expressArr;
 }
 
 @end
