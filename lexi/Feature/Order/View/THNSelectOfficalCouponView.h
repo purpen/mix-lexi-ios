@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^UpdateCouponAmountBlcok)(CGFloat couponSpread, NSString*code);
+
 @interface THNSelectOfficalCouponView : UIView
 
 @property (nonatomic, strong) NSArray *officalCoupons;
+@property (nonatomic, copy) UpdateCouponAmountBlcok updateCouponAcountBlcok;
 
 @end

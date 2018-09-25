@@ -33,6 +33,7 @@ NSString *const kTHNCartModelProductSalePrice = @"sale_price";
 NSString *const kTHNCartModelProductStatus = @"status";
 NSString *const kTHNCartModelProductStockCount = @"stock_count";
 NSString *const kTHNCartModelProductStockQuantity = @"stock_quantity";
+NSString *const kTHNCartModelProductTotalStock = @"product_total_stock";
 NSString *const kTHNCartModelProductStoreLogo = @"store_logo";
 NSString *const kTHNCartModelProductStoreName = @"store_name";
 NSString *const kTHNCartModelProductStoreRid = @"store_rid";
@@ -138,6 +139,10 @@ NSString *const kTHNCartModelProductTown = @"town";
 	if(![dictionary[kTHNCartModelProductStockQuantity] isKindOfClass:[NSNull class]]){
 		self.stockQuantity = [dictionary[kTHNCartModelProductStockQuantity] integerValue];
 	}
+    
+    if(![dictionary[kTHNCartModelProductTotalStock] isKindOfClass:[NSNull class]]){
+        self.productTotalCount = [dictionary[kTHNCartModelProductTotalStock] integerValue];
+    }
 
 	if(![dictionary[kTHNCartModelProductStoreLogo] isKindOfClass:[NSNull class]]){
 		self.storeLogo = dictionary[kTHNCartModelProductStoreLogo];
@@ -217,6 +222,7 @@ NSString *const kTHNCartModelProductTown = @"town";
 	dictionary[kTHNCartModelProductStatus] = @(self.status);
 	dictionary[kTHNCartModelProductStockCount] = @(self.stockCount);
 	dictionary[kTHNCartModelProductStockQuantity] = @(self.stockQuantity);
+    dictionary[kTHNCartModelProductTotalStock] = @(self.productTotalCount);
 	if(self.storeLogo != nil){
 		dictionary[kTHNCartModelProductStoreLogo] = self.storeLogo;
 	}
