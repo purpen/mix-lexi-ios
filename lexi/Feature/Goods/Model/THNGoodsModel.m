@@ -51,6 +51,7 @@ NSString *const kTHNGoodsModelMinPrice = @"min_price";
 NSString *const kTHNGoodsModelMinSalePrice = @"min_sale_price";
 NSString *const kTHNGoodsModelModes = @"modes";
 NSString *const kTHNGoodsModelName = @"name";
+NSString *const kTHNGoodsModelProductName = @"product_name";
 NSString *const kTHNGoodsModelProductLikeUsers = @"product_like_users";
 NSString *const kTHNGoodsModelProductReturnPolicy = @"product_return_policy";
 NSString *const kTHNGoodsModelProvince = @"province";
@@ -73,6 +74,7 @@ NSString *const kTHNGoodsModelStyleName = @"style_name";
 NSString *const kTHNGoodsModelTagLine = @"tag_line";
 NSString *const kTHNGoodsModelTopCategoryId = @"top_category_id";
 NSString *const kTHNGoodsModelTotalStock = @"total_stock";
+NSString *const kTHNGoodsModelProductTotalStock = @"product_total_stock";
 NSString *const kTHNGoodsModelTown = @"town";
 
 @interface THNGoodsModel ()
@@ -257,9 +259,14 @@ NSString *const kTHNGoodsModelTown = @"town";
 	if(![dictionary[kTHNGoodsModelModes] isKindOfClass:[NSNull class]]){
 		self.modes = dictionary[kTHNGoodsModelModes];
 	}	
-	if(![dictionary[kTHNGoodsModelName] isKindOfClass:[NSNull class]]){
-		self.name = dictionary[kTHNGoodsModelName];
-	}	
+    if(![dictionary[kTHNGoodsModelName] isKindOfClass:[NSNull class]]){
+        self.name = dictionary[kTHNGoodsModelName];
+    }
+    
+    if(![dictionary[kTHNGoodsModelProductName] isKindOfClass:[NSNull class]]){
+        self.productName = dictionary[kTHNGoodsModelProductName];
+    }
+    
 	if(dictionary[kTHNGoodsModelProductLikeUsers] != nil && [dictionary[kTHNGoodsModelProductLikeUsers] isKindOfClass:[NSArray class]]){
 		NSArray * productLikeUsersDictionaries = dictionary[kTHNGoodsModelProductLikeUsers];
 		NSMutableArray * productLikeUsersItems = [NSMutableArray array];
@@ -345,9 +352,13 @@ NSString *const kTHNGoodsModelTown = @"town";
 		self.topCategoryId = [dictionary[kTHNGoodsModelTopCategoryId] integerValue];
 	}
 
-	if(![dictionary[kTHNGoodsModelTotalStock] isKindOfClass:[NSNull class]]){
-		self.totalStock = [dictionary[kTHNGoodsModelTotalStock] integerValue];
-	}
+    if(![dictionary[kTHNGoodsModelTotalStock] isKindOfClass:[NSNull class]]){
+        self.totalStock = [dictionary[kTHNGoodsModelTotalStock] integerValue];
+    }
+    
+    if(![dictionary[kTHNGoodsModelProductTotalStock] isKindOfClass:[NSNull class]]){
+        self.productTotalCount = [dictionary[kTHNGoodsModelProductTotalStock] integerValue];
+    }
 
 	if(![dictionary[kTHNGoodsModelTown] isKindOfClass:[NSNull class]]){
 		self.town = dictionary[kTHNGoodsModelTown];

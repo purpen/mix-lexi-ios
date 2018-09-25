@@ -192,6 +192,8 @@ static CGFloat const kMaxHeight = 337.0;
  设置商品标题
  */
 - (void)thn_setTitleText:(THNGoodsModel *)model {
+    if (!model.name) return;
+    
     NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:model.name];
     UIFont *titleFont = [UIFont systemFontOfSize:16 weight:(UIFontWeightMedium)];
     titleAtt.color = [UIColor colorWithHexString:@"#333333"];

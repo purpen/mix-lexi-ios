@@ -64,6 +64,7 @@ static NSInteger const kFooterHeight = 18;
     self = [super init];
     if (self) {
         self.goodsId = idx;
+    
     }
     return self;
 }
@@ -101,8 +102,7 @@ static NSInteger const kFooterHeight = 18;
         goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         goodsSkuVC.functionType = self.functionView.type;
         goodsSkuVC.handleType = type;
-        
-        goodsSkuVC.selectGoodsAddCartCompleted = ^{
+        goodsSkuVC.selectGoodsAddCartCompleted = ^(NSString *skuId) {
             [SVProgressHUD showSuccessWithStatus:@"添加成功"];
             [self thn_getCartGoodsCount];
         };
