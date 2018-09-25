@@ -206,6 +206,12 @@ CGFloat orderCellLineSpacing = 10;
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushOrderDetail:)]) {
+        [self.delegate pushOrderDetail:self.ordersModel.rid];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return orderProductCellHeight;
 }

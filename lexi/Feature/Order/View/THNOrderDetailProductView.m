@@ -13,12 +13,13 @@
 #import "THNOrderDetailModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNOrderDetailTableViewCell.h"
+#import "THNPreViewTableViewCell.h"
 
 static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier";
-// 商品信息View的高度
-static CGFloat const productViewHeight = 75;
-// 商品View下的配送方式View的高度
-static CGFloat const loginsticsViewHeight = 80;
+//// 商品信息View的高度
+//static CGFloat const productViewHeight = 85;
+//// 商品View下的配送方式View的高度
+//static CGFloat const loginsticsViewHeight = 65;
 
 @interface THNOrderDetailProductView()<UITableViewDelegate, UITableViewDataSource>
 
@@ -32,6 +33,7 @@ static CGFloat const loginsticsViewHeight = 80;
 @property (nonatomic, assign) NSInteger loginsticsViewCount;
 @property (nonatomic, strong) THNOrderDetailModel *detailModel;
 @property (nonatomic, strong) NSString *firstExpressName;
+@property (nonatomic, strong) NSArray *products;
 
 @end
 
@@ -75,25 +77,61 @@ static CGFloat const loginsticsViewHeight = 80;
     } else {
       self.deliveryAddressLabel.text = [NSString stringWithFormat:@"从%@,%@发货",itemsModel.delivery_country,itemsModel.delivery_province];
     }
-
-    return 90 + self.detailModel.items.count * (productViewHeight + loginsticsViewHeight);
+    
+    // 按照express排序
+    NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"express" ascending:YES]];
+    self.products = [self.detailModel.items sortedArrayUsingDescriptors:sortArr];
+    
+    // 获取不隐藏运费模板的数量
+    NSMutableArray *expressMutableArray = [NSMutableArray array];
+    for (NSDictionary *dict in self.self.products) {
+        [expressMutableArray addObject:dict[@"express"]];
+    }
+    
+    NSSet *set = [NSSet setWithArray:expressMutableArray];
+    // 其他的高度 +有运费模板商品的高度 + 无运费模板的高度
+    return 90 + set.count * (kProductViewHeight + kLogisticsViewHeight) + (self.products.count - set.count) * kProductViewHeight;
     
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.detailModel.items.count;
+    return self.products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderDetailCellIdentifier forIndexPath:indexPath];
-    THNOrdersItemsModel *itemsModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.detailModel.items[indexPath.row]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    THNOrdersItemsModel *itemsModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    // 最后一行不隐藏运费模板
+    if (indexPath.row < self.products.count - 1) {
+        // 该商品后面运费模板一样，隐藏选择运费模板
+        if (itemsModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+            cell.logisticsView.hidden = YES;
+        } else {
+            cell.logisticsView.hidden = NO;
+        }
+        
+    } else {
+        cell.logisticsView.hidden = NO;
+    }
+   
     [cell setItemsModel:itemsModel];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return productViewHeight + loginsticsViewHeight;
+    THNOrdersItemsModel *itemsModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    if (indexPath.row < self.products.count - 1) {
+        // 该商品后面运费模板一样，设置为商品的高度
+        if (itemsModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+            return kProductViewHeight;
+        } else {
+            return kProductViewHeight + kLogisticsViewHeight;
+        }
+    } else {
+        return kProductViewHeight + kLogisticsViewHeight;
+    }
 }
 
 @end

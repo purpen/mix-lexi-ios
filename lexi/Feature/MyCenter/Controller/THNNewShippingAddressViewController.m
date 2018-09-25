@@ -144,7 +144,7 @@ static NSString *const kOid = @"oid";
     params[@"mobile"] = self.addressModel.mobile;
     THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.data.count == 0) { 
+        if (result.data.count == 0 && !self.isSaveCustom) {
             self.isShowCardView = NO;
         } else {
             self.isShowCardView = YES;

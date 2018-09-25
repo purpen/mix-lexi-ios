@@ -35,13 +35,14 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
     [super awakeFromNib];
     self.layer.cornerRadius = 4;
     // 毛玻璃效果
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *visualView = [[UIVisualEffectView alloc]initWithEffect:blurEffect];
+    visualView.alpha = 0.9;
     visualView.frame = CGRectMake(0, 0, 254, 235);
     [self.backGroundImageView addSubview:visualView];
     
     self.pruductCollectionView.dataSource = self;
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:6.5 initWithWidth:74 initwithHeight:74];
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:4 initWithWidth:(250 - 12 * 2 - 4 * 2) / 3 initwithHeight:74];
     self.pruductCollectionView.scrollEnabled = NO;
     [self.pruductCollectionView setCollectionViewLayout:flowLayout];
     [self.pruductCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandProductCellIdentifier];
