@@ -94,6 +94,8 @@
 		4B6A9CEF2159DE9500C802EE /* THNApplySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CEC2159DE9500C802EE /* THNApplySuccessViewController.m */; };
 		4B6A9CF42159DEA100C802EE /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CF12159DEA000C802EE /* THNUserApplyView.m */; };
 		4B6A9CF52159DEA100C802EE /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CF32159DEA000C802EE /* THNApplySuccessView.m */; };
+		4B6A9CF8215A0FA100C802EE /* THNLivingHallHeadLineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CF7215A0FA100C802EE /* THNLivingHallHeadLineModel.m */; };
+		4B6A9CFB215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A9CFA215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.m */; };
 		4B720600212D65F4002606EE /* THNToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7205FE212D65F4002606EE /* THNToolBarView.m */; };
 		4B720601212D65F4002606EE /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7205FF212D65F4002606EE /* THNToolBarView.xib */; };
 		4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720602212D6678002606EE /* WBEmoticonInputView.m */; };
@@ -489,6 +491,10 @@
 		4B6A9CF12159DEA000C802EE /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
 		4B6A9CF22159DEA000C802EE /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
 		4B6A9CF32159DEA000C802EE /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
+		4B6A9CF6215A0FA100C802EE /* THNLivingHallHeadLineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallHeadLineModel.h; sourceTree = "<group>"; };
+		4B6A9CF7215A0FA100C802EE /* THNLivingHallHeadLineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallHeadLineModel.m; sourceTree = "<group>"; };
+		4B6A9CF9215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNFeaturedOpenCarouselScrollView.h; sourceTree = "<group>"; };
+		4B6A9CFA215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNFeaturedOpenCarouselScrollView.m; sourceTree = "<group>"; };
 		4B7205FD212D65F4002606EE /* THNToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNToolBarView.h; sourceTree = "<group>"; };
 		4B7205FE212D65F4002606EE /* THNToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNToolBarView.m; sourceTree = "<group>"; };
 		4B7205FF212D65F4002606EE /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
@@ -1922,6 +1928,8 @@
 				4B25F212211EC68E00115E57 /* THNGrassListModel.m */,
 				4B2644BB21229E8400665A6D /* THNDailyRecommendModel.h */,
 				4B2644BC21229E8400665A6D /* THNDailyRecommendModel.m */,
+				4B6A9CF6215A0FA100C802EE /* THNLivingHallHeadLineModel.h */,
+				4B6A9CF7215A0FA100C802EE /* THNLivingHallHeadLineModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1939,6 +1947,8 @@
 				D8BAC92B211A949100667D6F /* THNFeaturedOpeningView.h */,
 				D8BAC937211A949100667D6F /* THNFeaturedOpeningView.m */,
 				D8BAC92D211A949100667D6F /* THNFeaturedOpeningView.xib */,
+				4B6A9CF9215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.h */,
+				4B6A9CFA215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.m */,
 				D8BAC938211A949100667D6F /* THNFeatureTableViewCell.h */,
 				D8BAC92E211A949100667D6F /* THNFeatureTableViewCell.m */,
 				D8BAC936211A949100667D6F /* THNFeatureTableViewCell.xib */,
@@ -2575,6 +2585,7 @@
 				D85DA8002106030200A36A71 /* NSString+Encryption.m in Sources */,
 				D8247EC12147E96D000C8E37 /* THNNewlyAddressTableViewCell.m in Sources */,
 				D8A9C284213AB9AE0059CAFD /* THNGoodsUserTableViewCell.m in Sources */,
+				4B6A9CF8215A0FA100C802EE /* THNLivingHallHeadLineModel.m in Sources */,
 				D8F99827212CFAAC0012AED3 /* THNTableViewFooterView.m in Sources */,
 				D8A9C26E213A6A460059CAFD /* THNGoodsActionTableViewCell.m in Sources */,
 				4B25B47521410E8D00654390 /* THNOrderStoreModel.m in Sources */,
@@ -2607,6 +2618,7 @@
 				D8F998B52138ECD70012AED3 /* THNGoodsModelSku.m in Sources */,
 				D82FA77D212559A400E14A22 /* THNLikedWindowTableViewCell.m in Sources */,
 				D82FA771212424B500E14A22 /* THNMyCenterDataButton.m in Sources */,
+				4B6A9CFB215A445E00C802EE /* THNFeaturedOpenCarouselScrollView.m in Sources */,
 				D8247EC02147E96D000C8E37 /* THNOrderDetailTableViewCell.m in Sources */,
 				D8BAC9BB211A949100667D6F /* THNGoodsInfoViewController.m in Sources */,
 				4B2168D82136B78D00B1B796 /* THNOffcialStoreModel.m in Sources */,

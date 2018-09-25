@@ -22,6 +22,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 @optional
 - (void)deleteOrder:(NSString *)rid;
 - (void)logisticsTracking:(THNOrdersItemsModel *)itemsModel;
+- (void)pushOrderDetail:(NSString *)orderRid;
 
 @end
 
