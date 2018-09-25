@@ -91,4 +91,8 @@
     return 122 + self.firstOfferViewHeightConstraint.constant + self.fullReductionViewHeightConstraint.constant + self.couponViewHeightConstraint.constant +  self.orderDetailTopViewHeightConstraint.constant;
 }
 
+- (void)setTotalCouponAmount:(CGFloat)totalCouponAmount {
+    self.couponLabel.text = [NSString stringWithFormat:@"¥%.2f",totalCouponAmount];
+}
+
 @end
