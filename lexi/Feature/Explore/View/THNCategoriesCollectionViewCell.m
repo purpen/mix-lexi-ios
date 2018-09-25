@@ -9,9 +9,12 @@
 #import "THNCategoriesCollectionViewCell.h"
 #import "THNCategoriesModel.h"
 #import "UIImageView+WebCache.h"
+#import "UIView+Helper.h"
 
 @interface THNCategoriesCollectionViewCell()
 
+
+@property (weak, nonatomic) IBOutlet UIView *categoriesBackgroundView;
 @property (weak, nonatomic) IBOutlet UIImageView *categoriesImageView;
 @property (weak, nonatomic) IBOutlet UILabel *desLabel;
 @property (weak, nonatomic) IBOutlet UILabel *peopleNumberLabel;
@@ -22,6 +25,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self.categoriesBackgroundView drawCornerWithType:0 radius:self.categoriesBackgroundView.viewHeight / 2];
 }
 
 - (void)setCategoriesModel:(THNCategoriesModel *)categoriesModel {
