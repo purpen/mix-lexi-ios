@@ -21,7 +21,7 @@
 /**
  搜索提示内容
 
- - SearchTintTypeHistory: 历史
+ - SearchTintTypeHistory: 历史testfsafsf f
  - SearchTintTypeRecentlyViewed: 最近查看的商品
  - SearchTintTypePopularRecommend: 热门推荐
  - SearchTintTypePopularSearch: 热门搜索
