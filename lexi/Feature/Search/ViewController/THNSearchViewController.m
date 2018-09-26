@@ -21,7 +21,7 @@
 /**
  搜索提示内容
 
- - SearchTintTypeHistory: 历史testfsafsf f
+ - SearchTintTypeHistory: 历史
  - SearchTintTypeRecentlyViewed: 最近查看的商品
  - SearchTintTypePopularRecommend: 热门推荐
  - SearchTintTypePopularSearch: 热门搜索
@@ -44,7 +44,7 @@ static NSString *const kUrlUserBrowses = @"/user_browses";
 static NSString *const kUrlHotRecommend = @"/core_platforms/search/hot_recommend";
 static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 
-@interface THNSearchViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface THNSearchViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) THNSearchView *searchView;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -53,6 +53,7 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 @property (nonatomic, strong) NSArray *popularRecommends;
 @property (nonatomic, strong) NSArray *popularSearchs;
 @property (nonatomic, strong) NSMutableArray *sections;
+@property (nonatomic, strong) NSMutableArray *sectionTitles;
 @property (nonatomic, assign) SearchTintType searchTintType;
 
 
@@ -83,7 +84,8 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.historyWords = result.data[@"search_items"];
         if (self.historyWords.count > 0) {
-            [self.sections addObject:@"历史搜索"];
+            [self.sectionTitles addObject:@"历史搜索"];
+            [self.sections addObject:self.historyWords];
         }
         [self loadUserBrowseData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -97,7 +99,8 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recentlyViewedProducts = result.data[@"products"];
         if (self.recentlyViewedProducts.count > 0) {
-            [self.sections addObject:@"最近查看"];
+            [self.sectionTitles addObject:@"最近查看"];
+            [self.sections addObject:self.recentlyViewedProducts];
         }
         [self loadHotRecommendData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -111,8 +114,10 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularRecommends = result.data[@"hot_recommends"];
         if (self.popularRecommends.count > 0) {
-            [self.sections addObject:@"热门推荐"];
+            [self.sectionTitles addObject:@"热门推荐"];
+            [self.sections addObject:self.popularRecommends];
         }
+
         [self loadHotSearchData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -125,8 +130,9 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularSearchs = result.data[@"search_items"];
         if (self.popularSearchs.count > 0) {
-            [self.sections addObject:@"热门搜索"];
+            [self.sectionTitles addObject:@"热门搜索"];
         }
+        [self.sections addObject:self.popularSearchs];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -135,108 +141,35 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 
 #pragma mark - UICollectionViewDelegate && UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    
+
     return self.sections.count;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    switch (section) {
-        case 0:{
-            if (self.historyWords.count > 0) {
-                self.searchTintType = SearchTintTypeHistory;
-                return self.historyWords.count;
-            } else if (self.recentlyViewedProducts.count > 0) {
-                self.searchTintType = SearchTintTypeRecentlyViewed;
-                return self.recentlyViewedProducts.count;
-            } else if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return self.popularRecommends.count;
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return self.popularSearchs.count;
-            }
-        }
-            
-        case 1:{
-            if (self.recentlyViewedProducts.count > 0) {
-                self.searchTintType = SearchTintTypeRecentlyViewed;
-                return self.recentlyViewedProducts.count;
-            } else if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return self.popularRecommends.count;
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return self.popularSearchs.count;
-            }
-        }
-        
-        case 2:{
-            if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return self.popularRecommends.count;
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return self.popularSearchs.count;
-            }
-        }
-            
-        default:
-            self.searchTintType = SearchTintTypePopularSearch;
-            return self.popularSearchs.count;
-    }
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+
+    NSArray *items = self.sections[section];
+    return items.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    switch (indexPath.section) {
-        case 0:{
-            if (self.historyWords.count > 0) {
-                THNSearchHistoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHistoryCellIdentifier forIndexPath:indexPath];
-                [cell setHistoryStr:self.historyWords[indexPath.row][@"query_word"]];
-                return cell;
-            } else if (self.recentlyViewedProducts.count > 0) {
-                THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchProductCellIdentifier forIndexPath:indexPath];
-                THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
-                [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
-            } else if (self.popularRecommends.count > 0) {
-                THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
-                return cell;
-            } else if (self.popularSearchs.count > 0) {
-                THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
-                return cell;
-            }
-        }
-            
-        case 1:{
-            if (self.recentlyViewedProducts.count > 0) {
-                THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchProductCellIdentifier forIndexPath:indexPath];
-                THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
-                [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
-            } else if (self.popularRecommends.count > 0) {
-                THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
-                return cell;
-            } else if (self.popularSearchs.count > 0) {
-                THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
-                return cell;
-            }
-        }
-            
-        case 2:{
-            if (self.popularRecommends.count > 0) {
-                THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
-                return cell;
-            } else if (self.popularSearchs.count > 0) {
-                THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
-                return cell;
-            }
-        }
-            
-        default:
-            self.searchTintType = SearchTintTypePopularSearch;
-            THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
-            return cell;
+    NSString *sectionTitle = self.sectionTitles[indexPath.section];
+    if ([sectionTitle isEqualToString:@"历史搜索"]) {
+        THNSearchHistoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHistoryCellIdentifier forIndexPath:indexPath];
+        [cell setHistoryStr:self.historyWords[indexPath.row][@"query_word"]];
+        return cell;
+    } else if ([sectionTitle isEqualToString:@"最近查看"]) {
+        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchProductCellIdentifier forIndexPath:indexPath];
+        THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
+        [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
+        return cell;
+    } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
+        THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
+        return cell;
+    } else {
+        THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
+        return cell;
     }
-    
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -244,50 +177,19 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    switch (indexPath.section) {
-        case 0:{
-            if (self.historyWords.count > 0) {
-                self.searchTintType = SearchTintTypeHistory;
-                return CGSizeMake([self.historyWords[indexPath.row][@"query_word"] boundingSizeWidthWithFontSize:14] + 12, 30);;
-            } else if (self.recentlyViewedProducts.count > 0) {
-                self.searchTintType = SearchTintTypeRecentlyViewed;
-                return CGSizeMake(100, 129);
-            } else if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return CGSizeMake(45, 67);
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return CGSizeMake(SCREEN_WIDTH, 50);
-            }
-        }
-            
-        case 1:{
-            if (self.recentlyViewedProducts.count > 0) {
-                self.searchTintType = SearchTintTypeRecentlyViewed;
-                return CGSizeMake(100, 129);
-            } else if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return CGSizeMake(45, 67);
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return CGSizeMake(SCREEN_WIDTH, 50);
-            }
-        }
-            
-        case 2:{
-            if (self.popularRecommends.count > 0) {
-                self.searchTintType = SearchTintTypePopularRecommend;
-                return CGSizeMake(45, 67);
-            } else if (self.popularSearchs.count > 0) {
-                self.searchTintType = SearchTintTypePopularSearch;
-                return CGSizeMake(SCREEN_WIDTH, 50);
-            }
-        }
-            
-        default:
-            self.searchTintType = SearchTintTypePopularSearch;
-            return CGSizeMake(SCREEN_WIDTH, 50);
+    NSString *sectionTitle = self.sectionTitles[indexPath.section];
+    if ([sectionTitle isEqualToString:@"历史搜索"]) {
+        self.searchTintType = SearchTintTypeHistory;
+        return CGSizeMake([self.historyWords[indexPath.row][@"query_word"] boundingSizeWidthWithFontSize:14] + 12, 30);
+    } else if ([sectionTitle isEqualToString:@"最近查看"]) {
+        self.searchTintType = SearchTintTypeRecentlyViewed;
+        return CGSizeMake(100, 129);
+    } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
+        self.searchTintType = SearchTintTypePopularRecommend;
+        return CGSizeMake(45, 67);
+    } else {
+        self.searchTintType = SearchTintTypePopularSearch;
+        return CGSizeMake(SCREEN_WIDTH, 50);
     }
 }
 
@@ -297,7 +199,7 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     searchHeaderView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     
     searchHeaderView.deleteButton.hidden = indexPath.section !=  0;
-    [searchHeaderView setSectionTitle:self.sections[indexPath.section]];
+    [searchHeaderView setSectionTitle:self.sectionTitles[indexPath.section]];
     
     [headerView addSubview:searchHeaderView];
     return headerView;
@@ -308,11 +210,24 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 15;
+    switch (self.searchTintType) {
+        case SearchTintTypeHistory:
+            return 15;
+        default:
+            return 0;
+    }
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    switch (self.searchTintType) {
+        case SearchTintTypeHistory:
+        case SearchTintTypeRecentlyViewed:
+            return 10;
+        case SearchTintTypePopularRecommend:
+            return 50;
+        default:
+            return 0;
+    }
 }
 
 #pragma mark - lazy
@@ -348,6 +263,13 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
         _sections = [NSMutableArray array];
     }
     return _sections;
+}
+
+- (NSMutableArray *)sectionTitles {
+    if (!_sectionTitles) {
+        _sectionTitles = [NSMutableArray array];
+    }
+    return _sectionTitles;
 }
 
 
