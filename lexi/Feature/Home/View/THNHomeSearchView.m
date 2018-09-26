@@ -13,7 +13,7 @@
 #import "THNMarco.h"
 #import "UIView+Helper.h"
 
-@interface THNHomeSearchView()
+@interface THNHomeSearchView()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
@@ -26,6 +26,7 @@
     if (self) {
         self = [THNHomeSearchView viewFromXib];
         self.frame = frame;
+        self.searchTextField.delegate = self;
         [self.searchTextField setValue:[UIColor colorWithHexString:@"555555"] forKeyPath:@"_placeholderLabel.textColor"];
     }
     return self;
@@ -44,6 +45,10 @@
     }
 }
 
-
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+    self.pushSearchBlock();
+}
 
 @end
