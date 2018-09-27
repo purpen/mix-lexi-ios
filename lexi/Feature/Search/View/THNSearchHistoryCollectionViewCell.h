@@ -12,6 +12,6 @@
 
 // 历史记录
 @property (nonatomic, strong) NSString *historyStr;
-
+- (void)setupCellViewUI;
 
 @end

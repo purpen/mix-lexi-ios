@@ -35,6 +35,13 @@
 		4B2439AD2135431700C94940 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2439AC2135431700C94940 /* THNAnnouncementView.xib */; };
 		4B2439B02135434900C94940 /* THNCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2439AF2135434900C94940 /* THNCouponView.m */; };
 		4B2439B22135435400C94940 /* THNCouponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2439B12135435400C94940 /* THNCouponView.xib */; };
+		4B24B5F0215C661A004269EB /* THNSearchHotRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5EF215C661A004269EB /* THNSearchHotRecommendModel.m */; };
+		4B24B5F3215C80CE004269EB /* THNRecentlyViewedCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5F2215C80CE004269EB /* THNRecentlyViewedCollectionView.m */; };
+		4B24B5F6215CBE12004269EB /* THNSearchIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5F5215CBE12004269EB /* THNSearchIndexTableViewController.m */; };
+		4B24B5FA215CC996004269EB /* THNSearchIndexTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5F8215CC996004269EB /* THNSearchIndexTableViewCell.m */; };
+		4B24B5FB215CC996004269EB /* THNSearchIndexTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24B5F9215CC996004269EB /* THNSearchIndexTableViewCell.xib */; };
+		4B24B5FE215CD47C004269EB /* THNSearchIndexModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5FD215CD47C004269EB /* THNSearchIndexModel.m */; };
+		4B24B601215CE7C4004269EB /* THNSearchDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */; };
 		4B25B4622140D0B900654390 /* THNOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B4612140D0B900654390 /* THNOrderViewController.m */; };
 		4B25B4712141091A00654390 /* THNOrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B46D2141091900654390 /* THNOrdersModel.m */; };
 		4B25B4722141091A00654390 /* THNOrdersItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B46E2141091900654390 /* THNOrdersItemsModel.m */; };
@@ -399,6 +406,19 @@
 		4B2439AE2135434900C94940 /* THNCouponView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponView.h; sourceTree = "<group>"; };
 		4B2439AF2135434900C94940 /* THNCouponView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponView.m; sourceTree = "<group>"; };
 		4B2439B12135435400C94940 /* THNCouponView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCouponView.xib; sourceTree = "<group>"; };
+		4B24B5EE215C661A004269EB /* THNSearchHotRecommendModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchHotRecommendModel.h; sourceTree = "<group>"; };
+		4B24B5EF215C661A004269EB /* THNSearchHotRecommendModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchHotRecommendModel.m; sourceTree = "<group>"; };
+		4B24B5F1215C80CE004269EB /* THNRecentlyViewedCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNRecentlyViewedCollectionView.h; sourceTree = "<group>"; };
+		4B24B5F2215C80CE004269EB /* THNRecentlyViewedCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNRecentlyViewedCollectionView.m; sourceTree = "<group>"; };
+		4B24B5F4215CBE12004269EB /* THNSearchIndexTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchIndexTableViewController.h; sourceTree = "<group>"; };
+		4B24B5F5215CBE12004269EB /* THNSearchIndexTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchIndexTableViewController.m; sourceTree = "<group>"; };
+		4B24B5F7215CC996004269EB /* THNSearchIndexTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchIndexTableViewCell.h; sourceTree = "<group>"; };
+		4B24B5F8215CC996004269EB /* THNSearchIndexTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchIndexTableViewCell.m; sourceTree = "<group>"; };
+		4B24B5F9215CC996004269EB /* THNSearchIndexTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSearchIndexTableViewCell.xib; sourceTree = "<group>"; };
+		4B24B5FC215CD47C004269EB /* THNSearchIndexModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchIndexModel.h; sourceTree = "<group>"; };
+		4B24B5FD215CD47C004269EB /* THNSearchIndexModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchIndexModel.m; sourceTree = "<group>"; };
+		4B24B5FF215CE7C4004269EB /* THNSearchDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchDetailViewController.h; sourceTree = "<group>"; };
+		4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchDetailViewController.m; sourceTree = "<group>"; };
 		4B25B4602140D0B900654390 /* THNOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderViewController.h; sourceTree = "<group>"; };
 		4B25B4612140D0B900654390 /* THNOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderViewController.m; sourceTree = "<group>"; };
 		4B25B46D2141091900654390 /* THNOrdersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrdersModel.m; sourceTree = "<group>"; };
@@ -1324,6 +1344,10 @@
 		4B6A9CFD215B192800C802EE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B24B5EE215C661A004269EB /* THNSearchHotRecommendModel.h */,
+				4B24B5EF215C661A004269EB /* THNSearchHotRecommendModel.m */,
+				4B24B5FC215CD47C004269EB /* THNSearchIndexModel.h */,
+				4B24B5FD215CD47C004269EB /* THNSearchIndexModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1344,6 +1368,11 @@
 				4B6A9D13215B83D800C802EE /* THNSearchHotSearchCollectionViewCell.h */,
 				4B6A9D14215B83D800C802EE /* THNSearchHotSearchCollectionViewCell.m */,
 				4B6A9D15215B83D800C802EE /* THNSearchHotSearchCollectionViewCell.xib */,
+				4B24B5F1215C80CE004269EB /* THNRecentlyViewedCollectionView.h */,
+				4B24B5F2215C80CE004269EB /* THNRecentlyViewedCollectionView.m */,
+				4B24B5F7215CC996004269EB /* THNSearchIndexTableViewCell.h */,
+				4B24B5F8215CC996004269EB /* THNSearchIndexTableViewCell.m */,
+				4B24B5F9215CC996004269EB /* THNSearchIndexTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1353,6 +1382,10 @@
 			children = (
 				4B6A9D00215B196D00C802EE /* THNSearchViewController.h */,
 				4B6A9D01215B196D00C802EE /* THNSearchViewController.m */,
+				4B24B5F4215CBE12004269EB /* THNSearchIndexTableViewController.h */,
+				4B24B5F5215CBE12004269EB /* THNSearchIndexTableViewController.m */,
+				4B24B5FF215CE7C4004269EB /* THNSearchDetailViewController.h */,
+				4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2456,6 +2489,7 @@
 				4B27A67E214A65680082BA22 /* THNNoLogisticsView.xib in Resources */,
 				4B56C918213CDCC80052FD80 /* THNCouponTableViewCell.xib in Resources */,
 				4B2439A82135388300C94940 /* THNBrandHallHeaderView.xib in Resources */,
+				4B24B5FB215CC996004269EB /* THNSearchIndexTableViewCell.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
 				4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */,
@@ -2606,6 +2640,7 @@
 				D8BAC9D5211A949100667D6F /* THNBaseNavigationController.m in Sources */,
 				4B720608212D70CE002606EE /* WBStatusHelper.m in Sources */,
 				4B26A705214F4E5D00F8017C /* THNSelectCouponView.m in Sources */,
+				4B24B5FE215CD47C004269EB /* THNSearchIndexModel.m in Sources */,
 				4B2168DE2137E78B00B1B796 /* THNAllAnnouncementView.m in Sources */,
 				4B6A9CEF2159DE9500C802EE /* THNApplySuccessViewController.m in Sources */,
 				D8BAC987211A949100667D6F /* THNHomeSearchView.m in Sources */,
@@ -2642,7 +2677,9 @@
 				D82FA765212401C200E14A22 /* THNTableViewCells.m in Sources */,
 				D8247EC32147E96D000C8E37 /* THNOrderProductTableViewCell.m in Sources */,
 				4B25B4622140D0B900654390 /* THNOrderViewController.m in Sources */,
+				4B24B5F0215C661A004269EB /* THNSearchHotRecommendModel.m in Sources */,
 				D8BAC9AE211A949100667D6F /* THNProductModel.m in Sources */,
+				4B24B5F3215C80CE004269EB /* THNRecentlyViewedCollectionView.m in Sources */,
 				D8F998A82138EBCB0012AED3 /* THNSkuModelItem.m in Sources */,
 				D8F998482133E1AC0012AED3 /* THNFunctionButtonView.m in Sources */,
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
@@ -2676,6 +2713,7 @@
 				D8BAC9CE211A949100667D6F /* THNSetPasswordView.m in Sources */,
 				D8BAC9CB211A949100667D6F /* THNSignUpView.m in Sources */,
 				4B23433D2154B57D006E80B3 /* THNSelectOfficalCouponView.m in Sources */,
+				4B24B5F6215CBE12004269EB /* THNSearchIndexTableViewController.m in Sources */,
 				D82FA7B72126CDB400E14A22 /* THNUserManager.m in Sources */,
 				D8A9C28A213AD0D60059CAFD /* THNGoodsStoreTableViewCell.m in Sources */,
 				D8F998492133E1AC0012AED3 /* THNFunctionPopupView.m in Sources */,
@@ -2691,6 +2729,7 @@
 				D84CC300214D269F007B7B25 /* THNCartModelProduct.m in Sources */,
 				D8F9987C2137BB460012AED3 /* THNImageCollectionViewCell.m in Sources */,
 				D8A9C287213AC3E70059CAFD /* THNGoodsModelProductLikeUser.m in Sources */,
+				4B24B5FA215CC996004269EB /* THNSearchIndexTableViewCell.m in Sources */,
 				D8F998B52138ECD70012AED3 /* THNGoodsModelSku.m in Sources */,
 				D82FA77D212559A400E14A22 /* THNLikedWindowTableViewCell.m in Sources */,
 				D82FA771212424B500E14A22 /* THNMyCenterDataButton.m in Sources */,
@@ -2768,6 +2807,7 @@
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
 				D8F998A92138EBCB0012AED3 /* THNSkuModelColor.m in Sources */,
 				D8A9C28F213ADC790059CAFD /* THNStoreModel.m in Sources */,
+				4B24B601215CE7C4004269EB /* THNSearchDetailViewController.m in Sources */,
 				D8F998552133F3580012AED3 /* THNFunctionCollectionView.m in Sources */,
 				4B56C933213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.m in Sources */,
 				4B72060B212D7124002606EE /* WBModel.m in Sources */,

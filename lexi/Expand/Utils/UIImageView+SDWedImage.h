@@ -47,5 +47,7 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
               failure:(DownloadFailureBlock)failure
              received:(DownloadProgressBlock)progress;
 
+//网络延迟下载--圆形    背景色为透明 无背景色
+- (void)thn_setCircleImageWithUrlString:(NSString *)urlString placeholder:(UIImage *)image;
 
 @end
