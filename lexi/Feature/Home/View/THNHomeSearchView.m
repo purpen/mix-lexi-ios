@@ -26,13 +26,13 @@
     if (self) {
         self = [THNHomeSearchView viewFromXib];
         self.frame = frame;
-        self.searchTextField.delegate = self;
         [self.searchTextField setValue:[UIColor colorWithHexString:@"555555"] forKeyPath:@"_placeholderLabel.textColor"];
     }
     return self;
 }
 
 - (void)setSearchType:(SearchType)searchType {
+    self.searchTextField.delegate = self;
     switch (searchType) {
         case SearchTypeHome:
             [self drwaShadow];
@@ -48,7 +48,11 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField resignFirstResponder];
-    self.pushSearchBlock();
+    [UIView animateWithDuration:0.5 animations:^{
+        self.pushSearchBlock();
+    }];
+    
 }
+
 
 @end
