@@ -52,6 +52,10 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="418" height="55"/>
+            <connections>
+                <outlet property="hotSearchImageView" destination="bxw-fb-9Yi" id="OEV-pr-NtH"/>
+                <outlet property="hotSearchWordLabel" destination="Eqj-Ck-JWk" id="pM2-RM-X8f"/>
+            </connections>
             <point key="canvasLocation" x="4" y="56.5"/>
         </collectionViewCell>
     </objects>

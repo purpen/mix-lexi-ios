@@ -17,6 +17,10 @@
 #import "THNProductModel.h"
 #import "THNSearchHotRecommendCollectionViewCell.h"
 #import "THNSearchHotSearchCollectionViewCell.h"
+#import "THNSearchHotRecommendModel.h"
+#import "THNRecentlyViewedCollectionView.h"
+#import "UICollectionViewFlowLayout+THN_flowLayout.h"
+#import "THNSearchIndexTableViewController.h"
 
 /**
  搜索提示内容
@@ -35,16 +39,20 @@ typedef NS_ENUM(NSUInteger, SearchTintType) {
 
 static NSString *const kSearchHeaderViewIdentifier = @"kSearchHeaderViewIdentifier";
 static NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
-static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdentifier";
 static NSString *const kSearchHotRecommendCellIdentifier = @"kSearchHotRecommendCellIdentifier";
 static NSString *const kSearchHotSearchCellIdentifier = @"kSearchHotSearchCellIdentifier";
+static NSString *const KSearchDefaultCellIdentifier = @"KSearchDefaultCellIdentifier";
 
-static NSString *const kUrlSearchHistory = @"/core_platforms/search/history";
 static NSString *const kUrlUserBrowses = @"/user_browses";
 static NSString *const kUrlHotRecommend = @"/core_platforms/search/hot_recommend";
 static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
+static NSString *const kUrlSearchIndex = @"/core_platforms/search";
 
-@interface THNSearchViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNSearchViewController ()<
+UICollectionViewDelegate,
+UICollectionViewDataSource,
+THNSearchViewDelegate
+>
 
 @property (nonatomic, strong) THNSearchView *searchView;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -54,8 +62,12 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 @property (nonatomic, strong) NSArray *popularSearchs;
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSMutableArray *sectionTitles;
+// 搜索索引数据
+@property (nonatomic, strong) NSArray *searchIndexs;
 @property (nonatomic, assign) SearchTintType searchTintType;
-
+@property (nonatomic, strong) THNRecentlyViewedCollectionView *productCollectionView;
+@property (nonatomic, assign) CGFloat totalHistoryWordWidth;
+@property (nonatomic, strong) THNSearchIndexTableViewController *searchIndexVC;
 
 @end
 
@@ -63,45 +75,29 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadSearchHistoryData];
     [self setupUI];
+    [self loadUserBrowseData];
 }
 
 - (void)setupUI {
     self.navigationBarView.hidden = YES;
+    [self.searchView layoutSearchView:SearchViewTypeDefault];
     [self.view addSubview:self.searchView];
     [self.view addSubview:self.collectionView];
-    
-    __weak typeof(self)weakSelf = self;
-    self.searchView.popBlock = ^{
-        [weakSelf.navigationController popViewControllerAnimated:YES];
-    };
-}
-
-// 历史搜索关键词
-- (void)loadSearchHistoryData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlSearchHistory requestDictionary:nil delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.historyWords = result.data[@"search_items"];
-        if (self.historyWords.count > 0) {
-            [self.sectionTitles addObject:@"历史搜索"];
-            [self.sections addObject:self.historyWords];
-        }
-        [self loadUserBrowseData];
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
 }
 
 // 最近查看
 - (void)loadUserBrowseData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:nil     delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self.searchView readHistorySearch];
         self.recentlyViewedProducts = result.data[@"products"];
         if (self.recentlyViewedProducts.count > 0) {
             [self.sectionTitles addObject:@"最近查看"];
             [self.sections addObject:self.recentlyViewedProducts];
         }
+        // 按展示顺序往下请求
         [self loadHotRecommendData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -110,7 +106,8 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 
 // 热门推荐
 - (void)loadHotRecommendData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlHotRecommend requestDictionary:nil delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlHotRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularRecommends = result.data[@"hot_recommends"];
         if (self.popularRecommends.count > 0) {
@@ -139,6 +136,42 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     }];
 }
 
+// 关键字索引数据
+- (void)loadSearchIndexData:(NSMutableString *)word {
+    // 过滤空格
+    NSMutableString *searchWord = [[word stringByReplacingOccurrencesOfString:@" " withString:@""] mutableCopy];
+    // 搜索关键词为nil ，清除视图
+    if (searchWord.length == 0) {
+        [self removeSearchIndexView];
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"qk"] = searchWord;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlSearchIndex requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.searchIndexs = result.data[@"search_items"];
+        [self.view addSubview:self.searchIndexVC.view];
+        self.searchIndexVC.searchIndexs = self.searchIndexs;
+        self.searchIndexVC.searchWord = searchWord;
+        [self.searchIndexVC didMoveToParentViewController:self];
+        [self.searchIndexVC.tableView reloadData];
+        [self addChildViewController:self.searchIndexVC];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+- (void)clearSearchHistoryData {
+    self.historyWords = nil;
+    [self.sections removeObjectAtIndex:0];
+    [self.sectionTitles removeObjectAtIndex:0];
+    NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+    [self.collectionView reloadData];
+}
+
 #pragma mark - UICollectionViewDelegate && UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 
@@ -147,27 +180,41 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-
-    NSArray *items = self.sections[section];
-    return items.count;
+    NSString *sectionTitle = self.sectionTitles[section];
+    if ([sectionTitle isEqualToString:@"最近查看"]) {
+        return 1;
+    } else {
+        NSArray *items = self.sections[section];
+        return items.count;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
     if ([sectionTitle isEqualToString:@"历史搜索"]) {
         THNSearchHistoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHistoryCellIdentifier forIndexPath:indexPath];
-        [cell setHistoryStr:self.historyWords[indexPath.row][@"query_word"]];
+        [cell setupCellViewUI];
+        [cell setHistoryStr:self.historyWords[indexPath.row]];
         return cell;
     } else if ([sectionTitle isEqualToString:@"最近查看"]) {
-        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchProductCellIdentifier forIndexPath:indexPath];
-        THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
-        [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KSearchDefaultCellIdentifier forIndexPath:indexPath];
+         self.productCollectionView.recentlyViewedProducts = self.recentlyViewedProducts;
+        [cell addSubview:self.productCollectionView];
         return cell;
     } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
         THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
+        THNSearchHotRecommendModel *hotRecommendModel = [THNSearchHotRecommendModel mj_objectWithKeyValues:self.popularRecommends[indexPath.row]];
+        [cell setHotRecommentModel:hotRecommendModel];
         return cell;
     } else {
         THNSearchHotSearchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotSearchCellIdentifier forIndexPath:indexPath];
+        if (indexPath.row < 3) {
+            cell.hotSearchImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_search_%ld",indexPath.row]];
+        } else {
+            cell.hotSearchImageView.image = [UIImage imageNamed:@"icon_search_other"];
+        }
+     
+        [cell setHotSerarchStr:self.popularSearchs[indexPath.row][@"query_word"]];
         return cell;
     }
 }
@@ -180,13 +227,15 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
     if ([sectionTitle isEqualToString:@"历史搜索"]) {
         self.searchTintType = SearchTintTypeHistory;
-        return CGSizeMake([self.historyWords[indexPath.row][@"query_word"] boundingSizeWidthWithFontSize:14] + 12, 30);
+        CGFloat historyWordWidth = [self.historyWords[indexPath.row] boundingSizeWidthWithFontSize:14] + 20;
+        return CGSizeMake(historyWordWidth, 30);
+        
     } else if ([sectionTitle isEqualToString:@"最近查看"]) {
         self.searchTintType = SearchTintTypeRecentlyViewed;
-        return CGSizeMake(100, 129);
+        return CGSizeMake(SCREEN_WIDTH, 129);
     } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
         self.searchTintType = SearchTintTypePopularRecommend;
-        return CGSizeMake(45, 67);
+        return CGSizeMake(65, 72);
     } else {
         self.searchTintType = SearchTintTypePopularSearch;
         return CGSizeMake(SCREEN_WIDTH, 50);
@@ -197,8 +246,9 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSearchHeaderViewIdentifier forIndexPath:indexPath];
     THNSearchHeaderView *searchHeaderView = [THNSearchHeaderView viewFromXib];
     searchHeaderView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    
-    searchHeaderView.deleteButton.hidden = indexPath.section !=  0;
+    NSString *sectionTitle = self.sectionTitles[indexPath.section];
+    searchHeaderView.deleteButton.hidden = ![sectionTitle isEqualToString:@"历史搜索"];
+    [searchHeaderView.deleteButton addTarget:self action:@selector(clearSearchHistoryData) forControlEvents:UIControlEventTouchUpInside];
     [searchHeaderView setSectionTitle:self.sectionTitles[indexPath.section]];
     
     [headerView addSubview:searchHeaderView];
@@ -219,21 +269,41 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    switch (self.searchTintType) {
-        case SearchTintTypeHistory:
-        case SearchTintTypeRecentlyViewed:
-            return 10;
-        case SearchTintTypePopularRecommend:
-            return 50;
-        default:
-            return 0;
+    return 10;
+}
+
+#pragma mark - THNSearchViewDelegate
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)loadSearchHistory:(NSArray *)historyShowSearchArr {
+    self.historyWords = historyShowSearchArr;
+    if (self.historyWords.count > 0) {
+        [self.sectionTitles addObject:@"历史搜索"];
+        [self.sections addObject:self.historyWords];
     }
+}
+
+- (void)loadSearchIndex:(NSMutableString *)searchWord {
+    [self loadSearchIndexData:searchWord];
+}
+
+- (void)removeSearchIndexView {
+    if (self.childViewControllers.count == 0) {
+        return;
+    }
+    
+    UIViewController *vc = [self.childViewControllers lastObject];
+    [vc.view removeFromSuperview];
+    [vc removeFromParentViewController];
 }
 
 #pragma mark - lazy
 - (THNSearchView *)searchView {
     if (!_searchView) {
-        _searchView = [[THNSearchView alloc]initWithFrame:CGRectMake(20, STATUS_BAR_HEIGHT + 7, SCREEN_WIDTH, 30)];;
+        _searchView = [[THNSearchView alloc]initWithFrame:CGRectMake(20, STATUS_BAR_HEIGHT + 7, SCREEN_WIDTH, 30)];
+        _searchView.delegate = self;
     }
     return _searchView;
 }
@@ -248,8 +318,8 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:KSearchDefaultCellIdentifier];
         [_collectionView registerClass:[THNSearchHistoryCollectionViewCell class] forCellWithReuseIdentifier:kSearchHistoryCellIdentifier];
-        [_collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSearchProductCellIdentifier];
         [_collectionView registerNib:[UINib nibWithNibName:@"THNSearchHotRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier];
         [_collectionView registerNib:[UINib nibWithNibName:@"THNSearchHotSearchCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSearchHotSearchCellIdentifier];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSearchHeaderViewIdentifier];
@@ -272,5 +342,37 @@ static NSString *const kUrlHotSearch = @"/core_platforms/search/week_hot";
     return _sectionTitles;
 }
 
+- (THNRecentlyViewedCollectionView *)productCollectionView {
+    if (!_productCollectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
+                                                                                       initWithWidth:100
+                                                                                      initwithHeight:129];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _productCollectionView = [[THNRecentlyViewedCollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 129) collectionViewLayout:layout];
+    }
+    return _productCollectionView;
+}
+
+- (THNSearchIndexTableViewController *)searchIndexVC {
+    if (!_searchIndexVC) {
+        _searchIndexVC = [[THNSearchIndexTableViewController alloc]init];
+        _searchIndexVC.view.frame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    return _searchIndexVC;
+}
+
+//        self.totalHistoryWordWidth += historyWordWidth;
+//        NSLog(@"--------historyWordWidth%.2f",historyWordWidth);
+//        NSLog(@"-===-=====-----historyWordWidth%.2f",self.totalHistoryWordWidth);
+//        NSLog(@"-===-=====-----historyWordWidth%.2f",(SCREEN_WIDTH - 20) * 2);
+//        if (self.totalHistoryWordWidth > (SCREEN_WIDTH - 20) * 2) {
+//            return CGSizeZero;
+//        } else {
+//    CGFloat maxWidth = SCREEN_WIDTH * 0.6;
+
+//    if (self.viewWidth > maxWidth) {
+//        self.viewWidth = maxWidth + 7.5;
+//        self.titleLabel.frame = CGRectMake(7.5, 0, maxWidth, self.viewHeight);
+//    } else {
 
 @end

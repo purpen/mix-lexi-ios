@@ -9,6 +9,7 @@
 #import "THNSearchHistoryCollectionViewCell.h"
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import "THNMarco.h"
 
 @interface THNSearchHistoryCollectionViewCell()
 
@@ -18,19 +19,10 @@
 
 @implementation THNSearchHistoryCollectionViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setupCellViewUI];
-    }
-    self.frame = frame;
-    return self;
-}
-
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
-    [self drawCornerWithType:0 radius:self.viewHeight / 2];
     self.titleLabel.frame = self.bounds;
+    [self drawCornerWithType:0 radius:self.viewHeight / 2];
     [self addSubview:self.titleLabel];
 }
 

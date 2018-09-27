@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNSearchHotRecommendModel;
+
 @interface THNSearchHotRecommendCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) THNSearchHotRecommendModel *hotRecommentModel;
 
 @end
