@@ -8,11 +8,21 @@
 
 #import "THNSearchHotSearchCollectionViewCell.h"
 
+@interface THNSearchHotSearchCollectionViewCell()
+
+@property (weak, nonatomic) IBOutlet UILabel *hotSearchWordLabel;
+
+@end
+
 @implementation THNSearchHotSearchCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization codetest
+}
+
+- (void)setHotSerarchStr:(NSString *)hotSerarchStr {
+    self.hotSearchWordLabel.text = hotSerarchStr;
 }
 
 @end

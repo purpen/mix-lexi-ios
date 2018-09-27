@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
     THNGoodsListViewTypeGoodThing,      //  百元好物
     THNGoodsListViewTypeOptimal,        //  乐喜优选
     THNGoodsListViewTypeRecommend,      //  人气推荐
+    THNGoodsListViewTypeSearch          //  商品搜索
 };
 
 typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {

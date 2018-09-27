@@ -10,4 +10,8 @@
 
 @interface THNSearchHotSearchCollectionViewCell : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *hotSearchImageView;
+// 热门搜索文字
+@property (nonatomic, strong) NSString *hotSerarchStr;
+
 @end
