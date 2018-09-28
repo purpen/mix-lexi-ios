@@ -12,6 +12,8 @@
 #import "UIView+Helper.h"
 #import "UIImageView+SDWedImage.h"
 
+
+
 @interface THNSearchHotRecommendCollectionViewCell()
 
 @property (weak, nonatomic) IBOutlet UIImageView *brandImageView;
@@ -28,7 +30,13 @@
 
 - (void)setHotRecommentModel:(THNSearchHotRecommendModel *)hotRecommentModel {
     _hotRecommentModel = hotRecommentModel;
-    [self.brandImageView thn_setCircleImageWithUrlString:hotRecommentModel.recommend_cover placeholder:[UIImage imageNamed:@"default_image_place"]];
+    
+    if (!hotRecommentModel.recommend_cover) {
+        self.brandImageView.image = [UIImage imageNamed:@"icon_search_customization"];
+    } else {
+       [self.brandImageView thn_setCircleImageWithUrlString:hotRecommentModel.recommend_cover placeholder:[UIImage imageNamed:@"default_image_place"]];
+    }
+    
     self.nameLabel.text = hotRecommentModel.recommend_title;
 }
 

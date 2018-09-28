@@ -12,6 +12,8 @@
 #import "THNSearchIndexModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNSearchDetailViewController.h"
+#import "THNSaveTool.h"
+#import "THNSearchView.h"
 
 static NSString *const kSearchIndexCellIdentifier = @"kSearchIndexCellIdentifier";
 
@@ -43,14 +45,28 @@ static NSString *const kSearchIndexCellIdentifier = @"kSearchIndexCellIdentifier
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSearchIndexTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchIndexCellIdentifier forIndexPath:indexPath];
     THNSearchIndexModel *searchIndexModel = [THNSearchIndexModel mj_objectWithKeyValues:self.searchIndexs[indexPath.row]];
-    cell.searchWord = self.searchWord;
+    cell.textFieldText = self.textFieldText;
     [cell setSearchIndexModel:searchIndexModel];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+   
+     THNSearchIndexModel *searchIndexModel = [THNSearchIndexModel mj_objectWithKeyValues:self.searchIndexs[indexPath.row]];
+    THNSearchView *searchView = self.view.superview.subviews[0];
+    [searchView addHistoryModelWithText:searchIndexModel.name];
     THNSearchDetailViewController *searchDetailVC = [[THNSearchDetailViewController alloc]init];
+    searchDetailVC.searchDetailBlock = ^(NSString *searchWord) {
+        [searchView setSearchWord:searchWord];
+    };
+    searchDetailVC.childVCType = searchIndexModel.target_type - 1;
+    [THNSaveTool setObject:searchIndexModel.name forKey:kSearchKeyword];
     [self.navigationController pushViewController:searchDetailVC animated:YES];
+}
+
+// 隐藏键盘
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view.superview endEditing:YES];
 }
 
 @end

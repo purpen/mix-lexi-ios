@@ -13,6 +13,6 @@
 @interface THNSearchIndexTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNSearchIndexModel *searchIndexModel;
-@property (nonatomic, strong) NSMutableString *searchWord;
+@property (nonatomic, strong) NSMutableString *textFieldText;
 
 @end

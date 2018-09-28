@@ -59,6 +59,7 @@ static NSInteger const kFunctionButtonTag = 5123;
     self.goodsListType = type;
     
     switch (type) {
+        case THNGoodsListViewTypeSearch:
         case THNGoodsListViewTypeUser:
         case THNGoodsListViewTypeStore: {
             [self creatFunctionButtonWithTitles:@[kButtonTitleSort, kButtonTitleScreen]];

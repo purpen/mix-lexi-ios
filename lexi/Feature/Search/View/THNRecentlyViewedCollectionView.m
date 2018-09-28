@@ -44,7 +44,10 @@ static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdenti
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
+    if (self.recentlyViewedBlock) {
+        self.recentlyViewedBlock(productModel.rid);
+    }
 }
 
 @end
