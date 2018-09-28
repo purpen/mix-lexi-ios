@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *recommend_id;
 @property (nonatomic, strong) NSString *recommend_title;
 // 1=商品, 2=店铺
-@property (nonatomic, strong) NSString *target_type;
+@property (nonatomic, assign) NSInteger target_type;
+@property (nonatomic, strong) NSString *rid;
 
 @end

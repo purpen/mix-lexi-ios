@@ -42,6 +42,13 @@
 		4B24B5FB215CC996004269EB /* THNSearchIndexTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24B5F9215CC996004269EB /* THNSearchIndexTableViewCell.xib */; };
 		4B24B5FE215CD47C004269EB /* THNSearchIndexModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B5FD215CD47C004269EB /* THNSearchIndexModel.m */; };
 		4B24B601215CE7C4004269EB /* THNSearchDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */; };
+		4B24B60A215DCD94004269EB /* THNSearchProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B609215DCD94004269EB /* THNSearchProductViewController.m */; };
+		4B24B60D215DE572004269EB /* THNSearchStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B60C215DE572004269EB /* THNSearchStoreTableViewController.m */; };
+		4B24B611215DE635004269EB /* THNSearchStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B60F215DE635004269EB /* THNSearchStoreTableViewCell.m */; };
+		4B24B612215DE635004269EB /* THNSearchStoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24B610215DE635004269EB /* THNSearchStoreTableViewCell.xib */; };
+		4B24B615215E0056004269EB /* THNSearchUserTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B614215E0056004269EB /* THNSearchUserTableViewController.m */; };
+		4B24B619215E0104004269EB /* THNSearchUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24B617215E0104004269EB /* THNSearchUserTableViewCell.m */; };
+		4B24B61A215E0104004269EB /* THNSearchUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24B618215E0104004269EB /* THNSearchUserTableViewCell.xib */; };
 		4B25B4622140D0B900654390 /* THNOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B4612140D0B900654390 /* THNOrderViewController.m */; };
 		4B25B4712141091A00654390 /* THNOrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B46D2141091900654390 /* THNOrdersModel.m */; };
 		4B25B4722141091A00654390 /* THNOrdersItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25B46E2141091900654390 /* THNOrdersItemsModel.m */; };
@@ -419,6 +426,18 @@
 		4B24B5FD215CD47C004269EB /* THNSearchIndexModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchIndexModel.m; sourceTree = "<group>"; };
 		4B24B5FF215CE7C4004269EB /* THNSearchDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchDetailViewController.h; sourceTree = "<group>"; };
 		4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchDetailViewController.m; sourceTree = "<group>"; };
+		4B24B608215DCD94004269EB /* THNSearchProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSearchProductViewController.h; sourceTree = "<group>"; };
+		4B24B609215DCD94004269EB /* THNSearchProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSearchProductViewController.m; sourceTree = "<group>"; };
+		4B24B60B215DE572004269EB /* THNSearchStoreTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchStoreTableViewController.h; sourceTree = "<group>"; };
+		4B24B60C215DE572004269EB /* THNSearchStoreTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchStoreTableViewController.m; sourceTree = "<group>"; };
+		4B24B60E215DE635004269EB /* THNSearchStoreTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchStoreTableViewCell.h; sourceTree = "<group>"; };
+		4B24B60F215DE635004269EB /* THNSearchStoreTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchStoreTableViewCell.m; sourceTree = "<group>"; };
+		4B24B610215DE635004269EB /* THNSearchStoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSearchStoreTableViewCell.xib; sourceTree = "<group>"; };
+		4B24B613215E0056004269EB /* THNSearchUserTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchUserTableViewController.h; sourceTree = "<group>"; };
+		4B24B614215E0056004269EB /* THNSearchUserTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchUserTableViewController.m; sourceTree = "<group>"; };
+		4B24B616215E0104004269EB /* THNSearchUserTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSearchUserTableViewCell.h; sourceTree = "<group>"; };
+		4B24B617215E0104004269EB /* THNSearchUserTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSearchUserTableViewCell.m; sourceTree = "<group>"; };
+		4B24B618215E0104004269EB /* THNSearchUserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSearchUserTableViewCell.xib; sourceTree = "<group>"; };
 		4B25B4602140D0B900654390 /* THNOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderViewController.h; sourceTree = "<group>"; };
 		4B25B4612140D0B900654390 /* THNOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderViewController.m; sourceTree = "<group>"; };
 		4B25B46D2141091900654390 /* THNOrdersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrdersModel.m; sourceTree = "<group>"; };
@@ -1373,6 +1392,12 @@
 				4B24B5F7215CC996004269EB /* THNSearchIndexTableViewCell.h */,
 				4B24B5F8215CC996004269EB /* THNSearchIndexTableViewCell.m */,
 				4B24B5F9215CC996004269EB /* THNSearchIndexTableViewCell.xib */,
+				4B24B60E215DE635004269EB /* THNSearchStoreTableViewCell.h */,
+				4B24B60F215DE635004269EB /* THNSearchStoreTableViewCell.m */,
+				4B24B610215DE635004269EB /* THNSearchStoreTableViewCell.xib */,
+				4B24B616215E0104004269EB /* THNSearchUserTableViewCell.h */,
+				4B24B617215E0104004269EB /* THNSearchUserTableViewCell.m */,
+				4B24B618215E0104004269EB /* THNSearchUserTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1386,6 +1411,12 @@
 				4B24B5F5215CBE12004269EB /* THNSearchIndexTableViewController.m */,
 				4B24B5FF215CE7C4004269EB /* THNSearchDetailViewController.h */,
 				4B24B600215CE7C4004269EB /* THNSearchDetailViewController.m */,
+				4B24B608215DCD94004269EB /* THNSearchProductViewController.h */,
+				4B24B609215DCD94004269EB /* THNSearchProductViewController.m */,
+				4B24B60B215DE572004269EB /* THNSearchStoreTableViewController.h */,
+				4B24B60C215DE572004269EB /* THNSearchStoreTableViewController.m */,
+				4B24B613215E0056004269EB /* THNSearchUserTableViewController.h */,
+				4B24B614215E0056004269EB /* THNSearchUserTableViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2535,9 +2566,11 @@
 				4B240E96212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.xib in Resources */,
 				D8247EBB2147E96D000C8E37 /* THNOrderDetailLogisticsView.xib in Resources */,
 				D8BAC9A0211A949100667D6F /* THNBrandCollectionViewCell.xib in Resources */,
+				4B24B612215DE635004269EB /* THNSearchStoreTableViewCell.xib in Resources */,
 				4B2644CB2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.xib in Resources */,
 				4B25F210211EA79F00115E57 /* searchHis.json in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
+				4B24B61A215E0104004269EB /* THNSearchUserTableViewCell.xib in Resources */,
 				D8BAC999211A949100667D6F /* THNLivingHallMuseumView.xib in Resources */,
 				D8BAC993211A949100667D6F /* THNLivingHallHeaderView.xib in Resources */,
 				D8247EBC2147E96D000C8E37 /* THNOrderTableViewCell.xib in Resources */,
@@ -2687,6 +2720,7 @@
 				D8BAC9BD211A949100667D6F /* THNLoginManager.m in Sources */,
 				D8BAC9B2211A949100667D6F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
 				D8666C13213CCF0500FC9AB7 /* THNGoodsContentTableViewCell.m in Sources */,
+				4B24B60D215DE572004269EB /* THNSearchStoreTableViewController.m in Sources */,
 				D8BAC99C211A949100667D6F /* THNCategoriesModel.m in Sources */,
 				D8853EDA213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m in Sources */,
 				D8F99812212A91CB0012AED3 /* THNStoreViewController.m in Sources */,
@@ -2706,6 +2740,7 @@
 				D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */,
 				4B223CDD2146144A001E5F94 /* THNOrderDetailModel.m in Sources */,
 				D8BAC9C4211A949100667D6F /* THNSignUpViewController.m in Sources */,
+				4B24B60A215DCD94004269EB /* THNSearchProductViewController.m in Sources */,
 				D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */,
 				4B25B4722141091A00654390 /* THNOrdersItemsModel.m in Sources */,
 				4B6A9D02215B196D00C802EE /* THNSearchViewController.m in Sources */,
@@ -2802,6 +2837,7 @@
 				4B720604212D6678002606EE /* WBEmoticonInputView.m in Sources */,
 				4B2656C8211AE1D1001CA9DD /* THNUserPartieModel.m in Sources */,
 				4B56C91E213D243C0052FD80 /* THNAllBrandHallViewController.m in Sources */,
+				4B24B615215E0056004269EB /* THNSearchUserTableViewController.m in Sources */,
 				4B56C954213E48680052FD80 /* THNAllsetTableViewCell.m in Sources */,
 				4B56C952213E48680052FD80 /* THNAllsetTableViewController.m in Sources */,
 				D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */,
@@ -2845,6 +2881,7 @@
 				D8BAC9D3211A949100667D6F /* THNFindPassword.m in Sources */,
 				4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */,
 				D8BAC99E211A949100667D6F /* THNFeaturedBrandModel.m in Sources */,
+				4B24B611215DE635004269EB /* THNSearchStoreTableViewCell.m in Sources */,
 				D84CC30C214E0049007B7B25 /* THNPaymentTableViewCell.m in Sources */,
 				D859FDE42156514E00D007A6 /* THNGoodsListCollectionReusableView.m in Sources */,
 				4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */,
@@ -2880,6 +2917,7 @@
 				D8BAC9B7211A949100667D6F /* THNFeaturedOpeningView.m in Sources */,
 				4B240E95212BB3010077EDD4 /* THNSecondLevelCommentTableViewCell.m in Sources */,
 				4B2644E9212533AB00665A6D /* THNThreeImageStitchingView.m in Sources */,
+				4B24B619215E0104004269EB /* THNSearchUserTableViewCell.m in Sources */,
 				4B6A9D16215B83D800C802EE /* THNSearchHotSearchCollectionViewCell.m in Sources */,
 				4B27A682214B3F2B0082BA22 /* THNPreViewTableViewCell.m in Sources */,
 				D8BAC98B211A949100667D6F /* THNInboxViewController.m in Sources */,
