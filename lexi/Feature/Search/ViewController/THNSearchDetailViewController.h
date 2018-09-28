@@ -8,6 +8,17 @@
 
 #import "THNBaseViewController.h"
 
+typedef void(^SearchDetailBlock)(NSString *searchWord);
+
+typedef NS_ENUM(NSUInteger, SearchChildVCType) {
+    SearchChildVCTypeProduct,
+    SearchChildVCTypeStore,
+    SearchChildVCTypeUser
+};
+
 @interface THNSearchDetailViewController : THNBaseViewController
+
+@property (nonatomic, assign) SearchChildVCType childVCType;
+@property (nonatomic, copy) SearchDetailBlock searchDetailBlock;
 
 @end

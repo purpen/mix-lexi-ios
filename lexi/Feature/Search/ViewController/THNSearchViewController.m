@@ -21,6 +21,11 @@
 #import "THNRecentlyViewedCollectionView.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNSearchIndexTableViewController.h"
+#import "THNSearchDetailViewController.h"
+#import "THNSaveTool.h"
+#import "THNGoodsListViewController.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNBrandHallViewController.h"
 
 /**
  搜索提示内容
@@ -37,9 +42,14 @@ typedef NS_ENUM(NSUInteger, SearchTintType) {
     SearchTintTypePopularSearch
 };
 
+static NSString *const KSearchHistoryTitle = @"历史搜索";
+static NSString *const KSearchRecentlyViewedTitle = @"最近查看";
+static NSString *const KSearchHotRecommendTitle = @"热门推荐";
+static NSString *const kSearchHotSearchTitle = @"热门搜索";
+
 static NSString *const kSearchHeaderViewIdentifier = @"kSearchHeaderViewIdentifier";
 static NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
-static NSString *const kSearchHotRecommendCellIdentifier = @"kSearchHotRecommendCellIdentifier";
+static NSString *const kSearchHotRecommendCellIdentifier = @"kSearc hHotRecommendCellIdentifier";
 static NSString *const kSearchHotSearchCellIdentifier = @"kSearchHotSearchCellIdentifier";
 static NSString *const KSearchDefaultCellIdentifier = @"KSearchDefaultCellIdentifier";
 
@@ -51,14 +61,15 @@ static NSString *const kUrlSearchIndex = @"/core_platforms/search";
 @interface THNSearchViewController ()<
 UICollectionViewDelegate,
 UICollectionViewDataSource,
-THNSearchViewDelegate
+THNSearchViewDelegate,
+UICollectionViewDelegateFlowLayout
 >
 
 @property (nonatomic, strong) THNSearchView *searchView;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *historyWords;
 @property (nonatomic, strong) NSArray *recentlyViewedProducts;
-@property (nonatomic, strong) NSArray *popularRecommends;
+@property (nonatomic, strong) NSMutableArray *popularRecommends;
 @property (nonatomic, strong) NSArray *popularSearchs;
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSMutableArray *sectionTitles;
@@ -81,7 +92,7 @@ THNSearchViewDelegate
 
 - (void)setupUI {
     self.navigationBarView.hidden = YES;
-    [self.searchView layoutSearchView:SearchViewTypeDefault];
+    [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
     [self.view addSubview:self.searchView];
     [self.view addSubview:self.collectionView];
 }
@@ -94,7 +105,7 @@ THNSearchViewDelegate
         [self.searchView readHistorySearch];
         self.recentlyViewedProducts = result.data[@"products"];
         if (self.recentlyViewedProducts.count > 0) {
-            [self.sectionTitles addObject:@"最近查看"];
+            [self.sectionTitles addObject:KSearchRecentlyViewedTitle];
             [self.sections addObject:self.recentlyViewedProducts];
         }
         // 按展示顺序往下请求
@@ -109,9 +120,9 @@ THNSearchViewDelegate
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlHotRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.popularRecommends = result.data[@"hot_recommends"];
+        [self.popularRecommends addObjectsFromArray:result.data[@"hot_recommends"]];
         if (self.popularRecommends.count > 0) {
-            [self.sectionTitles addObject:@"热门推荐"];
+            [self.sectionTitles addObject:KSearchHotRecommendTitle];
             [self.sections addObject:self.popularRecommends];
         }
 
@@ -127,7 +138,7 @@ THNSearchViewDelegate
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularSearchs = result.data[@"search_items"];
         if (self.popularSearchs.count > 0) {
-            [self.sectionTitles addObject:@"热门搜索"];
+            [self.sectionTitles addObject:kSearchHotSearchTitle];
         }
         [self.sections addObject:self.popularSearchs];
         [self.collectionView reloadData];
@@ -137,23 +148,23 @@ THNSearchViewDelegate
 }
 
 // 关键字索引数据
-- (void)loadSearchIndexData:(NSMutableString *)word {
+- (void)loadSearchIndexData:(NSString *)textFieldText {
     // 过滤空格
-    NSMutableString *searchWord = [[word stringByReplacingOccurrencesOfString:@" " withString:@""] mutableCopy];
+    NSMutableString *mutableStr = [[textFieldText stringByReplacingOccurrencesOfString:@" " withString:@""] mutableCopy];
     // 搜索关键词为nil ，清除视图
-    if (searchWord.length == 0) {
+    if (mutableStr.length == 0) {
         [self removeSearchIndexView];
         return;
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"qk"] = searchWord;
+    params[@"qk"] = mutableStr;
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchIndex requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.searchIndexs = result.data[@"search_items"];
         [self.view addSubview:self.searchIndexVC.view];
         self.searchIndexVC.searchIndexs = self.searchIndexs;
-        self.searchIndexVC.searchWord = searchWord;
+        self.searchIndexVC.textFieldText = mutableStr;
         [self.searchIndexVC didMoveToParentViewController:self];
         [self.searchIndexVC.tableView reloadData];
         [self addChildViewController:self.searchIndexVC];
@@ -181,7 +192,7 @@ THNSearchViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
     NSString *sectionTitle = self.sectionTitles[section];
-    if ([sectionTitle isEqualToString:@"最近查看"]) {
+    if ([sectionTitle isEqualToString:KSearchRecentlyViewedTitle]) {
         return 1;
     } else {
         NSArray *items = self.sections[section];
@@ -191,17 +202,24 @@ THNSearchViewDelegate
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
-    if ([sectionTitle isEqualToString:@"历史搜索"]) {
+    if ([sectionTitle isEqualToString:KSearchHistoryTitle]) {
         THNSearchHistoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHistoryCellIdentifier forIndexPath:indexPath];
         [cell setupCellViewUI];
         [cell setHistoryStr:self.historyWords[indexPath.row]];
         return cell;
-    } else if ([sectionTitle isEqualToString:@"最近查看"]) {
+    } else if ([sectionTitle isEqualToString:KSearchRecentlyViewedTitle]) {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KSearchDefaultCellIdentifier forIndexPath:indexPath];
+        
+        __weak typeof(self)weakSelf = self;
+        self.productCollectionView.recentlyViewedBlock = ^(NSString *goodID) {
+            THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:goodID];
+            [weakSelf.navigationController pushViewController:goodInfoVC animated:YES];
+        };
+        
          self.productCollectionView.recentlyViewedProducts = self.recentlyViewedProducts;
         [cell addSubview:self.productCollectionView];
         return cell;
-    } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
+    } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
         THNSearchHotRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchHotRecommendCellIdentifier forIndexPath:indexPath];
         THNSearchHotRecommendModel *hotRecommendModel = [THNSearchHotRecommendModel mj_objectWithKeyValues:self.popularRecommends[indexPath.row]];
         [cell setHotRecommentModel:hotRecommendModel];
@@ -220,22 +238,48 @@ THNSearchViewDelegate
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    NSString *sectionTitle = self.sectionTitles[indexPath.section];
+    if ([sectionTitle isEqualToString:KSearchHistoryTitle]) {
+        [THNSaveTool setObject:self.historyWords[indexPath.row] forKey:kSearchKeyword];
+        [self pushSearchDetailVC];
+    } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
+        // 接单定制
+        if (indexPath.row == 0) {
+            // FYNN 实现 目前假的跳转
+            THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:@"接单定制"];
+            [self.navigationController pushViewController:goodListVC animated:YES];
+        } else {
+            THNSearchHotRecommendModel *hotRecommendModel = [THNSearchHotRecommendModel mj_objectWithKeyValues:self.popularRecommends[indexPath.row]];
+            
+            // 1=商品, 2=店铺
+            if (hotRecommendModel.target_type == 1) {
+                THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:hotRecommendModel.rid];
+                [self.navigationController pushViewController:goodInfoVC animated:YES];
+            } else {
+                THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+                brandHallVC.rid = hotRecommendModel.rid;
+                [self.navigationController pushViewController:brandHallVC animated:YES];
+            }
+        }
+    } else {
+        [THNSaveTool setObject:self.popularSearchs[indexPath.row][@"query_word"] forKey:kSearchKeyword];
+        [self pushSearchDetailVC];
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
-    if ([sectionTitle isEqualToString:@"历史搜索"]) {
+    if ([sectionTitle isEqualToString:KSearchHistoryTitle]) {
         self.searchTintType = SearchTintTypeHistory;
         CGFloat historyWordWidth = [self.historyWords[indexPath.row] boundingSizeWidthWithFontSize:14] + 20;
         return CGSizeMake(historyWordWidth, 30);
         
-    } else if ([sectionTitle isEqualToString:@"最近查看"]) {
+    } else if ([sectionTitle isEqualToString:KSearchRecentlyViewedTitle]) {
         self.searchTintType = SearchTintTypeRecentlyViewed;
         return CGSizeMake(SCREEN_WIDTH, 129);
-    } else if ([sectionTitle isEqualToString:@"热门推荐"]) {
+    } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
         self.searchTintType = SearchTintTypePopularRecommend;
-        return CGSizeMake(65, 72);
+        return CGSizeMake(75, 72);
     } else {
         self.searchTintType = SearchTintTypePopularSearch;
         return CGSizeMake(SCREEN_WIDTH, 50);
@@ -247,7 +291,7 @@ THNSearchViewDelegate
     THNSearchHeaderView *searchHeaderView = [THNSearchHeaderView viewFromXib];
     searchHeaderView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
-    searchHeaderView.deleteButton.hidden = ![sectionTitle isEqualToString:@"历史搜索"];
+    searchHeaderView.deleteButton.hidden = ![sectionTitle isEqualToString:KSearchHistoryTitle];
     [searchHeaderView.deleteButton addTarget:self action:@selector(clearSearchHistoryData) forControlEvents:UIControlEventTouchUpInside];
     [searchHeaderView setSectionTitle:self.sectionTitles[indexPath.section]];
     
@@ -272,6 +316,20 @@ THNSearchViewDelegate
     return 10;
 }
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    switch (self.searchTintType) {
+        case SearchTintTypePopularRecommend:
+            return UIEdgeInsetsMake(15, 10, 20, 20);
+        default:
+            return UIEdgeInsetsMake(15, 20, 20, 20);
+    }
+}
+
+// 隐藏键盘
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
 #pragma mark - THNSearchViewDelegate
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
@@ -280,13 +338,13 @@ THNSearchViewDelegate
 - (void)loadSearchHistory:(NSArray *)historyShowSearchArr {
     self.historyWords = historyShowSearchArr;
     if (self.historyWords.count > 0) {
-        [self.sectionTitles addObject:@"历史搜索"];
+        [self.sectionTitles addObject:KSearchHistoryTitle];
         [self.sections addObject:self.historyWords];
     }
 }
 
-- (void)loadSearchIndex:(NSMutableString *)searchWord {
-    [self loadSearchIndexData:searchWord];
+- (void)loadSearchIndex:(NSString *)textFieldText {
+    [self loadSearchIndexData:textFieldText];
 }
 
 - (void)removeSearchIndexView {
@@ -297,6 +355,17 @@ THNSearchViewDelegate
     UIViewController *vc = [self.childViewControllers lastObject];
     [vc.view removeFromSuperview];
     [vc removeFromParentViewController];
+}
+
+- (void)pushSearchDetailVC {
+    THNSearchDetailViewController *searchDetailVC = [[THNSearchDetailViewController alloc]init];
+    
+    searchDetailVC.searchDetailBlock = ^(NSString *searchWord) {
+        [self.searchView setSearchWord:searchWord];
+    };
+    
+    searchDetailVC.childVCType = SearchChildVCTypeProduct;
+    [self.navigationController pushViewController:searchDetailVC animated:YES];
 }
 
 #pragma mark - lazy
@@ -312,7 +381,6 @@ THNSearchViewDelegate
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        layout.sectionInset = UIEdgeInsetsMake(15, 20, 20, 20);
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT + 20, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:layout];
         _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 70, 0);
         _collectionView.showsVerticalScrollIndicator = NO;
@@ -347,6 +415,7 @@ THNSearchViewDelegate
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
                                                                                        initWithWidth:100
                                                                                       initwithHeight:129];
+        layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 40);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _productCollectionView = [[THNRecentlyViewedCollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 129) collectionViewLayout:layout];
     }
@@ -359,6 +428,15 @@ THNSearchViewDelegate
         _searchIndexVC.view.frame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     return _searchIndexVC;
+}
+
+- (NSMutableArray *)popularRecommends {
+    if (!_popularRecommends) {
+        _popularRecommends = [NSMutableArray arrayWithObject:@{
+                                                               @"recommend_title":@"接单定制"
+                                                               }];
+    }
+    return _popularRecommends;
 }
 
 //        self.totalHistoryWordWidth += historyWordWidth;
