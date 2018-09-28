@@ -9,7 +9,11 @@
 #import "THNSearchView.h"
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
-
+#import "THNSaveTool.h"
+#import "THNConst.h"
+#import "NSString+Helper.h"
+#import "THNMarco.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface THNSearchView()<UITextFieldDelegate>
 
@@ -22,8 +26,9 @@
 
 //一个用来归档，一个用来显示
 @property (strong,nonatomic) NSMutableArray *historySearchArr;
-@property (strong,nonatomic) NSArray *historyShowSearchArr;
-
+@property (strong,nonatomic) NSMutableArray *historyShowSearchArr;
+@property (nonatomic, assign) CGFloat totalHistoryWordWidth;
+@property (nonatomic, assign) SearchViewType searchViewType;
 @end
 
 @implementation THNSearchView
@@ -36,18 +41,20 @@
     return self;
 }
 
-- (void)layoutSearchView:(SearchViewType)searchViewType {
+- (void)layoutSearchView:(SearchViewType)searchViewType withSearchKeyword:(NSString *)searchKeyword {
+    self.searchViewType = searchViewType;
     if (searchViewType == SearchViewTypeDefault) {
         self.backgroundViewWidth = 83;
+        [self.searchTextField becomeFirstResponder];
         [self addSubview:self.cancelBtn];
     } else {
+        self.searchTextField.text = searchKeyword;
         self.backgroundViewWidth = 0;
     }
     
     [self addSubview:self.searchBackgroundView];
     [self addSubview:self.searchImageView];
     [self addSubview:self.searchTextField];
-    [self.searchTextField becomeFirstResponder];
 }
 
 - (void)showClearButton {
@@ -72,13 +79,6 @@
     }
 }
 
-//搜索
-- (void)search:(UITextField *)textField {
-    //给归档的数组添加一个模型
-    [self addHistoryModelWithText:textField.text];
-    //归档需要归档的数组
-    [self saveHistorySearch];
-}
 
 //判断搜索记录是否重复后添加到归档数组
 - (void)addHistoryModelWithText:(NSString *)text {
@@ -95,6 +95,27 @@
     if (!isRepet) {
         [self.historySearchArr addObject:text];
     }
+    
+    NSInteger finallyShowIndex = 0;
+    
+    for (int idx = 0; idx < self.historySearchArr.count; idx++) {
+        NSString *text = self.historySearchArr[idx];
+        CGFloat itemsMaxWidth = [text boundingSizeWidthWithFontSize:14] + 20 + 10;
+        self.totalHistoryWordWidth += itemsMaxWidth;
+        
+        // 记录关键词相加的长度小于最大限制宽度的index
+        if (self.totalHistoryWordWidth > (SCREEN_WIDTH - 40) * 2) {
+            finallyShowIndex = idx;
+        }
+    }
+    
+    // 删除超过最大宽度的数据
+    if (finallyShowIndex != 0) {
+        [self.historySearchArr removeObjectAtIndex:0];
+    }
+    
+    //归档需要归档的数组
+    [self saveHistorySearch];
 }
 
 //归档方法
@@ -113,28 +134,70 @@
     //解档
     NSMutableArray *personArr = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     self.historySearchArr = [NSMutableArray arrayWithArray:personArr];
-    self.historyShowSearchArr = [[self.historySearchArr reverseObjectEnumerator]allObjects];
+    self.historyShowSearchArr = [[[self.historySearchArr reverseObjectEnumerator]allObjects] mutableCopy];
     if (self.delegate && [self.delegate respondsToSelector:@selector(loadSearchHistory:)]) {
         [self.delegate loadSearchHistory:self.historyShowSearchArr];
     }
 }
 
+- (void)setSearchWord:(NSString *)searchWord {
+    self.searchTextField.text = searchWord;
+    [self.searchTextField becomeFirstResponder];
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self search:textField];
+    if ([self isEmpty:textField.text]) {
+        [SVProgressHUD showInfoWithStatus:@"搜索不能为空"];
+        [SVProgressHUD dismissWithDelay:2.0];
+        return NO;
+    }
+    
+    [self addHistoryModelWithText:[textField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    [THNSaveTool setObject:textField.text forKey:kSearchKeyword];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushSearchDetailVC)]) {
+        [self.delegate pushSearchDetailVC];
+    }
     return YES;
 }
 
+// 判断是否全是空格
+- (BOOL)isEmpty:(NSString *) str {
+    if (!str) {
+        return YES;
+    } else {
+        NSCharacterSet *set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        NSString *trimedString = [str stringByTrimmingCharactersInSet:set];
+        
+        if ([trimedString length] == 0) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-   
+    
     NSMutableString *searchWord = [[textField.text stringByAppendingString:string] mutableCopy];
     if (self.delegate && [self.delegate respondsToSelector:@selector(loadSearchIndex:)]) {
+        // 回退关键词
         if (string.length == 0) {
             [searchWord deleteCharactersInRange:NSMakeRange(searchWord.length - 1, 1)];
         }
         [self.delegate loadSearchIndex:searchWord];
     }
     return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ( self.searchViewType == SearchViewTypeDefault) {
+        return;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(back)]) {
+        [self.delegate back];
+    }
 }
 
 #pragma mark - lazy
@@ -163,6 +226,7 @@
         _searchTextField.placeholder = @"关键字/商品/品牌馆/人";
         _searchTextField.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         _searchTextField.textColor = searchTextFieldColor;
+        _searchTextField.returnKeyType = UIReturnKeySearch;
         _searchTextField.delegate = self;
         [_searchTextField setValue:searchTextFieldColor forKeyPath:@"_placeholderLabel.textColor"];
         [_searchTextField addTarget:self action:@selector(showClearButton) forControlEvents:UIControlEventEditingChanged];

@@ -24,17 +24,31 @@ typedef NS_ENUM(NSUInteger, SearchViewType) {
 
 @optional
 - (void)back;
+/**
+ 加载历史记录列表
+
+ @param historyShowSearchArr 历史记录数组
+ */
 - (void)loadSearchHistory:(NSArray *)historyShowSearchArr;
-- (void)loadSearchIndex:(NSString *)searchWord;
+
+/**
+ 加载索引列表数据
+
+ @param textFieldText 输入框的内容
+ */
+- (void)loadSearchIndex:(NSString *)textFieldText;
+// 移除索引列表
 - (void)removeSearchIndexView;
+- (void)pushSearchDetailVC;
 
 @end
 
 @interface THNSearchView : UIView
 
 - (void)readHistorySearch;
+- (void)addHistoryModelWithText:(NSString *)text;
+- (void)layoutSearchView:(SearchViewType)searchViewType withSearchKeyword:(NSString *)searchKeyword;
 @property (nonatomic, weak) id <THNSearchViewDelegate> delegate;
-
-- (void)layoutSearchView:(SearchViewType)searchViewType;
+@property (nonatomic, strong) NSString *searchWord;
 
 @end

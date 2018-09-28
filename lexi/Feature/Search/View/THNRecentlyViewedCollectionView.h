@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^RecentlyViewedBlock)(NSString *goodID);
+
 @interface THNRecentlyViewedCollectionView : UICollectionView
 
 @property (nonatomic, strong) NSArray *recentlyViewedProducts;
+@property (nonatomic, copy) RecentlyViewedBlock recentlyViewedBlock;
 
 @end

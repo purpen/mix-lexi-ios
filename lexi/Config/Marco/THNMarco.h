@@ -33,7 +33,6 @@
 #else
 #define THNLog(...)
 #endif
-
 #define WEAKSELF __weak __typeof(self)weakSelf = self;
 
 #endif /* THNMarco_h */

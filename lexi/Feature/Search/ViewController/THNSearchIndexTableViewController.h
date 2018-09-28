@@ -11,6 +11,6 @@
 @interface THNSearchIndexTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *searchIndexs;
-@property (nonatomic, strong) NSMutableString *searchWord;
+@property (nonatomic, strong) NSMutableString *textFieldText;
 
 @end

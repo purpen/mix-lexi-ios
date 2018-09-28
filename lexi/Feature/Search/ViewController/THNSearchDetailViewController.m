@@ -10,8 +10,10 @@
 #import "THNSearchView.h"
 #import "THNSelectButtonView.h"
 #import "UIView+Helper.h"
-#import "THNProductAllViewController.h"
-#import "THNUserListViewController.h"
+#import "THNSearchProductViewController.h"
+#import "THNSearchUserTableViewController.h"
+#import "THNSearchStoreTableViewController.h"
+#import "THNSaveTool.h"
 
 static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 static NSString *const kUrlSearchStore = @"/core_platforms/search/stores";
@@ -36,10 +38,12 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
 }
 
 - (void)setupUI {
-    [self.searchView layoutSearchView:SearchViewTypeNoCancel];
+    [self.searchView layoutSearchView:SearchViewTypeNoCancel withSearchKeyword:[THNSaveTool objectForKey:kSearchKeyword]];
+    self.searchView.delegate = self;
     [self.navigationBarView addSubview:self.searchView];
     [self.view addSubview:self.selectButtonView];
     self.selectButtonView.delegate = self;
+    [self.selectButtonView setDefaultShowIndex:self.childVCType];
     UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [self.view addSubview:lineView];
     [self.view addSubview:self.publicView];
@@ -49,13 +53,15 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
         make.top.equalTo(lineView.mas_bottom);
     }];
     
-    THNProductAllViewController *productAllVC = [[THNProductAllViewController alloc]init];
-    [self addChildViewController:productAllVC];
-//    THNUserListViewController *userListVC = [[THNUserListViewController alloc]init];
-//    [self addChildViewController:userListVC];
-    self.childViewControllers[0].view.frame = self.publicView.bounds;
-    [self.publicView addSubview:self.childViewControllers[0].view];
-    self.currentSubViewController = self.childViewControllers[0];
+    THNSearchProductViewController *searchProductVC = [[THNSearchProductViewController alloc]init];
+    [self addChildViewController:searchProductVC];
+    THNSearchStoreTableViewController *searchStoreVC = [[THNSearchStoreTableViewController alloc]init];
+    [self addChildViewController:searchStoreVC];
+    THNSearchUserTableViewController *searchUserVC = [[THNSearchUserTableViewController alloc]init];
+    [self addChildViewController:searchUserVC];
+    self.childViewControllers[self.childVCType].view.frame = self.publicView.bounds;
+    [self.publicView addSubview:self.childViewControllers[self.childVCType].view];
+    self.currentSubViewController = self.childViewControllers[self.childVCType];
 }
 
 #pragma mark - THNSelectButtonViewDelegate Method 实现
@@ -67,6 +73,12 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
             self.currentSubViewController = self.childViewControllers[index];
         }
     }];
+}
+
+- (void)back {
+    NSString *searchWord = [THNSaveTool objectForKey:kSearchKeyword];
+    self.searchDetailBlock(searchWord);
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - lazy
