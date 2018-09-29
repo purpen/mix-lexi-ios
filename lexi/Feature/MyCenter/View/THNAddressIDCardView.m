@@ -14,6 +14,13 @@
 
 @implementation THNAddressIDCardView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.cardTextField.returnKeyType = UIReturnKeyDone;
+    [self.positiveButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+    [self.negativeButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+}
+
 // 上传正面照片
 - (IBAction)pushPositive:(id)sender {
     self.openCameraBlcok(PhotoTypePositive);
