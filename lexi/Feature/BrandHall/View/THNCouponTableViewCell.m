@@ -14,6 +14,7 @@
 #import "THNAPI.h"
 #import "THNConst.h"
 #import "THNSaveTool.h"
+#import "THNMarco.h"
 
 static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 
@@ -29,6 +30,7 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 @property (weak, nonatomic) IBOutlet UILabel *validityPeriodLabel;
 @property (weak, nonatomic) IBOutlet UILabel *receiveTitleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *receiveButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *receiveLabelXConstraint;
 
 @end
 
@@ -36,6 +38,9 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    if (SCREEN_WIDTH == 320) {
+       self.receiveLabelXConstraint.constant = 5;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -57,7 +62,7 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
         [self receivedStyle];
     }
     
-    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", couponModel.amount];
+    self.moneyLabel.text = [NSString formatFloat:couponModel.amount];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%.2f使用", couponModel.min_amount];
     NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
     NSString *endDate = [NSString timeConversion:couponModel.end_date initWithFormatterType:FormatterDay];

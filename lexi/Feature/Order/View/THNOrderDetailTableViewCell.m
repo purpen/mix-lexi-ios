@@ -38,6 +38,7 @@ NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.logisticsButton drawCornerWithType:0 radius:4];
+    self.productImageView.layer.masksToBounds = YES;
 }
 
 // 订单详情

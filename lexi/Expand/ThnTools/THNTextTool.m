@@ -9,6 +9,7 @@
 #import "THNTextTool.h"
 #import <UIKit/UIKit.h>
 #import "UIColor+Extension.h"
+#import "NSString+Helper.h"
 
 @implementation THNTextTool
 
@@ -21,7 +22,7 @@
 + (NSMutableAttributedString *)setStrikethrough:(CGFloat)price {
     
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.2f",price] attributes:attribtDic];
+    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString formatFloat:price] attributes:attribtDic];
     return attribtStr;
 }
 

@@ -74,7 +74,7 @@
 }
 
 - (void)addSeeMoreButton {
-    __weak __typeof(self) weakSelf = self;
+    __weak typeof(self)weakSelf = self;
     
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"...阅读更多"];
     

@@ -92,7 +92,10 @@ static NSString *const kOid = @"oid";
     [self setupUI];
     
     if (self.addressModel) {
+        self.isDefaultAddress = self.addressModel.isDefault;
         [self loadGetaddressCustomData];
+    } else {
+        self.isShowCardView = self.isSaveCustom;
     }
 }
 
@@ -153,8 +156,16 @@ static NSString *const kOid = @"oid";
                 UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
                 UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self.cardView.positiveButton setImage:positiveImage forState:UIControlStateNormal];
-                    [self.cardView.negativeButton setImage:negativeImage forState:UIControlStateNormal];
+                    
+                    if (positiveImage) {
+                        [self.cardView.positiveButton setImage:positiveImage forState:UIControlStateNormal];
+                    }
+                    
+                    if (negativeImage) {
+                        [self.cardView.negativeButton setImage:negativeImage forState:UIControlStateNormal];
+                    }
+                   
+                    
                 });
             });
             
@@ -320,7 +331,7 @@ static NSString *const kOid = @"oid";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNNewShippingAddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAddressCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    cell.textView.returnKeyType = UIReturnKeyDone;
     if (indexPath.row == 1) {
         cell.textView.text = self.addressModel.mobile;
         self.mobile = self.addressModel.mobile;
@@ -331,6 +342,8 @@ static NSString *const kOid = @"oid";
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 60;
         cell.areaCodeTextView.tintColor = [UIColor clearColor];
+        // 业务需要，暂时隐藏
+        cell.areaCodeTextView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2) {
         cell.textView.text = self.addressModel.countryName;
@@ -361,6 +374,7 @@ static NSString *const kOid = @"oid";
         self.zipcode = self.addressModel.zipcode;
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
+        cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 0) {
         cell.textView.text = self.addressModel.firstName;
         self.name = self.addressModel.firstName;
@@ -385,20 +399,23 @@ static NSString *const kOid = @"oid";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-
+    
+    if (self.isShowCardView) {
+        self.cardView.hidden = NO;
+    } else {
+        self.cardView.hidden = YES;
+    }
+    
     return self.footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     if (self.isShowCardView) {
-        self.cardView.hidden = NO;
         return 315;
     } else {
-        self.cardView.hidden = YES;
         return 58;
     }
-   
 }
 
 #pragma mark - YYTextViewDelegate
@@ -453,6 +470,10 @@ static NSString *const kOid = @"oid";
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.textView resignFirstResponder];
 }
 
 #pragma mark - PickerView Delegate
@@ -562,8 +583,9 @@ static NSString *const kOid = @"oid";
 #pragma mark - lazy
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, STATUS_BAR_HEIGHT + 18, SCREEN_WIDTH, SCREEN_HEIGHT - 50) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ADDRESS_TOP, SCREEN_WIDTH, SCREEN_HEIGHT - 50) style:UITableViewStyleGrouped];
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+        _tableView.separatorColor = [UIColor colorWithHexString:@"e9e9e9"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 15);
@@ -585,26 +607,28 @@ static NSString *const kOid = @"oid";
         THNAddressIDCardView *cardView = [THNAddressIDCardView viewFromXib];
         cardView.cardTextField.delegate = self;
         
+        __weak typeof(self)weakSelf = self;
+        
         cardView.openCameraBlcok = ^(PhotoType photoType) {
-            self.photoTyoe = photoType;
+            weakSelf.photoTyoe = photoType;
             
             UIAlertController *alertCtl =[[UIAlertController alloc]init];
             
             UIAlertAction *cancel =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             }];
             UIAlertAction *camaraAction =[UIAlertAction actionWithTitle:@"拍摄身份证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self openCamera];
+                [weakSelf openCamera];
             }];
             UIAlertAction *photoAction =[UIAlertAction actionWithTitle:@"从相册选择身份证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
-                [self openPhotoLibrary];
+                [weakSelf openPhotoLibrary];
             }];
             
             [alertCtl addAction:cancel];
             [alertCtl addAction:camaraAction];
             [alertCtl addAction:photoAction];
             
-            [self presentViewController:alertCtl animated:YES completion:nil];
+            [weakSelf presentViewController:alertCtl animated:YES completion:nil];
         };
         
         self.cardView = cardView;
@@ -622,8 +646,6 @@ static NSString *const kOid = @"oid";
         UIView *view = [[UIView alloc]init];
         view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         [_footerView addSubview:view];
-        
-        __weak typeof(self)weakSelf = self;
         
         [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.leading.trailing.equalTo(weakSelf.footerView);
