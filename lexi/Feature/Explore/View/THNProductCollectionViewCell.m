@@ -11,6 +11,7 @@
 #import "UIView+Helper.h"
 #import "THNProductModel.h"
 #import "THNTextTool.h"
+#import "NSString+Helper.h"
 
 @interface THNProductCollectionViewCell()
 
@@ -50,7 +51,7 @@
     }
     
     if (homeType == THNHomeTypeExplore) {
-        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"%.2f",productModel.min_price];
+        self.producrOriginalPriceLabel.text = [NSString formatFloat:productModel.min_price];
         self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
     } else {
         self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
