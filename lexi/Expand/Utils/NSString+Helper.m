@@ -270,4 +270,16 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return retSize.width;
 }
 
+// 如果有两位小数不为0则保留两位小数，如果有一位小数不为0则保留一位小数，否则显示整数
++ (NSString *)formatFloat:(float)f
+{
+    if (fmodf(f, 1) == 0) {//如果有一位小数点
+        return [NSString stringWithFormat:@"%.0f",f];
+    } else if (fmodf(f * 10, 1)==0) {//如果有两位小数点
+        return [NSString stringWithFormat:@"%.1f",f];
+    } else {
+        return [NSString stringWithFormat:@"%.2f",f];
+    }
+}
+
 @end
