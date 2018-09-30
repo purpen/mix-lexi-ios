@@ -50,5 +50,8 @@ typedef NS_ENUM(NSUInteger, SearchViewType) {
 - (void)layoutSearchView:(SearchViewType)searchViewType withSearchKeyword:(NSString *)searchKeyword;
 @property (nonatomic, weak) id <THNSearchViewDelegate> delegate;
 @property (nonatomic, strong) NSString *searchWord;
+//一个用来归档，一个用来显示
+@property (strong,nonatomic) NSMutableArray *historySearchArr;
+@property (strong,nonatomic) NSMutableArray *historyShowSearchArr;
 
 @end

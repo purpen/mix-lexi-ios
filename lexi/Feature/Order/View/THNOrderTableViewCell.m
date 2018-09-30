@@ -18,8 +18,10 @@
 #import <MJExtension/MJExtension.h>
 #import "THNMarco.h"
 
+
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
-CGFloat orderProductCellHeight = 75;
+CGFloat kOrderProductViewHeight = 75;
+CGFloat kOrderLogisticsViewHeight = 29;
 CGFloat orderCellLineSpacing = 10;
 
 @interface THNOrderTableViewCell()<UITableViewDataSource, UITableViewDelegate>
@@ -41,6 +43,7 @@ CGFloat orderCellLineSpacing = 10;
 @property (nonatomic, strong) NSString *countDownText;
 @property (weak, nonatomic) IBOutlet UIView *payView;
 @property (weak, nonatomic) IBOutlet UILabel *payCountDownTextLabel;
+@property (nonatomic, strong) NSArray *products;
 
 @property (nonatomic, assign) BOOL isAddTimer;
 
@@ -56,7 +59,7 @@ CGFloat orderCellLineSpacing = 10;
     self.tableView.dataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNOrderProductTableViewCell" bundle:nil] forCellReuseIdentifier:kOrderSubCellIdentifier];
     [self.payView drawCornerWithType:0 radius:4];
-    [self borderButtonStyle];
+//    [self borderButtonStyle];
     [self backgroundButtonStyle];
 }
 
@@ -135,6 +138,10 @@ CGFloat orderCellLineSpacing = 10;
             break;
     }
     
+    // 按照express排序
+    NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"express" ascending:YES]];
+    self.products = [self.ordersModel.items sortedArrayUsingDescriptors:sortArr];
+    
     [self.tableView reloadData];
 }
 
@@ -195,13 +202,26 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.ordersModel.items.count;
+    return self.products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderSubCellIdentifier forIndexPath:indexPath];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.ordersModel.items[indexPath.row]];
+    THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    // 最后一行不隐藏运费模板
+    if (indexPath.row < self.products.count - 1) {
+        // 该商品后面运费模板一样，隐藏选择运费模板
+        if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+            cell.borderButton.hidden = YES;
+        } else {
+            cell.borderButton.hidden = NO;
+        }
+        
+    } else {
+        cell.borderButton.hidden = NO;
+    }
+        
     [cell setItemModel:itemModel];
     return cell;
 }
@@ -213,7 +233,17 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return orderProductCellHeight;
+    THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    if (indexPath.row < self.products.count - 1) {
+        // 该商品后面运费模板一样，设置为商品的高度
+        if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+            return kOrderProductViewHeight;
+        } else {
+            return kOrderProductViewHeight + kOrderLogisticsViewHeight;
+        }
+    } else {
+        return kOrderProductViewHeight + kOrderLogisticsViewHeight;
+    }
 }
 
 - (void)dealloc {
