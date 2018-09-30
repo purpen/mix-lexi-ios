@@ -61,4 +61,11 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.brandModel.products[indexPath.row]];
+    if (self.searchStoreBlcok) {
+        self.searchStoreBlcok(productModel.rid);
+    }
+}
+
 @end

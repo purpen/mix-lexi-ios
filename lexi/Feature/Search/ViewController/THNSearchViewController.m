@@ -79,6 +79,8 @@ UICollectionViewDelegateFlowLayout
 @property (nonatomic, strong) THNRecentlyViewedCollectionView *productCollectionView;
 @property (nonatomic, assign) CGFloat totalHistoryWordWidth;
 @property (nonatomic, strong) THNSearchIndexTableViewController *searchIndexVC;
+@property (nonatomic, assign) SearchChildVCType childVCType;
+@property (nonatomic, assign) BOOL isClickTextField;
 
 @end
 
@@ -96,6 +98,7 @@ UICollectionViewDelegateFlowLayout
     [self.view addSubview:self.searchView];
     [self.view addSubview:self.collectionView];
 }
+
 
 // 最近查看
 - (void)loadUserBrowseData {
@@ -177,6 +180,7 @@ UICollectionViewDelegateFlowLayout
     self.historyWords = nil;
     [self.sections removeObjectAtIndex:0];
     [self.sectionTitles removeObjectAtIndex:0];
+    [self.searchView.historySearchArr removeAllObjects];
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
     [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
@@ -262,7 +266,9 @@ UICollectionViewDelegateFlowLayout
             }
         }
     } else {
-        [THNSaveTool setObject:self.popularSearchs[indexPath.row][@"query_word"] forKey:kSearchKeyword];
+        NSString *queryWord = self.popularSearchs[indexPath.row][@"query_word"];
+        [self.searchView addHistoryModelWithText:queryWord];
+        [THNSaveTool setObject:queryWord forKey:kSearchKeyword];
         [self pushSearchDetailVC];
     }
 }
@@ -332,7 +338,11 @@ UICollectionViewDelegateFlowLayout
 
 #pragma mark - THNSearchViewDelegate
 - (void)back {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (!self.isClickTextField) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self pushSearchDetailVC];
+    }
 }
 
 - (void)loadSearchHistory:(NSArray *)historyShowSearchArr {
@@ -360,11 +370,18 @@ UICollectionViewDelegateFlowLayout
 - (void)pushSearchDetailVC {
     THNSearchDetailViewController *searchDetailVC = [[THNSearchDetailViewController alloc]init];
     
-    searchDetailVC.searchDetailBlock = ^(NSString *searchWord) {
+    searchDetailVC.searchDetailBlock = ^(NSString *searchWord, NSInteger childVCType, BOOL isClickTextField) {
+        self.childVCType = childVCType;
+        self.isClickTextField = isClickTextField;
         [self.searchView setSearchWord:searchWord];
     };
     
-    searchDetailVC.childVCType = SearchChildVCTypeProduct;
+    if (self.childVCType) {
+        searchDetailVC.childVCType = self.childVCType;
+    } else {
+        searchDetailVC.childVCType = SearchChildVCTypeProduct;
+    }
+    
     [self.navigationController pushViewController:searchDetailVC animated:YES];
 }
 
@@ -438,19 +455,5 @@ UICollectionViewDelegateFlowLayout
     }
     return _popularRecommends;
 }
-
-//        self.totalHistoryWordWidth += historyWordWidth;
-//        NSLog(@"--------historyWordWidth%.2f",historyWordWidth);
-//        NSLog(@"-===-=====-----historyWordWidth%.2f",self.totalHistoryWordWidth);
-//        NSLog(@"-===-=====-----historyWordWidth%.2f",(SCREEN_WIDTH - 20) * 2);
-//        if (self.totalHistoryWordWidth > (SCREEN_WIDTH - 20) * 2) {
-//            return CGSizeZero;
-//        } else {
-//    CGFloat maxWidth = SCREEN_WIDTH * 0.6;
-
-//    if (self.viewWidth > maxWidth) {
-//        self.viewWidth = maxWidth + 7.5;
-//        self.titleLabel.frame = CGRectMake(7.5, 0, maxWidth, self.viewHeight);
-//    } else {
 
 @end

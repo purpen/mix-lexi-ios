@@ -8,7 +8,7 @@
 
 #import "THNBaseViewController.h"
 
-typedef void(^SearchDetailBlock)(NSString *searchWord);
+typedef void(^SearchDetailBlock)(NSString *searchWord, NSInteger selectButtonIndex, BOOL isClickTextFiled);
 
 typedef NS_ENUM(NSUInteger, SearchChildVCType) {
     SearchChildVCTypeProduct,

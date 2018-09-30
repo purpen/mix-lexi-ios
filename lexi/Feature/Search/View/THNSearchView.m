@@ -23,12 +23,10 @@
 @property (nonatomic, strong) UIView *searchBackgroundView;
 @property (nonatomic, strong) UIImageView *searchImageView;
 @property (nonatomic, assign) CGFloat backgroundViewWidth;
-
-//一个用来归档，一个用来显示
-@property (strong,nonatomic) NSMutableArray *historySearchArr;
-@property (strong,nonatomic) NSMutableArray *historyShowSearchArr;
 @property (nonatomic, assign) CGFloat totalHistoryWordWidth;
 @property (nonatomic, assign) SearchViewType searchViewType;
+@property (nonatomic, assign) CGFloat totalSearchWordWidth;
+
 @end
 
 @implementation THNSearchView
@@ -79,7 +77,6 @@
     }
 }
 
-
 //判断搜索记录是否重复后添加到归档数组
 - (void)addHistoryModelWithText:(NSString *)text {
     //    重复的标志
@@ -95,25 +92,6 @@
     if (!isRepet) {
         [self.historySearchArr addObject:text];
     }
-    
-    NSInteger finallyShowIndex = 0;
-    
-    for (int idx = 0; idx < self.historySearchArr.count; idx++) {
-        NSString *text = self.historySearchArr[idx];
-        CGFloat itemsMaxWidth = [text boundingSizeWidthWithFontSize:14] + 20 + 10;
-        self.totalHistoryWordWidth += itemsMaxWidth;
-        
-        // 记录关键词相加的长度小于最大限制宽度的index
-        if (self.totalHistoryWordWidth > (SCREEN_WIDTH - 40) * 2) {
-            finallyShowIndex = idx;
-        }
-    }
-    
-    // 删除超过最大宽度的数据
-    if (finallyShowIndex != 0) {
-        [self.historySearchArr removeObjectAtIndex:0];
-    }
-    
     //归档需要归档的数组
     [self saveHistorySearch];
 }
@@ -129,14 +107,25 @@
 
 //历史搜索解档
 - (void)readHistorySearch {
+    NSMutableArray *filterMutableAtt = [NSMutableArray array];
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
     //解档
     NSMutableArray *personArr = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     self.historySearchArr = [NSMutableArray arrayWithArray:personArr];
     self.historyShowSearchArr = [[[self.historySearchArr reverseObjectEnumerator]allObjects] mutableCopy];
+    
+    for (NSString *searchKeyWord in self.historyShowSearchArr) {
+        CGFloat historyWordWidth = [searchKeyWord boundingSizeWidthWithFontSize:14] + 20;
+        self.totalSearchWordWidth += historyWordWidth;
+        
+        if (self.totalSearchWordWidth < SCREEN_WIDTH * 1.5) {
+            [filterMutableAtt addObject:searchKeyWord];
+        }
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(loadSearchHistory:)]) {
-        [self.delegate loadSearchHistory:self.historyShowSearchArr];
+        [self.delegate loadSearchHistory:filterMutableAtt];
     }
 }
 
@@ -179,16 +168,19 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSMutableString *searchWord = [[textField.text stringByAppendingString:string] mutableCopy];
+    // 关闭执行搜索方法
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    NSString *subString = textField.text;
+    subString = [subString stringByReplacingCharactersInRange:range withString:string];
+    // 延时一秒请求
+    [self performSelector:@selector(goSearch:) withObject:subString afterDelay:0.5f];
+    return YES;
+}
+
+- (void)goSearch:(NSString *)searchWord {
     if (self.delegate && [self.delegate respondsToSelector:@selector(loadSearchIndex:)]) {
-        // 回退关键词
-        if (string.length == 0) {
-            [searchWord deleteCharactersInRange:NSMakeRange(searchWord.length - 1, 1)];
-        }
         [self.delegate loadSearchIndex:searchWord];
     }
-    return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -221,7 +213,7 @@
 - (UITextField *)searchTextField {
     if (!_searchTextField) {
         _searchTextField = [[UITextField alloc]init];
-        _searchTextField.frame = CGRectMake(CGRectGetMaxX(self.searchImageView.frame) + 10, 5, self.viewWidth - 44 - self.backgroundViewWidth, 20);
+        _searchTextField.frame = CGRectMake(CGRectGetMaxX(self.searchImageView.frame) + 10, 5, self.viewWidth - 44 - self.backgroundViewWidth - 20, 20);
         UIColor *searchTextFieldColor = [UIColor colorWithHexString:@"555555"];
         _searchTextField.placeholder = @"关键字/商品/品牌馆/人";
         _searchTextField.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];

@@ -38,13 +38,25 @@
                             <constraint firstAttribute="height" constant="60" id="n8O-Kd-7bz"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqi-Bv-93Q">
+                        <rect key="frame" x="266" y="51.5" width="80" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="fSl-ff-T1a"/>
+                            <constraint firstAttribute="width" constant="80" id="sXa-b2-uy2"/>
+                        </constraints>
+                        <state key="normal">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Naz-JF-geq" firstAttribute="leading" secondItem="2vT-Ie-Wmk" secondAttribute="leading" id="FWz-gO-PLc"/>
                     <constraint firstItem="CgF-rs-tNa" firstAttribute="top" secondItem="vd7-gz-skS" secondAttribute="top" id="GtP-4u-YsQ"/>
                     <constraint firstAttribute="trailing" secondItem="2vT-Ie-Wmk" secondAttribute="trailing" id="RLj-Dg-Jzp"/>
+                    <constraint firstAttribute="bottom" secondItem="gqi-Bv-93Q" secondAttribute="bottom" id="Xm5-e4-gtU"/>
                     <constraint firstItem="CgF-rs-tNa" firstAttribute="leading" secondItem="vd7-gz-skS" secondAttribute="leading" id="Y28-5z-d0m"/>
                     <constraint firstItem="2vT-Ie-Wmk" firstAttribute="top" secondItem="CgF-rs-tNa" secondAttribute="top" id="bb9-fB-kYC"/>
+                    <constraint firstAttribute="trailing" secondItem="gqi-Bv-93Q" secondAttribute="trailing" constant="15" id="hea-Cp-YyT"/>
                     <constraint firstItem="Naz-JF-geq" firstAttribute="top" secondItem="2vT-Ie-Wmk" secondAttribute="bottom" constant="5" id="scF-9d-gUT"/>
                     <constraint firstItem="2vT-Ie-Wmk" firstAttribute="leading" secondItem="CgF-rs-tNa" secondAttribute="trailing" constant="10" id="wT1-F8-I8V"/>
                 </constraints>
@@ -52,6 +64,7 @@
             <viewLayoutGuide key="safeArea" id="bfb-fG-znS"/>
             <connections>
                 <outlet property="ProductCountLabel" destination="Naz-JF-geq" id="6fD-G8-huX"/>
+                <outlet property="borderButton" destination="gqi-Bv-93Q" id="pbm-Gn-Ggn"/>
                 <outlet property="productImageView" destination="CgF-rs-tNa" id="o2g-xY-Bxk"/>
                 <outlet property="productNameLabel" destination="2vT-Ie-Wmk" id="b3b-Dq-cI5"/>
             </connections>

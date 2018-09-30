@@ -17,7 +17,10 @@
 
 static NSString *const kSearchIndexCellIdentifier = @"kSearchIndexCellIdentifier";
 
-@interface THNSearchIndexTableViewController ()
+@interface THNSearchIndexTableViewController ()<THNSearchViewDelegate>
+
+@property (nonatomic, assign) SearchChildVCType childVCType;
+@property (nonatomic, assign) BOOL isClickTextField;
 
 @end
 
@@ -54,14 +57,30 @@ static NSString *const kSearchIndexCellIdentifier = @"kSearchIndexCellIdentifier
    
      THNSearchIndexModel *searchIndexModel = [THNSearchIndexModel mj_objectWithKeyValues:self.searchIndexs[indexPath.row]];
     THNSearchView *searchView = self.view.superview.subviews[0];
+    searchView.delegate = self;
     [searchView addHistoryModelWithText:searchIndexModel.name];
     THNSearchDetailViewController *searchDetailVC = [[THNSearchDetailViewController alloc]init];
-    searchDetailVC.searchDetailBlock = ^(NSString *searchWord) {
+    searchDetailVC.searchDetailBlock = ^(NSString *searchWord, NSInteger childVCType, BOOL isClickTextFiled) {
+        self.childVCType = childVCType;
+        self.isClickTextField = isClickTextFiled;
         [searchView setSearchWord:searchWord];
     };
     searchDetailVC.childVCType = searchIndexModel.target_type - 1;
     [THNSaveTool setObject:searchIndexModel.name forKey:kSearchKeyword];
     [self.navigationController pushViewController:searchDetailVC animated:YES];
+}
+
+- (void)back {
+    if (!self.isClickTextField) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        THNSearchDetailViewController *searchDetailVC = [[THNSearchDetailViewController alloc]init];
+        searchDetailVC.searchDetailBlock = ^(NSString *searchWord, NSInteger childVCType, BOOL isClickTextFiled) {
+            self.childVCType = childVCType;
+              self.isClickTextField = isClickTextFiled;
+        };
+        [self.navigationController pushViewController:searchDetailVC animated:YES];
+    }
 }
 
 // 隐藏键盘
