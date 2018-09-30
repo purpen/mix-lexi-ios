@@ -12,6 +12,9 @@
 @class THNOrderTableViewCell;
 @class THNOrdersItemsModel;
 
+UIKIT_EXTERN CGFloat kOrderProductViewHeight;
+UIKIT_EXTERN CGFloat kOrderLogisticsViewHeight;
+
 typedef void(^CountDownBlock)(THNOrderTableViewCell *cell);
 
 UIKIT_EXTERN CGFloat orderProductCellHeight;

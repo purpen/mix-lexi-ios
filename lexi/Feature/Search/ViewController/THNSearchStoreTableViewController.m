@@ -15,6 +15,8 @@
 #import <MJExtension/MJExtension.h>
 #import "THNFeaturedBrandModel.h"
 #import "UIColor+Extension.h"
+#import "THNBrandHallViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kUrlSearchStore = @"/core_platforms/search/stores";
 static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier";
@@ -64,10 +66,23 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSearchStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchStoreCellIdentifier forIndexPath:indexPath];
+    
+    cell.searchStoreBlcok = ^(NSString *productRid) {
+        THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productRid];
+        [self.navigationController pushViewController:goodInfoVC animated:YES];
+    };
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
     [cell setBrandModel:brandModel];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+    THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
+    brandHallVC.rid = brandModel.rid;
+    [self.navigationController pushViewController:brandHallVC animated:YES];
 }
 
 @end

@@ -27,6 +27,7 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
 @property (nonatomic, strong) UIView *publicView;
 // 当前控制器
 @property (nonatomic, strong) UIViewController *currentSubViewController;
+@property (nonatomic, assign) BOOL isClickTextField;
 
 @end
 
@@ -36,6 +37,7 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
     [super viewDidLoad];
     [self setupUI];
 }
+
 
 - (void)setupUI {
     [self.searchView layoutSearchView:SearchViewTypeNoCancel withSearchKeyword:[THNSaveTool objectForKey:kSearchKeyword]];
@@ -66,6 +68,7 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
 
 #pragma mark - THNSelectButtonViewDelegate Method 实现
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
+    self.childVCType = index;
     UIViewController *selectedController = self.childViewControllers[index];
     selectedController.view.frame = self.publicView.bounds;
     [self transitionFromViewController:self.currentSubViewController toViewController:self.childViewControllers[index] duration:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:^(BOOL finished) {
@@ -76,15 +79,20 @@ static NSString *const kUrlSearchUser  = @"/core_platforms/search/users";
 }
 
 - (void)back {
-    NSString *searchWord = [THNSaveTool objectForKey:kSearchKeyword];
-    self.searchDetailBlock(searchWord);
+    self.isClickTextField = YES;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSString *searchWord = [THNSaveTool objectForKey:kSearchKeyword];
+    self.searchDetailBlock(searchWord, self.childVCType, self.isClickTextField);
 }
 
 #pragma mark - lazy
 - (THNSearchView *)searchView {
     if (!_searchView) {
-        _searchView = [[THNSearchView alloc]initWithFrame:CGRectMake(47, STATUS_BAR_HEIGHT + 5, SCREEN_WIDTH - 67, 30)];
+        _searchView = [[THNSearchView alloc]initWithFrame:CGRectMake(47, SEARCH_TOP, SCREEN_WIDTH - 67, 30)];
         _searchView.delegate = self;
     }
     return _searchView;
