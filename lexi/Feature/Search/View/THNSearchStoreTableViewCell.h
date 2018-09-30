@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class THNFeaturedBrandModel;
+typedef void(^SearchStoreBlcok)(NSString *productRid);
 
 @interface THNSearchStoreTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNFeaturedBrandModel *brandModel;
+@property (nonatomic, copy) SearchStoreBlcok searchStoreBlcok;
 
 @end

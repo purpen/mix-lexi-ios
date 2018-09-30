@@ -164,6 +164,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
+        THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
+        [self delete:orderModel.rid];
         [self.orders removeObjectAtIndex:currentIndexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
     };
@@ -192,9 +194,16 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     if (self.orders.count == 0) {
         return 0;
     }
+    NSArray *items = self.orders[indexPath.row][@"items"];
+    // 获取不隐藏运费模板的数量
+    NSMutableArray *expressArr = [NSMutableArray array];
+    for (NSDictionary *dict in items) {
+        [expressArr addObject:dict[@"express"]];
+    }
     
-    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-    return orderModel.items.count * orderProductCellHeight + 114 + orderCellLineSpacing;
+    NSSet *set = [NSSet setWithArray:expressArr];
+    // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
+    return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
 }
 
 #pragma mark - THNOrderTableViewCellDelegate

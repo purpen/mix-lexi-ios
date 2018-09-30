@@ -13,5 +13,6 @@
 @interface THNOrderProductTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNOrdersItemsModel *itemModel;
+@property (weak, nonatomic) IBOutlet UIButton *borderButton;
 
 @end

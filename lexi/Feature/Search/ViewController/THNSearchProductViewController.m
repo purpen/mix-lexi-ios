@@ -15,6 +15,7 @@
 #import "THNProductCollectionViewCell.h"
 #import "THNProductModel.h"
 #import "THNSaveTool.h"
+#import "THNGoodsInfoViewController.h"
 
 static CGFloat interitemSpacing = 10;
 static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdentifier";
@@ -126,6 +127,12 @@ THNFunctionPopupViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 50) / 2 : SCREEN_WIDTH - 40;
     return CGSizeMake(itemWidth, itemWidth + 50);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
+    [self.navigationController pushViewController:goodInfoVC animated:YES];
 }
 
 #pragma mark - lazy
