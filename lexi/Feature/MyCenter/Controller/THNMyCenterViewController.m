@@ -112,6 +112,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
         [SVProgressHUD showInfoWithStatus:@"分享"];
+        
     } else if (index == 1) {
         [THNLoginManager userLogoutCompletion:^(NSError *error) {
             if (error) return;

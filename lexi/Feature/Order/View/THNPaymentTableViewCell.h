@@ -16,6 +16,8 @@ typedef NS_ENUM(NSInteger, THNPaymentType) {
 
 @interface THNPaymentTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL isSelectedPayment;
+
 - (void)thn_setPaymentTypeWithType:(THNPaymentType)type;
 
 + (instancetype)initPaymentCellWithTableView:(UITableView *)tableView;

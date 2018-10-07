@@ -93,6 +93,9 @@ static NSString *const kOid = @"oid";
     
     if (self.addressModel) {
         [self loadGetaddressCustomData];
+        
+    } else {
+        self.isShowCardView = self.isSaveCustom;
     }
 }
 
@@ -144,8 +147,9 @@ static NSString *const kOid = @"oid";
     params[@"mobile"] = self.addressModel.mobile;
     THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.data.count == 0) { 
+        if (result.data.count == 0 && !self.isSaveCustom) {
             self.isShowCardView = NO;
+            
         } else {
             self.isShowCardView = YES;
             self.cardView.cardTextField.text = result.data[@"id_card"];
@@ -385,8 +389,12 @@ static NSString *const kOid = @"oid";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-
-    return self.footerView;
+    
+    if (self.isShowCardView) {
+        return self.footerView;
+    }
+    
+    return [[UIView alloc]init];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -566,7 +574,7 @@ static NSString *const kOid = @"oid";
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 15);
+        _tableView.separatorColor = [UIColor colorWithHexString:@"e9e9e9"];
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     }
     return _tableView;

@@ -207,7 +207,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
-        NSArray *titleArray = @[@"全部", @"待付款", @"代发货", @"待收货", @"待评价"];
+        NSArray *titleArray = @[@"全部", @"待付款", @"待发货", @"待收货", @"待评价"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 40) titles:titleArray initWithButtonType:ButtonTypeLine];
         _selectButtonView.backgroundColor = [UIColor whiteColor];
         _selectButtonView.delegate = self;

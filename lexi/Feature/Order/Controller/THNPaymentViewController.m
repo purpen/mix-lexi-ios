@@ -71,6 +71,7 @@ static NSString *kTextPayment   = @"选择支付方式";
     [self.view addSubview:self.paymentTable];
     [self.view addSubview:self.doneButton];
     self.paymentTable.tableHeaderView = self.priceView;
+    self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
     
     // 显示金额
     [self.priceView thn_setPriceValue:self.paymentAmount
@@ -123,19 +124,18 @@ static NSString *kTextPayment   = @"选择支付方式";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPaymentTableViewCell *paymentCell = [THNPaymentTableViewCell initPaymentCellWithTableView:tableView];
     [paymentCell thn_setPaymentTypeWithType:(THNPaymentType)indexPath.row];
-    if ((THNPaymentType)indexPath.row == THNPaymentTypeWechat) {
-        paymentCell.selected = YES;
-        self.selectIndex = indexPath;
+    if (indexPath == self.selectIndex) {
+        paymentCell.isSelectedPayment = YES;
     }
     return paymentCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNPaymentTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
-    selectedCell.selected = NO;
+    selectedCell.isSelectedPayment = NO;
     
     THNPaymentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.selected = YES;
+    cell.isSelectedPayment = YES;
 
     self.selectIndex = indexPath;
 }
