@@ -8,6 +8,7 @@
 
 #import "THNApplyStoreViewController.h"
 #import <WebKit/WebKit.h>
+#import "THNUserApplyViewController.h"
 
 static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
 static NSString *const kTextLexi = @"乐喜";
@@ -27,12 +28,19 @@ static NSString *const kTextLexi = @"乐喜";
     [self setupUI];
 }
 
+#pragma mark - private methods
+- (void)thn_openUserApplyController {
+    THNUserApplyViewController *userApplyVC = [[THNUserApplyViewController alloc] init];
+    [self.navigationController pushViewController:userApplyVC animated:YES];
+}
+
 #pragma mark - webView delegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [SVProgressHUD show];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [self thn_openUserApplyController];
     [SVProgressHUD dismiss];
 }
 

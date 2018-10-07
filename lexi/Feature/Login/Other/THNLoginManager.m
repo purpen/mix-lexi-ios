@@ -13,6 +13,7 @@
 #import "NSString+Helper.h"
 #import "THNTextConst.h"
 #import "THNConst.h"
+#import "THNMarco.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 
@@ -75,6 +76,7 @@ MJCodingImplementation
 - (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"------ 个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = result.data[kRequestIsSmallB];
         self.userId = result.data[kRequestProfile][kRequestUserId];
@@ -154,8 +156,6 @@ MJCodingImplementation
 + (void)userLogoutCompletion:(void (^)(NSError *))completion {
     [[THNLoginManager sharedManager] requestLogoutCompletion:completion];
 }
-
-
 
 /**
  是否登录

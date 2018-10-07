@@ -17,10 +17,15 @@ NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";   //  �
 NSString *const kAdminUrl           = @"https://lx.taihuoniao.com/#/";
 NSString *const kAdminPhone         = @"13716171560";
 NSString *const kAdminPWD           = @"123456";
-// 大B账号
-// 小程序账号: 17600351560
 //NSString *const kTestEmail          = @"18548918450";
-// 大B账号
+/**
+ 小程序账号:
+ 17600351560
+ 
+ 小 B 账号：
+ 13260180689
+ 13260180689ljy
+ */
 NSString *const kTestEmail          = @"18518391827";
 NSString *const kTestPassword       = @"in456321";
 NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";

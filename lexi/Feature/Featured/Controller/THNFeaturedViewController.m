@@ -230,9 +230,11 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                 THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
                 THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
                 [weakSelf presentViewController:navController animated:YES completion:nil];
+            
             } else {
-                THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc]init];
-                [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
+                THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
+                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
+                [weakSelf presentViewController:navController animated:YES completion:nil];
             }
         };
         return headerView;

@@ -64,4 +64,17 @@
     return [UIColor colorWithHexString:color alpha:1.0f];
 }
 
+#pragma mark - 绘制渐变色
++ (CAGradientLayer *)colorGradientWithView:(UIView *)view colors:(NSArray *)colors {
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.frame = view.bounds;
+    gradientLayer.colors = @[(__bridge id)[UIColor colorWithHexString:colors[0]].CGColor,
+                             (__bridge id)[UIColor colorWithHexString:colors[1]].CGColor];
+    gradientLayer.startPoint = CGPointMake(0, 0.5);
+    gradientLayer.endPoint = CGPointMake(1, 0.5);
+    gradientLayer.locations = @[@0, @1];
+    
+    return gradientLayer;
+}
+
 @end
