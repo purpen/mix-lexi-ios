@@ -27,6 +27,8 @@
 #import "THNBrandHallViewController.h"
 #import "THNUserApplyViewController.h"
 
+#import "THNLifeManagementViewController.h"
+
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
 static NSString *const kHeaderTitleWindow   = @"喜欢的橱窗";
@@ -111,13 +113,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        [SVProgressHUD showInfoWithStatus:@"分享"];
+        [THNLoginManager userLogoutCompletion:^(NSError *error) {
+            [SVProgressHUD showInfoWithStatus:@"登出"];
+        }];
         
     } else if (index == 1) {
-        [THNLoginManager userLogoutCompletion:^(NSError *error) {
-            if (error) return;
-            [SVProgressHUD showSuccessWithStatus:@"退出登录"];
-        }];
+        THNLifeManagementViewController *lifeVC = [[THNLifeManagementViewController alloc] init];
+        [self.navigationController pushViewController:lifeVC animated:YES];
     }
 }
 

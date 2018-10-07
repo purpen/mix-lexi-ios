@@ -66,12 +66,14 @@ static NSString *const kParamMobile         = @"mobile";
  开通生活馆
  */
 - (void)networkApplyLifeStoreWithParam:(NSDictionary *)param {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI postWithUrlString:kURLApply requestDictionary:param delegate:nil];
-    
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        THNLog(@"=========== 开通生活馆：%@", result.responseDict);
         if (![result isSuccess]) {
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
-            return ;
+            return;
         }
         
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
