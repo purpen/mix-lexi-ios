@@ -12,6 +12,9 @@
 @class THNOrderTableViewCell;
 @class THNOrdersItemsModel;
 
+UIKIT_EXTERN CGFloat kOrderProductViewHeight;
+UIKIT_EXTERN CGFloat kOrderLogisticsViewHeight;
+
 typedef void(^CountDownBlock)(THNOrderTableViewCell *cell);
 
 UIKIT_EXTERN CGFloat orderProductCellHeight;
@@ -22,6 +25,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 @optional
 - (void)deleteOrder:(NSString *)rid;
 - (void)logisticsTracking:(THNOrdersItemsModel *)itemsModel;
+- (void)pushOrderDetail:(NSString *)orderRid;
 
 @end
 

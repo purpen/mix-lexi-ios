@@ -19,8 +19,8 @@
 #import "THNFreightModelItem.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
-const CGFloat kProductViewHeight = 85;
-const CGFloat kLogisticsViewHeight = 65;
+const CGFloat kProductViewHeight = 90;
+const CGFloat kLogisticsViewHeight = 83;
 
 @interface THNPreViewTableViewCell()<
 UITableViewDelegate,
@@ -69,8 +69,9 @@ UITextFieldDelegate
     self.giftView.layer.borderColor = [UIColor colorWithHexString:@"E9E9E9"].CGColor;
     self.remarksTextField.delegate = self;
     self.giftTextField.delegate = self;
+    self.giftTextField.returnKeyType = UIReturnKeyDone;
+    self.remarksTextField.returnKeyType = UIReturnKeyDone;
 }
-
 
 - (CGFloat)setPreViewCell:(NSArray *)skus
          initWithItmeSkus:(NSArray *)itemSkus
@@ -196,7 +197,7 @@ UITextFieldDelegate
     // 最后一行不隐藏运费模板
     if (indexPath.row < self.skus.count - 1) {
         // 该商品后面运费模板一样，隐藏选择运费模板
-        if (itemModel.fid == self.skus[indexPath.row + 1][@"fid"]) {
+        if ([itemModel.fid isEqualToString:self.skus[indexPath.row + 1][@"fid"]]) {
             
             cell.logisticsView.hidden = YES;
         } else {
@@ -224,7 +225,7 @@ UITextFieldDelegate
     
     if (indexPath.row < self.skus.count - 1) {
         // 该商品后面运费模板一样，设置为商品的高度
-        if (itemModel.fid == self.skus[indexPath.row + 1][@"fid"]) {
+        if ([itemModel.fid isEqualToString:self.skus[indexPath.row + 1][@"fid"]]) {
             return kProductViewHeight;
         } else {
             return kProductViewHeight + kLogisticsViewHeight;

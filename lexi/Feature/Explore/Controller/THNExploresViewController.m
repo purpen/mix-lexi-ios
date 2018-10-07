@@ -77,10 +77,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadBrandHallData];
     [self loadBannerData];
     [self loadCategorieData];
     [self loadRecommendData];
-    [self loadBrandHallData];
     [self loadNewProductData];
     [self loadSetData];
     [self loadGoodDesignData];
@@ -99,7 +99,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
-    
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -135,11 +134,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
-        //刷新的闪烁问题
-        [UIView performWithoutAnimation:^{
-            [self.tableView reloadRowData:0];
-        }];
-        
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -151,7 +146,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.brandHallDataArray = result.data[@"stores"];
         self.brandHallTitle = result.data[@"title"];
-        [self.tableView reloadRowData:1];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -163,7 +158,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.productNewTitle = result.data[@"title"];
         self.productNewDataArray = result.data[@"products"];
-       [self.tableView reloadRowData:2];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -175,7 +170,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.setTitle = result.data[@"title"];
         self.setDataArray = result.data[@"collections"];
-        [self.tableView reloadRowData:3];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -187,7 +182,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodDesignTitle = result.data[@"title"];
         self.goodDesignDataArray = result.data[@"products"];
-        [self.tableView reloadRowData:4];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -199,7 +194,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.goodThingTitle = result.data[@"title"];
         self.goodThingDataArray = result.data[@"products"];
-        [self.tableView reloadRowData:5];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
