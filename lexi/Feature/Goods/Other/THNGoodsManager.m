@@ -469,7 +469,8 @@ static NSString *const kKeyCode             = @"code";
                                 @(THNGoodsListViewTypeDesign):     @"/column/preferential_design",
                                 @(THNGoodsListViewTypeGoodThing):  @"/column/affordable_goods",
                                 @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization",
-                                @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend"
+                                @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend",
+                                @(THNGoodsListViewTypeSearch):     @"/core_platforms/search/products"
                                 };
     
     return urlResult[@(type)];

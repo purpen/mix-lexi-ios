@@ -157,4 +157,7 @@ typedef NS_ENUM(NSUInteger,Formatter) {
  */
 - (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize;
 
+// 小数点处理
++ (NSString *)formatFloat:(float)f;
+
 @end

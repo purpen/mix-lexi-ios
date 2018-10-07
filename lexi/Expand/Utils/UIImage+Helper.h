@@ -58,5 +58,8 @@
 + (UIImage *)compressImage:(UIImage *)image;
 + (NSData *)compressImageToData:(UIImage *)image;
 
+//圆形
+- (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion;
+
 @end
 

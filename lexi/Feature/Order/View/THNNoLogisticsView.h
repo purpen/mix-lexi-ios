@@ -10,4 +10,7 @@
 
 @interface THNNoLogisticsView : UIView
 
+
+@property (weak, nonatomic) IBOutlet UITextField *orderNumberTextField;
+
 @end

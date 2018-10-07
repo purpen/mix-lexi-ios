@@ -18,6 +18,7 @@
 #import "THNExploresViewController.h"
 #import "THNNavigationBarView.h"
 #import "THNLoginManager.h"
+#import "THNSearchViewController.h"
 
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
@@ -58,6 +59,13 @@
 
 - (void)setupUI {
     [self.view addSubview:self.searchView];
+    
+    __weak typeof(self)weakSelf = self;
+    self.searchView.pushSearchBlock = ^{
+        THNSearchViewController *searchVC = [[THNSearchViewController alloc]init];
+        [weakSelf.navigationController pushViewController:searchVC animated:YES];
+    };
+    
     [self.view addSubview:self.selectButtonView];
     self.selectButtonView.delegate = self;
     UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];

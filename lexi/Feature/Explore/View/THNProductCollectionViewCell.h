@@ -15,6 +15,7 @@
  - THNHomeTypeExplore: 探索 显示原价
  - THNHomeTypeFeatured: 精选 显示喜欢
  - THNHomeTypeCenter: 选品中心 显示赚和上架，卖
+ - THNHomeTypeBrandHall: 隐藏原价按钮
  */
 typedef NS_ENUM(NSInteger, THNHomeType) {
     THNHomeTypeExplore,

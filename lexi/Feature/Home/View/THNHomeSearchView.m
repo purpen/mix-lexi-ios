@@ -13,7 +13,7 @@
 #import "THNMarco.h"
 #import "UIView+Helper.h"
 
-@interface THNHomeSearchView()
+@interface THNHomeSearchView()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
@@ -32,6 +32,7 @@
 }
 
 - (void)setSearchType:(SearchType)searchType {
+    self.searchTextField.delegate = self;
     switch (searchType) {
         case SearchTypeHome:
             [self drwaShadow];
@@ -44,6 +45,14 @@
     }
 }
 
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.pushSearchBlock();
+    }];
+    
+}
 
 
 @end
