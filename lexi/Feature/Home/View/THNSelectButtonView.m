@@ -86,6 +86,19 @@
     return self;
 }
 
+- (void)setDefaultShowIndex:(NSInteger)defaultShowIndex {
+    
+    if (defaultShowIndex == 0) {
+        return;
+    }
+    UIButton *firstBtn = self.buttons[0];
+    firstBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+    firstBtn.selected = NO;
+    UIButton *defaultBtn = self.buttons[defaultShowIndex];
+    defaultBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
+    defaultBtn.selected = YES;
+}
+
 - (void)btnClick:(UIButton *)btn {
     
     if (btn == self.selectBtn) {

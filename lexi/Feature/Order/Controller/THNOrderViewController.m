@@ -13,7 +13,8 @@
 #import "THNAPI.h"
 #import "THNOrdersModel.h"
 #import "THNOrderDetailViewController.h"
-#import "THNNewShippingAddressViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNOrderStoreModel.h"
 
 /**
  请求订单类型
@@ -159,12 +160,12 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
-//    if (!cell) {
-//        cell = [THNOrderTableViewCell viewFromXib];
-//    }
-//
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
+        THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
+        [self delete:orderModel.rid];
         [self.orders removeObjectAtIndex:currentIndexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
     };
@@ -180,12 +181,11 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    THNNewShippingAddressViewController *detail = [[THNNewShippingAddressViewController alloc]init];
-    THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-    detail.rid = orderModel.rid;
-    detail.pushOrderDetailType = PushOrderDetailTypeOrder;
-    [self.navigationController pushViewController:detail animated:YES];
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = orderModel.store.store_rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -194,14 +194,28 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     if (self.orders.count == 0) {
         return 0;
     }
+    NSArray *items = self.orders[indexPath.row][@"items"];
+    // 获取不隐藏运费模板的数量
+    NSMutableArray *expressArr = [NSMutableArray array];
+    for (NSDictionary *dict in items) {
+        [expressArr addObject:dict[@"express"]];
+    }
     
-    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
-    return orderModel.items.count * orderProductCellHeight + 114 + orderCellLineSpacing;
+    NSSet *set = [NSSet setWithArray:expressArr];
+    // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
+    return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
 }
 
 #pragma mark - THNOrderTableViewCellDelegate
 - (void)deleteOrder:(NSString *)rid {
     [self deleteOrderData:rid];
+}
+
+- (void)pushOrderDetail:(NSString *)orderRid {
+        THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
+        detail.rid = orderRid;
+        detail.pushOrderDetailType = PushOrderDetailTypeOrder;
+        [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark - lazy

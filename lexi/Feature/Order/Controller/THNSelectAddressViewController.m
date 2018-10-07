@@ -47,6 +47,7 @@ static NSString *kKeyData    = @"data";
     [self thn_requestAddressData];
 }
 
+
 #pragma mark - network
 - (void)thn_requestAddressData {
     [SVProgressHUD show];

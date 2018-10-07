@@ -38,6 +38,7 @@ NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.logisticsButton drawCornerWithType:0 radius:4];
+    self.productImageView.layer.masksToBounds = YES;
 }
 
 // 订单详情
@@ -88,7 +89,7 @@ NSString *const kOrderDetailLogisticsTracking = @"OrderDetailLogisticsTracking";
 
 // 物流跟踪
 - (IBAction)logisticsTracking:(id)sender {
-    [[NSNotificationCenter defaultCenter]postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOrderDetailLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemsModel}];
 }
 
 // 选择配送方式

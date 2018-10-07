@@ -27,6 +27,8 @@
 @property (nonatomic, strong) NSString *express_code;
 // 运单号
 @property (nonatomic, strong) NSString *express_no;
+// 物流ID
+@property (nonatomic, assign) NSInteger express;
 // 发货时间
 @property (nonatomic, strong) NSString *express_at;
 // 物流公司

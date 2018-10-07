@@ -115,7 +115,7 @@ static NSInteger const kSelectedButtonTag = 452;
     self.followLabel.attributedText = attStr;
     
     // 关注人数的动态宽度
-    self.followWidth = [self.followLabel thn_getLabelWidthWithMaxHeight:12];
+    self.followWidth = [self.followLabel thn_getLabelWidthWithMaxHeight:12] + 2;
 }
 
 /**
@@ -218,7 +218,7 @@ static NSInteger const kSelectedButtonTag = 452;
     }];
     
     [self.fansLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.followLabel.mas_right).with.offset(20);
+        make.left.equalTo(self.followLabel.mas_right).with.offset(18);
         make.centerY.mas_equalTo(self.followLabel);
         make.height.mas_equalTo(12);
         make.width.mas_equalTo(self.fansWidth);

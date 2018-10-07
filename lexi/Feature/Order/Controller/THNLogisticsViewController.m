@@ -12,6 +12,7 @@
 #import "THNOrdersItemsModel.h"
 #import "THNLogisticsTableViewCell.h"
 #import "THNNoLogisticsView.h"
+#import "UIView+Helper.h"
 
 static NSString *const kUrlLogisticsInformation = @"/logistics/information";
 static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
@@ -71,9 +72,21 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
             
         }
         
+        
+        NSMutableArray *tracesMuableArray = result.data[@"Traces"];
+        
         // 倒序排列
-        self.traces = [[result.data[@"Traces"] reversedSortDescriptor] allObjects];
-        [self.tableView reloadData];
+        self.traces = [[tracesMuableArray reverseObjectEnumerator] allObjects];
+        
+        if (self.traces.count > 0) {
+            self.tableView.hidden = NO;
+            self.noLogisticsView.hidden = YES;
+           [self.tableView reloadData];
+        } else {
+            self.tableView.hidden = YES;
+            [self.view addSubview:self.noLogisticsView];
+        }
+        
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -119,6 +132,16 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
     cell.informationLabel.text = self.traces[indexPath.row][@"AcceptStation"];
     cell.timeLabel.text = self.traces[indexPath.row][@"AcceptTime"];
     return cell;
+}
+
+#pragma mark - lazy
+- (THNNoLogisticsView *)noLogisticsView {
+    if (!_noLogisticsView) {
+        _noLogisticsView = [THNNoLogisticsView viewFromXib];
+        _noLogisticsView.orderNumberTextField.text = self.itemsModel.express_no;
+        _noLogisticsView.frame = CGRectMake(0, 210, SCREEN_WIDTH, SCREEN_HEIGHT - 180);
+    }
+    return _noLogisticsView;
 }
 
 @end

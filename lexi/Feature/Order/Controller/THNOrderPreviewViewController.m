@@ -133,7 +133,6 @@ THNPreViewTableViewCellDelegate
     params[@"bonus_code"] =  self.officalCouponCode;
     params[@"store_items"] = items;
 
-
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
@@ -384,7 +383,7 @@ THNPreViewTableViewCellDelegate
     
     NSSet *set = [NSSet setWithArray:fids];
     // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
-    return set.count * (kProductViewHeight + kLogisticsViewHeight) + (self.skus.count - set.count) * kProductViewHeight + self.fullReductionViewHeight + 300;
+    return set.count * (kProductViewHeight + kLogisticsViewHeight) + (self.skus.count - set.count) * kProductViewHeight + self.fullReductionViewHeight + 290;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

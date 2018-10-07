@@ -222,7 +222,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
         headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
-        [self.openingView loadLivingHallHeadLineData];
         [headerView addSubview:self.openingView];
         __weak typeof(self)weakSelf = self;
         self.openingView.openingBlcok = ^{
@@ -464,6 +463,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
+        [_openingView loadLivingHallHeadLineData];
         _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
     }
     return _openingView;
