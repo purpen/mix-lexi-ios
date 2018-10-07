@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "THNOrdersItemsModel.h"
 #import "UIView+Helper.h"
+#import "UIColor+Extension.h"
 
 @interface THNOrderProductTableViewCell()
 
@@ -24,6 +25,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self borderButtonStyle];
 }
 
 - (void)setItemModel:(THNOrdersItemsModel *)itemModel {
@@ -37,6 +39,16 @@
     frame.origin.y += 15;
     frame.size.height -= 15;
     [super setFrame:frame];
+}
+
+// 边框按钮样式
+- (void)borderButtonStyle {
+    [self.borderButton setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
+    self.borderButton.layer.borderWidth = 1;
+    self.borderButton.layer.cornerRadius = 8;
+    self.borderButton.layer.borderColor = [[UIColor colorWithHexString:@"999999"]CGColor];
+    self.borderButton.backgroundColor = [UIColor whiteColor];
+    [self.borderButton setTitle:@"物流追踪" forState:UIControlStateNormal];
 }
 
 @end

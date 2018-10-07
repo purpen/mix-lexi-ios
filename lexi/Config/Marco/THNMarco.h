@@ -23,6 +23,8 @@
 #define SCREEN_WITHOUT_STATUS_HEIGHT    (SCREEN_HEIGHT - [[UIApplication sharedApplication] statusBarFrame].size.height)
 #define NAVIGATION_BAR_HEIGHT           kDeviceiPhoneX ? 88 : 64
 #define STATUS_BAR_HEIGHT               kDeviceiPhoneX ? 44 : 22
+#define ADDRESS_TOP                     kDeviceiPhoneX ? 62 : 40
+#define SEARCH_TOP                      kDeviceiPhoneX ? 52 : 27
 #define kHPercentage(a)                 (SCREEN_HEIGHT * ((a) / 667.0))
 #define kWPercentage(a)                 (SCREEN_WIDTH * ((a) / 375.0))
 
@@ -33,7 +35,6 @@
 #else
 #define THNLog(...)
 #endif
-
 #define WEAKSELF __weak __typeof(self)weakSelf = self;
 
 #endif /* THNMarco_h */

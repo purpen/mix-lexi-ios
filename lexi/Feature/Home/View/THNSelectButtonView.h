@@ -27,5 +27,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 
 - (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray initWithButtonType:(ButtonType)type;
 @property (nonatomic, weak) id <THNSelectButtonViewDelegate> delegate;
+// 默认展示的按钮
+@property (nonatomic, assign) NSInteger defaultShowIndex;
 
 @end
