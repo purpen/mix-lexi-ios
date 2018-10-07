@@ -372,8 +372,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
                                                                                        initWithWidth:kCaregoriesCellWidth
                                                                                       initwithHeight:kCategoriesViewHeight];
+        layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
+        
         _categoriesCollectionView = [[THNCategoriesCollectionView alloc] initWithFrame: 
-                                     CGRectMake(20, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight)
+                                     CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, kCategoriesViewHeight)
                                                                   collectionViewLayout:layout];
     }
     return _categoriesCollectionView;

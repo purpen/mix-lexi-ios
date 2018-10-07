@@ -128,7 +128,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    self.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+    self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.headerImageView];
     [self addSubview:self.iconImageView];

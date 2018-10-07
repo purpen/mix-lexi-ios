@@ -62,6 +62,12 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
     [self thn_setNameLabelText:titleArr[index] hintText:hintArr[index] iconName:iconArr[index]];
 }
 
+- (void)setIsSelectedPayment:(BOOL)isSelectedPayment {
+    _isSelectedPayment = isSelectedPayment;
+    
+    self.selectButton.selected = isSelectedPayment;
+}
+
 #pragma mark - private methods
 - (void)thn_setNameLabelText:(NSString *)name hintText:(NSString *)hint iconName:(NSString *)iconName {
     self.nameLabel.text = name;
@@ -115,10 +121,6 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
 }
 
 #pragma mark - getters and setters
-- (void)setSelected:(BOOL)selected {
-    self.selectButton.selected = selected;
-}
-
 - (UIButton *)selectButton {
     if (!_selectButton) {
         _selectButton = [[UIButton alloc] init];

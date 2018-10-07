@@ -423,7 +423,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
         _goodsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
                                                   collectionViewLayout:flowLayout];
-        _goodsCollectionView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+        _goodsCollectionView.backgroundColor = [UIColor whiteColor];
         _goodsCollectionView.delegate = self;
         _goodsCollectionView.dataSource = self;
         _goodsCollectionView.showsVerticalScrollIndicator = NO;
