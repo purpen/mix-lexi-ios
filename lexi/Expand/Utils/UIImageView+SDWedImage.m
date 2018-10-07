@@ -15,14 +15,14 @@
 #pragma mark SDWebImage缓存图片
 - (void)downloadImage:(NSString *)url place:(UIImage *)place {
     [self sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:place
-                     options:SDWebImageHighPriority | SDWebImageRetryFailed];
+                     options:SDWebImageLowPriority | SDWebImageRetryFailed];
 }
 
 #pragma mark SDWebImage缓存图片后的回调
 - (void)downloadImage:(NSString *)url place:(UIImage *)place completed:(DownloadCompleted)completed {
     [self sd_setImageWithURL:[NSURL URLWithString:url]
             placeholderImage:place
-                     options:SDWebImageHighPriority | SDWebImageRetryFailed
+                     options:SDWebImageLowPriority | SDWebImageRetryFailed
                    completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                        completed(image, error);
                    }];
