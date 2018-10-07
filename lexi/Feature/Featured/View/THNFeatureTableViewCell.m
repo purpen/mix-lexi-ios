@@ -53,14 +53,16 @@ CGFloat const kCellGrassListHeight = 158;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-   [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
+    
+    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kGrassListCellIdentifier];
-     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNDailyRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kDailyRecommendCellIdentifier];
+    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNDailyRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kDailyRecommendCellIdentifier];
     self.productCollectionView.delegate = self;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
+
 - (IBAction)lookAll:(id)sender {
     if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
         [self.delagate lookAllWithType:self.cellType];
@@ -105,15 +107,14 @@ CGFloat const kCellGrassListHeight = 158;
     //  放在初始化设置Layout前，否则数据样式错乱，卡顿，以及可能会有崩溃的问题产生
    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 0);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
     flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 9;
     flowLayout.minimumLineSpacing = 10;
     
     if (self.cellType == FeaturedLifeAesthetics || self.cellType == FeaturedRecommendedToday) {
-        self.collectionViewConstraint.constant = 0;
         flowLayout.scrollDirection =  UICollectionViewScrollDirectionHorizontal;
+        
     } else {
-        self.collectionViewConstraint.constant = 20;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
     
