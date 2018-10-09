@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - DateTools (2.0.0)
   - FBRetainCycleDetector (0.1.4)
   - HappyDNS (0.3.14)
   - IQKeyboardManager (4.0.13)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - DateTools
   - IQKeyboardManager (~> 4.0.10)
   - Masonry (~> 1.1.0)
   - MJExtension (~> 3.0.15)
@@ -49,6 +51,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - DateTools
     - FBRetainCycleDetector
     - HappyDNS
     - IQKeyboardManager
@@ -64,6 +67,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   HappyDNS: dc6a164ee81979093123c241c6353bcf0218add6
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
@@ -77,6 +81,6 @@ SPEC CHECKSUMS:
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: d5cba009f6521524f21f001c853f0eec6cdf22fa
+PODFILE CHECKSUM: 3f7319f7c27def004a4b9f5924fc6018d49c617e
 
 COCOAPODS: 1.5.3

@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger,Formatter) {
 /**
  根据数字返回性别
  */
-+ (NSString*)getSexByNum:(NSNumber*)num;
++ (NSString *)getSexByNum:(NSNumber*)num;
 
 /**
  转换时间戳格式
@@ -97,7 +97,6 @@ typedef NS_ENUM(NSUInteger,Formatter) {
  @return 间隔时间
  */
 + (NSTimeInterval)comparisonStartTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime;
-
 
 /**
  timeInterval转分钟秒

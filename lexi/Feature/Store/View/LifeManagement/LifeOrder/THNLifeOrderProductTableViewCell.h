@@ -1,8 +1,8 @@
 //
-//  THNLifeOrderRecordTableViewCell.h
+//  THNLifeOrderProductTableViewCell.h
 //  lexi
 //
-//  Created by FLYang on 2018/10/7.
+//  Created by FLYang on 2018/10/9.
 //  Copyright © 2018 taihuoniao. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface THNLifeOrderRecordTableViewCell : UITableViewCell
+@interface THNLifeOrderProductTableViewCell : UITableViewCell
 
 @end
 

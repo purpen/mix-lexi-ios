@@ -16,6 +16,6 @@
 @property (nonatomic, copy) NSString *logo;
 @property (nonatomic, assign) NSInteger lifeStoreId;
 @property (nonatomic, assign) NSInteger phases;
-@property (nonatomic, assign) NSInteger created_at;
+@property (nonatomic, copy) NSString *created_at;
 
 @end

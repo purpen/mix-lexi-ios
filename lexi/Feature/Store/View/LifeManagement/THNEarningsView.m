@@ -19,6 +19,10 @@ static NSString *const kTextWait        = @"待结算：";
 
 @interface THNEarningsView ()
 
+// 数据
+@property (nonatomic, strong) THNLifeSaleCollectModel *saleModel;
+// 背景
+@property (nonatomic, strong) UIView *backgroundColorView;
 // 标题
 @property (nonatomic, strong) YYLabel *titleLabel;
 // 显示金额按钮
@@ -48,6 +52,8 @@ static NSString *const kTextWait        = @"待结算：";
 }
 
 - (void)thn_setLifeSaleColleciton:(THNLifeSaleCollectModel *)model {
+    self.saleModel = model;
+    
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f", model.total_commission_price];
     self.todayLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextTotay, model.today_commission_price];
     self.waitLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextWait, model.pending_commission_price];
@@ -60,13 +66,25 @@ static NSString *const kTextWait        = @"待结算：";
     }
 }
 
+- (void)showButtonAction:(UIButton *)button {
+    if (button.selected) {
+        [self thn_setLifeSaleColleciton:self.saleModel];
+        
+    } else {
+        self.totalLabel.text = @"＊＊＊＊";
+        self.todayLabel.text = [NSString stringWithFormat:@"%@＊＊＊", kTextTotay];
+        self.waitLabel.text = [NSString stringWithFormat:@"%@＊＊＊", kTextWait];
+    }
+    
+    self.showButton.selected = !button.selected;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
-    [self.layer addSublayer:[UIColor colorGradientWithView:self colors:@[@"#2785FA", @"#539EFB"]]];
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfAction:)];
     [self addGestureRecognizer:tap];
     
+    [self addSubview:self.backgroundColorView];
     [self addSubview:self.titleLabel];
     [self addSubview:self.showButton];
     [self addSubview:self.totalLabel];
@@ -107,26 +125,26 @@ static NSString *const kTextWait        = @"待结算：";
     
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(1, 12));
-        make.bottom.mas_equalTo(-20);
+        make.bottom.mas_equalTo(-17);
         make.centerX.equalTo(self);
     }];
     
     [self.todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.equalTo(self.lineView.mas_left).with.offset(-20);
-        make.bottom.mas_equalTo(-20);
+        make.bottom.mas_equalTo(-17);
     }];
     
     [self.waitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-50);
         make.left.equalTo(self.lineView.mas_right).with.offset(20);
-        make.bottom.mas_equalTo(-20);
+        make.bottom.mas_equalTo(-17);
     }];
     
     [self.waitHintButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(17, 17));
         make.right.mas_equalTo(-15);
-        make.bottom.mas_equalTo(-20);
+        make.bottom.mas_equalTo(-16);
     }];
 }
 
@@ -154,7 +172,9 @@ static NSString *const kTextWait        = @"待结算：";
     if (!_showButton) {
         _showButton = [[UIButton alloc] init];
         [_showButton setImage:[UIImage imageNamed:@"icon_eye_open_white"] forState:(UIControlStateNormal)];
-        [_showButton setImage:[UIImage imageNamed:@"icon_eye_close"] forState:(UIControlStateSelected)];
+        [_showButton setImage:[UIImage imageNamed:@"icon_eye_close_white"] forState:(UIControlStateSelected)];
+        _showButton.selected = NO;
+        [_showButton addTarget:self action:@selector(showButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _showButton;
 }
@@ -211,6 +231,26 @@ static NSString *const kTextWait        = @"待结算：";
         _cutLineView.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0.2];
     }
     return _cutLineView;
+}
+
+- (UIView *)backgroundColorView {
+    if (!_backgroundColorView) {
+        _backgroundColorView = [[UIView alloc] initWithFrame: \
+                                CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+        
+        UIView *colorView = [[UIView alloc] initWithFrame:_backgroundColorView.bounds];
+        [colorView.layer addSublayer:[UIColor colorGradientWithView:self colors:@[@"#2785FA", @"#539EFB"]]];
+        colorView.layer.cornerRadius = 4;
+        colorView.layer.masksToBounds = YES;
+        
+        _backgroundColorView.layer.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.1].CGColor;
+        _backgroundColorView.layer.shadowOffset = CGSizeMake(0, 0);
+        _backgroundColorView.layer.shadowRadius = 4;
+        _backgroundColorView.layer.shadowOpacity = 1;
+        
+        [_backgroundColorView addSubview:colorView];
+    }
+    return _backgroundColorView;
 }
 
 @end
