@@ -117,7 +117,7 @@ static NSInteger const kFooterHeight = 18;
     [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
                                   handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
                        titleAttributedString:[self thn_getGoodsTitle]];
-    goodsImageVC.modalTransitionStyle =  UIModalTransitionStyleCrossDissolve;
+    goodsImageVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
     [self presentViewController:goodsImageVC animated:NO completion:nil];
 }

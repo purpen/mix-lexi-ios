@@ -67,7 +67,7 @@
 #pragma mark - 绘制渐变色
 + (CAGradientLayer *)colorGradientWithView:(UIView *)view colors:(NSArray *)colors {
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = view.bounds;
+    gradientLayer.frame = CGRectMake(0, 0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame));
     gradientLayer.colors = @[(__bridge id)[UIColor colorWithHexString:colors[0]].CGColor,
                              (__bridge id)[UIColor colorWithHexString:colors[1]].CGColor];
     gradientLayer.startPoint = CGPointMake(0, 0.5);
