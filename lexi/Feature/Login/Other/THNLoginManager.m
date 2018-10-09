@@ -51,6 +51,7 @@ MJCodingImplementation
     
     THNRequest *request = [THNAPI postWithUrlString:postUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"------ 登录信息：%@", [NSString jsonStringWithObject:result.responseDict]);
         if (![result hasData]) {
             [SVProgressHUD dismiss];
             return ;

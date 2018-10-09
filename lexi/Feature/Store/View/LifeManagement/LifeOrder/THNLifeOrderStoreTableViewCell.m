@@ -1,14 +1,14 @@
 //
-//  THNLifeOrderRecordTableViewCell.m
+//  THNLifeOrderStoreTableViewCell.m
 //  lexi
 //
-//  Created by FLYang on 2018/10/7.
+//  Created by FLYang on 2018/10/9.
 //  Copyright © 2018 taihuoniao. All rights reserved.
 //
 
-#import "THNLifeOrderRecordTableViewCell.h"
+#import "THNLifeOrderStoreTableViewCell.h"
 
-@implementation THNLifeOrderRecordTableViewCell
+@implementation THNLifeOrderStoreTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

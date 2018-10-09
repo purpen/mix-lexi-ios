@@ -21,12 +21,15 @@ static NSString *const kTextTotal       = @"累计已提现：";
 
 @interface THNLifeDataView ()
 
+// 数据
+@property (nonatomic, strong) THNLifeOrdersCollectModel *orderModel;
+@property (nonatomic, strong) THNLifeCashCollectModel *cashModel;
 // 订单
 @property (nonatomic, strong) YYLabel *orderTitleLabel;
 // 订单数量
 @property (nonatomic, strong) UIButton *orderCountButton;
 // 今日订单数量
-@property (nonatomic, strong) YYLabel *todayOrderLabel;
+@property (nonatomic, strong) UILabel *todayOrderLabel;
 // 提现
 @property (nonatomic, strong) YYLabel *moneyTitleLabel;
 // 可提现金额
@@ -49,12 +52,16 @@ static NSString *const kTextTotal       = @"累计已提现：";
 }
 
 - (void)thn_setLifeOrdersCollecitonModel:(THNLifeOrdersCollectModel *)model {
+    self.orderModel = model;
+    
     [self.orderCountButton setTitle:[NSString stringWithFormat:@"%zi", model.all_count] forState:(UIControlStateNormal)];
     [self.orderCountButton setImageEdgeInsets:(UIEdgeInsetsMake(0, CGRectGetWidth(self.orderCountButton.frame) - 8, 0, 0))];
     self.todayOrderLabel.text = [NSString stringWithFormat:@"%@%zi", kTextToday, model.today_count];
 }
 
 - (void)thn_setLifeCashCollectModel:(THNLifeCashCollectModel *)model {
+    self.cashModel = model;
+    
     [self.getMoneyButton setTitle:[NSString stringWithFormat:@"%.2f", model.cash_price] forState:(UIControlStateNormal)];
     [self.getMoneyButton setImageEdgeInsets:(UIEdgeInsetsMake(0, CGRectGetWidth(self.getMoneyButton.frame) - 8, 0, 0))];
     [self thn_setTotalMoneyLabelTextWithCashPrice:model.total_cash_price];
@@ -73,6 +80,21 @@ static NSString *const kTextTotal       = @"累计已提现：";
     }
 }
 
+- (void)showButtonAction:(UIButton *)button {
+    if (button.selected) {
+        [self thn_setLifeOrdersCollecitonModel:self.orderModel];
+        [self thn_setLifeCashCollectModel:self.cashModel];
+        
+    } else {
+        [self.orderCountButton setTitle:@"＊＊＊＊" forState:(UIControlStateNormal)];
+        [self.getMoneyButton setTitle:@"＊＊＊＊" forState:(UIControlStateNormal)];
+        self.todayOrderLabel.text = [NSString stringWithFormat:@"%@＊＊＊", kTextToday];
+        [self thn_setTotalMoneyLabelTextWithCashPrice:-1.0];
+    }
+    
+    self.showButton.selected = !button.selected;
+}
+
 #pragma mark - private methods
 - (void)thn_setTotalMoneyLabelTextWithCashPrice:(CGFloat)price {
     NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:kTextTotal];
@@ -80,11 +102,13 @@ static NSString *const kTextTotal       = @"累计已提现：";
     att.font = [UIFont systemFontOfSize:12];
     att.alignment = NSTextAlignmentLeft;
     
-    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.2f", price]];
+    NSString *priceStr = price < 0 ? @"＊＊＊" : [NSString stringWithFormat:@"%.2f", price];
+    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:priceStr];
     priceAtt.color = [UIColor colorWithHexString:@"#FF9F22"];
     priceAtt.font = [UIFont systemFontOfSize:12];
     
     [att appendAttributedString:priceAtt];
+
     self.totalMoneyLabel.attributedText = att;
 }
 
@@ -115,7 +139,7 @@ static NSString *const kTextTotal       = @"累计已提现：";
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-15);
         make.right.equalTo(self.mas_centerX).with.offset(-10);
-        make.height.mas_equalTo(13);
+        make.height.mas_equalTo(15);
     }];
     
     [self.orderCountButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -136,7 +160,7 @@ static NSString *const kTextTotal       = @"累计已提现：";
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-15);
         make.left.equalTo(self.mas_centerX).with.offset(10);
-        make.height.mas_equalTo(13);
+        make.height.mas_equalTo(15);
     }];
     
     [self.getMoneyButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -202,9 +226,9 @@ static NSString *const kTextTotal       = @"累计已提现：";
     return _orderCountButton;
 }
 
-- (YYLabel *)todayOrderLabel {
+- (UILabel *)todayOrderLabel {
     if (!_todayOrderLabel) {
-        _todayOrderLabel = [[YYLabel alloc] init];
+        _todayOrderLabel = [[UILabel alloc] init];
         _todayOrderLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _todayOrderLabel.font = [UIFont systemFontOfSize:12];
     }
@@ -255,6 +279,9 @@ static NSString *const kTextTotal       = @"累计已提现：";
     if (!_showButton) {
         _showButton = [[UIButton alloc] init];
         [_showButton setImage:[UIImage imageNamed:@"icon_eye_open_gray"] forState:(UIControlStateNormal)];
+        [_showButton setImage:[UIImage imageNamed:@"icon_eye_close_gray"] forState:(UIControlStateSelected)];
+        _showButton.selected = NO;
+        [_showButton addTarget:self action:@selector(showButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _showButton;
 }

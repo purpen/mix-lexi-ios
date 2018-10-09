@@ -38,6 +38,13 @@ static NSString *const kTextHintWechat  = @"  关注“乐喜生活馆”公众�
     return self;
 }
 
+#pragma mark - event response
+- (void)hintWechatButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_checkWechatInfo)]) {
+        [self.delegate thn_checkWechatInfo];
+    }
+}
+
 #pragma mark - private methods
 - (void)thn_setHintContentWithTexts:(NSArray *)texts {
     for (NSUInteger idx = 0; idx < texts.count; idx ++) {
@@ -136,6 +143,7 @@ static NSString *const kTextHintWechat  = @"  关注“乐喜生活馆”公众�
         [_hintWechatButton setImageEdgeInsets:(UIEdgeInsetsMake(0, kScreenWidth - 85, 0, 0))];
         _hintWechatButton.layer.cornerRadius = 14;
         _hintWechatButton.layer.masksToBounds = YES;
+        [_hintWechatButton addTarget:self action:@selector(hintWechatButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _hintWechatButton;
 }

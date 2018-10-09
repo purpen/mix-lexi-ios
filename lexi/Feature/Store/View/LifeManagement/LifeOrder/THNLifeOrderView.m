@@ -18,6 +18,8 @@ static NSString *const kTextTotay       = @"今日成交：";
 
 @interface THNLifeOrderView ()
 
+// 背景
+@property (nonatomic, strong) UIView *backgroundColorView;
 // 标题
 @property (nonatomic, strong) YYLabel *titleLabel;
 // 总订单
@@ -62,8 +64,9 @@ static NSString *const kTextTotay       = @"今日成交：";
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    [self.layer addSublayer:[UIColor colorGradientWithView:self colors:@[@"#5FE4B1", @"#4DD0BC"]]];
+    self.backgroundColor = [UIColor whiteColor];
     
+    [self addSubview:self.backgroundColorView];
     [self addSubview:self.titleLabel];
     [self addSubview:self.totalLabel];
     [self addSubview:self.todayLabel];
@@ -73,14 +76,14 @@ static NSString *const kTextTotay       = @"今日成交：";
     [super layoutSubviews];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
+        make.top.mas_equalTo(35);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(16);
     }];
     
     [self.totalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(12);
+        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(10);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(26);
@@ -129,6 +132,26 @@ static NSString *const kTextTotay       = @"今日成交：";
         _todayLabel = [[YYLabel alloc] init];
     }
     return _todayLabel;
+}
+
+- (UIView *)backgroundColorView {
+    if (!_backgroundColorView) {
+        _backgroundColorView = [[UIView alloc] initWithFrame: \
+                                CGRectMake(20, 15, CGRectGetWidth(self.frame) - 40, CGRectGetHeight(self.frame) - 30)];
+        
+        UIView *colorView = [[UIView alloc] initWithFrame:_backgroundColorView.bounds];
+        [colorView.layer addSublayer:[UIColor colorGradientWithView:self colors:@[@"#5FE4B1", @"#4DD0BC"]]];
+        colorView.layer.cornerRadius = 4;
+        colorView.layer.masksToBounds = YES;
+        
+        _backgroundColorView.layer.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.1].CGColor;
+        _backgroundColorView.layer.shadowOffset = CGSizeMake(0, 0);
+        _backgroundColorView.layer.shadowRadius = 4;
+        _backgroundColorView.layer.shadowOpacity = 1;
+
+        [_backgroundColorView addSubview:colorView];
+    }
+    return _backgroundColorView;
 }
 
 @end
