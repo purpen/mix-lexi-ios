@@ -11,6 +11,7 @@
 #import "THNOrdersItemsModel.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNConst.h"
 
 @interface THNOrderProductTableViewCell()
 
@@ -49,6 +50,10 @@
     self.borderButton.layer.borderColor = [[UIColor colorWithHexString:@"999999"]CGColor];
     self.borderButton.backgroundColor = [UIColor whiteColor];
     [self.borderButton setTitle:@"物流追踪" forState:UIControlStateNormal];
+}
+
+- (IBAction)logisticsTracking:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOrderLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemModel}];
 }
 
 @end

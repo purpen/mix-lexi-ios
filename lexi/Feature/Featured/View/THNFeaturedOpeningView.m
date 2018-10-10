@@ -34,7 +34,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 }
 
 // 开馆指引
-- (void)loadLivingHallHeadLineData {
+- (void)loadLivingHallHeadLineData:(FeatureOpeningType)openingType {
     THNRequest *request = [THNAPI getWithUrlString:kUrlLivingHallHeadLine requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSArray *headlines = result.data[@"headlines"];
@@ -55,7 +55,14 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
             [headlineAttStrArray addObject:headLineAttStr];
         }
         
-       THNFeaturedOpenCarouselScrollView *carouselScrollView = [[THNFeaturedOpenCarouselScrollView alloc] initWithFrame:CGRectMake(68, 20, self.viewWidth - 68, 40)];
+        CGFloat y = 0;
+        if (openingType == FeatureOpeningTypeMain) {
+            y = 20;
+        } else {
+            y = - 45.5;
+        }
+        
+       THNFeaturedOpenCarouselScrollView *carouselScrollView = [[THNFeaturedOpenCarouselScrollView alloc] initWithFrame:CGRectMake(68, y, self.viewWidth - 68, 40)];
         [carouselScrollView setDataTitleArray:headlineAttStrArray];
         [self.bottomCarouselView addSubview:carouselScrollView];
     } failure:^(THNRequest *request, NSError *error) {

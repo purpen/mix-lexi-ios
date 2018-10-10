@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="THNPhotoCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="301" height="164"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="301" height="164"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVg-py-rq6">
+                        <rect key="frame" x="0.0" y="0.0" width="301" height="164"/>
+                        <state key="normal" image="icon_commit_photo"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BM7-to-uac">
+                        <rect key="frame" x="82" y="0.0" width="32" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="VVg-py-rq6" secondAttribute="trailing" id="2se-nI-o83"/>
+                <constraint firstAttribute="bottom" secondItem="VVg-py-rq6" secondAttribute="bottom" id="5tj-b0-fUP"/>
+                <constraint firstAttribute="trailing" secondItem="VVg-py-rq6" secondAttribute="trailing" id="K9s-3Q-ioD"/>
+                <constraint firstItem="VVg-py-rq6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Wxb-Sq-Tsu"/>
+                <constraint firstItem="VVg-py-rq6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Zef-9u-M6p"/>
+                <constraint firstAttribute="bottom" secondItem="VVg-py-rq6" secondAttribute="bottom" id="gbB-8P-Ls6"/>
+                <constraint firstItem="VVg-py-rq6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="s8v-pK-xAa"/>
+                <constraint firstItem="VVg-py-rq6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="u34-5X-Yfi"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
+            <size key="customSize" width="301" height="164"/>
+            <point key="canvasLocation" x="64.5" y="16"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_commit_photo" width="1" height="1"/>
+    </resources>
+</document>
