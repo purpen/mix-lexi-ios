@@ -10,7 +10,6 @@
 
 @class THNOrdersModel;
 @class THNOrderTableViewCell;
-@class THNOrdersItemsModel;
 
 UIKIT_EXTERN CGFloat kOrderProductViewHeight;
 UIKIT_EXTERN CGFloat kOrderLogisticsViewHeight;
@@ -24,7 +23,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 
 @optional
 - (void)deleteOrder:(NSString *)rid;
-- (void)logisticsTracking:(THNOrdersItemsModel *)itemsModel;
+- (void)pushEvaluation:(NSArray *)products;
 - (void)pushOrderDetail:(NSString *)orderRid;
 
 @end

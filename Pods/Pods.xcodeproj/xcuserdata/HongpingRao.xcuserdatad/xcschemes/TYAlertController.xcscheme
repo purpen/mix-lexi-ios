@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F5CB9A47E0A99C1FAC79650A322755AE"
+               BlueprintIdentifier = "2D24B2DC4B02C59098999AE2ADFAA443"
                BlueprintName = "TYAlertController"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "TYAlertController.framework">

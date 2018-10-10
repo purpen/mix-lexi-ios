@@ -60,3 +60,6 @@ UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
 UIKIT_EXTERN NSString *const kLoginSuccess;
 UIKIT_EXTERN NSString *const kBrandHallRid;
 UIKIT_EXTERN NSString *const kSearchKeyword;
+
+#pragma mark -NSNotification
+UIKIT_EXTERN NSString *const kOrderLogisticsTracking;

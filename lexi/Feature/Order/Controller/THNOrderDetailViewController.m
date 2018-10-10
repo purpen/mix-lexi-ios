@@ -39,7 +39,7 @@
     } else {
         self.requestUrl = [NSString stringWithFormat:@"/orders/after_payment/%@",self.rid];
     }
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderDetailLogisticsTracking object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderLogisticsTracking object:nil];
     [self loadOrderDetailData];
     [self setupUI];
 }
