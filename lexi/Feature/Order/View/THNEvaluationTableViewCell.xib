@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -80,23 +80,43 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dok-RM-Yxq">
                                 <rect key="frame" x="0.0" y="0.0" width="29.5" height="22"/>
-                                <state key="normal" image="icon_start_yellow"/>
+                                <state key="normal" image="icon_start_gray"/>
+                                <state key="selected" image="icon_start_yellow"/>
+                                <connections>
+                                    <action selector="didClickMark:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Y4-sa-cHZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Jd-mu-Sf8">
                                 <rect key="frame" x="29.5" y="0.0" width="29.5" height="22"/>
-                                <state key="normal" image="icon_start_yellow"/>
+                                <state key="normal" image="icon_start_gray"/>
+                                <state key="selected" image="icon_start_yellow"/>
+                                <connections>
+                                    <action selector="didClickMark:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LeX-Mg-waL"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGh-qR-OBX">
                                 <rect key="frame" x="59" y="0.0" width="30" height="22"/>
-                                <state key="normal" image="icon_start_yellow"/>
+                                <state key="normal" image="icon_start_gray"/>
+                                <state key="selected" image="icon_start_yellow"/>
+                                <connections>
+                                    <action selector="didClickMark:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="jKX-yK-Blv"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrt-J5-O61">
                                 <rect key="frame" x="89" y="0.0" width="29.5" height="22"/>
-                                <state key="normal" image="icon_start_yellow"/>
+                                <state key="normal" image="icon_start_gray"/>
+                                <state key="selected" image="icon_start_yellow"/>
+                                <connections>
+                                    <action selector="didClickMark:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Txx-hH-F5h"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Wp-SL-PlT">
                                 <rect key="frame" x="118.5" y="0.0" width="29.5" height="22"/>
-                                <state key="normal" image="icon_start_yellow"/>
+                                <state key="normal" image="icon_start_gray"/>
+                                <state key="selected" image="icon_start_yellow"/>
+                                <connections>
+                                    <action selector="didClickMark:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ujc-VC-HUT"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -113,7 +133,7 @@
                         </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="轻点星形来评分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YxV-Yb-5bv">
-                        <rect key="frame" x="251.5" y="139.5" width="84" height="17"/>
+                        <rect key="frame" x="250.5" y="139.5" width="84" height="17"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Thin" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -203,12 +223,25 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="collectionView" destination="JZY-8E-IEe" id="bjQ-nK-b1m"/>
                 <outlet property="evaluationView" destination="yOO-7x-W2y" id="f1w-oX-PJ5"/>
+                <outlet property="modeLabel" destination="udy-se-kS1" id="Gm7-vm-J5g"/>
+                <outlet property="originalMoneyLabel" destination="tFu-5F-g5D" id="ewq-Ds-c4t"/>
+                <outlet property="productImageView" destination="u7h-DH-qg9" id="34N-k9-v2X"/>
+                <outlet property="productNameLabel" destination="gHN-Wq-Wnf" id="Mqt-ux-MHJ"/>
+                <outlet property="saleMoneyLabel" destination="ogm-wv-nbz" id="roD-mY-rOx"/>
+                <outlet property="storeNameLabel" destination="chu-qU-v24" id="Sdq-rn-uOm"/>
+                <outletCollection property="startButtons" destination="dok-RM-Yxq" id="uMV-HH-GsR"/>
+                <outletCollection property="startButtons" destination="5Jd-mu-Sf8" id="5DP-oE-pyd"/>
+                <outletCollection property="startButtons" destination="mGh-qR-OBX" id="42n-v7-ZEk"/>
+                <outletCollection property="startButtons" destination="rrt-J5-O61" id="5Bd-Pq-WOe"/>
+                <outletCollection property="startButtons" destination="5Wp-SL-PlT" id="o7K-dQ-etQ"/>
             </connections>
             <point key="canvasLocation" x="63.5" y="107.5"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="icon_start_gray" width="20" height="18"/>
         <image name="icon_start_yellow" width="20" height="18"/>
     </resources>
 </document>
