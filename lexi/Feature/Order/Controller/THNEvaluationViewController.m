@@ -8,6 +8,7 @@
 
 #import "THNEvaluationViewController.h"
 #import "THNEvaluationTableViewCell.h"
+#import "THNOrdersItemsModel.h"
 
 static NSString *const kEvaluationCellIdentifier = @"kEvaluationCellIdentifier";
 
@@ -29,11 +30,13 @@ static NSString *const kEvaluationCellIdentifier = @"kEvaluationCellIdentifier";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNEvaluationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kEvaluationCellIdentifier forIndexPath:indexPath];
+    THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    [cell setItemsModel:itemModel];
     return cell;
 }
 

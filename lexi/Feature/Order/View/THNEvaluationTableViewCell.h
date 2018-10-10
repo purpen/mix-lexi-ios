@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNOrdersItemsModel;
+
 @interface THNEvaluationTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) THNOrdersItemsModel *itemsModel;
 
 @end
