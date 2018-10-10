@@ -10,4 +10,6 @@
 
 @interface THNEvaluationViewController : THNBaseTableViewController
 
+@property (nonatomic, strong) NSArray *products;
+
 @end
