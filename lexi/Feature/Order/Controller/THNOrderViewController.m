@@ -15,6 +15,8 @@
 #import "THNOrderDetailViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNOrderStoreModel.h"
+#import "THNLogisticsViewController.h"
+#import "THNEvaluationViewController.h"
 
 /**
  请求订单类型
@@ -57,6 +59,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.orderType = OrderTypeAll;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderLogisticsTracking object:nil];
     [self loadOrdersData];
     [self setupUI];
 }
@@ -101,6 +104,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
+}
+
+- (void)logisticsTracking:(NSNotification *)notification {
+    THNOrdersItemsModel *itemsModel = notification.userInfo[@"itemModel"];
+    THNLogisticsViewController *logistics = [[THNLogisticsViewController alloc]init];
+    logistics.itemsModel = itemsModel;
+    [self.navigationController pushViewController:logistics animated:YES];
 }
 
 // 删除订单
@@ -202,8 +212,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     }
     
     NSSet *set = [NSSet setWithArray:expressArr];
-    // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
-    return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
+    if (set.count == 1) {
+       return items.count *kOrderProductViewHeight + 114 + orderCellLineSpacing;
+    } else {
+        // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
+        return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
+    }
+    
 }
 
 #pragma mark - THNOrderTableViewCellDelegate
@@ -216,6 +231,11 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         detail.rid = orderRid;
         detail.pushOrderDetailType = PushOrderDetailTypeOrder;
         [self.navigationController pushViewController:detail animated:YES];
+}
+
+- (void)pushEvaluation:(NSArray *)products {
+    THNEvaluationViewController *evaluationVC = [[THNEvaluationViewController alloc]init];
+    [self.navigationController pushViewController:evaluationVC animated:YES];
 }
 
 #pragma mark - lazy
