@@ -75,11 +75,6 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 + (BOOL)isFirstLogin;
 
 /**
- 获取用户信息
- */
-- (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion;
-
-/**
  保存登录信息
  */
 - (void)saveLoginInfo;
@@ -113,5 +108,16 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  退出登录
  */
 + (void)userLogoutCompletion:(void(^)(NSError *error))completion;
+
+/**
+ 获取用户信息
+ */
+- (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion;
+
+/**
+ 更新用户信息
+ */
+- (void)updateUserProfileWithParams:(NSDictionary *)params
+                         completion:(void (^)(THNResponse *date, NSError *error))completion;
 
 @end
