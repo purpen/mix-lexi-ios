@@ -34,9 +34,14 @@ static NSString *const kTextTime = @"注册时间：";
 }
 
 - (void)thn_setUserInfoData:(THNUserDataModel *)model {
-    [self.headImageView downloadImage:model.avatar[@"view_url"] place:[UIImage new]];
+    self.headId = model.avatar_id.length ? model.avatar_id : @"0";
+    [self.headImageView downloadImage:model.avatar place:[UIImage new]];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
     self.timeLabel.text = [NSString stringWithFormat:@"%@%@", kTextTime, [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"]];
+}
+
+- (void)thn_setHeaderImageWithData:(NSData *)imageData {
+    self.headImageView.image = [UIImage imageWithData:imageData];
 }
 
 #pragma mark - setup UI
@@ -71,7 +76,7 @@ static NSString *const kTextTime = @"注册时间：";
 - (UIImageView *)headImageView {
     if (!_headImageView) {
         _headImageView = [[UIImageView alloc] init];
-        _headImageView.contentMode = UIViewContentModeScaleToFill;
+        _headImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headImageView.layer.masksToBounds = YES;
         _headImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     }
@@ -85,6 +90,7 @@ static NSString *const kTextTime = @"注册时间：";
         _cameraButton.backgroundColor = [UIColor whiteColor];
         _cameraButton.layer.cornerRadius = 20;
         _cameraButton.layer.masksToBounds = YES;
+        _cameraButton.userInteractionEnabled = NO;
     }
     return _cameraButton;
 }

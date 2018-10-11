@@ -11,6 +11,4 @@
 
 @interface THNSettingViewController : THNBaseViewController
 
-- (instancetype)initWithUserModel:(THNUserModel *)model;
-
 @end

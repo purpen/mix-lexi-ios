@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, THNSettingInfoType) {
 
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, assign) THNSettingInfoType type;
+@property (nonatomic, copy) NSString *editInfo;
 
 - (void)thn_setUserInfoData:(THNUserDataModel *)model;
 
