@@ -26,7 +26,7 @@
 #import "THNOrderViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNUserApplyViewController.h"
-
+#import "THNSettingViewController.h"
 #import "THNLifeManagementViewController.h"
 
 /// seciton header 默认的标题
@@ -57,6 +57,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 @property (nonatomic, strong) THNMyCenterHeaderView *headerView;
 /// 底部视图：数据缺省
 @property (nonatomic, strong) THNTableViewFooterView *footerView;
+/// 用户数据
+@property (nonatomic, strong) THNUserModel *userModel;
 
 @end
 
@@ -113,13 +115,16 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        [THNLoginManager userLogoutCompletion:^(NSError *error) {
-            [SVProgressHUD showInfoWithStatus:@"登出"];
-        }];
+        [SVProgressHUD showInfoWithStatus:@"分享"];
         
     } else if (index == 1) {
-        THNLifeManagementViewController *lifeVC = [[THNLifeManagementViewController alloc] init];
-        [self.navigationController pushViewController:lifeVC animated:YES];
+        if (self.userModel) {
+            THNSettingViewController *settingVC = [[THNSettingViewController alloc] initWithUserModel:self.userModel];
+            [self.navigationController pushViewController:settingVC animated:YES];
+        }
+        
+//        THNLifeManagementViewController *lifeVC = [[THNLifeManagementViewController alloc] init];
+//        [self.navigationController pushViewController:lifeVC animated:YES];
     }
 }
 
@@ -127,14 +132,18 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 // 头部用户信息
 - (void)thn_setUserHeaderView {
     [SVProgressHUD show];
+    
+    WEAKSELF;
+    
     [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
         [SVProgressHUD dismiss];
         
         if (error) return;
         
-        self.userName = model.username;
-        [self.headerView thn_setUserInfoModel:model];
-        self.tableView.tableHeaderView = self.headerView;
+        weakSelf.userModel = model;
+        weakSelf.userName = model.username;
+        [weakSelf.headerView thn_setUserInfoModel:model];
+        weakSelf.tableView.tableHeaderView = self.headerView;
     }];
 }
 
@@ -143,8 +152,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
     
-    WEAKSELF;
     [SVProgressHUD show];
+    
+    WEAKSELF;
+    
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:[error localizedDescription]];

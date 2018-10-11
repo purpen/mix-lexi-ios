@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface THNLifeOrderProductTableViewCell : UITableViewCell
 
-@end
+- (void)thn_setLifeOrderProductData:(NSDictionary *)data;
 
-NS_ASSUME_NONNULL_END
+@end

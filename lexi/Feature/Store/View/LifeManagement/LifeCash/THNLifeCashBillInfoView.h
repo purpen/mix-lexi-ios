@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNLifeCashBillModel.h"
 
 @interface THNLifeCashBillInfoView : UIView
+
+- (void)thn_setLifeCashBillDetailData:(THNLifeCashBillModel *)model;
 
 @end

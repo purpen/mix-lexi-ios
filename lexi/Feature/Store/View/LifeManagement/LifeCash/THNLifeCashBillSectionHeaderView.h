@@ -13,4 +13,6 @@
 // 显示副标题文字
 @property (nonatomic, assign) BOOL showSubLabel;
 
+- (void)thn_setTitleText:(NSString *)title subTitleText:(NSString *)subText;
+
 @end
