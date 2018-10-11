@@ -233,8 +233,10 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         [self.navigationController pushViewController:detail animated:YES];
 }
 
-- (void)pushEvaluation:(NSArray *)products {
+- (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid {
     THNEvaluationViewController *evaluationVC = [[THNEvaluationViewController alloc]init];
+    evaluationVC.products = products;
+    evaluationVC.rid = rid;
     [self.navigationController pushViewController:evaluationVC animated:YES];
 }
 

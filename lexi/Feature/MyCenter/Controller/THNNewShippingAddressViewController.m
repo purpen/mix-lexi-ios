@@ -26,7 +26,16 @@ static NSString *const kUrlGetaddressCustoms = @"/address/custom";
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
 
-@interface THNNewShippingAddressViewController ()<UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, YYTextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
+@interface THNNewShippingAddressViewController ()<
+UITableViewDelegate,
+UITableViewDataSource,
+UIPickerViewDataSource,
+UIPickerViewDelegate,
+YYTextViewDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UITextFieldDelegate
+>
 
 @property (nonatomic, strong) UITableView *tableView;
 // textView默认提示文字数组

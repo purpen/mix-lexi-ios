@@ -8,8 +8,9 @@
 
 #import "THNBaseTableViewController.h"
 
-@interface THNEvaluationViewController : THNBaseTableViewController
+@interface THNEvaluationViewController : THNBaseViewController
 
 @property (nonatomic, strong) NSArray *products;
+@property (nonatomic, strong) NSString *rid;
 
 @end
