@@ -192,6 +192,7 @@ static NSString *const kKeyQuantity = @"quantity";
     THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
     selectAddressVC.selectedSkuItems = [self thn_getSelectedGoodsSkuItems];
     selectAddressVC.deliveryCountrys = @[self.skuView.selectSkuItem.deliveryCountry];
+    selectAddressVC.goodsTotalPrice = self.skuView.selectSkuItem.salePrice;
     THNBaseNavigationController *orderNav = [[THNBaseNavigationController alloc] initWithRootViewController:selectAddressVC];
     [self presentViewController:orderNav animated:YES completion:nil];
 }
