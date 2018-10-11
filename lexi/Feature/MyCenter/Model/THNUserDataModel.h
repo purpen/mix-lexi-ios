@@ -16,9 +16,7 @@
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *about_me;
-@property (nonatomic, strong) NSString *city;
-@property (nonatomic, strong) NSString *country;
-@property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *street_address;
 @property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, strong) NSString *date;
 @property (nonatomic, strong) NSString *email;
