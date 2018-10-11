@@ -93,7 +93,7 @@ CGFloat orderCellLineSpacing = 10;
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:ordersModel.store.store_logo]];
     self.nameLabel.text = ordersModel.store.store_name;
     self.dateLabel.text = [NSString timeConversion:ordersModel.created_at initWithFormatterType:FormatterDay];
-    self.moneyLabel.text = [NSString stringWithFormat:@"¥%.2f", ordersModel.pay_amount];
+    self.moneyLabel.text = [NSString stringWithFormat:@"¥%.2f", ordersModel.user_pay_amount];
     self.payView.hidden = YES;
 
     switch (ordersModel.user_order_status) {
@@ -205,8 +205,8 @@ CGFloat orderCellLineSpacing = 10;
             [self loadOrdersSignedData];
             break;
         case OrderStatusEvaluation:
-            if (self.delegate && [self.delegate respondsToSelector:@selector(pushEvaluation:)]) {
-                [self.delegate pushEvaluation:self.products];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(pushEvaluation:initWithRid:)]) {
+                [self.delegate pushEvaluation:self.products initWithRid:self.ordersModel.rid];
             }
         default:
             break;

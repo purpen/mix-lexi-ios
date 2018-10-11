@@ -8,11 +8,28 @@
 
 #import "THNPhotoCollectionViewCell.h"
 
+@interface THNPhotoCollectionViewCell()
+
+@end
+
 @implementation THNPhotoCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    [self.photoButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+}
+
+- (IBAction)addPhoto:(id)sender {
+    self.photoBlock();
+}
+
+- (IBAction)deletePhoto:(id)sender {
+    self.deletePhotoBlock(self.tag);
+}
+
+- (void)setImageData:(NSData *)imageData {
+    self.photoButton.enabled = NO;
+    [self.photoButton setImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
 }
 
 @end

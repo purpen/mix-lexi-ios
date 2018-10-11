@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^PhotoBlock)(void);
+typedef void(^DeletePhotoBlock)(NSInteger tag);
+
 @interface THNPhotoCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) NSData *imageData;
+@property (weak, nonatomic) IBOutlet UIButton *photoButton;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+@property (nonatomic, copy) PhotoBlock photoBlock;
+@property (nonatomic, copy) DeletePhotoBlock deletePhotoBlock;
 
 @end
