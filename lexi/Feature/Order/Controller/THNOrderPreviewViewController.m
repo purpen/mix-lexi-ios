@@ -405,7 +405,7 @@ THNPreViewTableViewCellDelegate
                                 @"reach_minus":@(self.totalReductionAmount),
                                 @"total_amount":@(self.totalPrice),
                                 @"first_discount":@(self.firstDiscount),
-                                @"pay_amount":@(self.payAmount)
+                                @"user_pay_amount":@(self.payAmount)
                                 };
 
     THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
@@ -518,7 +518,7 @@ THNPreViewTableViewCellDelegate
 }
 
 - (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag {
-    // 优惠券码插入到对应的店铺
+    // 备注和赠语插入到对应的店铺
     NSMutableDictionary *skuItemDict = self.skuItems[tag];
     skuItemDict[@"buyer_remark"] = remarkStr;
     skuItemDict[@"blessing_utterance"] = giftStr;
