@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSString *buyer_remark; // 买家备注
 @property (nonatomic, assign) CGFloat freight; //运费
 @property (nonatomic, strong) NSString *outside_target_id; // 订单编号
-@property (nonatomic, assign) CGFloat pay_amount; // 支付金额
+@property (nonatomic, assign) CGFloat user_pay_amount; // 支付金额
 @property (nonatomic, assign) CGFloat total_amount; // 小计
 @property (nonatomic, strong) NSArray <THNOrdersItemsModel*> *items;
 @property (nonatomic, strong) THNOrderStoreModel *store;

@@ -86,6 +86,7 @@
 		4B34A058216DE106001099CB /* THNEvaluationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B34A056216DE106001099CB /* THNEvaluationTableViewCell.xib */; };
 		4B34A05F216DEC7A001099CB /* THNPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B34A05D216DEC7A001099CB /* THNPhotoCollectionViewCell.m */; };
 		4B34A060216DEC7A001099CB /* THNPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B34A05E216DEC7A001099CB /* THNPhotoCollectionViewCell.xib */; };
+		4B34A062216EFA5F001099CB /* THNEvaluationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B34A061216EFA5F001099CB /* THNEvaluationViewController.xib */; };
 		4B56C911213CD0C50052FD80 /* THNCouponDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C910213CD0C50052FD80 /* THNCouponDetailView.m */; };
 		4B56C913213CD0D50052FD80 /* THNCouponDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B56C912213CD0D50052FD80 /* THNCouponDetailView.xib */; };
 		4B56C917213CDCC80052FD80 /* THNCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B56C915213CDCC80052FD80 /* THNCouponTableViewCell.m */; };
@@ -543,6 +544,7 @@
 		4B34A05C216DEC7A001099CB /* THNPhotoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		4B34A05D216DEC7A001099CB /* THNPhotoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		4B34A05E216DEC7A001099CB /* THNPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		4B34A061216EFA5F001099CB /* THNEvaluationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNEvaluationViewController.xib; sourceTree = "<group>"; };
 		4B56C90F213CD0C50052FD80 /* THNCouponDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponDetailView.h; sourceTree = "<group>"; };
 		4B56C910213CD0C50052FD80 /* THNCouponDetailView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponDetailView.m; sourceTree = "<group>"; };
 		4B56C912213CD0D50052FD80 /* THNCouponDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNCouponDetailView.xib; sourceTree = "<group>"; };
@@ -1255,6 +1257,7 @@
 				D8247E7E21461B7A000C8E37 /* THNPaySuccessViewController.m */,
 				4B34A051216DDF6E001099CB /* THNEvaluationViewController.h */,
 				4B34A052216DDF6E001099CB /* THNEvaluationViewController.m */,
+				4B34A061216EFA5F001099CB /* THNEvaluationViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2883,6 +2886,7 @@
 				4B2644E62125263300665A6D /* THNShopWindowTableViewCell.xib in Resources */,
 				D8247EC52147E96D000C8E37 /* THNOrderProductTableViewCell.xib in Resources */,
 				D8247EC22147E96D000C8E37 /* THNLogisticsTableViewCell.xib in Resources */,
+				4B34A062216EFA5F001099CB /* THNEvaluationViewController.xib in Resources */,
 				D8F998872137D6440012AED3 /* loading.gif in Resources */,
 				4B240EA2212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib in Resources */,
 				4B223CE52146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib in Resources */,
