@@ -217,7 +217,7 @@ static NSString *const kKeyCode             = @"code";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
+//        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
         if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {

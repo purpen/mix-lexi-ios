@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNLifeCashBillDataModel.h"
+#import "THNLifeCashBillModel.h"
 
 @interface THNLifeCashBillTableViewCell : UITableViewCell
+
+- (void)thn_setLifeCashRecordData:(NSDictionary *)dict;
 
 @end

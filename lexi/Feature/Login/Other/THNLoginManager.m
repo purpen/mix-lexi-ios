@@ -80,6 +80,7 @@ MJCodingImplementation
         THNLog(@"------ 个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = result.data[kRequestIsSmallB];
+        self.userData = result.data[kRequestProfile];
         self.userId = result.data[kRequestProfile][kRequestUserId];
         [self saveLoginInfo];
         completion(result, nil);

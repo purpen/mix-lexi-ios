@@ -18,7 +18,7 @@ static NSString *const kResultDirectory = @"directory_id";
 static NSString *const kResultEndPoint  = @"up_endpoint";
 static NSString *const kResultUserId    = @"user_id";
 /// 获取七牛token
-static NSString *const kURLUpToken              = @"/assets/user_upload_token";
+static NSString *const kURLUpToken      = @"/assets/user_upload_token";
 
 @interface THNQiNiuUpload()
 

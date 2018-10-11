@@ -14,10 +14,11 @@
 @property (nonatomic, assign) CGFloat actual_account_amount;
 @property (nonatomic, assign) CGFloat actual_amount;
 @property (nonatomic, assign) CGFloat service_fee;
-@property (nonatomic, assign) NSInteger created_at;
+@property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, assign) NSInteger receive_target;
-@property (nonatomic, assign) NSInteger record_id;
+@property (nonatomic, strong) NSString *record_id;
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, assign) NSInteger store_rid;
+@property (nonatomic, strong) NSDictionary *order_info;
 
 @end

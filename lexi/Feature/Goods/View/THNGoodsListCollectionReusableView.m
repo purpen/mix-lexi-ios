@@ -77,6 +77,9 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
             break;
     }
     
+    if (!userData.count) {
+        return;
+    }
     [self thn_setRecordUserData:[self thn_getUserModelWithData:userData]];
     [self thn_setUserCountWithValue:userData.count];
 }
@@ -86,8 +89,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
     self.titleLabel.text = text;
     self.sloganLabel.text = sloganText;
     self.iconImageView.image = [UIImage imageNamed:iconName];
-    NSString *headerImagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@".png"];
-    self.headerImageView.image = [UIImage imageWithContentsOfFile:headerImagePath];
+    self.headerImageView.image = [UIImage imageNamed:imageName];
 }
 
 - (void)thn_setUserCountWithValue:(NSInteger)value {

@@ -11,6 +11,7 @@
 #import <YYKit/YYKit.h>
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import <DateTools/DateTools.h>
 
 static NSString *const kTextTitle   = @"乐喜生活馆";
 static NSString *const kTextSuccess = @"提现成功";
@@ -44,6 +45,17 @@ static NSString *const kTextDetail  = @"提现明细";
         [self setupViewUI];
     }
     return self;
+}
+
+- (void)thn_setLifeCashBillDetailData:(THNLifeCashBillModel *)model {
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", model.actual_amount];
+    NSArray *statusArr = @[@"审核中", @"提现成功", @"提现失败"];
+    self.statusLabel.text = statusArr[model.status - 1];
+    
+    NSString *serviceFee = [NSString stringWithFormat:@"%.2f", model.service_fee];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
+    NSString *time = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [self thn_creatInfoTextWithData:@[serviceFee, @"微信零钱包", time]];
 }
 
 // 提现明细信息
@@ -81,8 +93,6 @@ static NSString *const kTextDetail  = @"提现明细";
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame) - 54, CGRectGetWidth(self.frame), 10)];
     lineView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     [self addSubview:lineView];
-    
-    [self thn_creatInfoTextWithData:@[@"0.00", @"微信零钱包", @"2018-08-15 20:44"]];
 }
 
 - (void)layoutSubviews {
@@ -150,7 +160,6 @@ static NSString *const kTextDetail  = @"提现明细";
         _moneyLabel.font = [UIFont systemFontOfSize:24 weight:(UIFontWeightBold)];
         _moneyLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _moneyLabel.textAlignment = NSTextAlignmentCenter;
-        _moneyLabel.text = @"125.1";
     }
     return _moneyLabel;
 }
@@ -161,7 +170,6 @@ static NSString *const kTextDetail  = @"提现明细";
         _statusLabel.font = [UIFont systemFontOfSize:12];
         _statusLabel.textColor = [UIColor colorWithHexString:@"#999999"];
         _statusLabel.textAlignment = NSTextAlignmentCenter;
-        _statusLabel.text = kTextSuccess;
     }
     return _statusLabel;
 }

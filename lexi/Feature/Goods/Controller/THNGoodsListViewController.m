@@ -369,13 +369,10 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     if ([self thn_showHeaderView]) {
-        THNGoodsListCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                                                                            withReuseIdentifier:kCollectionViewHeaderViewId
+        THNGoodsListCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kCollectionViewHeaderViewId
                                                                                                    forIndexPath:indexPath];
-        if (self.userArray.count) {
-            [headerView thn_setShowContentWithListType:self.goodsListType userData:[self.userArray copy]];
-        }
-        
+        [headerView thn_setShowContentWithListType:self.goodsListType userData:[self.userArray copy]];
+
         return headerView;
     }
     
