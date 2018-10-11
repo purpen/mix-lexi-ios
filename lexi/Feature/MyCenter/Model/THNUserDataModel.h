@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *mail;
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSString *last_seen;
-@property (nonatomic, strong) NSDictionary *avatar;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *avatar_id;
 
 @end

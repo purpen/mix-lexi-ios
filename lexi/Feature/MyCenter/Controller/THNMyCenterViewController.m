@@ -119,7 +119,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         
     } else if (index == 1) {
         if (self.userModel) {
-            THNSettingViewController *settingVC = [[THNSettingViewController alloc] initWithUserModel:self.userModel];
+            THNSettingViewController *settingVC = [[THNSettingViewController alloc] init];
             [self.navigationController pushViewController:settingVC animated:YES];
         }
         
@@ -145,6 +145,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         [weakSelf.headerView thn_setUserInfoModel:model];
         weakSelf.tableView.tableHeaderView = self.headerView;
     }];
+}
+
+// 用户资料
+- (void)thn_getUserData {
+    [[THNLoginManager sharedManager] getUserProfile:nil];
 }
 
 // 商品信息
@@ -376,6 +381,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self setNavigationBar];
     [self thn_setUserHeaderView];
+    [self thn_getUserData];
 }
 
 - (void)setNavigationBar {

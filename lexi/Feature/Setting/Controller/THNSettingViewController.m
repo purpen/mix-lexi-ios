@@ -30,25 +30,23 @@ static NSString *const kTextLoginOut = @"退出登录";
 @property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, strong) NSArray *iconArr;
 @property (nonatomic, strong) NSArray *mainTexts;
-@property (nonatomic, strong) THNUserModel *userModel;
+@property (nonatomic, strong) THNUserDataModel *userModel;
 
 @end
 
 @implementation THNSettingViewController
 
-- (instancetype)initWithUserModel:(THNUserModel *)model {
-    self = [super init];
-    if (self) {
-        self.userModel = model;
-        [self.headerView thn_setNickname:model.username headImageUrl:model.avatar];
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
+}
+
+#pragma mark - network
+// 用户资料
+- (void)thn_getUserData {
+    self.userModel = [THNUserDataModel mj_objectWithKeyValues:[THNLoginManager sharedManager].userData];
+    [self.headerView thn_setNickname:self.userModel.username headImageUrl:self.userModel.avatar];
 }
 
 #pragma mark - event response
@@ -86,6 +84,7 @@ static NSString *const kTextLoginOut = @"退出登录";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_getUserData];
 }
 
 - (void)setNavigationBar {
