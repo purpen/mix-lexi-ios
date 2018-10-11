@@ -12,6 +12,7 @@
 #import "UIView+Helper.h"
 #import "THNRecommendViewController.h"
 #import "THNProductAllViewController.h"
+#import "THNSearchViewController.h"
 
 @interface THNPruductCenterViewController ()<THNSelectButtonViewDelegate>
 
@@ -33,6 +34,11 @@
 
 - (void)setupUI {
     self.navigationBarView.title = @"选品中心";
+    __weak typeof(self)weakSelf = self;
+    self.searchView.pushSearchBlock = ^{
+        THNSearchViewController *searchVC = [[THNSearchViewController alloc]init];
+        [weakSelf.navigationController pushViewController:searchVC animated:YES];
+    };
     [self.view addSubview:self.searchView];
     self.selectButtonView.delegate = self;
     [self.view addSubview:self.selectButtonView];
