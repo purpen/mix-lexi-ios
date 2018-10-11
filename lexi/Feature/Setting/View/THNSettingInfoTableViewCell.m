@@ -113,11 +113,24 @@ static NSString *const kHintSex         = @"请选择性别";
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.editInfo = textField.text;
+}
+
 #pragma mark - private methods
 - (void)thn_setUserInfoText:(NSString *)text {
     if (text.length) {
         self.infoTextField.text = text;
     }
+    
+    NSString *infoStr = self.type == THNSettingInfoTypeSex ? [self thn_getSexInfo] : self.infoTextField.text;
+    self.editInfo = infoStr.length ? infoStr : @"";
+}
+
+- (NSString *)thn_getSexInfo {
+    NSString *sexStr = [self.infoTextField.text isEqualToString:@"女"] ? @"0" : @"1";
+    
+    return sexStr;
 }
 
 #pragma mark - setup UI
@@ -163,6 +176,11 @@ static NSString *const kHintSex         = @"请选择性别";
         _infoTextField.delegate = self;
     }
     return _infoTextField;
+}
+
+#pragma mark -
+- (void)dealloc {
+    [self.infoTextField endEditing:YES];
 }
 
 @end

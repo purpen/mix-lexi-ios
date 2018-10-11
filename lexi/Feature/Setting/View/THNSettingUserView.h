@@ -11,6 +11,9 @@
 
 @interface THNSettingUserView : UIView
 
+@property (nonatomic, copy) NSString *headId;
+
 - (void)thn_setUserInfoData:(THNUserDataModel *)model;
+- (void)thn_setHeaderImageWithData:(NSData *)imageData;
 
 @end

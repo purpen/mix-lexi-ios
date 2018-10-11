@@ -10,9 +10,20 @@
 #import "THNSettingUserView.h"
 #import "THNLoginManager.h"
 #import "THNSettingInfoTableViewCell.h"
+#import "THNPhotoManager.h"
+#import "THNQiNiuUpload.h"
 
-static NSString *const kTitleSetting = @"编辑个人资料";
-static NSString *const kTextSave     = @"保存";
+static NSString *const kTitleSetting    = @"编辑个人资料";
+static NSString *const kTextSave        = @"保存";
+/// key
+static NSString *const kResultDataIds   = @"ids";
+static NSString *const kKeyAvatarId     = @"avatar_id";
+static NSString *const kKeyUsername     = @"username";
+static NSString *const kKeyAboutMe      = @"about_me";
+static NSString *const kKeyGender       = @"gender";
+static NSString *const kKeyMail         = @"mail";
+static NSString *const kKeyDate         = @"date";
+static NSString *const kKeyAddress      = @"street_address";
 
 @interface THNSettingUserInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -33,8 +44,46 @@ static NSString *const kTextSave     = @"保存";
 }
 
 #pragma mark - event response
+- (NSDictionary *)thn_getEditUserInfoData {
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    [paramDict setObject:self.headerView.headId forKey:kKeyAvatarId];
+    
+    NSArray *allKey = @[kKeyUsername, kKeyAboutMe, kKeyMail, kKeyAddress, kKeyDate, kKeyGender];
+    
+    for (NSUInteger idx = 0; idx < allKey.count; idx ++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+        THNSettingInfoTableViewCell *cell = [self.settingTable cellForRowAtIndexPath:indexPath];
+        [paramDict setObject:cell.editInfo forKey:allKey[idx]];
+    }
+    NSLog(@"------- 编辑的信息： %@", paramDict);
+    return [paramDict copy];
+}
+
+#pragma mark - event response
 - (void)saveButtonAction:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"保存资料"];
+    [[THNLoginManager sharedManager] updateUserProfileWithParams:[self thn_getEditUserInfoData]
+                                                      completion:^(THNResponse *data, NSError *error) {
+                                                          if (error) {
+                                                              [SVProgressHUD showSuccessWithStatus:@"保存失败"];
+                                                              return ;
+                                                          }
+                                                          
+                                                          [SVProgressHUD showSuccessWithStatus:@"更新成功"];
+                                                      }];
+}
+
+- (void)openImageController:(UITapGestureRecognizer *)tap {
+    WEAKSELF;
+    
+    [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
+        [weakSelf.headerView thn_setHeaderImageWithData:imageData];
+        
+        [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:imageData
+                                                       compltion:^(NSDictionary *result) {
+                                                           NSArray *idsArray = result[kResultDataIds];
+                                                           weakSelf.headerView.headId = idsArray[0];
+                                                       }];
+    }];
 }
 
 #pragma mark - private methods
@@ -103,6 +152,9 @@ static NSString *const kTextSave     = @"保存";
 - (THNSettingUserView *)headerView {
     if (!_headerView) {
         _headerView = [[THNSettingUserView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(openImageController:)];
+        [_headerView addGestureRecognizer:tap];
     }
     return _headerView;
 }
