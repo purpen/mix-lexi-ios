@@ -77,7 +77,7 @@ static NSString *const kHintSex         = @"请选择性别";
             break;
             
         case THNSettingInfoTypeLocation: {
-            [self thn_setUserInfoText:[NSString stringWithFormat:@"%@%@", model.country, model.city]];
+            [self thn_setUserInfoText:model.street_address];
         }
             break;
             
