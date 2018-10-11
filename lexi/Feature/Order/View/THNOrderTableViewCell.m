@@ -17,11 +17,14 @@
 #import "THNOrdersItemsModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNMarco.h"
-
+#import "THNConst.h"
+#import "THNAPI.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
+static NSString *const kUrlOrdersSigned = @"/orders/signed";
 CGFloat kOrderProductViewHeight = 75;
-CGFloat kOrderLogisticsViewHeight = 29;
+CGFloat kOrderLogisticsViewHeight = 49;
 CGFloat orderCellLineSpacing = 10;
 
 @interface THNOrderTableViewCell()<UITableViewDataSource, UITableViewDelegate>
@@ -44,8 +47,11 @@ CGFloat orderCellLineSpacing = 10;
 @property (weak, nonatomic) IBOutlet UIView *payView;
 @property (weak, nonatomic) IBOutlet UILabel *payCountDownTextLabel;
 @property (nonatomic, strong) NSArray *products;
+@property (nonatomic, strong) NSSet *set;
 
 @property (nonatomic, assign) BOOL isAddTimer;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (nonatomic, strong) THNOrdersItemsModel *itemModel;
 
 @end
 
@@ -59,7 +65,7 @@ CGFloat orderCellLineSpacing = 10;
     self.tableView.dataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNOrderProductTableViewCell" bundle:nil] forCellReuseIdentifier:kOrderSubCellIdentifier];
     [self.payView drawCornerWithType:0 radius:4];
-//    [self borderButtonStyle];
+    [self borderButtonStyle];
     [self backgroundButtonStyle];
 }
 
@@ -69,12 +75,25 @@ CGFloat orderCellLineSpacing = 10;
     [super setFrame:frame];
 }
 
+// 确认收货
+- (void)loadOrdersSignedData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.ordersModel.rid;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersSigned requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD showInfoWithStatus:@"已确认收货"];
+        [SVProgressHUD dismissWithDelay:2];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (void)setOrdersModel:(THNOrdersModel *)ordersModel {
     _ordersModel = ordersModel;
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:ordersModel.store.store_logo]];
     self.nameLabel.text = ordersModel.store.store_name;
     self.dateLabel.text = [NSString timeConversion:ordersModel.created_at initWithFormatterType:FormatterDay];
-    self.moneyLabel.text = [NSString stringWithFormat:@"¥%.2f", ordersModel.pay_amount];
+    self.moneyLabel.text = [NSString stringWithFormat:@"¥%.2f", ordersModel.user_pay_amount];
     self.payView.hidden = YES;
 
     switch (ordersModel.user_order_status) {
@@ -142,7 +161,19 @@ CGFloat orderCellLineSpacing = 10;
     NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"express" ascending:YES]];
     self.products = [self.ordersModel.items sortedArrayUsingDescriptors:sortArr];
     
+    // 获取不隐藏运费模板的数量
+    NSMutableArray *expressArr = [NSMutableArray array];
+    for (NSDictionary *dict in self.products) {
+        [expressArr addObject:dict[@"express"]];
+    }
+    
+    self.set = [NSSet setWithArray:expressArr];
+    
     [self.tableView reloadData];
+}
+
+- (void)logisticsTracking {
+     [[NSNotificationCenter defaultCenter] postNotificationName:kOrderLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemModel}];
 }
 
 - (void)addTimer {
@@ -168,15 +199,26 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (IBAction)backGroundButton:(id)sender {
-    
+    switch (self.ordersModel.user_order_status) {
+        case OrderStatusWaitDelivery:
+        case OrderStatusReceipt:
+            [self loadOrdersSignedData];
+            break;
+        case OrderStatusEvaluation:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(pushEvaluation:initWithRid:)]) {
+                [self.delegate pushEvaluation:self.products initWithRid:self.ordersModel.rid];
+            }
+        default:
+            break;
+    }
 }
 
 - (IBAction)borderButton:(id)sender {
     switch (self.ordersModel.user_order_status) {
         case OrderStatusWaitDelivery:
         case OrderStatusReceipt:
+            [self logisticsTracking];
             break;
-            
         default:
             if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:)]) {
                 [self.delegate deleteOrder:self.ordersModel.rid];
@@ -209,19 +251,31 @@ CGFloat orderCellLineSpacing = 10;
     THNOrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderSubCellIdentifier forIndexPath:indexPath];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
-    // 最后一行不隐藏运费模板
-    if (indexPath.row < self.products.count - 1) {
-        // 该商品后面运费模板一样，隐藏选择运费模板
-        if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
-            cell.borderButton.hidden = YES;
+    self.itemModel = itemModel;
+    // 只有一个运费模板
+    if (self.set.count == 1) {
+        cell.borderButton.hidden = YES;
+        self.borderButton.hidden = NO;
+        self.lineView.hidden = YES;
+    } else {
+        // 最后一行不隐藏运费模板
+        if (indexPath.row < self.products.count - 1) {
+            // 该商品后面运费模板一样，隐藏选择运费模板
+            if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+                cell.borderButton.hidden = YES;
+                self.borderButton.hidden = NO;
+            } else {
+                cell.borderButton.hidden = NO;
+                self.borderButton.hidden = YES;
+            }
+            
         } else {
             cell.borderButton.hidden = NO;
+            self.borderButton.hidden = YES;
         }
-        
-    } else {
-        cell.borderButton.hidden = NO;
+        self.lineView.hidden = NO;
     }
-        
+    
     [cell setItemModel:itemModel];
     return cell;
 }
@@ -234,15 +288,19 @@ CGFloat orderCellLineSpacing = 10;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
-    if (indexPath.row < self.products.count - 1) {
-        // 该商品后面运费模板一样，设置为商品的高度
-        if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
-            return kOrderProductViewHeight;
+    if (self.set.count == 1) {
+        return kOrderProductViewHeight;
+    } else {
+        if (indexPath.row < self.products.count - 1) {
+            // 该商品后面运费模板一样，设置为商品的高度
+            if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+                return kOrderProductViewHeight;
+            } else {
+                return kOrderProductViewHeight + kOrderLogisticsViewHeight;
+            }
         } else {
             return kOrderProductViewHeight + kOrderLogisticsViewHeight;
         }
-    } else {
-        return kOrderProductViewHeight + kOrderLogisticsViewHeight;
     }
 }
 

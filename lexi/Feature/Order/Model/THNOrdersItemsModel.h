@@ -15,6 +15,7 @@
 // sku编码
 @property (nonatomic, strong) NSString *id_code;
 @property (nonatomic, strong) NSString *product_name;
+
 // 零售价
 @property (nonatomic, assign) CGFloat price;
 // 购买数量
@@ -38,5 +39,6 @@
 @property (nonatomic, strong) NSString *delivery_province;
 // 发货所在国家
 @property (nonatomic, strong) NSString *delivery_country;
+@property (nonatomic, strong) NSString *store_name;
 
 @end

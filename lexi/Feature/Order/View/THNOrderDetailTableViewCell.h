@@ -15,7 +15,6 @@
 typedef void(^SelectDeliveryBlcok)(NSString *fid);
 
 UIKIT_EXTERN NSString *const kSelectDelivery;
-UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 
 @interface THNOrderDetailTableViewCell : UITableViewCell
 

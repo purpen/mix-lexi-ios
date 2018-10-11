@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 // 订单状态 0、全部 1、待发货 2、待收货 3、待评价 4、待付款
 @property (nonatomic , assign) NSInteger status;
 // 订单金额
-@property (nonatomic , assign) CGFloat pay_amount;
+@property (nonatomic , assign) CGFloat user_pay_amount;
 
 // 订单号
 @property (nonatomic , copy) NSString *rid;

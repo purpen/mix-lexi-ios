@@ -53,7 +53,7 @@
     self.payMethodLabel.text = @"微信在线支付";
     self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
     self.subtotalLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.total_amount];
-    self.totalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.pay_amount];
+    self.totalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.user_pay_amount];
     
     if (detailModel.freight == 0) {
         self.deliveryMethodLabel.text  = @"包邮";

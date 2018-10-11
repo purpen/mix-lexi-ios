@@ -136,10 +136,18 @@
                             <constraint firstItem="jZs-QD-OSS" firstAttribute="centerY" secondItem="cUC-QR-hRg" secondAttribute="centerY" id="oT1-ZT-7fa"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTL-Nh-ZeY">
+                        <rect key="frame" x="0.0" y="164.5" width="347" height="1"/>
+                        <color key="backgroundColor" red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="5dY-PO-nD3"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="cAl-7u-rBx" firstAttribute="leading" secondItem="0oi-O6-xwM" secondAttribute="leading" id="16V-WB-OuA"/>
                     <constraint firstItem="uJJ-k1-7MQ" firstAttribute="centerY" secondItem="NJh-aF-qUK" secondAttribute="centerY" id="6xn-Ot-CLM"/>
+                    <constraint firstItem="cTL-Nh-ZeY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="9jl-xa-Sp9"/>
                     <constraint firstItem="XNH-AP-9db" firstAttribute="leading" secondItem="oob-of-xzx" secondAttribute="trailing" constant="5" id="Bh9-HN-Twn"/>
                     <constraint firstItem="uJJ-k1-7MQ" firstAttribute="top" secondItem="cAl-7u-rBx" secondAttribute="bottom" id="CAQ-AS-AzT"/>
                     <constraint firstAttribute="trailing" secondItem="cUC-QR-hRg" secondAttribute="trailing" constant="15" id="FEH-A0-a11"/>
@@ -153,9 +161,11 @@
                     <constraint firstItem="NJh-aF-qUK" firstAttribute="leading" secondItem="uJJ-k1-7MQ" secondAttribute="trailing" constant="15" id="YbH-20-VBC"/>
                     <constraint firstItem="45y-0K-dCD" firstAttribute="centerY" secondItem="3Kn-v7-yTE" secondAttribute="centerY" id="YjC-GC-hv2"/>
                     <constraint firstItem="3Kn-v7-yTE" firstAttribute="leading" secondItem="0oi-O6-xwM" secondAttribute="leading" id="bKa-lk-Itz"/>
+                    <constraint firstItem="cUC-QR-hRg" firstAttribute="top" secondItem="cTL-Nh-ZeY" secondAttribute="bottom" constant="10" id="bfA-Vx-Ki5"/>
                     <constraint firstItem="45y-0K-dCD" firstAttribute="leading" secondItem="3Kn-v7-yTE" secondAttribute="trailing" constant="5" id="d7K-8K-7s0"/>
                     <constraint firstItem="0oi-O6-xwM" firstAttribute="top" secondItem="pHb-pp-1vw" secondAttribute="top" id="glg-CS-z6P"/>
                     <constraint firstItem="dOU-AG-BWg" firstAttribute="trailing" secondItem="2Vf-Wc-Od3" secondAttribute="trailing" id="jv8-vh-tJl"/>
+                    <constraint firstAttribute="trailing" secondItem="cTL-Nh-ZeY" secondAttribute="trailing" id="mvH-2V-e4C"/>
                     <constraint firstItem="oob-of-xzx" firstAttribute="centerY" secondItem="3Kn-v7-yTE" secondAttribute="centerY" id="rDc-J8-lCg"/>
                     <constraint firstAttribute="trailing" secondItem="2Vf-Wc-Od3" secondAttribute="trailing" constant="15" id="sZr-R6-g8c"/>
                     <constraint firstItem="3Kn-v7-yTE" firstAttribute="top" secondItem="0oi-O6-xwM" secondAttribute="bottom" constant="6" id="tNf-sI-k4p"/>
@@ -174,6 +184,7 @@
                 <outlet property="borderButton" destination="uJJ-k1-7MQ" id="Z7M-hI-6SO"/>
                 <outlet property="borderButtonRightConstraint" destination="YbH-20-VBC" id="7AU-e5-qnm"/>
                 <outlet property="dateLabel" destination="3Kn-v7-yTE" id="H63-UA-hPK"/>
+                <outlet property="lineView" destination="cTL-Nh-ZeY" id="Tmh-EP-4lp"/>
                 <outlet property="moneyLabel" destination="dOU-AG-BWg" id="BV3-Na-dRt"/>
                 <outlet property="nameLabel" destination="0oi-O6-xwM" id="6Hr-j5-TIv"/>
                 <outlet property="payCountDownTextLabel" destination="3xi-s6-fZe" id="eXt-md-O7I"/>
