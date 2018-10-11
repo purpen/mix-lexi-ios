@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNLifeCashBillOrderModel.h"
 
 @interface THNLifeCashBillInfoTableViewCell : UITableViewCell
+
+- (void)thn_setLifeCashBillOrderData:(THNLifeCashBillOrderModel *)model;
 
 @end

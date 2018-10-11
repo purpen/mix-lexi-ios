@@ -8,10 +8,6 @@
 
 #import "THNBaseViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface THNLifeCashBillViewController : THNBaseViewController
 
 @end
-
-NS_ASSUME_NONNULL_END
