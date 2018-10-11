@@ -174,7 +174,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.selectButtonView.frame))];
     [headerView addSubview:self.featuredCollectionView];
     [headerView addSubview:self.openingView];
-    [self.openingView loadLivingHallHeadLineData];
+    [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeProductCenterType];
     [headerView addSubview:self.selectButtonView];
     UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [self.view addSubview:lineView];

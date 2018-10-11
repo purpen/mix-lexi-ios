@@ -465,7 +465,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
-        [_openingView loadLivingHallHeadLineData];
+        [_openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
         _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
     }
     return _openingView;
