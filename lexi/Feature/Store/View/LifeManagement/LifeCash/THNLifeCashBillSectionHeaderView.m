@@ -29,6 +29,12 @@ static NSString *const kTextCash = @"提现：";
     return self;
 }
 
+- (void)thn_setTitleText:(NSString *)title subTitleText:(NSString *)subText {
+    self.textLable.text = title;
+    self.subTextLable.text = [NSString stringWithFormat:@"%@%@", kTextCash, subText];
+    self.subTextLable.hidden = subText.length == 0;
+}
+
 - (void)setShowSubLabel:(BOOL)showSubLabel {
     self.subTextLable.hidden = !showSubLabel;
 }

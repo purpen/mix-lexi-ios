@@ -41,8 +41,7 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
     self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
 
     [self.view addSubview:self.billTable];
-//    [self.billTable drawCornerWithType:(UILayoutCornerRadiusBottom) radius:4];
-    
+
     [self.view addSubview:self.titleLabel];
     [self.titleLabel drawCornerWithType:(UILayoutCornerRadiusTop) radius:4];
     

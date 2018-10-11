@@ -6,7 +6,7 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <MJExtension/MJExtension.h>
 
 @interface THNUserModel : NSObject

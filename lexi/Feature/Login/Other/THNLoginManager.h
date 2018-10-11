@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "THNResponse.h"
+#import "THNUserDataModel.h"
 
 typedef NS_ENUM(NSUInteger, THNLoginModeType) {
     THNLoginModeTypePassword,   // 密码登录
@@ -51,6 +52,11 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  是否小B用户
  */
 @property (nonatomic, assign) BOOL openingUser;
+
+/**
+ 用户资料
+ */
+@property (nonatomic, strong) NSDictionary *userData;
 
 + (instancetype)sharedManager;
 

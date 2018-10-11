@@ -10,6 +10,7 @@
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 #import <Masonry/Masonry.h>
+#import <DateTools/DateTools.h>
 
 static NSString *const kTextNumber = @"订单编号：";
 static NSString *const kTextDetail = @"详情";
@@ -35,15 +36,15 @@ static NSString *const kTextMoney  = @"收益：￥";
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setupCellViewUI];
-        [self thn_setData];
     }
     return self;
 }
 
-- (void)thn_setData {
-    self.numberLabel.text = @"订单编号：202180807827383";
-    self.timeLabel.text = @"2018-08-07 12:39:21";
-    self.moneyLabel.text = [NSString stringWithFormat:@"%@4.96", kTextMoney];
+- (void)thn_setLifeCashBillOrderData:(THNLifeCashBillOrderModel *)model {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
+    self.timeLabel.text = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    self.moneyLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextMoney, model.commission_price];
+    self.numberLabel.text = [NSString stringWithFormat:@"%@%@", kTextNumber, model.order_id];
 }
 
 #pragma mark - setup UI

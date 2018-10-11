@@ -90,19 +90,18 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     [SVProgressHUD showInfoWithStatus:@"查看微信"];
 }
 
-#pragma mark - private methods
+#pragma mark - network
 - (void)thn_setLifeStoreUserData {
     WEAKSELF;
     
     [THNLifeManager getLifeStoreInfoWithRid:[THNLoginManager sharedManager].storeRid
                                  completion:^(THNLifeStoreModel *model, NSError *error) {
-                                     if (error) {
-                                         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                         return ;
-                                     }
+                                     if (error) return;
                                      
                                      [weakSelf.userView thn_setLifeStoreInfo:model];
                                      [weakSelf.countdownView thn_setLifeStoreCreatedAt:model.created_at];
+                                     [weakSelf thn_showCountdownPhases:model.phases];
+                                     
                                      [weakSelf setupUI];
                                  }];
 }
@@ -112,10 +111,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
-                                             if (error) {
-                                                 [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                                 return ;
-                                             }
+                                             if (error) return;
                                              
                                              [weakSelf.earningsView thn_setLifeSaleColleciton:model];
                                          }];
@@ -126,10 +122,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     
     [THNLifeManager getLifeOrdersCollectWithRid:[THNLoginManager sharedManager].storeRid
                                      completion:^(THNLifeOrdersCollectModel *model, NSError *error) {
-                                         if (error) {
-                                             [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                             return ;
-                                         }
+                                         if (error) return;
                                          
                                          [weakSelf.dataView thn_setLifeOrdersCollecitonModel:model];
                                      }];
@@ -140,13 +133,16 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
-                                       if (error) {
-                                           [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                           return ;
-                                       }
+                                       if (error) return;
                                        
                                        [weakSelf.dataView thn_setLifeCashCollectModel:model];
                                    }];
+}
+
+#pragma mark - private methods
+// 是否显示倒计时
+- (void)thn_showCountdownPhases:(NSInteger)phases {
+    self.countdownView.hidden = phases != 1;
 }
 
 #pragma mark - setup UI
@@ -236,6 +232,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 - (THNLifeCountdownView *)countdownView {
     if (!_countdownView) {
         _countdownView = [[THNLifeCountdownView alloc] initWithFrame:CGRectMake(20, 85, SCREEN_WIDTH - 40, 40)];
+        _countdownView.hidden = YES;
     }
     return _countdownView;
 }
