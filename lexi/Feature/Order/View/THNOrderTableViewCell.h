@@ -23,7 +23,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 
 @optional
 - (void)deleteOrder:(NSString *)rid;
-- (void)pushEvaluation:(NSArray *)products;
+- (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid;
 - (void)pushOrderDetail:(NSString *)orderRid;
 
 @end
