@@ -12,15 +12,23 @@
 #import "THNDiscoverTableViewCell.h"
 #import "THNTextCollectionView.h"
 #import "THNGrassListModel.h"
+#import "THNBannerView.h"
+#import "THNDidcoverSetView.h"
+#import "UIView+Helper.h"
+#import "THNArticleViewController.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
 static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
+// banner
+static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
 @interface THNDiscoverViewController ()
 
 @property (nonatomic, strong) NSArray *guessLikes;
 @property (nonatomic, strong) NSArray *wonderfulStories;
+@property (nonatomic, strong) THNBannerView *bannerView;
+@property (nonatomic, strong) THNDidcoverSetView *setView;
 
 @end
 
@@ -30,12 +38,27 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
     [super viewDidLoad];
     [self loadWonderfulStoriesData];
     [self loadGuessLikesData];
+    [self loadBannerData];
     [self setupUI];
 }
 
 - (void)psuhNext {
     THNDiscoverThemeViewController *theme = [[THNDiscoverThemeViewController alloc]init];
     [self.navigationController pushViewController:theme animated:YES];
+}
+
+#pragma mark - 请求数据
+// banner
+- (void)loadBannerData {
+    
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDiscoverBanner requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+        [self.bannerView setBannerView:result.data[@"banner_images"]];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+        
+    }];
 }
 
 // 猜你喜欢
@@ -71,15 +94,25 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNDiscoverTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDiscoverCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (indexPath.row) {
         case 0:
+            cell.titleLabel.text = @"猜你喜欢";
             cell.collectionView.dataArray = self.guessLikes;
             break;
             
         default:
+            cell.titleLabel.text = @"精彩故事";
             cell.collectionView.dataArray = self.wonderfulStories;
             break;
     }
+    
+    cell.collectionView.textCollectionBlock = ^(NSInteger rid) {
+        THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+        articleVC.rid = rid;
+        [self.navigationController pushViewController:articleVC animated:YES];
+    };
+    
     [cell.collectionView reloadData];
     return cell;
 }
@@ -95,6 +128,27 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
     
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.setView.frame) + 20)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:self.bannerView];
+    [headerView addSubview:self.setView];
+    __weak typeof(self)weakSelf = self;
+    
+    self.setView.discoverSetBlcok = ^(NSInteger selectIndex, NSString *title) {
+        THNDiscoverThemeViewController *themeVC = [[THNDiscoverThemeViewController alloc]init];
+        themeVC.themeType = selectIndex;
+        themeVC.navigationBarViewTitle = title;
+        [weakSelf.navigationController pushViewController:themeVC animated:YES];
+    };
+    
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return CGRectGetMaxY(self.setView.frame) + 20;
+}
+
 - (CGFloat)getCellHeight:(NSArray *)array {
     __block CGFloat firstRowMaxtitleHeight = 0;
     __block CGFloat firstRowMaxcontentHeight = 0;
@@ -108,9 +162,9 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
         CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
         CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
         NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
-        NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
+        NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
         CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-        CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+        CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
         
         // 取出第一列最大的titleLabel和contentLabel的高度
         if (idx <= 1) {
@@ -137,7 +191,23 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
     }];
     
     CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
-    return 158 * 2 + customGrassCellHeight + 20 + 90;
+    return 158 * 2 + customGrassCellHeight + 20 + 70;
+}
+
+#pragma mark -lazy
+- (THNBannerView *)bannerView {
+    if (!_bannerView) {
+        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 20 * 2, 180)];
+    }
+    return _bannerView;
+}
+
+- (THNDidcoverSetView *)setView {
+    if (!_setView) {
+        _setView = [THNDidcoverSetView viewFromXib];
+        _setView.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), SCREEN_WIDTH, 230);
+    }
+    return _setView;
 }
 
 

@@ -43,9 +43,18 @@ static NSString *const kUrlTextCellIdentifier = @"kUrlTextCellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kUrlTextCellIdentifier forIndexPath:indexPath];
+    cell.showTextType = self.showTextType;
     THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     [cell setGrassListModel:grassListModel];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    
+    if (self.textCollectionBlock) {
+        self.textCollectionBlock(grassListModel.rid);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -57,13 +66,13 @@ static NSString *const kUrlTextCellIdentifier = @"kUrlTextCellIdentifier";
     CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
     CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
     CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
-    NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
-    NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
+    NSDictionary *titleFont = self.showTextType == ShowTextTypeTheme?  @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]} : @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:12]};
+    NSDictionary *contentFont = self.showTextType == ShowTextTypeTheme? @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]}   : @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};      
     CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-    CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+    CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
     CGFloat grassLabelHeight = titleHeight + contentHeight;
     grassListModel.grassLabelHeight = grassLabelHeight;
-    return CGSizeMake((self.viewWidth - 10) / 2, 158 + grassListModel.grassLabelHeight);
+    return CGSizeMake((self.viewWidth - 10) / 2, 160 + grassListModel.grassLabelHeight);
 }
 
 @end
