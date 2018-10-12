@@ -38,8 +38,7 @@ static NSString *const kKeyAddress      = @"street_address";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self thn_getLoginUserData];
+
     [self setupUI];
 }
 
@@ -105,6 +104,7 @@ static NSString *const kKeyAddress      = @"street_address";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_getLoginUserData];
 }
 
 - (void)setNavigationBar {
@@ -137,7 +137,12 @@ static NSString *const kKeyAddress      = @"street_address";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    if (indexPath.row == 4) {
+        [SVProgressHUD showInfoWithStatus:@"弹出日期选择器"];
+        
+    } else if (indexPath.row == 5) {
+        [SVProgressHUD showInfoWithStatus:@"弹出性别选择器"];
+    }
 }
 
 #pragma mark - getters and setters

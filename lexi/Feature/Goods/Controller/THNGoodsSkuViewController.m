@@ -85,9 +85,9 @@ static NSString *const kKeyQuantity = @"quantity";
  获取商品 SKU 数据
  */
 - (void)thn_getGoodsSkuDataWithGoodsId:(NSString *)goodsId {
-    WEAKSELF;
+    [SVProgressHUD showInfoWithStatus:@""];
     
-    [SVProgressHUD show];
+    WEAKSELF;
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
         [SVProgressHUD dismiss];
         
