@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNGrassListCollectionViewCell.h"
+
 
 @interface THNTextCollectionView : UICollectionView
 
+@property (nonatomic, assign) ShowTextType showTextType ;
 @property (nonatomic, strong) NSArray *dataArray;
 
 @end

@@ -10,8 +10,22 @@
 
 @class THNGrassListModel;
 
+/**
+ 展示内容
+ 
+ - ShowTextTypeDefault: 展示标题和内容
+ - ShowTextTypeTheme: 展示主题和标题
+ */
+typedef NS_ENUM(NSUInteger, ShowTextType) {
+    ShowTextTypeDefault,
+    ShowTextTypeTheme
+};
+
+
 @interface THNGrassListCollectionViewCell : UICollectionViewCell
 
+
+@property (nonatomic, assign) ShowTextType showTextType ;
 @property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 @end

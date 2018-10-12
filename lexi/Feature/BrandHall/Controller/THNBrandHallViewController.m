@@ -370,7 +370,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
                 NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
                 NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
                 CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-                CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+                CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
                 CGFloat grassLabelHeight = titleHeight + contentHeight;
                 grassListModel.grassLabelHeight = grassLabelHeight;
                 return CGSizeMake((SCREEN_WIDTH - 50) / 2, kCellGrassListHeight + grassListModel.grassLabelHeight);
