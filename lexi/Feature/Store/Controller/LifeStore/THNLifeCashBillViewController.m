@@ -25,6 +25,10 @@ static NSString *const kKeyPage     = @"page";
 @property (nonatomic, strong) UITableView *billTable;
 // 当前页码
 @property (nonatomic, assign) NSInteger page;
+// 日期
+@property (nonatomic, strong) NSArray *allKey;
+// 数据
+@property (nonatomic, strong) NSMutableArray *allValue;
 
 @end
 
@@ -40,15 +44,20 @@ static NSString *const kKeyPage     = @"page";
 
 - (void)thn_getLifeCashBillData {
     WEAKSELF;
-    
+
     [THNLifeManager getLifeCashBillWithRid:[THNLoginManager sharedManager].storeRid
                                     params:@{kKeyPage: @(self.page)}
-                                completion:^(NSError *error) {
-                                    if (error) {
-                                        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                        return ;
+                                completion:^(NSDictionary *dataDict, NSError *error) {
+                                    if (error) return;
+                                    
+                                    weakSelf.allKey = [dataDict allKeys];
+                                    
+                                    for (NSDictionary *dict in [dataDict allValues]) {
+                                        THNLifeCashBillDataModel *model = [THNLifeCashBillDataModel mj_objectWithKeyValues:dict];
+                                        [weakSelf.allValue addObject:model];
                                     }
-    
+                                    
+                                    [weakSelf.billTable reloadData];
                                 }];
 }
 
@@ -77,11 +86,13 @@ static NSString *const kKeyPage     = @"page";
 
 #pragma mark - tableView datasource & delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 12;
+    return self.allKey.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    THNLifeCashBillDataModel *model = self.allValue[section];
+    
+    return model.statements.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,7 +104,10 @@ static NSString *const kKeyPage     = @"page";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    THNLifeCashBillDataModel *model = self.allValue[section];
+    
     THNLifeCashBillSectionHeaderView *headerView = [[THNLifeCashBillSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+    [headerView thn_setTitleText:self.allKey[section] subTitleText:[NSString stringWithFormat:@"%.2f", model.total_amount]];
     
     return headerView;
 }
@@ -104,11 +118,21 @@ static NSString *const kKeyPage     = @"page";
         cell = [[THNLifeCashBillTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kCashBillTableViewCellId];
     }
     
+    if (self.allValue.count) {
+        THNLifeCashBillDataModel *model = self.allValue[indexPath.section];
+        [cell thn_setLifeCashRecordData:model.statements[indexPath.row]];
+    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self thn_openCashBillInfoWithId:@"1"];
+    if (self.allValue.count) {
+        THNLifeCashBillDataModel *dataModel = self.allValue[indexPath.section];
+        THNLifeCashBillModel *model = [THNLifeCashBillModel mj_objectWithKeyValues:dataModel.statements[indexPath.row]];
+        
+        [self thn_openCashBillInfoWithId:model.record_id];
+    }
 }
 
 #pragma mark - getters and setters
@@ -125,6 +149,13 @@ static NSString *const kKeyPage     = @"page";
         _billTable.tableFooterView = [UIView new];
     }
     return _billTable;
+}
+
+- (NSMutableArray *)allValue {
+    if (!_allValue) {
+        _allValue = [NSMutableArray array];
+    }
+    return _allValue;
 }
 
 @end

@@ -192,8 +192,18 @@ static NSString *const kKeyQuantity = @"quantity";
     THNSelectAddressViewController *selectAddressVC = [[THNSelectAddressViewController alloc] init];
     selectAddressVC.selectedSkuItems = [self thn_getSelectedGoodsSkuItems];
     selectAddressVC.deliveryCountrys = @[self.skuView.selectSkuItem.deliveryCountry];
+    selectAddressVC.goodsTotalPrice = [self thn_getGoodsSkuPrice];
     THNBaseNavigationController *orderNav = [[THNBaseNavigationController alloc] initWithRootViewController:selectAddressVC];
     [self presentViewController:orderNav animated:YES completion:nil];
+}
+
+/**
+ sku 的售价
+ */
+- (CGFloat)thn_getGoodsSkuPrice {
+    CGFloat price = self.skuView.selectSkuItem.salePrice != 0 ? self.skuView.selectSkuItem.salePrice : self.skuView.selectSkuItem.price;
+    
+    return price;
 }
 
 /**

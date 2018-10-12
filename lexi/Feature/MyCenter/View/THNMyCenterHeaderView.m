@@ -172,6 +172,12 @@ static NSInteger const kSelectedButtonTag = 452;
     }
 }
 
+- (void)selectedHeadImage:(UITapGestureRecognizer *)tap {
+    if ([self.delegate respondsToSelector:@selector(thn_selectedUserHeadImage)]) {
+        [self.delegate thn_selectedUserHeadImage];
+    }
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
@@ -197,53 +203,53 @@ static NSInteger const kSelectedButtonTag = 452;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 70));
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(24);
     }];
     [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:70/2];
     
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(120, 20));
         make.top.equalTo(self.headerImageView.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
     }];
     
-    [self.followLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.followLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
         make.height.mas_equalTo(12);
         make.width.mas_equalTo(self.followWidth);
     }];
     
-    [self.fansLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.fansLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.followLabel.mas_right).with.offset(18);
         make.centerY.mas_equalTo(self.followLabel);
         make.height.mas_equalTo(12);
         make.width.mas_equalTo(self.fansWidth);
     }];
     
-    [self.signatureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.signatureLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.followLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(self.signatureHeight);
     }];
     
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(60);
         make.left.bottom.right.mas_equalTo(0);
     }];
     
-    [self.activityButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.activityButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
     self.activityButton.layer.cornerRadius = 30/2;
     
-    [self.orderButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
         make.left.equalTo(self.activityButton.mas_right).with.offset(15);
         make.bottom.mas_equalTo(-20);
@@ -251,7 +257,7 @@ static NSInteger const kSelectedButtonTag = 452;
     self.orderButton.layer.cornerRadius = 30/2;
     [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.serviceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.serviceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-20);
@@ -259,7 +265,7 @@ static NSInteger const kSelectedButtonTag = 452;
     self.serviceButton.layer.cornerRadius = 30/2;
     [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.couponButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.couponButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
         make.bottom.mas_equalTo(-20);
@@ -267,19 +273,19 @@ static NSInteger const kSelectedButtonTag = 452;
     self.couponButton.layer.cornerRadius = 30/2;
     [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.couponDotView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.couponDotView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 7));
         make.right.equalTo(self.couponButton.mas_right).with.offset(-5);
         make.top.equalTo(self.couponButton.mas_top).with.offset(0);
     }];
     [self.couponDotView drawCornerWithType:(UILayoutCornerRadiusAll) radius:7/2];
     
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(1);
     }];
     
-    [self.dataContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.dataContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(70);
         make.left.equalTo(self.headerImageView.mas_right).with.offset(kDeviceiPhone5 ? 30 : 40);
         make.right.mas_equalTo(-35);
@@ -292,7 +298,7 @@ static NSInteger const kSelectedButtonTag = 452;
         make.top.mas_equalTo(0);
     }];
     
-    [self.dynamicButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.dataContainer);
         make.left.right.bottom.mas_equalTo(0);
     }];
@@ -309,6 +315,10 @@ static NSInteger const kSelectedButtonTag = 452;
         _headerImageView = [[UIImageView alloc] init];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
+        _headerImageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedHeadImage:)];
+        [_headerImageView addGestureRecognizer:tap];
     }
     return _headerImageView;
 }
