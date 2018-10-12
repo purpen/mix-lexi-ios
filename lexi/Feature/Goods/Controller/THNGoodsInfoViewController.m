@@ -133,11 +133,14 @@ static NSInteger const kFooterHeight = 18;
     if (!goodsId.length) return;
     
     WEAKSELF;
-    
     [THNGoodsManager getProductAllDetailWithId:self.goodsId completion:^(THNGoodsModel *model, NSError *error) {
         [SVProgressHUD dismiss];
-        if (error) return;
         
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+            return;
+        };
+    
         weakSelf.goodsModel = model;
         [weakSelf.functionView thn_setGoodsModel:model];
         [weakSelf thn_setHeaderViewWithGoodsImageAssets:model.assets];

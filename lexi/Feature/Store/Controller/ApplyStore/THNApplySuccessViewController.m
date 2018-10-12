@@ -9,7 +9,7 @@
 #import "THNApplySuccessViewController.h"
 #import "THNApplySuccessView.h"
 
-static NSString *const kNavigationTitle = @"申请生活馆";
+static NSString *const kTitleApply = @"申请生活馆";
 
 @interface THNApplySuccessViewController ()
 
@@ -37,7 +37,7 @@ static NSString *const kNavigationTitle = @"申请生活馆";
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kNavigationTitle;
+    self.navigationBarView.title = kTitleApply;
     [self.navigationBarView setNavigationBackButtonHidden:YES];
 }
 

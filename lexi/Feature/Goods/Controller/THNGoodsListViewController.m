@@ -140,7 +140,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getUserCenterProductsWithType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -155,7 +155,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取分类商品数据
 - (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -170,7 +170,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取栏目商品
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getColumnProductsWithListType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -185,7 +185,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取栏目浏览记录
 - (void)thn_getColumnRecordWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getColumnRecordWithListType:type params:params completion:^(NSArray *usersData, NSInteger count, NSError *error) {

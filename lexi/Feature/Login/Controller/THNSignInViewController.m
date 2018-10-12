@@ -179,6 +179,14 @@ static NSString *const kTextSkip            = @"跳过";
 }
 
 #pragma mark - getters and setters
+- (BOOL)canBack {
+    return _canSkip ? _canSkip : YES;
+}
+
+- (void)setCanBack:(BOOL)canBack {
+    self.navigationBarView.hidden = !canBack;
+}
+
 - (THNSignInView *)signInView {
     if (!_signInView) {
         _signInView = [[THNSignInView alloc] init];

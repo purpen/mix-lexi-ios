@@ -1,37 +1,29 @@
 //
-//  THNApplyStoreViewController.m
+//  THNSettingAboutViewController.m
 //  lexi
 //
-//  Created by FLYang on 2018/8/17.
-//  Copyright © 2018年 taihuoniao. All rights reserved.
+//  Created by FLYang on 2018/10/12.
+//  Copyright © 2018 taihuoniao. All rights reserved.
 //
 
-#import "THNApplyStoreViewController.h"
+#import "THNSettingAboutViewController.h"
 #import <WebKit/WebKit.h>
-#import "THNUserApplyViewController.h"
 
-static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
-static NSString *const kTitleLeXi     = @"乐喜";
+static NSString *const kURLAbout    = @"https://lite.lexivip.com/";
+static NSString *const kTitleAbout  = @"关于乐喜";
 
-@interface THNApplyStoreViewController () <WKNavigationDelegate, WKUIDelegate>
+@interface THNSettingAboutViewController () <WKNavigationDelegate, WKUIDelegate>
 
-/// 开馆指引
-@property (nonatomic, strong) WKWebView *applyWebView;
+@property (nonatomic, strong) WKWebView *aboutWebView;
 
 @end
 
-@implementation THNApplyStoreViewController
+@implementation THNSettingAboutViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
-}
-
-#pragma mark - private methods
-- (void)thn_openUserApplyController {
-    THNUserApplyViewController *userApplyVC = [[THNUserApplyViewController alloc] init];
-    [self.navigationController pushViewController:userApplyVC animated:YES];
 }
 
 #pragma mark - webView delegate
@@ -40,7 +32,6 @@ static NSString *const kTitleLeXi     = @"乐喜";
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [self thn_openUserApplyController];
     [SVProgressHUD dismiss];
 }
 
@@ -49,7 +40,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-
+    
     NSLog(@"======= 0 -- %@", navigationAction.targetFrame);
     decisionHandler(WKNavigationActionPolicyAllow);
 }
@@ -68,7 +59,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self.view addSubview:self.applyWebView];
+    [self.view addSubview:self.aboutWebView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -78,12 +69,12 @@ static NSString *const kTitleLeXi     = @"乐喜";
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kTitleLeXi;
+    self.navigationBarView.title = kTitleAbout;
 }
 
 #pragma mark - getters and setters
-- (WKWebView *)applyWebView {
-    if (!_applyWebView) {
+- (WKWebView *)aboutWebView {
+    if (!_aboutWebView) {
         WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
         WKPreferences *preferences = [WKPreferences new];
         preferences.minimumFontSize = 10;
@@ -91,17 +82,19 @@ static NSString *const kTitleLeXi     = @"乐喜";
         preferences.javaScriptCanOpenWindowsAutomatically = NO;
         webConfig.preferences = preferences;
         
-        _applyWebView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:webConfig];
-        _applyWebView.navigationDelegate = self;
-        _applyWebView.UIDelegate = self;
-        _applyWebView.backgroundColor = [UIColor whiteColor];
-        _applyWebView.scrollView.bounces = NO;
-        _applyWebView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-        _applyWebView.scrollView.showsVerticalScrollIndicator = NO;
-        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:kURLApplyStore]];
-        [_applyWebView loadRequest:urlRequest];
+        _aboutWebView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:webConfig];
+        _aboutWebView.navigationDelegate = self;
+        _aboutWebView.UIDelegate = self;
+        _aboutWebView.backgroundColor = [UIColor whiteColor];
+        _aboutWebView.contentScaleFactor = YES;
+        _aboutWebView.scrollView.bounces = NO;
+        _aboutWebView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        _aboutWebView.scrollView.showsVerticalScrollIndicator = NO;
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:kURLAbout]];
+        [_aboutWebView loadRequest:urlRequest];
     }
-    return _applyWebView;
+    return _aboutWebView;
 }
+
 
 @end

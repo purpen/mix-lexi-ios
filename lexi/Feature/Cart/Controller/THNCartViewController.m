@@ -75,7 +75,7 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品
  */
 - (void)thn_getCartGoodsData {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
@@ -92,7 +92,7 @@ static NSString *const kKeyQuantity = @"quantity";
  心愿单商品
  */
 - (void)thn_getWishListGoodsData {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -170,8 +170,12 @@ static NSString *const kKeyQuantity = @"quantity";
     
     THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
     
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     WEAKSELF;
     [THNGoodsManager getProductAllDetailWithId:item.product.productRid completion:^(THNGoodsModel *model, NSError *error) {
+        [SVProgressHUD dismiss];
+        
         if (error) {
             [SVProgressHUD showErrorWithStatus:@"获取商品信息错误"];
             return;
@@ -202,7 +206,7 @@ static NSString *const kKeyQuantity = @"quantity";
     
     if (!productIds.count) return;
     
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     [THNGoodsManager postAddGoodsToWishListWithRids:productIds completion:^(NSError *error) {
         [SVProgressHUD dismiss];
         if (error) return;
