@@ -40,7 +40,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     
     self.originY = 0;
     
-    for (THNGoodsModelDealContent *contentModel in content) {
+    for (THNGoodsModelDealContent *contentModel in content) {    
         if ([contentModel.type isEqualToString:@"text"]) {
             [self thn_creatAttributedStringWithText:contentModel.content];
             

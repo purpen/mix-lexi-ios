@@ -13,5 +13,6 @@
 @interface THNDiscoverTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNTextCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

@@ -7,7 +7,14 @@
 //
 
 #import "THNGrassListModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation THNGrassListModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{
+             @"des": @"description",
+             };
+}
 
 @end
