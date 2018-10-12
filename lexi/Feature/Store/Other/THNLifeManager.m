@@ -24,9 +24,11 @@ static NSString *const kURLCashCollect          = @"/stats/life_cash_collect";
 static NSString *const kURLLifeOrder            = @"/orders/life_orders";
 static NSString *const kURLCashRecent           = @"/stats/life_cash_recent";
 static NSString *const kURLCashBill             = @"/stats/life_orders/statements";
+static NSString *const kURLCashBillDetail       = @"/stats/life_orders/statement_items";
 /// key
 static NSString *const kKeyRid      = @"rid";
 static NSString *const kKeyStoreRid = @"store_rid";
+static NSString *const kKeyRecordId = @"record_id";
 
 @implementation THNLifeManager
 
@@ -65,18 +67,27 @@ static NSString *const kKeyStoreRid = @"store_rid";
     [[THNLifeManager sharedManager] requestLifeCashRecentWithRid:rid completion:completion];
 }
 
-+ (void)getLifeCashBillWithRid:(NSString *)rid params:(NSDictionary *)params completion:(void (^)(NSError *))completion {
++ (void)getLifeCashBillWithRid:(NSString *)rid params:(NSDictionary *)params completion:(void (^)(NSDictionary *, NSError *))completion {
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
     [paramDict setObject:rid forKey:kKeyStoreRid];
     
     [[THNLifeManager sharedManager] requestLifeCashBillWithParams:paramDict completion:completion];
 }
 
++ (void)getLifeCashBillDetailWithRid:(NSString *)rid recordId:(NSString *)recordId completion:(void (^)(THNLifeCashBillModel *, NSError *))completion {
+    
+    [[THNLifeManager sharedManager] requestLifeCashBillDetailWithParams:@{kKeyStoreRid: rid, kKeyRecordId: recordId}
+                                                             completion:completion];
+}
+
 #pragma mark - network
 // 馆主信息
 - (void)requestLifeStoreInfoWithRid:(NSString *)rid completion:(void (^)(THNLifeStoreModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeStore requestDictionary:@{kKeyRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -93,8 +104,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 订单汇总
 - (void)requestLifeOrdersCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeOrdersCollectModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -111,8 +124,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 订单记录
 - (void)requestLifeOrderRecordWithParams:(NSDictionary *)params completion:(void (^)(THNLifeOrderDataModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -128,8 +143,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 收益汇总
 - (void)requestLifeOrdersSaleCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeSaleCollectModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersSaleCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -146,8 +163,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 交易记录
 - (void)requestLifeTransactionsRecordWithParams:(NSDictionary *)params completion:(void (^)(THNTransactionsDataModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLTransactionsRecord requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -163,8 +182,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 提现汇总
 - (void)requestLifeCashCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeCashCollectModel *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLCashCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
@@ -181,8 +202,10 @@ static NSString *const kKeyStoreRid = @"store_rid";
 
 // 最近一笔提现
 - (void)requestLifeCashRecentWithRid:(NSString *)rid completion:(void (^)(CGFloat , NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLCashRecent requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         THNLog(@"==== 生活馆最近一笔提现：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion([result.data[@"actual_account_amount"] floatValue], nil);
         
@@ -192,18 +215,44 @@ static NSString *const kKeyStoreRid = @"store_rid";
 }
 
 // 对账单列表
-- (void)requestLifeCashBillWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+- (void)requestLifeCashBillWithParams:(NSDictionary *)params completion:(void (^)(NSDictionary *, NSError *))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLCashBill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) {
             [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
             return ;
         }
         THNLog(@"==== 对账单列表：%@", [NSString jsonStringWithObject:result.responseDict]);
-        completion(nil);
+        if (![result.data[@"statements"] isKindOfClass:[NSNull class]]) {
+            NSDictionary *dict = result.data[@"statements"];
+            completion(dict, nil);
+        }
         
     } failure:^(THNRequest *request, NSError *error) {
-        completion(error);
+        completion(nil, error);
+    }];
+}
+
+// 对账单详情
+- (void)requestLifeCashBillDetailWithParams:(NSDictionary *)params completion:(void (^)(THNLifeCashBillModel *, NSError *))completion {
+    [SVProgressHUD show];
+    THNRequest *request = [THNAPI getWithUrlString:kURLCashBillDetail requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (![result hasData]) {
+            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+            return ;
+        }
+        THNLog(@"==== 对账单详情：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (![result.data[@"life_cash_record_dict"] isKindOfClass:[NSNull class]]) {
+            THNLifeCashBillModel *model = [THNLifeCashBillModel mj_objectWithKeyValues:result.data[@"life_cash_record_dict"]];
+            completion(model, nil);
+        }
+
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
     }];
 }
 

@@ -18,7 +18,7 @@ static NSString *const kResultDirectory = @"directory_id";
 static NSString *const kResultEndPoint  = @"up_endpoint";
 static NSString *const kResultUserId    = @"user_id";
 /// 获取七牛token
-static NSString *const kURLUpToken              = @"/assets/user_upload_token";
+static NSString *const kURLUpToken      = @"/assets/user_upload_token";
 
 @interface THNQiNiuUpload()
 
@@ -30,6 +30,8 @@ static NSString *const kURLUpToken              = @"/assets/user_upload_token";
 
 - (void)uploadQiNiuWithImageData:(NSData *)imageData compltion:(void (^)(NSDictionary *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUpToken requestDictionary:nil delegate:nil];
+    
+    [SVProgressHUD showInfoWithStatus:@"正在上传..."];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
@@ -69,6 +71,8 @@ static NSString *const kURLUpToken              = @"/assets/user_upload_token";
                       }
                   }
                     option:opt];
+        
+        [SVProgressHUD showSuccessWithStatus:@"上传成功"];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[error localizedDescription]];

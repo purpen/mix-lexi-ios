@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 #pragma mark - API 地址
-//NSString *const kDomainBaseUrl    = @"";   //  生产环境
 //  正式环境
 NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
 NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
@@ -22,18 +21,14 @@ NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a
 //NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark - 测试账号
+/**
+ (正式环境)小B账号：
+ 18612963205
+ in456321
+ */
 NSString *const kAdminUrl           = @"https://lx.taihuoniao.com/#/";
 NSString *const kAdminPhone         = @"13716171560";
 NSString *const kAdminPWD           = @"123456";
-//NSString *const kTestEmail          = @"18548918450";
-/**
- 小程序账号:
- 17600351560
- 
- 小 B 账号：
- 13260180689
- 13260180689ljy
- */
 NSString *const kTestEmail          = @"18518391827";
 NSString *const kTestPassword       = @"in456321";
 

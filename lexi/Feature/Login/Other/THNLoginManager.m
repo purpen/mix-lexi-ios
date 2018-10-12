@@ -23,6 +23,7 @@ static NSString *const kURLDynamicLogin = @"/auth/app_dynamic_login";
 static NSString *const kURLAppRegister  = @"/auth/set_password";
 static NSString *const kURLLogout       = @"/auth/logout";
 static NSString *const kURLUserProfile  = @"/users/profile";
+static NSString *const kURLUsers        = @"/users";
 /// 请求数据 key
 static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
@@ -67,24 +68,6 @@ MJCodingImplementation
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
-        completion(nil, error);
-    }];
-}
-
-/**
- 获取用户信息
- */
-- (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion {
-    THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"------ 个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
-        self.storeRid = result.data[kRequestStoreRid];
-        self.openingUser = result.data[kRequestIsSmallB];
-        self.userId = result.data[kRequestProfile][kRequestUserId];
-        [self saveLoginInfo];
-        completion(result, nil);
-        
-    } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
     }];
 }
@@ -137,6 +120,55 @@ MJCodingImplementation
         [SVProgressHUD showErrorWithStatus:kTextLogoutError];
         
         completion(error);
+    }];
+}
+
+/**
+ 获取用户信息
+ */
+- (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"------ 个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
+        self.storeRid = result.data[kRequestStoreRid];
+        self.openingUser = result.data[kRequestIsSmallB];
+        self.userData = result.data[kRequestProfile];
+        self.userId = result.data[kRequestProfile][kRequestUserId];
+        [self saveLoginInfo];
+        
+        if (completion) {
+            completion(result, nil);
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        if (completion) {
+            completion(nil, error);
+        }
+    }];
+}
+
+/**
+ 更新用户信息
+ */
+- (void)updateUserProfileWithParams:(NSDictionary *)params completion:(void (^)(THNResponse *data, NSError *error))completion {
+    [SVProgressHUD show];
+    
+    THNRequest *request = [THNAPI putWithUrlString:kURLUsers requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"------ 更新后的个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        self.userData = result.data;
+        [self saveLoginInfo];
+    
+        completion(result, nil);
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
     }];
 }
 

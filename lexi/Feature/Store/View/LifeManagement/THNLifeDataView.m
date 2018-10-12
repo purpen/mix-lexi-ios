@@ -55,7 +55,6 @@ static NSString *const kTextTotal       = @"累计已提现：";
     self.orderModel = model;
     
     [self.orderCountButton setTitle:[NSString stringWithFormat:@"%zi", model.all_count] forState:(UIControlStateNormal)];
-    [self.orderCountButton setImageEdgeInsets:(UIEdgeInsetsMake(0, CGRectGetWidth(self.orderCountButton.frame) - 8, 0, 0))];
     self.todayOrderLabel.text = [NSString stringWithFormat:@"%@%zi", kTextToday, model.today_count];
 }
 
@@ -63,7 +62,6 @@ static NSString *const kTextTotal       = @"累计已提现：";
     self.cashModel = model;
     
     [self.getMoneyButton setTitle:[NSString stringWithFormat:@"%.2f", model.cash_price] forState:(UIControlStateNormal)];
-    [self.getMoneyButton setImageEdgeInsets:(UIEdgeInsetsMake(0, CGRectGetWidth(self.getMoneyButton.frame) - 8, 0, 0))];
     [self thn_setTotalMoneyLabelTextWithCashPrice:model.total_cash_price];
 }
 
@@ -221,6 +219,7 @@ static NSString *const kTextTotal       = @"累计已提现：";
         _orderCountButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:(UIFontWeightSemibold)];
         _orderCountButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_orderCountButton setImage:[UIImage imageNamed:@"icon_arrow_right_gray"] forState:(UIControlStateNormal)];
+        [_orderCountButton setImageEdgeInsets:(UIEdgeInsetsMake(0, (kScreenWidth - 50) / 2 - 10, 0, 0))];
         [_orderCountButton addTarget:self action:@selector(orderCountButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _orderCountButton;
@@ -261,6 +260,7 @@ static NSString *const kTextTotal       = @"累计已提现：";
         _getMoneyButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:(UIFontWeightSemibold)];
         _getMoneyButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_getMoneyButton setImage:[UIImage imageNamed:@"icon_arrow_right_gray"] forState:(UIControlStateNormal)];
+        [_getMoneyButton setImageEdgeInsets:(UIEdgeInsetsMake(0, (kScreenWidth - 50) / 2 - 10, 0, 0))];
         [_getMoneyButton addTarget:self action:@selector(getMoneyButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _getMoneyButton;
