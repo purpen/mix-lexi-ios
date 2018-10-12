@@ -56,7 +56,7 @@
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:0]];
-    [SVProgressHUD setMinimumDismissTimeInterval:CGFLOAT_MAX];
+    [SVProgressHUD setMinimumDismissTimeInterval:(NSTimeInterval)2];
     NSData *gifData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"loading" ofType:@".gif"]];
     [SVProgressHUD setInfoImage:[UIImage imageWithGifData:gifData]];
     [SVProgressHUD setImageViewSize:CGSizeMake(80, 80)];

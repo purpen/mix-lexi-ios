@@ -145,19 +145,6 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     self.countdownView.hidden = phases != 1;
 }
 
-#pragma mark - setup UI
-- (void)setupUI {
-    [self.headerView addSubview:self.userView];
-    [self.headerView addSubview:self.countdownView];
-    [self.headerView addSubview:self.earningsView];
-    [self.headerView addSubview:self.dataView];
-    [self.headerView addSubview:self.hintView];
-    self.lifeInfoTable.tableHeaderView = self.headerView;
-    [self.footerView addSubview:self.phoneButton];
-    self.lifeInfoTable.tableFooterView = self.footerView;
-    [self.view addSubview:self.lifeInfoTable];
-}
-
 #pragma mark - tableView datasource & delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -200,13 +187,33 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     }
 }
 
+#pragma mark - setup UI
+- (void)setupUI {
+    [self.headerView addSubview:self.userView];
+    [self.headerView addSubview:self.countdownView];
+    [self.headerView addSubview:self.earningsView];
+    [self.headerView addSubview:self.dataView];
+    [self.headerView addSubview:self.hintView];
+    self.lifeInfoTable.tableHeaderView = self.headerView;
+    [self.footerView addSubview:self.phoneButton];
+    self.lifeInfoTable.tableFooterView = self.footerView;
+    [self.view addSubview:self.lifeInfoTable];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationBarView.hidden = YES;
+}
+
 #pragma mark - getters and setters
 - (UITableView *)lifeInfoTable {
     if (!_lifeInfoTable) {
-        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStylePlain)];
+        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.frame))
+                                                      style:(UITableViewStylePlain)];
         _lifeInfoTable.delegate = self;
         _lifeInfoTable.dataSource = self;
-        _lifeInfoTable.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
+        _lifeInfoTable.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         _lifeInfoTable.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _lifeInfoTable.showsVerticalScrollIndicator = NO;
         _lifeInfoTable.separatorColor = [UIColor colorWithHexString:@"#E9E9E9"];

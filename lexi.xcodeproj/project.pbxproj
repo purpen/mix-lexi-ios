@@ -273,6 +273,8 @@
 		D8853EDA213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */; };
 		D898609521460E2B007ADD5D /* THNSelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D898609421460E2B007ADD5D /* THNSelectAddressViewController.m */; };
 		D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */; };
+		D8A97ADF217090E500A7FAF6 /* THNSettingAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADE217090E500A7FAF6 /* THNSettingAboutViewController.m */; };
+		D8A97AE22170A2BB00A7FAF6 /* THNMyCenterMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97AE12170A2BB00A7FAF6 /* THNMyCenterMenuView.m */; };
 		D8A9C26B213A6A460059CAFD /* THNGoodsTagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */; };
 		D8A9C26C213A6A460059CAFD /* THNGoodsTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */; };
 		D8A9C26D213A6A460059CAFD /* THNGoodsDirectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C268213A6A460059CAFD /* THNGoodsDirectTableViewCell.m */; };
@@ -895,6 +897,10 @@
 		D898609421460E2B007ADD5D /* THNSelectAddressViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectAddressViewController.m; sourceTree = "<group>"; };
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
+		D8A97ADD217090E500A7FAF6 /* THNSettingAboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSettingAboutViewController.h; sourceTree = "<group>"; };
+		D8A97ADE217090E500A7FAF6 /* THNSettingAboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSettingAboutViewController.m; sourceTree = "<group>"; };
+		D8A97AE02170A2BB00A7FAF6 /* THNMyCenterMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNMyCenterMenuView.h; sourceTree = "<group>"; };
+		D8A97AE12170A2BB00A7FAF6 /* THNMyCenterMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNMyCenterMenuView.m; sourceTree = "<group>"; };
 		D8A9C263213A6A460059CAFD /* THNGoodsDirectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsDirectTableViewCell.h; sourceTree = "<group>"; };
 		D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTagTableViewCell.m; sourceTree = "<group>"; };
 		D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTitleTableViewCell.m; sourceTree = "<group>"; };
@@ -1808,6 +1814,8 @@
 			children = (
 				D82FA76C21241A9D00E14A22 /* THNMyCenterHeaderView.h */,
 				D82FA76D21241A9D00E14A22 /* THNMyCenterHeaderView.m */,
+				D8A97AE02170A2BB00A7FAF6 /* THNMyCenterMenuView.h */,
+				D8A97AE12170A2BB00A7FAF6 /* THNMyCenterMenuView.m */,
 				D82FA76F212424B500E14A22 /* THNMyCenterDataButton.h */,
 				D82FA770212424B500E14A22 /* THNMyCenterDataButton.m */,
 				D82FA77221250D4C00E14A22 /* THNLikedGoodsTableViewCell.h */,
@@ -2677,6 +2685,8 @@
 				D8E16E29216F337B004D8942 /* THNSettingViewController.m */,
 				D8E16E37216F4748004D8942 /* THNSettingUserInfoViewController.h */,
 				D8E16E38216F4748004D8942 /* THNSettingUserInfoViewController.m */,
+				D8A97ADD217090E500A7FAF6 /* THNSettingAboutViewController.h */,
+				D8A97ADE217090E500A7FAF6 /* THNSettingAboutViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3135,6 +3145,7 @@
 				D8F9989C21383E300012AED3 /* THNCartButton.m in Sources */,
 				D8F998792137BA220012AED3 /* THNGoodsImagesViewController.m in Sources */,
 				D85DA8002106030200A36A71 /* NSString+Encryption.m in Sources */,
+				D8A97ADF217090E500A7FAF6 /* THNSettingAboutViewController.m in Sources */,
 				D8247EC12147E96D000C8E37 /* THNNewlyAddressTableViewCell.m in Sources */,
 				D81A13BC216CB84F00757262 /* THNLifeOrderProductTableViewCell.m in Sources */,
 				D8A9C284213AB9AE0059CAFD /* THNGoodsUserTableViewCell.m in Sources */,
@@ -3215,6 +3226,7 @@
 				D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */,
 				D82A0A1C210EFD3D0040F70A /* NSDictionary+Helper.m in Sources */,
 				4B240E90212BB2DE0077EDD4 /* THNFirstLevelCommentTableViewCell.m in Sources */,
+				D8A97AE22170A2BB00A7FAF6 /* THNMyCenterMenuView.m in Sources */,
 				D8E16E33216F3781004D8942 /* THNCustomTextTableViewCell.m in Sources */,
 				D8A9C274213A6A990059CAFD /* THNGoodsButton.m in Sources */,
 				4B2644BD21229E8400665A6D /* THNDailyRecommendModel.m in Sources */,

@@ -11,7 +11,7 @@
 #import "THNZipCodeViewController.h"
 #import "THNApplySuccessViewController.h"
 
-static NSString *const kNavigationTitle     = @"申请生活馆";
+static NSString *const kTitleApply          = @"申请生活馆";
 /// 获取验证码 api
 static NSString *const kURLVerifyCode       = @"/users/wx_bind_mobile_verify_code";
 /// 开通生活馆 api
@@ -20,7 +20,7 @@ static NSString *const kURLApply            = @"/store/apply_life_store";
 static NSString *const kResultData          = @"data";
 static NSString *const kResultVerifyCode    = @"phone_verify_code";
 /// 发送验证码 key
-static NSString *const kParamAreaCode      = @"area_code";
+static NSString *const kParamAreaCode       = @"area_code";
 static NSString *const kParamMobile         = @"mobile";
 
 @interface THNUserApplyViewController () <THNUserApplyViewDelegate>
@@ -66,7 +66,8 @@ static NSString *const kParamMobile         = @"mobile";
  开通生活馆
  */
 - (void)networkApplyLifeStoreWithParam:(NSDictionary *)param {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLApply requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -112,7 +113,7 @@ static NSString *const kParamMobile         = @"mobile";
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kNavigationTitle;
+    self.navigationBarView.title = kTitleApply;
 }
 
 #pragma mark - getters and setters
