@@ -30,11 +30,16 @@
     }
 }
 
-
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
     [self.view bringSubviewToFront:self.navigationBarView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
 }
 
 #pragma mark - custom delegate

@@ -83,7 +83,8 @@ static NSString *const kKeyRecordId = @"record_id";
 #pragma mark - network
 // 馆主信息
 - (void)requestLifeStoreInfoWithRid:(NSString *)rid completion:(void (^)(THNLifeStoreModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeStore requestDictionary:@{kKeyRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -104,7 +105,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 订单汇总
 - (void)requestLifeOrdersCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeOrdersCollectModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -124,7 +126,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 订单记录
 - (void)requestLifeOrderRecordWithParams:(NSDictionary *)params completion:(void (^)(THNLifeOrderDataModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -143,7 +146,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 收益汇总
 - (void)requestLifeOrdersSaleCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeSaleCollectModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersSaleCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -163,7 +167,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 交易记录
 - (void)requestLifeTransactionsRecordWithParams:(NSDictionary *)params completion:(void (^)(THNTransactionsDataModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLTransactionsRecord requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -182,7 +187,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 提现汇总
 - (void)requestLifeCashCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeCashCollectModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCashCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -202,7 +208,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 最近一笔提现
 - (void)requestLifeCashRecentWithRid:(NSString *)rid completion:(void (^)(CGFloat , NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCashRecent requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -216,7 +223,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 对账单列表
 - (void)requestLifeCashBillWithParams:(NSDictionary *)params completion:(void (^)(NSDictionary *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCashBill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -237,7 +245,8 @@ static NSString *const kKeyRecordId = @"record_id";
 
 // 对账单详情
 - (void)requestLifeCashBillDetailWithParams:(NSDictionary *)params completion:(void (^)(THNLifeCashBillModel *, NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCashBillDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];

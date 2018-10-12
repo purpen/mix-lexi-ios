@@ -106,7 +106,6 @@ static NSString *const kHintSex         = @"请选择性别";
 #pragma mark - textfieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if (self.type == THNSettingInfoTypeDate || self.type == THNSettingInfoTypeSex) {
-        [SVProgressHUD showInfoWithStatus:@"弹出选择器"];
         return NO;
     }
     
