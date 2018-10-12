@@ -49,6 +49,14 @@ static NSString *const kUrlTextCellIdentifier = @"kUrlTextCellIdentifier";
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    
+    if (self.textCollectionBlock) {
+        self.textCollectionBlock(grassListModel.rid);
+    }
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {

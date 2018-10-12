@@ -279,6 +279,7 @@
 		D872D35C216A1D56001F3F80 /* THNLifeHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = D872D35B216A1D56001F3F80 /* THNLifeHintView.m */; };
 		D8853EDA213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */; };
 		D898609521460E2B007ADD5D /* THNSelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D898609421460E2B007ADD5D /* THNSelectAddressViewController.m */; };
+		D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */; };
 		D8A9C26B213A6A460059CAFD /* THNGoodsTagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */; };
 		D8A9C26C213A6A460059CAFD /* THNGoodsTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */; };
 		D8A9C26D213A6A460059CAFD /* THNGoodsDirectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C268213A6A460059CAFD /* THNGoodsDirectTableViewCell.m */; };
@@ -910,6 +911,8 @@
 		D8853ED9213BD2DE00837BA5 /* THNGoodsActionButton+SelfManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNGoodsActionButton+SelfManager.m"; sourceTree = "<group>"; };
 		D898609321460E2B007ADD5D /* THNSelectAddressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectAddressViewController.h; sourceTree = "<group>"; };
 		D898609421460E2B007ADD5D /* THNSelectAddressViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectAddressViewController.m; sourceTree = "<group>"; };
+		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
+		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8A9C263213A6A460059CAFD /* THNGoodsDirectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsDirectTableViewCell.h; sourceTree = "<group>"; };
 		D8A9C264213A6A460059CAFD /* THNGoodsTagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTagTableViewCell.m; sourceTree = "<group>"; };
 		D8A9C265213A6A460059CAFD /* THNGoodsTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsTitleTableViewCell.m; sourceTree = "<group>"; };
@@ -1987,6 +1990,8 @@
 				D85DA7C42106030100A36A71 /* UIColor+Extension.m */,
 				D85DA7C82106030100A36A71 /* UIImage+Helper.h */,
 				D85DA7BC2106030100A36A71 /* UIImage+Helper.m */,
+				D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */,
+				D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */,
 				D85DA7BD2106030100A36A71 /* UIImageView+SDWedImage.h */,
 				D85DA7B32106030100A36A71 /* UIImageView+SDWedImage.m */,
 				D85DA7B62106030100A36A71 /* UILable+Frame.h */,
@@ -3147,6 +3152,7 @@
 				D85DA7FE2106030200A36A71 /* UIView+HandyAutoLayout.m in Sources */,
 				D81A13AD216CB73D00757262 /* THNLifeCashBillTableViewCell.m in Sources */,
 				D8247E7F21461B7A000C8E37 /* THNPaySuccessViewController.m in Sources */,
+				D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */,
 				4B34A053216DDF6E001099CB /* THNEvaluationViewController.m in Sources */,
 				D8BAC9BD211A949100667D6F /* THNLoginManager.m in Sources */,
 				D83F4F97216D9D3A0049B0A5 /* THNApplyStoreViewController.m in Sources */,

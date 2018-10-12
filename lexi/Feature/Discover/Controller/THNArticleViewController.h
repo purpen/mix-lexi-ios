@@ -10,4 +10,7 @@
 
 @interface THNArticleViewController : THNBaseViewController
 
+//生活志编号
+@property (nonatomic, assign) NSInteger rid;
+
 @end

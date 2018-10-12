@@ -14,6 +14,7 @@
 #import <MJExtension/MJExtension.h>
 #import "UIView+Helper.h"
 #import "THNGoodsInfoViewController.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kUrlFeatureStore = @"/column/feature_store_all";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
@@ -42,10 +43,15 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
 }
 
 - (void)loadFeatureStoreData {
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlFeatureStore requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.stores = result.data[@"stores"];
         [self.tableView reloadData];
+        
+        [SVProgressHUD dismiss];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

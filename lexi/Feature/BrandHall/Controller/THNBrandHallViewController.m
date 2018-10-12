@@ -89,6 +89,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     // 商品类别 0: 全部; 1：自营商品；2：分销商品
     params[@"is_distributed"] = @(1);
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.products = result.data[@"products"];
@@ -103,6 +106,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadOffcialStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
@@ -116,6 +122,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadOffcialStoreAnnouncementData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStoreAnnouncement requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
@@ -129,6 +138,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadUserMasterCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.loginCoupons = result.data[@"coupons"];
@@ -142,6 +154,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadNotLoginCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSArray *allCoupons = result.data[@"coupons"];
@@ -165,9 +180,14 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadLifeRecordData{
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         self.lifeRecords = result.data[@"life_records"];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

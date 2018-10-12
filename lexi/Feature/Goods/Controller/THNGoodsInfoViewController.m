@@ -30,6 +30,8 @@
 #import "THNGoodsContactTableViewCell.h"
 #import "THNGoodsContentTableViewCell.h"
 #import "THNCartViewController.h"
+#import "THNBrandHallViewController.h"
+#import <SDWebImage/UIImage+MultiFormat.h>
 
 static NSInteger const kFooterHeight = 18;
 
@@ -127,7 +129,7 @@ static NSInteger const kFooterHeight = 18;
  获取商品详情数据
  */
 - (void)thn_getGoodsInfoDataWithGoodsId:(NSString *)goodsId {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     if (!goodsId.length) return;
     
     WEAKSELF;
@@ -340,7 +342,9 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     THNGoodsTableViewCells *storeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^(NSString *rid) {
-        [SVProgressHUD showInfoWithStatus:@"查看店铺信息"];
+        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+        brandHall.rid = rid;
+        [weakSelf.navigationController pushViewController:brandHall animated:YES];
     }];
     storeCells.height = 85;
     storeCells.storeModel = model;
@@ -445,11 +449,10 @@ static NSInteger const kFooterHeight = 18;
 }
 
 /**
- 获取商品详情的高度
+ 获取图文详情的高度
  */
 - (CGFloat)thn_getGoodsDealContentHeightWithContent:(NSArray *)content {
     CGFloat contentH = 0.0;
-    CGFloat imageH = (kScreenWidth - 30) * 0.66;
     
     for (THNGoodsModelDealContent *model in content) {
         if ([model.type isEqualToString:@"text"]) {
@@ -460,7 +463,11 @@ static NSInteger const kFooterHeight = 18;
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
-            contentH += (imageH + 10);
+            UIImage *contentImage = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.content]]];
+            CGFloat image_scale = (kScreenWidth - 30) / contentImage.size.width;
+            CGFloat image_h = contentImage.size.height * image_scale;
+            
+            contentH += (image_h + 10);
         }
     }
     

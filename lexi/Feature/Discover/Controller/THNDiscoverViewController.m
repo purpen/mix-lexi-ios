@@ -15,6 +15,7 @@
 #import "THNBannerView.h"
 #import "THNDidcoverSetView.h"
 #import "UIView+Helper.h"
+#import "THNArticleViewController.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
@@ -35,7 +36,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self loadWonderfulStoriesData];
     [self loadGuessLikesData];
     [self loadBannerData];
@@ -106,6 +106,13 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
             cell.collectionView.dataArray = self.wonderfulStories;
             break;
     }
+    
+    cell.collectionView.textCollectionBlock = ^(NSInteger rid) {
+        THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+        articleVC.rid = rid;
+        [self.navigationController pushViewController:articleVC animated:YES];
+    };
+    
     [cell.collectionView reloadData];
     return cell;
 }
