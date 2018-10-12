@@ -9,13 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class THNGoodsModelDealContent;
+
 @interface THNGrassListModel : NSObject
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *content;
+@property (nonatomic, strong) NSString *des;
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *user_avator;
+@property (nonatomic, strong) NSString *channel_name;
 @property (nonatomic, assign) CGFloat grassLabelHeight;
+// 生活志编号
+@property (nonatomic, assign) NSInteger rid;
+@property (nonatomic, strong) NSArray <THNGoodsModelDealContent *> *deal_content;
 
 @end
