@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -70,7 +70,7 @@
                                     <constraint firstAttribute="width" constant="100" id="A9t-yT-R3c"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="80" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="   " image="icon_ arrow_right_gray"/>
+                                <state key="normal" title="   " image="icon_arrow_right_gray"/>
                                 <connections>
                                     <action selector="selectCouponButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="92n-cL-7ZX"/>
                                 </connections>
@@ -125,7 +125,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psR-tY-gXh">
-                        <rect key="frame" x="380.5" y="500.5" width="30.5" height="17"/>
+                        <rect key="frame" x="380.5" y="500" width="30.5" height="17"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -244,7 +244,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon_ arrow_right_gray" width="4" height="9"/>
+        <image name="icon_arrow_right_gray" width="4.5" height="9"/>
         <image name="icon_less" width="15" height="15"/>
         <image name="icon_order_edit" width="15" height="15"/>
         <image name="icon_order_gift" width="15" height="15"/>

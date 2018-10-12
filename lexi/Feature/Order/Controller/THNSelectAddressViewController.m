@@ -14,16 +14,17 @@
 #import "NSString+Helper.h"
 #import "THNNewShippingAddressViewController.h"
 
-static NSString *kTitleDone  = @"继续以确认订单";
+static NSString *const kTitleDone  = @"继续以确认订单";
 ///
-static NSString *kURLAddress = @"/address";
-static NSString *kKeyData    = @"data";
+static NSString *const kURLAddress = @"/address";
+static NSString *const kKeyData    = @"data";
 
 @interface THNSelectAddressViewController () <
     THNNavigationBarViewDelegate,
     UITableViewDelegate,
     UITableViewDataSource,
-    THNAddressTableViewCellDelegate>
+    THNAddressTableViewCellDelegate
+>
 
 /// 完成按钮
 @property (nonatomic, strong) UIButton *doneButton;
@@ -44,12 +45,14 @@ static NSString *kKeyData    = @"data";
     [super viewDidLoad];
     
     [self setupUI];
-    [self thn_requestAddressData];
 }
-
 
 #pragma mark - network
 - (void)thn_requestAddressData {
+    if (self.addressArr.count) {
+        [self.addressArr removeAllObjects];
+    }
+    
     [SVProgressHUD show];
     
     WEAKSELF;
@@ -97,7 +100,7 @@ static NSString *kKeyData    = @"data";
         return;
     }
     
-    self.selectedIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    self.selectedIndex = self.selectedIndex ? self.selectedIndex : [NSIndexPath indexPathForRow:0 inSection:0];
     [self thn_setDoneButtonStatus:YES];
 }
 
@@ -167,7 +170,8 @@ static NSString *kKeyData    = @"data";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        THNAddressTableViewCell *addressCell = [THNAddressTableViewCell initAddressCellWithTableView:tableView];
+        THNAddressTableViewCell *addressCell = [THNAddressTableViewCell initAddressCellWithTableView:tableView
+                                                                                                type:(THNAddressCellTypeSelect)];
         
         if (self.addressArr.count) {
             addressCell.model = self.addressArr[indexPath.row];
@@ -205,6 +209,7 @@ static NSString *kKeyData    = @"data";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_requestAddressData];
 }
 
 - (void)setNavigationBar {

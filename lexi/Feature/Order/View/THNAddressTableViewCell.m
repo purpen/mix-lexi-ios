@@ -34,22 +34,23 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         [self setupCellViewUI];
     }
     return self;
 }
 
-+ (instancetype)initAddressCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style {
++ (instancetype)initAddressCellWithTableView:(UITableView *)tableView cellStyle:(UITableViewCellStyle)style type:(THNAddressCellType)type  {
     THNAddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAddressTableViewCellId];
     if (!cell) {
         cell = [[THNAddressTableViewCell alloc] initWithStyle:style reuseIdentifier:kAddressTableViewCellId];
+        cell.type = type;
+        NSLog(@"---------- %zi === %zi", type, cell.type);
     }
     return cell;
 }
 
-+ (instancetype)initAddressCellWithTableView:(UITableView *)tableView {
-    return [self initAddressCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault)];
++ (instancetype)initAddressCellWithTableView:(UITableView *)tableView type:(THNAddressCellType)type {
+    return [self initAddressCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault) type:type];
 }
 
 - (void)setModel:(THNAddressModel *)model {
@@ -90,7 +91,7 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     }];
     
     [self.namelabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(52);
+        make.left.mas_equalTo(self.type == THNAddressCellTypeNormal ? 15 : 52);
         make.top.mas_equalTo(15);
         make.right.mas_equalTo(-44);
         make.height.mas_equalTo(16);
@@ -130,6 +131,12 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     _isSelected = isSelected;
     
     self.selectButton.selected = isSelected;
+}
+
+- (void)setType:(THNAddressCellType)type {
+    _type = type;
+    
+    self.selectButton.hidden = type == THNAddressCellTypeNormal;
 }
 
 - (UIButton *)selectButton {
