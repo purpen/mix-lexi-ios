@@ -59,5 +59,12 @@ static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollect
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.brandModel.products[indexPath.row]];
+    if (self.brandHallFeaturesBlock) {
+        self.brandHallFeaturesBlock(productModel.rid);
+    }
+}
+
 
 @end

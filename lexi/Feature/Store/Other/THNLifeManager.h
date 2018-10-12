@@ -13,6 +13,7 @@
 #import "THNLifeCashCollectModel.h"
 #import "THNTransactionsDataModel.h"
 #import "THNLifeOrderDataModel.h"
+#import "THNLifeCashBillModel.h"
 
 @interface THNLifeManager : NSObject
 
@@ -45,7 +46,12 @@
 // 对账单列表
 + (void)getLifeCashBillWithRid:(NSString *)rid
                         params:(NSDictionary *)params
-                    completion:(void (^)(NSError *error))completion;
+                    completion:(void (^)(NSDictionary *dataDict, NSError *error))completion;
+
+// 对账单详情
++ (void)getLifeCashBillDetailWithRid:(NSString *)rid
+                            recordId:(NSString *)recordId
+                          completion:(void (^)(THNLifeCashBillModel *model, NSError *error))completion;
 
 // 最近一笔提现金额
 + (void)getLifeCashRecentWithRid:(NSString *)rid

@@ -13,6 +13,7 @@
 #import "THNFeaturedBrandModel.h"
 #import <MJExtension/MJExtension.h>
 #import "UIView+Helper.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kUrlFeatureStore = @"/column/feature_store_all";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
@@ -38,7 +39,6 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.rowHeight = kBrandHallFeaturesHeight;
-
 }
 
 - (void)loadFeatureStoreData {
@@ -61,6 +61,13 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     if (!cell) {
         cell = [THNBrandHallFeaturesTableViewCell viewFromXib];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.brandHallFeaturesBlock = ^(NSString *rid) {
+        THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+        [self.navigationController pushViewController:goodInfo animated:YES];
+    };
     THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
     [cell setBrandModel:brandModel];
     return cell;

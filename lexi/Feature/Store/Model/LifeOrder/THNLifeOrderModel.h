@@ -16,6 +16,7 @@
 @property (nonatomic, assign) CGFloat pay_amount;
 @property (nonatomic, assign) NSInteger life_order_status;
 @property (nonatomic, strong) NSDictionary *store;
+@property (nonatomic, strong) NSDictionary *user_info;
 @property (nonatomic, strong) NSArray *items;
 
 @end

@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "THNLifeOrderModel.h"
 
 @interface THNLifeOrderStoreTableViewCell : UITableViewCell
 
-@end
+- (void)thn_setLifeOrderData:(THNLifeOrderModel *)model;
 
-NS_ASSUME_NONNULL_END
+@end

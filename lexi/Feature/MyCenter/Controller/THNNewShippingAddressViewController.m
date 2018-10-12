@@ -103,15 +103,16 @@ UITextFieldDelegate
     if (self.addressModel) {
         self.isDefaultAddress = self.addressModel.isDefault;
         [self loadGetaddressCustomData];
+        self.navigationBarView.title = @"编辑收货地址";
         
     } else {
+        self.navigationBarView.title = @"新增收货地址";
         self.isShowCardView = self.isSaveCustom;
     }
 }
 
 - (void)setupUI {
     [self.view addSubview:self.tableView];
-    self.navigationBarView.title = @"新增收货地址";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNNewShippingAddressTableViewCell" bundle:nil] forCellReuseIdentifier:kAddressCellIdentifier];
     [self.view addSubview:self.saveView];
     self.imagePickerController = [[UIImagePickerController alloc] init];
