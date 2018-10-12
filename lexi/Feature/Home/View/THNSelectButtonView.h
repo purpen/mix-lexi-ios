@@ -10,7 +10,7 @@
 
 /**
  - ButtonTypeDefault: 纯文字
- - ButtonTypeTriangle: 文字和三角形图片
+ - ButtonTypeLine: 线状
  */
 typedef NS_ENUM(NSUInteger, ButtonType) {
     ButtonTypeDefault,

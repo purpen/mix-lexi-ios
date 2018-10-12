@@ -137,7 +137,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 #pragma mark - network
 // 头部用户信息
 - (void)thn_setUserHeaderView {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     
@@ -163,7 +163,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
     
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     
@@ -212,8 +212,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 // 喜欢的橱窗
 - (void)thn_setLikedWindowTableViewCell {
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     WEAKSELF;
-    [SVProgressHUD show];
+    
     [THNUserManager getUserLikedWindowWithParams:@{} completion:^(NSArray *windowData, NSError *error) {
         [SVProgressHUD dismiss];
         if (error) return;
@@ -243,8 +245,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 // 关注的设计馆
 - (void)thn_setFollowStoreTableViewCell {
+    [SVProgressHUD showInfoWithStatus:@""];
+    
     WEAKSELF;
-    [SVProgressHUD show];
+    
     [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
         [SVProgressHUD dismiss];
         if (error) return;
