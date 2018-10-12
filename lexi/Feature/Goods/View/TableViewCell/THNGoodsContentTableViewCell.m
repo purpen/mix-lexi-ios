@@ -32,11 +32,15 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
 }
 
 - (void)thn_setContentWithGoodsModel:(THNGoodsModel *)model {
+    [self thn_setContentData:model.dealContent];
+}
+
+- (void)thn_setContentData:(NSArray *)content {
     if (self.subviews.count > 1) return;
     
     self.originY = 0;
     
-    for (THNGoodsModelDealContent *contentModel in model.dealContent) {
+    for (THNGoodsModelDealContent *contentModel in content) {
         if ([contentModel.type isEqualToString:@"text"]) {
             [self thn_creatAttributedStringWithText:contentModel.content];
             
@@ -86,26 +90,41 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
  图片内容
  */
 - (void)thn_creatAttributedStringWithImage:(NSString *)imageUrl {
+    __weak __typeof(self)weakSelf = self;
+    
     UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView setImageWithURL:[NSURL URLWithString:imageUrl]
-                   placeholder:[UIImage imageNamed:@"default_goods_place"]
-                       options:(YYWebImageOptionSetImageWithFadeAnimation)
-                      progress:nil
-                     transform:^UIImage * _Nullable(UIImage * _Nonnull image, NSURL * _Nonnull url) {
-                         image = [image imageByResizeToSize:CGSizeMake(kScreenWidth - 30, (kScreenWidth - 30) * 0.66)
-                                                contentMode:UIViewContentModeScaleAspectFill];
-                         return image;
-                     }
-                    completion:nil];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+
+    [imageView downloadImage:imageUrl
+                       place:[UIImage imageNamed:@"default_goods_place"]
+                   completed:^(UIImage *image, NSError *error) {
+                       image = [image imageByResizeToSize:[weakSelf thn_getContentImageSizeWithImage:image]
+                                              contentMode:UIViewContentModeScaleAspectFill];
+                   }];
     
     [self addSubview:imageView];
+    
+    UIImage *contentImage = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+    CGSize contentImageSize = [self thn_getContentImageSizeWithImage:contentImage];
+    
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenWidth - 30, (kScreenWidth - 30) * 0.66));
+        make.size.mas_equalTo(contentImageSize);
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(self.originY);
     }];
     
-    self.originY += ((kScreenWidth - 30) * 0.66 + 10);
+    self.originY += (contentImageSize.height + 10);
+}
+
+/**
+ 获取图片的尺寸
+ */
+- (CGSize)thn_getContentImageSizeWithImage:(UIImage *)image {
+    CGFloat image_scale = (kScreenWidth - 30) / image.size.width;
+    CGFloat image_w = kScreenWidth - 30;
+    CGFloat image_h = image.size.height * image_scale;
+    
+    return CGSizeMake(image_w, image_h);
 }
 
 @end

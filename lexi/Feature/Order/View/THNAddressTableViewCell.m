@@ -44,7 +44,6 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     if (!cell) {
         cell = [[THNAddressTableViewCell alloc] initWithStyle:style reuseIdentifier:kAddressTableViewCellId];
         cell.type = type;
-        NSLog(@"---------- %zi === %zi", type, cell.type);
     }
     return cell;
 }
