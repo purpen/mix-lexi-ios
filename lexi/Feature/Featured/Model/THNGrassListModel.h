@@ -11,6 +11,10 @@
 
 @class THNGoodsModelDealContent;
 
+UIKIT_EXTERN NSString *const creatorStoryTitle;
+UIKIT_EXTERN NSString *const lifeRememberTitle;
+UIKIT_EXTERN NSString *const handTeachTitle;
+
 @interface THNGrassListModel : NSObject
 
 @property (nonatomic, strong) NSString *title;
@@ -22,6 +26,10 @@
 @property (nonatomic, assign) CGFloat grassLabelHeight;
 // 生活志编号
 @property (nonatomic, assign) NSInteger rid;
+// 浏览人数
+@property (nonatomic, assign) NSInteger browse_count;
+// 发布时间
+@property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, strong) NSArray <THNGoodsModelDealContent *> *deal_content;
 
 @end
