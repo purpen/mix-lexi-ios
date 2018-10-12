@@ -136,15 +136,6 @@ static NSString *const kKeyAddress      = @"street_address";
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 4) {
-        [SVProgressHUD showInfoWithStatus:@"弹出日期选择器"];
-        
-    } else if (indexPath.row == 5) {
-        [SVProgressHUD showInfoWithStatus:@"弹出性别选择器"];
-    }
-}
-
 #pragma mark - getters and setters
 - (UITableView *)settingTable {
     if (!_settingTable) {

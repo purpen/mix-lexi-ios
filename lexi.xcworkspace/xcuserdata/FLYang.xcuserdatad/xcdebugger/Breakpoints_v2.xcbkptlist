@@ -17,6 +17,53 @@
             endingLineNumber = "251"
             landmarkName = "-save"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[THNNewShippingAddressViewController save]"
+                  moduleName = "lexi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/FLYang/mix-lexi-ios/lexi/Feature/MyCenter/Controller/THNNewShippingAddressViewController.m"
+                  timestampString = "561039181.8009239"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "2684">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__43-[THNNewShippingAddressViewController save]_block_invoke_2"
+                  moduleName = "lexi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/FLYang/mix-lexi-ios/lexi/Feature/MyCenter/Controller/THNNewShippingAddressViewController.m"
+                  timestampString = "561039181.811523"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.286"
+                  moduleName = "lexi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/FLYang/mix-lexi-ios/lexi/Feature/MyCenter/Controller/THNNewShippingAddressViewController.m"
+                  timestampString = "561039181.81978"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

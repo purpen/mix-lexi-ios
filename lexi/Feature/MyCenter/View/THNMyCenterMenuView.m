@@ -37,9 +37,10 @@ static NSInteger const kMenuButtonTag   = 516;
 
 #pragma mark - event response
 - (void)menuButtonAction:(UIButton *)button {
-    button.selected = YES;
     self.selectedButton.selected = NO;
+    button.selected = YES;
     self.selectedButton = button;
+    
     NSInteger index = button.tag - kMenuButtonTag;
     
     [self thn_uploadLineViewFrameWithIndex:index];
