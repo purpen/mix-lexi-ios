@@ -69,10 +69,7 @@ static NSString *const kKeyDate     = @"date_range";
     
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
-                                             if (error) {
-                                                 [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                                 return ;
-                                             }
+                                             if (error) return;
                                              
                                              [weakSelf.earningsView thn_setLifeSaleColleciton:model];
                                          }];
@@ -84,10 +81,7 @@ static NSString *const kKeyDate     = @"date_range";
     [THNLifeManager getLifeTransactionsRecordWithRid:[THNLoginManager sharedManager].storeRid
                                               params:[self thn_getRequestParams]
                                           completion:^(THNTransactionsDataModel *model, NSError *error) {
-                                              if (error) {
-                                                  [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-                                                  return ;
-                                              }
+                                              if (error) return;
                                               
                                               weakSelf.modelArr = [NSArray arrayWithArray:model.transactions];
                                               [weakSelf.segmentView thn_setTransactionReadData:model];

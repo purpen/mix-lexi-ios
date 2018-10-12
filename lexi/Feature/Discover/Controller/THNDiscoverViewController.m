@@ -35,6 +35,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self loadWonderfulStoriesData];
     [self loadGuessLikesData];
     [self loadBannerData];
@@ -49,10 +50,13 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 #pragma mark - 请求数据
 // banner
 - (void)loadBannerData {
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlDiscoverBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
+        
         
     }];
 }

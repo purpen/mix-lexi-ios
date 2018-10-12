@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^BrandHallFeaturesBlock)(NSString *rid);
+
 @class THNFeaturedBrandModel;
 
 @interface THNBrandHallFeaturesTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNFeaturedBrandModel *brandModel;
+@property (nonatomic, copy) BrandHallFeaturesBlock brandHallFeaturesBlock;
 
 @end

@@ -9,6 +9,7 @@
 #import "THNLifeCashBillTableViewCell.h"
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
+#import <DateTools/DateTools.h>
 
 static NSString *const kTextPrice   = @"提现金额";
 static NSString *const kTextLoding  = @"审核中";
@@ -34,15 +35,20 @@ static NSString *const kTextError   = @"提现失败";
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setupCellViewUI];
-        [self thn_setData];
     }
     return self;
 }
 
-- (void)thn_setData {
-    self.timeLabel.text = @"2018-08-07 12:39:21";
-    self.moneyLabel.text = @"+4.96";
-    self.statusLabel.text = @"提现失败";
+- (void)thn_setLifeCashRecordData:(NSDictionary *)dict {
+    THNLifeCashBillModel *model = [THNLifeCashBillModel mj_objectWithKeyValues:dict];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
+    self.timeLabel.text = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", model.actual_amount];
+    NSArray *statusArr = @[@"审核中", @"提现成功", @"提现失败"];
+    NSArray *statusColors = @[@"#FB9013", @"#5FE4B1", @"#FF6666"];
+    self.statusLabel.text = statusArr[model.status - 1];
+    self.statusLabel.textColor = [UIColor colorWithHexString:statusColors[model.status - 1]];
 }
 
 #pragma mark - setup UI
