@@ -13,9 +13,6 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 
-static NSString *const creatorStoryTitle = @"创作人故事";
-static NSString *const lifeRememberTitle = @"生活记事";
-static NSString *const handTeachTitle = @"手作教学";
 
 @interface THNGrassListCollectionViewCell()
 

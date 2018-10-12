@@ -12,6 +12,8 @@
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import "THNGrassListModel.h"
 #import "THNGoodsModelDealContent.h"
+#import "THNArticleHeaderView.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kArticleContentCellIdentifier = @"kArticleContentCellIdentifier";
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
@@ -21,26 +23,39 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) THNGrassListModel *grassListModel;
 @property (nonatomic, strong) NSMutableArray *contentModels;
+@property (nonatomic, strong) THNArticleHeaderView *articleHeaderView;
 
 @end
 
-@implementation THNArticleViewController
+@implementation THNArticleViewController {
+    CGFloat tableViewY;
+    CGFloat articleHeaderViewHeight;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    tableViewY = kDeviceiPhoneX ? -44 : -22;
+    articleHeaderViewHeight =  kDeviceiPhoneX ? 340 + 88 + 44 : 340 + 64 + 22;
     [self loadLifeRecordsDetailData];
     [self setupUI];
 }
 
 - (void)setupUI {
+    self.navigationBarView.transparent = YES;
+    [self.navigationBarView setNavigationCloseButton];
+    [self.navigationBarView setNavigationCloseButtonHidden:YES];
     [self.view addSubview:self.tableView];
+//    self.tableView.hidden = YES;
 }
 
 - (void)loadLifeRecordsDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = @(self.rid);
+    [SVProgressHUD showInfoWithStatus:@""];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+//        self.tableView.hidden = NO;
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         
         for (NSDictionary *dict in self.grassListModel.deal_content) {
@@ -48,7 +63,8 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
             [self.contentModels addObject:contenModel];
         }
         
-//        [self.tableView reloadData];
+        [self.tableView reloadData];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -99,9 +115,27 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
     return [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    if (self.grassListModel) {
+        [self.articleHeaderView setGrassListModel:self.grassListModel];
+    }
+   
+    return self.articleHeaderView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    CGSize titleSize = CGSizeMake(SCREEN_WIDTH - 40, 56);
+    NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:20]};
+    CGFloat titleHeight = [self.grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+    return articleHeaderViewHeight + titleHeight;
+}
+
+#pragma mark - lazy
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT ) style:UITableViewStyleGrouped];
+        
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableViewY, SCREEN_WIDTH, SCREEN_HEIGHT ) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc]init];
@@ -111,6 +145,13 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
         [_tableView registerNib:[UINib nibWithNibName:@"THNGoodsContentTableViewCell" bundle:nil] forCellReuseIdentifier:kArticleContentCellIdentifier];
     }
     return _tableView;
+}
+
+- (THNArticleHeaderView *)articleHeaderView {
+    if (!_articleHeaderView) {
+        _articleHeaderView = [THNArticleHeaderView viewFromXib];
+    }
+    return _articleHeaderView;
 }
 
 - (NSMutableArray *)contentModels {
