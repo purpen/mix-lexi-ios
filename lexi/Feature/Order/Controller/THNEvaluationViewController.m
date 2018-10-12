@@ -30,6 +30,12 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self setCommentParams];
+    
+}
+
+// 设置提交订单的参数
+- (void)setCommentParams {
     for (NSDictionary *dict in self.products) {
         NSMutableDictionary *itemDict = [NSMutableDictionary dictionary];
         itemDict[@"sku_rid"] = dict[@"rid"];
@@ -48,7 +54,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     params[@"items"] = self.items;
     THNRequest *request = [THNAPI postWithUrlString:kCreateComment requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        [self.navigationController popViewControllerAnimated:YES];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -141,6 +147,5 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     }
     return _items;
 }
-
 
 @end
