@@ -10,6 +10,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "UIColor+Extension.h"
+#import "UIImage+GIF.h"
 #import "THNConst.h"
 #import "THNBaseNavigationController.h"
 #import "THNBaseTabBarController.h"
@@ -52,10 +53,13 @@
 #pragma mark - 第三方库设置
 - (void)setThirdExpandConfig {
     //  SVP颜色设置
-    [SVProgressHUD setDefaultAnimationType:(SVProgressHUDAnimationTypeNative)];
-    [SVProgressHUD setMinimumSize:CGSizeMake(5, 5)];
-    [SVProgressHUD setDefaultMaskType:(SVProgressHUDMaskTypeNone)];
-    [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)2];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:0]];
+    [SVProgressHUD setMinimumDismissTimeInterval:CGFLOAT_MAX];
+    NSData *gifData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"loading" ofType:@".gif"]];
+    [SVProgressHUD setInfoImage:[UIImage imageWithGifData:gifData]];
+    [SVProgressHUD setImageViewSize:CGSizeMake(80, 80)];
     
     //  键盘弹起模式
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];

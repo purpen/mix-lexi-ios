@@ -15,4 +15,9 @@
  */
 - (void)thn_setContentWithGoodsModel:(THNGoodsModel *)model;
 
+/**
+ 图文详情内容
+ */
+- (void)thn_setContentData:(NSArray *)content;
+
 @end
