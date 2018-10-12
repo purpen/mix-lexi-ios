@@ -160,7 +160,12 @@ MJCodingImplementation
             [SVProgressHUD showInfoWithStatus:result.statusMessage];
             return ;
         }
+        
+        self.userData = result.data;
+        [self saveLoginInfo];
+    
         completion(result, nil);
+        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);

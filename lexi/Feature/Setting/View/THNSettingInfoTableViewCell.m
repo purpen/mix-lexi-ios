@@ -179,8 +179,20 @@ static NSString *const kHintSex         = @"请选择性别";
 }
 
 #pragma mark -
+- (BOOL)willDealloc {
+    __weak id weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [weakSelf assertNotDealloc];
+    });
+    return YES;
+}
+
+- (void)assertNotDealloc {
+    NSAssert(NO, @"");
+}
+
 - (void)dealloc {
-    [self.infoTextField endEditing:YES];
+    [self.infoTextField resignFirstResponder];
 }
 
 @end

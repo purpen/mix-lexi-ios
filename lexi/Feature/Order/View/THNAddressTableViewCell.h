@@ -10,6 +10,11 @@
 #import "THNAddressModel.h"
 @class THNAddressTableViewCell;
 
+typedef NS_ENUM(NSUInteger, THNAddressCellType) {
+    THNAddressCellTypeSelect = 0,  // 可选择
+    THNAddressCellTypeNormal,
+};
+
 @protocol THNAddressTableViewCellDelegate <NSObject>
 
 @optional
@@ -21,8 +26,9 @@
 
 @property (nonatomic, strong) THNAddressModel *model;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, assign) THNAddressCellType type;
 @property (nonatomic, weak) id <THNAddressTableViewCellDelegate> delegate;
 
-+ (instancetype)initAddressCellWithTableView:(UITableView *)tableView;
++ (instancetype)initAddressCellWithTableView:(UITableView *)tableView type:(THNAddressCellType)type;
 
 @end

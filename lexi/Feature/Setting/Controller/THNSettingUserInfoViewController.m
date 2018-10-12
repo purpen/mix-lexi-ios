@@ -61,6 +61,8 @@ static NSString *const kKeyAddress      = @"street_address";
 
 #pragma mark - event response
 - (void)saveButtonAction:(UIButton *)button {
+    WEAKSELF;
+    
     [[THNLoginManager sharedManager] updateUserProfileWithParams:[self thn_getEditUserInfoData]
                                                       completion:^(THNResponse *data, NSError *error) {
                                                           if (error) {
@@ -68,7 +70,7 @@ static NSString *const kKeyAddress      = @"street_address";
                                                               return ;
                                                           }
                                                           
-                                                          [SVProgressHUD showSuccessWithStatus:@"更新成功"];
+                                                          [weakSelf.navigationController popViewControllerAnimated:YES];
                                                       }];
 }
 
@@ -107,6 +109,12 @@ static NSString *const kKeyAddress      = @"street_address";
 
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleSetting;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - tableView datasource & delegate
