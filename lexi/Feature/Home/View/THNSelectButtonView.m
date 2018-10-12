@@ -133,8 +133,8 @@
         }];
         
     } else {
-        btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
-        self.selectBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+        btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:17];
+        self.selectBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
     }
 }
 
