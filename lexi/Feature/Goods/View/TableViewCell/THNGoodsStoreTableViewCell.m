@@ -23,6 +23,10 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
 @property (nonatomic, strong) UILabel *typeLabel;
 /// 关注按钮
 @property (nonatomic, strong) THNFollowStoreButton *followButton;
+/// 查看按钮
+@property (nonatomic, strong) UIButton *checkButton;
+/// 店铺id
+@property (nonatomic, strong) NSString *storeId;
 
 @end
 
@@ -42,6 +46,12 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     self.typeLabel.text = kTextType;
     self.titleLabel.text = model.name;
     [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeRid:model.rid];
+    self.storeId = model.rid;
+}
+
+#pragma mark - event response
+- (void)checkButtonAction:(UIButton *)button {
+    self.baseCell.selectedCellBlock(self.storeId);
 }
 
 #pragma mark - setup UI
@@ -50,6 +60,7 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     [self addSubview:self.titleLabel];
     [self addSubview:self.typeLabel];
     [self addSubview:self.followButton];
+    [self addSubview:self.checkButton];
 }
 
 - (void)layoutSubviews {
@@ -80,6 +91,12 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
         make.centerY.mas_equalTo(self.headerImageView);
     }];
     [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    
+    [self.checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(0);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(120);
+    }];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -121,6 +138,15 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
         _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowButtonTypeGoodsInfo)];
     }
     return _followButton;
+}
+
+- (UIButton *)checkButton {
+    if (!_checkButton) {
+        _checkButton = [[UIButton alloc] init];
+        _checkButton.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
+        [_checkButton addTarget:self action:@selector(checkButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _checkButton;
 }
 
 @end
