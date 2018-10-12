@@ -27,6 +27,7 @@
 #import "THNBrandHallViewController.h"
 #import "THNUserApplyViewController.h"
 #import "THNSettingViewController.h"
+#import "THNSettingUserInfoViewController.h"
 #import "THNLifeManagementViewController.h"
 
 /// seciton header 默认的标题
@@ -111,6 +112,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         }
             break;
     }
+}
+
+- (void)thn_selectedUserHeadImage {
+    THNSettingUserInfoViewController *setUserInfoVC = [[THNSettingUserInfoViewController alloc] init];
+    [self.navigationController pushViewController:setUserInfoVC animated:YES];
 }
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
