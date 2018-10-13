@@ -30,6 +30,7 @@ UIKIT_EXTERN NSString *const handTeachTitle;
 @property (nonatomic, assign) NSInteger browse_count;
 // 发布时间
 @property (nonatomic, strong) NSString *created_at;
+@property (nonatomic, strong) NSDictionary *recommend_store;
 @property (nonatomic, strong) NSArray <THNGoodsModelDealContent *> *deal_content;
 
 @end
