@@ -457,7 +457,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout];
+        CGFloat height = SCREEN_WIDTH == 414? 220 : 200;
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, height) collectionViewLayout:flowLayout];
     }
     return _featuredCollectionView;
 }

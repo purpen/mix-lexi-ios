@@ -108,7 +108,6 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     params[@"rid"] = self.rid;
     
     [SVProgressHUD showInfoWithStatus:@""];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
@@ -199,7 +198,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
     [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
     [self.view addSubview:self.collectionView];
-     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallProductCellIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallProductCellIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallLifeRecordsCellIdentifier];
      [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kBrandHallHeaderViewIdentifier];
      self.collectionView.backgroundColor = [UIColor whiteColor];
