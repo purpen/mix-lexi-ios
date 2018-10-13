@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MJExtension/MJExtension.h>
 
 @interface THNLifeOrderStoreModel : NSObject
 
 @property (nonatomic, strong) NSString *store_logo;
 @property (nonatomic, strong) NSString *store_name;
 @property (nonatomic, strong) NSString *store_rid;
+@property (nonatomic, assign) NSInteger product_counts;
 
 @end

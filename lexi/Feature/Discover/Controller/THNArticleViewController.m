@@ -14,16 +14,39 @@
 #import "THNGoodsModelDealContent.h"
 #import "THNArticleHeaderView.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "UIViewController+THNHud.h"
+#import "THNArticleStoreTableViewCell.h"
+#import "THNLifeOrderStoreModel.h"
+#import "THNArticleStoryTableViewCell.h"
+#import "THNArticleProductTableViewCell.h"
+
+static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
+static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
+static NSString *const kUrlLifeRecordsRecommendStory = @"/life_records/similar";
 
 static NSString *const kArticleContentCellIdentifier = @"kArticleContentCellIdentifier";
-static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
+static NSString *const KArticleCellTypeArticle = @"article";
+static NSString *const kArticleCellTypeStore = @"store";
+static NSString *const kArticleCellTypeProduct = @"product";
+static NSString *const kArticleCellTypeStory = @"story";
+
+typedef NS_ENUM(NSUInteger, ArticleCellType) {
+    ArticleCellTypeArticle,
+    ArticleCellTypeStore,
+    ArticleCellTypeProduct,
+    ArticleCellTypeStory
+};
 
 @interface THNArticleViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) THNGrassListModel *grassListModel;
 @property (nonatomic, strong) NSMutableArray *contentModels;
+@property (nonatomic, strong) NSArray *lifeRecords;
+@property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) THNArticleHeaderView *articleHeaderView;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) ArticleCellType articleCellType;
 
 @end
 
@@ -37,6 +60,7 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
     tableViewY = kDeviceiPhoneX ? -44 : -22;
     articleHeaderViewHeight =  kDeviceiPhoneX ? 340 + 88 + 44 : 340 + 64 + 22;
     [self loadLifeRecordsDetailData];
+    [self loadRecommendProductData];
     [self setupUI];
 }
 
@@ -45,28 +69,63 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
     [self.navigationBarView setNavigationCloseButton];
     [self.navigationBarView setNavigationCloseButtonHidden:YES];
     [self.view addSubview:self.tableView];
-//    self.tableView.hidden = YES;
 }
 
+// 文章详情
 - (void)loadLifeRecordsDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = @(self.rid);
-    [SVProgressHUD showInfoWithStatus:@""];
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-//        self.tableView.hidden = NO;
+        [self hiddenHud];
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         
         for (NSDictionary *dict in self.grassListModel.deal_content) {
             THNGoodsModelDealContent *contenModel = [THNGoodsModelDealContent mj_objectWithKeyValues:dict];
             [self.contentModels addObject:contenModel];
         }
-        
+        [self.dataArray addObject:KArticleCellTypeArticle];
+
+        if (self.grassListModel.recommend_store.count > 0) {
+            [self.dataArray addObject:kArticleCellTypeStore];
+        }
+
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
         
+    }];
+}
+
+// 推荐商品
+- (void)loadRecommendProductData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = @(self.rid);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendProducts requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.products = result.data[@"products"];
+        [self.dataArray addObject:kArticleCellTypeProduct];
+        [self loadRecommendStoryData];
+        [self.tableView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+
+    }];
+}
+
+// 推荐故事
+- (void)loadRecommendStoryData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = @(self.rid);
+    params[@"per_page"] = @(4);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendStory requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        self.lifeRecords = result.data[@"life_records"];
+        [self.dataArray addObject:kArticleCellTypeStory];
+        [self.tableView reloadData];
+
+    } failure:^(THNRequest *request, NSError *error) {
+
     }];
 }
 
@@ -96,27 +155,132 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
     return contentH + 20;
 }
 
+
+/**
+ 获取故事cell的高度
+ */
+- (CGFloat)getCellHeight:(NSArray *)array {
+    __block CGFloat firstRowMaxtitleHeight = 0;
+    __block CGFloat firstRowMaxcontentHeight = 0;
+    __block CGFloat secondRowMaxtitleHeight = 0;
+    __block CGFloat secondRowMaxcontentHeight = 0;
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
+        //  设置最大size
+        CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
+        CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
+        CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
+        CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
+        NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
+        NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
+        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+        CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+
+        // 取出第一列最大的titleLabel和contentLabel的高度
+        if (idx <= 1) {
+
+            if (titleHeight > firstRowMaxtitleHeight) {
+                firstRowMaxtitleHeight = titleHeight;
+            }
+
+            if (contentHeight > secondRowMaxtitleHeight ) {
+                firstRowMaxcontentHeight = contentHeight;
+            }
+            // 取出第二列最大的titleLabel和contentLabel的高度
+        } else {
+
+            if (titleHeight > secondRowMaxtitleHeight) {
+                secondRowMaxtitleHeight = titleHeight;
+            }
+
+            if (contentHeight > secondRowMaxcontentHeight) {
+                secondRowMaxcontentHeight = titleHeight;
+            }
+
+        }
+    }];
+
+    CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
+    return 158 * 2 + customGrassCellHeight + 20 + 70;
+}
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNGoodsContentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (!cell) {
-        cell = [[THNGoodsContentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kArticleContentCellIdentifier];
+    NSString *articleStr = self.dataArray[indexPath.row];
+    if ([articleStr isEqualToString:KArticleCellTypeArticle]) {
+        self.articleCellType = ArticleCellTypeArticle;
+        THNGoodsContentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+        if (!cell) {
+            cell = [[THNGoodsContentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kArticleContentCellIdentifier];
+        }
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell thn_setContentData:self.contentModels];
+        return cell;
+
+    } else if ([articleStr isEqualToString:kArticleCellTypeStore]) {
+        self.articleCellType = ArticleCellTypeStore;
+        THNArticleStoreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+        if (!cell) {
+            cell = [THNArticleStoreTableViewCell viewFromXib];
+        }
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        THNLifeOrderStoreModel *storeModel = [THNLifeOrderStoreModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
+        [cell setStoreModel:storeModel];
+        return cell;
+
+    } else if ([articleStr isEqualToString:kArticleCellTypeProduct]){
+        THNArticleProductTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        self.articleCellType = ArticleCellTypeProduct;
+        if (!cell) {
+            cell = [THNArticleProductTableViewCell viewFromXib];
+        }
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.products = self.products;
+        [cell.collectionView reloadData];
+
+        return cell;
+        
+    } else {
+        self.articleCellType = ArticleCellTypeStory;
+        THNArticleStoryTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+        if (!cell) {
+            cell = [THNArticleStoryTableViewCell viewFromXib];
+        }
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.collectionView.dataArray = self.lifeRecords;
+        [cell.collectionView reloadData];
+
+        return cell;
     }
-    
-    [cell thn_setContentData:self.contentModels];
-    return cell;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+    switch (self.articleCellType) {
+        case ArticleCellTypeArticle:
+            return [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+        case ArticleCellTypeStore:
+            return 110;
+        case ArticleCellTypeProduct:
+            return 279;
+        case ArticleCellTypeStory:
+            return [self getCellHeight:self.lifeRecords] + 10;
+    }
+
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
     if (self.grassListModel) {
         [self.articleHeaderView setGrassListModel:self.grassListModel];
     }
@@ -135,14 +299,13 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 - (UITableView *)tableView {
     if (!_tableView) {
         
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableViewY, SCREEN_WIDTH, SCREEN_HEIGHT ) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - tableViewY) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc]init];
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerNib:[UINib nibWithNibName:@"THNGoodsContentTableViewCell" bundle:nil] forCellReuseIdentifier:kArticleContentCellIdentifier];
     }
     return _tableView;
 }
@@ -159,6 +322,13 @@ static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
         _contentModels = [NSMutableArray array];
     }
     return _contentModels;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end
