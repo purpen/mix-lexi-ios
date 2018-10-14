@@ -9,6 +9,7 @@
 #import "THNDiscoverThemeViewController.h"
 #import "THNTextCollectionView.h"
 #import "THNAPI.h"
+#import "THNArticleViewController.h"
 
 static NSString *const KUrlLifeRemember = @"/life_records/life_remember";
 static NSString *const kUrlCreatorStory = @"/life_records/creator_story";
@@ -61,6 +62,13 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
 - (void)setupUI {
     self.navigationBarView.title = self.navigationBarViewTitle;
     [self.view addSubview:self.collectionView];
+
+    WEAKSELF
+    self.collectionView.textCollectionBlock = ^(NSInteger rid) {
+        THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+        articleVC.rid = rid;
+        [weakSelf.navigationController pushViewController:articleVC animated:YES];
+    };
 }
 
 - (THNTextCollectionView *)collectionView {

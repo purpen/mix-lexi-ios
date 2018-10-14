@@ -34,6 +34,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.followButton drawCornerWithType:0 radius:13];
+    self.backgroundImageView.layer.masksToBounds = YES;
 }
 
 - (void)setGrassListModel:(THNGrassListModel *)grassListModel {
@@ -41,19 +42,18 @@
     self.userNameLabel.text = grassListModel.user_name;
     [self.avatarImageView thn_setCircleImageWithUrlString:grassListModel.user_avator placeholder:[UIImage imageNamed:@"default_image_place"]];
     [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]];
-    if (grassListModel.channel_name.length == 0) {
-        self.themeLabel.text = @"种草笔记";
+    if ([grassListModel.channel_name isEqualToString:grassNote]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"75AB9A"];
     } else if ([grassListModel.channel_name isEqualToString:creatorStoryTitle]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"829D7A"];
-        self.themeLabel.text = grassListModel.channel_name;
     } else if ([grassListModel.channel_name isEqualToString:lifeRememberTitle]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"8C7A6E"];
-        self.themeLabel.text = grassListModel.channel_name;
     } else if ([grassListModel.channel_name isEqualToString:handTeachTitle]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"E3B395"];
-        self.themeLabel.text = grassListModel.channel_name;
+
     }
+
+    self.themeLabel.text = grassListModel.channel_name;
     self.titleLabel.text = grassListModel.title;
     self.visitorsNumberLabel.text = [NSString stringWithFormat:@"%ld",grassListModel.browse_count];
     self.dateLabel.text = [NSString timeConversion:grassListModel.created_at initWithFormatterType:FormatterDay];

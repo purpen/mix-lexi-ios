@@ -41,6 +41,7 @@ UIKIT_EXTERN  CGFloat const kCellGrassListHeight;
 - (void)pushShopWindow:(NSString *)rid;
 - (void)lookAllWithType:(FeaturedCellType)cellType;
 - (void)pushGoodInfo:(NSString *)rid;
+- (void)pushArticle:(NSInteger)rid;
 
 @end
 

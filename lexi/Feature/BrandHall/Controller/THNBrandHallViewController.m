@@ -28,6 +28,7 @@
 #import "THNConst.h"
 #import "THNSaveTool.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNArticleViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -409,7 +410,10 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         }
             
         case BrandShowTypelifeRecord: {
-            
+            THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.lifeRecords[indexPath.row]];
+            THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+            articleVC.rid = grassListModel.rid;
+            [self.navigationController pushViewController:articleVC animated:YES];
         }
             
     }

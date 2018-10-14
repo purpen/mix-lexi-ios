@@ -12,6 +12,7 @@
 NSString *const creatorStoryTitle = @"创作人故事";
 NSString *const lifeRememberTitle = @"生活记事";
 NSString *const handTeachTitle = @"手作教学";
+NSString *const grassNote = @"种草笔记";
 
 @implementation THNGrassListModel
 
