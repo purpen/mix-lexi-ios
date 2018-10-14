@@ -28,7 +28,11 @@ static char loadViewKey;
 }
 
 - (void)showHud{
-    THNLoadView * loadView = [THNLoadView viewFromXib];
+    THNLoadView *loadView = objc_getAssociatedObject(self, &loadViewKey);
+    
+    if (!loadView) {
+        loadView = [THNLoadView viewFromXib];
+    }
 
     if (self.loadHeight == 0) {
         self.loadHeight = 0;

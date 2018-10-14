@@ -14,6 +14,7 @@
 UIKIT_EXTERN NSString *const creatorStoryTitle;
 UIKIT_EXTERN NSString *const lifeRememberTitle;
 UIKIT_EXTERN NSString *const handTeachTitle;
+UIKIT_EXTERN NSString *const grassNote;
 
 @interface THNGrassListModel : NSObject
 
