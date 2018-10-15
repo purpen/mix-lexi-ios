@@ -20,13 +20,17 @@
 #import "THNCenterProductTableViewCell.h"
 #import "THNProductModel.h"
 #import "THNShelfViewController.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNArticleViewController.h"
+#import "THNGoodsListViewController.h"
 
 static NSString *const kCenterProductCellIdentifier = @"kCenterProductCellIdentifier";
 static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
 static NSString *const kUrlDistributeSticked = @"/fx_distribute/sticked";
 static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
-@interface THNRecommendViewController ()<THNSelectButtonViewDelegate, THNCenterProductTableViewCellDelegate>
+@interface THNRecommendViewController ()<THNSelectButtonViewDelegate, THNCenterProductTableViewCellDelegate, THNFeaturedCollectionViewDelegate>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -105,11 +109,36 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     }];
 }
 
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
         _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(20 , 10, SCREEN_WIDTH, 140) collectionViewLayout:flowLayout];
+        _featuredCollectionView.featuredDelegate = self;
     }
     return _featuredCollectionView;
 }
