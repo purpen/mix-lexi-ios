@@ -45,12 +45,12 @@
         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:obj];
         switch (idx) {
             case 0:
-                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
             case 1:
-                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
             default:
-                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
         }
         

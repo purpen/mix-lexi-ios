@@ -40,7 +40,7 @@
 
 - (void)setOffcialStoreModel:(THNOffcialStoreModel *)offcialStoreModel {
     _offcialStoreModel = offcialStoreModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.bgcover]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.bgcover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.product_count];
     self.articleLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.life_record_count];
     self.fanLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.fans_count];
@@ -65,6 +65,12 @@
     self.productTintLabel.textColor = [UIColor colorWithHexString:@"949EA6"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(showLifeRecords)]) {
         [self.delegate showLifeRecords];
+    }
+}
+
+- (IBAction)lookBrandHallStory:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushBrandHallStory:)]) {
+        [self.delegate pushBrandHallStory:self.offcialStoreModel.rid];
     }
 }
 
