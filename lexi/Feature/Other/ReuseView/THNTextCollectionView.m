@@ -72,7 +72,7 @@ static NSString *const kUrlTextCellIdentifier = @"kUrlTextCellIdentifier";
     CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
     CGFloat grassLabelHeight = titleHeight + contentHeight;
     grassListModel.grassLabelHeight = grassLabelHeight;
-    return CGSizeMake((self.viewWidth - 10) / 2, 160 + grassListModel.grassLabelHeight);
+    return self.showTextType == ShowTextTypeTheme? CGSizeMake((self.viewWidth - 10) / 2, 177 + titleHeight) : CGSizeMake((self.viewWidth - 10) / 2, 160 + grassListModel.grassLabelHeight);
 }
 
 @end
