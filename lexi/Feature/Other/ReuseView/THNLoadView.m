@@ -19,7 +19,8 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
-    self.loadImageView.image =  [UIImage sd_animatedGIFWithData:[NSData dataWithContentsOfFile:@"/Users/rhp/Desktop/mix-lexi-ios/lexi/Resource/Images/loading.gif"]];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"];
+    self.loadImageView.image =  [UIImage sd_animatedGIFWithData:[NSData dataWithContentsOfFile:imagePath]];
 }
 
 @end

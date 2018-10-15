@@ -26,6 +26,8 @@
 #import "THNSetModel.h"
 #import "THNGoodsListViewController.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNBannerModel.h"
+#import "THNArticleViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -53,7 +55,7 @@ static NSString *const kUrlGoodDesign = @"/column/preferential_design";
 // 百元好物
 static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
-@interface THNExploresViewController ()<THNExploreTableViewCellDelegate>
+@interface THNExploresViewController ()<THNExploreTableViewCellDelegate, THNBannerViewDelegate>
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) THNCategoriesCollectionView *categoriesCollectionView;
@@ -274,9 +276,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.categoriesCollectionView.frame))];
     headerView.backgroundColor = [UIColor whiteColor];
+    
+    WEAKSELF
+    self.bannerView.delegate = self;
     [headerView addSubview:self.bannerView];
-
-    WEAKSELF;
     self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
         THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
         [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
@@ -352,6 +355,30 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)pushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
     [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
 }
 
 #pragma mark -lazy

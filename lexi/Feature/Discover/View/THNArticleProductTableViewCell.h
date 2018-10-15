@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ArticleProductBlcok)(NSString *rid);
+
 @interface THNArticleProductTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) NSArray *products;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, copy) ArticleProductBlcok articleProductBlcok;
 
 @end

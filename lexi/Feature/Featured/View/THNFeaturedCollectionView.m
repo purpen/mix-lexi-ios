@@ -15,7 +15,7 @@
 
 static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCellIdentifier";
 
-@interface THNFeaturedCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface THNFeaturedCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
@@ -38,7 +38,6 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
         self.dataSource = self;
         [self registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kFeatureTopBannerCellIdentifier];
         self.backgroundColor = [UIColor whiteColor];
-        [self reloadData];
     }
     return self;
 }
@@ -96,5 +95,41 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     [cell setBannerModel:bannerModel];
     return cell;
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    
+    switch (bannerModel.type) {
+        case BannerContentTypeLink:
+            break;
+        case BannerContentTypeProduct:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {
+                [self.featuredDelegate bannerPushGoodInfo:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeCatogories:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushCategorie:initWithCategoriesID:)]) {
+                
+                [self.featuredDelegate bannerPushCategorie:bannerModel.title initWithCategoriesID:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeBrandHall:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushBrandHall:)]) {
+                [self.featuredDelegate bannerPushBrandHall:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeSpecialTopic:
+            break;
+        default:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushArticle:)]) {
+                [self.featuredDelegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+    }
+}
+
 
 @end

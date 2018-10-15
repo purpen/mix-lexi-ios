@@ -174,7 +174,8 @@ static NSString *const kLoginInfoPassword   = @"password";
                requestDictionary:(NSDictionary *)requestDictionary
                         delegate:(id)delegate {
     
-    return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:urlString]
+    NSString *url =  [urlString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    return [THNAPI requestWithUrlString:[kDomainBaseUrl stringByAppendingString:url]
                       requestDictionary:requestDictionary
                                delegate:delegate
                         timeoutInterval:600.0
