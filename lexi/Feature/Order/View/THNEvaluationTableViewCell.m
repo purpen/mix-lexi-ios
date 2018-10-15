@@ -53,7 +53,7 @@ static NSInteger maxShowPhotoCount = 9;
 
 - (void)setItemsModel:(THNOrdersItemsModel *)itemsModel {
     _itemsModel = itemsModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = itemsModel.product_name;
 
     if (itemsModel.sale_price == 0) {

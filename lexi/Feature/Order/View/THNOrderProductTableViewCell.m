@@ -31,7 +31,7 @@
 
 - (void)setItemModel:(THNOrdersItemsModel *)itemModel {
     _itemModel = itemModel;
-   [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemModel.cover]];
+   [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = itemModel.product_name;
     self.ProductCountLabel.text = [NSString stringWithFormat:@"x%ld", itemModel.quantity];
 }

@@ -30,7 +30,7 @@
 
 - (void)setBrandModel:(THNFeaturedBrandModel *)brandModel {
     _brandModel = brandModel;
-    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]];
+    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.nameLabel.text = brandModel.name;
     self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.store_products_counts];
 }

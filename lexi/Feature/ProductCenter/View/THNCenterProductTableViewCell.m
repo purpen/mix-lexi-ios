@@ -42,7 +42,7 @@
 - (void)setProductModel:(THNProductModel *)productModel {
  
     self.sallOutImageView.hidden = !productModel.is_sold_out;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
     
     if (productModel.min_sale_price == 0) {

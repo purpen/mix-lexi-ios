@@ -81,7 +81,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, CGRectGetMaxY(self.lineView.frame))];
     [headerView addSubview:self.showImageView];
-    [self.showImageView sd_setImageWithURL:[NSURL URLWithString:@"http://kg.erp.taihuoniao.com/static/img/default-logo-540x540.png"]];
+    [self.showImageView sd_setImageWithURL:[NSURL URLWithString:@"http://kg.erp.taihuoniao.com/static/img/default-logo-540x540.png"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     [headerView addSubview:self.selectButtonView];
     self.lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [headerView addSubview:self.lineView ];

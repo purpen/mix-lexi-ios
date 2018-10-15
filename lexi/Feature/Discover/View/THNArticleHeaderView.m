@@ -41,7 +41,7 @@
     _grassListModel = grassListModel;
     self.userNameLabel.text = grassListModel.user_name;
     [self.avatarImageView thn_setCircleImageWithUrlString:grassListModel.user_avator placeholder:[UIImage imageNamed:@"default_image_place"]];
-    [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]];
+    [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     if ([grassListModel.channel_name isEqualToString:grassNote]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"75AB9A"];
     } else if ([grassListModel.channel_name isEqualToString:creatorStoryTitle]) {

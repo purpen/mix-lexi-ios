@@ -26,18 +26,18 @@
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         switch (idx) {
             case 0:
-                [self.leftTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
+                [self.leftTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
             case 1:
-                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
+                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
             case 2:
-                [self.rightMiddleImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
+                [self.rightMiddleImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
             case 3:
-                [self.leftBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
+                [self.leftBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
             default:
-                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
+                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 break;
                 
         }
