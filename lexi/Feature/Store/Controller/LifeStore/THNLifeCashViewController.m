@@ -12,6 +12,7 @@
 #import "THNLifeManager.h"
 #import "THNLoginManager.h"
 #import "THNLifeCashBillViewController.h"
+#import "THNLifeActionViewController.h"
 
 static NSString *const kTextCash = @"提现";
 
@@ -60,7 +61,10 @@ static NSString *const kTextCash = @"提现";
 
 #pragma mark - custom delegate
 - (void)thn_checkLifeCash {
-    [SVProgressHUD showInfoWithStatus:@"提现"];
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeCash)];
+    [actionVC thn_setCashMoney:119.1 serviceMoney:19.1];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
 }
 
 - (void)thn_checkLifeCashBill {
