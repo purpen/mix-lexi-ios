@@ -11,6 +11,7 @@
 #import "THNAllsetTableViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNCollectionModel.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrlCollections = @"/column/collections";
 static NSString *const KAllsetCellIdentifier = @"KAllsetCellIdentifier";
@@ -42,12 +43,14 @@ static CGFloat const kCellRowHeight = 382;
 }
 
 - (void)loadCollectionData {
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlCollections requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.collections = result.data[@"collections"];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-
+        [self hiddenHud];
     }];
 }
 
