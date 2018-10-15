@@ -19,12 +19,16 @@
 #import "THNLifeOrderStoreModel.h"
 #import "THNArticleStoryTableViewCell.h"
 #import "THNArticleProductTableViewCell.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
 static NSString *const kUrlLifeRecordsRecommendStory = @"/life_records/similar";
 
 static NSString *const kArticleContentCellIdentifier = @"kArticleContentCellIdentifier";
+static NSString *const kArticleStoreCellIdentifier  = @"kArticleStoreCellIdentifier";
+static NSString *const kArticleProductCellIdentifier = @"kArticleProductCellIdentifier";
+static NSString *const kArticleStoryCellIdentifier = @"kArticleStoryCellIdentifier";
 static NSString *const KArticleCellTypeArticle = @"article";
 static NSString *const kArticleCellTypeStore = @"store";
 static NSString *const kArticleCellTypeProduct = @"product";
@@ -47,6 +51,8 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 @property (nonatomic, strong) THNArticleHeaderView *articleHeaderView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) ArticleCellType articleCellType;
+@property (nonatomic, assign) CGFloat lifeRecordsDetailCellHeight;
+@property (nonatomic, assign) CGFloat storyCellHeight;
 
 @end
 
@@ -58,7 +64,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     tableViewY = kDeviceiPhoneX ? -44 : -22;
-    articleHeaderViewHeight =  kDeviceiPhoneX ? 340 + 88 + 44 : 340 + 64 + 22;
+    articleHeaderViewHeight = 335 + 64 + 22;
     [self loadLifeRecordsDetailData];
     [self setupUI];
 }
@@ -168,7 +174,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
         CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
         NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
-        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height + 5;
+        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height + 15;
 
         NSLog(@"--==-=---titleFont == %f",titleHeight);
 
@@ -207,54 +213,44 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     NSString *articleStr = self.dataArray[indexPath.row];
     if ([articleStr isEqualToString:KArticleCellTypeArticle]) {
         self.articleCellType = ArticleCellTypeArticle;
-        THNGoodsContentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-
-        if (!cell) {
-            cell = [[THNGoodsContentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kArticleContentCellIdentifier];
-        }
-
+        THNGoodsContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleContentCellIdentifier forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell thn_setContentData:self.contentModels];
         return cell;
 
     } else if ([articleStr isEqualToString:kArticleCellTypeStore]) {
         self.articleCellType = ArticleCellTypeStore;
-        THNArticleStoreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-
-        if (!cell) {
-            cell = [THNArticleStoreTableViewCell viewFromXib];
-        }
-
+        THNArticleStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleStoreCellIdentifier forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         THNLifeOrderStoreModel *storeModel = [THNLifeOrderStoreModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
         [cell setStoreModel:storeModel];
         return cell;
 
     } else if ([articleStr isEqualToString:kArticleCellTypeProduct]){
-        THNArticleProductTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        THNArticleProductTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:kArticleProductCellIdentifier forIndexPath:indexPath];;
         self.articleCellType = ArticleCellTypeProduct;
-        if (!cell) {
-            cell = [THNArticleProductTableViewCell viewFromXib];
-        }
-
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.products = self.products;
-        [cell.collectionView reloadData];
-
+        
+        cell.articleProductBlcok = ^(NSString *rid) {
+            THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+            [self.navigationController pushViewController:goodInfo animated:YES];
+        };
+        
         return cell;
         
     } else {
         self.articleCellType = ArticleCellTypeStory;
-        THNArticleStoryTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-
-        if (!cell) {
-            cell = [THNArticleStoryTableViewCell viewFromXib];
-        }
-
+        THNArticleStoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleStoryCellIdentifier forIndexPath:indexPath];
+        
+        cell.collectionView.textCollectionBlock = ^(NSInteger rid) {
+            THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+            articleVC.rid = rid;
+            [self.navigationController pushViewController:articleVC animated:YES];
+        };
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.collectionView.dataArray = self.lifeRecords;
-        [cell.collectionView reloadData];
-
         return cell;
     }
 
@@ -263,13 +259,19 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.articleCellType) {
         case ArticleCellTypeArticle:
-            return [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+            if (!self.lifeRecordsDetailCellHeight) {
+               self.lifeRecordsDetailCellHeight = [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+            }
+            return self.lifeRecordsDetailCellHeight;
         case ArticleCellTypeStore:
             return 110;
         case ArticleCellTypeProduct:
             return 279;
         case ArticleCellTypeStory:
-            return [self getCellHeight:self.lifeRecords] + 10;
+            if (!self.storyCellHeight) {
+                self.storyCellHeight = [self getCellHeight:self.lifeRecords] + 10;
+            }
+            return self.storyCellHeight;
     }
 
 }
@@ -289,6 +291,17 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     return articleHeaderViewHeight + titleHeight;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
+    if (scrollView.contentOffset.y > maxY) {
+        self.navigationBarView.transparent = NO;
+        self.navigationBarView.title = self.grassListModel.channel_name;
+    } else {
+        self.navigationBarView.transparent = YES;
+        self.navigationBarView.title = @"";
+    }
+}
+
 #pragma mark - lazy
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -300,6 +313,10 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[THNGoodsContentTableViewCell class] forCellReuseIdentifier:kArticleContentCellIdentifier];
+        [_tableView registerNib:[UINib nibWithNibName:@"THNArticleStoreTableViewCell" bundle:nil] forCellReuseIdentifier:kArticleStoreCellIdentifier];
+        [_tableView registerNib:[UINib nibWithNibName:@"THNArticleProductTableViewCell" bundle:nil] forCellReuseIdentifier:kArticleProductCellIdentifier];
+        [_tableView registerNib:[UINib nibWithNibName:@"THNArticleStoryTableViewCell" bundle:nil] forCellReuseIdentifier:kArticleStoryCellIdentifier];
     }
     return _tableView;
 }

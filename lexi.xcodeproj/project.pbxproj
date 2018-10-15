@@ -71,6 +71,7 @@
 		4B2656CD211C18BC001CA9DD /* THNLivingHallExpandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2656CC211C18BC001CA9DD /* THNLivingHallExpandView.xib */; };
 		4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D0211D30D2001CA9DD /* THNSaveTool.m */; };
 		4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D3211D5C0D001CA9DD /* THNTextTool.m */; };
+		4B2683CD2174694F00D13137 /* THNWebKitViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2683CB2174694F00D13137 /* THNWebKitViewViewController.m */; };
 		4B26A705214F4E5D00F8017C /* THNSelectCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B26A704214F4E5D00F8017C /* THNSelectCouponView.m */; };
 		4B26A707214F4E7500F8017C /* THNSelectCouponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B26A706214F4E7500F8017C /* THNSelectCouponView.xib */; };
 		4B26A70B214F516600F8017C /* THNSelectCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B26A709214F516600F8017C /* THNSelectCouponTableViewCell.m */; };
@@ -550,6 +551,8 @@
 		4B2656D0211D30D2001CA9DD /* THNSaveTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSaveTool.m; sourceTree = "<group>"; };
 		4B2656D2211D5C0D001CA9DD /* THNTextTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTextTool.h; sourceTree = "<group>"; };
 		4B2656D3211D5C0D001CA9DD /* THNTextTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTextTool.m; sourceTree = "<group>"; };
+		4B2683CA2174694F00D13137 /* THNWebKitViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWebKitViewViewController.h; sourceTree = "<group>"; };
+		4B2683CB2174694F00D13137 /* THNWebKitViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNWebKitViewViewController.m; sourceTree = "<group>"; };
 		4B26A703214F4E5D00F8017C /* THNSelectCouponView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectCouponView.h; sourceTree = "<group>"; };
 		4B26A704214F4E5D00F8017C /* THNSelectCouponView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectCouponView.m; sourceTree = "<group>"; };
 		4B26A706214F4E7500F8017C /* THNSelectCouponView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNSelectCouponView.xib; sourceTree = "<group>"; };
@@ -1514,6 +1517,15 @@
 			path = ThnTools;
 			sourceTree = "<group>";
 		};
+		4B2683C9217468FA00D13137 /* ReuseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4B2683CA2174694F00D13137 /* THNWebKitViewViewController.h */,
+				4B2683CB2174694F00D13137 /* THNWebKitViewViewController.m */,
+			);
+			path = ReuseViewController;
+			sourceTree = "<group>";
+		};
 		4B56C947213E48680052FD80 /* AllSet */ = {
 			isa = PBXGroup;
 			children = (
@@ -1909,6 +1921,7 @@
 		D82FA7A42126A91E00E14A22 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				4B2683C9217468FA00D13137 /* ReuseViewController */,
 				D82FA7A52126A96B00E14A22 /* ReuseView */,
 			);
 			path = Other;
@@ -3247,6 +3260,7 @@
 				D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */,
 				D81A1390216CB68000757262 /* THNLifeOrdersCollectModel.m in Sources */,
 				4B223CDD2146144A001E5F94 /* THNOrderDetailModel.m in Sources */,
+				4B2683CD2174694F00D13137 /* THNWebKitViewViewController.m in Sources */,
 				D8BAC9C4211A949100667D6F /* THNSignUpViewController.m in Sources */,
 				4B24B60A215DCD94004269EB /* THNSearchProductViewController.m in Sources */,
 				D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */,
