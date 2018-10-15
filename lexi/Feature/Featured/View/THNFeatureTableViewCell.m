@@ -262,6 +262,11 @@ CGFloat const kCellGrassListHeight = 158;
         }
             
         case FearuredGrassList: {
+            THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.grassListDataArray[indexPath.row]];
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
+                [self.delagate pushArticle:grassListModel.rid];
+            }
+            
             break;
         }
             

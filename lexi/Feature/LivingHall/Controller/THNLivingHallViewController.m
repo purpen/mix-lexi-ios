@@ -22,6 +22,7 @@
 #import "THNConst.h"
 #import "THNPruductCenterViewController.h"
 #import "THNGoodsInfoViewController.h"
+#import "UIViewController+THNHud.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -93,8 +94,10 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
     params[@"user_record"] = @(1);
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.recommendedArray = result.data[@"products"];
         self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
         
@@ -109,7 +112,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 

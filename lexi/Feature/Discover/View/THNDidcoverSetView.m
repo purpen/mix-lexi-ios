@@ -40,6 +40,7 @@ static NSString *const kDiscoverSetCellIdentifier = @"kDiscoverSetCellIdentifier
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNDiscoverSetCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDiscoverSetCellIdentifier forIndexPath:indexPath];
+    
     cell.desLabel.text = self.titles[indexPath.row];
     cell.backgroundImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_discover_%ld",indexPath.row]];
     return cell;
