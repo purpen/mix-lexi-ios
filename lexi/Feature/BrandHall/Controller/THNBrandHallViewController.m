@@ -28,6 +28,7 @@
 #import "THNConst.h"
 #import "THNSaveTool.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNArticleViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -108,7 +109,6 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     params[@"rid"] = self.rid;
     
     [SVProgressHUD showInfoWithStatus:@""];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
@@ -199,7 +199,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
     [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
     [self.view addSubview:self.collectionView];
-     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallProductCellIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallProductCellIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallLifeRecordsCellIdentifier];
      [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kBrandHallHeaderViewIdentifier];
      self.collectionView.backgroundColor = [UIColor whiteColor];
@@ -410,7 +410,10 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         }
             
         case BrandShowTypelifeRecord: {
-            
+            THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.lifeRecords[indexPath.row]];
+            THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+            articleVC.rid = grassListModel.rid;
+            [self.navigationController pushViewController:articleVC animated:YES];
         }
             
     }
