@@ -11,8 +11,11 @@
 
 @protocol THNEarningsViewDelegate <NSObject>
 
+@optional
 // 查看交易记录
 - (void)thn_checkLifeTransactionRecord;
+// 待结算提示
+- (void)thn_showCashHintText;
 
 @end
 

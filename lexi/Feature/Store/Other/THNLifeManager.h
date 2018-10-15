@@ -58,6 +58,11 @@
                             recordId:(NSString *)recordId
                           completion:(void (^)(THNLifeCashBillModel *model, NSError *error))completion;
 
+// 提现
++ (void)getLifeCashWithStoreRid:(NSString *)storeId
+                         openId:(NSString *)openId
+                     completion:(void (^)(NSError *))completion;
+
 // 最近一笔提现金额
 + (void)getLifeCashRecentWithRid:(NSString *)rid
                       completion:(void (^)(CGFloat price, NSError *error))completion;

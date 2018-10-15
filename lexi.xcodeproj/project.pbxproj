@@ -306,6 +306,8 @@
 		D8A9C290213ADC790059CAFD /* THNStoreModelProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C28E213ADC790059CAFD /* THNStoreModelProduct.m */; };
 		D8A9C293213AF28E0059CAFD /* THNGoodsContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */; };
 		D8AE21E62140FB7B00A179C4 /* THNUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */; };
+		D8B36C5E2174818900A6009F /* THNLifeActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B36C5D2174818900A6009F /* THNLifeActionViewController.m */; };
+		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
 		D8B4F4BD213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */; };
 		D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4BF213D1C2E0047808C /* THNGoodsCheckTableViewCell.m */; };
 		D8B4F4C6213D40010047808C /* THNFreightModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4F4C2213D40010047808C /* THNFreightModelItem.m */; };
@@ -972,6 +974,9 @@
 		D8A9C292213AF28E0059CAFD /* THNGoodsContactTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsContactTableViewCell.m; sourceTree = "<group>"; };
 		D8AE21E42140FB7B00A179C4 /* THNUserListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserListViewController.h; sourceTree = "<group>"; };
 		D8AE21E52140FB7B00A179C4 /* THNUserListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserListViewController.m; sourceTree = "<group>"; };
+		D8B36C5C2174818900A6009F /* THNLifeActionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLifeActionViewController.h; sourceTree = "<group>"; };
+		D8B36C5D2174818900A6009F /* THNLifeActionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLifeActionViewController.m; sourceTree = "<group>"; };
+		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
 		D8B4F4BB213D1BFF0047808C /* THNGoodsDescribeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsDescribeTableViewCell.h; sourceTree = "<group>"; };
 		D8B4F4BC213D1BFF0047808C /* THNGoodsDescribeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGoodsDescribeTableViewCell.m; sourceTree = "<group>"; };
 		D8B4F4BE213D1C2E0047808C /* THNGoodsCheckTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGoodsCheckTableViewCell.h; sourceTree = "<group>"; };
@@ -1973,6 +1978,8 @@
 				D83F4F93216D9D390049B0A5 /* THNLifeOrderRecordViewController.m */,
 				D83F4F8F216D9D390049B0A5 /* THNLifeTransactionRecordsViewController.h */,
 				D83F4F89216D9D390049B0A5 /* THNLifeTransactionRecordsViewController.m */,
+				D8B36C5C2174818900A6009F /* THNLifeActionViewController.h */,
+				D8B36C5D2174818900A6009F /* THNLifeActionViewController.m */,
 			);
 			path = LifeStore;
 			sourceTree = "<group>";
@@ -2077,6 +2084,7 @@
 		D85DA7D02106030100A36A71 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D8B36C5F2174916000A6009F /* image_life_wechat.png */,
 				D8F998862137D6440012AED3 /* loading.gif */,
 				4B72060C212D778F002606EE /* EmoticonWeibo.bundle */,
 				4B72060D212D778F002606EE /* ResourceWeibo.bundle */,
@@ -2991,6 +2999,7 @@
 				4B24B5FB215CC996004269EB /* THNSearchIndexTableViewCell.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
+				D8B36C602174916000A6009F /* image_life_wechat.png in Resources */,
 				4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */,
 				4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */,
 				4B34A060216DEC7A001099CB /* THNPhotoCollectionViewCell.xib in Resources */,
@@ -3163,6 +3172,7 @@
 				D8B4F4C0213D1C2E0047808C /* THNGoodsCheckTableViewCell.m in Sources */,
 				D8BAC9BE211A949100667D6F /* THNLoginViewController.m in Sources */,
 				D8B4F4C7213D40010047808C /* THNFreightModel.m in Sources */,
+				D8B36C5E2174818900A6009F /* THNLifeActionViewController.m in Sources */,
 				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
 				D8BAC9BC211A949100667D6F /* THNPhotoManager.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
