@@ -13,9 +13,6 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 
-static NSString *const creatorStoryTitle = @"创作人故事";
-static NSString *const lifeRememberTitle = @"生活记事";
-static NSString *const handTeachTitle = @"手作教学";
 
 @interface THNGrassListCollectionViewCell()
 
@@ -44,20 +41,18 @@ static NSString *const handTeachTitle = @"手作教学";
         self.contentLabel.textColor = [UIColor colorWithHexString:@"333333"];
         self.contentLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         
-        if (grassListModel.channel_name.length == 0) {
-            self.titleLabel.text = @"种草笔记";
+        if ([grassListModel.channel_name isEqualToString:grassNote]) {
             self.titleLabel.textColor = [UIColor colorWithHexString:@"75AB9A"];
         } else if ([grassListModel.channel_name isEqualToString:creatorStoryTitle]) {
             self.titleLabel.textColor = [UIColor colorWithHexString:@"829D7A"];
-            self.titleLabel.text = grassListModel.channel_name;
         } else if ([grassListModel.channel_name isEqualToString:lifeRememberTitle]) {
             self.titleLabel.textColor = [UIColor colorWithHexString:@"8C7A6E"];
-            self.titleLabel.text = grassListModel.channel_name;
         } else if ([grassListModel.channel_name isEqualToString:handTeachTitle]) {
             self.titleLabel.textColor = [UIColor colorWithHexString:@"E3B395"];
-            self.titleLabel.text = grassListModel.channel_name;
+
         }
-        
+
+        self.titleLabel.text = grassListModel.channel_name;
         self.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
     } else {
         self.contentLabel.text = grassListModel.des;

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNGrassListModel;
+
 @interface THNArticleHeaderView : UIView
+
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 @end

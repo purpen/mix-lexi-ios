@@ -26,6 +26,7 @@
 #import "THNGoodsListViewController.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNApplyStoreViewController.h"
+#import "THNArticleViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -453,11 +454,19 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
+// 文章详情
+- (void)pushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout];
+        CGFloat height = SCREEN_WIDTH == 414? 220 : 200;
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, height) collectionViewLayout:flowLayout];
     }
     return _featuredCollectionView;
 }
