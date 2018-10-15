@@ -49,12 +49,13 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
 
 - (void)thn_getCashBillInfoDataWithId:(NSString *)billId {
     if (!billId.length) return;
-    
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeCashBillDetailWithRid:[THNLoginManager sharedManager].storeRid
                                         recordId:billId
                                       completion:^(THNLifeCashBillModel *model, NSError *error) {
+                                          [SVProgressHUD dismiss];
                                           if (error) return;
                                           
                                           [weakSelf.billInfoView thn_setLifeCashBillDetailData:model];
@@ -64,10 +65,11 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
 }
 
 #pragma mark - private methods
-- (void)thn_openCashBillDetailController {
-    THNLifeCashBillDetailViewController *billDetailVC = [[THNLifeCashBillDetailViewController alloc] init];
+- (void)thn_openCashBillDetailControllerWithRid:(NSString *)rid model:(THNLifeCashBillOrderModel *)model {
+    THNLifeCashBillDetailViewController *billDetailVC = [[THNLifeCashBillDetailViewController alloc] initWithRid:rid
+                                                                                                     detailModel:model];
     billDetailVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [self presentViewController:billDetailVC animated:YES completion:nil];
+    [self presentViewController:billDetailVC animated:NO completion:nil];
 }
 
 // 重新组合订单数据
@@ -147,7 +149,10 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self thn_openCashBillDetailController];
+    if (self.allValue.count) {
+        THNLifeCashBillOrderModel *model = self.allValue[indexPath.section][indexPath.row];
+        [self thn_openCashBillDetailControllerWithRid:model.order_id model:model];
+    }
 }
 
 #pragma mark - getters and setters

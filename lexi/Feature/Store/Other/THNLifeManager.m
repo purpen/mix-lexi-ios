@@ -20,6 +20,7 @@ static NSString *const kURLLifeStore            = @"/store/life_store";
 static NSString *const kURLOrdersCollect        = @"/stats/life_orders_collect";
 static NSString *const kURLTransactionsRecord   = @"/stats/life_orders/transactions";
 static NSString *const kURLOrdersSaleCollect    = @"/stats/life_orders_sale_collect";
+static NSString *const kURLOrders               = @"/stats/life_orders/";
 static NSString *const kURLCashCollect          = @"/stats/life_cash_collect";
 static NSString *const kURLLifeOrder            = @"/orders/life_orders";
 static NSString *const kURLCashRecent           = @"/stats/life_cash_recent";
@@ -29,6 +30,7 @@ static NSString *const kURLCashBillDetail       = @"/stats/life_orders/statement
 static NSString *const kKeyRid      = @"rid";
 static NSString *const kKeyStoreRid = @"store_rid";
 static NSString *const kKeyRecordId = @"record_id";
+static NSString *const kKeyItems    = @"items";
 
 @implementation THNLifeManager
 
@@ -57,6 +59,13 @@ static NSString *const kKeyRecordId = @"record_id";
 
 + (void)getLifeOrdersSaleCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeSaleCollectModel *, NSError *))completion {
     [[THNLifeManager sharedManager] requestLifeOrdersSaleCollectWithRid:rid completion:completion];
+}
+
++ (void)getLifeOrdersSaleDetailCollectWithRid:(NSString *)rid storeRid:(NSString *)storeRid completion:(void (^)(NSArray *, NSError *))completion {
+    NSDictionary *paramsDict = @{kKeyRid: rid,
+                                 kKeyStoreRid: storeRid};
+    
+    [[THNLifeManager sharedManager] requestLifeOrdersSaleDetailCollectWithParams:paramsDict completion:completion];
 }
 
 + (void)getLifeCashCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeCashCollectModel *, NSError *))completion {
@@ -159,6 +168,28 @@ static NSString *const kKeyRecordId = @"record_id";
         THNLifeSaleCollectModel *model = [THNLifeSaleCollectModel mj_objectWithKeyValues:result.data];
         THNLog(@"==== 生活馆收益汇总：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(model, nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+// 收益详情
+- (void)requestLifeOrdersSaleDetailCollectWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD showInfoWithStatus:@""];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@", kURLOrders, params[kKeyRid]];
+    THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (![result hasData]) {
+            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+            return ;
+        }
+        THNLog(@"==== 生活馆收益详情：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (![result.data[kKeyItems] isKindOfClass:[NSNull class]]) {
+            completion(result.data[kKeyItems], nil);
+        }
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
