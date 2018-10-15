@@ -132,6 +132,38 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+   
+    switch (bannerModel.type) {
+        case BannerContentTypeLink:
+            break;
+        case BannerContentTypeProduct:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {
+                [self.delegate bannerPushGoodInfo:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeCatogories:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushCategorie:initWithCategoriesID:)]) {
+                
+                [self.delegate bannerPushCategorie:bannerModel.title initWithCategoriesID:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeBrandHall:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushBrandHall:)]) {
+                [self.delegate bannerPushBrandHall:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeSpecialTopic:
+            break;
+        default:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushArticle:)]) {
+                [self.delegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+    }
+}
+
 #pragma mark - UICollectionViewDelegate method 实现
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // 获取当前item的位置
