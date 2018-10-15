@@ -33,7 +33,7 @@ static NSString *const kOrderProductTableViewCellId = @"THNLifeOrderProductTable
 @implementation THNLifeCashBillDetailViewController
 
 - (instancetype)initWithRid:(NSString *)rid detailModel:(THNLifeCashBillOrderModel *)model {
-    self = [super self];
+    self = [super init];
     if (self) {
         [self thn_getLifeOrderEarningsDetailWithOrderId:rid];
         self.dataModel = model;
