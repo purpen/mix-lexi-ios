@@ -52,5 +52,12 @@ static NSString *const kArticleProductCellIdentifier = @"kArticleProductCellIden
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    if (self.articleProductBlcok) {
+        self.articleProductBlcok(productModel.rid);
+    }
+}
+
 
 @end
