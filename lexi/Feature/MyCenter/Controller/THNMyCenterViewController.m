@@ -106,7 +106,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity:{
-            [SVProgressHUD showInfoWithStatus:@"活动"];
+            [SVProgressHUD showSuccessWithStatus:@"分享赚红包"];
         }
             break;
             
@@ -117,12 +117,12 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeCoupon:{
-            [SVProgressHUD showInfoWithStatus:@"优惠券"];
+            [SVProgressHUD showSuccessWithStatus:@"优惠券"];
         }
             break;
             
         case THNHeaderViewSelectedTypeService:{
-            [SVProgressHUD showInfoWithStatus:@"客服"];
+            [SVProgressHUD showSuccessWithStatus:@"客服"];
         }
             break;
     }
