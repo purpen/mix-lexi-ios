@@ -18,6 +18,7 @@
 #import "THNLifeTransactionRecordsViewController.h"
 #import "THNLifeOrderRecordViewController.h"
 #import "THNLifeCashViewController.h"
+#import "THNLifeActionViewController.h"
 
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
 ///
@@ -87,7 +88,15 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_checkWechatInfo {
-    [SVProgressHUD showInfoWithStatus:@"查看微信"];
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeImage)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
+}
+
+- (void)thn_showCashHintText {
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeText)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
 }
 
 #pragma mark - network

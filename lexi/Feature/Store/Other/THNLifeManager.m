@@ -24,12 +24,14 @@ static NSString *const kURLOrders               = @"/stats/life_orders/";
 static NSString *const kURLCashCollect          = @"/stats/life_cash_collect";
 static NSString *const kURLLifeOrder            = @"/orders/life_orders";
 static NSString *const kURLCashRecent           = @"/stats/life_cash_recent";
+static NSString *const kURLCash                 = @"/pay_account/life_cash_money";
 static NSString *const kURLCashBill             = @"/stats/life_orders/statements";
 static NSString *const kURLCashBillDetail       = @"/stats/life_orders/statement_items";
 /// key
 static NSString *const kKeyRid      = @"rid";
 static NSString *const kKeyStoreRid = @"store_rid";
 static NSString *const kKeyRecordId = @"record_id";
+static NSString *const kKeyOpenId   = @"open_id";
 static NSString *const kKeyItems    = @"items";
 
 @implementation THNLifeManager
@@ -87,6 +89,13 @@ static NSString *const kKeyItems    = @"items";
     
     [[THNLifeManager sharedManager] requestLifeCashBillDetailWithParams:@{kKeyStoreRid: rid, kKeyRecordId: recordId}
                                                              completion:completion];
+}
+
++ (void)getLifeCashWithStoreRid:(NSString *)storeId openId:(NSString *)openId completion:(void (^)(NSError *))completion {
+    NSDictionary *paramsDict = @{kKeyOpenId: openId,
+                                 kKeyStoreRid: storeId};
+    
+    [[THNLifeManager sharedManager] requestLifeCashWithParams:paramsDict completion:completion];
 }
 
 #pragma mark - network
@@ -213,6 +222,26 @@ static NSString *const kKeyItems    = @"items";
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
+    }];
+}
+
+// 提现
+- (void)requestLifeCashWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
+    [SVProgressHUD showInfoWithStatus:@""];
+    
+    THNRequest *request = [THNAPI postWithUrlString:kURLCash requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (![result hasData]) {
+            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+            return ;
+        }
+    
+        THNLog(@"==== 生活馆提现：%@", [NSString jsonStringWithObject:result.responseDict]);
+        completion(nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(error);
     }];
 }
 

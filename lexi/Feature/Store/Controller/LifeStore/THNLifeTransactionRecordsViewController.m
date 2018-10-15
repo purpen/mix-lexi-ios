@@ -13,6 +13,8 @@
 #import "THNLifeTransactionRecordTableViewCell.h"
 #import "THNLifeManager.h"
 #import "THNLoginManager.h"
+#import "THNLifeActionViewController.h"
+#import <DateTools/DateTools.h>
 
 /// cell id
 static NSString *const kRecordTableViewCellId = @"THNLifeTransactionRecordTableViewCellId";
@@ -29,7 +31,8 @@ static NSString *const kKeyDate     = @"date_range";
     UITableViewDelegate,
     UITableViewDataSource,
     THNLifeSegmentViewDelegate,
-    THNEarningsDateViewDelegate
+    THNEarningsDateViewDelegate,
+    THNEarningsViewDelegate
 >
 
 // 功能按钮
@@ -42,6 +45,8 @@ static NSString *const kKeyDate     = @"date_range";
 @property (nonatomic, strong) UITableView *recordTable;
 // 头部视图
 @property (nonatomic, strong) UIView *headerView;
+// 日期选择器
+@property (nonatomic, strong) UIDatePicker *datePickerView;
 // 当前页码
 @property (nonatomic, assign) NSInteger page;
 // 记录状态：0、全部 1、待结算 2、成功 3、退款
@@ -100,15 +105,17 @@ static NSString *const kKeyDate     = @"date_range";
     [self thn_getTransactionsRecordData];
 }
 
-- (void)thn_didSelectedDate {
-    [SVProgressHUD showInfoWithStatus:@"选择日期"];
-}
-
 - (void)thn_didSelectedDateWithDefaultIndex:(NSInteger)index {
     NSString *dateStr = index == 0 ? kTextDateWeek : kTextDateMonth;
     self.dateRange = dateStr;
     
     [self thn_getTransactionsRecordData];
+}
+
+- (void)thn_showCashHintText {
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeText)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
 }
 
 #pragma mark - private methods
@@ -205,6 +212,7 @@ static NSString *const kKeyDate     = @"date_range";
 - (THNEarningsView *)earningsView {
     if (!_earningsView) {
         _earningsView = [[THNEarningsView alloc] initWithFrame:CGRectMake(20, 15, SCREEN_WIDTH - 40, 140)];
+        _earningsView.delegate = self;
     }
     return _earningsView;
 }
@@ -225,6 +233,5 @@ static NSString *const kKeyDate     = @"date_range";
     }
     return _segmentView;
 }
-
 
 @end
