@@ -65,10 +65,12 @@ static NSString *const kKeyDate     = @"date_range";
 }
 
 - (void)thn_getLifeTransactionData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
+                                             [SVProgressHUD dismiss];
                                              if (error) return;
                                              
                                              [weakSelf.earningsView thn_setLifeSaleColleciton:model];
@@ -76,11 +78,13 @@ static NSString *const kKeyDate     = @"date_range";
 }
 
 - (void)thn_getTransactionsRecordData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeTransactionsRecordWithRid:[THNLoginManager sharedManager].storeRid
                                               params:[self thn_getRequestParams]
                                           completion:^(THNTransactionsDataModel *model, NSError *error) {
+                                              [SVProgressHUD dismiss];
                                               if (error) return;
                                               
                                               weakSelf.modelArr = [NSArray arrayWithArray:model.transactions];

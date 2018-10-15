@@ -92,10 +92,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 
 #pragma mark - network
 - (void)thn_setLifeStoreUserData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeStoreInfoWithRid:[THNLoginManager sharedManager].storeRid
                                  completion:^(THNLifeStoreModel *model, NSError *error) {
+                                     [SVProgressHUD dismiss];
                                      if (error) return;
                                      
                                      [weakSelf.userView thn_setLifeStoreInfo:model];
@@ -107,10 +109,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeTransactionData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
+                                             [SVProgressHUD dismiss];
                                              if (error) return;
                                              
                                              [weakSelf.earningsView thn_setLifeSaleColleciton:model];
@@ -118,10 +122,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeOrdersCollectData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersCollectWithRid:[THNLoginManager sharedManager].storeRid
                                      completion:^(THNLifeOrdersCollectModel *model, NSError *error) {
+                                         [SVProgressHUD dismiss];
                                          if (error) return;
                                          
                                          [weakSelf.dataView thn_setLifeOrdersCollecitonModel:model];
@@ -129,10 +135,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeCashCollectData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
+                                       [SVProgressHUD dismiss];
                                        if (error) return;
                                        
                                        [weakSelf.dataView thn_setLifeCashCollectModel:model];

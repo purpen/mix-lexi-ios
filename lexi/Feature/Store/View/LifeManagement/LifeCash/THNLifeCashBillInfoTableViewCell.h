@@ -11,6 +11,8 @@
 
 @interface THNLifeCashBillInfoTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL showDetail;
+
 - (void)thn_setLifeCashBillOrderData:(THNLifeCashBillOrderModel *)model;
 
 @end
