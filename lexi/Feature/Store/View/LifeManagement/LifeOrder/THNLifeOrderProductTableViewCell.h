@@ -10,6 +10,8 @@
 
 @interface THNLifeOrderProductTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL showEearnings;
+
 - (void)thn_setLifeOrderProductData:(NSDictionary *)data;
 
 @end
