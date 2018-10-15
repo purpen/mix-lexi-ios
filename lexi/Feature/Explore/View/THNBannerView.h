@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
+
 /**
  循环轮播图的类型
 
@@ -20,10 +21,21 @@ typedef NS_ENUM(NSUInteger, CarouselBannerType) {
     CarouselBannerTypeBrandHallFeatured
 };
 
+@protocol THNBannerViewDelegate <NSObject>
+
+@optional
+- (void)bannerPushGoodInfo:(NSString *)rid;
+- (void)bannerPushBrandHall:(NSString *)rid;
+- (void)bannerPushArticle:(NSInteger)rid;
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID;
+
+@end
+
 @interface THNBannerView : UIView
 
 @property (nonatomic, assign) CarouselBannerType carouselBannerType;
 
 - (void)setBannerView:(NSArray *)array;
+@property (nonatomic, weak) id <THNBannerViewDelegate> delegate;
 
 @end

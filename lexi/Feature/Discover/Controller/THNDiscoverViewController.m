@@ -16,6 +16,10 @@
 #import "THNDidcoverSetView.h"
 #import "UIView+Helper.h"
 #import "THNArticleViewController.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNArticleViewController.h"
+#import "THNGoodsListViewController.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
@@ -23,7 +27,7 @@ static NSString *const kDiscoverCellIdentifier = @"kDiscoverCellIdentifier";
 // banner
 static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
-@interface THNDiscoverViewController ()
+@interface THNDiscoverViewController () <THNBannerViewDelegate>
 
 @property (nonatomic, strong) NSArray *guessLikes;
 @property (nonatomic, strong) NSArray *wonderfulStories;
@@ -194,10 +198,35 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     return 158 * 2 + customGrassCellHeight + 20 + 70;
 }
 
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
 #pragma mark -lazy
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
         _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 20 * 2, 180)];
+        _bannerView.delegate = self;
     }
     return _bannerView;
 }

@@ -60,7 +60,7 @@ static NSString *const kKeyCode             = @"code";
 
 #pragma mark - public methods
 + (void)getProductAllDetailWithId:(NSString *)goodsId completion:(void (^)(THNGoodsModel *, NSError *))completion {
-    NSString *goodsInfoUrl = [NSString stringWithFormat:@"/products/%@/all_detail", goodsId];
+    NSString *goodsInfoUrl = [NSString stringWithFormat:@"/products/%@/all_detail",goodsId];
     
     [[THNGoodsManager sharedManager] requestProductAllDetailWithUrl:goodsInfoUrl completion:completion];
 }
