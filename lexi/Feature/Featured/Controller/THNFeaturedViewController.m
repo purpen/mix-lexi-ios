@@ -27,6 +27,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNApplyStoreViewController.h"
 #import "THNArticleViewController.h"
+#import "THNBrandHallViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -48,7 +49,7 @@ static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
-@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate>
+@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate, THNBannerViewDelegate, THNFeaturedCollectionViewDelegate>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -222,6 +223,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     if (section == 0) {
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
         headerView.backgroundColor = [UIColor whiteColor];
+        self.featuredCollectionView.featuredDelegate = self;
         [headerView addSubview:self.featuredCollectionView];
         [headerView addSubview:self.openingView];
         __weak typeof(self)weakSelf = self;
@@ -267,6 +269,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kPopularFooterViewHeight)];
         footerView.backgroundColor = [UIColor whiteColor];
         [footerView addSubview:self.lineView];
+        self.bannerView.delegate = self;
         [footerView addSubview:self.bannerView];
         return footerView;
     } else {
@@ -459,6 +462,30 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
     articleVC.rid = rid;
     [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
 }
 
 #pragma mark - lazy

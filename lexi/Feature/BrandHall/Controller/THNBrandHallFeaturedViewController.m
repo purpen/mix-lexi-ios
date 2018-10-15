@@ -14,13 +14,17 @@
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNFeaturedBrandModel.h"
 #import <MJExtension/MJExtension.h>
+#import "THNGoodsInfoViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNArticleViewController.h"
+#import "THNGoodsListViewController.h"
 
 static NSString *const kUrlBrandHallFeatured = @"/column/handpick_store";
 static NSString *const kUrlBrandHallBannerStore = @"/banners/store_ad";
 static NSString *const kBrandHallFeaturedCollectionCellIdentifier = @"kBrandHallFeaturedCollectionCellIdentifier";
 static CGFloat const kBrandHallHeight = 375;
 
-@interface THNBrandHallFeaturedViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNBrandHallFeaturedViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, THNBannerViewDelegate>
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) NSArray *handpickStores;
@@ -78,10 +82,37 @@ static CGFloat const kBrandHallHeight = 375;
     return cell;
 }
 
+
+
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
         _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kBrandHallHeight)];
+        _bannerView.delegate = self;
     }
     return _bannerView;
 }
