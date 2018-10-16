@@ -12,6 +12,7 @@
 #import "THNBaseNavigationController.h"
 #import "THNMyCenterHeaderView.h"
 #import "THNTableViewFooterView.h"
+#import "THNMyCenterMenuView.h"
 #import "THNLikedGoodsTableViewCell.h"
 #import "THNLikedWindowTableViewCell.h"
 #import "THNFollowStoreTableViewCell.h"
@@ -29,6 +30,7 @@
 #import "THNSettingViewController.h"
 #import "THNSettingUserInfoViewController.h"
 #import "THNLifeManagementViewController.h"
+#import "THNShareViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -48,7 +50,11 @@ static NSString *const kBrowsesGodsTableViewCellId  = @"BrowsesGodsTableViewCell
 static NSString *const kWishListGodsTableViewCellId = @"WishListGodsTableViewCellId";
 static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId";
 
-@interface THNMyCenterViewController () <THNNavigationBarViewDelegate, THNMyCenterHeaderViewDelegate> {
+@interface THNMyCenterViewController () <
+    THNNavigationBarViewDelegate,
+    THNMyCenterHeaderViewDelegate,
+    THNMyCenterMenuViewDelegate
+> {
     THNHeaderViewSelectedType _selectedDataType;
 }
 
@@ -60,6 +66,12 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 @property (nonatomic, strong) THNTableViewFooterView *footerView;
 /// 用户数据
 @property (nonatomic, strong) THNUserModel *userModel;
+/// 内容视图
+@property (nonatomic, strong) UIScrollView *containerView;
+/// 管理按钮
+@property (nonatomic, strong) THNMyCenterMenuView *menuView;
+/// 生活馆管理
+@property (nonatomic, strong) THNLifeManagementViewController *lifeStoreVC;
 
 @end
 
@@ -68,14 +80,17 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.contentInset = UIEdgeInsetsMake(STATUS_BAR_HEIGHT, 0, 20, 0);
-    self.separatorStyle = THNTableViewCellSeparatorStyleNone;
-    _selectedDataType = THNHeaderViewSelectedTypeLiked;
-
-    [self thn_changTableViewDataSourceWithType:_selectedDataType];
+    
+    [self setupTableViewUI];
 }
 
 #pragma mark - custom delegate
+- (void)thn_didSelectedMenuButtonIndex:(NSInteger)index {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.containerView.contentOffset = CGPointMake(SCREEN_WIDTH * index, 0);
+    }];
+}
+
 - (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type {
     switch (type) {
         case THNHeaderViewSelectedTypeLiked:
@@ -92,7 +107,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity:{
-            [SVProgressHUD showInfoWithStatus:@"活动"];
+            [SVProgressHUD showSuccessWithStatus:@"分享赚红包"];
         }
             break;
             
@@ -103,12 +118,12 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeCoupon:{
-            [SVProgressHUD showInfoWithStatus:@"优惠券"];
+            [SVProgressHUD showSuccessWithStatus:@"优惠券"];
         }
             break;
             
         case THNHeaderViewSelectedTypeService:{
-            [SVProgressHUD showInfoWithStatus:@"客服"];
+            [SVProgressHUD showSuccessWithStatus:@"客服"];
         }
             break;
     }
@@ -121,17 +136,22 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        [SVProgressHUD showInfoWithStatus:@"分享"];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:shareVC animated:NO completion:nil];
         
     } else if (index == 1) {
         if (self.userModel) {
             THNSettingViewController *settingVC = [[THNSettingViewController alloc] init];
             [self.navigationController pushViewController:settingVC animated:YES];
         }
-        
-//        THNLifeManagementViewController *lifeVC = [[THNLifeManagementViewController alloc] init];
-//        [self.navigationController pushViewController:lifeVC animated:YES];
     }
+}
+
+#pragma mark - private methods
+- (void)thn_getUserCenterGoodsData {
+    _selectedDataType = THNHeaderViewSelectedTypeLiked;
+    [self thn_changTableViewDataSourceWithType:_selectedDataType];
 }
 
 #pragma mark - network
@@ -378,12 +398,47 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 }
 
 #pragma mark - setup UI
+- (void)setupTableViewUI {
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self setSeparatorStyle:THNTableViewCellSeparatorStyleNone];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
+    
+    [self.view addSubview:self.menuView];
+    [self.containerView addSubview:self.tableView];
+    
+    [self addChildViewController:self.lifeStoreVC];
+
+    [self.containerView addSubview:self.lifeStoreVC.view];
+    [self.view addSubview:self.containerView];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.contentOffset.y >= 50) {
         self.navigationBarView.title = self.userName;
+        
     } else if (scrollView.contentOffset.y < 50) {
         self.navigationBarView.title = @"";
     }
+}
+
+- (void)thn_uploadViewFrame {
+    CGRect menuViewFrame = self.menuView.frame;
+    CGFloat height = [THNLoginManager sharedManager].openingUser ? 44 : 0;
+    menuViewFrame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, height);
+    self.menuView.frame = menuViewFrame;
+    
+    CGFloat tabbarH = kDeviceiPhoneX ? 81 : 49;
+    
+    CGRect containerFrame = self.menuView.frame;
+    CGFloat containerH = SCREEN_HEIGHT - CGRectGetMaxY(self.menuView.frame) - tabbarH;
+    containerFrame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), SCREEN_WIDTH, containerH);
+    self.containerView.frame = containerFrame;
+    
+    NSInteger pageCount = [THNLoginManager sharedManager].openingUser ? 2 : 1;
+    self.containerView.contentSize = CGSizeMake(SCREEN_WIDTH * pageCount, 0);
+    
+    self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, containerH);
+    self.lifeStoreVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, containerH);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -392,6 +447,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self setNavigationBar];
     [self thn_setUserHeaderView];
     [self thn_getUserData];
+    [self thn_getUserCenterGoodsData];
+    [self thn_uploadViewFrame];
 }
 
 - (void)setNavigationBar {
@@ -414,6 +471,34 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         _footerView = [[THNTableViewFooterView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
     }
     return _footerView;
+}
+
+- (THNMyCenterMenuView *)menuView {
+    if (!_menuView) {
+        CGFloat height = [THNLoginManager sharedManager].openingUser ? 44 : 0;
+        _menuView = [[THNMyCenterMenuView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, height)];
+        _menuView.delegate = self;
+    }
+    return _menuView;
+}
+
+- (UIScrollView *)containerView {
+    if (!_containerView) {
+        _containerView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _containerView.backgroundColor = [UIColor orangeColor];
+        _containerView.showsHorizontalScrollIndicator = NO;
+        _containerView.pagingEnabled = YES;
+        _containerView.scrollEnabled = NO;
+        _containerView.bounces = NO;
+    }
+    return _containerView;
+}
+
+- (THNLifeManagementViewController *)lifeStoreVC {
+    if (!_lifeStoreVC) {
+        _lifeStoreVC = [[THNLifeManagementViewController alloc] init];
+    }
+    return _lifeStoreVC;
 }
 
 @end

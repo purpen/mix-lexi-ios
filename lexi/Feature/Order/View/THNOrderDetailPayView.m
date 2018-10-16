@@ -8,6 +8,7 @@
 
 #import "THNOrderDetailPayView.h"
 #import "THNOrderDetailModel.h"
+#import "NSString+Helper.h"
 
 @interface THNOrderDetailPayView()
 @property (weak, nonatomic) IBOutlet UILabel *orderNumberLabel;
@@ -52,13 +53,13 @@
     self.orderNumberLabel.text = detailModel.outside_target_id;
     self.payMethodLabel.text = @"微信在线支付";
     self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
-    self.subtotalLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.total_amount];
-    self.totalMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.user_pay_amount];
+    self.subtotalLabel.text = [NSString formatFloat:detailModel.total_amount];
+    self.totalMoneyLabel.text = [NSString formatFloat:detailModel.user_pay_amount];
     
     if (detailModel.freight == 0) {
         self.deliveryMethodLabel.text  = @"包邮";
     } else {
-        self.deliveryMethodLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.freight];
+        self.deliveryMethodLabel.text = [NSString formatFloat:detailModel.freight];
     }
     
     if (detailModel.first_discount == 0) {
@@ -67,7 +68,7 @@
     } else {
         self.fitstOfferView.hidden = NO;
         self.firstOfferViewHeightConstraint.constant = 30;
-        self.firstOfferLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.first_discount];
+        self.firstOfferLabel.text = [NSString formatFloat:detailModel.first_discount];
     }
     
     if (detailModel.coupon_amount == 0) {
@@ -76,7 +77,7 @@
     } else {
         self.couponView.hidden = NO;
         self.couponViewHeightConstraint.constant = 30;
-         self.couponLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.coupon_amount];
+         self.couponLabel.text = [NSString formatFloat:detailModel.coupon_amount];
     }
     
     if (detailModel.reach_minus == 0) {
@@ -85,14 +86,14 @@
     } else {
         self.fullReductionView.hidden = NO;
         self.fullReductionViewHeightConstraint.constant = 30;
-        self.fullReductionLabel.text = [NSString stringWithFormat:@"¥%.2f",detailModel.reach_minus];
+        self.fullReductionLabel.text = [NSString formatFloat:detailModel.reach_minus];
     }
     
     return 122 + self.firstOfferViewHeightConstraint.constant + self.fullReductionViewHeightConstraint.constant + self.couponViewHeightConstraint.constant +  self.orderDetailTopViewHeightConstraint.constant;
 }
 
 - (void)setTotalCouponAmount:(CGFloat)totalCouponAmount {
-    self.couponLabel.text = [NSString stringWithFormat:@"¥%.2f",totalCouponAmount];
+    self.couponLabel.text = [NSString formatFloat:totalCouponAmount];
 }
 
 @end

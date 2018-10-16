@@ -53,7 +53,7 @@ static NSString *const kKeyData    = @"data";
         [self.addressArr removeAllObjects];
     }
     
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
     
     WEAKSELF;
     THNRequest *request = [THNAPI getWithUrlString:kURLAddress requestDictionary:@{} delegate:nil];

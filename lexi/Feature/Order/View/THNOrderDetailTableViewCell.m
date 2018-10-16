@@ -15,6 +15,7 @@
 #import "THNTextTool.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import "NSString+Helper.h"
 
 NSString *const kSelectDelivery = @"kSelectDelivery";
 
@@ -49,11 +50,11 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
     self.productCountLabel.text = [NSString stringWithFormat:@"x%ld", itemsModel.quantity];
     
     if (itemsModel.sale_price == 0) {
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.price];
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.price];
         self.originalMoneyLabel.hidden = YES;
     } else {
         self.originalMoneyLabel.hidden = NO;
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.sale_price];
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.sale_price];
         self.originalMoneyLabel.attributedText = [THNTextTool setStrikethrough:itemsModel.price];
     }
     
@@ -68,11 +69,11 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:skuItemModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = skuItemModel.productName;
     if (skuItemModel.salePrice == 0) {
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.price];
+        self.saleMoneyLabel.text = [NSString formatFloat:skuItemModel.price];
         self.originalMoneyLabel.hidden = YES;
     } else {
         self.originalMoneyLabel.hidden = NO;
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",skuItemModel.salePrice];
+        self.saleMoneyLabel.text = [NSString formatFloat:skuItemModel.salePrice];
         self.originalMoneyLabel.attributedText = [THNTextTool setStrikethrough:skuItemModel.price];
     }
     self.modeLabel.text = skuItemModel.mode;

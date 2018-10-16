@@ -43,11 +43,13 @@ static NSString *const kKeyPage     = @"page";
 }
 
 - (void)thn_getLifeCashBillData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
 
     [THNLifeManager getLifeCashBillWithRid:[THNLoginManager sharedManager].storeRid
                                     params:@{kKeyPage: @(self.page)}
                                 completion:^(NSDictionary *dataDict, NSError *error) {
+                                    [SVProgressHUD dismiss];
                                     if (error) return;
                                     
                                     weakSelf.allKey = [dataDict allKeys];

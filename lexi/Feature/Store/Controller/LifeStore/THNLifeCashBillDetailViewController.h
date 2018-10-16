@@ -7,7 +7,11 @@
 //
 
 #import "THNBaseViewController.h"
+#import "THNLifeCashBillOrderModel.h"
 
 @interface THNLifeCashBillDetailViewController : THNBaseViewController
+
+// 收益记录ID
+- (instancetype)initWithRid:(NSString *)rid detailModel:(THNLifeCashBillOrderModel *)model;
 
 @end

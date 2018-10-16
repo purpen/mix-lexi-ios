@@ -36,6 +36,12 @@
     [self.view bringSubviewToFront:self.navigationBarView];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+}
+
 #pragma mark - custom delegate
 - (void)didNavigationBackButtonEvent {
     if (self.navigationController.viewControllers.count > 1) {

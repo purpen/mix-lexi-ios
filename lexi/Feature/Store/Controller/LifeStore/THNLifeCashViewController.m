@@ -12,6 +12,7 @@
 #import "THNLifeManager.h"
 #import "THNLoginManager.h"
 #import "THNLifeCashBillViewController.h"
+#import "THNLifeActionViewController.h"
 
 static NSString *const kTextCash = @"提现";
 
@@ -33,10 +34,12 @@ static NSString *const kTextCash = @"提现";
 }
 
 - (void)thn_getLifeCashData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
+                                       [SVProgressHUD dismiss];
                                        if (error) return;
                                     
                                        [weakSelf.cashView thn_setLifeCashCollect:model];
@@ -44,10 +47,12 @@ static NSString *const kTextCash = @"提现";
 }
 
 - (void)thn_getLifeCashRecentData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
 
     [THNLifeManager getLifeCashRecentWithRid:[THNLoginManager sharedManager].storeRid
                                   completion:^(CGFloat price, NSError *error) {
+                                      [SVProgressHUD dismiss];
                                       if (error) return;
                                       
                                       [weakSelf.billView thn_setLifeCashRecentPrice:price];
@@ -56,7 +61,10 @@ static NSString *const kTextCash = @"提现";
 
 #pragma mark - custom delegate
 - (void)thn_checkLifeCash {
-    [SVProgressHUD showInfoWithStatus:@"提现"];
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeCash)];
+    [actionVC thn_setCashMoney:119.1 serviceMoney:19.1];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
 }
 
 - (void)thn_checkLifeCashBill {

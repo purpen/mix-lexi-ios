@@ -9,12 +9,15 @@
 #import "THNSettingViewController.h"
 #import "THNSettingHeaderView.h"
 #import <YYKit/YYKit.h>
+#import "THNLoginManager.h"
 #import "THNCustomTextTableViewCell.h"
 #import "THNOrderViewController.h"
 #import "THNAddressViewController.h"
 #import "THNApplyStoreViewController.h"
-#import "THNLoginManager.h"
 #import "THNSettingUserInfoViewController.h"
+#import "THNSettingAboutViewController.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 /// cell id
 static NSString *const kTextTableViewCellId = @"THNCustomTextTableViewCellId";
@@ -53,8 +56,13 @@ static NSString *const kTextLoginOut = @"退出登录";
 - (void)loginOutButtonAction:(UIButton *)button {
     [THNLoginManager userLogoutCompletion:^(NSError *error) {
         if (error) return;
-        
-        [self.navigationController popToRootViewControllerAnimated:YES];
+    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+            signInVC.canBack = NO;
+            THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+            [self presentViewController:loginNavController animated:YES completion:nil];
+        });
     }];
 }
 
@@ -130,7 +138,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        [SVProgressHUD showInfoWithStatus:@"绑定微信"];
+        [SVProgressHUD showSuccessWithStatus:@"绑定微信"];
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -148,10 +156,11 @@ static NSString *const kTextLoginOut = @"退出登录";
             [self.navigationController pushViewController:applyVC animated:YES];
             
         } else if (indexPath.row == 1) {
-            [SVProgressHUD showInfoWithStatus:@"关于乐喜"];
+            THNSettingAboutViewController *aboutVC = [[THNSettingAboutViewController alloc] init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
             
         } else {
-            [SVProgressHUD showInfoWithStatus:@"拨打客服电话"];
+            [SVProgressHUD showSuccessWithStatus:@"拨打客服电话"];
         }
     }
 }
