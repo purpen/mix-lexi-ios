@@ -10,6 +10,7 @@
 
 typedef void(^ChangeHeaderViewBlock)(void);
 typedef void(^PushProductCenterBlock)(void);
+typedef void(^EditStoreLogoBlock)(void);
 
 @interface THNLivingHallHeaderView : UIView
 
@@ -19,5 +20,8 @@ typedef void(^PushProductCenterBlock)(void);
 @property (nonatomic, strong) NSString *storeAvatarUrl;
 @property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
 @property (nonatomic, copy) PushProductCenterBlock pushProductCenterBlock;
+@property (nonatomic, copy) EditStoreLogoBlock storeLogoBlock;
+- (void)setHeaderImageWithData:(NSData *)imageData;
+- (void)setHeaderAvatarId:(NSInteger)idx;
 
 @end

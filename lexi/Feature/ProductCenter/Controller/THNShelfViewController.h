@@ -11,8 +11,11 @@
 
 @class THNProductModel;
 
+typedef void(^ShelfPopBlock)(void);
+
 @interface THNShelfViewController : THNBaseViewController
 
 @property (nonatomic, strong) THNProductModel *productModel;
+@property (nonatomic, copy) ShelfPopBlock shelfPopBlock;
 
 @end

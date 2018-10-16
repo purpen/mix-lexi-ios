@@ -10,6 +10,7 @@
 #import "THNUserApplyView.h"
 #import "THNZipCodeViewController.h"
 #import "THNApplySuccessViewController.h"
+#import "THNLoginManager.h"
 
 static NSString *const kTitleApply          = @"申请生活馆";
 /// 获取验证码 api
@@ -76,7 +77,7 @@ static NSString *const kParamMobile         = @"mobile";
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return;
         }
-        
+        [[THNLoginManager sharedManager] getUserProfile:nil];
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
         [self.navigationController pushViewController:successVC animated:YES];
         

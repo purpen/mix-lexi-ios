@@ -23,12 +23,15 @@
 #import "THNLivingHallMuseumView.h"
 #import "THNSaveTool.h"
 #import "THNConst.h"
+#import "THNLifeStoreModel.h"
 
 static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 // 商家生活馆的信息
 static NSString *const kUrlLifeStore = @"/store/life_store";
 // 选品中心
-static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
+static NSString *const kUrlSelectProductCenter = @"/core_platforms/fx_distribute/latest";
+// 编辑生活馆头像
+static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 
 @interface THNLivingHallHeaderView()<UICollectionViewDataSource>
 
@@ -51,6 +54,13 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 @property (nonatomic, strong) THNLoginManager *loginManger;
 @property (nonatomic, strong) NSArray *userPartieArray;
 @property (nonatomic, strong) NSArray *selectProductArray;
+@property (nonatomic, strong) NSArray *selectProductNewArray;
+@property (weak, nonatomic) IBOutlet UIImageView *livingHallStatusImageView;
+@property (weak, nonatomic) IBOutlet UILabel *promptTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *promptSecondContentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *promptContentLabel;
+@property (weak, nonatomic) IBOutlet UIButton *promptWechatButton;
+@property (nonatomic, strong) THNLifeStoreModel *storeModel;
 
 @end
 
@@ -70,9 +80,6 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     [self.insideImageView drawCornerWithType:0 radius:4];
     [self.middleImageView drawCornerWithType:0 radius:4];
     [self.outsideImageView drawCornerWithType:0 radius:4];
-    [self.insideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.outsideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     
     // 适配5S的样式
     if (SCREEN_WIDTH == 320) {
@@ -80,11 +87,6 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
             label.font = [UIFont systemFontOfSize:9];
         }
         self.selectionTitleConstraint.constant = 3;
-    }
-    
-    if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
-        self.promptViewHeightConstraint.constant = 0;
-        self.promptView.hidden = YES;
     }
 }
 
@@ -101,15 +103,54 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     params[@"rid"] = self.loginManger.storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSString *storeName = result.data[@"name"];
-        self.desLabel.text = result.data[@"description"];
-        self.storeAvatarUrl = result.data[@"logo"];
-        [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:self.storeAvatarUrl]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        THNLifeStoreModel *storeModel = [THNLifeStoreModel mj_objectWithKeyValues:result.data];
+        self.storeModel = storeModel;
+        NSString *storeName = storeModel.name;
+        
+        self.desLabel.text = storeModel.des;
+        [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
         self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
+        // 生活馆阶段: 1、实习馆主  2、达人馆主
+        if (storeModel.phases == 1) {
+            if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
+                self.promptViewHeightConstraint.constant = 0;
+                self.promptView.hidden = YES;
+            } else {
+                [self layoutOpenedPromptView];
+            }
+        }
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
+
+// 实习状态生活馆提示样式
+- (void)layoutPracticePromptView:(THNLifeStoreModel *)storeModel {
+    self.promptView.hidden = NO;
+    self.promptTitleLabel.text = @"当前为实习馆主";
+    self.promptContentLabel.text = storeModel.phases_description;
+    self.promptSecondContentLabel.hidden = YES;
+    self.promptWechatButton.hidden = YES;
+    self.promptTitleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:11];
+    self.promptTitleLabel.textColor = [UIColor colorWithHexString:@"666666"];
+    self.promptContentLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:11];
+    self.livingHallStatusImageView.image = [UIImage imageNamed:@"icon_livingHall_practice"];
+}
+
+// 开馆提示状态
+- (void)layoutOpenedPromptView {
+    self.promptView.hidden = NO;
+    self.promptTitleLabel.text = @"恭喜你拥有了生活馆";
+    self.promptSecondContentLabel.hidden = NO;
+    self.promptSecondContentLabel.text = @"添加乐喜辅导员微信，加入生活馆店主群。";
+    self.promptContentLabel.text = @"如何快速成交订单获取攻略，请搜索关注乐喜官网公众号";
+    self.promptWechatButton.hidden = NO;
+    self.promptTitleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+    self.promptTitleLabel.textColor = [UIColor colorWithHexString:@"333333"];
+    self.promptContentLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
+    self.livingHallStatusImageView.image = [UIImage imageNamed:@"icon_selected_main"];
+}
+
 
 - (void)loadLifeStoreVisitorData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -166,6 +207,25 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     }];
 }
 
+#pragma mark - public methods
+- (void)setHeaderImageWithData:(NSData *)imageData {
+    self.storeAvatarImageView.image = [UIImage imageWithData:imageData];
+    self.storeAvatarImageView.contentMode = UIViewContentModeScaleAspectFill;
+}
+
+// 编辑生活馆头像
+- (void)setHeaderAvatarId:(NSInteger)idx {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"logo_id"] = @(idx);
+    params[@"rid"] = self.loginManger.storeRid;
+    THNRequest *request = [THNAPI putWithUrlString:kUrlEditLifeStoreLogo requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (IBAction)edit:(id)sender {
     THNLivingHallMuseumView *hallMuseumView = [THNLivingHallMuseumView viewFromXib];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -179,11 +239,18 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 }
 
 - (IBAction)close:(id)sender {
-    self.promptViewHeightConstraint.constant = 0;
-    self.promptView.hidden = YES;
-    [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
-    self.changeHeaderViewBlock();
+    if ([THNSaveTool objectForKey:kIsCloseOpenedPromptView]) {
+        self.promptViewHeightConstraint.constant = 0;
+        self.promptView.hidden = YES;
+        [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
+        self.changeHeaderViewBlock();
+    } else {
+        [self layoutPracticePromptView:self.storeModel];
+        [THNSaveTool setBool:YES forKey:kIsCloseOpenedPromptView];
+    }
 }
+
+
 
 - (IBAction)goSelection:(id)sender {
     self.pushProductCenterBlock();
@@ -191,6 +258,12 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 
 - (IBAction)copyWechat:(id)sender {
     
+}
+
+- (IBAction)editAvatar:(id)sender {
+    if (self.storeLogoBlock) {
+        self.storeLogoBlock();
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

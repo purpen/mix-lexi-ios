@@ -26,6 +26,8 @@
 #import "THNGoodsListViewController.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNBrandHallViewController.h"
+#import "UIViewController+THNHud.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 /**
  搜索提示内容
@@ -99,9 +101,9 @@ UICollectionViewDelegateFlowLayout
     [self.view addSubview:self.collectionView];
 }
 
-
 // 最近查看
 - (void)loadUserBrowseData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -139,6 +141,7 @@ UICollectionViewDelegateFlowLayout
 - (void)loadHotSearchData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlHotSearch requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.popularSearchs = result.data[@"search_items"];
         if (self.popularSearchs.count > 0) {
             [self.sectionTitles addObject:kSearchHotSearchTitle];
@@ -146,7 +149,7 @@ UICollectionViewDelegateFlowLayout
         [self.sections addObject:self.popularSearchs];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -160,10 +163,12 @@ UICollectionViewDelegateFlowLayout
         return;
     }
     
+    [SVProgressHUD showInfoWithStatus:@""];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"qk"] = mutableStr;
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchIndex requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         self.searchIndexs = result.data[@"search_items"];
         [self.view addSubview:self.searchIndexVC.view];
         self.searchIndexVC.searchIndexs = self.searchIndexs;
@@ -172,7 +177,7 @@ UICollectionViewDelegateFlowLayout
         [self.searchIndexVC.tableView reloadData];
         [self addChildViewController:self.searchIndexVC];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -250,7 +255,7 @@ UICollectionViewDelegateFlowLayout
         // 接单定制
         if (indexPath.row == 0) {
             // FYNN 实现 目前假的跳转
-            THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:@"接单定制"];
+            THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单定制"];
             [self.navigationController pushViewController:goodListVC animated:YES];
         } else {
             THNSearchHotRecommendModel *hotRecommendModel = [THNSearchHotRecommendModel mj_objectWithKeyValues:self.popularRecommends[indexPath.row]];
