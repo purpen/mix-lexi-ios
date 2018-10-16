@@ -11,7 +11,7 @@
 #import "THNUserApplyViewController.h"
 
 static NSString *const kURLApplyStore = @"https://h5.lexivip.com/shop/guide";
-static NSString *const kTextLexi = @"乐喜";
+static NSString *const kTitleLeXi     = @"乐喜";
 
 @interface THNApplyStoreViewController () <WKNavigationDelegate, WKUIDelegate>
 
@@ -36,7 +36,7 @@ static NSString *const kTextLexi = @"乐喜";
 
 #pragma mark - webView delegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    [SVProgressHUD show];
+    [SVProgressHUD showInfoWithStatus:@""];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -78,7 +78,7 @@ static NSString *const kTextLexi = @"乐喜";
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kTextLexi;
+    self.navigationBarView.title = kTitleLeXi;
 }
 
 #pragma mark - getters and setters

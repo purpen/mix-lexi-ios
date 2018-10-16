@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import <DateTools/DateTools.h>
 #import <YYKit/YYKit.h>
+#import "NSString+Helper.h"
 
 static NSString *const kTextNumber = @"订单编号：";
 static NSString *const kTextMoney  = @"预计收益：";
@@ -46,7 +47,7 @@ static NSString *const kTextMoney  = @"预计收益：";
 
 #pragma mark - private methods
 - (void)thn_setLifeOrderMoney:(CGFloat)money {
-    NSString *moneyStr = [NSString stringWithFormat:@"¥%.2f", money];
+    NSString *moneyStr = [NSString formatFloat:money];
     NSMutableAttributedString *moneyAtt = [[NSMutableAttributedString alloc] initWithString:moneyStr];
     moneyAtt.color = [UIColor colorWithHexString:@"#FF6666"];
     moneyAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightMedium)];

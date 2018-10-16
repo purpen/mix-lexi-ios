@@ -10,18 +10,27 @@
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
 #import "THNConst.h"
+#import "UIBarButtonItem+Helper.h"
+#import <DateTools/DateTools.h>
 
-static NSString *const kTextRecord  = @"交易记录";
-static NSString *const kTextDate    = @"选择日期";
-static NSString *const kTextWeek    = @"近7天";
-static NSString *const kTextMonth   = @"近30天";
-static NSInteger const kDateButtonTag = 4361;
+static NSString *const kTextRecord          = @"交易记录";
+static NSString *const kTextDate            = @"选择日期";
+static NSString *const kTextWeek            = @"近7天";
+static NSString *const kTextMonth           = @"近30天";
+static NSString *const kToolbarItemDone     = @"完成";
+static NSString *const kToolbarItemCancel   = @"取消";
+///
+static NSInteger const kDateButtonTag       = 4361;
 
-@interface THNEarningsDateView ()
+@interface THNEarningsDateView () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UILabel *titleLabel;
-// 选择日期
-@property (nonatomic, strong) UIButton *selectedDate;
+/// 选择日期
+@property (nonatomic, strong) UITextField *dateTextField;
+/// 日期选择器
+@property (nonatomic, strong) UIDatePicker *dayDatePicker;
+/// 日期选择器工具栏
+@property (nonatomic, strong) UIToolbar *dayToolbar;
 @property (nonatomic, strong) UIButton *seletedtButton;
 
 @end
@@ -37,18 +46,10 @@ static NSInteger const kDateButtonTag = 4361;
 }
 
 - (void)thn_setSelectedDate:(NSString *)dateString {
-    [self.selectedDate setTitle:dateString forState:(UIControlStateNormal)];
+    self.dateTextField.text = dateString;
 }
 
 #pragma mark - event response
-- (void)selectedDateAction:(UIButton *)button {
-    self.selectedDate.selected = !button.selected;
-    
-    if ([self.delegate respondsToSelector:@selector(thn_didSelectedDate)]) {
-        [self.delegate thn_didSelectedDate];
-    }
-}
-
 - (void)dateButtonAction:(UIButton *)button {
     self.seletedtButton.selected = NO;
     button.selected = YES;
@@ -59,12 +60,26 @@ static NSInteger const kDateButtonTag = 4361;
     }
 }
 
+- (void)toolbarItemCancel {
+    [self endEditing:YES];
+}
+
+- (void)toolbarItemDone {
+    [self endEditing:YES];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM";
+    NSString *dayString = [formatter stringFromDate:self.dayDatePicker.date];
+    
+    self.dateTextField.text = dayString;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleLabel];
-    [self addSubview:self.selectedDate];
+    [self addSubview:self.dateTextField];
     [self thn_creatDateButtonWithTitles:@[kTextWeek, kTextMonth]];
 }
 
@@ -77,11 +92,28 @@ static NSInteger const kDateButtonTag = 4361;
         make.top.mas_equalTo(0);
     }];
     
-    [self.selectedDate mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.dateTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(78, 25));
         make.left.mas_equalTo(20);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(15);
     }];
+}
+
+#pragma mark - textfieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    UIImageView *upImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 5)];
+    upImageView.image = [UIImage imageNamed:@"icon_sort_up"];
+    upImageView.contentMode = UIViewContentModeLeft;
+    
+    self.dateTextField.rightView = upImageView;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    UIImageView *downImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 5)];
+    downImageView.image = [UIImage imageNamed:@"icon_sort_down"];
+    downImageView.contentMode = UIViewContentModeLeft;
+    
+    self.dateTextField.rightView = downImageView;
 }
 
 #pragma mark - getters and setters
@@ -115,23 +147,60 @@ static NSInteger const kDateButtonTag = 4361;
     return _titleLabel;
 }
 
-- (UIButton *)selectedDate {
-    if (!_selectedDate) {
-        _selectedDate = [[UIButton alloc] init];
-        [_selectedDate setTitle:kTextDate forState:(UIControlStateNormal)];
-        [_selectedDate setTitleColor:[UIColor colorWithHexString:@"#999999"] forState:(UIControlStateNormal)];
-        [_selectedDate setTitleEdgeInsets:(UIEdgeInsetsMake(0, -17, 0, 0))];
-        _selectedDate.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_selectedDate setImage:[UIImage imageNamed:@"icon_sort_down"] forState:(UIControlStateNormal)];
-        [_selectedDate setImage:[UIImage imageNamed:@"icon_sort_up"] forState:(UIControlStateSelected)];
-        [_selectedDate setImageEdgeInsets:(UIEdgeInsetsMake(0, 64, 0, 0))];
-        _selectedDate.selected = NO;
-        _selectedDate.layer.borderWidth = 1;
-        _selectedDate.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
-        _selectedDate.layer.cornerRadius = 4;
-        [_selectedDate addTarget:self action:@selector(selectedDateAction:) forControlEvents:(UIControlEventTouchUpInside)];
+- (UITextField *)dateTextField {
+    if (!_dateTextField) {
+        _dateTextField = [[UITextField alloc] init];
+        _dateTextField.textColor = [UIColor colorWithHexString:@"#333333"];
+        _dateTextField.placeholder = kTextDate;
+        _dateTextField.font = [UIFont systemFontOfSize:12];
+        _dateTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 0)];
+        _dateTextField.leftViewMode = UITextFieldViewModeAlways;
+    
+        UIImageView *downImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 5)];
+        downImageView.image = [UIImage imageNamed:@"icon_sort_down"];
+        downImageView.contentMode = UIViewContentModeLeft;
+        _dateTextField.rightView = downImageView;
+        _dateTextField.rightViewMode = UITextFieldViewModeAlways;
+        _dateTextField.inputView = self.dayDatePicker;
+        _dateTextField.inputAccessoryView = self.dayToolbar;
+        _dateTextField.layer.borderWidth = 1;
+        _dateTextField.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
+        _dateTextField.layer.cornerRadius = 4;
+        _dateTextField.delegate = self;
     }
-    return _selectedDate;
+    return _dateTextField;
+}
+
+- (UIDatePicker *)dayDatePicker {
+    if (!_dayDatePicker) {
+        _dayDatePicker = [[UIDatePicker alloc] init];
+        _dayDatePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
+        _dayDatePicker.datePickerMode = UIDatePickerModeDate;
+        [_dayDatePicker setMaximumDate:[NSDate dateWithTimeIntervalSinceNow:0]];
+        [_dayDatePicker setMinimumDate:[[NSDate date] dateBySubtractingYears:100]];
+    }
+    return _dayDatePicker;
+}
+
+- (UIToolbar *)dayToolbar {
+    if (!_dayToolbar) {
+        _dayToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 44)];
+        _dayToolbar.backgroundColor = [UIColor colorWithHexString:@"#DEDFE0"];
+        
+        UIBarButtonItem *cancelItem = [UIBarButtonItem itemWithTitle:kToolbarItemCancel
+                                                         normalColor:[UIColor colorWithHexString:@"#333333"]
+                                                    highlightedColor:[UIColor colorWithHexString:@"#333333"]
+                                                              target:self
+                                                              action:@selector(toolbarItemCancel)];
+        
+        UIBarButtonItem *doneItem = [UIBarButtonItem itemWithTitle:kToolbarItemDone
+                                                       normalColor:[UIColor colorWithHexString:@"#4DA1FF"]
+                                                  highlightedColor:[UIColor colorWithHexString:@"#4DA1FF"]
+                                                            target:self
+                                                            action:@selector(toolbarItemDone)];
+        _dayToolbar.items = @[cancelItem, doneItem];
+    }
+    return _dayToolbar;
 }
 
 @end

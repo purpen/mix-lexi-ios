@@ -28,8 +28,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewFlowLayout *)layout {
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
-        CGFloat itemWidth = self.viewWidth - 75;
-        layout.itemSize = CGSizeMake(itemWidth, itemWidth / 1.5);
+        layout.itemSize = CGSizeMake(self.viewWidth - 75, self.viewHeight);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         layout.minimumLineSpacing = 15;
         self.showsHorizontalScrollIndicator = NO;

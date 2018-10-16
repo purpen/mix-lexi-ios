@@ -17,6 +17,7 @@
 #import <UIKit/UIKit.h>
 #import "UIColor+Extension.h"
 #import "THNFreightModelItem.h"
+#import "NSString+Helper.h"
 
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
 const CGFloat kProductViewHeight = 90;
@@ -101,7 +102,7 @@ UITextFieldDelegate
     if (freight == 0) {
         self.freightLabel.text = @"包邮";
     } else {
-        self.freightLabel.text = [NSString stringWithFormat:@"¥%.2f",freight];
+        self.freightLabel.text = [NSString formatFloat:freight];
     }
 
     // 满减

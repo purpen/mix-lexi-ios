@@ -15,6 +15,8 @@
 #import "THNSaveTool.h"
 #import "THNLoginManager.h"
 
+static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publish";
+
 @interface THNShelfViewController ()
 
 @property (nonatomic, strong) UIView *recommendTintView;
@@ -37,10 +39,21 @@
     params[@"stick_text"] = self.textView.text;
     params[@"rid"] = self.productModel.rid;
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
-    NSString *url = [NSString stringWithFormat:@"/fx_distribute/%@/shelves",self.productModel.rid];
-    THNRequest *request = [THNAPI putWithUrlString:url requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlPublishProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (!result.isSuccess) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [SVProgressHUD showSuccessWithStatus:@"上架成功"];
+        
+        [SVProgressHUD dismissWithDelay:2.0 completion:^{
+//            self.shelfPopBlock();
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"shelfSuccess" object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

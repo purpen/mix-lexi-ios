@@ -79,6 +79,12 @@ static NSString *const kTextWait        = @"待结算：";
     self.showButton.selected = !button.selected;
 }
 
+- (void)waitHintButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_showCashHintText)]) {
+        [self.delegate thn_showCashHintText];
+    }
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfAction:)];
@@ -213,6 +219,7 @@ static NSString *const kTextWait        = @"待结算：";
     if (!_waitHintButton) {
         _waitHintButton = [[UIButton alloc] init];
         [_waitHintButton setImage:[UIImage imageNamed:@"icon_hint_white"] forState:(UIControlStateNormal)];
+        [_waitHintButton addTarget:self action:@selector(waitHintButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _waitHintButton;
 }

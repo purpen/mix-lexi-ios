@@ -120,4 +120,5 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 - (void)updateUserProfileWithParams:(NSDictionary *)params
                          completion:(void (^)(THNResponse *date, NSError *error))completion;
 
+
 @end

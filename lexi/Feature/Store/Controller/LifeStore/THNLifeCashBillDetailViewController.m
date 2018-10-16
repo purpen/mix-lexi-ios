@@ -8,22 +8,38 @@
 
 #import "THNLifeCashBillDetailViewController.h"
 #import "THNLifeCashBillInfoTableViewCell.h"
+#import "THNLifeOrderProductTableViewCell.h"
 #import "UIView+Helper.h"
+#import "THNLifeManager.h"
+#import "THNLoginManager.h"
 
 /// text
 static NSString *const kTextDetail = @"收益详情";
 /// cell id
 static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTableViewCellId";
+static NSString *const kOrderProductTableViewCellId = @"THNLifeOrderProductTableViewCellId";
 
 @interface THNLifeCashBillDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITableView *billTable;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, strong) NSArray *goodsArr;
+@property (nonatomic, strong) THNLifeCashBillOrderModel *dataModel;
 
 @end
 
 @implementation THNLifeCashBillDetailViewController
+
+- (instancetype)initWithRid:(NSString *)rid detailModel:(THNLifeCashBillOrderModel *)model {
+    self = [super init];
+    if (self) {
+        [self thn_getLifeOrderEarningsDetailWithOrderId:rid];
+        self.dataModel = model;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,21 +47,45 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
     [self setupUI];
 }
 
+#pragma mark - network
+// 获取订单收益详情
+- (void)thn_getLifeOrderEarningsDetailWithOrderId:(NSString *)orderId {
+    if (!orderId.length) return ;
+    
+    [SVProgressHUD showInfoWithStatus:@""];
+    
+    WEAKSELF;
+    [THNLifeManager getLifeOrdersSaleDetailCollectWithRid:orderId
+                                                 storeRid:[THNLoginManager sharedManager].storeRid
+                                               completion:^(NSArray *productData, NSError *error) {
+                                                   [SVProgressHUD dismiss];
+                                                   if (error) return ;
+                                                   
+                                                   weakSelf.goodsArr = [NSArray arrayWithArray:productData];
+                                                   [weakSelf.billTable reloadData];
+                                               }];
+}
+
 #pragma mark - event response
 - (void)closeButtonAction:(UIButton *)button {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.4];
-
-    [self.view addSubview:self.billTable];
-
-    [self.view addSubview:self.titleLabel];
-    [self.titleLabel drawCornerWithType:(UILayoutCornerRadiusTop) radius:4];
     
-    [self.view addSubview:self.closeButton];
+    [self.containerView addSubview:self.billTable];
+    [self.containerView addSubview:self.titleLabel];
+    [self.containerView addSubview:self.closeButton];
+    [self.view addSubview:self.containerView];
+    [self.containerView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    [self thn_showTransform];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,32 +94,59 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
     self.navigationBarView.hidden = YES;
 }
 
+- (void)thn_showTransform {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.containerView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    }];
+}
+
 #pragma mark - tableView datasource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.goodsArr.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.row == 0 ? 92.0 : 114.0;
+    return indexPath.row == 0 ? 92.0 : 115.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNLifeCashBillInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCashBillInfoTableViewCellId];
-    if (!cell) {
-        cell = [[THNLifeCashBillInfoTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kCashBillInfoTableViewCellId];
+    if (indexPath.row == 0) {
+        THNLifeCashBillInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCashBillInfoTableViewCellId];
+        if (!cell) {
+            cell = [[THNLifeCashBillInfoTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault)
+                                                           reuseIdentifier:kCashBillInfoTableViewCellId];
+            cell.showDetail = NO;
+        }
+        
+        if (self.dataModel) {
+            [cell thn_setLifeCashBillOrderData:self.dataModel];
+        }
+        
+        return cell;
     }
     
-    return cell;
+    THNLifeOrderProductTableViewCell *productCell = [tableView dequeueReusableCellWithIdentifier:kOrderProductTableViewCellId];
+    if (!productCell) {
+        productCell = [[THNLifeOrderProductTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault)
+                                                              reuseIdentifier:kOrderProductTableViewCellId];
+    }
+    
+    if (self.goodsArr.count) {
+        productCell.showEearnings = YES;
+        [productCell thn_setLifeOrderProductData:self.goodsArr[indexPath.row - 1]];
+    }
+    
+    return productCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD showInfoWithStatus:@"商品详情"];
+
 }
 
 #pragma mark - getters and setters
 - (UITableView *)billTable {
     if (!_billTable) {
-        _billTable = [[UITableView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 320) / 2, (SCREEN_HEIGHT - 400) / 2 + 45, 320, 400) style:(UITableViewStylePlain)];
+        _billTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 45, 320, 400) style:(UITableViewStylePlain)];
         _billTable.delegate = self;
         _billTable.dataSource = self;
         _billTable.backgroundColor = [UIColor whiteColor];
@@ -94,7 +161,7 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 320) / 2, CGRectGetMinY(self.billTable.frame) - 45, 320, 45)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 45)];
         _titleLabel.font = [UIFont systemFontOfSize:16];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -112,6 +179,15 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
         [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _closeButton;
+}
+
+- (UIView *)containerView {
+    if (!_containerView) {
+        _containerView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 320) / 2, (SCREEN_HEIGHT - 400) / 2, 320, 400)];
+        _containerView.backgroundColor = [UIColor whiteColor];
+        _containerView.transform = CGAffineTransformMakeScale(0.0, 0.0);
+    }
+    return _containerView;
 }
 
 @end

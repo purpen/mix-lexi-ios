@@ -117,7 +117,6 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
                                                            NSMutableArray *imageIDMutableArray = [NSMutableArray arrayWithArray:dict[@"asset_ids"]];
                                                            NSInteger assetID = [result[@"ids"][0] integerValue];
                                                            [imageIDMutableArray addObject:@(assetID)];
-                                                           
                                                            dict[@"asset_ids"] = imageIDMutableArray;
                                                            NSMutableArray *imageMutableArray = [NSMutableArray arrayWithArray:dict[@"imageDatas"]];
                                                            [imageMutableArray addObject:imageData];
