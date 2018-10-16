@@ -30,6 +30,7 @@
 #import "THNSettingViewController.h"
 #import "THNSettingUserInfoViewController.h"
 #import "THNLifeManagementViewController.h"
+#import "THNShareViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -135,16 +136,15 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        [SVProgressHUD showInfoWithStatus:@"分享"];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] init];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:shareVC animated:NO completion:nil];
         
     } else if (index == 1) {
         if (self.userModel) {
             THNSettingViewController *settingVC = [[THNSettingViewController alloc] init];
             [self.navigationController pushViewController:settingVC animated:YES];
         }
-        
-//        THNLifeManagementViewController *lifeVC = [[THNLifeManagementViewController alloc] init];
-//        [self.navigationController pushViewController:lifeVC animated:YES];
     }
 }
 
