@@ -42,7 +42,7 @@ static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollect
 
 - (void)setBrandModel:(THNFeaturedBrandModel *)brandModel {
     _brandModel = brandModel;
-    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]];
+    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.nameLabel.text = brandModel.name;
     self.addressLabel.text = [NSString stringWithFormat:@"%@,%@",brandModel.country,brandModel.city];
     self.desLabel.text = brandModel.tag_line;

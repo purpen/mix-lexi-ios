@@ -57,8 +57,8 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
 
 - (void)setFeatureBrandModel:(THNFeaturedBrandModel *)featureBrandModel {
     _featureBrandModel = featureBrandModel;
-    [self.backGroundImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.bgcover]];
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.logo]];
+    [self.backGroundImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.bgcover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.storeNameLabel.text = featureBrandModel.name;
     self.storePruductCountLabel.text = [NSString stringWithFormat:@"%ld 件",featureBrandModel.store_products_counts];
 }

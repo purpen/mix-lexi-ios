@@ -32,7 +32,7 @@
     _categoriesModel = categoriesModel;
     self.desLabel.text = categoriesModel.name;
     self.peopleNumberLabel.text = [NSString stringWithFormat:@"%ld 人",categoriesModel.browse_count];
-    [self.categoriesImageView sd_setImageWithURL:[NSURL URLWithString:categoriesModel.cover]];
+    [self.categoriesImageView sd_setImageWithURL:[NSURL URLWithString:categoriesModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     
 }
 

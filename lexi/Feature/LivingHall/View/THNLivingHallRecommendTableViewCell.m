@@ -128,7 +128,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 - (void)setProductModel:(THNProductModel *)productModel {
     _productModel = productModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
     self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
     self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
@@ -148,7 +148,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 // 馆长信息头像
 - (void)setCurtorAvatar:(NSString *)storeAvatarUrl {
-    [self.curatorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeAvatarUrl]];
+    [self.curatorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeAvatarUrl] placeholderImage:[UIImage imageNamed:@""]];
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

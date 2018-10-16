@@ -90,7 +90,7 @@ CGFloat orderCellLineSpacing = 10;
 
 - (void)setOrdersModel:(THNOrdersModel *)ordersModel {
     _ordersModel = ordersModel;
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:ordersModel.store.store_logo]];
+    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:ordersModel.store.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.nameLabel.text = ordersModel.store.store_name;
     self.dateLabel.text = [NSString timeConversion:ordersModel.created_at initWithFormatterType:FormatterDay];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥%.2f", ordersModel.user_pay_amount];

@@ -29,6 +29,7 @@
 #import "THNSaveTool.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNArticleViewController.h"
+#import "THNBrandHallStoryViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -431,6 +432,12 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     self.brandShowType = BrandShowTypelifeRecord;
     self.isRecords = YES;
     [self setupLayout];
+}
+
+- (void)pushBrandHallStory:(NSString *)rid {
+    THNBrandHallStoryViewController *brandHallStoryVC = [[THNBrandHallStoryViewController alloc]init];
+    brandHallStoryVC.rid = rid;
+    [self.navigationController pushViewController:brandHallStoryVC animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate

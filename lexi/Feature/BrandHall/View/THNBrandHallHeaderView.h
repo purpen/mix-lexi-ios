@@ -11,8 +11,9 @@
 @protocol THNBrandHallHeaderViewDelegate<NSObject>
 
 @optional
--(void)showProduct;
--(void)showLifeRecords;
+- (void)showProduct;
+- (void)showLifeRecords;
+- (void)pushBrandHallStory:(NSString *)rid;
 
 @end
 
