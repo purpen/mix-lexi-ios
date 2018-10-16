@@ -60,8 +60,8 @@
     }
     
     self.nameLabel.text = grassListModel.user_name;
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.user_avator]];
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]];
+    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.user_avator]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 

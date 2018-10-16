@@ -54,7 +54,7 @@ CGFloat sevenToGrowImageHeight = 90;
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
     _shopWindowModel = shopWindowModel;
     self.nameLabel.text = shopWindowModel.user_name;
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:shopWindowModel.user_avatar]];
+    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:shopWindowModel.user_avatar]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];

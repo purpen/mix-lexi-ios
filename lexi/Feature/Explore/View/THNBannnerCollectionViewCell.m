@@ -34,24 +34,24 @@
     self.titleLabel.text = setModel.name;
     self.subTitleLabel.text = setModel.sub_name;
     [self.backGroundView drawCornerWithType:0 radius:2];
-    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:setModel.cover]];
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:setModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (void)setBannerModel:(THNBannerModel *)bannerModel {
     self.setLabelsView.hidden = YES;
-    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.image]];
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.image]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (void)setUserPartieModel:(THNUserPartieModel *)userPartieModel {
     self.setLabelsView.hidden = YES;
     self.layer.cornerRadius = self.viewHeight / 2;
-    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:userPartieModel.avatar]];
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:userPartieModel.avatar]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (void)setProductModel:(THNProductModel *)productModel {
     _productModel = productModel;
     self.setLabelsView.hidden = YES;
-    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 @end

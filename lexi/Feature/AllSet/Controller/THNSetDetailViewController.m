@@ -11,6 +11,7 @@
 #import "THNProductModel.h"
 #import "THNAPI.h"
 #import "UIImageView+WebCache.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kSetDetailProductCellIdentifier = @"kSetDetailProductCellIdentifier";
 static NSString *const kSetDetailHeaderViewIdentifier = @"kSetDetailHeaderViewIdentifier";
@@ -44,15 +45,17 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 }
 
 - (void)loadCollectionsDetailData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"id"] = self.collectionID;
     THNRequest *request = [THNAPI getWithUrlString:kUrlCollectionsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.products = result.data[@"products"];
         self.cover = result.data[@"cover"];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -71,7 +74,7 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 #pragma mark - UICollectionViewDelegate
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier forIndexPath:indexPath];
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover]];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     [headerView addSubview:self.coverImageView];
     return headerView;
 }
