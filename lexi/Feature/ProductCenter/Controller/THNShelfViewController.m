@@ -17,7 +17,7 @@
 
 static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publish";
 
-@interface THNShelfViewController ()
+@interface THNShelfViewController () <YYTextViewDelegate>
 
 @property (nonatomic, strong) UIView *recommendTintView;
 @property (nonatomic, strong) THNCenterProductTableViewCell *centerProductCell;
@@ -59,12 +59,32 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
     }];
 }
 
+
 - (void)setupUI {   
     [self.view addSubview:self.recommendTintView];
     [self.view addSubview:self.centerProductCell];
     [self.view addSubview:self.shelfButton];
     self.view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+    self.textView.returnKeyType = UIReturnKeyDone;
+    self.textView.delegate = self;
 }
+
+#pragma mark - YYTextViewDelegate
+
+// 点击Return 隐藏键盘
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+
+    if ([text isEqualToString:@"\n"]){
+
+        [textView resignFirstResponder];
+
+        return NO;
+
+    }
+
+    return YES;
+}
+
 
 - (UIView *)recommendTintView {
     if (!_recommendTintView) {
