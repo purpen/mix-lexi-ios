@@ -51,7 +51,7 @@ static NSString *const kTextHint = @"查看并编辑个人资料";
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.right.mas_equalTo(-15);
-        make.centerY.equalTo(self);
+        make.centerY.equalTo(self.mas_centerY).with.offset(-5);
     }];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -10,6 +10,9 @@
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNConst.h"
+#import "UIBarButtonItem+Helper.h"
+#import <DateTools/DateTools.h>
 
 static NSString *kSettingInfoCellId = @"THNSettingInfoTableViewCellId";
 /// text
@@ -25,11 +28,22 @@ static NSString *const kTextDate        = @"出生日期";
 static NSString *const kHintDate        = @"请输入出生日期";
 static NSString *const kTextSex         = @"性别";
 static NSString *const kHintSex         = @"请选择性别";
+///
+static NSString *const kToolbarItemDone     = @"完成";
+static NSString *const kToolbarItemCancel   = @"取消";
 
-@interface THNSettingInfoTableViewCell () <UITextFieldDelegate>
+@interface THNSettingInfoTableViewCell () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong) UILabel *titleLable;
 @property (nonatomic, strong) UITextField *infoTextField;
+/// 日期选择器
+@property (nonatomic, strong) UIDatePicker *dayDatePicker;
+/// 日期选择器工具栏
+@property (nonatomic, strong) UIToolbar *dayToolbar;
+/// 性别选择器
+@property (nonatomic, strong) UIPickerView *sexPicker;
+/// 性别
+@property (nonatomic, strong) NSArray *sexArr;
 
 @end
 
@@ -101,20 +115,58 @@ static NSString *const kHintSex         = @"请选择性别";
     
     NSArray *placeholders = @[kHintName, kHintSlogan, kHintEmail, kHintLocation, kHintDate, kHintSex];
     self.infoTextField.placeholder = placeholders[(NSUInteger)type];
+    
+    if (type == THNSettingInfoTypeDate) {
+        self.infoTextField.inputView = self.dayDatePicker;
+        self.infoTextField.inputAccessoryView = self.dayToolbar;
+        
+    } else if (type == THNSettingInfoTypeSex) {
+        self.infoTextField.inputView = self.sexPicker;
+    }
+}
+
+#pragma mark - event response
+- (void)toolbarItemCancel {
+    [self endEditing:YES];
+}
+
+- (void)toolbarItemDone {
+    [self endEditing:YES];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    NSString *dayString = [formatter stringFromDate:self.dayDatePicker.date];
+    
+    self.infoTextField.text = dayString;
+    self.editInfo = dayString;
 }
 
 #pragma mark - textfieldDelegate
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if (self.type == THNSettingInfoTypeDate || self.type == THNSettingInfoTypeSex) {
-        [SVProgressHUD showInfoWithStatus:@"弹出选择器"];
-        return NO;
-    }
-    
-    return YES;
-}
-
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.editInfo = textField.text;
+}
+
+#pragma mark - PickerViewDelegate
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 2;
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return 30.0;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return row == 0 ? @"女" : @"男";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    NSString *sex = row == 0 ? @"女" : @"男";
+    self.infoTextField.text = sex;
+    self.editInfo = sex;
 }
 
 #pragma mark - private methods
@@ -176,6 +228,47 @@ static NSString *const kHintSex         = @"请选择性别";
         _infoTextField.delegate = self;
     }
     return _infoTextField;
+}
+
+- (UIDatePicker *)dayDatePicker {
+    if (!_dayDatePicker) {
+        _dayDatePicker = [[UIDatePicker alloc] init];
+        _dayDatePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
+        _dayDatePicker.datePickerMode = UIDatePickerModeDate;
+        [_dayDatePicker setMaximumDate:[NSDate dateWithTimeIntervalSinceNow:0]];
+        [_dayDatePicker setMinimumDate:[[NSDate date] dateBySubtractingYears:100]];
+    }
+    return _dayDatePicker;
+}
+
+- (UIToolbar *)dayToolbar {
+    if (!_dayToolbar) {
+        _dayToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 44)];
+        _dayToolbar.backgroundColor = [UIColor colorWithHexString:@"#DEDFE0"];
+        
+        UIBarButtonItem *cancelItem = [UIBarButtonItem itemWithTitle:kToolbarItemCancel
+                                                         normalColor:[UIColor colorWithHexString:@"#333333"]
+                                                    highlightedColor:[UIColor colorWithHexString:@"#333333"]
+                                                              target:self
+                                                              action:@selector(toolbarItemCancel)];
+        
+        UIBarButtonItem *doneItem = [UIBarButtonItem itemWithTitle:kToolbarItemDone
+                                                       normalColor:[UIColor colorWithHexString:@"#4DA1FF"]
+                                                  highlightedColor:[UIColor colorWithHexString:@"#4DA1FF"]
+                                                            target:self
+                                                            action:@selector(toolbarItemDone)];
+        _dayToolbar.items = @[cancelItem, doneItem];
+    }
+    return _dayToolbar;
+}
+
+- (UIPickerView *)sexPicker {
+    if (!_sexPicker) {
+        _sexPicker = [[UIPickerView alloc] init];
+        _sexPicker.dataSource = self;
+        _sexPicker.delegate = self;
+    }
+    return _sexPicker;
 }
 
 #pragma mark -

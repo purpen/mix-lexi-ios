@@ -12,6 +12,7 @@
 #import "THNConst.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import "NSString+Helper.h"
 
 static NSString *const kTextTotal       = @"合计：";
 static NSString *const kTextClearing    = @"结算";
@@ -75,7 +76,7 @@ static NSString *const kTextWishList    = @"放入心愿单";
 - (void)thn_setTotalPriceWithValue:(CGFloat)value {
     if (!value) return;
     
-    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", value]];
+    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString formatFloat:value]];
     priceAtt.color = [UIColor colorWithHexString:@"#333333"];
     priceAtt.font = [UIFont systemFontOfSize:15 weight:(UIFontWeightMedium)];
     

@@ -8,6 +8,7 @@
 
 #import "THNGoodsTitleTableViewCell.h"
 #import "YYLabel+Helper.h"
+#import "NSString+Helper.h"
 
 static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId";
 
@@ -77,7 +78,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
         return;
     }
     
-    NSString *originalPriceStr = [NSString stringWithFormat:@"¥%.2f", value];
+    NSString *originalPriceStr = [NSString formatFloat:value];
     NSMutableAttributedString *originalPriceAtt = [[NSMutableAttributedString alloc] initWithString:originalPriceStr];
     originalPriceAtt.color = [UIColor colorWithHexString:@"#949EA6"];
     originalPriceAtt.font = [UIFont systemFontOfSize:14];

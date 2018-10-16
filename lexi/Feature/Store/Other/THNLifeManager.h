@@ -39,6 +39,11 @@
 + (void)getLifeOrdersSaleCollectWithRid:(NSString *)rid
                              completion:(void (^)(THNLifeSaleCollectModel *model, NSError *error))completion;
 
+// 收益详情
++ (void)getLifeOrdersSaleDetailCollectWithRid:(NSString *)rid
+                                     storeRid:(NSString *)storeRid
+                             completion:(void (^)(NSArray *productData, NSError *error))completion;
+
 // 提现汇总
 + (void)getLifeCashCollectWithRid:(NSString *)rid
                        completion:(void (^)(THNLifeCashCollectModel *model, NSError *error))completion;
@@ -52,6 +57,11 @@
 + (void)getLifeCashBillDetailWithRid:(NSString *)rid
                             recordId:(NSString *)recordId
                           completion:(void (^)(THNLifeCashBillModel *model, NSError *error))completion;
+
+// 提现
++ (void)getLifeCashWithStoreRid:(NSString *)storeId
+                         openId:(NSString *)openId
+                     completion:(void (^)(NSError *))completion;
 
 // 最近一笔提现金额
 + (void)getLifeCashRecentWithRid:(NSString *)rid

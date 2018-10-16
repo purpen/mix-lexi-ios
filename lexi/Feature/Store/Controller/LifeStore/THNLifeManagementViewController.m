@@ -18,6 +18,7 @@
 #import "THNLifeTransactionRecordsViewController.h"
 #import "THNLifeOrderRecordViewController.h"
 #import "THNLifeCashViewController.h"
+#import "THNLifeActionViewController.h"
 
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
 ///
@@ -87,15 +88,25 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_checkWechatInfo {
-    [SVProgressHUD showInfoWithStatus:@"查看微信"];
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeImage)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
+}
+
+- (void)thn_showCashHintText {
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeText)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
 }
 
 #pragma mark - network
 - (void)thn_setLifeStoreUserData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeStoreInfoWithRid:[THNLoginManager sharedManager].storeRid
                                  completion:^(THNLifeStoreModel *model, NSError *error) {
+                                     [SVProgressHUD dismiss];
                                      if (error) return;
                                      
                                      [weakSelf.userView thn_setLifeStoreInfo:model];
@@ -107,10 +118,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeTransactionData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
+                                             [SVProgressHUD dismiss];
                                              if (error) return;
                                              
                                              [weakSelf.earningsView thn_setLifeSaleColleciton:model];
@@ -118,10 +131,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeOrdersCollectData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersCollectWithRid:[THNLoginManager sharedManager].storeRid
                                      completion:^(THNLifeOrdersCollectModel *model, NSError *error) {
+                                         [SVProgressHUD dismiss];
                                          if (error) return;
                                          
                                          [weakSelf.dataView thn_setLifeOrdersCollecitonModel:model];
@@ -129,10 +144,12 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 }
 
 - (void)thn_getLifeCashCollectData {
+    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
+                                       [SVProgressHUD dismiss];
                                        if (error) return;
                                        
                                        [weakSelf.dataView thn_setLifeCashCollectModel:model];
@@ -143,19 +160,6 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 // 是否显示倒计时
 - (void)thn_showCountdownPhases:(NSInteger)phases {
     self.countdownView.hidden = phases != 1;
-}
-
-#pragma mark - setup UI
-- (void)setupUI {
-    [self.headerView addSubview:self.userView];
-    [self.headerView addSubview:self.countdownView];
-    [self.headerView addSubview:self.earningsView];
-    [self.headerView addSubview:self.dataView];
-    [self.headerView addSubview:self.hintView];
-    self.lifeInfoTable.tableHeaderView = self.headerView;
-    [self.footerView addSubview:self.phoneButton];
-    self.lifeInfoTable.tableFooterView = self.footerView;
-    [self.view addSubview:self.lifeInfoTable];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -200,13 +204,33 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     }
 }
 
+#pragma mark - setup UI
+- (void)setupUI {
+    [self.headerView addSubview:self.userView];
+    [self.headerView addSubview:self.countdownView];
+    [self.headerView addSubview:self.earningsView];
+    [self.headerView addSubview:self.dataView];
+    [self.headerView addSubview:self.hintView];
+    self.lifeInfoTable.tableHeaderView = self.headerView;
+    [self.footerView addSubview:self.phoneButton];
+    self.lifeInfoTable.tableFooterView = self.footerView;
+    [self.view addSubview:self.lifeInfoTable];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationBarView.hidden = YES;
+}
+
 #pragma mark - getters and setters
 - (UITableView *)lifeInfoTable {
     if (!_lifeInfoTable) {
-        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStylePlain)];
+        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.frame))
+                                                      style:(UITableViewStylePlain)];
         _lifeInfoTable.delegate = self;
         _lifeInfoTable.dataSource = self;
-        _lifeInfoTable.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
+        _lifeInfoTable.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         _lifeInfoTable.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _lifeInfoTable.showsVerticalScrollIndicator = NO;
         _lifeInfoTable.separatorColor = [UIColor colorWithHexString:@"#E9E9E9"];

@@ -8,8 +8,9 @@
 
 #import "THNApplySuccessViewController.h"
 #import "THNApplySuccessView.h"
+#import "THNHomeViewController.h"
 
-static NSString *const kNavigationTitle = @"申请生活馆";
+static NSString *const kTitleApply = @"申请生活馆";
 
 @interface THNApplySuccessViewController ()
 
@@ -37,7 +38,7 @@ static NSString *const kNavigationTitle = @"申请生活馆";
 }
 
 - (void)setNavigationBar {
-    self.navigationBarView.title = kNavigationTitle;
+    self.navigationBarView.title = kTitleApply;
     [self.navigationBarView setNavigationBackButtonHidden:YES];
 }
 
@@ -48,7 +49,9 @@ static NSString *const kNavigationTitle = @"申请生活馆";
         
         WEAKSELF;
         _successView.ApplySuccessBlock = ^{
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            THNHomeViewController *homeVC = [[THNHomeViewController alloc]init];
+        
+            [weakSelf.navigationController pushViewController:homeVC animated:YES];
         };
     }
     return _successView;

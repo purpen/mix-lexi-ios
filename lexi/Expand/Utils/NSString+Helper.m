@@ -274,11 +274,11 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
 + (NSString *)formatFloat:(float)f
 {
     if (fmodf(f, 1) == 0) {//如果有一位小数点
-        return [NSString stringWithFormat:@"%.0f",f];
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.0f",f]];
     } else if (fmodf(f * 10, 1)==0) {//如果有两位小数点
-        return [NSString stringWithFormat:@"%.1f",f];
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.1f",f]];
     } else {
-        return [NSString stringWithFormat:@"%.2f",f];
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.2f",f]];
     }
 }
 
