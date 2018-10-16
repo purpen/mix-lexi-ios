@@ -258,7 +258,7 @@ static NSString *const kTextResetSku        = @"重选规格";
         self.oriPriceLabel.hidden = YES;
     }
     
-    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", salePrice]];
+    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString formatFloat:salePrice]];
     priceAtt.color = [UIColor colorWithHexString:@"#333333"];
     priceAtt.font = [self thn_getPriceFont];
     priceAtt.alignment = NSTextAlignmentRight;
@@ -267,7 +267,7 @@ static NSString *const kTextResetSku        = @"重选规格";
     
     if (oriPrice <= 0) return;
     
-    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2f", oriPrice]];
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:[NSString formatFloat:oriPrice]];
     att.color = [UIColor colorWithHexString:@"#B2B2B2"];
     att.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
     att.alignment = NSTextAlignmentRight;

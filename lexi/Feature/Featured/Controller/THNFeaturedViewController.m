@@ -492,7 +492,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        CGFloat height = SCREEN_WIDTH == 414? 220 : 200;
+        CGFloat height = (SCREEN_WIDTH - 75) / 1.5;;
         _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, height) collectionViewLayout:flowLayout];
     }
     return _featuredCollectionView;
@@ -501,9 +501,15 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
-        [_openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
-        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
+        
+        if ([THNLoginManager sharedManager].openingUser) {
+            _openingView.topTintView.hidden = YES;
+            _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
+        } else {
+             _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
+        }
     }
+    
     return _openingView;
 }
 

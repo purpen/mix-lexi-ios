@@ -24,6 +24,8 @@
 #import "THNBrandHallViewController.h"
 #import "THNArticleViewController.h"
 #import "THNGoodsListViewController.h"
+#import "UIViewController+THNHud.h"
+#import "THNLoginManager.h"
 
 static NSString *const kCenterProductCellIdentifier = @"kCenterProductCellIdentifier";
 static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
@@ -46,6 +48,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:@"shelfSuccess" object:nil];
     [self loadDistributeHotData];
     [self loadDistributeStickedData];
     [self loadDistributeLatestData];
@@ -66,8 +69,23 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNCenterProductTableViewCell" bundle:nil] forCellReuseIdentifier:kCenterProductCellIdentifier];
 }
 
+- (void)refreshData {
+    switch (self.productType) {
+        case ProductTypeHot:
+            [self loadDistributeHotData];
+            break;
+        case ProductTypeNew:
+            [self loadDistributeLatestData];
+            break;
+        case ProductTypeOfficialRecommend:
+            [self loadDistributeStickedData];
+            break;
+    }
+}
+
 // 顶部Banner
 - (void)loadTopBannerData {
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.dataArray = result.data[@"banner_images"];
@@ -80,20 +98,26 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 // 热门单品
 - (void)loadDistributeHotData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:nil  delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.hotDataArray = result.data[@"products"];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
 // 官方推荐
 - (void)loadDistributeStickedData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeSticked requestDictionary:nil  delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeSticked requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.officialRecommendDataArray = result.data[@"products"];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -101,9 +125,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 //新品首发
 - (void)loadDistributeLatestData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeLatest requestDictionary:nil  delegate:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeLatest requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dataArrayNew = result.data[@"products"];
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -133,34 +160,6 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     [self.navigationController pushViewController:goodsListVC animated:YES];
 }
 
-#pragma mark - lazy
-- (THNFeaturedCollectionView *)featuredCollectionView {
-    if (!_featuredCollectionView) {
-        THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(20 , 10, SCREEN_WIDTH, 140) collectionViewLayout:flowLayout];
-        _featuredCollectionView.featuredDelegate = self;
-    }
-    return _featuredCollectionView;
-}
-
-- (THNFeaturedOpeningView *)openingView {
-    if (!_openingView) {
-        _openingView = [THNFeaturedOpeningView viewFromXib];
-        _openingView.topTintView.hidden = YES;
-        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
-    }
-    return _openingView;
-}
-
-- (THNSelectButtonView *)selectButtonView {
-    if (!_selectButtonView) {
-        NSArray *titleArray = @[@"热门单品", @"官方推荐", @"新品首发"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.openingView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
-        _selectButtonView.delegate = self;
-    }
-    return _selectButtonView;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     switch (self.productType) {
@@ -175,6 +174,8 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
             break;
     }
 }
+
+#pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNCenterProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCenterProductCellIdentifier forIndexPath:indexPath];
@@ -230,6 +231,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     }
     
     shelf.productModel = productModel;
+    
     [self.navigationController pushViewController:shelf animated:YES];
 }
 
@@ -247,6 +249,35 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
             break;
     }
     [self.tableView reloadData];
+}
+
+#pragma mark - lazy
+- (THNFeaturedCollectionView *)featuredCollectionView {
+    if (!_featuredCollectionView) {
+        THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
+        CGFloat height = (SCREEN_WIDTH - 75) / 2;
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH, height) collectionViewLayout:flowLayout];
+        _featuredCollectionView.featuredDelegate = self;
+    }
+    return _featuredCollectionView;
+}
+
+- (THNFeaturedOpeningView *)openingView {
+    if (!_openingView) {
+        _openingView = [THNFeaturedOpeningView viewFromXib];
+        _openingView.topTintView.hidden = YES;
+        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
+    }
+    return _openingView;
+}
+
+- (THNSelectButtonView *)selectButtonView {
+    if (!_selectButtonView) {
+        NSArray *titleArray = @[@"热门单品", @"官方推荐", @"新品首发"];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.openingView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+        _selectButtonView.delegate = self;
+    }
+    return _selectButtonView;
 }
 
 @end

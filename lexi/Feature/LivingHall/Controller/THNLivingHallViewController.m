@@ -23,15 +23,17 @@
 #import "THNPruductCenterViewController.h"
 #import "THNGoodsInfoViewController.h"
 #import "UIViewController+THNHud.h"
+#import "THNPhotoManager.h"
+#import "THNQiNiuUpload.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
 static CGFloat const cellSpacing = 15;
 static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecommendCellIdentifier";
 // 馆长推荐
-static NSString *const kUrlCuratorRecommended = @"/fx_distribute/agency";
+static NSString *const kUrlCuratorRecommended = @"/core_platforms/products/by_store";
 // 删除商品
-static NSString *const kUrlDeleteProduct = @"/fx_distribute/remove";
+static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remove";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
@@ -56,7 +58,8 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [self loadAllData];
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCuratorRecommendedData) name:@"shelfSuccess" object:nil];
+    [self loadAllData];
     [self setupUI];
 }
 
@@ -93,11 +96,12 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
-    params[@"user_record"] = @(1);
-    [self showHud];
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    [SVProgressHUD showInfoWithStatus:@""];
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
+        [self.recommendedMutableArray removeAllObjects];
         self.recommendedArray = result.data[@"products"];
         self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
         
@@ -107,12 +111,14 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         
         if (self.recommendedmutableArray.count > 0) {
             self.livingHallHeaderView.noProductView.hidden = YES;
-            [self.tableView reloadData];
+        } else {
+            self.livingHallHeaderView.noProductView.hidden = NO;
+           
         }
         
-        
+        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -120,6 +126,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)deleteProduct:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self loadCuratorRecommendedData];
@@ -142,6 +149,24 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         
     }];
 }
+
+#pragma mark - private methods
+/**
+ 选择头像照片
+ */
+- (void)thn_getSelectImage {
+    WEAKSELF;
+    [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
+        [weakSelf.livingHallHeaderView setHeaderImageWithData:imageData];
+        
+        [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:imageData
+                                                       compltion:^(NSDictionary *result) {
+                                                           NSArray *idsArray = result[@"ids"];
+                                                           [weakSelf.livingHallHeaderView setHeaderAvatarId:[idsArray[0] integerValue]];
+                                                       }];
+    }];
+}
+
 
 #pragma mark - UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -188,6 +213,10 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     self.livingHallHeaderView.pushProductCenterBlock = ^{
         THNPruductCenterViewController *productCenter = [[THNPruductCenterViewController alloc]init];
         [weakSelf.navigationController pushViewController:productCenter animated:YES];
+    };
+    
+    self.livingHallHeaderView.storeLogoBlock = ^{
+        [weakSelf thn_getSelectImage];
     };
     
     return self.livingHallHeaderView;
