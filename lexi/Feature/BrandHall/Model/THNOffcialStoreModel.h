@@ -25,5 +25,6 @@
 @property (nonatomic, assign) BOOL is_followed;
 
 @property (nonatomic, strong) NSString *bgcover;
+@property (nonatomic, strong) NSString *rid;
 
 @end
