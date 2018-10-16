@@ -40,4 +40,6 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellSeparatorStyle) {
  */
 - (void)thn_sortDataSecitons;
 
+- (void)setupTableViewUI;
+
 @end

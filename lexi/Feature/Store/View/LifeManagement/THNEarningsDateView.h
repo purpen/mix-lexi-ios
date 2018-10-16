@@ -10,8 +10,6 @@
 
 @protocol THNEarningsDateViewDelegate <NSObject>
 
-// 选择日期
-- (void)thn_didSelectedDate;
 // 选择默认的日期
 - (void)thn_didSelectedDateWithDefaultIndex:(NSInteger)index;
 

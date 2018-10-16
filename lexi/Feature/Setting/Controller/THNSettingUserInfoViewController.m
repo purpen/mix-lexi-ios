@@ -38,8 +38,7 @@ static NSString *const kKeyAddress      = @"street_address";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self thn_getLoginUserData];
+
     [self setupUI];
 }
 
@@ -105,6 +104,7 @@ static NSString *const kKeyAddress      = @"street_address";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_getLoginUserData];
 }
 
 - (void)setNavigationBar {
@@ -134,10 +134,6 @@ static NSString *const kKeyAddress      = @"street_address";
     }
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
 }
 
 #pragma mark - getters and setters

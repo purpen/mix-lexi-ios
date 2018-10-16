@@ -47,6 +47,10 @@ static NSString *const kTextMoney  = @"收益：￥";
     self.numberLabel.text = [NSString stringWithFormat:@"%@%@", kTextNumber, model.order_id];
 }
 
+- (void)setShowDetail:(BOOL)showDetail {
+    self.detailButton.hidden = !showDetail;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor whiteColor];

@@ -11,6 +11,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "NSString+Helper.h"
 #import "UIBarButtonItem+Helper.h"
+#import <DateTools/DateTools.h>
 
 static NSString *const kTitleLabelText      = @"欢迎来到乐喜";
 static NSString *const kHintLabelText       = @"有个真实头像，会增加辨识度哦！";
@@ -323,6 +324,8 @@ static NSString *const kParamGender     = @"gender";
         _dayDatePicker = [[UIDatePicker alloc] init];
         _dayDatePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
         _dayDatePicker.datePickerMode = UIDatePickerModeDate;
+        [_dayDatePicker setMaximumDate:[NSDate dateWithTimeIntervalSinceNow:0]];
+        [_dayDatePicker setMinimumDate:[[NSDate date] dateBySubtractingYears:100]];
     }
     return _dayDatePicker;
 }
