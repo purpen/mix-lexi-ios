@@ -52,6 +52,12 @@ typedef NS_ENUM(NSUInteger, THNGoodsListCellViewType) {
     THNGoodsListCellViewTypeGoodsList       // 商品列表
 };
 
+typedef NS_ENUM(NSUInteger, THNUserCouponType) {
+    THNUserCouponTypeBrand = 0,     // 品牌券
+    THNUserCouponTypeOfficial,      // 官方券
+    THNUserCouponTypeFail,          // 失效券
+};
+
 @interface NSObject (EnumManagement)
 
 @end
