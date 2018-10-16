@@ -31,6 +31,7 @@
 #import "THNSettingUserInfoViewController.h"
 #import "THNLifeManagementViewController.h"
 #import "THNShareViewController.h"
+#import "THNMyCouponViewController.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -95,34 +96,35 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     switch (type) {
         case THNHeaderViewSelectedTypeLiked:
         case THNHeaderViewSelectedTypeCollect:
-        case THNHeaderViewSelectedTypeStore:{
+        case THNHeaderViewSelectedTypeStore: {
             [self thn_changTableViewDataSourceWithType:type];
         }
             break;
             
-        case THNHeaderViewSelectedTypeDynamic:{
+        case THNHeaderViewSelectedTypeDynamic: {
             THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
             [self.navigationController pushViewController:dynamicVC animated:YES];
         }
             break;
             
-        case THNHeaderViewSelectedTypeActivity:{
+        case THNHeaderViewSelectedTypeActivity: {
             [SVProgressHUD showSuccessWithStatus:@"分享赚红包"];
         }
             break;
             
-        case THNHeaderViewSelectedTypeOrder:{
+        case THNHeaderViewSelectedTypeOrder: {
             THNOrderViewController *order = [[THNOrderViewController alloc]init];
             [self.navigationController pushViewController:order animated:YES];
         }
             break;
             
-        case THNHeaderViewSelectedTypeCoupon:{
-            [SVProgressHUD showSuccessWithStatus:@"优惠券"];
+        case THNHeaderViewSelectedTypeCoupon: {
+            THNMyCouponViewController *couponVC = [[THNMyCouponViewController alloc] init];
+            [self.navigationController pushViewController:couponVC animated:YES];
         }
             break;
             
-        case THNHeaderViewSelectedTypeService:{
+        case THNHeaderViewSelectedTypeService: {
             [SVProgressHUD showSuccessWithStatus:@"客服"];
         }
             break;

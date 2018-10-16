@@ -345,7 +345,7 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     THNGoodsTableViewCells *storeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeStore) didSelectedItem:^(NSString *rid) {
-        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+        THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc] init];
         brandHall.rid = rid;
         [weakSelf.navigationController pushViewController:brandHall animated:YES];
     }];
