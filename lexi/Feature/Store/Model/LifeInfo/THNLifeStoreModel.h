@@ -13,6 +13,7 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *phases_description;
+@property (nonatomic, strong) NSString *des;
 @property (nonatomic, copy) NSString *logo;
 @property (nonatomic, assign) NSInteger lifeStoreId;
 // phases = 1: 实习馆主、2: 达人馆主

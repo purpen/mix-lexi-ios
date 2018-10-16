@@ -30,5 +30,7 @@
 @property (nonatomic, assign) BOOL is_like;
 // 分销佣金
 @property (nonatomic, assign) CGFloat commission_price;
+// 店铺是否分销过该商品
+@property (nonatomic, assign) NSInteger have_distributed;
 
 @end

@@ -11,7 +11,9 @@
 @implementation THNLifeStoreModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
-    return @{@"lifeStoreId": @"ID"};
+    return @{@"lifeStoreId": @"ID",
+             @"des":@"description"
+             };
 }
 
 @end

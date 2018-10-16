@@ -15,6 +15,8 @@ typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
     THNFollowButtonTypeGoodsInfo        // 商品详情
 };
 
+typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
+
 @interface THNFollowStoreButton : UIButton
 
 /**
@@ -33,5 +35,9 @@ typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
  @param follow 是否关注
  */
 - (void)setFollowStoreStatus:(BOOL)follow;
+
+- (void)setupViewUI;
+
+@property (nonatomic, copy) FollowStoreButtonBlock followStoreBlock;
 
 @end
