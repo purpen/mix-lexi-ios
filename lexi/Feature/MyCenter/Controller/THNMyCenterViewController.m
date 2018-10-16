@@ -136,7 +136,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)didNavigationRightButtonOfIndex:(NSInteger)index {
     if (index == 0) {
-        THNShareViewController *shareVC = [[THNShareViewController alloc] init];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
         shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [self presentViewController:shareVC animated:NO completion:nil];
         
