@@ -70,9 +70,9 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     [self.insideImageView drawCornerWithType:0 radius:4];
     [self.middleImageView drawCornerWithType:0 radius:4];
     [self.outsideImageView drawCornerWithType:0 radius:4];
-    [self.insideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]];
-    [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]];
-    [self.outsideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]];
+    [self.insideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.outsideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     
     // 适配5S的样式
     if (SCREEN_WIDTH == 320) {
@@ -104,7 +104,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
         NSString *storeName = result.data[@"name"];
         self.desLabel.text = result.data[@"description"];
         self.storeAvatarUrl = result.data[@"logo"];
-        [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:self.storeAvatarUrl]];
+        [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:self.storeAvatarUrl]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
         self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -151,12 +151,12 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:obj];
             switch (idx) {
                 case 0:
-                    [weakSelf.outsideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                    [weakSelf.outsideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                     break;
                 case 1:
-                    [weakSelf.middleImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                    [weakSelf.middleImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                 default:
-                    [weakSelf.insideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]];
+                    [weakSelf.insideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
                     break;
             }
         }];

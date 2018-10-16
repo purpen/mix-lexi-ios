@@ -158,6 +158,7 @@
 		CD3D01E7217219400030E3B0 /* THNArticleProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3D01E5217219400030E3B0 /* THNArticleProductTableViewCell.xib */; };
 		CD3D01EB217219940030E3B0 /* THNArticleStoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3D01E9217219940030E3B0 /* THNArticleStoryTableViewCell.m */; };
 		CD3D01EC217219940030E3B0 /* THNArticleStoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3D01EA217219940030E3B0 /* THNArticleStoryTableViewCell.xib */; };
+		CDE666272174C5DC002D82BA /* THNBrandHallStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE666262174C5DC002D82BA /* THNBrandHallStoryViewController.m */; };
 		D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D8002A37214A4F850023EA1E /* THNSkuFilter.m */; };
 		D81A134B216B573400757262 /* THNLifeCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A134A216B573400757262 /* THNLifeCountdownView.m */; };
 		D81A134E216C4EAF00757262 /* THNEarningsDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A134D216C4EAF00757262 /* THNEarningsDateView.m */; };
@@ -694,6 +695,8 @@
 		CD3D01E8217219940030E3B0 /* THNArticleStoryTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNArticleStoryTableViewCell.h; sourceTree = "<group>"; };
 		CD3D01E9217219940030E3B0 /* THNArticleStoryTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNArticleStoryTableViewCell.m; sourceTree = "<group>"; };
 		CD3D01EA217219940030E3B0 /* THNArticleStoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNArticleStoryTableViewCell.xib; sourceTree = "<group>"; };
+		CDE666252174C5DC002D82BA /* THNBrandHallStoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandHallStoryViewController.h; sourceTree = "<group>"; };
+		CDE666262174C5DC002D82BA /* THNBrandHallStoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallStoryViewController.m; sourceTree = "<group>"; };
 		D8002A36214A4F850023EA1E /* THNSkuFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSkuFilter.h; sourceTree = "<group>"; };
 		D8002A37214A4F850023EA1E /* THNSkuFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSkuFilter.m; sourceTree = "<group>"; };
 		D81A1349216B573400757262 /* THNLifeCountdownView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLifeCountdownView.h; sourceTree = "<group>"; };
@@ -1263,6 +1266,8 @@
 				4B56C926213D29390052FD80 /* THNBrandHallFeaturesTableViewController.m */,
 				4B56C928213D296A0052FD80 /* THNBrandHallFeaturedViewController.h */,
 				4B56C929213D296A0052FD80 /* THNBrandHallFeaturedViewController.m */,
+				CDE666252174C5DC002D82BA /* THNBrandHallStoryViewController.h */,
+				CDE666262174C5DC002D82BA /* THNBrandHallStoryViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3436,6 +3441,7 @@
 				4B240E8C212BA2580077EDD4 /* THNCommentViewController.m in Sources */,
 				D8BAC99E211A949100667D6F /* THNFeaturedBrandModel.m in Sources */,
 				4B24B611215DE635004269EB /* THNSearchStoreTableViewCell.m in Sources */,
+				CDE666272174C5DC002D82BA /* THNBrandHallStoryViewController.m in Sources */,
 				D84CC30C214E0049007B7B25 /* THNPaymentTableViewCell.m in Sources */,
 				D859FDE42156514E00D007A6 /* THNGoodsListCollectionReusableView.m in Sources */,
 				4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */,
