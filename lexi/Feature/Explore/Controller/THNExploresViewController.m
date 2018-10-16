@@ -79,6 +79,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadBrandHallData) name:@"followStoreButtonSuccess" object:nil];
     [self loadBrandHallData];
     [self loadBannerData];
     [self loadCategorieData];

@@ -32,4 +32,6 @@
 //宣传语
 @property (nonatomic, strong) NSString *tag_line;
 
+@property (nonatomic, assign) BOOL is_followed;
+
 @end
