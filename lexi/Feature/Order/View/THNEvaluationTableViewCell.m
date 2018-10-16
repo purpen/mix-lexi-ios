@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "THNTextTool.h"
 #import "THNPhotoCollectionViewCell.h"
+#import "NSString+Helper.h"
 
 static NSString *const kPhotoCellIdentifier = @"kPhotoCellIdentifier";
 // 每行最多展示图片数量
@@ -57,11 +58,11 @@ static NSInteger maxShowPhotoCount = 9;
     self.productNameLabel.text = itemsModel.product_name;
 
     if (itemsModel.sale_price == 0) {
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.price];
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.price];
         self.originalMoneyLabel.hidden = YES;
     } else {
         self.originalMoneyLabel.hidden = NO;
-        self.saleMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",itemsModel.sale_price];
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.sale_price];
         self.originalMoneyLabel.attributedText = [THNTextTool setStrikethrough:itemsModel.price];
     }
 

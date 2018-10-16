@@ -11,6 +11,11 @@
 @class THNFeatureOpeningModel;
 typedef void(^OpeningBlcok)(void);
 
+
+/**
+ - FeatureOpeningTypeMain: 显示开馆指引
+ - FeatureOpeningTypeProductCenterType: 不显示开馆指引
+ */
 typedef NS_ENUM(NSUInteger, FeatureOpeningType) {
     FeatureOpeningTypeMain,
     FeatureOpeningTypeProductCenterType

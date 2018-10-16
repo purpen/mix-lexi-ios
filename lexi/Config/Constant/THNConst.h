@@ -64,3 +64,4 @@ UIKIT_EXTERN NSString *const kSearchKeyword;
 #pragma mark -NSNotification
 UIKIT_EXTERN NSString *const kOrderLogisticsTracking;
 UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
+UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;

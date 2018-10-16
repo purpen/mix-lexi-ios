@@ -153,6 +153,11 @@ MJCodingImplementation
     }];
 }
 
+- (void)updateUserLivingHallStatus:(BOOL)openingUser {
+    self.openingUser = openingUser;
+    [self saveLoginInfo];
+}
+
 /**
  更新用户信息
  */
@@ -226,7 +231,6 @@ MJCodingImplementation
  */
 - (void)saveLoginInfo {
     [self saveLoginTime];
-    
     [NSKeyedArchiver archiveRootObject:self toFile:[[self class] archiveFilePath]];
 }
 

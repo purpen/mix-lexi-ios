@@ -8,6 +8,7 @@
 
 #import "THNApplySuccessViewController.h"
 #import "THNApplySuccessView.h"
+#import "THNHomeViewController.h"
 
 static NSString *const kTitleApply = @"申请生活馆";
 
@@ -48,7 +49,9 @@ static NSString *const kTitleApply = @"申请生活馆";
         
         WEAKSELF;
         _successView.ApplySuccessBlock = ^{
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            THNHomeViewController *homeVC = [[THNHomeViewController alloc]init];
+        
+            [weakSelf.navigationController pushViewController:homeVC animated:YES];
         };
     }
     return _successView;
