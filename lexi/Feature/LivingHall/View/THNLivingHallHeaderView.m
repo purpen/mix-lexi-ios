@@ -28,7 +28,7 @@ static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 // 商家生活馆的信息
 static NSString *const kUrlLifeStore = @"/store/life_store";
 // 选品中心
-static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
+static NSString *const kUrlSelectProductCenter = @"/core_platforms/fx_distribute/latest";
 
 @interface THNLivingHallHeaderView()<UICollectionViewDataSource>
 
@@ -51,6 +51,7 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
 @property (nonatomic, strong) THNLoginManager *loginManger;
 @property (nonatomic, strong) NSArray *userPartieArray;
 @property (nonatomic, strong) NSArray *selectProductArray;
+@property (nonatomic, strong) NSArray *selectProductNewArray;
 
 @end
 
@@ -70,9 +71,6 @@ static NSString *const kUrlSelectProductCenter= @"/fx_distribute/choose_center";
     [self.insideImageView drawCornerWithType:0 radius:4];
     [self.middleImageView drawCornerWithType:0 radius:4];
     [self.outsideImageView drawCornerWithType:0 radius:4];
-    [self.insideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180711/1808FgkTUxcFE3_2DAXlTdi4rQMRU7IY.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180706/4605FpseCHcjdicYOsLROtwF_SVFKg_9.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.outsideImageView sd_setImageWithURL:[NSURL URLWithString:@"https://kg.erp.taihuoniao.com/20180701/5504FtL-iSk6tn4p1F2QKf4UBpJLgbZr.jpg"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     
     // 适配5S的样式
     if (SCREEN_WIDTH == 320) {
