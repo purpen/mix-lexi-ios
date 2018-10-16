@@ -22,6 +22,14 @@ static NSString *const kTextCancel = @"取消";
 
 @implementation THNShareViewController
 
+- (instancetype)initWithType:(ShareContentType)type {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
