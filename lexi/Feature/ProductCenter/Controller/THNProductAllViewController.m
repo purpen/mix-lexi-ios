@@ -16,6 +16,8 @@
 #import "THNShelfViewController.h"
 #import "THNFunctionPopupView.h"
 #import "THNFunctionButtonView.h"
+#import "UIViewController+THNHud.h"
+#import "THNLoginManager.h"
 
 static NSString *const KUrlDistributeCenterAll = @"/fx_distribute/choose_center";
 static NSString *const kProductCenterCellIdentifier = @"kProductCenterCellIdentifier";
@@ -39,6 +41,7 @@ static CGFloat interitemSpacing = 10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadProdctCenterAllData) name:kShelfSuccess object:nil];
     [self loadProdctCenterAllData];
     [self setupUI];
 }
@@ -55,18 +58,24 @@ static CGFloat interitemSpacing = 10;
 }
 
 - (void)loadProdctCenterAllData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @1;
     params[@"per_page"] = @10;
+    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
-    NSLog(@"%@",params);
     THNRequest *request = [THNAPI getWithUrlString:KUrlDistributeCenterAll requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
         self.dataArray = result.data[@"products"];
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 

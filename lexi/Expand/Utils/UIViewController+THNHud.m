@@ -11,20 +11,34 @@
 #import "UIView+Helper.h"
 #import "THNLoadView.h"
 #import "THNMarco.h"
+#import "UIColor+Extension.h"
 
 static const void *loadHeightKey = &loadHeightKey;
 NSString * const _loadHeightKey = @"loadHeightKey";
 static char loadViewKey;
 
+static const void *kIsTransparent = @"kIsTransparent";
+
 @implementation UIViewController (THNHud)
 
-- (CGFloat)loadHeight{
+#pragma mark - loadViewY的动态绑定
+- (CGFloat)loadViewY {
     NSNumber *scaleValue = objc_getAssociatedObject(self, (__bridge const void *)(_loadHeightKey));
     return scaleValue.floatValue;
 }
 
-- (void)setLoadHeight:(CGFloat)loadHeight{
-    objc_setAssociatedObject(self, (__bridge const void *)_loadHeightKey,  @(loadHeight) , OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setLoadViewY:(CGFloat)loadViewY {
+    objc_setAssociatedObject(self, (__bridge const void *)_loadHeightKey,  @(loadViewY) , OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+
+#pragma mark - 是否透明的动态绑定
+- (BOOL)isTransparent {
+    return [objc_getAssociatedObject(self, kIsTransparent) boolValue];
+}
+
+- (void)setIsTransparent:(BOOL)isTransparent {
+    objc_setAssociatedObject(self, kIsTransparent, [NSNumber numberWithBool:isTransparent], OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (void)showHud{
@@ -34,11 +48,16 @@ static char loadViewKey;
         loadView = [THNLoadView viewFromXib];
     }
 
-    if (self.loadHeight == 0) {
-        self.loadHeight = 0;
+    if (self.loadViewY == 0) {
+        self.loadViewY = 0;
     }
 
-    loadView.frame = CGRectMake(0, self.loadHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
+    loadView.frame = CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (self.isTransparent) {
+        loadView.backgroundColor = [UIColor clearColor];
+    } else {
+        loadView.backgroundColor = [UIColor whiteColor];
+    }
     loadView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight;
     objc_setAssociatedObject(self, &loadViewKey, loadView , OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
