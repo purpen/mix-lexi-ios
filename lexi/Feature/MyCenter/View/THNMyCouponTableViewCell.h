@@ -13,7 +13,8 @@
 
 @interface THNMyCouponTableViewCell : UITableViewCell
 
-- (void)thn_setMyCouponInfoData:(THNCouponModel *)model;
+- (void)thn_setMyOfficialCouponInfoData:(THNCouponModel *)model;
+- (void)thn_setMyFailCouponInfoData:(THNCouponModel *)model;
 - (void)thn_setMyBrandCouponInfoData:(THNCouponDataModel *)model;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier type:(THNUserCouponType)type;
