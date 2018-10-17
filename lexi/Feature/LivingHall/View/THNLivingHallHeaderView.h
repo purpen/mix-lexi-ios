@@ -21,6 +21,7 @@ typedef void(^EditStoreLogoBlock)(void);
 @property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
 @property (nonatomic, copy) PushProductCenterBlock pushProductCenterBlock;
 @property (nonatomic, copy) EditStoreLogoBlock storeLogoBlock;
+@property (weak, nonatomic) IBOutlet UIView *promptView;
 - (void)setHeaderImageWithData:(NSData *)imageData;
 - (void)setHeaderAvatarId:(NSInteger)idx;
 
