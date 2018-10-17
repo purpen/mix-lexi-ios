@@ -51,6 +51,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 @property (nonatomic, assign) NSInteger pageCount;
 @property (nonatomic, assign) NSInteger curatorPerPageCount;
 @property (nonatomic, assign) NSInteger weekPopularPerPageCount;
+@property (nonatomic, assign) BOOL isFirstLoad;
 
 @end
 
@@ -58,7 +59,8 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCuratorRecommendedData) name:@"shelfSuccess" object:nil];
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCuratorRecommendedData) name:kShelfSuccess object:nil];
+    self.isFirstLoad = YES;
     [self loadAllData];
     [self setupUI];
 }
@@ -97,11 +99,28 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
-    [SVProgressHUD showInfoWithStatus:@""];
+    
+    if (self.isFirstLoad) {
+        [self showHud];
+        self.isFirstLoad = NO;
+    } else {
+        [SVProgressHUD showInfoWithStatus:@""];
+    }
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         [SVProgressHUD dismiss];
-        [self.recommendedMutableArray removeAllObjects];
+        
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        if (self.pageCount == 1) {
+            [self.recommendedMutableArray removeAllObjects];
+        }
+        
         self.recommendedArray = result.data[@"products"];
         self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
         
@@ -119,6 +138,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
+        [self hiddenHud];
     }];
 }
 
@@ -246,6 +266,12 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     return kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
+    [self pushGoodInfo:productModel.rid];
+}
+
+#pragma mark - THNFeatureTableViewCellDelegate
 // 商品详情
 - (void)pushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];

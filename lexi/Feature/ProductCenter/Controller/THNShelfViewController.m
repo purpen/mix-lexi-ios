@@ -35,12 +35,20 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
 
 // 确认上架
 -  (void)sureShelf {
+    [SVProgressHUD showInfoWithStatus:@""];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    if (self.textView.text.length < 10) {
+        [SVProgressHUD showErrorWithStatus:@"推荐语不得少于十个字"];
+        return;
+    }
+    
     params[@"stick_text"] = self.textView.text;
     params[@"rid"] = self.productModel.rid;
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI postWithUrlString:kUrlPublishProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (!result.isSuccess) {
             [SVProgressHUD showErrorWithStatus:result.statusMessage];
             return;
@@ -49,13 +57,12 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
         [SVProgressHUD showSuccessWithStatus:@"上架成功"];
         
         [SVProgressHUD dismissWithDelay:2.0 completion:^{
-//            self.shelfPopBlock();
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"shelfSuccess" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kShelfSuccess object:nil];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
