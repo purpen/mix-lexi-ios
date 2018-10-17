@@ -106,7 +106,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         THNLifeStoreModel *storeModel = [THNLifeStoreModel mj_objectWithKeyValues:result.data];
         self.storeModel = storeModel;
         NSString *storeName = storeModel.name;
-        
+        self.storeAvatarUrl = storeModel.logo;
         self.desLabel.text = storeModel.des;
         [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
         self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
@@ -154,7 +154,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     self.livingHallStatusImageView.image = [UIImage imageNamed:@"icon_selected_main"];
 }
 
-
+// 生活馆头像
 - (void)loadLifeStoreVisitorData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.loginManger.storeRid;

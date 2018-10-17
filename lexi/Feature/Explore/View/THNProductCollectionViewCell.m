@@ -12,6 +12,7 @@
 #import "THNProductModel.h"
 #import "THNTextTool.h"
 #import "NSString+Helper.h"
+#import "UIColor+Extension.h"
 
 @interface THNProductCollectionViewCell()
 
@@ -45,6 +46,19 @@
     if (homeType == THNHomeTypeCenter) {
         self.centerButtonViewComstraint.constant = 52;
         self.centerButtonView.hidden = NO;
+        
+        if (!productModel.have_distributed) {
+            self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"2D343A"];
+            [self.shelfButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.shelfButton setTitle:@"上架" forState:UIControlStateNormal];
+            self.shelfButton.enabled = YES;
+        } else {
+            self.shelfButton.enabled = NO;
+            self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"EFF3F2"];
+            [self.shelfButton setTitle:@"已上架" forState:UIControlStateNormal];
+            [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
+        }
+        
     } else {
         self.centerButtonViewComstraint.constant = 0;
         self.centerButtonView.hidden = YES;
@@ -86,7 +100,9 @@
 }
 
 - (IBAction)shelf:(id)sender {
-    self.shelfBlock(self);
+    if (self.shelfBlock) {
+       self.shelfBlock(self);
+    }
 }
 
 - (IBAction)sell:(id)sender {

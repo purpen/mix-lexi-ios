@@ -252,28 +252,32 @@ CGFloat orderCellLineSpacing = 10;
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
     self.itemModel = itemModel;
-    // 只有一个运费模板
-    if (self.set.count == 1) {
-        cell.borderButton.hidden = YES;
-        self.borderButton.hidden = NO;
-        self.lineView.hidden = YES;
-    } else {
-        // 最后一行不隐藏运费模板
-        if (indexPath.row < self.products.count - 1) {
-            // 该商品后面运费模板一样，隐藏选择运费模板
-            if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
-                cell.borderButton.hidden = YES;
-                self.borderButton.hidden = NO;
+    if (self.ordersModel.user_order_status == OrderStatusWaitDelivery || self.ordersModel.user_order_status == OrderStatusReceipt) {
+        // 只有一个运费模板
+        if (self.set.count == 1) {
+            cell.borderButton.hidden = YES;
+            self.borderButton.hidden = NO;
+            self.lineView.hidden = YES;
+        } else {
+            // 最后一行不隐藏运费模板
+            if (indexPath.row < self.products.count - 1) {
+                // 该商品后面运费模板一样，隐藏选择运费模板
+                if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+                    cell.borderButton.hidden = YES;
+                    self.borderButton.hidden = NO;
+                } else {
+                    cell.borderButton.hidden = NO;
+                    self.borderButton.hidden = YES;
+                }
+                
             } else {
                 cell.borderButton.hidden = NO;
                 self.borderButton.hidden = YES;
             }
-            
-        } else {
-            cell.borderButton.hidden = NO;
-            self.borderButton.hidden = YES;
+            self.lineView.hidden = NO;
         }
-        self.lineView.hidden = NO;
+    } else {
+         cell.borderButton.hidden = YES;
     }
     
     [cell setItemModel:itemModel];
@@ -288,20 +292,26 @@ CGFloat orderCellLineSpacing = 10;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
-    if (self.set.count == 1) {
-        return kOrderProductViewHeight;
-    } else {
-        if (indexPath.row < self.products.count - 1) {
-            // 该商品后面运费模板一样，设置为商品的高度
-            if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
-                return kOrderProductViewHeight;
+    
+    if (self.ordersModel.user_order_status == OrderStatusWaitDelivery || self.ordersModel.user_order_status == OrderStatusReceipt) {
+        if (self.set.count == 1) {
+            return kOrderProductViewHeight;
+        } else {
+            if (indexPath.row < self.products.count - 1) {
+                // 该商品后面运费模板一样，设置为商品的高度
+                if (itemModel.express == [self.products[indexPath.row + 1][@"express"] integerValue]) {
+                    return kOrderProductViewHeight;
+                } else {
+                    return kOrderProductViewHeight + kOrderLogisticsViewHeight;
+                }
             } else {
                 return kOrderProductViewHeight + kOrderLogisticsViewHeight;
             }
-        } else {
-            return kOrderProductViewHeight + kOrderLogisticsViewHeight;
         }
+    } else {
+        return kOrderProductViewHeight;
     }
+       
 }
 
 - (void)dealloc {
