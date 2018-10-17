@@ -18,6 +18,7 @@ static NSString *const kURLUserLikedWindow  = @"/shop_windows/user_likes";
 static NSString *const kURLUserFollowStore  = @"/users/followed_stores";
 static NSString *const kURLCouponBrand      = @"/market/core_user_coupons";
 static NSString *const kURLCouponOfficial   = @"/market/user_official";
+static NSString *const kURLCouponFail       = @"/market/user_expired";
 /// 接收数据参数
 static NSString *const kKeyShopWindows  = @"shop_windows";
 static NSString *const kKeyStores       = @"stores";
@@ -62,7 +63,9 @@ static NSString *const kKeyCoupons      = @"coupons";
         }
             break;
             
-        default:
+        case THNUserCouponTypeFail: {
+            [[THNUserManager sharedManager] requestUserFailCouponWithParams:params completion:completion];
+        }
             break;
     }
 }
@@ -135,11 +138,29 @@ static NSString *const kKeyCoupons      = @"coupons";
  */
 - (void)requestUserOfficialCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
     [SVProgressHUD showInfoWithStatus:@""];
-    THNRequest *request = [THNAPI postWithUrlString:kURLCouponOfficial requestDictionary:param delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kURLCouponOfficial requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (![result hasData]) return;
         THNLog(@"========== 个人的官方优惠券：%@", result.responseDict);
+        completion((NSArray *)result.data[kKeyCoupons], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, error);
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+/**
+ 请求自己的失效优惠券列表
+ */
+- (void)requestUserFailCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD showInfoWithStatus:@""];
+    THNRequest *request = [THNAPI getWithUrlString:kURLCouponFail requestDictionary:param delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (![result hasData]) return;
+        THNLog(@"========== 个人的失效优惠券：%@", result.responseDict);
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
