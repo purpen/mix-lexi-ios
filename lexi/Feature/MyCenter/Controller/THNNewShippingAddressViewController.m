@@ -13,10 +13,15 @@
 #import "THNAddressIDCardView.h"
 #import "THNQiNiuUpload.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "UIViewController+THNHud.h"
 
 static NSString *const kAddressCellIdentifier = @"kAddressCellIdentifier";
 static CGFloat const addressPickerViewHeight = 255;
 static CGFloat const pickerViewHeight = 215;
+static CGFloat const deleteAdderssViewHeight = 64;
+static CGFloat const cardViewHeight = 257;
+static CGFloat const defaultAdderssViewHeight = 64;
+static CGFloat const lineHeight = 16;
 
 static NSString *const kUrlPlaces = @"/places/provinces_cities";
 static NSString *const kUrlAreaCode = @"/auth/area_code";
@@ -26,7 +31,8 @@ static NSString *const kUrlGetaddressCustoms = @"/address/custom";
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
 
-@interface THNNewShippingAddressViewController ()<
+
+@interface THNNewShippingAddressViewController () <
 UITableViewDelegate,
 UITableViewDataSource,
 UIPickerViewDataSource,
@@ -73,6 +79,8 @@ UITextFieldDelegate
 @property (nonatomic, strong) NSString *zipcode;
 // 是否默认地址
 @property (nonatomic, assign) BOOL isDefaultAddress;
+@property (nonatomic, strong) UIView *defaultAddressView;
+@property (nonatomic, strong) UIView *deleteAdderssView;
 // 详细地址
 @property (nonatomic, assign) NSString *streetAddress;
 @property (nonatomic, strong) NSString *countryName;
@@ -139,13 +147,40 @@ UITextFieldDelegate
 
 // 获取所有地址
 - (void)loadPlacesDataCountryID:(NSInteger)countryID {
+    [SVProgressHUD showInfoWithStatus:@""];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"country_id"] =  @(countryID);
     THNRequest *request = [THNAPI getWithUrlString:kUrlPlaces requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.provinces = result.data[@"k_1_0"];
         self.resultDict = result.data;
         [self.pickerView reloadAllComponents];
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
+}
+
+// 删除收货地址
+- (void)deleteAddress {
+    NSString *requestUrl = [NSString stringWithFormat:@"/address/%@",self.addressModel.rid];
+    THNRequest *request = [THNAPI deleteWithUrlString:requestUrl requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+        [SVProgressHUD dismissWithDelay:2.0 completion:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -215,10 +250,14 @@ UITextFieldDelegate
 
 // 保存
 - (void)save {
-    // 当默认收货地址取消默认
-    if (self.isDefaultAddress == NO && self.addressModel.isDefault == YES) {
-        [SVProgressHUD showInfoWithStatus:@"必须有一个默认收货地址"];
-        [SVProgressHUD dismissWithDelay:2];
+// 当默认收货地址取消默认
+//    if (self.isDefaultAddress == NO && self.addressModel.isDefault == YES) {
+//        [SVProgressHUD showErrorWithStatus:@"必须有一个默认收货地址"];
+//        return;
+//    }
+    
+    if (self.countryName.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请选择国家"];
         return;
     }
     
@@ -235,13 +274,18 @@ UITextFieldDelegate
     params[@"is_default"] = @(self.isDefaultAddress);
     params[@"id_card_front"] = @(self.positiveImageID);
     params[@"id_card_back"] = @(self.negativeImageID);
-    params[@"is_overseas"] = @(NO);
+    params[@"is_overseas"] = @(self.isSaveCustom);
     params[@"id_card"] = self.cardView.cardTextField.text;
-    
+    [SVProgressHUD showInfoWithStatus:@""];
     if (self.addressModel.rid) {
         params[@"rid"] = self.addressModel.rid;
         THNRequest *request = [THNAPI putWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            [SVProgressHUD dismiss];
+            if (!result.success) {
+                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                return;
+            }
             [self.navigationController popViewControllerAnimated:YES];
         } failure:^(THNRequest *request, NSError *error) {
             
@@ -249,6 +293,11 @@ UITextFieldDelegate
     } else {
         THNRequest *request = [THNAPI postWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            [SVProgressHUD dismiss];
+            if (!result.success) {
+                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                return;
+            }
             [self.navigationController popViewControllerAnimated:YES];
         } failure:^(THNRequest *request, NSError *error) {
             
@@ -264,6 +313,11 @@ UITextFieldDelegate
         NSString *requestUrl = [NSString stringWithFormat:@"/address/%@/set_default",self.addressModel.rid];
         THNRequest *request = [THNAPI putWithUrlString:requestUrl requestDictionary:nil delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            
+            if (!result.success) {
+                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                return;
+            }
             
         } failure:^(THNRequest *request, NSError *error) {
             
@@ -354,11 +408,13 @@ UITextFieldDelegate
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 60;
         cell.areaCodeTextView.tintColor = [UIColor clearColor];
-        // 业务需要，暂时隐藏
+        // 业务需要，暂时隐藏区号
         cell.areaCodeTextView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2) {
         cell.textView.text = self.addressModel.countryName;
+        self.countryName = self.addressModel.countryName;
+        self.countryID = self.addressModel.countryId;
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 0;
         cell.textView.inputView = self.addressPickerView;
@@ -407,26 +463,54 @@ UITextFieldDelegate
     } else {
         return 48;
     }
-    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (self.isShowCardView) {
-        self.cardView.hidden = NO;
-    } else {
-        self.cardView.hidden = YES;
+    WEAKSELF;
+    
+    if (self.addressModel) {
+        [self.footerView addSubview:self.deleteAdderssView];
+        [self.deleteAdderssView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.trailing.equalTo(weakSelf.footerView);
+            make.bottom.equalTo(weakSelf.footerView);
+            make.height.equalTo(@(deleteAdderssViewHeight));
+        }];
     }
+    
+    if (self.isShowCardView) {
+        [self.footerView addSubview:self.cardView];
+        [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.trailing.equalTo(weakSelf.footerView);
+            make.top.equalTo(weakSelf.footerView);
+            make.height.equalTo(@(cardViewHeight));
+        }];
+    }
+    
+    [self.footerView addSubview:self.defaultAddressView];
+    [self.defaultAddressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.trailing.equalTo(weakSelf.footerView);
+        if (self.addressModel) {
+            make.bottom.equalTo(weakSelf.deleteAdderssView.mas_top);
+        } else {
+            make.bottom.equalTo(weakSelf.footerView);
+        }
+        make.height.equalTo(@(defaultAdderssViewHeight));
+    }];
     
     return self.footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.isShowCardView) {
-        return 315;
+    if (self.isShowCardView && self.addressModel) {
+        return cardViewHeight + defaultAdderssViewHeight + deleteAdderssViewHeight;
+    } else if (self.addressModel) {
+        return deleteAdderssViewHeight + defaultAdderssViewHeight;
+    } else if (self.isShowCardView) {
+        return cardViewHeight + defaultAdderssViewHeight;
     } else {
-        return 58;
+        return defaultAdderssViewHeight;
     }
-}
+ }
 
 #pragma mark - YYTextViewDelegate
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
@@ -454,10 +538,13 @@ UITextFieldDelegate
             break;
         case 1:
             self.mobile = textView.text;
+            break;
         case 4:
             self.streetAddress = textView.text;
+            break;
         case 5:
             self.zipcode = textView.text;
+            break;
         default:
             break;
     }
@@ -613,13 +700,84 @@ UITextFieldDelegate
 
 - (UIView *)footerView {
     if (!_footerView) {
-        _footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 315)];
-        THNAddressIDCardView *cardView = [THNAddressIDCardView viewFromXib];
-        cardView.cardTextField.delegate = self;
+        _footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
+        _footerView.backgroundColor = [UIColor whiteColor];
+    }
+    return _footerView;
+}
+
+- (UIView *)defaultAddressView {
+    if (!_defaultAddressView) {
+        _defaultAddressView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, defaultAdderssViewHeight)];
+        UILabel *label = [[UILabel alloc]init];
+        [_defaultAddressView addSubview:label];
+        label.textColor = [UIColor colorWithHexString:@"333333"];
+        label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
+        label.text = @"设为默认地址";
+        UISwitch *addressSwitch = [[UISwitch alloc]init];
+        [addressSwitch setOn:self.addressModel.isDefault animated:YES];
+        [addressSwitch addTarget:self action:@selector(setDefaultAddress:) forControlEvents:UIControlEventTouchUpInside];
+        [_defaultAddressView addSubview:addressSwitch];
+      
+        UIView *view = [[UIView alloc]init];
+        view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+        [_defaultAddressView addSubview:view];
+        WEAKSELF;
+        
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.trailing.top.equalTo(weakSelf.defaultAddressView);
+            make.height.equalTo(@(lineHeight));
+        }];
+        
+        [addressSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.equalTo(weakSelf.defaultAddressView).with.offset(-15);
+            make.bottom.equalTo(weakSelf.defaultAddressView.mas_bottom).with.offset(-8);
+            make.height.equalTo(@(30));
+        }];
+        
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(weakSelf.defaultAddressView).with.offset(15);
+            make.centerY.equalTo(addressSwitch);
+        }];
+    }
+    return _defaultAddressView;
+}
+
+- (UIView *)deleteAdderssView {
+    if (!_deleteAdderssView) {
+        WEAKSELF;
+        _deleteAdderssView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, deleteAdderssViewHeight)];
+        UIButton *btn = [[UIButton alloc]init];
+        btn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
+        [btn setTitleColor:[UIColor colorWithHexString:@"FF6666"] forState:UIControlStateNormal];
+        [btn setTitle:@"删除" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(deleteAddress) forControlEvents:UIControlEventTouchUpInside];
+        UIView *view = [[UIView alloc]init];
+        view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+        [_deleteAdderssView addSubview:view];
+        [_deleteAdderssView addSubview:btn];
+        
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.trailing.top.equalTo(weakSelf.deleteAdderssView);
+            make.height.equalTo(@(lineHeight));
+        }];
+        
+        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.bottom.trailing.equalTo(weakSelf.deleteAdderssView);
+            make.top.equalTo(view.mas_bottom);
+        }];
+    }
+    return _deleteAdderssView;
+}
+
+- (THNAddressIDCardView *)cardView {
+    if (!_cardView) {
+        _cardView = [THNAddressIDCardView viewFromXib];
+        _cardView.cardTextField.delegate = self;
         
         __weak typeof(self)weakSelf = self;
         
-        cardView.openCameraBlcok = ^(PhotoType photoType) {
+        _cardView.openCameraBlcok = ^(PhotoType photoType) {
             weakSelf.photoTyoe = photoType;
             
             UIAlertController *alertCtl =[[UIAlertController alloc]init];
@@ -641,46 +799,8 @@ UITextFieldDelegate
             [weakSelf presentViewController:alertCtl animated:YES completion:nil];
         };
         
-        self.cardView = cardView;
-        [_footerView addSubview:cardView];
-        UILabel *label = [[UILabel alloc]init];
-        [_footerView addSubview:label];
-        label.textColor = [UIColor colorWithHexString:@"333333"];
-        label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
-        label.text = @"设为默认地址";
-        UISwitch *addressSwitch = [[UISwitch alloc]init];
-        [addressSwitch setOn:self.addressModel.isDefault animated:YES];
-        [addressSwitch addTarget:self action:@selector(setDefaultAddress:) forControlEvents:UIControlEventTouchUpInside];
-        [_footerView addSubview:addressSwitch];
-        _footerView.backgroundColor = [UIColor whiteColor];
-        UIView *view = [[UIView alloc]init];
-        view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
-        [_footerView addSubview:view];
-        
-        [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.trailing.equalTo(weakSelf.footerView);
-            make.top.equalTo(weakSelf.footerView);
-            make.height.equalTo(@(257));
-        }];
-        
-        [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(weakSelf.footerView).with.offset(-48);
-            make.leading.trailing.equalTo(weakSelf.footerView);
-            make.height.equalTo(@(10));
-        }];
-        
-        [addressSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.trailing.equalTo(weakSelf.footerView).with.offset(-15);
-            make.bottom.equalTo(weakSelf.footerView.mas_bottom).with.offset(-8);
-            make.height.equalTo(@(30));
-        }];
-        
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.equalTo(weakSelf.footerView).with.offset(15);
-            make.centerY.equalTo(addressSwitch);
-        }];
     }
-    return _footerView;
+    return _cardView;
 }
 
 - (UIPickerView *)pickerView {

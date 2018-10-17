@@ -68,17 +68,15 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     [self removeFromSuperview];
 }
 
-- (void)textViewDidChange:(UITextView *)textView {
-    if (textView.viewHeight == 44) {
-        if (textView.text.length > 16) {
-            textView.editable = NO;
-            [SVProgressHUD showInfoWithStatus:@"不得超过16字"];
-        }
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (range.length == 1 && text.length == 0) {
+        return YES;
+    } else if (textView.viewHeight == 44) {
+         self.nameCountLabel.text = [NSString stringWithFormat:@"%ld",textView.text.length];
+        return textView.text.length < 16;
     } else {
-        if (textView.text.length > 40) {
-            textView.editable = NO;
-            [SVProgressHUD showInfoWithStatus:@"不得超过40字"];
-        }
+        self.introductionCountLabel.text = [NSString stringWithFormat:@"%ld",textView.text.length];
+        return textView.text.length < 40;
     }
     
 }

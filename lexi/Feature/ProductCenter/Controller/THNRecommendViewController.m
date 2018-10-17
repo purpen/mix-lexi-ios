@@ -48,7 +48,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:@"shelfSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:kShelfSuccess object:nil];
     [self loadDistributeHotData];
     [self loadDistributeStickedData];
     [self loadDistributeLatestData];

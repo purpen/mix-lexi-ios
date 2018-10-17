@@ -130,9 +130,18 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
     _productModel = productModel;
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
-    self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-    self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
-    self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+    
+    if (productModel.min_sale_price == 0) {
+        self.likeCountLabel.hidden = YES;
+        self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+    } else{
+        self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+        self.producrOriginalPriceLabel.text = [NSString formatFloat:productModel.min_price];
+        self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+    }
+    
+    
     self.recommenDationLabel.text = productModel.features;
     
     if (self.productModel.is_like) {
@@ -148,7 +157,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 // 馆长信息头像
 - (void)setCurtorAvatar:(NSString *)storeAvatarUrl {
-    [self.curatorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeAvatarUrl] placeholderImage:[UIImage imageNamed:@""]];
+    [self.curatorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeAvatarUrl] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
