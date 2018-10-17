@@ -29,6 +29,7 @@ static NSString *const kURLProductsCountC       = @"/category/products/count";
 static NSString *const kURLProductsSku          = @"/products/skus";
 static NSString *const kURLChooseCenterCount    = @"/fx_distribute/choose_center/count";
 static NSString *const kURLProductsByStoreCount = @"/core_platforms/products/by_store/count";
+static NSString *const kURLProductsCustom       = @"/products/custom_made";
 #pragma mark 店铺信息
 static NSString *const kURLOfficialStore        = @"/official_store/info";
 #pragma mark 商品下单/购物车
@@ -81,6 +82,10 @@ static NSString *const kKeyCode             = @"code";
     NSString *requestUrl = urlArr[(NSInteger)type];
     
     [[THNGoodsManager sharedManager] requestUserCenterProductsWithUrl:requestUrl params:params completion:completion];
+}
+
++ (void)getCustomizationProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
+    [[THNGoodsManager sharedManager] requestCustomizationProductsWithParams:params completion:completion];
 }
 
 + (void)getCategoryProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
@@ -225,6 +230,21 @@ static NSString *const kKeyCode             = @"code";
             [goodsModelArr addObject:model];
         }
         completion([goodsModelArr copy], [result.data[kKeyCount] integerValue], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(nil, 0, error);
+    }];
+}
+
+/**
+ 获取接单订制商品
+ */
+- (void)requestCustomizationProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    THNRequest *request = [THNAPI getWithUrlString:kURLProductsCustom requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"======== 接单订制商品：%@", result.responseDict);
+        if (![result hasData] || !result.isSuccess) return;
+        completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, 0, error);

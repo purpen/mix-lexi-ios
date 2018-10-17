@@ -14,6 +14,7 @@
 #import "THNMyCouponTableViewCell.h"
 #import "THNBrandHallViewController.h"
 #import "THNSelectButtonView.h"
+#import "THNBaseTabBarController.h"
 
 static NSString *const kMyCouponTableViewCellId = @"THNMyCouponTableViewCellId";
 /// text
@@ -35,6 +36,7 @@ static NSString *const kKeyPage     = @"page";
 @property (nonatomic, assign) NSInteger currentPage;
 /// 优惠券列表类型
 @property (nonatomic, assign) THNUserCouponType couponType;
+@property (nonatomic, assign) BOOL backHome;
 
 @end
 
@@ -43,6 +45,7 @@ static NSString *const kKeyPage     = @"page";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.backHome = NO;
     [self setupUI];
 }
 
@@ -145,6 +148,19 @@ static NSString *const kKeyPage     = @"page";
     if (self.couponType == THNUserCouponTypeBrand) {
         THNCouponDataModel *model = self.couponDataArr[indexPath.row];
         [self thn_openBrandHallControllerWithId:model.store_rid];
+    
+    } else if (self.couponType == THNUserCouponTypeOfficial) {
+        self.backHome = YES;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if (self.backHome) {
+        THNBaseTabBarController *rootTab = (THNBaseTabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        rootTab.selectedIndex = 0;
     }
 }
 
