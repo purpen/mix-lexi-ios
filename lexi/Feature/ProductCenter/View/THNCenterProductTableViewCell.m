@@ -69,15 +69,15 @@
     
     
     if (!productModel.have_distributed) {
-        self.shelfButton.alpha = 1;
+        self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"2D343A"];
         [self.shelfButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.shelfButton setTitle:@"上架" forState:UIControlStateNormal];
         self.shelfButton.enabled = YES;
     } else {
         self.shelfButton.enabled = NO;
-        self.shelfButton.alpha = 0.5;
+        self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"EFF3F2"];
         [self.shelfButton setTitle:@"已上架" forState:UIControlStateNormal];
-        [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"CACCCD"] forState:UIControlStateNormal];
+        [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
     }
     
     self.amountMoneyLabel.text = [NSString formatFloat:productModel.commission_price];

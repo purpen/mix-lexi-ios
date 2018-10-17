@@ -48,11 +48,18 @@ static NSString *const kKeyAddress      = @"street_address";
     [paramDict setObject:self.headerView.headId forKey:kKeyAvatarId];
     
     NSArray *allKey = @[kKeyUsername, kKeyAboutMe, kKeyMail, kKeyAddress, kKeyDate, kKeyGender];
+    NSArray *allData = @[self.userModel.username,
+                         self.userModel.about_me,
+                         self.userModel.mail,
+                         self.userModel.street_address,
+                         self.userModel.date,
+                         [NSString stringWithFormat:@"%zi", self.userModel.gender]];
     
     for (NSUInteger idx = 0; idx < allKey.count; idx ++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
         THNSettingInfoTableViewCell *cell = [self.settingTable cellForRowAtIndexPath:indexPath];
-        [paramDict setObject:cell.editInfo forKey:allKey[idx]];
+        NSString *obj = cell.editInfo.length ? cell.editInfo : allData[idx];
+        [paramDict setObject:obj forKey:allKey[idx]];
     }
     NSLog(@"------- 编辑的信息： %@", paramDict);
     return [paramDict copy];

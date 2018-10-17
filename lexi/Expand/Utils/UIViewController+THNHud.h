@@ -10,10 +10,11 @@
 
 @interface UIViewController (THNHud)
 
-@property(nonatomic, assign)CGFloat loadHeight;
+@property(nonatomic, assign) CGFloat loadViewY;
+// 是否透明
+@property (nonatomic, assign) BOOL isTransparent;
+
 - (void)showHud;
 - (void)hiddenHud;
-//- (void)localShowHud;
-//- (void)localHiddenHud;
 
 @end

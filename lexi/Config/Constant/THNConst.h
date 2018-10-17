@@ -65,3 +65,4 @@ UIKIT_EXTERN NSString *const kSearchKeyword;
 UIKIT_EXTERN NSString *const kOrderLogisticsTracking;
 UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;
+UIKIT_EXTERN NSString *const kShelfSuccess;

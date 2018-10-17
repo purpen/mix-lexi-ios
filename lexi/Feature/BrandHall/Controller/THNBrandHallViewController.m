@@ -407,15 +407,15 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
             THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
             [self.navigationController pushViewController:goodInfo animated:YES];
-        
         }
-            
+            break;
         case BrandShowTypelifeRecord: {
             THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.lifeRecords[indexPath.row]];
             THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
             articleVC.rid = grassListModel.rid;
             [self.navigationController pushViewController:articleVC animated:YES];
         }
+            break;
             
     }
     
