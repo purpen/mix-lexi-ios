@@ -13,7 +13,6 @@
 NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
 NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
 NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
-// 18610320751
 
 //  开发环境
 //NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";

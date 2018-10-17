@@ -13,23 +13,24 @@
 #import "NSObject+EnumManagement.h"
 #import "THNMyCouponTableViewCell.h"
 #import "THNBrandHallViewController.h"
+#import "THNSelectButtonView.h"
 
 static NSString *const kMyCouponTableViewCellId = @"THNMyCouponTableViewCellId";
 /// text
-static NSString *const kTitleCoupon = @"优惠券";
+static NSString *const kTitleCoupon         = @"优惠券";
+static NSString *const kTextCouponBrand     = @"品牌券";
+static NSString *const kTextCouponOfficial  = @"乐喜券";
+static NSString *const kTextCouponFail      = @"已失效";
 /// key
 static NSString *const kKeyPage     = @"page";
 
-@interface THNMyCouponViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNMyCouponViewController () <UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate>
 
+@property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) THNMyCouponDefaultView *couponDefaultView;
 @property (nonatomic, strong) UITableView *couponTable;
-/// 品牌优惠券
-@property (nonatomic, strong) NSMutableArray *brandCouponArr;
-/// 官方优惠券
-@property (nonatomic, strong) NSMutableArray *officialCouponArr;
-/// 失效优惠券
-@property (nonatomic, strong) NSMutableArray *failCouponArr;
+/// 优惠券
+@property (nonatomic, strong) NSMutableArray *couponDataArr;
 /// 优惠券当前页数
 @property (nonatomic, assign) NSInteger currentPage;
 /// 优惠券列表类型
@@ -55,11 +56,22 @@ static NSString *const kKeyPage     = @"page";
     [THNUserManager getUserCouponDataWithType:type
                                        params:@{kKeyPage: @(self.currentPage += 1)}
                                    completion:^(NSArray *couponData, NSError *error) {
-                                       if (error) return ;
+                                       if (error) {
+                                           [weakSelf thn_reloadTableStatus];
+                                           return ;
+                                       }
                                        
                                        [weakSelf thn_getCouponModelOfData:couponData];
-                                       [weakSelf thn_reloadTableStatus];
                                    }];
+}
+
+#pragma mark - custom delegate
+- (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
+    self.currentPage = 0;
+    [self.couponDataArr removeAllObjects];
+    [self.couponTable reloadData];
+    
+    [self thn_getUserCouponDataWithType:(THNUserCouponType)index];
 }
 
 #pragma mark - private methods
@@ -67,27 +79,22 @@ static NSString *const kKeyPage     = @"page";
     if (self.couponType == THNUserCouponTypeBrand) {
         for (NSDictionary *couponDict in couponData) {
             THNCouponDataModel *model = [THNCouponDataModel mj_objectWithKeyValues:couponDict];
-            [self.brandCouponArr addObject:model];
+            [self.couponDataArr addObject:model];
         }
         
     } else {
         for (NSDictionary *couponDict in couponData) {
             THNCouponModel *model = [THNCouponModel mj_objectWithKeyValues:couponDict];
-            [[self thn_getCurrentCouponArr] addObject:model];
+            [self.couponDataArr addObject:model];
         }
     }
     
-}
-
-- (NSMutableArray *)thn_getCurrentCouponArr {
-    NSArray *allCouponArr = @[self.brandCouponArr, self.officialCouponArr, self.failCouponArr];
-    
-    return allCouponArr[(NSUInteger)self.couponType];
+    [self thn_reloadTableStatus];
 }
 
 // 刷新优惠券列表状态
 - (void)thn_reloadTableStatus {
-    NSInteger couponCount = [self thn_getCurrentCouponArr].count;
+    NSInteger couponCount = self.couponDataArr.count;
     self.couponTable.tableHeaderView = couponCount == 0 ? self.couponDefaultView : [UIView new];
     [self.couponTable reloadData];
 }
@@ -103,7 +110,7 @@ static NSString *const kKeyPage     = @"page";
 
 #pragma mark - tableView datasource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self thn_getCurrentCouponArr].count;
+    return self.couponDataArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,12 +125,16 @@ static NSString *const kKeyPage     = @"page";
                                                           type:self.couponType];
     }
     
-    if ([self thn_getCurrentCouponArr].count) {
+    if (self.couponDataArr.count) {
         if (self.couponType == THNUserCouponTypeBrand) {
-            [cell thn_setMyBrandCouponInfoData:self.brandCouponArr[indexPath.row]];
+            [cell thn_setMyBrandCouponInfoData:self.couponDataArr[indexPath.row]];
             
-        } else {
-            [cell thn_setMyCouponInfoData:[self thn_getCurrentCouponArr][indexPath.row]];
+        } else if (self.couponType == THNUserCouponTypeOfficial) {
+            [cell thn_setMyOfficialCouponInfoData:self.couponDataArr[indexPath.row]];
+            
+        } else if (self.couponType == THNUserCouponTypeFail) {
+            [cell thn_setMyFailCouponInfoData:self.couponDataArr[indexPath.row]];
+            
         }
     }
     
@@ -131,19 +142,18 @@ static NSString *const kKeyPage     = @"page";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self thn_getCurrentCouponArr].count) {
-        if (self.couponType == THNUserCouponTypeBrand) {
-            THNCouponDataModel *model = self.brandCouponArr[indexPath.row];
-            [self thn_openBrandHallControllerWithId:model.store_rid];
-        }
+    if (self.couponType == THNUserCouponTypeBrand) {
+        THNCouponDataModel *model = self.couponDataArr[indexPath.row];
+        [self thn_openBrandHallControllerWithId:model.store_rid];
     }
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
-
+    
     [self.view addSubview:self.couponTable];
+    [self.view addSubview:self.selectButtonView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -167,7 +177,7 @@ static NSString *const kKeyPage     = @"page";
         _couponTable.showsVerticalScrollIndicator = NO;
         _couponTable.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _couponTable.tableFooterView = [UIView new];
-        _couponTable.contentInset = UIEdgeInsetsMake(64, 0, 20, 0);
+        _couponTable.contentInset = UIEdgeInsetsMake(104, 0, 20, 0);
     }
     return _couponTable;
 }
@@ -179,25 +189,22 @@ static NSString *const kKeyPage     = @"page";
     return _couponDefaultView;
 }
 
-- (NSMutableArray *)brandCouponArr {
-    if (!_brandCouponArr) {
-        _brandCouponArr = [NSMutableArray array];
+- (THNSelectButtonView *)selectButtonView {
+    if (!_selectButtonView) {
+        _selectButtonView = [[THNSelectButtonView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 40)
+                                                                titles:@[kTextCouponBrand, kTextCouponOfficial, kTextCouponFail]
+                                                    initWithButtonType:ButtonTypeLine];
+        _selectButtonView.backgroundColor = [UIColor whiteColor];
+        _selectButtonView.delegate = self;
     }
-    return _brandCouponArr;
+    return _selectButtonView;
 }
 
-- (NSMutableArray *)officialCouponArr {
-    if (!_officialCouponArr) {
-        _officialCouponArr = [NSMutableArray array];
+- (NSMutableArray *)couponDataArr {
+    if (!_couponDataArr) {
+        _couponDataArr = [NSMutableArray array];
     }
-    return _officialCouponArr;
-}
-
-- (NSMutableArray *)failCouponArr {
-    if (!_failCouponArr) {
-        _failCouponArr = [NSMutableArray array];
-    }
-    return _failCouponArr;
+    return _couponDataArr;
 }
 
 @end
