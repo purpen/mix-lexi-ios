@@ -17,7 +17,7 @@
 
 static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publish";
 
-@interface THNShelfViewController ()
+@interface THNShelfViewController () <YYTextViewDelegate>
 
 @property (nonatomic, strong) UIView *recommendTintView;
 @property (nonatomic, strong) THNCenterProductTableViewCell *centerProductCell;
@@ -35,12 +35,20 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
 
 // 确认上架
 -  (void)sureShelf {
+    [SVProgressHUD showInfoWithStatus:@""];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    if (self.textView.text.length < 10) {
+        [SVProgressHUD showErrorWithStatus:@"推荐语不得少于十个字"];
+        return;
+    }
+    
     params[@"stick_text"] = self.textView.text;
     params[@"rid"] = self.productModel.rid;
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI postWithUrlString:kUrlPublishProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (!result.isSuccess) {
             [SVProgressHUD showErrorWithStatus:result.statusMessage];
             return;
@@ -49,22 +57,41 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
         [SVProgressHUD showSuccessWithStatus:@"上架成功"];
         
         [SVProgressHUD dismissWithDelay:2.0 completion:^{
-//            self.shelfPopBlock();
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"shelfSuccess" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kShelfSuccess object:nil];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
+
 
 - (void)setupUI {   
     [self.view addSubview:self.recommendTintView];
     [self.view addSubview:self.centerProductCell];
     [self.view addSubview:self.shelfButton];
     self.view.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+    self.textView.returnKeyType = UIReturnKeyDone;
+    self.textView.delegate = self;
 }
+
+#pragma mark - YYTextViewDelegate
+
+// 点击Return 隐藏键盘
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+
+    if ([text isEqualToString:@"\n"]){
+
+        [textView resignFirstResponder];
+
+        return NO;
+
+    }
+
+    return YES;
+}
+
 
 - (UIView *)recommendTintView {
     if (!_recommendTintView) {

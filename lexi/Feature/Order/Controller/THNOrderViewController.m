@@ -17,6 +17,7 @@
 #import "THNOrderStoreModel.h"
 #import "THNLogisticsViewController.h"
 #import "THNEvaluationViewController.h"
+#import "UIViewController+THNHud.h"
 
 /**
  请求订单类型
@@ -64,8 +65,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [super viewDidLoad];
     self.orderType = OrderTypeAll;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderLogisticsTracking object:nil];
-    [self loadOrdersData];
     [self setupUI];
+    [self loadOrdersData];
 }
 
 - (void)setupUI {
@@ -75,10 +76,18 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)loadOrdersData {
+    self.isTransparent = YES;
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         [self.orders removeAllObjects];
         switch (self.orderType) {
             
@@ -106,7 +115,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -203,26 +212,31 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     // 解决滑动没结束切换视图刷新tableView 数据越界问题
     if (self.orders.count == 0) {
         return 0;
     }
-    NSArray *items = self.orders[indexPath.row][@"items"];
-    // 获取不隐藏运费模板的数量
-    NSMutableArray *expressArr = [NSMutableArray array];
-    for (NSDictionary *dict in items) {
-        [expressArr addObject:dict[@"express"]];
-    }
     
-    NSSet *set = [NSSet setWithArray:expressArr];
-    if (set.count == 1) {
-       return items.count *kOrderProductViewHeight + 114 + orderCellLineSpacing;
+    THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
+    
+    if (orderModel.user_order_status == OrderStatusWaitDelivery || orderModel.user_order_status == OrderStatusReceipt) {
+        NSArray *items = orderModel.items;
+        // 获取不隐藏运费模板的数量
+        NSMutableArray *expressArr = [NSMutableArray array];
+        for (NSDictionary *dict in orderModel.items) {
+            [expressArr addObject:dict[@"express"]];
+        }
+        
+        NSSet *set = [NSSet setWithArray:expressArr];
+        if (set.count == 1) {
+            return items.count *kOrderProductViewHeight + 114 + orderCellLineSpacing;
+        } else {
+            // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
+            return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
+        }
     } else {
-        // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
-        return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
+        return kOrderProductViewHeight * orderModel.items.count + 114 + orderCellLineSpacing;
     }
-    
 }
 
 #pragma mark - THNOrderTableViewCellDelegate

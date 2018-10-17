@@ -81,3 +81,4 @@ NSString *const kBrandHallRid = @"kBrandHallRid"; // 进入他人品牌馆的ID
 #pragma mark - NSNotification
 NSString *const kOrderLogisticsTracking = @"OrderLogisticsTracking";
 NSString *const kOrderDetailLogisticsTracking = @"kOrderDetailLogisticsTracking";
+NSString *const kShelfSuccess = @"shelfSuccess";

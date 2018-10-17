@@ -147,7 +147,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backGroundView" destination="Nci-eM-Zda" id="aEa-CS-tNH"/>
-                <outlet property="introductionCountLabel" destination="VrN-cd-6dN" id="w83-FI-D7u"/>
+                <outlet property="introductionCountLabel" destination="Xcq-WV-QtN" id="bIP-4r-e3J"/>
                 <outlet property="introductionTextView" destination="GZ4-Yv-OQm" id="NEo-x3-yId"/>
                 <outlet property="nameCountLabel" destination="qqo-kj-KdX" id="lqx-t4-0YU"/>
                 <outlet property="nameTextView" destination="iKw-ut-Jlk" id="wwv-gz-zue"/>
