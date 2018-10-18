@@ -169,6 +169,7 @@ static NSString *const kKeyCode             = @"code";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:@{kKeyUserRecord: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 商品全部信息：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;

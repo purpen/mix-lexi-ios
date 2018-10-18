@@ -34,6 +34,7 @@
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
+#import <TYAlertController/UIView+TYAlertView.h>
 
 static NSInteger const kFooterHeight = 18;
 
@@ -138,6 +139,7 @@ static NSInteger const kFooterHeight = 18;
         if (error) return;
     
         weakSelf.goodsModel = model;
+        [weakSelf thn_goodsIsSoldOut:model.status != 1];
         [weakSelf.functionView thn_setGoodsModel:model];
         [weakSelf thn_setHeaderViewWithGoodsImageAssets:model.assets];
         [weakSelf thn_setTitleInfoWithGoodsModel:model];
@@ -243,7 +245,7 @@ static NSInteger const kFooterHeight = 18;
         [weakSelf presentViewController:goodsSkuVC animated:NO completion:nil];
         
     }];
-    directCells.height = model.isCustomMade ? 80 : 55;
+    directCells.height = model.isCustomService ? 80 : 55;
     directCells.goodsModel = model;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[directCells] mutableCopy]];
@@ -438,6 +440,28 @@ static NSInteger const kFooterHeight = 18;
 }
 
 #pragma mark - private methods
+/**
+ 商品已卖完/下架
+ */
+- (void)thn_goodsIsSoldOut:(BOOL)soldOut {
+    if (!soldOut) return;
+    
+    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"很抱歉" message:@"该商品已下架"];
+    alertView.layer.cornerRadius = 8;
+    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
+    [alertView addAction:[TYAlertAction actionWithTitle:@"确认"
+                                                  style:TYAlertActionStyleDefault
+                                                handler:^(TYAlertAction *action) {
+                                                    [self.navigationController popViewControllerAnimated:YES];
+                                                }]];
+    
+    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:alertView
+                                                                          preferredStyle:TYAlertControllerStyleAlert];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+
 /**
  打开卖货分享图片视图
  */
