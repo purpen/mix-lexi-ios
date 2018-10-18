@@ -49,7 +49,6 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 @property (weak, nonatomic) IBOutlet UIImageView *outsideImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *middleImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *promptViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet UIView *promptView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionTitleConstraint;
 @property (nonatomic, strong) THNLoginManager *loginManger;
 @property (nonatomic, strong) NSArray *userPartieArray;
@@ -119,6 +118,8 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
                 [self layoutOpenedPromptView];
             }
         } else {
+            [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
+            self.changeHeaderViewBlock();
             self.promptViewHeightConstraint.constant = 0;
             self.promptView.hidden = YES;
         }

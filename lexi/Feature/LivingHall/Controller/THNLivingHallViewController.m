@@ -52,6 +52,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 @property (nonatomic, assign) NSInteger curatorPerPageCount;
 @property (nonatomic, assign) NSInteger weekPopularPerPageCount;
 @property (nonatomic, assign) BOOL isFirstLoad;
+@property (nonatomic, assign) BOOL isLoadMoreData;
 
 @end
 
@@ -117,12 +118,9 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
             return;
         }
         
-        if (self.pageCount == 1) {
-            [self.recommendedMutableArray removeAllObjects];
-        }
-        
+
+        [self.recommendedMutableArray removeAllObjects];
         self.recommendedArray = result.data[@"products"];
-        self.expandView.hidden = self.recommendedArray.count < self.curatorPerPageCount ? : NO;
         
         for (NSDictionary *dict in self.recommendedArray) {
             [self.recommendedmutableArray addObject:dict];
@@ -242,28 +240,36 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     return self.livingHallHeaderView;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.expandView.viewHeight = expandViewHeight;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH,CGRectGetMaxY(self.featureCell.frame))];
     
-    // 展开更多好物是否已隐藏
-    if (self.expandView.hidden) {
+    if (self.recommendedArray.count == self.curatorPerPageCount) {
+        self.featureCell.viewY = expandViewHeight - 15;
+        [footerView addSubview:self.expandView];
+    } else {
         self.featureCell.viewY = 0;
     }
-    
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH,CGRectGetMaxY(self.featureCell.frame))];
+
     self.featureCell.backgroundColor = [UIColor whiteColor];
     __weak typeof(self)weakSelf = self;
     
     self.expandView.loadMoreDateBlcok = ^{
-        weakSelf.pageCount++;
+        weakSelf.curatorPerPageCount += weakSelf.curatorPerPageCount;
+        weakSelf.isLoadMoreData = YES;
         [weakSelf loadCuratorRecommendedData];
     };
-    [footerView addSubview:self.expandView];
+
     [footerView addSubview:self.featureCell];
     return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
+    return self.recommendedArray.count == self.curatorPerPageCount ? kCellOptimalHeight * 2 + 20 + 90 : kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
