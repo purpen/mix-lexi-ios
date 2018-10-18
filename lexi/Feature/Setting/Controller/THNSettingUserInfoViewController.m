@@ -72,7 +72,7 @@ static NSString *const kKeyAddress      = @"street_address";
     [[THNLoginManager sharedManager] updateUserProfileWithParams:[self thn_getEditUserInfoData]
                                                       completion:^(THNResponse *data, NSError *error) {
                                                           if (error) {
-                                                              [SVProgressHUD showSuccessWithStatus:@"保存失败"];
+                                                              [SVProgressHUD thn_showSuccessWithStatus:@"保存失败"];
                                                               return ;
                                                           }
                                                           

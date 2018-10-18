@@ -135,7 +135,6 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             
         case THNGoodsListViewTypeCustomization: {
             [self thn_showFunctionView:NO];
-            
             [self thn_getCustomizationProductsWithParams:[self thn_requestCustomizationParams]];
         }
             
@@ -146,11 +145,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getUserCenterProductsWithType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error || !goodsData.count) return;
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
@@ -161,11 +158,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取分类商品数据
 - (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error || !goodsData.count) return;
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
@@ -176,12 +171,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取接单订制商品
 - (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
-
     WEAKSELF;
 
     [THNGoodsManager getCustomizationProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error || !goodsData.count) return;
         
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
@@ -191,11 +183,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取栏目商品
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getColumnProductsWithListType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error || !goodsData.count) return;
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
@@ -206,11 +196,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取栏目浏览记录
 - (void)thn_getColumnRecordWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getColumnRecordWithListType:type params:params completion:^(NSArray *usersData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         [weakSelf.userArray addObjectsFromArray:usersData];
@@ -224,7 +212,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
     } else if (index == 1) {
         if (self.goodsListType == THNGoodsListViewTypeCategory) {
-            [SVProgressHUD showInfoWithStatus:@"新品"];
+            [SVProgressHUD thn_showInfoWithStatus:@"新品"];
 
         } else {
             [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];

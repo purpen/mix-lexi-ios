@@ -108,7 +108,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity: {
-            [SVProgressHUD showSuccessWithStatus:@"分享赚红包"];
+            [SVProgressHUD thn_showInfoWithStatus:@"分享赚红包"];
         }
             break;
             
@@ -125,7 +125,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeService: {
-            [SVProgressHUD showSuccessWithStatus:@"客服"];
+            [SVProgressHUD thn_showInfoWithStatus:@"客服"];
         }
             break;
     }
@@ -159,13 +159,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 #pragma mark - network
 // 头部用户信息
 - (void)thn_setUserHeaderView {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
     
     [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
-        [SVProgressHUD dismiss];
-        
         if (error) return;
         
         weakSelf.userModel = model;
@@ -184,16 +180,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsType)type {
     NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
-    
-    [SVProgressHUD showInfoWithStatus:@""];
-    
+
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-            return;
-        }
+        if (error) return;
         
         THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:^(NSString *ids) {
             THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
@@ -227,23 +218,18 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         
         [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
         weakSelf.tableView.backgroundColor = [UIColor whiteColor];
-        
-        [SVProgressHUD dismiss];
     }];
 }
 
 // 喜欢的橱窗
 - (void)thn_setLikedWindowTableViewCell {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
     
     [THNUserManager getUserLikedWindowWithParams:@{} completion:^(NSArray *windowData, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow) didSelectedItem:^(NSString *ids) {
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"橱窗ID == %@", ids]];
+            [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"橱窗ID == %@", ids]];
         }];
         cells.height = kCellHeightWindow;
         cells.windowDataArr = windowData;
@@ -267,12 +253,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 // 关注的设计馆
 - (void)thn_setFollowStoreTableViewCell {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
     
     [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         for (NSDictionary *storeDict in storesData) {
@@ -447,6 +430,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    if (![THNLoginManager isLogin]) {
+        return;
+    }
+    
     [self thn_setUserHeaderView];
     [self thn_getUserData];
     [self thn_getUserCenterGoodsData];

@@ -163,9 +163,10 @@ UICollectionViewDelegateFlowLayout
         return;
     }
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"qk"] = mutableStr;
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchIndex requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -176,6 +177,7 @@ UICollectionViewDelegateFlowLayout
         [self.searchIndexVC didMoveToParentViewController:self];
         [self.searchIndexVC.tableView reloadData];
         [self addChildViewController:self.searchIndexVC];
+        
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
     }];

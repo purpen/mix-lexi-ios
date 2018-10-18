@@ -130,7 +130,9 @@ static NSString *const kKeyRids = @"rids";
     dispatch_async(dispatch_get_main_queue(), ^{
         THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
         THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-        [self.currentController presentViewController:loginNavController animated:YES completion:nil];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
+                                                                                     animated:YES
+                                                                                   completion:nil];
     });
 }
 

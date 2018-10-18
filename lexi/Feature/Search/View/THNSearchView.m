@@ -13,9 +13,9 @@
 #import "THNConst.h"
 #import "NSString+Helper.h"
 #import "THNMarco.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
-@interface THNSearchView()<UITextFieldDelegate>
+@interface THNSearchView() <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *clearBtn;
@@ -137,16 +137,17 @@
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([self isEmpty:textField.text]) {
-        [SVProgressHUD showInfoWithStatus:@"搜索不能为空"];
-        [SVProgressHUD dismissWithDelay:2.0];
+        [SVProgressHUD thn_showInfoWithStatus:@"搜索不能为空"];
         return NO;
     }
     
     [self addHistoryModelWithText:[textField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    
     [THNSaveTool setObject:textField.text forKey:kSearchKeyword];
     if (self.delegate && [self.delegate respondsToSelector:@selector(pushSearchDetailVC)]) {
         [self.delegate pushSearchDetailVC];
     }
+    
     return YES;
 }
 

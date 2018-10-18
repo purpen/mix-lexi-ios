@@ -49,13 +49,15 @@ static NSString *const kKeyData     = @"data";
         [self.addressArr removeAllObjects];
     }
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     WEAKSELF;
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLAddress requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-
+        if (![result hasData] || !result.isSuccess) return ;
+        
         for (NSDictionary *dict in result.responseDict[kKeyData]) {
             THNAddressModel *model = [[THNAddressModel alloc] initWithDictionary:dict];
             [weakSelf.addressArr addObject:model];
@@ -63,7 +65,7 @@ static NSString *const kKeyData     = @"data";
         [weakSelf.addressTable reloadData];
 
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
