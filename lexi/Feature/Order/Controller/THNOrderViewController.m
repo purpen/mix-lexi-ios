@@ -36,12 +36,16 @@ typedef NS_ENUM(NSUInteger, OrderType) {
     OrderTypePayment
 };
 
-
 static NSString *const kOrderCellIdentifier = @"kOrderCellIdentifier";
 static NSString *const kUrlOrders = @"/orders";
 static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
-@interface THNOrderViewController ()<THNSelectButtonViewDelegate, UITableViewDelegate, UITableViewDataSource ,THNOrderTableViewCellDelegate>
+@interface THNOrderViewController () <
+    THNSelectButtonViewDelegate,
+    THNOrderTableViewCellDelegate,
+    UITableViewDelegate,
+    UITableViewDataSource
+>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UITableView *tableView;

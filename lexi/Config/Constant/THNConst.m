@@ -13,7 +13,6 @@
 //NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
 //NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
 //NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
-// 18610320751
 
 //  开发环境
 NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
@@ -75,7 +74,6 @@ NSString *const kColorBackground    = @"#f7f9fb";
 #pragma mark - 本地记录状态
 NSString *const kIsCloseLivingHallView = @"kIsCloseLivingHallView";
 NSString *const kIsCloseOpenedPromptView = @"kIsCloseOpenedPromptView";
-NSString *const kLoginSuccess = @"kLoginSuccess";
 NSString *const kSearchKeyword = @"kSearchKeyword";
 NSString *const kBrandHallRid = @"kBrandHallRid"; // 进入他人品牌馆的ID
 
@@ -83,3 +81,4 @@ NSString *const kBrandHallRid = @"kBrandHallRid"; // 进入他人品牌馆的ID
 NSString *const kOrderLogisticsTracking = @"OrderLogisticsTracking";
 NSString *const kOrderDetailLogisticsTracking = @"kOrderDetailLogisticsTracking";
 NSString *const kShelfSuccess = @"shelfSuccess";
+NSString *const kUpdateLivingHallStatus = @"kUpdateLivingHallStatus";

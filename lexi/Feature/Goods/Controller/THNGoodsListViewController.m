@@ -133,6 +133,12 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         }
             break;
             
+        case THNGoodsListViewTypeCustomization: {
+            [self thn_showFunctionView:NO];
+            
+            [self thn_getCustomizationProductsWithParams:[self thn_requestCustomizationParams]];
+        }
+            
         default:
             break;
     }
@@ -163,6 +169,21 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         if (error || !goodsData.count) return;
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+        [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
+        [weakSelf.goodsCollectionView reloadData];
+    }];
+}
+
+// 获取接单订制商品
+- (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params {
+    [SVProgressHUD showInfoWithStatus:@""];
+
+    WEAKSELF;
+
+    [THNGoodsManager getCustomizationProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error || !goodsData.count) return;
+        
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
     }];
@@ -293,6 +314,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     NSDictionary *params = @{@"page": @(self.currentPage += 1),
                              @"per_page": @(10),
                              @"view_more": @(1)};
+    
+    return params;
+}
+
+// 接单订制商品数据：默认的请求参数
+- (NSDictionary *)thn_requestCustomizationParams {
+    NSDictionary *params = @{@"page": @(self.currentPage += 1),
+                             @"per_page": @(10)};
     
     return params;
 }
