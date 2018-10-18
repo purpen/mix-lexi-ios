@@ -68,7 +68,7 @@
     
     [self.mainTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(45);
-        make.right.mas_equalTo(-100);
+        make.right.mas_equalTo(-80);
         make.top.bottom.mas_equalTo(0);
     }];
     

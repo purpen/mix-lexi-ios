@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSInteger store_phases;
 @property (nonatomic, assign) NSInteger user_like_counts;
 @property (nonatomic, assign) NSInteger wish_list_counts;
+@property (nonatomic, assign) NSInteger has_order;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *about_me;
 @property (nonatomic, copy) NSString *avatar;

@@ -24,6 +24,10 @@
     [self.backGroundView drawCornerWithType:0 radius:4];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self removeFromSuperview];
+}
+
 - (instancetype)show {
     THNObtainedView *obtainedView = [THNObtainedView viewFromXib];
     if (self.title.length > 0) {

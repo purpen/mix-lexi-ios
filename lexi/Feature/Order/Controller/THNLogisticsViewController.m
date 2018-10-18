@@ -55,8 +55,8 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
 
 - (void)loadLogisticsInformationData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"logistic_code"] = @"1129629448516";
-    params[@"kdn_company_code"] = @"EMS";
+    params[@"logistic_code"] = self.itemsModel.express_no;
+    params[@"kdn_company_code"] = self.itemsModel.express_code;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsInformation requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         // 物流状态：2-在途中,3-签收,4-问题件

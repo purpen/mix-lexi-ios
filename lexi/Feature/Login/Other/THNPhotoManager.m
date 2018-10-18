@@ -64,6 +64,7 @@ static NSString *const kActionDoneTitle         = @"确认";
 
 #pragma mark - private methods
 - (void)thn_presentPickerViewController {
+    self.imagePicker.sourceType = self.sourceType;
     [self.viewController presentViewController:self.imagePicker animated:YES completion:nil];
 }
 
