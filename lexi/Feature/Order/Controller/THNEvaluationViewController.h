@@ -8,9 +8,12 @@
 
 #import "THNBaseTableViewController.h"
 
+typedef void(^EvaluationBlock)(void);
+
 @interface THNEvaluationViewController : THNBaseViewController
 
 @property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) NSString *rid;
+@property (nonatomic, copy) EvaluationBlock ealuationBlock;
 
 @end
