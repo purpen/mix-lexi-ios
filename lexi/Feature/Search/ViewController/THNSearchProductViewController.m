@@ -154,7 +154,7 @@ THNFunctionPopupViewDelegate
 - (THNFunctionPopupView *)popupView {
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
-        [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeProductCenter];
+        [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeSearch];
         [_popupView thn_setCategoryId:0];
         _popupView.delegate = self;
     }

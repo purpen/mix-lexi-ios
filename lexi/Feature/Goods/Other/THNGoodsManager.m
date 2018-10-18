@@ -510,12 +510,14 @@ static NSString *const kKeyCode             = @"code";
  */
 - (NSString *)thn_getProductsCountUrlWithListType:(THNGoodsListViewType)type {
     NSDictionary *urlResult = @{
-                                 @(THNGoodsListViewTypeEditors):    @"/column/explore_recommend/count",
-                                 @(THNGoodsListViewTypeNewProduct): @"/column/explore_new/count",
-                                 @(THNGoodsListViewTypeDesign):     @"/column/preferential_design/count",
-                                 @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization/count",
-                                 @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend/count",
-                                 @(THNGoodsListViewTypeCategory):   @"/category/products/count"
+                                 @(THNGoodsListViewTypeEditors):        @"/column/explore_recommend/count",
+                                 @(THNGoodsListViewTypeNewProduct):     @"/column/explore_new/count",
+                                 @(THNGoodsListViewTypeDesign):         @"/column/preferential_design/count",
+                                 @(THNGoodsListViewTypeOptimal):        @"/column/handpick_optimization/count",
+                                 @(THNGoodsListViewTypeRecommend):      @"/column/handpick_recommend/count",
+                                 @(THNGoodsListViewTypeCategory):       @"/category/products/count",
+                                 @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
+                                 @(THNGoodsListViewTypeSearch):         @"",
                                  };
     
     return urlResult[@(type)];
