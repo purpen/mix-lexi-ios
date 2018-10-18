@@ -18,6 +18,7 @@
 #import "THNBrandHallViewController.h"
 #import "THNArticleViewController.h"
 #import "THNGoodsListViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrlBrandHallFeatured = @"/column/handpick_store";
 static NSString *const kUrlBrandHallBannerStore = @"/banners/store_ad";
@@ -49,23 +50,39 @@ static CGFloat const kBrandHallHeight = 375;
 
 // 品牌馆列表
 - (void)loadBrandHallFeaturedData {
+    self.isTransparent = YES;
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallFeatured requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+
         self.handpickStores = result.data[@"handpick_store"];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
 // banner
 - (void)loadBrandHallBannerData {
+    self.isTransparent = YES;
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallBannerStore requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.bannerView.carouselBannerType = CarouselBannerTypeBrandHallFeatured;
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
