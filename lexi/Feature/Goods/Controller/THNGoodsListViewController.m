@@ -184,7 +184,6 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         [SVProgressHUD dismiss];
         if (error || !goodsData.count) return;
         
-//        [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
     }];

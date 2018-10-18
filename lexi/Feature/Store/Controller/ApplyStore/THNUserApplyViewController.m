@@ -77,7 +77,8 @@ static NSString *const kParamMobile         = @"mobile";
             [SVProgressHUD showErrorWithStatus:@"数据错误"];
             return;
         }
-        [[THNLoginManager sharedManager] getUserProfile:nil];
+//        [[THNLoginManager sharedManager] getUserProfile:nil];
+        [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES storeId:result.data[@"store_rid"]];
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
         [self.navigationController pushViewController:successVC animated:YES];
         
