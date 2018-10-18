@@ -70,6 +70,7 @@
 @property (nonatomic, strong) NSString * rid;
 @property (nonatomic, assign) NSInteger secondCategoryId;
 @property (nonatomic, strong) NSArray * skus;
+// 1:正常、2:下架
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, assign) BOOL sticked;
 @property (nonatomic, assign) NSInteger stockCount;
