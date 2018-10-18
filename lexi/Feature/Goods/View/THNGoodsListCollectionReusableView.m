@@ -54,22 +54,34 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
 - (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType userData:(NSArray *)userData {
     switch (listType) {
         case THNGoodsListViewTypeEditors: {
-            [self thn_setTitleText:kTitleEditors iconName:@"icon_column_0" backgroundImageName:@"column_header_0" sloganText:kSloganEditors];
+            [self thn_setTitleText:kTitleEditors
+                          iconName:@"icon_column_0"
+               backgroundImageName:@"column_header_0"
+                        sloganText:kSloganEditors];
         }
             break;
             
         case THNGoodsListViewTypeNewProduct: {
-            [self thn_setTitleText:kTitleNewProduct iconName:@"icon_column_0" backgroundImageName:@"column_header_1" sloganText:kSloganNewProduct];
+            [self thn_setTitleText:kTitleNewProduct
+                          iconName:@"icon_column_0"
+               backgroundImageName:@"column_header_1"
+                        sloganText:kSloganNewProduct];
         }
             break;
             
         case THNGoodsListViewTypeDesign: {
-            [self thn_setTitleText:kTitleDesign iconName:@"icon_column_0" backgroundImageName:@"column_header_2" sloganText:kSloganDesign];
+            [self thn_setTitleText:kTitleDesign
+                          iconName:@"icon_column_0"
+               backgroundImageName:@"column_header_2"
+                        sloganText:kSloganDesign];
         }
             break;
             
         case THNGoodsListViewTypeGoodThing: {
-            [self thn_setTitleText:kTitleGoodThing iconName:@"icon_column_0" backgroundImageName:@"column_header_3" sloganText:kSloganGoodThing];
+            [self thn_setTitleText:kTitleGoodThing
+                          iconName:@"icon_column_0"
+               backgroundImageName:@"column_header_3"
+                        sloganText:kSloganGoodThing];
         }
             break;
             
@@ -115,7 +127,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
 }
 
 - (NSArray *)thn_getUserModelWithData:(NSArray *)data {
-    NSInteger maxCount = kDeviceiPhone5 ? 8 : 12;
+    NSInteger maxCount = kDeviceiPhone5 ? 7 : 11;
     NSInteger count = data.count > maxCount ? maxCount : data.count;
     
     NSMutableArray *modelArr = [NSMutableArray array];

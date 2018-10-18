@@ -21,6 +21,7 @@ typedef void (^WishGoodsCompleted)(BOOL isWish);
 
 @interface THNGoodsActionButton : UIButton
 
+@property (nonatomic, weak) UIViewController *currentController;
 @property (nonatomic, assign) THNGoodsActionButtonType type;
 @property (nonatomic, strong) NSString *goodsId;
 @property (nonatomic, assign) NSInteger likeCount;

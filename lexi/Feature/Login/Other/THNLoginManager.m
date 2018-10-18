@@ -104,7 +104,7 @@ MJCodingImplementation
  登出账号
  */
 - (void)requestLogoutCompletion:(void (^)(NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLLogout requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -113,14 +113,13 @@ MJCodingImplementation
             return;
         }
         
+        [SVProgressHUD showSuccessWithStatus:@"账号已退出"];
         [self clearLoginInfo];
-        [SVProgressHUD dismiss];
-        
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextLogoutError];
         completion(error);
+        [SVProgressHUD showErrorWithStatus:kTextLogoutError];
     }];
 }
 
@@ -153,8 +152,9 @@ MJCodingImplementation
     }];
 }
 
-- (void)updateUserLivingHallStatus:(BOOL)openingUser {
+- (void)updateUserLivingHallStatus:(BOOL)openingUser storeId:(NSString *)storeId {
     self.openingUser = openingUser;
+    self.storeRid = storeId;
     [self saveLoginInfo];
 }
 

@@ -151,7 +151,7 @@ static NSString *const kKeyPage     = @"page";
     
     } else if (self.couponType == THNUserCouponTypeOfficial) {
         self.backHome = YES;
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }
 }
 
