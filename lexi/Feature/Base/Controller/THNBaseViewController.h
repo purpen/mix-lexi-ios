@@ -12,6 +12,7 @@
 #import "UIView+HandyAutoLayout.h"
 #import <Masonry/Masonry.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNMarco.h"
 #import "THNConst.h"
 #import "THNTextConst.h"

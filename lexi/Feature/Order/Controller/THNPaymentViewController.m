@@ -42,17 +42,17 @@ static NSString *kTextPayment   = @"选择支付方式";
 - (void)doneButtonAction:(UIButton *)button {
     switch ([self thn_getPaymentType]) {
         case THNPaymentTypeWechat: {
-            [SVProgressHUD showSuccessWithStatus:@"微信支付"];
+            [SVProgressHUD thn_showSuccessWithStatus:@"微信支付"];
         }
             break;
             
         case THNPaymentTypeAlipay: {
-            [SVProgressHUD showSuccessWithStatus:@"支付宝"];
+            [SVProgressHUD thn_showSuccessWithStatus:@"支付宝"];
         }
             break;
             
         case THNPaymentTypeHuabei: {
-            [SVProgressHUD showSuccessWithStatus:@"花呗"];
+            [SVProgressHUD thn_showSuccessWithStatus:@"花呗"];
         }
             break;
     }

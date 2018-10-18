@@ -104,8 +104,9 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     if (self.isFirstLoad) {
         [self showHud];
         self.isFirstLoad = NO;
+        
     } else {
-        [SVProgressHUD showInfoWithStatus:@""];
+        [SVProgressHUD thn_show];
     }
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
@@ -114,11 +115,10 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         [SVProgressHUD dismiss];
         
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-
         [self.recommendedMutableArray removeAllObjects];
         self.recommendedArray = result.data[@"products"];
         
