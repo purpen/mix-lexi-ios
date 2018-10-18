@@ -62,7 +62,7 @@
 }
 
 - (void)thn_loginViewDidSelectWechatButton:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"打开微信登录"];
+    [SVProgressHUD thn_showInfoWithStatus:@"打开微信登录"];
 }
 
 #pragma mark - getters and setters

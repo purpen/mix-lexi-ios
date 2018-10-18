@@ -12,7 +12,7 @@
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import <Masonry/Masonry.h>
 #import "THNAuthCodeButton.h"
 
@@ -131,7 +131,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     WEAKSELF;
     
     if (![[weakSelf getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     

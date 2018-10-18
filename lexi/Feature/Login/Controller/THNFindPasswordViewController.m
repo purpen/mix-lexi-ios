@@ -46,18 +46,20 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        NSLog(@"获取验证码 ======== %@", result.responseDict);
         if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD showErrorWithStatus:@"数据错误"];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
-        NSLog(@"获取验证码 ======== %@", result.responseDict);
-        [self.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [weakSelf.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -65,20 +67,24 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  忘记密码
  */
 - (void)networkPostFindPasswordWith:(NSDictionary *)param completion:(void (^)(NSString *email))completion {
-    [SVProgressHUD showWithStatus:@"正在验证..."];
+    [SVProgressHUD thn_showWithStatus:@"正在验证..."];
+    
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
-            [self.findPasswordView thn_setErrorHintText:result.statusMessage];
+            [weakSelf.findPasswordView thn_setErrorHintText:result.statusMessage];
             return;
         }
         
+        [SVProgressHUD dismiss];
         if (completion) {
             completion(result.data[kParamEmail]);
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

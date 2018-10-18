@@ -411,6 +411,7 @@
 		D8EDD9AA2175C28200916506 /* THNMyCouponDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9A92175C28200916506 /* THNMyCouponDefaultView.m */; };
 		D8EDD9AD2175CC0400916506 /* THNCouponDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9AC2175CC0400916506 /* THNCouponDataModel.m */; };
 		D8EDD9B02175D7E500916506 /* THNMyCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9AF2175D7E500916506 /* THNMyCouponTableViewCell.m */; };
+		D8EDD9B42178734600916506 /* SVProgressHUD+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -1175,6 +1176,8 @@
 		D8EDD9AC2175CC0400916506 /* THNCouponDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponDataModel.m; sourceTree = "<group>"; };
 		D8EDD9AE2175D7E500916506 /* THNMyCouponTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNMyCouponTableViewCell.h; sourceTree = "<group>"; };
 		D8EDD9AF2175D7E500916506 /* THNMyCouponTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNMyCouponTableViewCell.m; sourceTree = "<group>"; };
+		D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Helper.h"; sourceTree = "<group>"; };
+		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -2097,6 +2100,8 @@
 				4B720623212EB281002606EE /* UITableView+Helper.m */,
 				CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */,
 				CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */,
+				D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */,
+				D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3248,6 +3253,7 @@
 				4B1B89212133D67D008A1C8F /* THNShelfViewController.m in Sources */,
 				D82FA7BA2127F0CF00E14A22 /* THNDynamicTableViewController.m in Sources */,
 				4B223CE42146505A001E5F94 /* THNNewShippingAddressTableViewCell.m in Sources */,
+				D8EDD9B42178734600916506 /* SVProgressHUD+Helper.m in Sources */,
 				D8BAC9BA211A949100667D6F /* THNActivityView.m in Sources */,
 				D8DFAF3A2140FEE900B45BE0 /* THNUserListTableViewCell.m in Sources */,
 				4B720600212D65F4002606EE /* THNToolBarView.m in Sources */,

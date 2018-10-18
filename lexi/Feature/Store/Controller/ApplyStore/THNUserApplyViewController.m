@@ -46,20 +46,21 @@ static NSString *const kParamMobile         = @"mobile";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
+    WEAKSELF;
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"申请开馆验证码 ==== %@", result.responseDict);
         
         if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD showErrorWithStatus:@"数据错误"];
+            [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;
         }
         
-        [self.userApplyView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [weakSelf.userApplyView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -67,23 +68,24 @@ static NSString *const kParamMobile         = @"mobile";
  开通生活馆
  */
 - (void)networkApplyLifeStoreWithParam:(NSDictionary *)param {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
     
     THNRequest *request = [THNAPI postWithUrlString:kURLApply requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        THNLog(@"=========== 开通生活馆：%@", result.responseDict);
         if (![result isSuccess]) {
-            [SVProgressHUD showErrorWithStatus:@"数据错误"];
+            [SVProgressHUD thn_showErrorWithStatus:kTextRequestError];
             return;
         }
-//        [[THNLoginManager sharedManager] getUserProfile:nil];
+
         [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES storeId:result.data[@"store_rid"]];
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
-        [self.navigationController pushViewController:successVC animated:YES];
+        [weakSelf.navigationController pushViewController:successVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

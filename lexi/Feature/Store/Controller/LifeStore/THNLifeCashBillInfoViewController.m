@@ -49,7 +49,8 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
 
 - (void)thn_getCashBillInfoDataWithId:(NSString *)billId {
     if (!billId.length) return;
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNLifeManager getLifeCashBillDetailWithRid:[THNLoginManager sharedManager].storeRid

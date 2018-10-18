@@ -8,7 +8,7 @@
 
 #import "THNSetPasswordView.h"
 #import "THNPasswordTextField.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNDoneButton.h"
 
 static NSString *const kTitleNew                = @"设置密码";
@@ -51,12 +51,12 @@ static NSString *const kDoneButtonSure          = @"确认";
     [self endEditing:YES];
     
     if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
-        [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
+        [SVProgressHUD thn_showInfoWithStatus:@"两次密码输入不一致"];
         return;
     }
     
     if (self.pwdTextField.text.length < 8 || self.verifyPwdTextField.text.length < 8) {
-        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
+        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
         return;
     }
     

@@ -8,7 +8,7 @@
 
 #import "THNNewUserInfoView.h"
 #import "THNDoneButton.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "NSString+Helper.h"
 #import "UIBarButtonItem+Helper.h"
 #import <DateTools/DateTools.h>
@@ -112,12 +112,12 @@ static NSString *const kParamGender     = @"gender";
     [self endEditing:YES];
     
     if (!self.avatarId) {
-        [SVProgressHUD showInfoWithStatus:kHintLabelText];
+        [SVProgressHUD thn_showInfoWithStatus:kHintLabelText];
         return;
     }
     
     if (![self getUserNickname].length) {
-        [SVProgressHUD showInfoWithStatus:kNamePlaceholder];
+        [SVProgressHUD thn_showInfoWithStatus:kNamePlaceholder];
         return;
     }
     

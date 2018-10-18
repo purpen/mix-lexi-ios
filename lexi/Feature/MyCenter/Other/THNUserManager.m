@@ -9,7 +9,7 @@
 #import "THNUserManager.h"
 #import "THNAPI.h"
 #import "THNMarco.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "NSString+Helper.h"
 
 /// api 拼接地址
@@ -75,14 +75,18 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求个人中心
  */
 - (void)requestUserCenterCompletion:(void (^)(THNUserModel *, NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"------ 个人中心数据：%@", result.responseDict);
+        [SVProgressHUD dismiss];
         if (![result hasData]) return;
+        
         THNUserModel *model = [THNUserModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -91,12 +95,17 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求已喜欢橱窗列表
  */
 - (void)requestUserLikedWindowWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) return;
+        
         completion((NSArray *)result.data[kKeyShopWindows], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -105,13 +114,17 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求关注的店铺列表
  */
 - (void)requestUserFollowStoreWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData]) return;
         
         completion((NSArray *)result.data[kKeyStores], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -120,17 +133,18 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的商家优惠券列表
  */
 - (void)requestUserBrandCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLCouponBrand requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (![result hasData]) return;
-        THNLog(@"========== 个人的商家优惠券：%@", result.responseDict);
+        
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -138,17 +152,18 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的官方优惠券列表
  */
 - (void)requestUserOfficialCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponOfficial requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (![result hasData]) return;
-        THNLog(@"========== 个人的官方优惠券：%@", result.responseDict);
+        
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -156,17 +171,18 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的失效优惠券列表
  */
 - (void)requestUserFailCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponFail requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (![result hasData]) return;
-        THNLog(@"========== 个人的失效优惠券：%@", result.responseDict);
+        
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

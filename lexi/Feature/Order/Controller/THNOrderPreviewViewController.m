@@ -167,7 +167,7 @@ THNPreViewTableViewCellDelegate
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@""];
+        [SVProgressHUD thn_showErrorWithStatus:@""];
     }];
 }
 
@@ -193,7 +193,6 @@ THNPreViewTableViewCellDelegate
                 dict[@"coupon_codes"] = storeCoupons[0][@"code"];
                 self.totalCouponAmount += [storeCoupons[0][@"amount"] floatValue];
             }
-
         }
 
     } failure:^(THNRequest *request, NSError *error) {

@@ -8,7 +8,7 @@
 
 #import "THNSignUpView.h"
 #import <YYKit/YYKit.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
 
@@ -77,7 +77,7 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     [self thn_showErrorHint:NO];
     
     if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -124,7 +124,7 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -327,14 +327,14 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [SVProgressHUD showInfoWithStatus:@"打开《服务条款》"];
+                                    [SVProgressHUD thn_showInfoWithStatus:@"打开《服务条款》"];
                                 }];
         
         [attText setTextHighlightRange:NSMakeRange(15, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [SVProgressHUD showInfoWithStatus:@"打开《隐私条款》"];
+                                    [SVProgressHUD thn_showInfoWithStatus:@"打开《隐私条款》"];
                                 }];
         
         _protocolLabel.attributedText = attText;

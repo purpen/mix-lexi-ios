@@ -45,19 +45,21 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 
 #pragma mark - network
 - (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo requestDictionary:param delegate:nil];
+    [SVProgressHUD thn_show];
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
         }
         
+        [SVProgressHUD dismiss];
         if (completion) {
             completion();
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -67,6 +69,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
  */
 - (void)thn_getSelectImage {
     WEAKSELF;
+    
     [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
         [weakSelf.newUserInfoView setHeaderImageWithData:imageData];
         

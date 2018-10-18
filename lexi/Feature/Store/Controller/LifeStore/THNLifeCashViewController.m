@@ -34,12 +34,10 @@ static NSString *const kTextCash = @"提现";
 }
 
 - (void)thn_getLifeCashData {
-    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
-                                       [SVProgressHUD dismiss];
                                        if (error) return;
                                     
                                        [weakSelf.cashView thn_setLifeCashCollect:model];
@@ -47,12 +45,10 @@ static NSString *const kTextCash = @"提现";
 }
 
 - (void)thn_getLifeCashRecentData {
-    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
 
     [THNLifeManager getLifeCashRecentWithRid:[THNLoginManager sharedManager].storeRid
                                   completion:^(CGFloat price, NSError *error) {
-                                      [SVProgressHUD dismiss];
                                       if (error) return;
                                       
                                       [weakSelf.billView thn_setLifeCashRecentPrice:price];
