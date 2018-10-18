@@ -11,6 +11,9 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNLoginManager.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 /// api 地址
 static NSString *const kURLLike       = @"/userlike";
@@ -42,48 +45,63 @@ static NSString *const kKeyRids = @"rids";
 
 #pragma mark - event response
 - (void)likeButtonAction:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
     if (self.selected) {
-        self.selected = !self.selected;
-        [self setLikedGoodsStatus:self.selected];
-        
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
+            
+            self.selected = !self.selected;
+            [self setLikedGoodsStatus:self.selected];
         }];
         
     } else {
-        self.selected = !self.selected;
-        [self setLikedGoodsStatus:self.selected];
-        
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
+            
+            self.selected = !self.selected;
+            [self setLikedGoodsStatus:self.selected];
         }];
     }
 }
 
 - (void)likeCountButtonAction:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
     if (self.selected) {
-        self.selected = !self.selected;
-        [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
-        self.likeCount -= 1;
-        
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
+            
+            self.selected = !self.selected;
+            [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
+            self.likeCount -= 1;
             self.likeGoodsCompleted(self.likeCount);
         }];
         
     } else {
-        self.selected = !self.selected;
-        [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
-        self.likeCount += 1;
-        
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
             if (error) return;
+            
+            self.selected = !self.selected;
+            [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
+            self.likeCount += 1;
             self.likeGoodsCompleted(self.likeCount);
         }];
     }
 }
 
 - (void)wishButtonAction:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
     if (self.selected) {
         [self thn_requestCancelWishGoodsCompleted:^(NSError *error) {
             if (error) return;
@@ -102,6 +120,18 @@ static NSString *const kKeyRids = @"rids";
             self.wishGoodsCompleted(self.selected);
         }];
     }
+}
+
+#pragma mark - event response
+/**
+ 打开登录视图
+ */
+- (void)thn_openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [self.currentController presentViewController:loginNavController animated:YES completion:nil];
+    });
 }
 
 #pragma mark - network

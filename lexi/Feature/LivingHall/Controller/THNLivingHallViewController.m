@@ -29,6 +29,7 @@
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
 static CGFloat const cellSpacing = 15;
+
 static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecommendCellIdentifier";
 // 馆长推荐
 static NSString *const kUrlCuratorRecommended = @"/core_platforms/products/by_store";

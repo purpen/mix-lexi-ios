@@ -12,7 +12,6 @@
 #import "THNCouponTableViewCell.h"
 #import "UIColor+Extension.h"
 #import "THNCouponModel.h"
-#import <MJExtension/MJExtension.h>
 
 static NSString *const kCouponCellIdentifier = @"kCouponCellIdentifier";
 

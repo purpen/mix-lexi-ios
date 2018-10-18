@@ -28,7 +28,6 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
 @property (weak, nonatomic) IBOutlet UILabel *originalMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *modeLabel;
 @property (weak, nonatomic) IBOutlet UIView *deliveryView;
-@property (weak, nonatomic) IBOutlet UIButton *selectDeliveryButton;
 
 @end
 

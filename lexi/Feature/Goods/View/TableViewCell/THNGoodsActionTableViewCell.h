@@ -10,6 +10,8 @@
 
 @interface THNGoodsActionTableViewCell : THNGoodsBaseTableViewCell
 
+@property (nonatomic, weak) UIViewController *currentController;
+
 /**
  设置商品操作的状态
 

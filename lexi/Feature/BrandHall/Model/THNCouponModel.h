@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <MJExtension/MJExtension.h>
 
 @interface THNCouponModel : NSObject
 
@@ -19,15 +20,26 @@
 @property (nonatomic, assign) CGFloat min_amount;
 @property (nonatomic, strong) NSString *start_date;
 @property (nonatomic, strong) NSString *end_date;
+@property (nonatomic, strong) NSString *start_at;
+@property (nonatomic, strong) NSString *expired_at;
+// 店铺信息
+@property (nonatomic, strong) NSString *store_logo;
+@property (nonatomic, strong) NSString *store_name;
+@property (nonatomic, strong) NSString *store_rid;
 // 是否领取 0、未领取 1、已领取
 @property (nonatomic, assign) NSInteger status;
-// 类型 1、同享券 2、单享券 3、满减
-@property (nonatomic, assign) NSInteger type;
+// 来源 1、分享领红包 2、猜图赢现金 3、赠送 4、新人奖励 11、领券中心
+@property (nonatomic, assign) NSInteger source;
 // 有效天数
 @property (nonatomic, strong) NSString *days;
 // 描述
 @property (nonatomic, strong) NSString *type_text;
 // 优惠券code
 @property (nonatomic, strong) NSString *code;
+/**
+ 正常类型：1、同享券 2、单享券 3、满减
+ 失效类型：1、店铺优惠券 2、官方优惠券
+ */
+@property (nonatomic, assign) NSInteger type;
 
 @end

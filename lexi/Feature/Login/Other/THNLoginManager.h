@@ -121,4 +121,12 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
                          completion:(void (^)(THNResponse *date, NSError *error))completion;
 
 
+/**
+ 更新生活馆信息
+
+ @param openingUser 是否生活馆用户
+ @param storeId 生活馆ID
+ */
+- (void)updateUserLivingHallStatus:(BOOL)openingUser storeId:(NSString *)storeId ;
+
 @end

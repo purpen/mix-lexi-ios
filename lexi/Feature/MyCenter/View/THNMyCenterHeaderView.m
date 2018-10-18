@@ -85,7 +85,8 @@ static NSInteger const kSelectedButtonTag = 452;
     [self thn_setFollowLabelTextWithValue:model.followed_users_counts];
     [self thn_setFansLabelTextWithValue:model.fans_counts];
     [self thn_setSignatureLabelTextWith:model.about_me];
-    [self thn_showCouponDot:YES];
+    [self thn_showCouponDot:NO];
+    [self thn_showOrderButton:model.has_order];
     
     NSArray *valueArr = @[[NSString stringWithFormat:@"%zi", model.user_like_counts],
                           [NSString stringWithFormat:@"%zi", model.wish_list_counts],
@@ -157,6 +158,13 @@ static NSInteger const kSelectedButtonTag = 452;
  */
 - (void)thn_showCouponDot:(BOOL)show {
     self.couponDotView.hidden = !show;
+}
+
+/**
+ 显示订单按钮
+ */
+- (void)thn_showOrderButton:(NSInteger)orderCount {
+    self.orderButton.hidden = orderCount == 0;
 }
 
 #pragma mark - event response

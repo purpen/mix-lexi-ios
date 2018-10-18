@@ -143,7 +143,8 @@ static NSString *const kToolbarItemCancel   = @"取消";
 
 #pragma mark - textfieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.editInfo = textField.text;
+    NSString *infoStr = self.type == THNSettingInfoTypeSex ? [self thn_getSexInfo] : textField.text;
+    self.editInfo = infoStr;
 }
 
 #pragma mark - PickerViewDelegate
@@ -166,7 +167,6 @@ static NSString *const kToolbarItemCancel   = @"取消";
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     NSString *sex = row == 0 ? @"女" : @"男";
     self.infoTextField.text = sex;
-    self.editInfo = sex;
 }
 
 #pragma mark - private methods
