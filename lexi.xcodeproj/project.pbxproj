@@ -1992,10 +1992,10 @@
 			children = (
 				D83F4F80216D9D390049B0A5 /* THNApplyStoreViewController.h */,
 				D83F4F83216D9D390049B0A5 /* THNApplyStoreViewController.m */,
-				D83F4F84216D9D390049B0A5 /* THNApplySuccessViewController.h */,
-				D83F4F81216D9D390049B0A5 /* THNApplySuccessViewController.m */,
 				D83F4F85216D9D390049B0A5 /* THNUserApplyViewController.h */,
 				D83F4F82216D9D390049B0A5 /* THNUserApplyViewController.m */,
+				D83F4F84216D9D390049B0A5 /* THNApplySuccessViewController.h */,
+				D83F4F81216D9D390049B0A5 /* THNApplySuccessViewController.m */,
 			);
 			path = ApplyStore;
 			sourceTree = "<group>";

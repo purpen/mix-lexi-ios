@@ -49,9 +49,7 @@ static NSString *const kTitleApply = @"申请生活馆";
         
         WEAKSELF;
         _successView.ApplySuccessBlock = ^{
-            THNHomeViewController *homeVC = [[THNHomeViewController alloc]init];
-        
-            [weakSelf.navigationController pushViewController:homeVC animated:YES];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         };
     }
     return _successView;
