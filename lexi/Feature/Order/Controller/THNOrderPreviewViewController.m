@@ -366,16 +366,13 @@ THNPreViewTableViewCellDelegate
         NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
         [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
-    // 筛选出默认物流
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
-    NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
 
     self.fullReductionViewHeight = [cell setPreViewCell:skus
                                        initWithItmeSkus:skuItems
                                      initWithCouponModel:couponModel
                                          initWithFreight:freight
                                          initWithCoupons:coupons
-                                       initWithLogistics:defaultLogistics
+                                       initWithLogistics:logistics
                                           initWithRemark:remarkStr
                                             initWithGift:giftStr];
     

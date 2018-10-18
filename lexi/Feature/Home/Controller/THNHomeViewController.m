@@ -40,7 +40,7 @@
     [super viewDidLoad];
     [self setupUI];
     [self setNavigationBar];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kLoginSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kUpdateLivingHallStatus object:nil];
 }
 
 - (void)refreshLayoutHomeView {

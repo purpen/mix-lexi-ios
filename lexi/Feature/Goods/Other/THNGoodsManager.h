@@ -17,6 +17,15 @@
 @interface THNGoodsManager : NSObject
 
 /**
+ 获取接单订制商品数据
+ 
+ @param params 附加参数
+ @param completion 完成回调
+ */
++ (void)getCustomizationProductsWithParams:(NSDictionary *)params
+                           completion:(void (^)(NSArray *goodsData, NSInteger count, NSError *error))completion;
+
+/**
  获取商品全部数据
 
  @param goodsId 商品 id

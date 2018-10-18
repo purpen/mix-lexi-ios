@@ -284,7 +284,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                                             }];
     } else {
         [THNGoodsManager getProductCountWithType:self.goodsListType
-                                          params:params
+                                          params:self.paramsDict
                                       completion:^(NSInteger count, NSError *error) {
                                           [self.doneLoadingView stopAnimating];
                                           if (error) return;

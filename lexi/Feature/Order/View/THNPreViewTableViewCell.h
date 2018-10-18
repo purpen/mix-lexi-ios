@@ -33,7 +33,7 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
    initWithCouponModel:(THNCouponModel *)couponModel
           initWithFreight:(CGFloat)freight
           initWithCoupons:(NSArray *)coupons
-        initWithLogistics:(NSArray *)defaultLogistics
+        initWithLogistics:(NSArray *)logistics
            initWithRemark:(NSString *)remarkStr
              initWithGift:(NSString *)giftStr;
 
