@@ -57,7 +57,6 @@ UIKIT_EXTERN NSString *const kColorBackground;
 
 #pragma mark - 本地记录状态
 UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
-UIKIT_EXTERN NSString *const kLoginSuccess;
 UIKIT_EXTERN NSString *const kBrandHallRid;
 UIKIT_EXTERN NSString *const kSearchKeyword;
 
@@ -66,3 +65,4 @@ UIKIT_EXTERN NSString *const kOrderLogisticsTracking;
 UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;
 UIKIT_EXTERN NSString *const kShelfSuccess;
+UIKIT_EXTERN NSString *const kUpdateLivingHallStatus;

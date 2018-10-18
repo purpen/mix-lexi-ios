@@ -196,6 +196,25 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel;
+    switch (self.productType) {
+        case ProductTypeHot:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.hotDataArray[indexPath.row]];
+            break;
+        case ProductTypeOfficialRecommend:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.officialRecommendDataArray[indexPath.row]];
+            break;
+        default:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.dataArrayNew[indexPath.row]];
+            break;
+    }
+    
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+    
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGRectGetMaxY(self.selectButtonView.frame);
 }
@@ -211,6 +230,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     headerView.backgroundColor = [UIColor whiteColor];
     return headerView;
 }
+
 
 #pragma marl - THNCenterProductTableViewCellDelegate Method 实现
 - (void)shelf:(THNCenterProductTableViewCell *)cell {

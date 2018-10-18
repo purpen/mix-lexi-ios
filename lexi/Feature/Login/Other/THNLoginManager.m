@@ -153,6 +153,7 @@ MJCodingImplementation
     }];
 }
 
+
 - (void)updateUserLivingHallStatus:(BOOL)openingUser storeId:(NSString *)storeId {
     self.openingUser = openingUser;
     self.storeRid = storeId;

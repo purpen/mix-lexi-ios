@@ -22,6 +22,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableTopConstraint;
 @property (nonatomic, strong) NSMutableArray *items;
+@property (weak, nonatomic) IBOutlet UIButton *commitButton;
 
 @end
 
@@ -44,6 +45,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 }
 
 - (IBAction)commitOrder:(id)sender {
+    [SVProgressHUD showInfoWithStatus:@""];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSMutableDictionary *itemDict in self.items) {
@@ -54,7 +56,21 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     params[@"items"] = self.items;
     THNRequest *request = [THNAPI postWithUrlString:kCreateComment requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [SVProgressHUD showSuccessWithStatus:@"评价成功"];
+        [SVProgressHUD dismissWithCompletion:^{
+            
+            if (self.ealuationBlock) {
+                self.ealuationBlock();
+            }
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -69,6 +85,9 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     self.tableView.estimatedSectionFooterHeight = 0;
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNEvaluationTableViewCell" bundle:nil] forCellReuseIdentifier:kEvaluationCellIdentifier];
+    [self.commitButton drawCornerWithType:0 radius:4];
+    self.commitButton.alpha = 0.5;
+    self.commitButton.enabled = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -101,11 +120,40 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 - (void)commentStart:(NSInteger)startCount initWithTag:(NSInteger)tag {
     NSMutableDictionary *dict = self.items[tag];
     dict[@"score"] = @(startCount);
+    
+    if (dict.count > 2) {
+        self.commitButton.enabled = YES;
+    }
+    
+    for (NSDictionary *itemDict in self.items) {
+        if (itemDict.count > 2) {
+            self.commitButton.enabled = YES;
+            self.commitButton.alpha = 1;
+        } else {
+            self.commitButton.enabled = NO;
+            self.commitButton.alpha = 0.5;
+        }
+    }
 }
 
 - (void)comment:(NSString *)commentText initWithTag:(NSInteger)tag {
     NSMutableDictionary *dict = self.items[tag];
     dict[@"content"] = commentText;
+    
+    if (commentText.length == 0) {
+        [dict removeObjectForKey:@"content"];
+    }
+    
+    for (NSDictionary *itemDict in self.items) {
+        if (itemDict.count > 2) {
+            self.commitButton.enabled = YES;
+            self.commitButton.alpha = 1;
+        } else {
+            self.commitButton.enabled = NO;
+            self.commitButton.alpha = 0.5;
+        }
+    }
+   
 }
 
 - (void)selectPhoto:(NSInteger)tag {

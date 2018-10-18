@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ObtainedBlock)(void);
+
 @interface THNObtainedView : UIView
 
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
++ (instancetype)sharedManager;
+- (instancetype)show;
+@property (nonatomic, copy) ObtainedBlock obtainedBlock;
+@property (nonatomic, strong) NSString *title;
 
 @end

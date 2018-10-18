@@ -95,11 +95,12 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 }
 
 - (IBAction)delete:(id)sender {
-    THNObtainedView *obtainedMuseumView = [THNObtainedView viewFromXib];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    obtainedMuseumView.frame = window.bounds;
-    [window addSubview:obtainedMuseumView];
-    [obtainedMuseumView.deleteButton addTarget:self action:@selector(deleteProduct) forControlEvents:UIControlEventTouchUpInside];
+    THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
+    [obtainedMuseumView show];
+    
+    obtainedMuseumView.obtainedBlock = ^{
+        [self deleteProduct];
+    };
 }
 
 - (void)deleteProduct {
