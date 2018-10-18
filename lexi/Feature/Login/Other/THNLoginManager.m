@@ -133,7 +133,7 @@ MJCodingImplementation
         }
         
         self.storeRid = result.data[kRequestStoreRid];
-        self.openingUser = result.data[kRequestIsSmallB];
+        self.openingUser = [result.data[kRequestIsSmallB] boolValue];
         self.userData = result.data[kRequestProfile];
         self.userId = result.data[kRequestProfile][kRequestUserId];
         
