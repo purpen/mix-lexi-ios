@@ -236,7 +236,7 @@
                             <state key="highlighted" image="icon_black" backgroundImage="head_shadow"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyf-En-kMm">
-                            <rect key="frame" x="386.5" y="145.5" width="0.0" height="0.0"/>
+                            <rect key="frame" x="385.5" y="145.5" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -289,7 +289,7 @@
                         <constraint firstAttribute="trailing" secondItem="LNW-cG-t0x" secondAttribute="trailing" constant="53.5" id="Rdh-pp-aUn"/>
                         <constraint firstItem="P9o-52-VUX" firstAttribute="top" secondItem="ys7-MW-oJE" secondAttribute="bottom" constant="9" id="V5j-TI-XJ6"/>
                         <constraint firstItem="eLT-ft-gb9" firstAttribute="top" secondItem="6mU-VS-6Jl" secondAttribute="top" constant="30" id="WAH-gv-9k2"/>
-                        <constraint firstItem="qyf-En-kMm" firstAttribute="centerX" secondItem="vFL-bl-qhg" secondAttribute="centerX" constant="4" id="WuQ-We-JUZ"/>
+                        <constraint firstItem="qyf-En-kMm" firstAttribute="centerX" secondItem="vFL-bl-qhg" secondAttribute="centerX" constant="3" id="WuQ-We-JUZ"/>
                         <constraint firstItem="ys7-MW-oJE" firstAttribute="leading" secondItem="eLT-ft-gb9" secondAttribute="leading" id="XPo-wf-A5p"/>
                         <constraint firstItem="khf-ut-5r4" firstAttribute="bottom" secondItem="eLT-ft-gb9" secondAttribute="bottom" constant="7.5" id="YTO-Cp-xqA"/>
                         <constraint firstItem="nxH-MC-etK" firstAttribute="centerY" secondItem="WTA-nO-aHB" secondAttribute="centerY" id="Yiz-NP-RcP"/>

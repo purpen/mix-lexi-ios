@@ -195,7 +195,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     }];
     
     CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
-    return 158 * 2 + customGrassCellHeight + 20 + 70;
+    return 158 * 2 + customGrassCellHeight + 30 + 70;
 }
 
 #pragma mark - THNBannerViewDelegate

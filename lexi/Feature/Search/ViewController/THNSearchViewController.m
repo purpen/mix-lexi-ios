@@ -90,13 +90,12 @@ UICollectionViewDelegateFlowLayout
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupUI];
     [self loadUserBrowseData];
+    [self setupUI];
 }
 
 - (void)setupUI {
     self.navigationBarView.hidden = YES;
-    [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
     [self.view addSubview:self.searchView];
     [self.view addSubview:self.collectionView];
 }
@@ -147,6 +146,7 @@ UICollectionViewDelegateFlowLayout
             [self.sectionTitles addObject:kSearchHotSearchTitle];
         }
         [self.sections addObject:self.popularSearchs];
+        [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

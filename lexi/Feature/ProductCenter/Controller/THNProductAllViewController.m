@@ -18,6 +18,7 @@
 #import "THNFunctionButtonView.h"
 #import "UIViewController+THNHud.h"
 #import "THNLoginManager.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const KUrlDistributeCenterAll = @"/fx_distribute/choose_center";
 static NSString *const kProductCenterCellIdentifier = @"kProductCenterCellIdentifier";
@@ -147,6 +148,12 @@ static CGFloat interitemSpacing = 10;
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     [cell setProductModel:productModel initWithType:THNHomeTypeCenter];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 #pragma mark - lazy
