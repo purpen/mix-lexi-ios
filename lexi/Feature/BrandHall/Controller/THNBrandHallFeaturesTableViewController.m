@@ -14,7 +14,8 @@
 #import <MJExtension/MJExtension.h>
 #import "UIView+Helper.h"
 #import "THNGoodsInfoViewController.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "UIViewController+THNHud.h"
+#import "THNBrandHallViewController.h"
 
 static NSString *const kUrlFeatureStore = @"/column/feature_store_all";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
@@ -43,14 +44,17 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
 }
 
 - (void)loadFeatureStoreData {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlFeatureStore requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
         self.stores = result.data[@"stores"];
         [self.tableView reloadData];
-        
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -77,6 +81,13 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
     [cell setBrandModel:brandModel];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+      THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
+    THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+    brandHallVC.rid = brandModel.rid;
+    [self.navigationController pushViewController:brandHallVC animated:YES];
 }
 
 @end

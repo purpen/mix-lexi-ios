@@ -30,6 +30,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNArticleViewController.h"
 #import "THNBrandHallStoryViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -92,15 +93,17 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     params[@"is_distributed"] = @(1);
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    self.isTransparent = YES;
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.products = result.data[@"products"];
          [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -109,13 +112,15 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    self.isTransparent = YES;
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
         [self.brandHallView setOffcialStoreModel:self.offcialStoreModel];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -124,14 +129,16 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    self.isTransparent = YES;
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStoreAnnouncement requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
         [self.announcementView setAnnouncementModel:self.announcementModel];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -140,14 +147,16 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    self.isTransparent = YES;
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.loginCoupons = result.data[@"coupons"];
         [self loadNotLoginCouponsData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -155,11 +164,13 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadNotLoginCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
-    
-    [SVProgressHUD showInfoWithStatus:@""];
+
+    self.isTransparent = YES;
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         NSArray *allCoupons = result.data[@"coupons"];
         // type = 3  满减   type = 1 或者 2  为优惠券
         NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
@@ -173,7 +184,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         self.couponViewHeight =  [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons];
         [self setupLayout];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -182,15 +193,16 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    self.isTransparent = YES;
+    [self showHud];
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
+        [self hiddenHud];
         self.lifeRecords = result.data[@"life_records"];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
