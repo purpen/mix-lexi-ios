@@ -49,6 +49,7 @@ static NSString *const kTitleApply = @"申请生活馆";
         
         WEAKSELF;
         _successView.ApplySuccessBlock = ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         };
     }

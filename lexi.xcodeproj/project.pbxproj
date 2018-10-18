@@ -145,6 +145,8 @@
 		4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B72061D212E66F3002606EE /* THNSevenImagesStitchView.xib */; };
 		4B720624212EB281002606EE /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B720623212EB281002606EE /* UITableView+Helper.m */; };
 		4B72062B212FB0CB002606EE /* THNPruductCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B72062A212FB0CB002606EE /* THNPruductCenterViewController.m */; };
+		4B744AE92178841B007E73B4 /* THNOrderPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B744AE82178841B007E73B4 /* THNOrderPayView.m */; };
+		4B744AEB21788449007E73B4 /* THNOrderPayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B744AEA21788449007E73B4 /* THNOrderPayView.xib */; };
 		4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */; };
 		4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */; };
 		4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */; };
@@ -680,6 +682,9 @@
 		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
 		4B720629212FB0CB002606EE /* THNPruductCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPruductCenterViewController.h; sourceTree = "<group>"; };
 		4B72062A212FB0CB002606EE /* THNPruductCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPruductCenterViewController.m; sourceTree = "<group>"; };
+		4B744AE72178841B007E73B4 /* THNOrderPayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderPayView.h; sourceTree = "<group>"; };
+		4B744AE82178841B007E73B4 /* THNOrderPayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayView.m; sourceTree = "<group>"; };
+		4B744AEA21788449007E73B4 /* THNOrderPayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNOrderPayView.xib; sourceTree = "<group>"; };
 		4BC2E9AD212FE3B2005FF29C /* THNRecommendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNRecommendViewController.h; sourceTree = "<group>"; };
 		4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNRecommendViewController.m; sourceTree = "<group>"; };
 		4BC2E9B621300655005FF29C /* THNCenterProductTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCenterProductTableViewCell.h; sourceTree = "<group>"; };
@@ -1448,6 +1453,9 @@
 				4B34A05C216DEC7A001099CB /* THNPhotoCollectionViewCell.h */,
 				4B34A05D216DEC7A001099CB /* THNPhotoCollectionViewCell.m */,
 				4B34A05E216DEC7A001099CB /* THNPhotoCollectionViewCell.xib */,
+				4B744AE72178841B007E73B4 /* THNOrderPayView.h */,
+				4B744AE82178841B007E73B4 /* THNOrderPayView.m */,
+				4B744AEA21788449007E73B4 /* THNOrderPayView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3132,6 +3140,7 @@
 				D8247EC22147E96D000C8E37 /* THNLogisticsTableViewCell.xib in Resources */,
 				CD3D01E7217219400030E3B0 /* THNArticleProductTableViewCell.xib in Resources */,
 				4B34A062216EFA5F001099CB /* THNEvaluationViewController.xib in Resources */,
+				4B744AEB21788449007E73B4 /* THNOrderPayView.xib in Resources */,
 				D8F998872137D6440012AED3 /* loading.gif in Resources */,
 				4B240EA2212C1ED30077EDD4 /* THNShopWindowDetailViewController.xib in Resources */,
 				4B223CE52146505A001E5F94 /* THNNewShippingAddressTableViewCell.xib in Resources */,
@@ -3457,6 +3466,7 @@
 				4B1B891D2133CE44008A1C8F /* THNProductAllViewController.m in Sources */,
 				D8247E7C21461A17000C8E37 /* THNOrderPreviewViewController.m in Sources */,
 				D8BAC9B1211A949100667D6F /* THNFeaturedCollectionView.m in Sources */,
+				4B744AE92178841B007E73B4 /* THNOrderPayView.m in Sources */,
 				4B25B47D2141441500654390 /* THNOrderDetailViewController.m in Sources */,
 				D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */,
 				4B223CE021464E21001E5F94 /* THNNewShippingAddressViewController.m in Sources */,

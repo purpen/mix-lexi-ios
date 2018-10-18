@@ -253,9 +253,18 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
 - (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid {
     THNEvaluationViewController *evaluationVC = [[THNEvaluationViewController alloc]init];
+    evaluationVC.ealuationBlock = ^{
+        [self loadOrdersData];
+    };
+    
     evaluationVC.products = products;
     evaluationVC.rid = rid;
     [self.navigationController pushViewController:evaluationVC animated:YES];
+}
+
+// 确认收货
+- (void)confirmReceipt {
+    [self loadOrdersData];
 }
 
 #pragma mark - lazy

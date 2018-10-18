@@ -54,6 +54,8 @@ UITextFieldDelegate
 @property (nonatomic, strong) NSString *logisticsName;
 // 默认物流
 @property (nonatomic, strong) NSArray *defaultLogistics;
+// 所有物流数组
+@property (nonatomic, strong) NSArray *logistics;
 
 @end
 
@@ -79,7 +81,7 @@ UITextFieldDelegate
       initWithCouponModel:(THNCouponModel *)couponModel
           initWithFreight:(CGFloat)freight
           initWithCoupons:(NSArray *)coupons
-        initWithLogistics:(NSArray *)defaultLogistics
+        initWithLogistics:(NSArray *)logistics
            initWithRemark:(NSString *)remarkStr
              initWithGift:(NSString *)giftStr {
 
@@ -89,7 +91,10 @@ UITextFieldDelegate
     self.skus = [skus sortedArrayUsingDescriptors:sortArr];
     self.itemSkus = itemSkus;
     self.coupons = coupons;
-    self.defaultLogistics = defaultLogistics;
+    self.logistics = logistics;
+    // 筛选出默认物流
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+    self.defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
     self.nameLabel.text = itemModel.storeName;
     
@@ -131,8 +136,6 @@ UITextFieldDelegate
         self.couponLabel.text = @"当前没有优惠券";
     }
     
-    
-    self.defaultLogistics = defaultLogistics;
     
     return self.fullReductionViewHeightConstraint.constant;
 }
@@ -212,8 +215,10 @@ UITextFieldDelegate
 
 
     cell.productCountLabel.text = [NSString stringWithFormat:@"x%@",self.itemSkus[indexPath.row][@"quantity"]];
-
+    cell.selectDeliveryButton.hidden = self.logistics.count == 1 ?: NO;
+    
     if (self.defaultLogistics.count > 0) {
+    
         THNFreightModelItem *freightModel = [[THNFreightModelItem alloc]initWithDictionary: self.defaultLogistics[indexPath.row]];
         [cell setFreightModel:freightModel];
     }

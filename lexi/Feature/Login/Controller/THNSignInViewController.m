@@ -99,7 +99,7 @@ static NSString *const kTextSkip            = @"跳过";
             return;
         }
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }
