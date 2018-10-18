@@ -114,7 +114,6 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 - (THNGoodsActionButton *)likeButton {
     if (!_likeButton) {
         _likeButton = [[THNGoodsActionButton alloc] initWithType:(THNGoodsActionButtonTypeLikeCount)];
-        _likeButton.currentController = self.currentController;
     }
     return _likeButton;
 }
@@ -122,7 +121,6 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 - (THNGoodsActionButton *)wishButton {
     if (!_wishButton) {
         _wishButton = [[THNGoodsActionButton alloc] initWithType:(THNGoodsActionButtonTypeWish)];
-        _wishButton.currentController = self.currentController;
     }
     return _wishButton;
 }

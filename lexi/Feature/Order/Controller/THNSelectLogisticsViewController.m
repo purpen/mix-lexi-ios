@@ -50,13 +50,16 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 
 #pragma mark - network
 - (void)requestSameTemplateExpressWithParams:(NSDictionary *)params {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     WEAKSELF;
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
+        
         if (!result.isSuccess) return;
+        
         for (NSDictionary *dict in result.data) {
             THNFreightModelItem *model = [[THNFreightModelItem alloc] initWithDictionary:dict];
             [weakSelf.expressArr addObject:model];
@@ -65,7 +68,7 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
         [weakSelf thn_defaultSelected];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showInfoWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showInfoWithStatus:[error localizedDescription]];
     }];
 }
 

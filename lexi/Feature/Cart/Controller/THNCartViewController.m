@@ -75,11 +75,9 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品
  */
 - (void)thn_getCartGoodsData {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         weakSelf.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
@@ -92,11 +90,9 @@ static NSString *const kKeyQuantity = @"quantity";
  心愿单商品
  */
 - (void)thn_getWishListGoodsData {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
@@ -110,6 +106,7 @@ static NSString *const kKeyQuantity = @"quantity";
  */
 - (void)thn_getCartGoodsCount {
     WEAKSELF;
+    
     [THNGoodsManager getCartGoodsCountCompletion:^(NSInteger goodsCount, NSError *error) {
         if (error) return;
         
@@ -127,7 +124,7 @@ static NSString *const kKeyQuantity = @"quantity";
     THNGoodsModel *model = self.wishGoodsArr[indexPath.row];
     
     [self thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
-        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"添加成功"];
         [self thn_getCartGoodsData];
     }];
 }
@@ -163,28 +160,24 @@ static NSString *const kKeyQuantity = @"quantity";
 // 重选商品规格
 - (void)thn_didSelectedResetSkuGoodsCell:(THNGoodsInfoTableViewCell *)cell {
     NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
-    
     if (indexPath.section != 0) return;
     
     [self.selectedArr addObject:indexPath];
     
     THNCartModelItem *item = self.cartGoodsArr[indexPath.row];
-    
-    [SVProgressHUD showInfoWithStatus:@""];
-    
+
     WEAKSELF;
+    
     [THNGoodsManager getProductAllDetailWithId:item.product.productRid completion:^(THNGoodsModel *model, NSError *error) {
-        [SVProgressHUD dismiss];
-        
         if (error) {
-            [SVProgressHUD showErrorWithStatus:@"获取商品信息错误"];
+            [SVProgressHUD thn_showErrorWithStatus:@"获取商品信息错误"];
             return;
         }
         
         NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
         [weakSelf thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
             // 添加新 sku 成功后，删除记录的 sku
-            [self thn_deleteSkuItemWithSkuIds:skuIds];
+            [weakSelf thn_deleteSkuItemWithSkuIds:skuIds];
         }];
     }];
 }
@@ -203,17 +196,16 @@ static NSString *const kKeyQuantity = @"quantity";
 // 添加到心愿单
 - (void)thn_didShoppingCartItemsToWishlist {
     NSArray *productIds = [[NSSet setWithArray:[self thn_getSelectedDataWithType:(THNSelectedCartDataTypeProduct)]] allObjects];
-    
     if (!productIds.count) return;
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    WEAKSELF;
+    
     [THNGoodsManager postAddGoodsToWishListWithRids:productIds completion:^(NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) return;
         
         // 从购物车移除
-        NSArray *skuIds = [self thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
-        [self thn_deleteSkuItemWithSkuIds:skuIds];
+        NSArray *skuIds = [weakSelf thn_getSelectedDataWithType:(THNSelectedCartDataTypeSku)];
+        [weakSelf thn_deleteSkuItemWithSkuIds:skuIds];
     }];
 }
 
@@ -349,13 +341,15 @@ static NSString *const kKeyQuantity = @"quantity";
 - (void)thn_deleteSkuItemWithSkuIds:(NSArray *)skuIds {
     if (!skuIds.count) return;
 
+    WEAKSELF;
+    
     [THNGoodsManager postRemoveCartGoodsWithSkuRids:skuIds completion:^(NSError *error) {
         if (error) {
-            [SVProgressHUD showErrorWithStatus:@"删除失败"];
+            [SVProgressHUD thn_showErrorWithStatus:@"删除失败"];
             return;
         };
         
-        [self thn_removeCartGoods];
+        [weakSelf thn_removeCartGoods];
     }];
 }
 

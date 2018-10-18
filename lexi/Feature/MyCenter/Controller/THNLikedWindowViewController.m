@@ -45,7 +45,7 @@ static NSString *const kCollectionViewCellId = @"THNLikedWindowCollectionViewCel
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", indexPath.row]];
+    [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", indexPath.row]];
 }
 
 #pragma mark - setup UI

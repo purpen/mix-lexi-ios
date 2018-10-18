@@ -51,10 +51,10 @@ static NSString *const kOrderProductTableViewCellId = @"THNLifeOrderProductTable
 // 获取订单收益详情
 - (void)thn_getLifeOrderEarningsDetailWithOrderId:(NSString *)orderId {
     if (!orderId.length) return ;
-    
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     WEAKSELF;
+    
     [THNLifeManager getLifeOrdersSaleDetailCollectWithRid:orderId
                                                  storeRid:[THNLoginManager sharedManager].storeRid
                                                completion:^(NSArray *productData, NSError *error) {

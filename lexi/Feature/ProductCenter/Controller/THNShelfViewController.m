@@ -35,11 +35,11 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
 
 // 确认上架
 -  (void)sureShelf {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     if (self.textView.text.length < 10) {
-        [SVProgressHUD showErrorWithStatus:@"推荐语不得少于十个字"];
+        [SVProgressHUD thn_showErrorWithStatus:@"推荐语不得少于十个字"];
         return;
     }
     
@@ -50,11 +50,11 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (!result.isSuccess) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [SVProgressHUD showSuccessWithStatus:@"上架成功"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"上架成功"];
         
         [SVProgressHUD dismissWithDelay:2.0 completion:^{
             [[NSNotificationCenter defaultCenter]postNotificationName:kShelfSuccess object:nil];

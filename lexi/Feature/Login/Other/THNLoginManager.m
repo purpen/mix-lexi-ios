@@ -8,9 +8,9 @@
 
 #import "THNLoginManager.h"
 #import <MJExtension/MJExtension.h>
-#import <SVProgressHUD/SVProgressHUD.h>
 #import "THNAPI.h"
 #import "NSString+Helper.h"
+#import "SVProgressHUD+Helper.h"
 #import "THNTextConst.h"
 #import "THNConst.h"
 #import "THNMarco.h"
@@ -46,14 +46,13 @@ MJCodingImplementation
                 modeType:(THNLoginModeType)type
               completion:(void (^)(THNResponse *, NSError *))completion {
     
-    [SVProgressHUD showWithStatus:kTextLoginSigning];
+    [SVProgressHUD thn_showWithStatus:kTextLoginSigning];
     
     NSString *postUrl = [self thn_getLoginUrlWithType:type];
     THNRequest *request = [THNAPI postWithUrlString:postUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"------ 登录信息：%@", [NSString jsonStringWithObject:result.responseDict]);
-        if (![result hasData]) {
-            [SVProgressHUD dismiss];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
@@ -61,12 +60,11 @@ MJCodingImplementation
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
 
-        [SVProgressHUD showSuccessWithStatus:kTextLoginSuccess];
-        
+        [SVProgressHUD thn_showSuccessWithStatus:kTextLoginSuccess];
         completion(result, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD dismiss];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -75,12 +73,12 @@ MJCodingImplementation
  注册
  */
 - (void)requestUserRegister:(NSDictionary *)params completion:(void (^)(NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRegisterError];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:kTextRegisterError];
             return ;
         }
         
@@ -88,14 +86,12 @@ MJCodingImplementation
         self.expirationTime = NULL_TO_NIL(result.data[kRequestExpiration]);
         self.openingUser = NO;
         
-        [self saveLoginInfo];
         [SVProgressHUD dismiss];
-        
+        [self saveLoginInfo];
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextRegisterError];
-        
+        [SVProgressHUD thn_showErrorWithStatus:kTextRegisterError];
         completion(error);
     }];
 }
@@ -104,22 +100,22 @@ MJCodingImplementation
  登出账号
  */
 - (void)requestLogoutCompletion:(void (^)(NSError *))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLLogout requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [SVProgressHUD showSuccessWithStatus:@"账号已退出"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"账号已退出"];
         [self clearLoginInfo];
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
-        [SVProgressHUD showErrorWithStatus:kTextLogoutError];
     }];
 }
 
@@ -127,16 +123,21 @@ MJCodingImplementation
  获取用户信息
  */
 - (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        THNLog(@"------ 个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = result.data[kRequestIsSmallB];
         self.userData = result.data[kRequestProfile];
         self.userId = result.data[kRequestProfile][kRequestUserId];
+        
+        [SVProgressHUD dismiss];
         [self saveLoginInfo];
         
         if (completion) {
@@ -144,8 +145,8 @@ MJCodingImplementation
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextLogoutError];
-        
+        [SVProgressHUD thn_showErrorWithStatus:kTextLogoutError];
+    
         if (completion) {
             completion(nil, error);
         }
@@ -162,24 +163,23 @@ MJCodingImplementation
  更新用户信息
  */
 - (void)updateUserProfileWithParams:(NSDictionary *)params completion:(void (^)(THNResponse *data, NSError *error))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI putWithUrlString:kURLUsers requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        THNLog(@"------ 更新后的个人信息：%@", [NSString jsonStringWithObject:result.responseDict]);
         if (!result.isSuccess) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
         self.userData = result.data;
+        
+        [SVProgressHUD dismiss];
         [self saveLoginInfo];
-    
         completion(result, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:kTextLogoutError];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }

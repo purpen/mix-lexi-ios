@@ -57,12 +57,10 @@ static NSString *const kKeyStatus   = @"status";
 }
 
 - (void)thn_getLifeOrderCollectData {
-    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrdersCollectWithRid:[THNLoginManager sharedManager].storeRid
                                      completion:^(THNLifeOrdersCollectModel *model, NSError *error) {
-                                         [SVProgressHUD dismiss];
                                          if (error) return;
                                          
                                          [weakSelf.orderDataView thn_setLifeOrdersCollect:model];
@@ -70,13 +68,11 @@ static NSString *const kKeyStatus   = @"status";
 }
 
 - (void)thn_getLifeOrderRecordData {
-    [SVProgressHUD showInfoWithStatus:@""];
     WEAKSELF;
     
     [THNLifeManager getLifeOrderRecordWithRid:[THNLoginManager sharedManager].storeRid
                                        params:[self thn_getRequestParams]
                                    completion:^(THNLifeOrderDataModel *model, NSError *error) {
-                                       [SVProgressHUD dismiss];
                                        if (error) return;
                                        
                                        [weakSelf.segmentView thn_setLifeOrderReadData:model];
