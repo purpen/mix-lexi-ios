@@ -107,6 +107,7 @@
             <connections>
                 <outlet property="backGroundView" destination="pbr-hW-3Tv" id="swd-Um-ejh"/>
                 <outlet property="deleteButton" destination="5cf-zH-YDT" id="0ml-5d-qsQ"/>
+                <outlet property="titleLabel" destination="wBi-Dg-iV6" id="41t-UU-hys"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="73.5"/>
         </view>

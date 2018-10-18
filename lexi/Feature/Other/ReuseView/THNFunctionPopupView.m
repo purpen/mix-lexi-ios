@@ -36,6 +36,7 @@ static NSString *const kKeyCids             = @"cids";
 static NSString *const kKeyMinPrice         = @"min_price";
 static NSString *const kKeyMaxPrice         = @"max_price";
 static NSString *const kKeySid              = @"sid";
+static NSString *const kKeyQk               = @"qk";
 /// 获取数据参数
 static NSString *const kObjectCount         = @"count";
 /// CELL ID
@@ -76,6 +77,8 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 @property (nonatomic, strong) UIActivityIndicatorView *doneLoadingView;
 /// 重置按钮
 @property (nonatomic, strong) UIButton *resetButton;
+/// 搜索关键字
+@property (nonatomic, strong) NSString *keyword;
 /// 记录筛选后的参数
 @property (nonatomic, strong) NSMutableDictionary *paramsDict;
 /// 记录选中的分类
@@ -163,6 +166,17 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
  */
 - (void)thn_setCategoryData:(NSArray *)data {
     [self.categoryView thn_setCollecitonViewCellData:data];
+}
+
+/**
+ 设置搜索关键词
+ */
+- (void)thn_setKeyword:(NSString *)keyword {
+    self.keyword = keyword;
+}
+
+- (NSString *)keyword {
+    return _keyword = _keyword.length ? _keyword : @"";
 }
 
 /**
@@ -264,7 +278,8 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         params = @{kKeyId: @(self.categoryId),
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
                    kKeyMinPrice: @(self.minPrice),
-                   kKeyMaxPrice: @(self.maxPrice)};
+                   kKeyMaxPrice: @(self.maxPrice),
+                   kKeyQk: self.keyword};
     }
     
     [self.paramsDict setValuesForKeysWithDictionary:params];

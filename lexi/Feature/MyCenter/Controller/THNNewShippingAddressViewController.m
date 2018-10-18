@@ -401,11 +401,11 @@ UITextFieldDelegate
         cell.areaCodeTextView.inputView = self.addressPickerView;
         cell.areaCodeTextView.text = self.areaCodes[0][@"areacode"];
         cell.areaCodeTextView.delegate = self;
-        cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 60;
         cell.areaCodeTextView.tintColor = [UIColor clearColor];
         // 业务需要，暂时隐藏区号
         cell.areaCodeTextView.hidden = YES;
+        cell.rightImageView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2) {
         cell.textView.text = self.addressModel.countryName;

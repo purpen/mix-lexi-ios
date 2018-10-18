@@ -119,7 +119,9 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
             }
         } else {
             [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
-            self.changeHeaderViewBlock();
+            if (self.changeHeaderViewBlock) {
+               self.changeHeaderViewBlock();
+            }
             self.promptViewHeightConstraint.constant = 0;
             self.promptView.hidden = YES;
         }
