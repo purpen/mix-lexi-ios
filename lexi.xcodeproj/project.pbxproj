@@ -1721,7 +1721,6 @@
 			isa = PBXGroup;
 			children = (
 				4B720626212FB08B002606EE /* Controller */,
-				4B720627212FB08B002606EE /* Model */,
 				4B720628212FB08B002606EE /* View */,
 			);
 			path = ProductCenter;
@@ -1740,13 +1739,6 @@
 				4B1B891F2133D67D008A1C8F /* THNShelfViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		4B720627212FB08B002606EE /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		4B720628212FB08B002606EE /* View */ = {

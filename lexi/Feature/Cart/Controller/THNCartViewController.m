@@ -330,7 +330,8 @@ static NSString *const kKeyQuantity = @"quantity";
         [self thn_showEditButtonWithText:kTextDone];
         
     } else {
-        [self.wishGoodsArr addObjectsFromArray:[self.recordWishArr copy]];
+        [self thn_getWishListGoodsData];
+//        [self.wishGoodsArr addObjectsFromArray:[self.recordWishArr copy]];
         [self thn_showEditButtonWithText:self.cartGoodsArr.count ? kTextEdit : @""];
     }
     
