@@ -224,6 +224,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
         headerView.backgroundColor = [UIColor whiteColor];
         self.featuredCollectionView.featuredDelegate = self;
+        
+        if ([THNLoginManager sharedManager].openingUser) {
+            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeProductCenterType];
+        } else {
+            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+        }
+        
         [headerView addSubview:self.featuredCollectionView];
         [headerView addSubview:self.openingView];
         __weak typeof(self)weakSelf = self;

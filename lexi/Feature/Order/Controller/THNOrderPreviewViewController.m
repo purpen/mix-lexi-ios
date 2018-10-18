@@ -22,6 +22,7 @@
 #import "THNOrderDetailTableViewCell.h"
 #import "THNOrderDetailModel.h"
 #import "THNSelectOfficalCouponView.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -107,6 +108,8 @@ THNPreViewTableViewCellDelegate
 
 // 创建订单
 - (void)createOrder {
+    self.isTransparent = YES;
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSMutableArray *items = [NSMutableArray array];
 
@@ -135,6 +138,11 @@ THNPreViewTableViewCellDelegate
 
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
         paymentVC.totalPrice = self.totalPrice;
         paymentVC.paymentAmount = self.payAmount;
@@ -142,7 +150,7 @@ THNPreViewTableViewCellDelegate
         [self.navigationController pushViewController:paymentVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
-
+        [self hiddenHud];
     }];
 }
 
@@ -357,16 +365,13 @@ THNPreViewTableViewCellDelegate
         NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
         [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
     }
-    // 筛选出默认物流
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
-    NSArray *defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
 
     self.fullReductionViewHeight = [cell setPreViewCell:skus
                                        initWithItmeSkus:skuItems
                                      initWithCouponModel:couponModel
                                          initWithFreight:freight
                                          initWithCoupons:coupons
-                                       initWithLogistics:defaultLogistics
+                                       initWithLogistics:logistics
                                           initWithRemark:remarkStr
                                             initWithGift:giftStr];
     

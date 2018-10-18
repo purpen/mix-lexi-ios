@@ -637,7 +637,7 @@ static NSString *const kKeyCode             = @"code";
                                  @(THNGoodsListViewTypeRecommend):      @"/column/handpick_recommend/count",
                                  @(THNGoodsListViewTypeCategory):       @"/category/products/count",
                                  @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
-                                 @(THNGoodsListViewTypeSearch):         @"",
+                                 @(THNGoodsListViewTypeSearch):         @"/core_platforms/search/products/count",
                                  };
     
     return urlResult[@(type)];

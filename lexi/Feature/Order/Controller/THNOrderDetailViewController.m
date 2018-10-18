@@ -15,6 +15,7 @@
 #import "THNOrdersItemsModel.h"
 #import "THNLogisticsViewController.h"
 #import "THNOrderDetailTableViewCell.h"
+#import "UIViewController+THNHud.h"
 
 @interface THNOrderDetailViewController ()
 
@@ -47,18 +48,25 @@
 - (void)loadOrderDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
        self.detailModel = [THNOrderDetailModel mj_objectWithKeyValues:result.data];
         CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
         self.payDetailView.frame = CGRectMake(0, 0, SCREEN_WIDTH, payDetailViewHeight);
         CGFloat productDetailViewHeight = [self.productView setOrderDetailPayView:self.detailModel];
         self.productView.frame = CGRectMake(0, CGRectGetMaxY(self.payDetailView.frame) + 10, SCREEN_WIDTH, productDetailViewHeight);
         [self.logisticsView setDetailModel:self.detailModel];
-        self.logisticsView.frame = CGRectMake(0, CGRectGetMaxY(self.productView.frame), SCREEN_WIDTH, 105);
+        self.logisticsView.frame = CGRectMake(0, CGRectGetMaxY(self.productView.frame), SCREEN_WIDTH, 110);
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.logisticsView.frame) + 100);
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 

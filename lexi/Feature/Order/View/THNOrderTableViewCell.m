@@ -20,6 +20,7 @@
 #import "THNConst.h"
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
+#import "THNObtainedView.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
 static NSString *const kUrlOrdersSigned = @"/orders/signed";
@@ -48,7 +49,6 @@ CGFloat orderCellLineSpacing = 10;
 @property (weak, nonatomic) IBOutlet UILabel *payCountDownTextLabel;
 @property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) NSSet *set;
-
 @property (nonatomic, assign) BOOL isAddTimer;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
 @property (nonatomic, strong) THNOrdersItemsModel *itemModel;
@@ -82,9 +82,15 @@ CGFloat orderCellLineSpacing = 10;
     
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersSigned requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD thn_showInfoWithStatus:@"已确认收货"];
-        [SVProgressHUD dismissWithDelay:2];
-        
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        [SVProgressHUD dismissWithCompletion:^{
+            if (self.delegate && [self.delegate respondsToSelector:@selector(confirmReceipt)]) {
+                [self.delegate confirmReceipt];
+            }
+        }];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -188,7 +194,9 @@ CGFloat orderCellLineSpacing = 10;
     self.timeInterval--;
     
     if (self.timeInterval == 0) {
-        self.countDownBlock(self);
+        if (self.countDownBlock) {
+             self.countDownBlock(self);
+        }
         return;
     }
     
@@ -215,6 +223,18 @@ CGFloat orderCellLineSpacing = 10;
     }
 }
 
+- (void)showObtainedMuseumView {
+    THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
+    obtainedMuseumView.title = @"确认删除该商品吗";
+    [obtainedMuseumView show];
+    
+    obtainedMuseumView.obtainedBlock = ^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:)]) {
+            [self.delegate deleteOrder:self.ordersModel.rid];
+        }
+    };
+}
+
 - (IBAction)borderButton:(id)sender {
     switch (self.ordersModel.user_order_status) {
         case OrderStatusWaitDelivery:
@@ -222,9 +242,7 @@ CGFloat orderCellLineSpacing = 10;
             [self logisticsTracking];
             break;
         default:
-            if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:)]) {
-                [self.delegate deleteOrder:self.ordersModel.rid];
-            }
+            [self showObtainedMuseumView];
             break;
     }
 }
