@@ -161,6 +161,10 @@
 		CD3D01EB217219940030E3B0 /* THNArticleStoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3D01E9217219940030E3B0 /* THNArticleStoryTableViewCell.m */; };
 		CD3D01EC217219940030E3B0 /* THNArticleStoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3D01EA217219940030E3B0 /* THNArticleStoryTableViewCell.xib */; };
 		CDE666272174C5DC002D82BA /* THNBrandHallStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE666262174C5DC002D82BA /* THNBrandHallStoryViewController.m */; };
+		CDE6662B2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE666292178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.m */; };
+		CDE6662C2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE6662A2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.xib */; };
+		CDE666302178C7B1002D82BA /* THNBrandHallInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE6662E2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.m */; };
+		CDE666312178C7B1002D82BA /* THNBrandHallInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE6662F2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.xib */; };
 		D8002A38214A4F850023EA1E /* THNSkuFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D8002A37214A4F850023EA1E /* THNSkuFilter.m */; };
 		D81A134B216B573400757262 /* THNLifeCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A134A216B573400757262 /* THNLifeCountdownView.m */; };
 		D81A134E216C4EAF00757262 /* THNEarningsDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D81A134D216C4EAF00757262 /* THNEarningsDateView.m */; };
@@ -707,6 +711,12 @@
 		CD3D01EA217219940030E3B0 /* THNArticleStoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNArticleStoryTableViewCell.xib; sourceTree = "<group>"; };
 		CDE666252174C5DC002D82BA /* THNBrandHallStoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandHallStoryViewController.h; sourceTree = "<group>"; };
 		CDE666262174C5DC002D82BA /* THNBrandHallStoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallStoryViewController.m; sourceTree = "<group>"; };
+		CDE666282178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandHallUserInfoTableViewCell.h; sourceTree = "<group>"; };
+		CDE666292178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallUserInfoTableViewCell.m; sourceTree = "<group>"; };
+		CDE6662A2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNBrandHallUserInfoTableViewCell.xib; sourceTree = "<group>"; };
+		CDE6662D2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandHallInfoTableViewCell.h; sourceTree = "<group>"; };
+		CDE6662E2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallInfoTableViewCell.m; sourceTree = "<group>"; };
+		CDE6662F2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNBrandHallInfoTableViewCell.xib; sourceTree = "<group>"; };
 		D8002A36214A4F850023EA1E /* THNSkuFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSkuFilter.h; sourceTree = "<group>"; };
 		D8002A37214A4F850023EA1E /* THNSkuFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSkuFilter.m; sourceTree = "<group>"; };
 		D81A1349216B573400757262 /* THNLifeCountdownView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLifeCountdownView.h; sourceTree = "<group>"; };
@@ -1332,6 +1342,12 @@
 				4B56C930213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.h */,
 				4B56C931213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.m */,
 				4B56C932213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.xib */,
+				CDE666282178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.h */,
+				CDE666292178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.m */,
+				CDE6662A2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.xib */,
+				CDE6662D2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.h */,
+				CDE6662E2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.m */,
+				CDE6662F2178C7B1002D82BA /* THNBrandHallInfoTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3071,6 +3087,7 @@
 				4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */,
 				4B34A060216DEC7A001099CB /* THNPhotoCollectionViewCell.xib in Resources */,
 				4B56C934213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.xib in Resources */,
+				CDE6662C2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.xib in Resources */,
 				CD3D01DD2171FEC50030E3B0 /* THNArticleStoreTableViewCell.xib in Resources */,
 				CD3D01D821718D8C0030E3B0 /* THNLoadView.xib in Resources */,
 				D8247ECC2147E9C8000C8E37 /* THNLogisticsViewController.xib in Resources */,
@@ -3096,6 +3113,7 @@
 				4B34A06C217032BB001099CB /* THNDiscoverSetCollectionViewCell.xib in Resources */,
 				D8BAC998211A949100667D6F /* THNLivingHallRecommendTableViewCell.xib in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
+				CDE666312178C7B1002D82BA /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
 				4B26A707214F4E7500F8017C /* THNSelectCouponView.xib in Resources */,
 				4B34A06721702F46001099CB /* THNDidcoverSetView.xib in Resources */,
@@ -3251,6 +3269,7 @@
 				4B34A05F216DEC7A001099CB /* THNPhotoCollectionViewCell.m in Sources */,
 				4B25B4712141091A00654390 /* THNOrdersModel.m in Sources */,
 				D85DA80E2106030200A36A71 /* THNConst.m in Sources */,
+				CDE6662B2178C1D6002D82BA /* THNBrandHallUserInfoTableViewCell.m in Sources */,
 				D8BAC9BF211A949100667D6F /* THNSetPasswordViewController.m in Sources */,
 				D8F998582134023C0012AED3 /* THNPriceSliderView.m in Sources */,
 				4B34A06F217085C8001099CB /* THNArticleViewController.m in Sources */,
@@ -3433,6 +3452,7 @@
 				4B2644CA2122ADDC00665A6D /* THNDailyRecommendCollectionViewCell.m in Sources */,
 				D8DFAF3D2141008300B45BE0 /* THNFollowUserButton.m in Sources */,
 				D8247EC72147E96D000C8E37 /* THNOrderDetailProductView.m in Sources */,
+				CDE666302178C7B1002D82BA /* THNBrandHallInfoTableViewCell.m in Sources */,
 				D8BAC9D1211A949100667D6F /* THNLoginBaseView.m in Sources */,
 				4B56C95E213FA6540052FD80 /* THNTextCollectionView.m in Sources */,
 				D8E16E3C216F4818004D8942 /* THNSettingUserView.m in Sources */,
