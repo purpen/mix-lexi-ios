@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="THNEvaluationViewController">
             <connections>
+                <outlet property="commitButton" destination="Nzb-eE-Zfl" id="Oml-ta-ati"/>
                 <outlet property="tableTopConstraint" destination="oG0-P3-ZzF" id="bot-xY-h2U"/>
                 <outlet property="tableView" destination="Hd1-hK-CvS" id="C8B-r3-0gv"/>
                 <outlet property="view" destination="iN0-l3-epB" id="f9D-ns-hPl"/>
