@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, PushOrderDetailType) {
 @interface THNOrderDetailViewController : THNBaseViewController
 // 订单编号
 @property (nonatomic, strong) NSString *rid;
+// 订单类型
+@property (nonatomic, assign) NSInteger orderStatus;
 @property (nonatomic, assign) PushOrderDetailType pushOrderDetailType;
 
 @end

@@ -17,9 +17,9 @@
 
 static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier";
 //// 商品信息View的高度
-//static CGFloat const productViewHeight = 85;
+//static CGFloat const productViewHeight = 80;
 //// 商品View下的配送方式View的高度
-//static CGFloat const loginsticsViewHeight = 65;
+//static CGFloat const loginsticsViewHeight = 70;
 
 @interface THNOrderDetailProductView()<UITableViewDelegate, UITableViewDataSource>
 
@@ -41,6 +41,7 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.tableView.scrollEnabled = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNOrderDetailTableViewCell" bundle:nil] forCellReuseIdentifier:kOrderDetailCellIdentifier];
 }
 
@@ -115,7 +116,12 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
     } else {
         cell.logisticsView.hidden = NO;
     }
-   
+    
+    if (self.detailModel.user_order_status == OrderStatusWaitDelivery || self.detailModel.user_order_status == OrderStatusReceipt) {
+        cell.logisticsButton.hidden = NO;
+    } else {
+        cell.logisticsButton.hidden = YES;
+    }
     [cell setItemsModel:itemsModel];
     return cell;
 }

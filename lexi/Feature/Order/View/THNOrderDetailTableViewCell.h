@@ -30,5 +30,7 @@ UIKIT_EXTERN NSString *const kSelectDelivery;
 @property (nonatomic, strong) THNFreightModelItem *freightModel;
 
 @property (nonatomic, copy) SelectDeliveryBlcok selectDeliveryBlcok;
+// 物流跟踪
+@property (weak, nonatomic) IBOutlet UIButton *logisticsButton;
 
 @end
