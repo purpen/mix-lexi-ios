@@ -18,6 +18,7 @@
 #import "THNSettingAboutViewController.h"
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
+#import "THNBaseTabBarController.h"
 
 /// cell id
 static NSString *const kTextTableViewCellId = @"THNCustomTextTableViewCellId";
@@ -34,6 +35,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 @property (nonatomic, strong) NSArray *iconArr;
 @property (nonatomic, strong) NSArray *mainTexts;
 @property (nonatomic, strong) THNUserDataModel *userModel;
+@property (nonatomic, assign) BOOL backHome;
 
 @end
 
@@ -56,13 +58,10 @@ static NSString *const kTextLoginOut = @"退出登录";
 - (void)loginOutButtonAction:(UIButton *)button {
     [THNLoginManager userLogoutCompletion:^(NSError *error) {
         if (error) return;
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
-            signInVC.canBack = NO;
-            THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-            [self presentViewController:loginNavController animated:YES completion:nil];
-        });
+        
+        self.backHome = YES;
+        [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO storeId:@""];
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }];
 }
 
@@ -97,6 +96,15 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitleSetting;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if (self.backHome) {
+        THNBaseTabBarController *rootTab = (THNBaseTabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        rootTab.selectedIndex = 0;
+    }
 }
 
 #pragma mark - tableView datasource & delegate

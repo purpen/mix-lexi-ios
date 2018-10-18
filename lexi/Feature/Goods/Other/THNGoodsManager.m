@@ -165,8 +165,10 @@ static NSString *const kKeyCode             = @"code";
  获取商品全部信息
  */
 - (void)requestProductAllDetailWithUrl:(NSString *)url completion:(void (^)(THNGoodsModel *model, NSError *error))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:@{kKeyUserRecord: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
         if (![result hasData] || !result.isSuccess) return;
         THNLog(@"\n === 商品全部信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
 //        THNLog(@"\n === 商品详情信息 === \n%@\n", [NSString jsonStringWithObject:result.data[@"deal_content"]]);
@@ -175,6 +177,7 @@ static NSString *const kKeyCode             = @"code";
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -258,6 +261,7 @@ static NSString *const kKeyCode             = @"code";
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData] || !result.isSuccess) return;
+        THNLog(@"======= 分类商品数据：%@", result.responseDict);
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -300,6 +304,7 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestProductsCountWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSInteger , NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"======= 筛选的商品数量：%@", result.responseDict);
         if (![result hasData] || !result.isSuccess) return;
         completion([result.data[kKeyCount] integerValue], nil);
         
@@ -360,8 +365,11 @@ static NSString *const kKeyCode             = @"code";
  喜欢商品的用户列表
  */
 - (void)requestLikeGoodsUserDataWithParams:(NSDictionary *)params completion:(void (^)(NSArray *userData, NSError *error))completion {
+    [SVProgressHUD show];
     THNRequest *request = [THNAPI getWithUrlString:kURLLikeGoodsUser requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"======= 喜欢商品的用户：%@", result.responseDict);
+        [SVProgressHUD dismiss];
         if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *userModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyLikeUsers]) {
@@ -372,6 +380,7 @@ static NSString *const kKeyCode             = @"code";
         
     } failure:^(THNRequest *request, NSError *error) {
         completion(nil, error);
+        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -505,7 +514,8 @@ static NSString *const kKeyCode             = @"code";
                                  @(THNGoodsListViewTypeNewProduct): @"/column/explore_new/count",
                                  @(THNGoodsListViewTypeDesign):     @"/column/preferential_design/count",
                                  @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization/count",
-                                 @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend/count"
+                                 @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend/count",
+                                 @(THNGoodsListViewTypeCategory):   @"/category/products/count"
                                  };
     
     return urlResult[@(type)];

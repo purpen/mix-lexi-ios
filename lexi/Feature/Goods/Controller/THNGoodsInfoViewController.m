@@ -32,6 +32,8 @@
 #import "THNCartViewController.h"
 #import "THNBrandHallViewController.h"
 #import <SDWebImage/UIImage+MultiFormat.h>
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 static NSInteger const kFooterHeight = 18;
 
@@ -129,17 +131,12 @@ static NSInteger const kFooterHeight = 18;
  获取商品详情数据
  */
 - (void)thn_getGoodsInfoDataWithGoodsId:(NSString *)goodsId {
-    [SVProgressHUD showInfoWithStatus:@""];
     if (!goodsId.length) return;
     
     WEAKSELF;
+    
     [THNGoodsManager getProductAllDetailWithId:self.goodsId completion:^(THNGoodsModel *model, NSError *error) {
-        [SVProgressHUD dismiss];
-        
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-            return;
-        };
+        if (error) return;
     
         weakSelf.goodsModel = model;
         [weakSelf.functionView thn_setGoodsModel:model];
@@ -234,12 +231,18 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^(NSString *rid) {
+        if (![THNLoginManager isLogin]) {
+            [weakSelf thn_openUserLoginController];
+            return ;
+        }
+        
         THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:weakSelf.skuModel
                                                                                          goodsModel:model
                                                                                            viewType:(THNGoodsSkuTypeDirectSelect)];
         goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         goodsSkuVC.functionType = weakSelf.functionView.type;
         [weakSelf presentViewController:goodsSkuVC animated:NO completion:nil];
+        
     }];
     directCells.height = model.isCustomMade ? 80 : 55;
     directCells.goodsModel = model;
@@ -251,6 +254,17 @@ static NSInteger const kFooterHeight = 18;
 }
 
 /**
+ 打开登录视图
+ */
+- (void)thn_openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [self presentViewController:loginNavController animated:YES completion:nil];
+    });
+}
+
+/**
  喜欢商品的用户
  */
 - (void)thn_setLikedGoodsUserWithGoodsId:(NSString *)goodsId isReload:(BOOL)reload {
@@ -259,7 +273,6 @@ static NSInteger const kFooterHeight = 18;
     }
 
     WEAKSELF;
-    
     [THNGoodsManager getLikeGoodsUserDataWithGoodsId:goodsId params:@{} completion:^(NSArray *userData, NSError *error) {
         THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser)
                                                                      didSelectedItem:^(NSString *rid) {
@@ -523,6 +536,7 @@ static NSInteger const kFooterHeight = 18;
             THNGoodsActionTableViewCell *actionCell = [THNGoodsActionTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.actionCell = actionCell;
             actionCell.baseCell = goodsCells;
+            actionCell.currentController = self;
             [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel canPutaway:NO];
             
             return actionCell;

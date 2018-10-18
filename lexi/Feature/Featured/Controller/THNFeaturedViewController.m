@@ -236,8 +236,9 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             
             } else {
                 THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
-                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
-                [weakSelf presentViewController:navController animated:YES completion:nil];
+                [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
+//                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
+//                [weakSelf presentViewController:navController animated:YES completion:nil];
             }
         };
         return headerView;
