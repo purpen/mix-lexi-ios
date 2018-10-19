@@ -56,8 +56,8 @@
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:1]];
-    [SVProgressHUD setMinimumDismissTimeInterval:(NSTimeInterval)2];
-    [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)4];
+    [SVProgressHUD setMinimumDismissTimeInterval:(NSTimeInterval)3];
+    [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)MAXFLOAT];
     
     //  键盘弹起模式
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];

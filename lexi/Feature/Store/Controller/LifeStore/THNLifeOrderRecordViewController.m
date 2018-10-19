@@ -68,6 +68,8 @@ static NSString *const kKeyStatus   = @"status";
 }
 
 - (void)thn_getLifeOrderRecordData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNLifeManager getLifeOrderRecordWithRid:[THNLoginManager sharedManager].storeRid
@@ -77,6 +79,7 @@ static NSString *const kKeyStatus   = @"status";
                                        
                                        [weakSelf.segmentView thn_setLifeOrderReadData:model];
                                        [weakSelf thn_getOrdersDataOfModel:model.orders];
+                                       [SVProgressHUD dismiss];
                                    }];
 }
 

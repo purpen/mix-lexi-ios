@@ -50,7 +50,6 @@ static NSString *const kKeyPage     = @"page";
     [THNLifeManager getLifeCashBillWithRid:[THNLoginManager sharedManager].storeRid
                                     params:@{kKeyPage: @(self.page)}
                                 completion:^(NSDictionary *dataDict, NSError *error) {
-                                    [SVProgressHUD dismiss];
                                     if (error) return;
                                     
                                     weakSelf.allKey = [dataDict allKeys];
@@ -61,6 +60,7 @@ static NSString *const kKeyPage     = @"page";
                                     }
                                     
                                     [weakSelf.billTable reloadData];
+                                    [SVProgressHUD dismiss];
                                 }];
 }
 

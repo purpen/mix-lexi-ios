@@ -56,12 +56,12 @@ static NSString *const kCashBillInfoTableViewCellId = @"THNLifeCashBillInfoTable
     [THNLifeManager getLifeCashBillDetailWithRid:[THNLoginManager sharedManager].storeRid
                                         recordId:billId
                                       completion:^(THNLifeCashBillModel *model, NSError *error) {
-                                          [SVProgressHUD dismiss];
                                           if (error) return;
                                           
                                           [weakSelf.billInfoView thn_setLifeCashBillDetailData:model];
                                           weakSelf.allKey = [model.order_info allKeys];
                                           [weakSelf thn_recombinationOfOrderData:model.order_info];
+                                          [SVProgressHUD dismiss];
                                       }];
 }
 
