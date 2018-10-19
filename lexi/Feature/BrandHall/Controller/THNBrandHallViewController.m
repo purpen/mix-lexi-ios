@@ -357,6 +357,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         case BrandShowTypelifeRecord:
         {
             THNGrassListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandHallLifeRecordsCellIdentifier forIndexPath:indexPath];
+            cell.showTextType = ShowTextTypeTheme;
             THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.lifeRecords[indexPath.row]];
             [cell setGrassListModel:grassListModel];
             return cell;
@@ -401,7 +402,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
                 CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
                 CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
                 NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
-                NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
+                NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
                 CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
                 CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
                 CGFloat grassLabelHeight = titleHeight + contentHeight;

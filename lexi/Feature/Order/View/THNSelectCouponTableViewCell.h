@@ -26,6 +26,6 @@ typedef NS_ENUM(NSUInteger, CouponType) {
 
 @property (nonatomic, strong) THNCouponModel *couponModel;
 @property (nonatomic, assign) CouponType couponType;
-
+@property (nonatomic, assign) BOOL isSelect;
 
 @end

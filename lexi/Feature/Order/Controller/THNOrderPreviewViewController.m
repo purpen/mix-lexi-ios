@@ -360,10 +360,9 @@ THNPreViewTableViewCellDelegate
     // 运费
     CGFloat freight  = [self.freightDict[storekey] floatValue];
 
-    NSMutableArray *logistics = [NSMutableArray array];
+    NSMutableArray *products = [NSMutableArray array];
     for (int i = 0; i < skus.count; i++) {
-        NSString *skuKey = self.skuItems[indexPath.row][@"sku_items"][i][@"sku"];
-        [logistics addObjectsFromArray:self.logisticsDict[storekey][skuKey][@"express"]];
+        [products addObject:self.logisticsDict[storekey]];
     }
 
     self.fullReductionViewHeight = [cell setPreViewCell:skus
@@ -371,7 +370,7 @@ THNPreViewTableViewCellDelegate
                                      initWithCouponModel:couponModel
                                          initWithFreight:freight
                                          initWithCoupons:coupons
-                                       initWithLogistics:logistics
+                                       initWithproducts:products
                                           initWithRemark:remarkStr
                                             initWithGift:giftStr];
     
