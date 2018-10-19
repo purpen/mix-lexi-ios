@@ -28,6 +28,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNBannerModel.h"
 #import "THNArticleViewController.h"
+#import "THNWebKitViewViewController.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -359,6 +360,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 }
 
 #pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushWeb:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc]init];
+    webVC.url = url;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 
 - (void)bannerPushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];

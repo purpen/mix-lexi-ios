@@ -8,6 +8,8 @@
 
 #import "THNBrandHallUserInfoTableViewCell.h"
 #import "UIView+Helper.h"
+#import "THNShopWindowModel.h"
+#import "UIImageView+SDWedImage.h"
 
 @interface THNBrandHallUserInfoTableViewCell()
 
@@ -26,12 +28,13 @@
     [super awakeFromNib];
     [self.identityView drawCornerWithType:0 radius:4];
     [self.verifiedView drawCornerWithType:0 radius:4];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)setShowWindowModel:(THNShopWindowModel *)showWindowModel {
+    _showWindowModel = showWindowModel;
+    self.userNameLabel.text = showWindowModel.user_name;
+    [self.avatarImageView thn_setCircleImageWithUrlString:showWindowModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
 }
 
 @end
