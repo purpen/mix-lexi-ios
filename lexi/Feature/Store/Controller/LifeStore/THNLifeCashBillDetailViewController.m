@@ -58,11 +58,11 @@ static NSString *const kOrderProductTableViewCellId = @"THNLifeOrderProductTable
     [THNLifeManager getLifeOrdersSaleDetailCollectWithRid:orderId
                                                  storeRid:[THNLoginManager sharedManager].storeRid
                                                completion:^(NSArray *productData, NSError *error) {
-                                                   [SVProgressHUD dismiss];
                                                    if (error) return ;
                                                    
                                                    weakSelf.goodsArr = [NSArray arrayWithArray:productData];
                                                    [weakSelf.billTable reloadData];
+                                                   [SVProgressHUD dismiss];
                                                }];
 }
 

@@ -71,7 +71,13 @@ static NSInteger const kDateButtonTag       = 4361;
     formatter.dateFormat = @"yyyy-MM";
     NSString *dayString = [formatter stringFromDate:self.dayDatePicker.date];
     
+    self.seletedtButton.selected = NO;
     self.dateTextField.text = dayString;
+    [self.dateTextField resignFirstResponder];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedDate:)]) {
+        [self.delegate thn_didSelectedDate:dayString];
+    }
 }
 
 #pragma mark - setup UI
@@ -201,6 +207,10 @@ static NSInteger const kDateButtonTag       = 4361;
         _dayToolbar.items = @[cancelItem, doneItem];
     }
     return _dayToolbar;
+}
+
+- (void)dealloc {
+    self.dateTextField = nil;
 }
 
 @end

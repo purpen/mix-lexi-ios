@@ -85,6 +85,8 @@ static NSString *const kKeyQuantity = @"quantity";
  获取商品 SKU 数据
  */
 - (void)thn_getGoodsSkuDataWithGoodsId:(NSString *)goodsId {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
@@ -92,6 +94,7 @@ static NSString *const kKeyQuantity = @"quantity";
         
         weakSelf.skuModel = model;
         weakSelf.skuView.skuModel = model;
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -165,10 +168,14 @@ static NSString *const kKeyQuantity = @"quantity";
     NSDictionary *skuParam = @{kKeyRid: self.skuView.selectSkuItem.rid,
                                kKeyQuantity: @(1)};
     
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
         if (error) return;
+        
+        [SVProgressHUD dismiss];
         
         weakSelf.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
         [weakSelf dismissViewControllerAnimated:YES completion:^{

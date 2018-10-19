@@ -75,6 +75,8 @@ static NSString *const kKeyQuantity = @"quantity";
  购物车商品
  */
 - (void)thn_getCartGoodsData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
@@ -83,6 +85,7 @@ static NSString *const kKeyQuantity = @"quantity";
         weakSelf.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
         [weakSelf thn_getCartGoodsCount];
         [weakSelf thn_setDefaultCartView];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -90,6 +93,8 @@ static NSString *const kKeyQuantity = @"quantity";
  心愿单商品
  */
 - (void)thn_getWishListGoodsData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -98,6 +103,7 @@ static NSString *const kKeyQuantity = @"quantity";
         weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
         weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
         [weakSelf.cartTableView reloadData];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -123,9 +129,11 @@ static NSString *const kKeyQuantity = @"quantity";
     
     THNGoodsModel *model = self.wishGoodsArr[indexPath.row];
     
+    WEAKSELF;
+    
     [self thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
         [SVProgressHUD thn_showSuccessWithStatus:@"添加成功"];
-        [self thn_getCartGoodsData];
+        [weakSelf thn_getCartGoodsData];
     }];
 }
 
@@ -168,7 +176,7 @@ static NSString *const kKeyQuantity = @"quantity";
 
     WEAKSELF;
     
-    [THNGoodsManager getProductAllDetailWithId:item.product.productRid completion:^(THNGoodsModel *model, NSError *error) {
+    [THNGoodsManager getProductInfoWithId:item.product.productRid completion:^(THNGoodsModel *model, NSError *error) {
         if (error) {
             [SVProgressHUD thn_showErrorWithStatus:@"获取商品信息错误"];
             return;
