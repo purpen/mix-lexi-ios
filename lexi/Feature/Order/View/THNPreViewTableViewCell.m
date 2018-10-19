@@ -55,7 +55,9 @@ UITextFieldDelegate
 // 默认物流
 @property (nonatomic, strong) NSArray *defaultLogistics;
 // 所有物流数组
-@property (nonatomic, strong) NSArray *logistics;
+@property (nonatomic, strong) NSArray *products;
+// 最大的优惠券金额
+@property (nonatomic, assign) CGFloat maxCouponCount;
 
 @end
 
@@ -81,7 +83,7 @@ UITextFieldDelegate
       initWithCouponModel:(THNCouponModel *)couponModel
           initWithFreight:(CGFloat)freight
           initWithCoupons:(NSArray *)coupons
-        initWithLogistics:(NSArray *)logistics
+        initWithproducts:(NSArray *)products
            initWithRemark:(NSString *)remarkStr
              initWithGift:(NSString *)giftStr {
 
@@ -91,10 +93,8 @@ UITextFieldDelegate
     self.skus = [skus sortedArrayUsingDescriptors:sortArr];
     self.itemSkus = itemSkus;
     self.coupons = coupons;
-    self.logistics = logistics;
-    // 筛选出默认物流
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
-    self.defaultLogistics = [logistics filteredArrayUsingPredicate:predicate];
+    self.products = products;
+    
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
     self.nameLabel.text = itemModel.storeName;
     
@@ -131,7 +131,8 @@ UITextFieldDelegate
 
     
     if (storeCoupons.count > 0) {
-        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[storeCoupons[0][@"amount"] floatValue]];
+        self.maxCouponCount = [storeCoupons[0][@"amount"] floatValue];
+        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",self.maxCouponCount];
     } else {
         self.couponLabel.text = @"当前没有优惠券";
     }
@@ -148,6 +149,7 @@ UITextFieldDelegate
     
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.selectCouponView.frame = window.bounds;
+    self.selectCouponView.maxCouponCount = self.maxCouponCount;
     self.selectCouponView.coupons = self.coupons;
     __weak typeof(self)weakSelf = self;
     
@@ -197,7 +199,6 @@ UITextFieldDelegate
     };
     
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:self.skus[indexPath.row]];
-    
     // 最后一行不隐藏运费模板
     if (indexPath.row < self.skus.count - 1) {
         // 该商品后面运费模板一样，隐藏选择运费模板
@@ -215,11 +216,16 @@ UITextFieldDelegate
 
 
     cell.productCountLabel.text = [NSString stringWithFormat:@"x%@",self.itemSkus[indexPath.row][@"quantity"]];
-    cell.selectDeliveryButton.hidden = self.logistics.count == 1 ?: NO;
+    NSString *ridKey = itemModel.rid;
+    NSArray *expressArray = self.products[indexPath.row][ridKey][@"express"];
+    cell.selectDeliveryButton.hidden = expressArray.count == 1 ?: NO;
+    // 筛选出默认物流
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
+    self.defaultLogistics = [expressArray filteredArrayUsingPredicate:predicate];
     
     if (self.defaultLogistics.count > 0) {
-    
-        THNFreightModelItem *freightModel = [[THNFreightModelItem alloc]initWithDictionary: self.defaultLogistics[indexPath.row]];
+        
+        THNFreightModelItem *freightModel = [[THNFreightModelItem alloc]initWithDictionary: self.defaultLogistics[0]];
         [cell setFreightModel:freightModel];
     }
 
