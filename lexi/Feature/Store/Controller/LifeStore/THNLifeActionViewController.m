@@ -72,15 +72,15 @@ static NSString *const kTextCash        = @"提现到微信零钱包";
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
-        [SVProgressHUD showErrorWithStatus:@"保存失败"];
+        [SVProgressHUD thn_showErrorWithStatus:@"保存失败"];
         
     } else {
-        [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"保存成功"];
     }
 }
 
 - (void)cashButtonAction:(UIButton *)button {
-    [SVProgressHUD showSuccessWithStatus:@"提现到微信"];
+    [SVProgressHUD thn_showInfoWithStatus:@"提现到微信"];
 //    [THNLifeManager getLifeCashWithStoreRid:[THNLoginManager sharedManager].storeRid
 //                                     openId:@""
 //                                 completion:^(NSError *) {

@@ -9,7 +9,7 @@
 #import "THNQiNiuUpload.h"
 #import <Qiniu/QiniuSDK.h>
 #import "NSString+Helper.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNMarco.h"
 #import "THNAPI.h"
 
@@ -31,7 +31,7 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
 - (void)uploadQiNiuWithImageData:(NSData *)imageData compltion:(void (^)(NSDictionary *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUpToken requestDictionary:nil delegate:nil];
     
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_showInfoWithStatus:@""];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
@@ -41,7 +41,7 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
         NSString *token = self.params[kResultToken];
         
         if (!imageData || !token.length) {
-            [SVProgressHUD showErrorWithStatus:@"上传图片错误"];
+            [SVProgressHUD thn_showErrorWithStatus:@"上传图片错误"];
             return;
         }
         
@@ -62,7 +62,7 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
                      token:token
                   complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                       if (!info.ok) {
-                          [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                          [SVProgressHUD thn_showErrorWithStatus:@"上传失败"];
                           return ;
                       }
                       
@@ -75,7 +75,7 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
     
    
