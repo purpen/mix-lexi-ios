@@ -12,6 +12,8 @@
 
 // 选择默认的日期
 - (void)thn_didSelectedDateWithDefaultIndex:(NSInteger)index;
+// 选择日期
+- (void)thn_didSelectedDate:(NSString *)date;
 
 @end
 

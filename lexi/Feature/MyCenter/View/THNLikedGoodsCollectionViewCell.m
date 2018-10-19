@@ -53,8 +53,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         [self thn_setPriceLabelTextWithPrice:goodsModel.minSalePrice ? goodsModel.minSalePrice : goodsModel.minPrice
                                    likeValue:goodsModel.likeCount];
     };
-    
-    [self layoutIfNeeded];
 }
 
 #pragma mark - private methods

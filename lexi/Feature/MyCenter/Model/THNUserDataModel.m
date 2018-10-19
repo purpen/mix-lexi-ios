@@ -7,7 +7,18 @@
 //
 
 #import "THNUserDataModel.h"
+#import "NSString+Helper.h"
 
 @implementation THNUserDataModel
+
+- (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property {
+    if ([property.name isEqualToString:@"street_address"]) {
+        if ([oldValue isEmptyString]) {
+            return @"";
+        }
+    }
+    
+    return oldValue;
+}
 
 @end
