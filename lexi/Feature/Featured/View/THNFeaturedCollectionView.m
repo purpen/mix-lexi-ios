@@ -103,6 +103,9 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     
     switch (bannerModel.type) {
         case BannerContentTypeLink:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushWeb:)]) {
+                [self.featuredDelegate bannerPushWeb:bannerModel.link];
+            }
             break;
         case BannerContentTypeProduct:
             if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {

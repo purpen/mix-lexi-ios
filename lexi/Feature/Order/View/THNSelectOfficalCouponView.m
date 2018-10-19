@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *couponLabel;
 @property (nonatomic, strong) THNSelectCouponView *selectCouponView;
 @property (nonatomic, strong) NSString *selectCouponText;
+// 最大的优惠券金额
+@property (nonatomic, assign) CGFloat maxCouponCount;
 
 @end
 
@@ -26,7 +28,8 @@
     // 没有选择金额，展示最大金额
     if (self.selectCouponText.length == 0) {
         if (self.officalCoupons.count > 0) {
-            self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[self.officalCoupons[0][@"amount"] floatValue]];
+             self.maxCouponCount = [self.officalCoupons[0][@"amount"] floatValue];
+            self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",self.maxCouponCount];
         } else {
             self.couponLabel.text = @"当前没有优惠券";
         }
@@ -44,6 +47,7 @@
     
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.selectCouponView.frame = window.bounds;
+    self.selectCouponView.maxCouponCount = self.maxCouponCount;
     self.selectCouponView.couponType = CouponTypeOffical;
     self.selectCouponView.coupons = self.officalCoupons;
     __weak typeof(self)weakSelf = self;

@@ -15,6 +15,8 @@ typedef void(^SelectCouponBlock)(NSString *text, CGFloat couponAcount, NSString 
 @interface THNSelectCouponView : UIView
 
 @property (nonatomic, strong) NSArray *coupons;
+// 最大的优惠券金额
+@property (nonatomic, assign) CGFloat maxCouponCount;
 @property (nonatomic, assign) CouponType couponType;
 
 @property (nonatomic, copy) SelectCouponBlock selectCouponBlock;
