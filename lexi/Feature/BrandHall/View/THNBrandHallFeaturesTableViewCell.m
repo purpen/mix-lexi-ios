@@ -37,6 +37,7 @@ static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollect
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallCollectionCellIdentifier];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:10 initWithWidth:140 initwithHeight:180];
+    layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
     [self.collectionView setCollectionViewLayout:layout];
 }
 
