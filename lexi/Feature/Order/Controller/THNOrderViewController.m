@@ -76,13 +76,12 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)loadOrdersData {
-    self.isTransparent = YES;
-    [self showHud];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -115,7 +114,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
     }];
 }
 

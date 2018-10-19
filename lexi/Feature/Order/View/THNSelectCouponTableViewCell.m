@@ -60,9 +60,10 @@
     [super setFrame:frame];
 }
 
-#pragma mark - getters and setters
-- (void)setSelected:(BOOL)selected {
-    self.selectButton.selected = selected;
+- (void)setIsSelect:(BOOL)isSelect {
+    self.selectButton.selected = isSelect;
 }
+
+
 
 @end

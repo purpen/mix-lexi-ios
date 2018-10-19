@@ -28,6 +28,7 @@
 #import "THNApplyStoreViewController.h"
 #import "THNArticleViewController.h"
 #import "THNBrandHallViewController.h"
+#import "THNWebKitViewViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -146,8 +147,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 今日推荐
 - (void)loadDailyRecommendData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @(self.pageCount);
-    params[@"per_page"] = @(self.dailyPerPageCount);
+//    params[@"page"] = @(self.pageCount);
+//    params[@"per_page"] = @(self.dailyPerPageCount);
     THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dailyTitle = result.data[@"title"];
@@ -473,6 +474,12 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 }
 
 #pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushWeb:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc]init];
+    webVC.url = url;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 
 - (void)bannerPushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
