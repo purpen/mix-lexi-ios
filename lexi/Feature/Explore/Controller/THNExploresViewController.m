@@ -97,7 +97,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 }
 
 - (void)setupUI {
-    
     // 抖动闪动漂移等问题
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;

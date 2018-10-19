@@ -17,37 +17,39 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
 #pragma mark - 是否空字符串
 - (BOOL)isEmptyString {
     if (![self isKindOfClass:[NSString class]]) {
-        return TRUE;
+        return YES;
         
     } else if (self == nil) {
-        return TRUE;
+        return YES;
         
     } else if (!self) {
-        // null object
-        return TRUE;
+        return YES;
         
-    } else if (self == NULL) {
-        // null object
-        return TRUE;
+    } else if ([self isKindOfClass:[NSNull class]]) {
+        return YES;
         
     } else if ([self isEqualToString:@"NULL"]) {
-        // null object
-        return TRUE;
+        return YES;
         
     } else if ([self isEqualToString:@"(null)"]) {
-        return TRUE;
+        return YES;
+        
+    } else if (!self.length) {
+        return YES;
         
     } else {
         //  使用 whitespaceAndNewlineCharacterSet 删除周围的空白字符串
         //  然后在判断首位字符串是否为空
         NSString *trimedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if ([trimedString length] == 0) {
-            return TRUE;
+            return YES;
             
         } else {
-            return FALSE;
+            return NO;
         }
     }
+    
+    return NO;
 }
 
 #pragma mark - 时间戳转换Date

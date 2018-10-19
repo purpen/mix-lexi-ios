@@ -27,18 +27,18 @@
 }
 
 + (void)thn_showInfoWithStatus:(NSString *)status {
-    [SVProgressHUD showInfoWithStatus:status];
     [SVProgressHUD setImageViewSize:CGSizeMake(28, 28)];
+    [SVProgressHUD showInfoWithStatus:status];
 }
 
 + (void)thn_showErrorWithStatus:(NSString *)status {
-    [SVProgressHUD showErrorWithStatus:status];
     [SVProgressHUD setImageViewSize:CGSizeMake(28, 28)];
+    [SVProgressHUD showErrorWithStatus:status];
 }
 
 + (void)thn_showSuccessWithStatus:(NSString *)status {
-    [SVProgressHUD showSuccessWithStatus:status];
     [SVProgressHUD setImageViewSize:CGSizeMake(28, 28)];
+    [SVProgressHUD showSuccessWithStatus:status];
 }
 
 @end

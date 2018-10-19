@@ -81,6 +81,8 @@ static NSString *const kKeyDate     = @"date_range";
 }
 
 - (void)thn_getTransactionsRecordData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNLifeManager getLifeTransactionsRecordWithRid:[THNLoginManager sharedManager].storeRid
@@ -91,6 +93,7 @@ static NSString *const kKeyDate     = @"date_range";
                                               weakSelf.modelArr = [NSArray arrayWithArray:model.transactions];
                                               [weakSelf.segmentView thn_setTransactionReadData:model];
                                               [weakSelf.recordTable reloadData];
+                                              [SVProgressHUD dismiss];
                                           }];
 }
 
@@ -104,6 +107,12 @@ static NSString *const kKeyDate     = @"date_range";
 - (void)thn_didSelectedDateWithDefaultIndex:(NSInteger)index {
     NSString *dateStr = index == 0 ? kTextDateWeek : kTextDateMonth;
     self.dateRange = dateStr;
+    
+    [self thn_getTransactionsRecordData];
+}
+
+- (void)thn_didSelectedDate:(NSString *)date {
+    self.dateRange = date;
     
     [self thn_getTransactionsRecordData];
 }

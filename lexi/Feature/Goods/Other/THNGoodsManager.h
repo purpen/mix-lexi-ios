@@ -31,7 +31,7 @@
  @param goodsId 商品 id
  @param completion 完成回调
  */
-+ (void)getProductAllDetailWithId:(NSString *)goodsId completion:(void (^)(THNGoodsModel *model, NSError *error))completion;
++ (void)getProductInfoWithId:(NSString *)goodsId completion:(void (^)(THNGoodsModel *model, NSError *error))completion;
 
 /**
  获取商品 SKU 信息
