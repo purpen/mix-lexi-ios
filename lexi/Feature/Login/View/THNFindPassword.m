@@ -10,7 +10,7 @@
 #import "THNFindPassword.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kTitleLabelText      = @"找回密码";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -71,7 +71,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
     [self thn_showErrorHint:NO];
     
     if (![self.phoneTextField.text checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -118,7 +118,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     

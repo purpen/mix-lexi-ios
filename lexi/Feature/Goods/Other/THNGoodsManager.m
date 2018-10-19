@@ -9,7 +9,7 @@
 #import "THNGoodsManager.h"
 #import "THNAPI.h"
 #import "THNMarco.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "NSString+Helper.h"
 #import "THNUserModel.h"
 
@@ -165,19 +165,23 @@ static NSString *const kKeyCode             = @"code";
  获取商品全部信息
  */
 - (void)requestProductAllDetailWithUrl:(NSString *)url completion:(void (^)(THNGoodsModel *model, NSError *error))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:@{kKeyUserRecord: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 商品全部信息：%@", result.responseDict);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         [SVProgressHUD dismiss];
-        if (![result hasData] || !result.isSuccess) return;
-        THNLog(@"\n === 商品全部信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
-//        THNLog(@"\n === 商品详情信息 === \n%@\n", [NSString jsonStringWithObject:result.data[@"deal_content"]]);
         THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -185,14 +189,21 @@ static NSString *const kKeyCode             = @"code";
  获取商品的 SKU 信息
  */
 - (void)requestProductSkusInfoWithParams:(NSDictionary *)params completion:(void (^)(THNSkuModel *model, NSError *error))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsSku requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
-        THNLog(@"\n === SKU 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [SVProgressHUD dismiss];
         THNSkuModel *model = [[THNSkuModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -201,17 +212,26 @@ static NSString *const kKeyCode             = @"code";
  获取相似的商品
  */
 - (void)requestSimilarGoodsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
             THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
             [goodsModelArr addObject:model];
         }
+        
+        [SVProgressHUD dismiss];
         completion([goodsModelArr copy], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -223,18 +243,26 @@ static NSString *const kKeyCode             = @"code";
                                   params:(NSDictionary *)params
                               completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
     
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"\n === 个人中心商品 信息 === \n%@\n", [NSString jsonStringWithObject:result.responseDict]);
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
         NSMutableArray *goodsModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyProducts]) {
             THNGoodsModel *model = [[THNGoodsModel alloc] initWithDictionary:dict];
             [goodsModelArr addObject:model];
         }
+        
+        [SVProgressHUD dismiss];
         completion([goodsModelArr copy], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, 0, error);
     }];
 }
@@ -243,13 +271,20 @@ static NSString *const kKeyCode             = @"code";
  获取接单订制商品
  */
 - (void)requestCustomizationProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCustom requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"======== 接单订制商品：%@", result.responseDict);
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, 0, error);
     }];
 }
@@ -258,13 +293,20 @@ static NSString *const kKeyCode             = @"code";
  获取分类商品
  */
 - (void)requestCategoryProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
-        THNLog(@"======= 分类商品数据：%@", result.responseDict);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, 0, error);
     }];
 }
@@ -273,13 +315,20 @@ static NSString *const kKeyCode             = @"code";
  获取栏目的商品
  */
 - (void)requestColumnProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion((NSArray *)result.data[kKeyProducts], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, 0, error);
     }];
 }
@@ -288,12 +337,20 @@ static NSString *const kKeyCode             = @"code";
  获取栏目的浏览记录
  */
 - (void)requestColumnRecordWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLColumnRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion((NSArray *)result.data[kKeyUsers], [result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, 0, error);
     }];
 }
@@ -304,11 +361,16 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestProductsCountWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSInteger , NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"======= 筛选的商品数量：%@", result.responseDict);
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion([result.data[kKeyCount] integerValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(0, error);
     }];
 }
@@ -317,13 +379,21 @@ static NSString *const kKeyCode             = @"code";
  获取店铺信息
  */
 - (void)requestOfficialStoreInfoWithParams:(NSDictionary *)params completion:(void (^)(THNStoreModel *model, NSError *error))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLOfficialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -332,12 +402,20 @@ static NSString *const kKeyCode             = @"code";
  获取分类
  */
 - (void)requestCategoryWithPid:(NSInteger)pid completion:(void (^)(NSArray *, NSError *))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCategories requestDictionary:@{kKeyPid: @(pid)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         completion((NSArray *)result.data[kKeyCategories], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -350,13 +428,21 @@ static NSString *const kKeyCode             = @"code";
  @param completion 完成回调
  */
 - (void)requestFreightTemplateDataWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(THNFreightModel *model, NSError *error))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         THNFreightModel *model = [[THNFreightModel alloc] initWithDictionary:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -365,22 +451,27 @@ static NSString *const kKeyCode             = @"code";
  喜欢商品的用户列表
  */
 - (void)requestLikeGoodsUserDataWithParams:(NSDictionary *)params completion:(void (^)(NSArray *userData, NSError *error))completion {
-    [SVProgressHUD show];
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLLikeGoodsUser requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"======= 喜欢商品的用户：%@", result.responseDict);
-        [SVProgressHUD dismiss];
-        if (![result hasData] || !result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
         NSMutableArray *userModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyLikeUsers]) {
             THNUserModel *model = [THNUserModel mj_objectWithKeyValues:dict];
             [userModelArr addObject:model];
         }
+        
+        [SVProgressHUD dismiss];
         completion([userModelArr copy], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -390,15 +481,18 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestAddGoodsToWishListWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
     THNRequest *request = [THNAPI postWithUrlString:kURLUserWishlist requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.isSuccess) {
-            completion(nil);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
         }
         
+        completion(nil);
+        
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
     }];
 }
-
 
 /**
  商品添加到购物车
@@ -406,11 +500,15 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestAddGoodsToCartWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
     THNRequest *request = [THNAPI postWithUrlString:kURLCart requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.isSuccess) {
-            completion(nil);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
         }
         
+        completion(nil);
+        
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
     }];
 }
@@ -419,19 +517,26 @@ static NSString *const kKeyCode             = @"code";
  获取购物车商品
  */
 - (void)requestCartGoodsCompletion:(void (^)(NSArray *cartData, NSError *error))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCart requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"=========  购物车的商品 = \n%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
         
-        if (![result hasData] || !result.isSuccess) return;
         NSMutableArray *cartModelArr = [NSMutableArray array];
         for (NSDictionary *dict in result.data[kKeyItems]) {
             THNCartModelItem *model = [[THNCartModelItem alloc] initWithDictionary:dict];
             [cartModelArr addObject:model];
         }
+        
+        [SVProgressHUD dismiss];
         completion([cartModelArr copy], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
@@ -442,12 +547,16 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestCartGoodsCountCompletion:(void (^)(NSInteger goodsCount, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCartCount requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || !result.isSuccess) return;
-        NSInteger count = [result.data[kKeyItemCount] integerValue];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
         
+        NSInteger count = [result.data[kKeyItemCount] integerValue];
         completion(count, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(0, error);
     }];
 }
@@ -456,13 +565,20 @@ static NSString *const kKeyCode             = @"code";
  删除购物车商品
  */
 - (void)requestRemoveCartGoodsWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI postWithUrlString:kURLCartRemove requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.isSuccess) {
-            completion(nil);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showSuccessWithStatus:result.statusMessage];
+            return ;
         }
         
+        [SVProgressHUD dismiss];
+        completion(nil);
+        
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
     }];
 }
@@ -473,13 +589,18 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestUpdateCartGoodsCountWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion {
     THNRequest *request = [THNAPI putWithUrlString:kURLCart requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.isSuccess) {
-            if (completion) {
-                completion(nil);
-            }
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        if (completion) {
+            completion(nil);
         }
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        
         if (completion) {
             completion(error);
         }
@@ -517,7 +638,7 @@ static NSString *const kKeyCode             = @"code";
                                  @(THNGoodsListViewTypeRecommend):      @"/column/handpick_recommend/count",
                                  @(THNGoodsListViewTypeCategory):       @"/category/products/count",
                                  @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
-                                 @(THNGoodsListViewTypeSearch):         @"",
+                                 @(THNGoodsListViewTypeSearch):         @"/core_platforms/search/products/count",
                                  };
     
     return urlResult[@(type)];

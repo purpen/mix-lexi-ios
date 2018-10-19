@@ -36,7 +36,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
 
 #pragma mark - webView delegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -45,7 +45,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+    [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {

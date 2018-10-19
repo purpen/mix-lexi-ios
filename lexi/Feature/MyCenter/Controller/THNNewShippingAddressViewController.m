@@ -12,7 +12,6 @@
 #import "UIView+Helper.h"
 #import "THNAddressIDCardView.h"
 #import "THNQiNiuUpload.h"
-#import <SVProgressHUD/SVProgressHUD.h>
 #import "UIViewController+THNHud.h"
 
 static NSString *const kAddressCellIdentifier = @"kAddressCellIdentifier";
@@ -140,6 +139,7 @@ UITextFieldDelegate
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.areaCodes = result.data[@"area_codes"];
         [self.tableView reloadData];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -147,22 +147,25 @@ UITextFieldDelegate
 
 // 获取所有地址
 - (void)loadPlacesDataCountryID:(NSInteger)countryID {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"country_id"] =  @(countryID);
     THNRequest *request = [THNAPI getWithUrlString:kUrlPlaces requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
+        
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
         self.provinces = result.data[@"k_1_0"];
         self.resultDict = result.data;
         [self.pickerView reloadAllComponents];
+        
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD dismiss];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -172,17 +175,15 @@ UITextFieldDelegate
     THNRequest *request = [THNAPI deleteWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [SVProgressHUD showSuccessWithStatus:@"删除成功"];
-        [SVProgressHUD dismissWithDelay:2.0 completion:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        }];
+        [SVProgressHUD thn_showSuccessWithStatus:@"删除成功"];
+        [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -191,6 +192,7 @@ UITextFieldDelegate
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"user_name"] = self.addressModel.firstName;
     params[@"mobile"] = self.addressModel.mobile;
+    
     THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.data.count == 0 && !self.isSaveCustom) {
@@ -218,8 +220,6 @@ UITextFieldDelegate
             
             [self.tableView reloadData];
         }
-        
-        
         
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -250,14 +250,8 @@ UITextFieldDelegate
 
 // 保存
 - (void)save {
-// 当默认收货地址取消默认
-//    if (self.isDefaultAddress == NO && self.addressModel.isDefault == YES) {
-//        [SVProgressHUD showErrorWithStatus:@"必须有一个默认收货地址"];
-//        return;
-//    }
-    
     if (self.countryName.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"请选择国家"];
+        [SVProgressHUD thn_showErrorWithStatus:@"请选择国家"];
         return;
     }
     
@@ -276,14 +270,16 @@ UITextFieldDelegate
     params[@"id_card_back"] = @(self.negativeImageID);
     params[@"is_overseas"] = @(self.isSaveCustom);
     params[@"id_card"] = self.cardView.cardTextField.text;
-    [SVProgressHUD showInfoWithStatus:@""];
+    
+    [SVProgressHUD thn_show];
+    
     if (self.addressModel.rid) {
         params[@"rid"] = self.addressModel.rid;
         THNRequest *request = [THNAPI putWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
             [SVProgressHUD dismiss];
             if (!result.success) {
-                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
                 return;
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -295,7 +291,7 @@ UITextFieldDelegate
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
             [SVProgressHUD dismiss];
             if (!result.success) {
-                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
                 return;
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -315,7 +311,7 @@ UITextFieldDelegate
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
             
             if (!result.success) {
-                [SVProgressHUD showErrorWithStatus:result.statusMessage];
+                [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
                 return;
             }
             

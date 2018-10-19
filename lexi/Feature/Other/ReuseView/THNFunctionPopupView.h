@@ -51,6 +51,11 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 @property (nonatomic, assign) THNFunctionPopupViewType popupViewType;
 
 /**
+ 搜索关键词
+ */
+- (void)thn_setKeyword:(NSString *)keyword;
+
+/**
  设置分类id 获取子分类
  */
 - (void)thn_setCategoryId:(NSInteger)cid;

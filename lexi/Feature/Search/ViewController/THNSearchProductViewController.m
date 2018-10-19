@@ -21,11 +21,11 @@ static CGFloat interitemSpacing = 10;
 static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdentifier";
 static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 
-@interface THNSearchProductViewController ()<
-THNFunctionButtonViewDelegate,
-UICollectionViewDelegate,
-UICollectionViewDataSource,
-THNFunctionPopupViewDelegate
+@interface THNSearchProductViewController () <
+    THNFunctionButtonViewDelegate,
+    UICollectionViewDelegate,
+    UICollectionViewDataSource,
+    THNFunctionPopupViewDelegate
 >
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -156,6 +156,7 @@ THNFunctionPopupViewDelegate
         _popupView = [[THNFunctionPopupView alloc] init];
         [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeSearch];
         [_popupView thn_setCategoryId:0];
+        [_popupView thn_setKeyword:[THNSaveTool objectForKey:kSearchKeyword]];
         _popupView.delegate = self;
     }
     return _popupView;
