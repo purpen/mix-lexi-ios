@@ -8,7 +8,7 @@
 
 #import "THNSignInView.h"
 #import <YYKit/YYKit.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNPasswordTextField.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
@@ -126,7 +126,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -148,7 +148,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)wechatButtonAction:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"微信登录"];
+    [SVProgressHUD thn_showInfoWithStatus:@"微信登录"];
 }
 
 - (void)forgetButtonAction:(UIButton *)button {

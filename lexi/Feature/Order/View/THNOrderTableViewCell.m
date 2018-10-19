@@ -19,7 +19,7 @@
 #import "THNMarco.h"
 #import "THNConst.h"
 #import "THNAPI.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNObtainedView.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
@@ -79,10 +79,11 @@ CGFloat orderCellLineSpacing = 10;
 - (void)loadOrdersSignedData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.ordersModel.rid;
+    
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersSigned requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         [SVProgressHUD dismissWithCompletion:^{

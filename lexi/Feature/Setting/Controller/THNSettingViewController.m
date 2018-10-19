@@ -56,14 +56,10 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 #pragma mark - event response
 - (void)loginOutButtonAction:(UIButton *)button {
-    [THNLoginManager userLogoutCompletion:^(NSError *error) {
-        if (error) return;
-        
-        self.backHome = YES;
-        [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO storeId:@""];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }];
+    self.backHome = YES;
+    [[THNLoginManager sharedManager] clearLoginInfo];
+    [SVProgressHUD thn_showSuccessWithStatus:kTextLoginSuccess];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)openSettingUserController:(UITapGestureRecognizer *)tap {
@@ -147,7 +143,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        [SVProgressHUD showSuccessWithStatus:@"绑定微信"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"绑定微信"];
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -168,8 +164,6 @@ static NSString *const kTextLoginOut = @"退出登录";
             THNSettingAboutViewController *aboutVC = [[THNSettingAboutViewController alloc] init];
             [self.navigationController pushViewController:aboutVC animated:YES];
             
-        } else {
-            [SVProgressHUD showSuccessWithStatus:@"拨打客服电话"];
         }
     }
 }

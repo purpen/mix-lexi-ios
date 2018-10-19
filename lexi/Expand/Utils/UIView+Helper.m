@@ -228,7 +228,7 @@
 - (void)drwaShadow {
     self.layer.shadowRadius = 4;
     self.layer.cornerRadius = 4;
-    self.layer.shadowOffset = CGSizeMake(0, 4);
+    self.layer.shadowOffset = CGSizeMake(0, 0);
 //    self.layer.borderWidth = 0.5;
     self.layer.shadowOpacity = 0.1;
     self.layer.shadowColor = [[UIColor colorWithHexString:@"000000"] CGColor];

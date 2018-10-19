@@ -82,7 +82,7 @@
 }
 
 - (void)shareButtonAction:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"分享商品"];
+    [SVProgressHUD thn_showInfoWithStatus:@"分享商品"];
 }
 
 #pragma mark - private methods

@@ -15,7 +15,7 @@
 #import "NSString+Helper.h"
 #import "THNConst.h"
 #import "UIColor+Extension.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kGoodsInfoTableViewCellId = @"kGoodsInfoTableViewCellId";
 ///
@@ -189,7 +189,7 @@ static NSString *const kTextResetSku        = @"重选规格";
 
 - (void)subCountButtonAction:(id)sender {
     if (self.goodsCount == 1) {
-        [SVProgressHUD showInfoWithStatus:@"数量不能再减少了"];
+        [SVProgressHUD thn_showInfoWithStatus:@"数量不能再减少了"];
         return;
     }
     
@@ -199,7 +199,7 @@ static NSString *const kTextResetSku        = @"重选规格";
 
 - (void)addCountButtonAction:(id)sender {
     if (self.goodsCount == self.stockCount) {
-        [SVProgressHUD showInfoWithStatus:@"超出可售数量范围"];
+        [SVProgressHUD thn_showInfoWithStatus:@"超出可售数量范围"];
         return;
     }
     

@@ -43,7 +43,8 @@ static NSString *const kKeyPage     = @"page";
 }
 
 - (void)thn_getLifeCashBillData {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
 
     [THNLifeManager getLifeCashBillWithRid:[THNLoginManager sharedManager].storeRid

@@ -39,10 +39,10 @@ static NSString *const kTextCancel = @"取消";
 #pragma mark - custom delegate
 - (void)thn_shareView:(THNShareActionView *)shareView didSelectedShareActionIndex:(NSInteger)index {
     if (shareView == self.thirdActionView) {
-        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"分享到：%zi", index]];
+        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"分享到：%zi", index]];
     
     } else if (shareView == self.moreActionView) {
-        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"更多：%zi", index]];
+        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"更多：%zi", index]];
     }
 }
 
