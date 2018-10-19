@@ -151,6 +151,8 @@
 		4B744AF3217978CE007E73B4 /* THNBrandHallUserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B744AED217978CE007E73B4 /* THNBrandHallUserInfoTableViewCell.m */; };
 		4B744AF4217978CE007E73B4 /* THNBrandHallInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B744AF0217978CE007E73B4 /* THNBrandHallInfoTableViewCell.xib */; };
 		4B744AF5217978CE007E73B4 /* THNBrandHallInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B744AF1217978CE007E73B4 /* THNBrandHallInfoTableViewCell.m */; };
+		4B744AF92179B5DF007E73B4 /* THNBrandHallDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B744AF82179B5DF007E73B4 /* THNBrandHallDefaultView.m */; };
+		4B744AFB2179B626007E73B4 /* THNBrandHallDefaultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B744AFA2179B626007E73B4 /* THNBrandHallDefaultView.xib */; };
 		4BC2E9AF212FE3B2005FF29C /* THNRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */; };
 		4BC2E9B921300655005FF29C /* THNCenterProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B721300655005FF29C /* THNCenterProductTableViewCell.m */; };
 		4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2E9B821300655005FF29C /* THNCenterProductTableViewCell.xib */; };
@@ -695,6 +697,9 @@
 		4B744AEF217978CE007E73B4 /* THNBrandHallUserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNBrandHallUserInfoTableViewCell.h; sourceTree = "<group>"; };
 		4B744AF0217978CE007E73B4 /* THNBrandHallInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNBrandHallInfoTableViewCell.xib; sourceTree = "<group>"; };
 		4B744AF1217978CE007E73B4 /* THNBrandHallInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallInfoTableViewCell.m; sourceTree = "<group>"; };
+		4B744AF72179B5DF007E73B4 /* THNBrandHallDefaultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandHallDefaultView.h; sourceTree = "<group>"; };
+		4B744AF82179B5DF007E73B4 /* THNBrandHallDefaultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandHallDefaultView.m; sourceTree = "<group>"; };
+		4B744AFA2179B626007E73B4 /* THNBrandHallDefaultView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNBrandHallDefaultView.xib; sourceTree = "<group>"; };
 		4BC2E9AD212FE3B2005FF29C /* THNRecommendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNRecommendViewController.h; sourceTree = "<group>"; };
 		4BC2E9AE212FE3B2005FF29C /* THNRecommendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNRecommendViewController.m; sourceTree = "<group>"; };
 		4BC2E9B621300655005FF29C /* THNCenterProductTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCenterProductTableViewCell.h; sourceTree = "<group>"; };
@@ -1351,6 +1356,9 @@
 				4B744AEF217978CE007E73B4 /* THNBrandHallUserInfoTableViewCell.h */,
 				4B744AED217978CE007E73B4 /* THNBrandHallUserInfoTableViewCell.m */,
 				4B744AEC217978C9007E73B4 /* THNBrandHallUserInfoTableViewCell.xib */,
+				4B744AF72179B5DF007E73B4 /* THNBrandHallDefaultView.h */,
+				4B744AF82179B5DF007E73B4 /* THNBrandHallDefaultView.m */,
+				4B744AFA2179B626007E73B4 /* THNBrandHallDefaultView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3081,6 +3089,7 @@
 				D8BAC9A2211A949100667D6F /* THNBannnerCollectionViewCell.xib in Resources */,
 				D8B36C602174916000A6009F /* image_life_wechat.png in Resources */,
 				4BC2E9BA21300655005FF29C /* THNCenterProductTableViewCell.xib in Resources */,
+				4B744AFB2179B626007E73B4 /* THNBrandHallDefaultView.xib in Resources */,
 				4B72061E212E66F3002606EE /* THNSevenImagesStitchView.xib in Resources */,
 				4B34A060216DEC7A001099CB /* THNPhotoCollectionViewCell.xib in Resources */,
 				4B56C934213D42A30052FD80 /* THNBrandHallFeaturedCollectionViewCell.xib in Resources */,
@@ -3234,6 +3243,7 @@
 				4B2439AB2135430E00C94940 /* THNAnnouncementView.m in Sources */,
 				4B2439A32135168F00C94940 /* THNBrandHallViewController.m in Sources */,
 				D8BAC9C0211A949100667D6F /* THNSignInViewController.m in Sources */,
+				4B744AF92179B5DF007E73B4 /* THNBrandHallDefaultView.m in Sources */,
 				4B56C95B213E70D70052FD80 /* THNSetDetailViewController.m in Sources */,
 				CD3D01D721718D8C0030E3B0 /* THNLoadView.m in Sources */,
 				4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */,
@@ -3731,7 +3741,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3693CDWGS5;
+				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3755,7 +3765,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3693CDWGS5;
+				DEVELOPMENT_TEAM = 7ET6PJMCHV;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

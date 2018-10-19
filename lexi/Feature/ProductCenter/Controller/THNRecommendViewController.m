@@ -26,6 +26,7 @@
 #import "THNGoodsListViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNLoginManager.h"
+#import "THNWebKitViewViewController.h"
 
 static NSString *const kCenterProductCellIdentifier = @"kCenterProductCellIdentifier";
 static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
@@ -137,6 +138,13 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 }
 
 #pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushWeb:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc]init];
+    webVC.url = url;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
 
 - (void)bannerPushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
