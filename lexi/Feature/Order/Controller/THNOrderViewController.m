@@ -84,7 +84,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         

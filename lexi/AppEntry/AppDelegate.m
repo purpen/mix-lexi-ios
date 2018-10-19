@@ -10,7 +10,6 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "UIColor+Extension.h"
-#import "UIImage+GIF.h"
 #import "THNConst.h"
 #import "THNBaseNavigationController.h"
 #import "THNBaseTabBarController.h"
@@ -58,8 +57,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:1]];
     [SVProgressHUD setMinimumDismissTimeInterval:(NSTimeInterval)2];
-    NSData *gifData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"loading" ofType:@".gif"]];
-    [SVProgressHUD setInfoImage:[UIImage imageWithGifData:gifData]];
+    [SVProgressHUD setMaximumDismissTimeInterval:(NSTimeInterval)4];
     
     //  键盘弹起模式
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];

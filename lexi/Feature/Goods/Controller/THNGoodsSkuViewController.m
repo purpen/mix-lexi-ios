@@ -85,13 +85,11 @@ static NSString *const kKeyQuantity = @"quantity";
  获取商品 SKU 数据
  */
 - (void)thn_getGoodsSkuDataWithGoodsId:(NSString *)goodsId {
-    [SVProgressHUD showInfoWithStatus:@""];
-    
     WEAKSELF;
+    
     [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
-        [SVProgressHUD dismiss];
-        
         if (error) return;
+        
         weakSelf.skuModel = model;
         weakSelf.skuView.skuModel = model;
     }];
@@ -120,7 +118,7 @@ static NSString *const kKeyQuantity = @"quantity";
 - (void)thn_getGoodsButtonType:(THNGoodsButtonType)type {
     switch (type) {
         case THNGoodsButtonTypeSell: {
-            [SVProgressHUD showInfoWithStatus:@"卖货"];
+            [SVProgressHUD thn_showInfoWithStatus:@"卖货"];
         }
             break;
 
@@ -160,7 +158,7 @@ static NSString *const kKeyQuantity = @"quantity";
  */
 - (void)thn_addCartWithSkuItem {
     if (!self.skuView.selectSkuItem) {
-        [SVProgressHUD showInfoWithStatus:@"请选择商品属性"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请选择商品属性"];
         return;
     }
     
@@ -168,6 +166,7 @@ static NSString *const kKeyQuantity = @"quantity";
                                kKeyQuantity: @(1)};
     
     WEAKSELF;
+    
     [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
         if (error) return;
         
@@ -185,7 +184,7 @@ static NSString *const kKeyQuantity = @"quantity";
  */
 - (void)thn_openAddressSelectedController {
     if (!self.skuView.selectSkuItem) {
-        [SVProgressHUD showInfoWithStatus:@"请选择商品属性"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请选择商品属性"];
         return;
     }
     

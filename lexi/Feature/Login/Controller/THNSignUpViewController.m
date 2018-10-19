@@ -47,20 +47,21 @@ static NSString *const kTextSkip            = @"跳过";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
+    WEAKSELF;
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"注册验证码 ==== %@", result.responseDict);
         
         if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD showErrorWithStatus:@"数据错误"];
+            [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;
         }
         
-        [self.signUpView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [weakSelf.signUpView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -68,8 +69,9 @@ static NSString *const kTextSkip            = @"跳过";
  app 注册验证
  */
 - (void)networkPostAppRegisterWithParam:(NSDictionary *)param completion:(void (^)(NSString *areaCode, NSString *email))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:param delegate:nil];
+    [SVProgressHUD thn_show];
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
             [self.signUpView thn_setErrorHintText:result.statusMessage];
@@ -78,12 +80,13 @@ static NSString *const kTextSkip            = @"跳过";
         
         if (![result hasData]) return;
         
+        [SVProgressHUD dismiss];
         if (completion) {
             completion(result.data[kParamAreaCode1], result.data[kParamEmail]);
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

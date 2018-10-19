@@ -8,9 +8,9 @@
 
 #import "THNLifeManager.h"
 #import <MJExtension/MJExtension.h>
-#import <SVProgressHUD/SVProgressHUD.h>
 #import "THNAPI.h"
 #import "NSString+Helper.h"
+#import "SVProgressHUD+Helper.h"
 #import "THNTextConst.h"
 #import "THNConst.h"
 #import "THNMarco.h"
@@ -101,226 +101,236 @@ static NSString *const kKeyItems    = @"items";
 #pragma mark - network
 // 馆主信息
 - (void)requestLifeStoreInfoWithRid:(NSString *)rid completion:(void (^)(THNLifeStoreModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeStore requestDictionary:@{kKeyRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
         THNLifeStoreModel *model = [THNLifeStoreModel mj_objectWithKeyValues:result.data];
-        THNLog(@"==== 生活馆信息：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 订单汇总
 - (void)requestLifeOrdersCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeOrdersCollectModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
         THNLifeOrdersCollectModel *model = [THNLifeOrdersCollectModel mj_objectWithKeyValues:result.data];
-        THNLog(@"==== 生活馆订单汇总：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 订单记录
 - (void)requestLifeOrderRecordWithParams:(NSDictionary *)params completion:(void (^)(THNLifeOrderDataModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
-        THNLog(@"==== 生活馆订单记录：%@", [NSString jsonStringWithObject:result.responseDict]);
+        
         THNLifeOrderDataModel *model = [THNLifeOrderDataModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 收益汇总
 - (void)requestLifeOrdersSaleCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeSaleCollectModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLOrdersSaleCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
         THNLifeSaleCollectModel *model = [THNLifeSaleCollectModel mj_objectWithKeyValues:result.data];
-        THNLog(@"==== 生活馆收益汇总：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 收益详情
 - (void)requestLifeOrdersSaleDetailCollectWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@%@", kURLOrders, params[kKeyRid]];
     THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
-        THNLog(@"==== 生活馆收益详情：%@", [NSString jsonStringWithObject:result.responseDict]);
+        
         if (![result.data[kKeyItems] isKindOfClass:[NSNull class]]) {
             completion(result.data[kKeyItems], nil);
         }
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 交易记录
 - (void)requestLifeTransactionsRecordWithParams:(NSDictionary *)params completion:(void (^)(THNTransactionsDataModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLTransactionsRecord requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
-        THNLog(@"==== 生活馆交易记录：%@", [NSString jsonStringWithObject:result.responseDict]);
+        
         THNTransactionsDataModel *model = [THNTransactionsDataModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 提现
 - (void)requestLifeCashWithParams:(NSDictionary *)params completion:(void (^)(NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLCash requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
     
-        THNLog(@"==== 生活馆提现：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
     }];
 }
 
 // 提现汇总
 - (void)requestLifeCashCollectWithRid:(NSString *)rid completion:(void (^)(THNLifeCashCollectModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLCashCollect requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
         
         THNLifeCashCollectModel *model = [THNLifeCashCollectModel mj_objectWithKeyValues:result.data];
-        THNLog(@"==== 生活馆提现汇总：%@", [NSString jsonStringWithObject:result.responseDict]);
         completion(model, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 最近一笔提现
 - (void)requestLifeCashRecentWithRid:(NSString *)rid completion:(void (^)(CGFloat , NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLCashRecent requestDictionary:@{kKeyStoreRid: rid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        THNLog(@"==== 生活馆最近一笔提现：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
         completion([result.data[@"actual_account_amount"] floatValue], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(-1.0, error);
     }];
 }
 
 // 对账单列表
 - (void)requestLifeCashBillWithParams:(NSDictionary *)params completion:(void (^)(NSDictionary *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLCashBill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
-        THNLog(@"==== 对账单列表：%@", [NSString jsonStringWithObject:result.responseDict]);
+        
         if (![result.data[@"statements"] isKindOfClass:[NSNull class]]) {
             NSDictionary *dict = result.data[@"statements"];
             completion(dict, nil);
         }
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
 
 // 对账单详情
 - (void)requestLifeCashBillDetailWithParams:(NSDictionary *)params completion:(void (^)(THNLifeCashBillModel *, NSError *))completion {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI getWithUrlString:kURLCashBillDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        if (![result hasData]) {
-            [SVProgressHUD showErrorWithStatus:kTextRequestInfo];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
         }
-        THNLog(@"==== 对账单详情：%@", [NSString jsonStringWithObject:result.responseDict]);
+        
         if (![result.data[@"life_cash_record_dict"] isKindOfClass:[NSNull class]]) {
             THNLifeCashBillModel *model = [THNLifeCashBillModel mj_objectWithKeyValues:result.data[@"life_cash_record_dict"]];
             completion(model, nil);
         }
 
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }

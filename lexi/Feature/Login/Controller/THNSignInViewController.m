@@ -47,20 +47,20 @@ static NSString *const kTextSkip            = @"跳过";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
+    WEAKSELF;
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSLog(@"登录验证码 ==== %@", result.responseDict);
-        
         if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD showErrorWithStatus:@"数据错误"];
+            [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;
         }
         
-        [self.signInView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [weakSelf.signInView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -70,6 +70,7 @@ static NSString *const kTextSkip            = @"跳过";
  */
 - (void)thn_loginSuccessWithModeType:(THNLoginModeType)type {
     WEAKSELF;
+    
     if (type == THNLoginModeTypePassword) {
         [self thn_loginSuccessBack];
         
@@ -86,6 +87,7 @@ static NSString *const kTextSkip            = @"跳过";
 
 - (void)thn_loginSuccessBack {
     WEAKSELF;
+    
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {
             [weakSelf.signInView thn_setErrorHintText:[error localizedDescription]];
