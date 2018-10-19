@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, CarouselBannerType) {
 @protocol THNBannerViewDelegate <NSObject>
 
 @optional
+- (void)bannerPushWeb:(NSString *)url;
 - (void)bannerPushGoodInfo:(NSString *)rid;
 - (void)bannerPushBrandHall:(NSString *)rid;
 - (void)bannerPushArticle:(NSInteger)rid;

@@ -64,10 +64,17 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     } else {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
     }
-
+    
+    
+    
     cell.couponType = self.couponType;
     self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
     [cell setCouponModel:couponModel];
+    
+    if (couponModel.amount == self.maxCouponCount) {
+        cell.isSelect = YES;
+    }
+
     return cell;
 }
 
@@ -76,7 +83,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     selectedCell.selected = NO;
     
     THNSelectCouponTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.selected = YES;
+    cell.isSelect = YES;
     
     self.selectIndex = indexPath;
     THNCouponModel *couponModel;

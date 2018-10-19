@@ -137,6 +137,9 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
    
     switch (bannerModel.type) {
         case BannerContentTypeLink:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushWeb:)]) {
+                [self.delegate bannerPushWeb:bannerModel.link];
+            }
             break;
         case BannerContentTypeProduct:
             if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {

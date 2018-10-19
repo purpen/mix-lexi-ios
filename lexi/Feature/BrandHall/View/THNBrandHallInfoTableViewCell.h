@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNStoreModel;
+
 @interface THNBrandHallInfoTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) THNStoreModel *storeModel;
 
 @end

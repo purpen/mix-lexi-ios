@@ -20,6 +20,7 @@
 #import "THNBrandHallViewController.h"
 #import "THNArticleViewController.h"
 #import "THNGoodsListViewController.h"
+#import "THNWebKitViewViewController.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
@@ -199,6 +200,12 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 }
 
 #pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushWeb:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc]init];
+    webVC.url = url;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 
 - (void)bannerPushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
