@@ -53,6 +53,7 @@ static NSString *const kKeyPage     = @"page";
 // 获取自己的优惠券
 - (void)thn_getUserCouponDataWithType:(THNUserCouponType)type {
     self.couponType = type;
+    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
     
     WEAKSELF;
    
@@ -65,6 +66,7 @@ static NSString *const kKeyPage     = @"page";
                                        }
                                        
                                        [weakSelf thn_getCouponModelOfData:couponData];
+                                       [SVProgressHUD dismiss];
                                    }];
 }
 

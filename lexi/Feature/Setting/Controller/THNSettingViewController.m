@@ -57,9 +57,9 @@ static NSString *const kTextLoginOut = @"退出登录";
 #pragma mark - event response
 - (void)loginOutButtonAction:(UIButton *)button {
     self.backHome = YES;
+
     [[THNLoginManager sharedManager] clearLoginInfo];
-    [SVProgressHUD thn_showSuccessWithStatus:kTextLoginSuccess];
-    [[THNLoginManager sharedManager]updateUserLivingHallStatus:NO storeId:@""];
+    [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO storeId:@""];
     [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
