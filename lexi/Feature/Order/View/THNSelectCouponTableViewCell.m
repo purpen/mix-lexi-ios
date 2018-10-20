@@ -47,11 +47,11 @@
         self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"DAB867"];
     }
     
-    self.moneyLabel.text = [NSString formatFloat:couponModel.amount];
+    self.moneyLabel.text = [[NSString formatFloat:couponModel.amount] substringFromIndex:1];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%@使用", [NSString formatFloat:couponModel.min_amount]];
-    NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
-    NSString *endDate = [NSString timeConversion:couponModel.end_date initWithFormatterType:FormatterDay];
-    self.validityPeriodLabel.text = [NSString stringWithFormat:@"有效期%@至%@",startDate,endDate];
+    NSString *startDate = [NSString timeConversion:couponModel.start_at initWithFormatterType:FormatterDay];
+    NSString *endDate = [NSString timeConversion:couponModel.expired_at initWithFormatterType:FormatterDay];
+    self.validityPeriodLabel.text = [NSString stringWithFormat:@"%@至%@",startDate,endDate];
 }
 
 - (void)setFrame:(CGRect)frame {
