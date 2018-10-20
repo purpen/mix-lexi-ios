@@ -116,7 +116,7 @@
     if (!_selectButtonView) {
         NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
-        _selectButtonView.defaultShowIndex = 1;
+        _selectButtonView.defaultShowIndex = titleArray.count - 2;
     }
     return _selectButtonView;
 }
