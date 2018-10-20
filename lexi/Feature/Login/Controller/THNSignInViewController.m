@@ -117,6 +117,7 @@ static NSString *const kTextSkip            = @"跳过";
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
     WEAKSELF;
+    
     [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
         if (error) {
             [weakSelf.signInView thn_setErrorHintText:[weakSelf thn_getErrorMessage:error]];

@@ -75,12 +75,12 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求个人中心
  */
 - (void)requestUserCenterCompletion:(void (^)(THNUserModel *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserCenter requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
         
         THNUserModel *model = [THNUserModel mj_objectWithKeyValues:result.data];
         completion(model, nil);
@@ -95,12 +95,12 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求已喜欢橱窗列表
  */
 - (void)requestUserLikedWindowWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserLikedWindow requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
         
         completion((NSArray *)result.data[kKeyShopWindows], nil);
         
@@ -114,12 +114,12 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求关注的店铺列表
  */
 - (void)requestUserFollowStoreWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
         
         completion((NSArray *)result.data[kKeyStores], nil);
         
@@ -133,12 +133,12 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的商家优惠券列表
  */
 - (void)requestUserBrandCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI postWithUrlString:kURLCouponBrand requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
         
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
@@ -152,12 +152,12 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的官方优惠券列表
  */
 - (void)requestUserOfficialCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponOfficial requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
         
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
@@ -171,13 +171,13 @@ static NSString *const kKeyCoupons      = @"coupons";
  请求自己的失效优惠券列表
  */
 - (void)requestUserFailCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
-    [SVProgressHUD thn_show];
-    
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponFail requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (![result hasData]) return;
-        
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
+
         completion((NSArray *)result.data[kKeyCoupons], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
