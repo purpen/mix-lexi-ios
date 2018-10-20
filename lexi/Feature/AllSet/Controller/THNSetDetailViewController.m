@@ -23,6 +23,8 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 @property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) UIImageView *coverImageView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *productCountLabel;
 
 @end
 
@@ -114,6 +116,20 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
         _coverImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
     }
     return _coverImageView;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, SCREEN_WIDTH - 30, 20)];
+        _titleLabel.font = [UIFont fontWithName:@"" size:14];
+    }
+    return _titleLabel;
+}
+- (UILabel *)productCountLabel {
+    if (!_productCountLabel) {
+        _productCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 160, SCREEN_WIDTH, 20)];
+    }
+    return _productCountLabel;
 }
 
 @end

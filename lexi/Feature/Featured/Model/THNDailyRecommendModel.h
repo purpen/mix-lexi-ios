@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSString *recommend_title;
 // 推荐描述内容
 @property (nonatomic, strong) NSString *recommend_description;
+@property (nonatomic, assign) NSInteger rid;
 
 @end
