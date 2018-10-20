@@ -172,12 +172,24 @@
     [image drawInRect:CGRectMake(0, 0, newW, newH)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    
     return newImage;
 }
 
 + (NSData *)compressImageToData:(UIImage *)image {
     UIImage *newImage = [self compressImage:image];
     return UIImageJPEGRepresentation(newImage, 0.9);
+}
+
++ (CGSize)getImageSizeFromUrl:(NSString *)imageUrl {
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)[NSURL URLWithString:imageUrl], NULL);
+    NSDictionary *imageHeader = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    
+    CGFloat imageW = [imageHeader[@"PixelWidth"] floatValue];
+    CGFloat imageH = [imageHeader[@"PixelHeight"] floatValue];
+    CGSize imageSize = CGSizeMake(imageW, imageH);
+    
+    return imageSize;
 }
 
 - (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion {

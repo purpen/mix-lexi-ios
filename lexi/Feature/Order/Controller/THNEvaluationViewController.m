@@ -45,7 +45,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 }
 
 - (IBAction)commitOrder:(id)sender {
-    [SVProgressHUD showInfoWithStatus:@""];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     for (NSMutableDictionary *itemDict in self.items) {
@@ -57,11 +57,11 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     THNRequest *request = [THNAPI postWithUrlString:kCreateComment requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [SVProgressHUD showSuccessWithStatus:@"评价成功"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"评价成功"];
         [SVProgressHUD dismissWithCompletion:^{
             
             if (self.ealuationBlock) {

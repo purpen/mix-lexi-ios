@@ -108,7 +108,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity: {
-            [SVProgressHUD thn_showInfoWithStatus:@"分享赚红包"];
+            THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+            shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            [self presentViewController:shareVC animated:NO completion:nil];
         }
             break;
             
@@ -181,6 +183,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
     NSString *headerTitle = titleArr[(NSInteger)type];
 
+    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
+    
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -213,11 +217,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         }
         
         if (type == THNUserCenterGoodsTypeLikedGoods) {
-            [weakSelf thn_setLikedWindowTableViewCell];
+//            [weakSelf thn_setLikedWindowTableViewCell];
         }
         
         [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
         weakSelf.tableView.backgroundColor = [UIColor whiteColor];
+        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -253,6 +259,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 // 关注的设计馆
 - (void)thn_setFollowStoreTableViewCell {
+    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
+    
     WEAKSELF;
     
     [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
@@ -283,6 +291,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         
         [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeStore)];
         weakSelf.tableView.backgroundColor = [UIColor colorWithHexString:weakSelf.dataSections.count ? kColorBackground : kColorWhite];
+        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -430,14 +440,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
-    if (![THNLoginManager isLogin]) {
-        return;
-    }
     
-    [self thn_setUserHeaderView];
-    [self thn_getUserData];
-    [self thn_getUserCenterGoodsData];
-    [self thn_uploadViewFrame];
+    if ([THNLoginManager isLogin]) {
+        [self thn_setUserHeaderView];
+        [self thn_getUserData];
+        [self thn_getUserCenterGoodsData];
+        [self thn_uploadViewFrame];
+    }
 }
 
 - (void)setNavigationBar {

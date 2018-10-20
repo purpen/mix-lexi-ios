@@ -67,15 +67,15 @@ static NSString *const kKeyAddress      = @"street_address";
 
 #pragma mark - event response
 - (void)saveButtonAction:(UIButton *)button {
+    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
+    
     WEAKSELF;
     
     [[THNLoginManager sharedManager] updateUserProfileWithParams:[self thn_getEditUserInfoData]
                                                       completion:^(THNResponse *data, NSError *error) {
-                                                          if (error) {
-                                                              [SVProgressHUD thn_showSuccessWithStatus:@"保存失败"];
-                                                              return ;
-                                                          }
+                                                          if (error) return ;
                                                           
+                                                          [SVProgressHUD dismiss];
                                                           [weakSelf.navigationController popViewControllerAnimated:YES];
                                                       }];
 }

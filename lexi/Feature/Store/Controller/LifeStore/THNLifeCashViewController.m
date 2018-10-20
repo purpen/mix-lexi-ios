@@ -34,6 +34,8 @@ static NSString *const kTextCash = @"提现";
 }
 
 - (void)thn_getLifeCashData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
@@ -41,6 +43,7 @@ static NSString *const kTextCash = @"提现";
                                        if (error) return;
                                     
                                        [weakSelf.cashView thn_setLifeCashCollect:model];
+                                       [SVProgressHUD dismiss];
                                    }];
 }
 
