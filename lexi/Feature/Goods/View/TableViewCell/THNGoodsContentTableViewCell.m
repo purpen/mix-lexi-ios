@@ -94,7 +94,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self addSubview:imageView];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]];
         YYImageType imageType = YYImageDetectType((__bridge CFDataRef _Nonnull)(imageData));
@@ -107,7 +107,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
                 YYImage *contentImage = [YYImage imageWithData:imageData];
                 CGSize contentImageSize = [self thn_getContentImageSizeWithImage:contentImage];
                 
-                [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.size.mas_equalTo(contentImageSize);
                     make.left.mas_equalTo(15);
                     make.top.mas_equalTo(self.originY);
@@ -118,7 +118,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.size.mas_equalTo(CGSizeMake(kScreenWidth - 30, 210));
                     make.left.mas_equalTo(15);
                     make.top.mas_equalTo(self.originY);
