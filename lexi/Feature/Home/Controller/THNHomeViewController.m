@@ -89,9 +89,10 @@
    
     self.featured = featured;
     self.explore = explore;
-    self.childViewControllers[0].view.frame = self.publicView.bounds;
-    [self.publicView addSubview:self.childViewControllers[0].view];
-    self.currentSubViewController = self.childViewControllers[0];
+    NSInteger showIndex = self.childViewControllers.count - 2;
+    self.childViewControllers[showIndex].view.frame = self.publicView.bounds;
+    [self.publicView addSubview:self.childViewControllers[showIndex].view];
+    self.currentSubViewController = self.childViewControllers[showIndex];
 }
 
 /**
@@ -115,6 +116,7 @@
     if (!_selectButtonView) {
         NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+        _selectButtonView.defaultShowIndex = 1;
     }
     return _selectButtonView;
 }
