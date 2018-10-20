@@ -58,6 +58,11 @@
 + (UIImage *)compressImage:(UIImage *)image;
 + (NSData *)compressImageToData:(UIImage *)image;
 
+/**
+ 通过 url 获取图片的尺寸
+ */
++ (CGSize)getImageSizeFromUrl:(NSString *)imageUrl;
+
 //圆形
 - (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion;
 

@@ -76,8 +76,6 @@ static NSString *const kTextCountdown = @"实习倒计时";
     NSDate *endDate = [startDate dateByAddingDays:maxDay];
     NSInteger timeSp = [[NSNumber numberWithDouble:[endDate timeIntervalSince1970]] integerValue];
     
-    NSLog(@"=========== 创建日期：%@ / 结束日期：%@", startDate, endDate);
-    
     return [NSString stringWithFormat:@"%zi", timeSp];
 }
 
