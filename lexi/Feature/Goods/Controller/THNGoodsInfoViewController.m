@@ -522,10 +522,10 @@ static NSInteger const kFooterHeight = 18;
             
             if (imageType == YYImageTypeJPEG || imageType == YYImageTypePNG) {
                 YYImage *contentImage = [YYImage imageWithData:imageData];
-                CGFloat image_scale = (kScreenWidth - 30) / contentImage.size.width;
-                CGFloat image_h = contentImage.size.height * image_scale;
+                CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
+                CGFloat imageH = contentImage.size.height * imageScale;
                 
-                contentH += (image_h + 10);
+                contentH += (imageH + 10);
                 
             } else {
                 contentH += 220;
