@@ -59,7 +59,7 @@ static NSString *const kTextLoginOut = @"退出登录";
     self.backHome = YES;
 
     [[THNLoginManager sharedManager] clearLoginInfo];
-    [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO storeId:@""];
+    [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO initSupplier:NO initStoreId:@""];
     [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }

@@ -85,6 +85,8 @@ THNPreViewTableViewCellDelegate
 @property (nonatomic, assign) CGFloat payAmount;
 // 官方红包优惠券码
 @property (nonatomic, strong) NSString *officalCouponCode;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (nonatomic, assign) CGFloat payDetailViewHeight;
 
 @end
 
@@ -92,14 +94,55 @@ THNPreViewTableViewCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadLogisticsProductExpressData];
-    [self loadProductStoreSkuData];
-    [self loadOrderCoupons];
-    [self loadOrderFullReduction];
-    [self loadNewUserDiscountData];
-    [self loadOfficialCouponData];
     [self setupUI];
+    [self loadData];
 }
+
+- (void)loadData {
+    //创建信号量
+    self.semaphore = dispatch_semaphore_create(0);
+    //创建全局并行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    [self showHud];
+    
+    dispatch_group_async(group, queue, ^{
+        [self loadProductStoreSkuData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadOrderCoupons];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadOrderFullReduction];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadNewUserDiscountData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadOfficialCouponData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadLogisticsProductExpressData];
+    });
+    
+    
+    
+    dispatch_group_notify(group, queue, ^{
+        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddenHud];
+            [self.tableView reloadData];
+        });
+    });
+}
+
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
@@ -171,11 +214,16 @@ THNPreViewTableViewCellDelegate
     params[@"rids"] = [skus componentsJoinedByString:@","];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductStoreSkus requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.skuDict = result.data;
-        [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:@""];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -185,6 +233,12 @@ THNPreViewTableViewCellDelegate
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.couponDict = result.data;
 
         for (NSMutableDictionary *dict in self.skuItems) {
@@ -204,7 +258,7 @@ THNPreViewTableViewCellDelegate
         }
 
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -214,6 +268,12 @@ THNPreViewTableViewCellDelegate
     params[@"amount"] = @(self.totalPrice);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOfficialFill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
         self.officalCoupons = [result.data[@"coupons"] sortedArrayUsingDescriptors:sortArr];
 
@@ -223,7 +283,7 @@ THNPreViewTableViewCellDelegate
         }
 
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -233,6 +293,12 @@ THNPreViewTableViewCellDelegate
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrderFullReduction requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.fullReductionDict = result.data;
         
         for (NSDictionary *dict in self.skuItems) {
@@ -242,7 +308,7 @@ THNPreViewTableViewCellDelegate
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -252,10 +318,17 @@ THNPreViewTableViewCellDelegate
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsProductExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+    
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            dispatch_semaphore_signal(self.semaphore);
+            return;
+        }
+    
         self.logisticsDict = [result.data mutableCopy];
         [self loadLogisticsFreightData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     }];
 }
 
@@ -267,6 +340,12 @@ THNPreViewTableViewCellDelegate
     params[@"items"] = self.skuItems;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsFreight requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.totalFreight = 0;
         self.freightDict = result.data;
         // 遍历所有总运费
@@ -274,9 +353,9 @@ THNPreViewTableViewCellDelegate
             CGFloat freight  = [self.freightDict[dict[@"rid"]] floatValue];
             self.totalFreight += freight;
         }
-        [self.tableView reloadData];
+        
     } failure:^(THNRequest *request, NSError *error) {
-
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -285,10 +364,15 @@ THNPreViewTableViewCellDelegate
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlNewUserDiscount requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.discountRatio = [result.data[@"discount_ratio"]floatValue];
-        [self.tableView reloadData];
-    } failure:^(THNRequest *request, NSError *error) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return;
+        }
         
+        self.discountRatio = [result.data[@"discount_ratio"]floatValue];
+    } failure:^(THNRequest *request, NSError *error) {
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -390,19 +474,13 @@ THNPreViewTableViewCellDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return CGRectGetMaxY(self.payDetailView.frame);
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-   
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.payDetailView.frame))];
-    headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
-    [headerView addSubview:self.logisticsView];
-    [headerView addSubview:self.payDetailView];
-
-    self.firstDiscount = (self.totalFreight + self.totalReductionAmount + self.totalPrice) * (1 - self.discountRatio);
     //  实际支付金额 = 订单总金额 + 运费 - 首单优惠 - 满减 - 优惠券/红包
     self.payAmount = self.totalPrice + self.totalFreight - self.totalReductionAmount - self.firstDiscount - self.totalCouponAmount;
+    
+    if (self.discountRatio > 0) {
+        self.firstDiscount = (self.totalFreight + self.totalReductionAmount + self.totalPrice) * (1 - self.discountRatio);
+    }
+    
     NSDictionary *payParams = @{@"freight":@(self.totalFreight),
                                 @"coupon_amount":@(self.totalCouponAmount),
                                 @"reach_minus":@(self.totalReductionAmount),
@@ -410,10 +488,19 @@ THNPreViewTableViewCellDelegate
                                 @"first_discount":@(self.firstDiscount),
                                 @"user_pay_amount":@(self.payAmount)
                                 };
-
+    
     THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
-    CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
-    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH, payDetailViewHeight);
+    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
+    
+    return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight)];
+    headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
+    [headerView addSubview:self.logisticsView];
+    [headerView addSubview:self.payDetailView];
+    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH,  self.payDetailViewHeight);
     return headerView;
 }
 

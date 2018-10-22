@@ -46,13 +46,13 @@
         self.orderDetailTopView.hidden = YES;
         self.orderDetailTopViewHeightConstraint.constant = 0;
     } else {
+        self.orderNumberLabel.text = detailModel.outside_target_id;
+        self.payMethodLabel.text = @"微信在线支付";
+        self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
         self.orderDetailTopView.hidden = NO;
         self.orderDetailTopViewHeightConstraint.constant = 138;
     }
     
-    self.orderNumberLabel.text = detailModel.outside_target_id;
-    self.payMethodLabel.text = @"微信在线支付";
-    self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
     self.subtotalLabel.text = [NSString formatFloat:detailModel.total_amount];
     self.totalMoneyLabel.text = [NSString formatFloat:detailModel.user_pay_amount];
     

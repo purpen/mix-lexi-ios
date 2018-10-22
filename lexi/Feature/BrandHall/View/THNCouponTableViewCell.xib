@@ -88,8 +88,8 @@
                             <constraint firstAttribute="height" constant="15" id="xuG-nf-MUD"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享领取" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qrz-1t-hcR">
-                        <rect key="frame" x="293" y="22.5" width="50" height="39.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="领取" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qrz-1t-hcR">
+                        <rect key="frame" x="293" y="32.5" width="50" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="Hrz-e0-UKL"/>
                         </constraints>
