@@ -274,7 +274,6 @@
 		D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7B92106030100A36A71 /* UIView+LayoutMethods.m */; };
 		D85DA8002106030200A36A71 /* NSString+Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7BB2106030100A36A71 /* NSString+Encryption.m */; };
 		D85DA8012106030200A36A71 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7BC2106030100A36A71 /* UIImage+Helper.m */; };
-		D85DA8022106030200A36A71 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7BE2106030100A36A71 /* NullSafe.m */; };
 		D85DA8032106030200A36A71 /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7C02106030100A36A71 /* NSTimer+Addition.m */; };
 		D85DA8042106030200A36A71 /* UIBarButtonItem+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7C22106030100A36A71 /* UIBarButtonItem+Helper.m */; };
 		D85DA8052106030200A36A71 /* UILable+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7C32106030100A36A71 /* UILable+Frame.m */; };
@@ -927,7 +926,6 @@
 		D85DA7BB2106030100A36A71 /* NSString+Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Encryption.m"; sourceTree = "<group>"; };
 		D85DA7BC2106030100A36A71 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
 		D85DA7BD2106030100A36A71 /* UIImageView+SDWedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+SDWedImage.h"; sourceTree = "<group>"; };
-		D85DA7BE2106030100A36A71 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		D85DA7BF2106030100A36A71 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
 		D85DA7C02106030100A36A71 /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
 		D85DA7C12106030100A36A71 /* UIView+HandyAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HandyAutoLayout.h"; sourceTree = "<group>"; };
@@ -2107,7 +2105,6 @@
 				D85DA7B22106030100A36A71 /* NSString+Helper.m */,
 				D85DA7B82106030100A36A71 /* NSTimer+Addition.h */,
 				D85DA7C02106030100A36A71 /* NSTimer+Addition.m */,
-				D85DA7BE2106030100A36A71 /* NullSafe.m */,
 				D85DA7B42106030100A36A71 /* UIBarButtonItem+Helper.h */,
 				D85DA7C22106030100A36A71 /* UIBarButtonItem+Helper.m */,
 				4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */,
@@ -3277,7 +3274,6 @@
 				D8BAC9BE211A949100667D6F /* THNLoginViewController.m in Sources */,
 				D8B4F4C7213D40010047808C /* THNFreightModel.m in Sources */,
 				D8B36C5E2174818900A6009F /* THNLifeActionViewController.m in Sources */,
-				D85DA8022106030200A36A71 /* NullSafe.m in Sources */,
 				D8BAC9BC211A949100667D6F /* THNPhotoManager.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
 				D8A9C26B213A6A460059CAFD /* THNGoodsTagTableViewCell.m in Sources */,
