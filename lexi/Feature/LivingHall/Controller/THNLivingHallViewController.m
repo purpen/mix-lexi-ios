@@ -25,6 +25,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNPhotoManager.h"
 #import "THNQiNiuUpload.h"
+#import "THNShareViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -208,6 +209,13 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
          THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
         [weakSelf deleteProduct:productModel.rid];
     };
+    
+    cell.shareProductBlock = ^{
+        THNShareViewController *shareVC = [[THNShareViewController alloc]init];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:shareVC animated:NO completion:nil];
+    };
+    
     return cell;
 }
 

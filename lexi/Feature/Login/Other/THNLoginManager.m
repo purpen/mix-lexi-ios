@@ -33,6 +33,7 @@ static NSString *const kRequestStoreRid     = @"store_rid";
 static NSString *const kRequestIsSmallB     = @"is_small_b";
 static NSString *const kRequestProfile      = @"profile";
 static NSString *const kRequestUserId       = @"uid";
+static NSString *const kRequestSupplier     = @"is_supplier";
 
 @implementation THNLoginManager
 
@@ -136,6 +137,7 @@ MJCodingImplementation
         
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = [result.data[kRequestIsSmallB] boolValue];
+        self.supplier = [result.data[kRequestSupplier] boolValue];
         self.userData = result.data[kRequestProfile];
         self.userId = result.data[kRequestProfile][kRequestUserId];
         
@@ -155,9 +157,10 @@ MJCodingImplementation
 }
 
 
-- (void)updateUserLivingHallStatus:(BOOL)openingUser storeId:(NSString *)storeId {
+- (void)updateUserLivingHallStatus:(BOOL)openingUser initSupplier:(BOOL)supplier initStoreId:(NSString *)storeId {
     self.openingUser = openingUser;
     self.storeRid = storeId;
+    self.supplier = supplier;
     [self saveLoginInfo];
 }
 
