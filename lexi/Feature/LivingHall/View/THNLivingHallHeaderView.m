@@ -24,6 +24,7 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNLifeStoreModel.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 // 商家生活馆的信息
@@ -263,7 +264,16 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 }
 
 - (IBAction)copyWechat:(id)sender {
-    
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"737373"]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    UIPasteboard *pab = [UIPasteboard generalPasteboard];
+    [pab setString:@"lexixiaoduo"];
+    if (pab == nil) {
+        [SVProgressHUD showInfoWithStatus:@"复制失败"];
+        
+    } else {
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"复制成功,去微信搜索添加"];
+    }
 }
 
 - (IBAction)editAvatar:(id)sender {
