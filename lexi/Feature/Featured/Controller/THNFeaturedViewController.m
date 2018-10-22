@@ -226,7 +226,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         headerView.backgroundColor = [UIColor whiteColor];
         self.featuredCollectionView.featuredDelegate = self;
         
-        if ([THNLoginManager sharedManager].openingUser) {
+        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeProductCenterType];
         } else {
             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
@@ -517,7 +517,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
         
-        if ([THNLoginManager sharedManager].openingUser) {
+        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
             _openingView.topTintView.hidden = YES;
             _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
         } else {

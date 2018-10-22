@@ -56,7 +56,9 @@ static NSString *const kCouponCellIdentifier = @"kCouponCellIdentifier";
         self.couponDetailViewHeightConstraint.constant = 336;
         return;
     }
+    
     self.fullReductionLabel.text = text;
+    [self.tableView reloadData];
    
 }
 
