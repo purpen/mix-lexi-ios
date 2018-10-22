@@ -263,7 +263,10 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 }
 
 - (IBAction)copyWechat:(id)sender {
-    
+     UIPasteboard *pab = [UIPasteboard generalPasteboard];
+    NSString *string = @"test";
+
+    [pab setString:string];
 }
 
 - (IBAction)editAvatar:(id)sender {
