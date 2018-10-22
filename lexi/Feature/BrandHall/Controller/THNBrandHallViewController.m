@@ -31,6 +31,7 @@
 #import "THNArticleViewController.h"
 #import "THNBrandHallStoryViewController.h"
 #import "UIViewController+THNHud.h"
+#import "THNShareViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -68,6 +69,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 @property (nonatomic, strong) NSDictionary *producrConditionParams;
 // 是否展示文章
 @property (nonatomic, assign) BOOL isRecords;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 @end
 
@@ -75,14 +77,51 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
-    [self loadOffcialStoreAnnouncementData];
-    [self loadOffcialStoreData];
-    [self loadProductsByStoreData];
-    [self loadLifeRecordData];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCouponData) name:@"brandHallReceiveCoupon" object:nil];
+    [self loadData];
     // 存储品牌馆ID
     [THNSaveTool setObject:self.rid forKey:kBrandHallRid];
     [self setupUI];
+}
+
+- (void)loadData {
+    //创建信号量
+    self.semaphore = dispatch_semaphore_create(0);
+    //创建全局并行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    [self showHud];
+    
+    dispatch_group_async(group, queue, ^{
+      
+        [self loadOffcialStoreData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadOffcialStoreAnnouncementData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadProductsByStoreData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadCouponData];
+    });
+    
+    dispatch_group_notify(group, queue, ^{
+        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddenHud];
+            [self.collectionView reloadData];
+        });
+    });
+}
+
+- (void)loadCouponData {
+    [THNLoginManager isLogin] ?  [self loadUserMasterCouponsData] : [self loadNotLoginCouponsData];
 }
 
 // 品牌馆商品
@@ -92,18 +131,18 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     // 商品类别 0: 全部; 1：自营商品；2：分销商品
     params[@"is_distributed"] = @(1);
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
-    
-    self.isTransparent = YES;
-    [self showHud];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.products = result.data[@"products"];
          [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
-        [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -111,16 +150,18 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadOffcialStoreData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
-    
-    self.isTransparent = YES;
-    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.offcialStoreModel = [THNOffcialStoreModel mj_objectWithKeyValues:result.data];
         [self.brandHallView setOffcialStoreModel:self.offcialStoreModel];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -128,17 +169,18 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadOffcialStoreAnnouncementData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
-    
-    self.isTransparent = YES;
-    [self showHud];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlOffcialStoreAnnouncement requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.announcementModel = [THNAnnouncementModel mj_objectWithKeyValues:result.data];
         [self.announcementView setAnnouncementModel:self.announcementModel];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -146,17 +188,16 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadUserMasterCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
-    
-    self.isTransparent = YES;
-    [self showHud];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserMasterCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
         self.loginCoupons = result.data[@"coupons"];
         [self loadNotLoginCouponsData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -164,13 +205,14 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)loadNotLoginCouponsData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.rid;
-
-    self.isTransparent = YES;
-    [self showHud];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlNotLoginCoupons requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         NSArray *allCoupons = result.data[@"coupons"];
         // type = 3  满减   type = 1 或者 2  为优惠券
         NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
@@ -184,25 +226,27 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         self.couponViewHeight =  [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons];
         [self setupLayout];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
 //生活志列表
 - (void)loadLifeRecordData{
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = self.rid;
-    
-    self.isTransparent = YES;
-    [self showHud];
-    
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
         self.lifeRecords = result.data[@"life_records"];
+        [self.collectionView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -210,6 +254,14 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     self.brandShowType = BrandShowTypeProduct;
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
+    
+    WEAKSELF;
+    [self.navigationBarView didNavigationRightButtonCompletion:^{
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:shareVC animated:NO completion:nil];
+    }];
+    
     [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
     [self.view addSubview:self.collectionView];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallProductCellIdentifier];
@@ -442,6 +494,10 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 }
 
 - (void)showLifeRecords {
+    if (self.lifeRecords.count == 0) {
+        [self loadLifeRecordData];
+    }
+    
     self.brandShowType = BrandShowTypelifeRecord;
     self.isRecords = YES;
     [self setupLayout];

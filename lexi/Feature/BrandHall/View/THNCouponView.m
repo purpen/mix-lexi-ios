@@ -82,7 +82,7 @@ static CGFloat const couponViewHeight = 65;
         self.rightIndicationButton.hidden = YES;
     }
     
-    
+    self.mutableString = nil;
     for (NSDictionary *dict in fullReductions) {
          NSString *fullReductionStr = [NSString stringWithFormat:@"  %@",dict[@"type_text"]];
         [self.mutableString appendString:fullReductionStr];
@@ -90,13 +90,14 @@ static CGFloat const couponViewHeight = 65;
     
     self.fullReductionLabel.text = self.mutableString;
     
+    [self.couponDetailView layoutCouponDetailView:self.mutableString withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons];
+    
     return height;
 }
 
 // 点击领取
 - (IBAction)receive:(id)sender {
     
-    [self.couponDetailView layoutCouponDetailView:self.mutableString withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons];
     [self showCouponDetailView];
 }
 

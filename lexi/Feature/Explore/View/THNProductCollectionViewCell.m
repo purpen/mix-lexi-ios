@@ -42,41 +42,71 @@
 }
 
 - (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType {
-    
-    if (homeType == THNHomeTypeCenter) {
-        self.centerButtonViewComstraint.constant = 52;
-        self.centerButtonView.hidden = NO;
-        
-        if (!productModel.have_distributed) {
-            self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"2D343A"];
-            [self.shelfButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [self.shelfButton setTitle:@"上架" forState:UIControlStateNormal];
-            self.shelfButton.enabled = YES;
-        } else {
-            self.shelfButton.enabled = NO;
-            self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"EFF3F2"];
-            [self.shelfButton setTitle:@"已上架" forState:UIControlStateNormal];
-            [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
+
+    switch (homeType) {
+        case THNHomeTypeExplore: {
+            self.centerButtonViewComstraint.constant = 0;
+            self.centerButtonView.hidden = YES;
+            if (productModel.min_sale_price == 0) {
+                self.producrOriginalPriceLabel.hidden = YES;
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+            } else{
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
+            }
+            break;
         }
-        
-    } else {
-        self.centerButtonViewComstraint.constant = 0;
-        self.centerButtonView.hidden = YES;
+        case THNHomeTypeFeatured: {
+            self.centerButtonViewComstraint.constant = 0;
+            self.centerButtonView.hidden = YES;
+            if (productModel.min_sale_price == 0) {
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+            } else{
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+            }
+             self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+            break;
+        }
+        case THNHomeTypeCenter:{
+            self.centerButtonViewComstraint.constant = 52;
+            self.centerButtonView.hidden = NO;
+            self.amountMoneyLabel.text = [NSString formatFloat:productModel.commission_price];
+            if (!productModel.have_distributed) {
+                self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"2D343A"];
+                [self.shelfButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [self.shelfButton setTitle:@"上架" forState:UIControlStateNormal];
+                self.shelfButton.enabled = YES;
+            } else {
+                self.shelfButton.enabled = NO;
+                self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"EFF3F2"];
+                [self.shelfButton setTitle:@"已上架" forState:UIControlStateNormal];
+                [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
+            }
+
+            if (productModel.min_sale_price == 0) {
+                self.producrOriginalPriceLabel.hidden = YES;
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+            } else{
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
+            }
+
+            break;
+        }
+
+        case THNHomeTypeBrandHall: {
+            self.centerButtonViewComstraint.constant = 0;
+            self.centerButtonView.hidden = YES;
+            self.producrOriginalPriceLabel.hidden = YES;
+            if (productModel.min_sale_price == 0) {
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+            } else{
+                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+            }
+            break;
+        }
     }
-    
-    if (homeType == THNHomeTypeExplore) {
-        self.producrOriginalPriceLabel.text = [NSString formatFloat:productModel.min_price];
-        self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
-    } else {
-        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
-    }
-    
-    if (homeType == THNHomeTypeBrandHall) {
-        self.producrOriginalPriceLabel.hidden = YES;
-    } else {
-        self.producrOriginalPriceLabel.hidden = NO;
-    }
-    
+
     if (productModel.is_free_postage) {
         self.shippingImageView.hidden = NO;
         self.nameLabelLeftConstraint.constant = 5;
@@ -84,19 +114,10 @@
         self.shippingImageView.hidden = YES;
         self.nameLabelLeftConstraint.constant = -20;
     }
-    
+
     self.sallOutImageView.hidden = !productModel.is_sold_out;
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
-    
-    if (productModel.min_sale_price == 0) {
-        self.producrOriginalPriceLabel.hidden = YES;
-        self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-    } else{
-        self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-    }
-    
-    self.amountMoneyLabel.text = [NSString formatFloat:productModel.commission_price];
 }
 
 - (IBAction)shelf:(id)sender {

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^DeleteProductBlock)(UITableViewCell *cell);
+typedef void(^ShareProductBlock)(void);
 
 @class THNProductModel;
 
@@ -18,6 +19,7 @@ typedef void(^DeleteProductBlock)(UITableViewCell *cell);
 - (void)setCurtorAvatar:(NSString *)storeAvatarUrl;
 - (void)loadLikeProductUserData:(NSString *)rid;
 @property (nonatomic, copy) DeleteProductBlock deleteProductBlock;
+@property (nonatomic, copy) ShareProductBlock shareProductBlock;
 @property (weak, nonatomic) IBOutlet UIButton *changeLikeStatuButton;
 
 @end
