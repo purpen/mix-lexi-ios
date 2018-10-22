@@ -7,6 +7,8 @@
 //
 
 #import "UIImage+Helper.h"
+#import <SDWebImage/SDWebImageManager.h>
+#import <SDWebImage/UIImage+MultiFormat.h>
 
 @implementation UIImage (Helper)
 
@@ -162,14 +164,25 @@
 
 #pragma mark - 压缩图片
 + (UIImage *)compressImage:(UIImage *)image {
-    CGFloat hFactor = image.size.width / [[UIScreen mainScreen] bounds].size.width;
-    CGFloat wFactor = image.size.height / [[UIScreen mainScreen] bounds].size.height;
-    CGFloat factor = fmaxf(hFactor, wFactor);
-    CGFloat newW = image.size.width / factor;
-    CGFloat newH = image.size.height / factor;
-    CGSize newSize = CGSizeMake(newW, newH);
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:CGRectMake(0, 0, newW, newH)];
+    return [self compressImage:image width:[[UIScreen mainScreen] bounds].size.width];
+}
+
++ (UIImage *)compressImage:(UIImage *)image width:(CGFloat)width {
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    float height = image.size.height / (image.size.width / width);
+    float widthScale = imageWidth / width;
+    float heightScale = imageHeight / height;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    
+    if (widthScale > heightScale) {
+        [image drawInRect:CGRectMake(0, 0, imageWidth/heightScale, height)];
+        
+    } else {
+        [image drawInRect:CGRectMake(0, 0, width, imageHeight/widthScale)];
+    }
+
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -181,6 +194,7 @@
     return UIImageJPEGRepresentation(newImage, 0.9);
 }
 
+#pragma mark - 通过 url 获取图片的尺寸
 + (CGSize)getImageSizeFromUrl:(NSString *)imageUrl {
     CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)[NSURL URLWithString:imageUrl], NULL);
     NSDictionary *imageHeader = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
@@ -192,6 +206,22 @@
     return imageSize;
 }
 
+#pragma mark - 获取缓存中的图片
++ (UIImage *)getImageFormDiskCacheForKey:(NSString *)key {
+    if ([self isCacheImageOfImageUrl:key]) {
+        return [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
+    }
+    
+    UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:key]]];
+    
+    return [self compressImage:image width:700];
+}
+
++ (BOOL)isCacheImageOfImageUrl:(NSString *)imageUrl {
+    return [[SDImageCache sharedImageCache] diskImageDataExistsWithKey:imageUrl];
+}
+
+#pragma mark - 圆形
 - (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion {
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
