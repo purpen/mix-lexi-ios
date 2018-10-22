@@ -15,6 +15,7 @@
 #import "THNConst.h"
 #import "THNSaveTool.h"
 #import "THNMarco.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 
@@ -56,17 +57,17 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
         self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"5FE4B1"];
         self.validityPeriodLabel.textColor = [UIColor colorWithHexString:@"666666"];
         self.backgroundImageView.image = [UIImage imageNamed:@"icon_coupon_background_unaccalimed"];
-        self.receiveTitleLabel.text = @"分享领取";
+        self.receiveTitleLabel.text = @"领取";
         self.receiveButton.enabled = YES;
     } else {
         [self receivedStyle];
     }
     
-    self.moneyLabel.text = [NSString formatFloat:couponModel.amount];
+    self.moneyLabel.text = [[NSString formatFloat:couponModel.amount] substringFromIndex:1];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%.2f使用", couponModel.min_amount];
     NSString *startDate = [NSString timeConversion:couponModel.start_date initWithFormatterType:FormatterDay];
     NSString *endDate = [NSString timeConversion:couponModel.end_date initWithFormatterType:FormatterDay];
-    self.validityPeriodLabel.text = [NSString stringWithFormat:@"有效期%@至%@",startDate,endDate];
+    self.validityPeriodLabel.text = [NSString stringWithFormat:@"%@至%@",startDate,endDate];
 }
 
 // 已领取优惠券样式
@@ -87,7 +88,13 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
     params[@"store_rid"] = [THNSaveTool objectForKey:kBrandHallRid];
     THNRequest *request = [THNAPI postWithUrlString:kUrlCouponsGrant requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self receivedStyle];
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"brandHallReceiveCoupon" object:nil];
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

@@ -16,8 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
 // 限制金额提示Label
 @property (weak, nonatomic) IBOutlet UILabel *restrictionPromptLabel;
-// 有效期
-@property (weak, nonatomic) IBOutlet UILabel *validityPeriodLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
 @property (weak, nonatomic) IBOutlet UIImageView *backGroundImageView;
@@ -45,13 +43,13 @@
         self.backGroundImageView.image = [UIImage imageNamed:@"icon_officalCoupon_select"];
         self.diamondImageView.image = [UIImage imageNamed:@"icon_officalCoupon_diamond"];
         self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"DAB867"];
+        NSString *startDate = [NSString timeConversion:couponModel.start_at initWithFormatterType:FormatterDay];
+        NSString *endDate = [NSString timeConversion:couponModel.expired_at initWithFormatterType:FormatterDay];
+        self.validityPeriodLabel.text = [NSString stringWithFormat:@"%@至%@",startDate,endDate];
     }
     
     self.moneyLabel.text = [[NSString formatFloat:couponModel.amount] substringFromIndex:1];
     self.restrictionPromptLabel.text = [NSString stringWithFormat:@"满%@使用", [NSString formatFloat:couponModel.min_amount]];
-    NSString *startDate = [NSString timeConversion:couponModel.start_at initWithFormatterType:FormatterDay];
-    NSString *endDate = [NSString timeConversion:couponModel.expired_at initWithFormatterType:FormatterDay];
-    self.validityPeriodLabel.text = [NSString stringWithFormat:@"%@至%@",startDate,endDate];
 }
 
 - (void)setFrame:(CGRect)frame {

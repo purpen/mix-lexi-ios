@@ -80,7 +80,7 @@ static NSString *const kParamMobile         = @"mobile";
             return;
         }
 
-        [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES storeId:result.data[@"store_rid"]];
+        [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES initSupplier:NO initStoreId:result.data[@"store_rid"]];
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
         [weakSelf.navigationController pushViewController:successVC animated:YES];
         
