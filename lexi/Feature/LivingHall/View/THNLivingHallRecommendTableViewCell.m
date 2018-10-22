@@ -104,7 +104,9 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 }
 
 - (void)deleteProduct {
-    self.deleteProductBlock(self);
+    if (self.deleteProductBlock) {
+         self.deleteProductBlock(self);
+    }
 }
 
 
@@ -124,7 +126,9 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 }
 
 - (IBAction)shareButton:(id)sender {
-    
+    if (self.shareProductBlock) {
+        self.shareProductBlock();
+    }
 }
 
 - (void)setProductModel:(THNProductModel *)productModel {
