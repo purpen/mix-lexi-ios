@@ -53,6 +53,12 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 @property (nonatomic, assign) BOOL openingUser;
 
+
+/**
+ 是否大B用户
+ */
+@property (nonatomic, assign) BOOL supplier;
+
 /**
  用户资料
  */
@@ -125,8 +131,9 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  更新生活馆信息
 
  @param openingUser 是否生活馆用户
+ @param supplier 是否大B
  @param storeId 生活馆ID
  */
-- (void)updateUserLivingHallStatus:(BOOL)openingUser storeId:(NSString *)storeId ;
+- (void)updateUserLivingHallStatus:(BOOL)openingUser initSupplier:(BOOL)supplier initStoreId:(NSString *)storeId;
 
 @end

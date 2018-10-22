@@ -12,6 +12,7 @@
 #import <MJExtension/MJExtension.h>
 #import "THNCouponModel.h"
 
+
 static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifier";
 
 @interface THNSelectCouponView()<UITableViewDelegate, UITableViewDataSource>
