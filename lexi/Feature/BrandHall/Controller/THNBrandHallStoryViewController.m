@@ -53,7 +53,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     [self showHud];
     
     dispatch_group_async(group, queue, ^{
-        [self showHud];
         [self loadStoreMasterInfoData];
     });
     dispatch_group_async(group, queue, ^{
