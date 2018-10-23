@@ -147,13 +147,15 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
     WEAKSELF;
     
-    [THNGoodsManager getUserCenterProductsWithType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) return;
+    [THNGoodsManager getUserCenterProductsWithType:type
+                                            params:params
+                                        completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+                                            if (error || !goodsData.count) return;
         
-        [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-        [weakSelf.modelArray addObjectsFromArray:goodsData];
-        [weakSelf.goodsCollectionView reloadData];
-    }];
+                                            [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+                                            [weakSelf.modelArray addObjectsFromArray:goodsData];
+                                            [weakSelf.goodsCollectionView reloadData];
+                                        }];
 }
 
 // 获取分类商品数据
@@ -185,24 +187,29 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
     WEAKSELF;
     
-    [THNGoodsManager getColumnProductsWithListType:type params:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) return;
+    [THNGoodsManager getColumnProductsWithListType:type
+                                            params:params
+                                        completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+                                            if (error || !goodsData.count) return;
         
-        [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-        [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
-        [weakSelf.goodsCollectionView reloadData];
-    }];
+                                            [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+                                            [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
+                                            [weakSelf.goodsCollectionView reloadData];
+                                        }];
 }
 
 // 获取栏目浏览记录
 - (void)thn_getColumnRecordWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
     WEAKSELF;
     
-    [THNGoodsManager getColumnRecordWithListType:type params:params completion:^(NSArray *usersData, NSInteger count, NSError *error) {
-        if (error) return;
+    [THNGoodsManager getColumnRecordWithListType:type
+                                          params:params
+                                      completion:^(NSArray *usersData, NSInteger count, NSError *error) {
+                                          if (error) return;
         
-        [weakSelf.userArray addObjectsFromArray:usersData];
-    }];
+                                          [weakSelf.userArray addObjectsFromArray:usersData];
+                                          [weakSelf.goodsCollectionView reloadData];
+                                      }];
 }
 
 #pragma mark - custom delegate
