@@ -11,7 +11,7 @@
 #import "UIView+Helper.h"
 #import <MJExtension/MJExtension.h>
 #import "THNCouponModel.h"
-
+#import "NSString+Helper.h"
 
 static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifier";
 
@@ -62,6 +62,9 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     THNCouponModel *couponModel;
     
     if (self.couponType == CouponTypeStore) {
+        NSString *startDate = [NSString timeConversion:self.coupons[indexPath.row][@"get_at"] initWithFormatterType:FormatterDay];
+        NSString *endDate = [NSString timeConversion:self.coupons[indexPath.row][@"end_at"] initWithFormatterType:FormatterDay];
+        cell.validityPeriodLabel.text = [NSString stringWithFormat:@"%@至%@",startDate,endDate];
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
     } else {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
@@ -90,6 +93,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     
     self.selectIndex = indexPath;
     THNCouponModel *couponModel;
+
     
     if (self.couponType == CouponTypeStore) {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
@@ -99,6 +103,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 
     if (couponModel) {
         self.couponModel = couponModel;
+
         self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
     }
 
