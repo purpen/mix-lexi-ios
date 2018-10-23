@@ -49,6 +49,7 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     THNRequest *request = [THNAPI getWithUrlString:kUrlFeatureStore requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
+        THNLog(@"------- 品牌馆 %@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
