@@ -8,6 +8,7 @@
 
 #import "THNFunctionButton.h"
 #import "UIColor+Extension.h"
+#import "THNConst.h"
 
 @interface THNFunctionButton ()
 
@@ -48,6 +49,8 @@
 
 #pragma mark - getters and setters
 - (void)setTitle:(NSString *)title {
+    _title = title;
+    
     self.titleLabel.text = title;
 }
 
@@ -59,9 +62,18 @@
     self.iconImageView.hidden = iconHidden;
 }
 
-- (void)setSelected:(BOOL)selected {
+- (void)setIsBold:(BOOL)isBold {
+    _isBold = isBold;
+    
+    self.titleLabel.font = [UIFont systemFontOfSize:14 weight:isBold ? UIFontWeightBold : UIFontWeightRegular];
+    self.titleLabel.textColor = [UIColor colorWithHexString:isBold ? kColorMain : @"#555555"];
+}
+
+- (void)setIsSelected:(BOOL)isSelected {
+    _isSelected = isSelected;
+    
     [UIView animateWithDuration:0.3f animations:^{
-        self.iconImageView.transform = CGAffineTransformMakeRotation(selected ? M_PI : 0);
+        self.iconImageView.transform = CGAffineTransformMakeRotation(isSelected ? M_PI : 0);
     }];
 }
 
