@@ -194,7 +194,10 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
         return cell;
     } else {
         THNGoodsContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KStoreContentCellIdentifier forIndexPath:indexPath];
-        [cell thn_setContentData:self.contentModels];
+        if (self.contentModels.count > 0) {
+             [cell thn_setContentData:self.contentModels];
+        }
+       
         return cell;
     }
 }
