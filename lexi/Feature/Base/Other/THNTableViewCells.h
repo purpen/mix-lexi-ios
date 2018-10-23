@@ -15,7 +15,7 @@
 @class UITableViewCell;
 
 typedef NS_ENUM(NSUInteger, THNTableViewCellType) {
-    THNTableViewCellTypeLikedGoods = 0, // 喜欢的商品、最近查看、心愿单
+    THNTableViewCellTypeGoods = 0,      // 喜欢的商品、最近查看、心愿单
     THNTableViewCellTypeLikedWindow,    // 喜欢的橱窗
     THNTableViewCellTypeFollowStore,    // 关注的设计馆
     THNTableViewCellTypeDynamic,        // 动态
