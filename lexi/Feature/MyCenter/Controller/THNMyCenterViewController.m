@@ -154,7 +154,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 #pragma mark - private methods
 - (void)thn_getUserCenterGoodsData {
-    _selectedDataType = THNHeaderViewSelectedTypeLiked;
     [self thn_changTableViewDataSourceWithType:_selectedDataType];
 }
 

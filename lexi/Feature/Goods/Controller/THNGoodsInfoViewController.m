@@ -34,6 +34,7 @@
 #import "THNGoodsHeaderTableViewCell.h"
 #import "THNGoodsContactTableViewCell.h"
 #import "THNGoodsContentTableViewCell.h"
+#import "THNGoodsCouponTableViewCell.h"
 #import "THNCartViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNSignInViewController.h"
@@ -41,6 +42,10 @@
 #import "THNShareViewController.h"
 
 static NSInteger const kFooterHeight = 18;
+///
+static NSString *const kURLNotLoginCoupon   = @"/market/not_login_coupons";
+static NSString *const kURLLoginCoupon      = @"/market/user_master_coupons";
+static NSString *const kKeyStoreRid         = @"store_rid";
 
 @interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate> {
     UIStatusBarStyle _statusBarStyle;
@@ -60,6 +65,8 @@ static NSInteger const kFooterHeight = 18;
 @property (nonatomic, strong) NSArray *likedUserArr;
 /// 相似的商品
 @property (nonatomic, strong) NSArray *similarGoodsArr;
+/// 优惠券
+@property (nonatomic, strong) NSArray *couponArr;
 /// 详情的高度
 @property (nonatomic, assign) CGFloat dealContentH;
 /// 图片列表
@@ -116,6 +123,7 @@ static NSInteger const kFooterHeight = 18;
         
         [weakSelf thn_getGoodsInfoSkuDataWithGroup:group];
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
+        [weakSelf thn_getGoodsInfoStoreCouponDataWithGroup:group];
         [weakSelf thn_getGoodsInfoStoreDataWithGroup:group];
         [weakSelf thn_getGoodsInfoFreightDataWithGroup:group];
         [weakSelf thn_getGoodsInfoSimilarGoodsDataWithGroup:group];
@@ -244,11 +252,41 @@ static NSInteger const kFooterHeight = 18;
     });
 }
 
+/**
+ 获取优惠券信息
+ */
+- (void)thn_getGoodsInfoStoreCouponDataWithGroup:(dispatch_group_t)group {
+    WEAKSELF;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        THNRequest *request = [THNAPI getWithUrlString:kURLNotLoginCoupon
+                                     requestDictionary:@{kKeyStoreRid: self.goodsModel.storeRid}
+                                              delegate:nil];
+        [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            THNLog(@"==== 优惠券：%@", result.responseDict);
+            
+            dispatch_group_leave(group);
+            if (!result.isSuccess) {
+                [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+                return ;
+            }
+            
+            weakSelf.couponArr = [NSArray arrayWithArray:result.data[@"coupons"]];
+            
+        } failure:^(THNRequest *request, NSError *error) {
+            dispatch_group_leave(group);
+            [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        }];
+    });
+}
+
 #pragma mark - set cell
 - (void)thn_setGoodsInfoCell {
     [self thn_setGoodsInfoTitleCell];
     [self thn_setGoodsInfoTagsCell];
     [self thn_setGoodsInfoActionCell];
+    [self thn_setGoodsInfoCouponCell];
     [self thn_setGoodsInfoLikedUserCell];
     [self thn_setGoodsInfoDirectSelectCell];
     [self thn_setGoodsInfoDescribeCell];
@@ -292,7 +330,7 @@ static NSInteger const kFooterHeight = 18;
     WEAKSELF;
     
     THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^(NSString *rid) {
-        [weakSelf.dataSections removeObjectAtIndex:4];
+        [weakSelf.dataSections removeObjectAtIndex:5];
         
         dispatch_group_t group = dispatch_group_create();
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
@@ -313,6 +351,24 @@ static NSInteger const kFooterHeight = 18;
 }
 
 /**
+ 商品优惠券视图
+ */
+- (void)thn_setGoodsInfoCouponCell {
+    WEAKSELF;
+    
+    THNGoodsTableViewCells *couponCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeCoupon) didSelectedItem:^(NSString *rid) {
+        [SVProgressHUD thn_showInfoWithStatus:@"领取优惠券"];
+    }];
+    couponCells.height = self.couponArr.count ? [self thn_getGoodsInfoCouponHeight] : 0.01;
+    couponCells.couponData = self.couponArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[couponCells] mutableCopy]];
+    sections.index = 3;
+    
+    [self.dataSections addObject:sections];
+}
+
+/**
  设置“直接选择尺码”
  */
 - (void)thn_setGoodsInfoDirectSelectCell {
@@ -325,7 +381,26 @@ static NSInteger const kFooterHeight = 18;
     directCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[directCells] mutableCopy]];
-    sections.index = 3;
+    sections.index = 4;
+    
+    [self.dataSections addObject:sections];
+}
+
+/**
+ 喜欢商品的用户
+ */
+- (void)thn_setGoodsInfoLikedUserCell {
+    WEAKSELF;
+    
+    THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^(NSString *rid) {
+        [weakSelf thn_openLikedUserController];
+    }];
+    userCells.height = self.likedUserArr.count == 0 ? 0.01 : 50;
+    userCells.likeUserData = self.likedUserArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[userCells] mutableCopy]];
+    sections.index = 5;
+    sections.footerHeight = kFooterHeight;
     
     [self.dataSections addObject:sections];
 }
@@ -359,26 +434,7 @@ static NSInteger const kFooterHeight = 18;
     
     NSMutableArray *cellArr = [NSMutableArray arrayWithArray:@[desCells, dispatchCells, timeCells, salesReturnCells, checkCells]];
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:cellArr];
-    sections.index = 5;
-    sections.footerHeight = kFooterHeight;
-    
-    [self.dataSections addObject:sections];
-}
-
-/**
- 喜欢商品的用户
- */
-- (void)thn_setGoodsInfoLikedUserCell {
-    WEAKSELF;
-    
-    THNGoodsTableViewCells *userCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeUser) didSelectedItem:^(NSString *rid) {
-        [weakSelf thn_openLikedUserController];
-    }];
-    userCells.height = self.likedUserArr.count == 0 ? 0.01 : 50;
-    userCells.likeUserData = self.likedUserArr;
-    
-    THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[userCells] mutableCopy]];
-    sections.index = 4;
+    sections.index = 6;
     sections.footerHeight = kFooterHeight;
     
     [self.dataSections addObject:sections];
@@ -403,7 +459,7 @@ static NSInteger const kFooterHeight = 18;
     storeGoodsCells.storeGoodsData = self.storeModel.products;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, storeGoodsCells] mutableCopy]];
-    sections.index = 6;
+    sections.index = 7;
     sections.footerHeight = kFooterHeight;
     
     [self.dataSections addObject:sections];
@@ -425,7 +481,7 @@ static NSInteger const kFooterHeight = 18;
     similarGoodsCells.similarGoodsData = self.similarGoodsArr;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[headerCells, similarGoodsCells] mutableCopy]];
-    sections.index = 7;
+    sections.index = 8;
     sections.footerHeight = kFooterHeight;
     
     [self.dataSections addObject:sections];
@@ -443,7 +499,7 @@ static NSInteger const kFooterHeight = 18;
     contentCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[headerCells, contentCells] mutableCopy]];
-    sections.index = 8;
+    sections.index = 9;
     sections.footerHeight = kFooterHeight;
     
     [self.dataSections addObject:sections];
@@ -579,6 +635,23 @@ static NSInteger const kFooterHeight = 18;
     return contentH == 50.0 ? 0.01 : contentH;
 }
 
+/**
+ 获取优惠券的高度
+ */
+- (CGFloat)thn_getGoodsInfoCouponHeight {
+    CGFloat cellHeight = 80;
+    
+    // 满减活动
+    NSArray *minusCouponArr = [self.couponArr filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = 3"]];
+    cellHeight -= !minusCouponArr.count ? 19 : 0;
+    
+    // 可领取红包
+    NSArray *couponArr = [self.couponArr filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = 1 || type = 2"]];
+    cellHeight -= !couponArr.count ? 26 : 0;
+    
+    return cellHeight;
+}
+
 #pragma mark - open other controller
 /**
  打开卖货分享图片视图
@@ -696,6 +769,15 @@ static NSInteger const kFooterHeight = 18;
             [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel canPutaway:NO];
             
             return actionCell;
+        }
+            
+        case THNGoodsTableViewCellTypeCoupon: {
+            THNGoodsCouponTableViewCell *couponCell = [THNGoodsCouponTableViewCell initGoodsCellWithTableView:tableView];
+            goodsCells.couponCell = couponCell;
+            couponCell.baseCell = goodsCells;
+            [couponCell thn_setCouponData:goodsCells.couponData];
+            
+            return couponCell;
         }
             
         case THNGoodsTableViewCellTypeChoose: {
