@@ -49,7 +49,7 @@ static const void *kIsTransparent = @"kIsTransparent";
     }
 
     if (self.loadViewY == 0) {
-        self.loadViewY = 0;
+        self.loadViewY = NAVIGATION_BAR_HEIGHT;
     }
 
     loadView.frame = CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT);
