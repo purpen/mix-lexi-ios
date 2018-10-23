@@ -148,8 +148,8 @@ MJCodingImplementation
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:kTextLogoutError];
-    
+        [SVProgressHUD thn_showErrorWithStatus:kTextRequestError];
+        
         if (completion) {
             completion(nil, error);
         }
