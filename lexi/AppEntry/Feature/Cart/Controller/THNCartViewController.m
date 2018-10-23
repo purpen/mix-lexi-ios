@@ -97,14 +97,17 @@ static NSString *const kKeyQuantity = @"quantity";
     
     WEAKSELF;
     
-    [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList) params:@{@"per_page": @(10)} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error) return;
+    [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList)
+                                            params:@{@"per_page": @(10)}
+                                        completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+                                            if (error) return;
         
-        weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
-        weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
-        [weakSelf.cartTableView reloadData];
-        [SVProgressHUD dismiss];
-    }];
+                                            weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
+                                            weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
+                                            
+                                            [weakSelf.cartTableView reloadData];
+                                            [SVProgressHUD dismiss];
+                                        }];
 }
 
 /**
@@ -160,9 +163,11 @@ static NSString *const kKeyQuantity = @"quantity";
     [self thn_setCartGoodsTotalPriceWithData:self.cartGoodsArr];
     
     // 更新购物车商品数量
-    [THNGoodsManager putCartGoodsCountWithSkuId:item.rid count:count completion:^(NSError *error) {
-        [self thn_getCartGoodsCount];
-    }];
+    [THNGoodsManager putCartGoodsCountWithSkuId:item.rid
+                                          count:count
+                                     completion:^(NSError *error) {
+                                         [self thn_getCartGoodsCount];
+                                     }];
 }
 
 // 重选商品规格
