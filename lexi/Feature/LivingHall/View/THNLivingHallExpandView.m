@@ -11,7 +11,7 @@
 @implementation THNLivingHallExpandView
 
 - (IBAction)open:(id)sender {
-    
+    NSLog(@"3242947209527590");
     self.loadMoreDateBlcok();
 }
 

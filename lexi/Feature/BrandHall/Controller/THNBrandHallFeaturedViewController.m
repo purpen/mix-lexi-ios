@@ -131,8 +131,6 @@ static CGFloat const kBrandHallHeight = 375;
     [self bannerPushBrandHall:brandModel.rid];
 }
 
-
-
 #pragma mark - THNBannerViewDelegate
 
 - (void)bannerPushWeb:(NSString *)url {

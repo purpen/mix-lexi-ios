@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class THNCollectionModel;
+typedef void(^AllsetBlock)(NSString *rid);
 
 @interface THNAllsetTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNCollectionModel *collectionModel;
+@property (nonatomic, copy) AllsetBlock allsetBlcok;
 
 @end

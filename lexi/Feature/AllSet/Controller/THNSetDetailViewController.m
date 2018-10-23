@@ -12,6 +12,7 @@
 #import "THNAPI.h"
 #import "UIImageView+WebCache.h"
 #import "UIViewController+THNHud.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kSetDetailProductCellIdentifier = @"kSetDetailProductCellIdentifier";
 static NSString *const kSetDetailHeaderViewIdentifier = @"kSetDetailHeaderViewIdentifier";
@@ -22,6 +23,7 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) NSString *cover;
+@property (nonatomic, strong) NSString *setTitle;
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *productCountLabel;
@@ -49,12 +51,13 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 - (void)loadCollectionsDetailData {
     [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"id"] = self.collectionID;
+    params[@"id"] = @(self.collectionID);
     THNRequest *request = [THNAPI getWithUrlString:kUrlCollectionsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
         self.products = result.data[@"products"];
         self.cover = result.data[@"cover"];
+        self.setTitle = result.data[@"name"];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -76,8 +79,13 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 #pragma mark - UICollectionViewDelegate
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier forIndexPath:indexPath];
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+   
+    self.titleLabel.text = self.setTitle;
+    self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",self.products.count];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     [headerView addSubview:self.coverImageView];
+    [headerView addSubview:self.titleLabel];
+    [headerView addSubview:self.productCountLabel];
     return headerView;
 }
 
@@ -92,6 +100,12 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     CGSize size = CGSizeMake(SCREEN_WIDTH, 200);
     return size;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
 #pragma mark - lazy
@@ -120,14 +134,17 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, SCREEN_WIDTH - 30, 20)];
-        _titleLabel.font = [UIFont fontWithName:@"" size:14];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 132, SCREEN_WIDTH - 40, 24)];
+        _titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:24];
+        _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;
 }
 - (UILabel *)productCountLabel {
     if (!_productCountLabel) {
-        _productCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 160, SCREEN_WIDTH, 20)];
+        _productCountLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
+        _productCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 170, SCREEN_WIDTH - 40, 12)];
+        _productCountLabel.textColor = [UIColor whiteColor];
     }
     return _productCountLabel;
 }

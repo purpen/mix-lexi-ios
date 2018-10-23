@@ -13,6 +13,7 @@
 #import "THNBannerModel.h"
 #import "THNUserPartieModel.h"
 #import "THNProductModel.h"
+#import "THNCollectionModel.h"
 
 @interface THNBannnerCollectionViewCell()
 
@@ -35,6 +36,12 @@
     self.subTitleLabel.text = setModel.sub_name;
     [self.backGroundView drawCornerWithType:0 radius:2];
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:setModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+}
+
+- (void)setCollectionModel:(THNCollectionModel *)collectionModel {
+    _collectionModel = collectionModel;
+    self.setLabelsView.hidden = YES;
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:collectionModel.cover] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (void)setBannerModel:(THNBannerModel *)bannerModel {

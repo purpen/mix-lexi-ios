@@ -200,7 +200,11 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
            productModel = [THNProductModel mj_objectWithKeyValues:self.dataArrayNew[indexPath.row]];
             break;
     }
-    [cell setProductModel:productModel];
+    
+    if (productModel) {
+        [cell setProductModel:productModel];
+    }
+    
     return cell;
 }
 
