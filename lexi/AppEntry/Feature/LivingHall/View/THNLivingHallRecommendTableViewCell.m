@@ -42,6 +42,8 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *likeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelLeftConstraint;
+@property (weak, nonatomic) IBOutlet UIImageView *shippingImageView;
 
 @end
 
@@ -136,18 +138,39 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
     
-    if (productModel.min_sale_price == 0) {
-        self.likeCountLabel.hidden = YES;
-        self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
-    } else{
-        self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-        self.producrOriginalPriceLabel.text = [NSString formatFloat:productModel.min_price];
-        self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+    if (productModel.is_free_postage) {
+        self.shippingImageView.hidden = NO;
+        self.nameLabelLeftConstraint.constant = 5;
+    } else {
+        self.shippingImageView.hidden = YES;
+        self.nameLabelLeftConstraint.constant = -20;
     }
     
-    
-    self.recommenDationLabel.text = productModel.features;
+    if (productModel.min_sale_price == 0) {
+        
+        if (productModel.like_count == 0) {
+            self.producrOriginalPriceLabel.hidden = YES;
+        } else {
+            self.producrOriginalPriceLabel.hidden = NO;
+            self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+        }
+        
+        self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+        self.likeCountLabel.hidden = YES;
+    } else {
+        self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
+        self.producrOriginalPriceLabel.hidden = NO;
+        self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
+        
+        if (productModel.like_count == 0) {
+            self.likeCountLabel.hidden = YES;
+        } else {
+            self.likeCountLabel.hidden = NO;
+            self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+        }
+    }
+
+    self.recommenDationLabel.text = productModel.stick_text;
     
     if (self.productModel.is_like) {
         self.likeLabel.textColor = [UIColor colorWithHexString:@"6ED7AF"];
