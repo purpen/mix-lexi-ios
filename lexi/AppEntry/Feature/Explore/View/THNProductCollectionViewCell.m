@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *producrOriginalPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *shippingImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelLeftConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *sallOutImageView;
@@ -51,9 +52,11 @@
                 self.producrOriginalPriceLabel.hidden = YES;
                 self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
             } else{
+                self.producrOriginalPriceLabel.hidden = NO;
                 self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
                 self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
             }
+            self.likeCountLabel.hidden = YES;
             break;
         }
         case THNHomeTypeFeatured: {
@@ -83,12 +86,13 @@
                 [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
             }
 
-            if (productModel.min_sale_price == 0) {
+            if (productModel.real_sale_price == 0) {
                 self.producrOriginalPriceLabel.hidden = YES;
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
+                self.productPriceLabel.text = [NSString formatFloat:productModel.real_price];
             } else{
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
+                self.producrOriginalPriceLabel.hidden = NO;
+                self.productPriceLabel.text = [NSString formatFloat:productModel.real_sale_price];
+                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.real_price];
             }
 
             break;

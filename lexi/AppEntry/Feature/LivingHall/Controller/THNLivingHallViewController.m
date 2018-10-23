@@ -278,7 +278,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return self.recommendedArray.count == self.curatorPerPageCount ? kCellOptimalHeight * 2 + 20 + 90 : kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight;
+    return self.recommendedArray.count == self.curatorPerPageCount ? kCellOptimalHeight * 2 + 20 + 90 + expandViewHeight : kCellOptimalHeight * 2 + 20 + 90;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

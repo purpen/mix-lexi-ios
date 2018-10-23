@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -108,6 +108,12 @@
                             <constraint firstItem="lmk-5q-Rp6" firstAttribute="leading" secondItem="TZG-aF-OMZ" secondAttribute="leading" id="r6o-2P-1Ii"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="second" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRr-gv-mIQ">
+                        <rect key="frame" x="70.5" y="237" width="38.5" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
@@ -117,6 +123,7 @@
                 <constraint firstItem="eae-Dt-2dl" firstAttribute="top" secondItem="U94-Z4-NGw" secondAttribute="bottom" constant="9" id="7yD-ZU-tzl"/>
                 <constraint firstItem="Nvm-Kz-zbo" firstAttribute="centerY" secondItem="eae-Dt-2dl" secondAttribute="centerY" id="8yb-L0-iyY"/>
                 <constraint firstItem="hSL-qd-FAD" firstAttribute="centerY" secondItem="op6-Hf-Zww" secondAttribute="centerY" id="9O8-N9-lmZ"/>
+                <constraint firstItem="KRr-gv-mIQ" firstAttribute="centerY" secondItem="hSL-qd-FAD" secondAttribute="centerY" id="Aue-D4-t3c"/>
                 <constraint firstAttribute="bottom" secondItem="TZG-aF-OMZ" secondAttribute="bottom" id="CPd-og-GDt"/>
                 <constraint firstItem="op6-Hf-Zww" firstAttribute="top" secondItem="Nvm-Kz-zbo" secondAttribute="bottom" constant="5" id="ETe-9Z-16E"/>
                 <constraint firstItem="Nvm-Kz-zbo" firstAttribute="leading" secondItem="SEy-5g-ep8" secondAttribute="leading" id="Ixs-77-gXk"/>
@@ -124,6 +131,7 @@
                 <constraint firstAttribute="trailing" secondItem="eae-Dt-2dl" secondAttribute="trailing" constant="10" id="NKu-tT-ZIF"/>
                 <constraint firstItem="U94-Z4-NGw" firstAttribute="top" secondItem="SEy-5g-ep8" secondAttribute="top" id="Qyd-iq-LA4"/>
                 <constraint firstItem="SEy-5g-ep8" firstAttribute="trailing" secondItem="U94-Z4-NGw" secondAttribute="trailing" id="RG6-Qk-p3o"/>
+                <constraint firstItem="KRr-gv-mIQ" firstAttribute="leading" secondItem="hSL-qd-FAD" secondAttribute="trailing" constant="5" id="YDd-xU-uhB"/>
                 <constraint firstAttribute="trailing" secondItem="TZG-aF-OMZ" secondAttribute="trailing" id="bwg-nW-dt1"/>
                 <constraint firstItem="eae-Dt-2dl" firstAttribute="leading" secondItem="Nvm-Kz-zbo" secondAttribute="trailing" constant="5" id="ka1-2V-G2e"/>
                 <constraint firstItem="Rz3-Il-GYc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="oT4-bn-crC"/>
@@ -137,6 +145,7 @@
                 <outlet property="amountMoneyLabel" destination="kaM-MP-F0h" id="gmp-h3-e5x"/>
                 <outlet property="centerButtonView" destination="TZG-aF-OMZ" id="1Qz-GY-yUH"/>
                 <outlet property="centerButtonViewComstraint" destination="0E0-N1-IBp" id="f22-9d-wGk"/>
+                <outlet property="likeCountLabel" destination="KRr-gv-mIQ" id="kcF-e5-sbB"/>
                 <outlet property="nameLabelLeftConstraint" destination="ka1-2V-G2e" id="hDs-1L-Y3J"/>
                 <outlet property="producrOriginalPriceLabel" destination="hSL-qd-FAD" id="Ofi-2s-OyE"/>
                 <outlet property="productImageView" destination="U94-Z4-NGw" id="xzZ-es-qej"/>
