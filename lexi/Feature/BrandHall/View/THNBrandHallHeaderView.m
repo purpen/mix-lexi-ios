@@ -40,7 +40,7 @@
 
 - (void)setOffcialStoreModel:(THNOffcialStoreModel *)offcialStoreModel {
     _offcialStoreModel = offcialStoreModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.bgcover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.logo] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.product_count];
     self.articleLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.life_record_count];
     self.fanLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.fans_count];

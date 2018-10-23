@@ -12,6 +12,7 @@
 #import <MJExtension/MJExtension.h>
 #import "THNProductModel.h"
 #import "THNMarco.h"
+#import "THNBannnerCollectionViewCell.h"
 
 static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdentifier";
 
@@ -27,6 +28,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetCollectionCellIdentifier];
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.minimumLineSpacing = 10;
@@ -41,7 +43,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 - (void)setCollectionModel:(THNCollectionModel *)collectionModel {
     _collectionModel = collectionModel;
     self.nameLabel.text = collectionModel.name;
-    self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",collectionModel.count];
+    self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",collectionModel.products.count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -51,8 +53,21 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSetCollectionCellIdentifier forIndexPath:indexPath];
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row]];
-    [cell setProductModel:productModel];
+    
+    if (indexPath.row == 0) {
+        [cell setCollectionModel:self.collectionModel];
+    } else {
+        [cell setProductModel:productModel];
+    }
+    
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row]];
+    if (self.allsetBlcok) {
+        self.allsetBlcok(productModel.rid);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
