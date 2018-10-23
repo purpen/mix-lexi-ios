@@ -134,7 +134,7 @@ static NSString *const kTextHint    = @"  领取设计馆优惠红包";
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
         make.top.mas_equalTo(0);
-        make.bottom.mas_equalTo(-15);
+        make.bottom.mas_equalTo(self.containerView.isHidden ? 0 : -15);
     }];
     
     [self.getButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -143,7 +143,7 @@ static NSString *const kTextHint    = @"  领取设计馆优惠红包";
         make.top.mas_equalTo(10);
     }];
     
-    [self.hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.hintLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-65);
         make.left.mas_equalTo(10);
         make.top.mas_equalTo(15);
