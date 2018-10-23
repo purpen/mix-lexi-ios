@@ -103,13 +103,18 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     params[@"rid"] = self.loginManger.storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         THNLifeStoreModel *storeModel = [THNLifeStoreModel mj_objectWithKeyValues:result.data];
         self.storeModel = storeModel;
         NSString *storeName = storeModel.name;
         self.storeAvatarUrl = storeModel.logo;
         self.desLabel.text = storeModel.des;
         [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-        self.storeNameLabel.text = [NSString stringWithFormat:@"设计师%@的生活馆",storeName];
+        self.storeNameLabel.text = storeName;
         // 生活馆阶段: 1、实习馆主  2、达人馆主
         if (storeModel.phases == 1) {
             if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
@@ -166,7 +171,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.userPartieArray = result.data[@"users"];
-        NSInteger baroseCount = [result.data[@"count"]integerValue];
+        NSInteger baroseCount = [result.data[@"browse_number"]integerValue];
         
         if (baroseCount > 999) {
             self.browseMaxShowLabel.text = @"999+";
@@ -174,9 +179,9 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
             self.browseMaxShowLabel.text = [NSString stringWithFormat:@"%ld",baroseCount];
         }
         
-        NSString *browseCountText = [NSString stringWithFormat:@"%ld 人浏览过生活馆",baroseCount];
+        NSString *browseCountText = [NSString stringWithFormat:@"生活馆被浏览过%ld次",baroseCount];
         NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc]initWithString:browseCountText];
-        [attributeStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"999999"] range:NSMakeRange(browseCountText.length - 6, 6)];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"999999"] range:NSMakeRange(0, 7)];
         self.browseCountLabel.attributedText = attributeStr;
         
         [self.avatarCollectionView reloadData];
