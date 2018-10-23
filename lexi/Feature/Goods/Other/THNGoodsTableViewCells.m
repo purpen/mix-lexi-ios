@@ -49,6 +49,10 @@
     return _likeUserData ? _likeUserData : [NSArray array];
 }
 
+- (NSArray *)couponData {
+    return _couponData ? _couponData : [NSArray array];
+}
+
 - (THNGoodsModel *)goodsModel {
     return _goodsModel ? _goodsModel : [THNGoodsModel new];
 }
