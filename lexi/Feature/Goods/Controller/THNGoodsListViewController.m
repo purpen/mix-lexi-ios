@@ -46,6 +46,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 @property (nonatomic, strong) NSMutableDictionary *paramDict;
 /// 页码
 @property (nonatomic, assign) NSInteger currentPage;
+/// 按最新排序  0=否, 1=是
+@property (nonatomic, assign) NSInteger sortNewest;
 
 @end
 
@@ -104,6 +106,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             break;
             
         case THNGoodsListViewTypeCategory: {
+            self.sortNewest = 0;
             [self thn_showFunctionView:YES];
             
             NSDictionary *params = [self thn_requestCategoryDefaultParams];
@@ -145,6 +148,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:type
@@ -155,11 +160,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
                                             [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             [weakSelf.modelArray addObjectsFromArray:goodsData];
                                             [weakSelf.goodsCollectionView reloadData];
+                                            [SVProgressHUD dismiss];
                                         }];
 }
 
 // 获取分类商品数据
 - (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -168,11 +176,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
+        [SVProgressHUD dismiss];
     }];
 }
 
 // 获取接单订制商品
 - (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
 
     [THNGoodsManager getCustomizationProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
@@ -180,11 +191,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
+        [SVProgressHUD dismiss];
     }];
 }
 
 // 获取栏目商品
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getColumnProductsWithListType:type
@@ -195,11 +209,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
                                             [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
                                             [weakSelf.goodsCollectionView reloadData];
+                                            [SVProgressHUD dismiss];
                                         }];
 }
 
 // 获取栏目浏览记录
 - (void)thn_getColumnRecordWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNGoodsManager getColumnRecordWithListType:type
@@ -209,6 +226,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
                                           [weakSelf.userArray addObjectsFromArray:usersData];
                                           [weakSelf.goodsCollectionView reloadData];
+                                          [SVProgressHUD dismiss];
                                       }];
 }
 
@@ -219,7 +237,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
     } else if (index == 1) {
         if (self.goodsListType == THNGoodsListViewTypeCategory) {
-            [SVProgressHUD thn_showInfoWithStatus:@"新品"];
+            [self thn_sortGoodsListOfNewest];
 
         } else {
             [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];
@@ -228,6 +246,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     } else if (index == 2) {
         [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeScreen)];
     }
+}
+
+// 最新
+- (void)thn_sortGoodsListOfNewest {
+    self.sortNewest = self.sortNewest == 0 ? 1 : 0;
+    [self.paramDict setObject:@(self.sortNewest) forKey:@"sort_newest"];
+    
+    [self thn_reloadGoodsData];
 }
 
 // 排序
