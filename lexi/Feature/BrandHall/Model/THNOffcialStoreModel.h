@@ -26,5 +26,6 @@
 
 @property (nonatomic, strong) NSString *bgcover;
 @property (nonatomic, strong) NSString *rid;
+@property (nonatomic, strong) NSString *logo;
 
 @end

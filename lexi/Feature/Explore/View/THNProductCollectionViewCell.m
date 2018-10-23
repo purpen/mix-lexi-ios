@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *producrOriginalPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *shippingImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelLeftConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *sallOutImageView;
@@ -47,24 +48,13 @@
         case THNHomeTypeExplore: {
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
-            if (productModel.min_sale_price == 0) {
-                self.producrOriginalPriceLabel.hidden = YES;
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-            } else{
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
-            }
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:0];
             break;
         }
         case THNHomeTypeFeatured: {
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
-            if (productModel.min_sale_price == 0) {
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-            } else{
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-            }
-             self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",productModel.like_count];
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
             break;
         }
         case THNHomeTypeCenter:{
@@ -83,13 +73,7 @@
                 [self.shelfButton setTitleColor:[UIColor colorWithHexString:@"949EA6"] forState:UIControlStateNormal];
             }
 
-            if (productModel.min_sale_price == 0) {
-                self.producrOriginalPriceLabel.hidden = YES;
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-            } else{
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-                self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:productModel.min_price];
-            }
+           [self setProductAttributes:productModel.real_sale_price initWithOriginPrice:productModel.real_price initWithLikeCount:productModel.like_count];
 
             break;
         }
@@ -98,14 +82,11 @@
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
             self.producrOriginalPriceLabel.hidden = YES;
-            if (productModel.min_sale_price == 0) {
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_price];
-            } else{
-                self.productPriceLabel.text = [NSString formatFloat:productModel.min_sale_price];
-            }
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
             break;
         }
     }
+    
 
     if (productModel.is_free_postage) {
         self.shippingImageView.hidden = NO;
@@ -118,6 +99,32 @@
     self.sallOutImageView.hidden = !productModel.is_sold_out;
     [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.productNameLabel.text = productModel.name;
+}
+
+- (void)setProductAttributes:(CGFloat)salePrice
+         initWithOriginPrice:(CGFloat)originPrice
+           initWithLikeCount:(NSInteger)likeCount {
+    if (salePrice == 0 && likeCount == 0) {
+        self.productPriceLabel.text = [NSString formatFloat:originPrice];
+        self.producrOriginalPriceLabel.hidden = YES;
+        self.likeCountLabel.hidden = YES;
+    } else if (salePrice == 0) {
+        self.likeCountLabel.hidden = YES;
+        self.producrOriginalPriceLabel.hidden = NO;
+        self.producrOriginalPriceLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",likeCount];
+        self.productPriceLabel.text = [NSString formatFloat:originPrice];
+    } else if (likeCount == 0) {
+        self.likeCountLabel.hidden = YES;
+        self.producrOriginalPriceLabel.hidden = NO;
+        self.productPriceLabel.text = [NSString formatFloat:salePrice];
+        self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:originPrice];
+    } else {
+        self.producrOriginalPriceLabel.hidden = NO;
+        self.likeCountLabel.hidden = NO;
+        self.productPriceLabel.text = [NSString formatFloat:salePrice];
+        self.producrOriginalPriceLabel.attributedText = [THNTextTool setStrikethrough:originPrice];
+        self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢 +%ld",likeCount];
+    }
 }
 
 - (IBAction)shelf:(id)sender {

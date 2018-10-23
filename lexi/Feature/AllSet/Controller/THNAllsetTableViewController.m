@@ -12,6 +12,8 @@
 #import <MJExtension/MJExtension.h>
 #import "THNCollectionModel.h"
 #import "UIViewController+THNHud.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNSetDetailViewController.h"
 
 static NSString *const kUrlCollections = @"/column/collections";
 static NSString *const KAllsetCellIdentifier = @"KAllsetCellIdentifier";
@@ -61,9 +63,21 @@ static CGFloat const kCellRowHeight = 382;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNAllsetTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KAllsetCellIdentifier forIndexPath:indexPath];
+    cell.allsetBlcok = ^(NSString *rid) {
+        THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+        [self.navigationController pushViewController:goodInfo animated:YES];
+    };
+    
     THNCollectionModel *collectionModel = [THNCollectionModel mj_objectWithKeyValues:self.collections[indexPath.row]];
     [cell setCollectionModel:collectionModel];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNCollectionModel *collectionModel = [THNCollectionModel mj_objectWithKeyValues:self.collections[indexPath.row]];
+    THNSetDetailViewController *setVC = [[THNSetDetailViewController alloc]init];
+    setVC.collectionID = collectionModel.collectionID;
+    [self.navigationController pushViewController:setVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

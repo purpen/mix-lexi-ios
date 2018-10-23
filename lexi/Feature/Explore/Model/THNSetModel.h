@@ -13,6 +13,6 @@
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *sub_name;
-@property (nonatomic, strong) NSString *collectionID;
+@property (nonatomic, assign) NSInteger collectionID;
 
 @end
