@@ -10,6 +10,6 @@
 
 @interface THNSetDetailViewController : THNBaseViewController
 
-@property (nonatomic, strong) NSString *collectionID;
+@property (nonatomic, assign) NSInteger collectionID;
 
 @end

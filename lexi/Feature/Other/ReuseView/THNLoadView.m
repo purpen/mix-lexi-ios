@@ -8,10 +8,12 @@
 
 #import "THNLoadView.h"
 #import <SDWebImage/UIImage+GIF.h>
+#import "THNMarco.h"
 
 @interface THNLoadView()
 
 @property (weak, nonatomic) IBOutlet UIImageView *loadImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *loadViewCententYConstraint;
 
 @end
 
@@ -21,6 +23,7 @@
     [super awakeFromNib];
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"];
     self.loadImageView.image =  [UIImage sd_animatedGIFWithData:[NSData dataWithContentsOfFile:imagePath]];
+    self.loadViewCententYConstraint.constant = kDeviceiPhoneX ? -88 : -64;
 }
 
 @end
