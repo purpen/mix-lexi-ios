@@ -58,7 +58,9 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     THNSelectCouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectCouponCellIdentifier forIndexPath:indexPath];
+  
     THNCouponModel *couponModel;
     
     if (self.couponType == CouponTypeStore) {
@@ -70,17 +72,17 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
     }
     
-    
-    
     cell.couponType = self.couponType;
-    self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
+    
     [cell setCouponModel:couponModel];
     
-    if (couponModel.amount == self.maxCouponCount) {
+
+    if (indexPath.row == 0) {
+        self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
         cell.isSelect = YES;
         self.selectIndex = indexPath;
     }
-
+    
     return cell;
 }
 
