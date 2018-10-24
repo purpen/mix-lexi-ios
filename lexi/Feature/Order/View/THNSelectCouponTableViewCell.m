@@ -32,6 +32,7 @@
     [self drwaShadow];
 }
 
+
 - (void)setCouponModel:(THNCouponModel *)couponModel {
     _couponModel = couponModel;
     

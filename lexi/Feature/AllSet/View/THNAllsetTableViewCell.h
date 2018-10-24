@@ -10,10 +10,12 @@
 
 @class THNCollectionModel;
 typedef void(^AllsetBlock)(NSString *rid);
+typedef void(^PushSetDetailBlock)(NSInteger collectionRid);
 
 @interface THNAllsetTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNCollectionModel *collectionModel;
 @property (nonatomic, copy) AllsetBlock allsetBlcok;
+@property (nonatomic, copy) PushSetDetailBlock pushDetailBlock;
 
 @end
