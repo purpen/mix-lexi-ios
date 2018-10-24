@@ -57,8 +57,6 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
     [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeRid:model.rid];
-    
-    [self layoutIfNeeded];
 }
 
 #pragma mark - setup UI
