@@ -24,13 +24,13 @@
     THNTableViewCells *userInfoCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeDynamic) didSelectedItem:nil];
     userInfoCells.height = 66.0;
     
-    THNTableViewCells *imagesCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:nil];
+    THNTableViewCells *imagesCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:nil];
     imagesCells.height = 110.0;
     
-    THNTableViewCells *contentInfoCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:nil];
+    THNTableViewCells *contentInfoCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:nil];
     contentInfoCells.height = 90.0;
     
-    THNTableViewCells *functionCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:nil];
+    THNTableViewCells *functionCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:nil];
     functionCells.height = 50.0;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[userInfoCells,
