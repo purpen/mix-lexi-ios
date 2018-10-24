@@ -13,7 +13,6 @@
 @class THNSkuModelItem;
 @class THNAddressModel;
 
-
 @interface THNOrderPreviewViewController : THNBaseViewController
 /**
  选择的地址
