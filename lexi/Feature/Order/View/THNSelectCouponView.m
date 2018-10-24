@@ -34,7 +34,9 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = 95;
+    self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSelectCouponTableViewCell" bundle:nil] forCellReuseIdentifier:kSelectCouponCellIdentifier];
+    self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -59,7 +61,10 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    THNSelectCouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectCouponCellIdentifier forIndexPath:indexPath];
+    THNSelectCouponTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [THNSelectCouponTableViewCell viewFromXib];
+    }
   
     THNCouponModel *couponModel;
     
@@ -76,8 +81,7 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     
     [cell setCouponModel:couponModel];
     
-
-    if (indexPath.row == 0) {
+    if (indexPath == self.selectIndex) {
         self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
         cell.isSelect = YES;
         self.selectIndex = indexPath;
@@ -92,7 +96,6 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
     
     THNSelectCouponTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.isSelect = YES;
-    
     self.selectIndex = indexPath;
     THNCouponModel *couponModel;
 
