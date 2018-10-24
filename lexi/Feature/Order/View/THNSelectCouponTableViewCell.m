@@ -60,6 +60,7 @@
 }
 
 - (void)setIsSelect:(BOOL)isSelect {
+    _isSelect = isSelect;
     self.selectButton.selected = isSelect;
 }
 
