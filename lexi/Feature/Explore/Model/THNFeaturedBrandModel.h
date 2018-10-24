@@ -25,9 +25,9 @@
 // 品牌馆ID
 @property (nonatomic, strong) NSString *rid;
 // 国家
-@property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *delivery_country;
 // 城市
-@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *delivery_city;
 @property (nonatomic, strong) NSArray <THNProductModel *>*products;
 //宣传语
 @property (nonatomic, strong) NSString *tag_line;

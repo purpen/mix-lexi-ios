@@ -60,11 +60,8 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.storeNameLabel.text = featureBrandModel.name;
     self.storePruductCountLabel.text = [NSString stringWithFormat:@"%ld 件",featureBrandModel.store_products_counts];
-//    self.flowButton.followStoreBlock = ^(BOOL isFollow) {
-//        self.isFollow = isFollow;
-//    };
-    
-    [self.flowButton selfManagerFollowStoreStatus:self.isFollow ? self.isFollow : featureBrandModel.is_followed storeRid:featureBrandModel.rid];
+
+    [self.flowButton selfManagerFollowStoreStatus:featureBrandModel.is_followed storeRid:featureBrandModel.rid];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

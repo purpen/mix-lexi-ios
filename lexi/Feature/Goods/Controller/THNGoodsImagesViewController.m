@@ -12,6 +12,7 @@
 #import "THNGoodsActionButton+SelfManager.h"
 #import "UIView+Helper.h"
 #import "THNGoodsSkuViewController.h"
+#import "THNShareViewController.h"
 
 @interface THNGoodsImagesViewController () <THNNavigationBarViewDelegate>
 
@@ -82,7 +83,9 @@
 }
 
 - (void)shareButtonAction:(UIButton *)button {
-    [SVProgressHUD thn_showInfoWithStatus:@"分享商品"];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 #pragma mark - private methods

@@ -67,6 +67,14 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 @property (nonatomic, strong) THNTableViewFooterView *footerView;
 /// 用户数据
 @property (nonatomic, strong) THNUserModel *userModel;
+/// 商品数据
+@property (nonatomic, strong) NSArray *likedGoodsArr;
+@property (nonatomic, strong) NSArray *browsesGoodsArr;
+@property (nonatomic, strong) NSArray *wishGoodsArr;
+/// 橱窗数据
+@property (nonatomic, strong) NSArray *windowArr;
+/// 设计馆数据
+@property (nonatomic, strong) NSArray *storeArr;
 /// 内容视图
 @property (nonatomic, strong) UIScrollView *containerView;
 /// 管理按钮
@@ -78,20 +86,25 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 @implementation THNMyCenterViewController
 
-#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupTableViewUI];
 }
 
-#pragma mark - custom delegate
-- (void)thn_didSelectedMenuButtonIndex:(NSInteger)index {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.containerView.contentOffset = CGPointMake(SCREEN_WIDTH * index, 0);
-    }];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setNavigationBar];
+    
+    if (![THNLoginManager isLogin]) return;
+    
+    [self thn_uploadViewFrame];
+    [self thn_setUserCenterData];
+    [self thn_changTableViewDataSourceWithType:_selectedDataType];
 }
 
+#pragma mark - custom delegate
 - (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type {
     switch (type) {
         case THNHeaderViewSelectedTypeLiked:
@@ -102,27 +115,22 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeDynamic: {
-            THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
-            [self.navigationController pushViewController:dynamicVC animated:YES];
+            [self thn_openDynamicController];
         }
             break;
             
         case THNHeaderViewSelectedTypeActivity: {
-            THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
-            shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-            [self presentViewController:shareVC animated:NO completion:nil];
+            [self thn_openShareController];
         }
             break;
             
         case THNHeaderViewSelectedTypeOrder: {
-            THNOrderViewController *order = [[THNOrderViewController alloc]init];
-            [self.navigationController pushViewController:order animated:YES];
+            [self thn_openOrderController];
         }
             break;
             
         case THNHeaderViewSelectedTypeCoupon: {
-            THNMyCouponViewController *couponVC = [[THNMyCouponViewController alloc] init];
-            [self.navigationController pushViewController:couponVC animated:YES];
+            [self thn_openCouponController];
         }
             break;
             
@@ -133,213 +141,502 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     }
 }
 
+/**
+ 设置用户信息
+ */
 - (void)thn_selectedUserHeadImage {
+    [self thn_openUserSettingController];
+}
+
+/**
+ 顶部菜单栏按钮
+ */
+- (void)didNavigationRightButtonOfIndex:(NSInteger)index {
+    if (index == 0) {
+        [self thn_openShareController];
+        
+    } else if (index == 1) {
+        [self thn_openSettingController];
+    }
+}
+
+/**
+ 切换“生活馆”/“个人中心”视图
+ */
+- (void)thn_didSelectedMenuButtonIndex:(NSInteger)index {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.containerView.contentOffset = CGPointMake(SCREEN_WIDTH * index, 0);
+    }];
+}
+
+#pragma mark - network
+/**
+ 获取用户资料
+ */
+- (void)thn_getUserProfileDataWithGroup:(dispatch_group_t)group {
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *data, NSError *error) {
+            dispatch_group_leave(group);
+            if (error) return;
+        }];
+    });
+}
+
+/**
+ 获取个人中心信息
+ */
+- (void)thn_getUserCenterDataWithGroup:(dispatch_group_t)group {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
+            dispatch_group_leave(group);
+            
+            if (error) return;
+            
+            weakSelf.userModel = model;
+            weakSelf.userName = model.username;
+            [SVProgressHUD dismiss];
+        }];
+    });
+}
+
+/**
+ 获取商品数据
+ */
+- (void)thn_getUserCenterGoodsDataWithGroup:(dispatch_group_t)group type:(THNUserCenterGoodsType)type {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+            dispatch_group_leave(group);
+            if (error) return;
+            
+            switch (type) {
+                case THNUserCenterGoodsTypeLikedGoods:
+                    weakSelf.likedGoodsArr = [NSArray arrayWithArray:goodsData];
+                    break;
+                    
+                case THNUserCenterGoodsTypeBrowses:
+                    weakSelf.browsesGoodsArr = [NSArray arrayWithArray:goodsData];
+                    break;
+                    
+                case THNUserCenterGoodsTypeWishList:
+                    weakSelf.wishGoodsArr = [NSArray arrayWithArray:goodsData];
+                    break;
+            }
+            
+            [SVProgressHUD dismiss];
+        }];
+    });
+}
+
+/**
+ 获取橱窗数据
+ */
+- (void)thn_getUserCenterWindowDataWithGroup:(dispatch_group_t)group {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [THNUserManager getUserLikedWindowWithParams:@{} completion:^(NSArray *windowData, NSError *error) {
+            dispatch_group_leave(group);
+            if (error) return;
+        
+            weakSelf.windowArr = [NSArray arrayWithArray:windowData];
+            [SVProgressHUD dismiss];
+        }];
+    });
+}
+
+/**
+ 获取关注的设计馆数据
+ */
+- (void)thn_getUserCenterFollowStoreDataWithGroup:(dispatch_group_t)group {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
+            dispatch_group_leave(group);
+            if (error) return;
+            
+            weakSelf.storeArr = [NSArray arrayWithArray:storesData];
+            [SVProgressHUD dismiss];
+        }];
+    });
+}
+
+#pragma mark - set cell
+- (void)thn_setUserCenterData {
+    dispatch_group_t group = dispatch_group_create();
+    
+    [self thn_getUserCenterDataWithGroup:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self thn_setUserCenterHeaderView];
+    });
+}
+
+- (void)thn_setUserLikedData {
+    dispatch_group_t group = dispatch_group_create();
+    
+    [self thn_getUserCenterGoodsDataWithGroup:group type:(THNUserCenterGoodsTypeLikedGoods)];
+    [self thn_getUserCenterWindowDataWithGroup:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self thn_setUserCenterLikedGoodsCell];
+        [self thn_setUserCenterLikedWindowCell];
+        [self thn_setTableViewFooterViewWithType:THNHeaderViewSelectedTypeLiked backgroundColorHex:@"#FFFFFF"];
+    });
+}
+
+- (void)thn_setUserCollectData {
+    dispatch_group_t group = dispatch_group_create();
+    
+    [self thn_getUserCenterGoodsDataWithGroup:group type:(THNUserCenterGoodsTypeBrowses)];
+    [self thn_getUserCenterGoodsDataWithGroup:group type:(THNUserCenterGoodsTypeWishList)];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self thn_setUserCenterBrowesGoodsCell];
+        [self thn_setUserCenterWishGoodsCell];
+        [self thn_setTableViewFooterViewWithType:THNHeaderViewSelectedTypeCollect backgroundColorHex:@"#FFFFFF"];
+    });
+}
+
+- (void)thn_setUserFollowedStoreData {
+    dispatch_group_t group = dispatch_group_create();
+    
+    [self thn_getUserCenterFollowStoreDataWithGroup:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self thn_setUserCenterFollowStoreCell];
+        [self thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeStore)
+                              backgroundColorHex:self.dataSections.count ? kColorBackground : kColorWhite];
+    });
+}
+
+- (void)thn_changTableViewDataSourceWithType:(THNHeaderViewSelectedType)type {
+    _selectedDataType = type;
+    
+    [self.dataSections removeAllObjects];
+    [self.tableView reloadData];
+    
+    if (type == THNHeaderViewSelectedTypeLiked) {
+        [self thn_setUserLikedData];
+        
+    } else if (type == THNHeaderViewSelectedTypeCollect) {
+        [self thn_setUserCollectData];
+        
+    } else if (type == THNHeaderViewSelectedTypeStore) {
+        [self thn_setUserFollowedStoreData];
+    }
+}
+
+/**
+ 头部用户信息
+ */
+- (void)thn_setUserCenterHeaderView {
+    [self.headerView thn_setUserInfoModel:self.userModel];
+    self.tableView.tableHeaderView = self.headerView;
+}
+
+/**
+ 喜欢的商品
+ */
+- (void)thn_setUserCenterLikedGoodsCell {
+    if (!self.likedGoodsArr.count) {
+        return;
+    }
+    
+    WEAKSELF;
+    
+    THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:^(NSString *ids) {
+        [weakSelf thn_openGoodsInfoControllerWithGoodsId:ids];
+    }];
+    goodsCells.height = kCellHeightGoods;
+    goodsCells.goodsDataArr = self.likedGoodsArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections new];
+    if (self.likedGoodsArr.count <= kMinGoodsCount) {    // 不显示“查看全部”按钮
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleLiked];
+    
+    } else {
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleLiked moreCompletion:^{
+            [weakSelf thn_openGoodsListControllerWithGoodsType:(THNUserCenterGoodsTypeLikedGoods) title:kHeaderTitleLiked];
+        }];
+    }
+    sections.index = 0;
+    sections.dataCells = [@[goodsCells] mutableCopy];
+    [self.dataSections addObject:sections];
+}
+
+/**
+ 喜欢的橱窗
+ */
+- (void)thn_setUserCenterLikedWindowCell {
+    if (!self.windowArr.count) {
+        return;
+    }
+    
+    WEAKSELF;
+    
+    THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow) didSelectedItem:^(NSString *ids) {
+        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗：%@", ids]];
+    }];
+    cells.height = kCellHeightWindow;
+    cells.windowDataArr = self.windowArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleWindow moreCompletion:^{
+        [weakSelf thn_openWindowInfoControllerWithWindowId:@""];
+    }];
+    sections.index = 1;
+    sections.dataCells = [@[cells] mutableCopy];
+    [self.dataSections addObject:sections];
+}
+
+/**
+ 最近浏览的商品
+ */
+- (void)thn_setUserCenterBrowesGoodsCell {
+    if (!self.browsesGoodsArr.count) {
+        return;
+    }
+    
+    WEAKSELF;
+    
+    THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:^(NSString *ids) {
+        [weakSelf thn_openGoodsInfoControllerWithGoodsId:ids];
+    }];
+    goodsCells.height = kCellHeightGoods;
+    goodsCells.goodsDataArr = self.browsesGoodsArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections new];
+    if (self.browsesGoodsArr.count <= kMinGoodsCount) {    // 不显示“查看全部”按钮
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleBrowses];
+        
+    } else {
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleBrowses moreCompletion:^{
+            [weakSelf thn_openGoodsListControllerWithGoodsType:(THNUserCenterGoodsTypeBrowses) title:kHeaderTitleBrowses];
+        }];
+    }
+    sections.index = 0;
+    sections.dataCells = [@[goodsCells] mutableCopy];
+    [self.dataSections addObject:sections];
+}
+
+/**
+ 心愿单的商品
+ */
+- (void)thn_setUserCenterWishGoodsCell {
+    if (!self.wishGoodsArr.count) {
+        return;
+    }
+    
+    WEAKSELF;
+    
+    THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeGoods) didSelectedItem:^(NSString *ids) {
+        [weakSelf thn_openGoodsInfoControllerWithGoodsId:ids];
+    }];
+    goodsCells.height = kCellHeightGoods;
+    goodsCells.goodsDataArr = self.wishGoodsArr;
+    
+    THNTableViewSections *sections = [THNTableViewSections new];
+    if (self.wishGoodsArr.count <= kMinGoodsCount) {    // 不显示“查看全部”按钮
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleWishList];
+        
+    } else {
+        sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleWishList moreCompletion:^{
+            [weakSelf thn_openGoodsListControllerWithGoodsType:(THNUserCenterGoodsTypeWishList) title:kHeaderTitleWishList];
+        }];
+    }
+    sections.index = 1;
+    sections.dataCells = [@[goodsCells] mutableCopy];
+    [self.dataSections addObject:sections];
+}
+
+/**
+ 关注的店铺
+ */
+- (void)thn_setUserCenterFollowStoreCell {
+    if (!self.storeArr.count) {
+        return;
+    }
+    
+    WEAKSELF;
+    
+    for (NSDictionary *storeDict in self.storeArr) {
+        THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
+        
+        THNTableViewCells *storeCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore)
+                                                            didSelectedItem:^(NSString *ids) {
+                                                                [weakSelf thn_openBrandHallControllerWithBrandId:ids];
+                                                            }];
+        storeCells.height = kCellHeightStore;
+        storeCells.storeModel = model;
+        
+        THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore)
+                                                            didSelectedItem:^(NSString *ids) {
+                                                                [weakSelf thn_openGoodsInfoControllerWithGoodsId:ids];
+                                                            }];
+        goodsCells.height = kCellHeightGoods + 15.0;
+        goodsCells.goodsDataArr = model.products;
+        
+        THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, goodsCells] mutableCopy]];
+        sections.footerHeight = kSectionFooterHeight;
+        [self.dataSections addObject:sections];
+    }
+}
+
+#pragma mark - open other controller
+/**
+ 打开商品详情视图
+ */
+- (void)thn_openGoodsInfoControllerWithGoodsId:(NSString *)goodsId {
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:goodsId];
+    [self.navigationController pushViewController:goodsInfoVC animated:YES];
+}
+
+/**
+ 打开商品列表视图
+ */
+- (void)thn_openGoodsListControllerWithGoodsType:(THNUserCenterGoodsType)goodsType title:(NSString *)title {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithUserCenterGoodsType:goodsType title:title];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+/**
+ 打开橱窗详情视图
+ */
+- (void)thn_openWindowInfoControllerWithWindowId:(NSString *)windowId {
+    THNLikedWindowViewController *likedWindowVC = [[THNLikedWindowViewController alloc] init];
+    [self.navigationController pushViewController:likedWindowVC animated:YES];
+}
+
+/**
+ 打开品牌馆详情
+ */
+- (void)thn_openBrandHallControllerWithBrandId:(NSString *)brandId {
+    THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+    brandHallVC.rid = brandId;
+    [self.navigationController pushViewController:brandHallVC animated:YES];
+}
+
+/**
+ 打开设置视图
+ */
+- (void)thn_openSettingController {
+    THNSettingViewController *settingVC = [[THNSettingViewController alloc] init];
+    [self.navigationController pushViewController:settingVC animated:YES];
+}
+
+/**
+ 打开用户设置视图
+ */
+- (void)thn_openUserSettingController {
     THNSettingUserInfoViewController *setUserInfoVC = [[THNSettingUserInfoViewController alloc] init];
     [self.navigationController pushViewController:setUserInfoVC animated:YES];
 }
 
-- (void)didNavigationRightButtonOfIndex:(NSInteger)index {
-    if (index == 0) {
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:shareVC animated:NO completion:nil];
-        
-    } else if (index == 1) {
-        if (self.userModel) {
-            THNSettingViewController *settingVC = [[THNSettingViewController alloc] init];
-            [self.navigationController pushViewController:settingVC animated:YES];
-        }
-    }
+/**
+ 打开分享视图
+ */
+- (void)thn_openShareController {
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
-#pragma mark - private methods
-- (void)thn_getUserCenterGoodsData {
-    [self thn_changTableViewDataSourceWithType:_selectedDataType];
+/**
+ 打开优惠券视图
+ */
+- (void)thn_openCouponController {
+    THNMyCouponViewController *couponVC = [[THNMyCouponViewController alloc] init];
+    [self.navigationController pushViewController:couponVC animated:YES];
 }
 
-#pragma mark - network
-// 头部用户信息
-- (void)thn_setUserHeaderView {
-    WEAKSELF;
-    
-    [THNUserManager getUserCenterCompletion:^(THNUserModel *model, NSError *error) {
-        if (error) return;
-        
-        weakSelf.userModel = model;
-        weakSelf.userName = model.username;
-        [weakSelf.headerView thn_setUserInfoModel:model];
-        weakSelf.tableView.tableHeaderView = self.headerView;
-    }];
+/**
+ 打开订单视图
+ */
+- (void)thn_openOrderController {
+    THNOrderViewController *order = [[THNOrderViewController alloc] init];
+    [self.navigationController pushViewController:order animated:YES];
 }
 
-// 用户资料
-- (void)thn_getUserData {
-    [[THNLoginManager sharedManager] getUserProfile:nil];
-}
-
-// 商品信息
-- (void)thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsType)type {
-    NSArray *titleArr = @[kHeaderTitleLiked, kHeaderTitleBrowses, kHeaderTitleWishList];
-    NSString *headerTitle = titleArr[(NSInteger)type];
-
-    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
-    
-    WEAKSELF;
-    
-    [THNGoodsManager getUserCenterProductsWithType:type params:@{} completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error) return;
-        
-        THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedGoods) didSelectedItem:^(NSString *ids) {
-            THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
-            [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
-        }];
-        goodsCells.height = kCellHeightGoods;
-        goodsCells.goodsDataArr = goodsData;
-        
-        THNTableViewSections *sections = nil;
-        if (goodsData.count <= kMinGoodsCount) {    // 不显示“查看全部”按钮
-            sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle];
-            
-        } else {
-            sections = [THNTableViewSections initSectionsWithHeaderTitle:headerTitle moreCompletion:^{
-                THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] \
-                                                           initWithUserCenterGoodsType:type title:headerTitle];
-                [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
-            }];
-        }
-        sections.index = (NSInteger)type;
-        sections.dataCells = [@[goodsCells] mutableCopy];
-        
-        if (goodsData.count) {
-            [weakSelf.dataSections addObject:sections];
-            [weakSelf thn_sortDataSecitons];
-        }
-        
-        if (type == THNUserCenterGoodsTypeLikedGoods) {
-//            [weakSelf thn_setLikedWindowTableViewCell];
-        }
-        
-        [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeCollect)];
-        weakSelf.tableView.backgroundColor = [UIColor whiteColor];
-        
-        [SVProgressHUD dismiss];
-    }];
-}
-
-// 喜欢的橱窗
-- (void)thn_setLikedWindowTableViewCell {
-    WEAKSELF;
-    
-    [THNUserManager getUserLikedWindowWithParams:@{} completion:^(NSArray *windowData, NSError *error) {
-        if (error) return;
-        
-        THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow) didSelectedItem:^(NSString *ids) {
-            [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"橱窗ID == %@", ids]];
-        }];
-        cells.height = kCellHeightWindow;
-        cells.windowDataArr = windowData;
-        
-        THNTableViewSections *sections = [THNTableViewSections initSectionsWithHeaderTitle:kHeaderTitleWindow moreCompletion:^{
-            THNLikedWindowViewController *likedWindowVC = [[THNLikedWindowViewController alloc] init];
-            [weakSelf.navigationController pushViewController:likedWindowVC animated:YES];
-        }];
-        sections.index = 1;
-        sections.dataCells = [@[cells] mutableCopy];
-        
-        if (windowData.count) {
-            [weakSelf.dataSections addObject:sections];
-            [weakSelf thn_sortDataSecitons];
-        }
-        
-        [weakSelf thn_setTableViewFooterViewWithType:THNHeaderViewSelectedTypeLiked];
-        weakSelf.tableView.backgroundColor = [UIColor whiteColor];
-    }];
-}
-
-// 关注的设计馆
-- (void)thn_setFollowStoreTableViewCell {
-    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
-    
-    WEAKSELF;
-    
-    [THNUserManager getUserFollowStoreWithParams:@{} completion:^(NSArray *storesData, NSError *error) {
-        if (error) return;
-        
-        for (NSDictionary *storeDict in storesData) {
-            THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
-            
-            THNTableViewCells *storeCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore) didSelectedItem:^(NSString *ids) {
-                THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
-                brandHallVC.rid = ids;
-                [self.navigationController pushViewController:brandHallVC animated:YES];
-            }];
-            storeCells.height = kCellHeightStore;
-            storeCells.storeModel = model;
-            
-            THNTableViewCells *goodsCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore) didSelectedItem:^(NSString *ids) {
-                THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:ids];
-                [weakSelf.navigationController pushViewController:goodsInfoVC animated:YES];
-            }];
-            goodsCells.height = kCellHeightGoods + 15.0;
-            goodsCells.goodsDataArr = model.products;
-
-            THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[storeCells, goodsCells] mutableCopy]];
-            sections.footerHeight = kSectionFooterHeight;
-            [weakSelf.dataSections addObject:sections];
-        }
-        
-        [weakSelf thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedTypeStore)];
-        weakSelf.tableView.backgroundColor = [UIColor colorWithHexString:weakSelf.dataSections.count ? kColorBackground : kColorWhite];
-        
-        [SVProgressHUD dismiss];
-    }];
+/**
+ 打开动态视图
+ */
+- (void)thn_openDynamicController {
+    THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
+    [self.navigationController pushViewController:dynamicVC animated:YES];
 }
 
 #pragma mark - tableView dataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNTableViewSections *sections = self.dataSections[indexPath.section];
     THNTableViewCells *cells = sections.dataCells[indexPath.row];
-
-    if (cells.cellType == THNTableViewCellTypeLikedGoods) { // 商品列表
-        THNLikedGoodsTableViewCell *likedGoodsCell = [THNLikedGoodsTableViewCell initGoodsCellWithTableView:tableView
-                                                                                                  cellStyle:(UITableViewCellStyleDefault)];
-        cells.likedGoodsCell = likedGoodsCell;
-        likedGoodsCell.cell = cells;
-        [likedGoodsCell thn_setLikedGoodsData:cells.goodsDataArr];
-        
-        return likedGoodsCell;
     
-    } else if (cells.cellType == THNTableViewCellTypeLikedWindow) { // 橱窗列表
-        THNLikedWindowTableViewCell *likedWindowCell = [THNLikedWindowTableViewCell initWindowCellWithTableView:tableView
+    switch (cells.cellType) {
+        case THNTableViewCellTypeGoods: {
+            THNLikedGoodsTableViewCell *likedGoodsCell = [THNLikedGoodsTableViewCell initGoodsCellWithTableView:tableView
                                                                                                       cellStyle:(UITableViewCellStyleDefault)];
-        cells.likedWindowCell = likedWindowCell;
-        likedWindowCell.cell = cells;
-        [likedWindowCell thn_setWindowData:cells.windowDataArr];
-
-        return likedWindowCell;
-    
-    } else if (cells.cellType == THNTableViewCellTypeFollowStore) { // 设计馆列表
-        if (indexPath.row == 0) {
-            THNFollowStoreTableViewCell *followStoreCell = [THNFollowStoreTableViewCell initStoreCellWithTableView:tableView
-                                                                                                         cellStyle:(UITableViewCellStyleDefault)];
-            cells.followStoreCell = followStoreCell;
-            followStoreCell.cell = cells;
-            [followStoreCell thn_setStoreData:cells.storeModel];
+            cells.likedGoodsCell = likedGoodsCell;
+            likedGoodsCell.cell = cells;
+            [likedGoodsCell thn_setLikedGoodsData:cells.goodsDataArr];
             
-            return followStoreCell;
-            
-        } else if (indexPath.row == 1) {
-            THNLikedGoodsTableViewCell *storeGoodsCell = [THNLikedGoodsTableViewCell initGoodsCellWithTableView:tableView
-                                                                                                  initWithStyle:(UITableViewCellStyleDefault)
-                                                                                                reuseIdentifier:kStoreGodsTableViewCellId];
-            cells.likedGoodsCell = storeGoodsCell;
-            storeGoodsCell.cell = cells;
-            storeGoodsCell.goodsCellType = THNGoodsListCellViewTypeUserCenter;
-            storeGoodsCell.itemWidth = kCellHeightGoods;
-            [storeGoodsCell thn_setLikedGoodsData:cells.goodsDataArr];
-            
-            return storeGoodsCell;
+            return likedGoodsCell;
         }
+            break;
+            
+        case THNTableViewCellTypeLikedWindow: {
+            THNLikedWindowTableViewCell *likedWindowCell = [THNLikedWindowTableViewCell initWindowCellWithTableView:tableView
+                                                                                                          cellStyle:(UITableViewCellStyleDefault)];
+            cells.likedWindowCell = likedWindowCell;
+            likedWindowCell.cell = cells;
+            [likedWindowCell thn_setWindowData:cells.windowDataArr];
+            
+            return likedWindowCell;
+        }
+            break;
+            
+        case THNTableViewCellTypeFollowStore: {
+            if (indexPath.row == 0) {
+                THNFollowStoreTableViewCell *followStoreCell = [THNFollowStoreTableViewCell initStoreCellWithTableView:tableView
+                                                                                                             cellStyle:(UITableViewCellStyleDefault)];
+                cells.followStoreCell = followStoreCell;
+                followStoreCell.cell = cells;
+                [followStoreCell thn_setStoreData:cells.storeModel];
+                
+                return followStoreCell;
+                
+            } else if (indexPath.row == 1) {
+                THNLikedGoodsTableViewCell *storeGoodsCell = [THNLikedGoodsTableViewCell initGoodsCellWithTableView:tableView
+                                                                                                      initWithStyle:(UITableViewCellStyleDefault)
+                                                                                                    reuseIdentifier:kStoreGodsTableViewCellId];
+                cells.likedGoodsCell = storeGoodsCell;
+                storeGoodsCell.cell = cells;
+                storeGoodsCell.goodsCellType = THNGoodsListCellViewTypeUserCenter;
+                storeGoodsCell.itemWidth = kCellHeightGoods;
+                [storeGoodsCell thn_setLikedGoodsData:cells.goodsDataArr];
+                
+                return storeGoodsCell;
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
     
     return nil;
@@ -358,36 +655,15 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 }
 
 #pragma mark - private methods
-- (void)thn_changTableViewDataSourceWithType:(THNHeaderViewSelectedType)type {
-    _selectedDataType = type;
-    [self.dataSections removeAllObjects];
-    [self.tableView reloadData];
-    
-    switch (type) {
-        case THNHeaderViewSelectedTypeLiked: {
-            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeLikedGoods)];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeCollect: {
-            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeBrowses)];
-            [self thn_setGoodsTableViewCellWithType:(THNUserCenterGoodsTypeWishList)];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeStore: {
-            [self thn_setFollowStoreTableViewCell];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedType)type {
+/**
+ 设置无数据时的默认视图
+ */
+- (void)thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedType)type backgroundColorHex:(NSString *)colorHex {
     [self.footerView setSubHintLabelTextWithType:type];
+    
     self.tableView.tableFooterView = !self.dataSections.count ? self.footerView : [UIView new];
+    self.tableView.backgroundColor = [UIColor colorWithHexString:colorHex];
+    
     [self.tableView reloadData];
 }
 
@@ -399,22 +675,32 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self.view addSubview:self.menuView];
     [self.containerView addSubview:self.tableView];
-    
     [self addChildViewController:self.lifeStoreVC];
-
     [self.containerView addSubview:self.lifeStoreVC.view];
     [self.view addSubview:self.containerView];
 }
 
+- (void)setNavigationBar {
+    self.navigationBarView.delegate = self;
+    [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_nav_share_gray",
+                                                                        @"icon_setting_gray"]];
+}
+
+/**
+ 显示导航栏标题
+ */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y >= 50) {
+    if (scrollView.contentOffset.y >= 80) {
         self.navigationBarView.title = self.userName;
         
-    } else if (scrollView.contentOffset.y < 50) {
+    } else if (scrollView.contentOffset.y < 80) {
         self.navigationBarView.title = @"";
     }
 }
 
+/**
+ 是否拥有“生活馆”，更新视图
+ */
 - (void)thn_uploadViewFrame {
     CGRect menuViewFrame = self.menuView.frame;
     CGFloat height = [THNLoginManager sharedManager].openingUser ? 44 : 0;
@@ -433,25 +719,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, containerH);
     self.lifeStoreVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, containerH);
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setNavigationBar];
-    
-    if ([THNLoginManager isLogin]) {
-        [self thn_setUserHeaderView];
-        [self thn_getUserData];
-        [self thn_getUserCenterGoodsData];
-        [self thn_uploadViewFrame];
-    }
-}
-
-- (void)setNavigationBar {
-    self.navigationBarView.delegate = self;
-    [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_nav_share_gray",
-                                                                        @"icon_setting_gray"]];
 }
 
 #pragma mark - getters and setters
