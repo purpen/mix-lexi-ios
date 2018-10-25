@@ -6,46 +6,104 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNLikedWindowViewController.h"
+#import "THNWindowListViewController.h"
 #import "THNLikedWindowCollectionViewCell.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedWindowCollectionViewCellId";
+///
+static NSString *const kURLLikedWindow      = @"/shop_windows/user_likes";
+static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
 
-@interface THNLikedWindowViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNWindowListViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 /// 橱窗列表
 @property (nonatomic, strong) UICollectionView *windowCollectionView;
 /// 橱窗数据
 @property (nonatomic, strong) NSMutableArray *windowArray;
+/// 用户id
+@property (nonatomic, strong) NSString *userId;
+/// 当前页数
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
-@implementation THNLikedWindowViewController
+@implementation THNWindowListViewController
+
+- (instancetype)initWithUserId:(NSString *)userId {
+    self = [super init];
+    if (self) {
+        self.userId = userId;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
+    [self thn_requestWindowListData];
+}
+
+#pragma mark - network
+- (void)thn_requestWindowListData {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD thn_show];
+    });
+    
+    NSString *urlStr = self.userId.length ? kURLOtherLikedWindow : kURLLikedWindow;
+    
+    WEAKSELF;
+    
+    THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:[self thn_requestParams] delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        };
+        
+        THNWindowModel *model = [[THNWindowModel alloc] initWithDictionary:result.data];
+        [weakSelf.windowArray addObjectsFromArray:model.shopWindows];
+        [weakSelf.windowCollectionView reloadData];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+// 橱窗列表默认的请求参数
+- (NSDictionary *)thn_requestParams {
+    NSDictionary *params = @{@"page": @(self.currentPage += 1),
+                             @"per_page": @(10)};
+    
+    if (self.userId.length) {
+        NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
+        [paramDict setObject:self.userId forKey:@"uid"];
+        
+        return [paramDict copy];
+    }
+    
+    return params;
 }
 
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    //    return self.windowArray.count;
-    return 5;
+        return self.windowArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNLikedWindowCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                        forIndexPath:indexPath];
     if (self.windowArray.count) {
-//        [cell thn_setwindowModel:self.windowArray[indexPath.row]];
+        [cell thn_setWindowShopModel:self.windowArray[indexPath.row]];
     }
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", indexPath.row]];
+    THNWindowModelShopWindows *model = self.windowArray[indexPath.row];
+    [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", model.rid]];
 }
 
 #pragma mark - setup UI

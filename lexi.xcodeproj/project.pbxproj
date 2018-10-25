@@ -207,7 +207,6 @@
 		4BECF207217F1401008E5E28 /* THNZipCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF94217F1401008E5E28 /* THNZipCodeView.m */; };
 		4BECF208217F1401008E5E28 /* THNAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF98217F1401008E5E28 /* THNAddressViewController.m */; };
 		4BECF209217F1401008E5E28 /* THNDynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF9A217F1401008E5E28 /* THNDynamicTableViewController.m */; };
-		4BECF20A217F1401008E5E28 /* THNLikedWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF9C217F1401008E5E28 /* THNLikedWindowViewController.m */; };
 		4BECF20B217F1401008E5E28 /* THNMyCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF9E217F1401008E5E28 /* THNMyCenterViewController.m */; };
 		4BECF20C217F1401008E5E28 /* THNMyCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFA0217F1401008E5E28 /* THNMyCouponViewController.m */; };
 		4BECF20D217F1401008E5E28 /* THNNewShippingAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFA2217F1401008E5E28 /* THNNewShippingAddressViewController.m */; };
@@ -420,6 +419,7 @@
 		4BECF2DC217F1402008E5E28 /* WBEmoticonInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF149217F1401008E5E28 /* WBEmoticonInputView.m */; };
 		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		CD3D01D321718D130030E3B0 /* UIViewController+THNHud.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */; };
+		D8011B872181A13D00619240 /* THNUserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8011B862181A13D00619240 /* THNUserCenterViewController.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D82309DB210868A800CDD502 /* THNQiNiuUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D82309DA210868A800CDD502 /* THNQiNiuUpload.m */; };
@@ -449,6 +449,10 @@
 		D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D82106030100A36A71 /* THNTextConst.m */; };
 		D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
+		D8DCFC1C2181C6A300DC4FF4 /* THNWindowModelProducts.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */; };
+		D8DCFC1D2181C6A300DC4FF4 /* THNWindowModelShopWindows.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */; };
+		D8DCFC1E2181C6A300DC4FF4 /* THNWindowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC1B2181C6A300DC4FF4 /* THNWindowModel.m */; };
+		D8DCFC212181CAC000DC4FF4 /* THNWindowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC202181CAC000DC4FF4 /* THNWindowListViewController.m */; };
 		D8EDD9B42178734600916506 /* SVProgressHUD+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
@@ -819,8 +823,6 @@
 		4BECEF98217F1401008E5E28 /* THNAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressViewController.m; sourceTree = "<group>"; };
 		4BECEF99217F1401008E5E28 /* THNDynamicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDynamicTableViewController.h; sourceTree = "<group>"; };
 		4BECEF9A217F1401008E5E28 /* THNDynamicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDynamicTableViewController.m; sourceTree = "<group>"; };
-		4BECEF9B217F1401008E5E28 /* THNLikedWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLikedWindowViewController.h; sourceTree = "<group>"; };
-		4BECEF9C217F1401008E5E28 /* THNLikedWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLikedWindowViewController.m; sourceTree = "<group>"; };
 		4BECEF9D217F1401008E5E28 /* THNMyCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCenterViewController.h; sourceTree = "<group>"; };
 		4BECEF9E217F1401008E5E28 /* THNMyCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMyCenterViewController.m; sourceTree = "<group>"; };
 		4BECEF9F217F1401008E5E28 /* THNMyCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCouponViewController.h; sourceTree = "<group>"; };
@@ -1208,6 +1210,8 @@
 		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+THNHud.h"; sourceTree = "<group>"; };
 		CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+THNHud.m"; sourceTree = "<group>"; };
+		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
+		D8011B862181A13D00619240 /* THNUserCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserCenterViewController.m; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
@@ -1259,6 +1263,14 @@
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
+		D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelProducts.h; sourceTree = "<group>"; };
+		D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelProducts.m; sourceTree = "<group>"; };
+		D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelShopWindows.m; sourceTree = "<group>"; };
+		D8DCFC192181C6A300DC4FF4 /* THNWindowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModel.h; sourceTree = "<group>"; };
+		D8DCFC1A2181C6A300DC4FF4 /* THNWindowModelShopWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelShopWindows.h; sourceTree = "<group>"; };
+		D8DCFC1B2181C6A300DC4FF4 /* THNWindowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModel.m; sourceTree = "<group>"; };
+		D8DCFC1F2181CAC000DC4FF4 /* THNWindowListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowListViewController.h; sourceTree = "<group>"; };
+		D8DCFC202181CAC000DC4FF4 /* THNWindowListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowListViewController.m; sourceTree = "<group>"; };
 		D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Helper.h"; sourceTree = "<group>"; };
 		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2095,8 +2107,6 @@
 				4BECEF98217F1401008E5E28 /* THNAddressViewController.m */,
 				4BECEF99217F1401008E5E28 /* THNDynamicTableViewController.h */,
 				4BECEF9A217F1401008E5E28 /* THNDynamicTableViewController.m */,
-				4BECEF9B217F1401008E5E28 /* THNLikedWindowViewController.h */,
-				4BECEF9C217F1401008E5E28 /* THNLikedWindowViewController.m */,
 				4BECEF9D217F1401008E5E28 /* THNMyCenterViewController.h */,
 				4BECEF9E217F1401008E5E28 /* THNMyCenterViewController.m */,
 				4BECEF9F217F1401008E5E28 /* THNMyCouponViewController.h */,
@@ -2105,6 +2115,8 @@
 				4BECEFA2217F1401008E5E28 /* THNNewShippingAddressViewController.m */,
 				4BECEFA3217F1401008E5E28 /* THNUserListViewController.h */,
 				4BECEFA4217F1401008E5E28 /* THNUserListViewController.m */,
+				D8011B852181A13D00619240 /* THNUserCenterViewController.h */,
+				D8011B862181A13D00619240 /* THNUserCenterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2776,6 +2788,8 @@
 		4BECF11E217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D8DCFC1F2181CAC000DC4FF4 /* THNWindowListViewController.h */,
+				D8DCFC202181CAC000DC4FF4 /* THNWindowListViewController.m */,
 				4BECF11F217F1401008E5E28 /* THNCommentViewController.h */,
 				4BECF120217F1401008E5E28 /* THNCommentViewController.m */,
 				4BECF121217F1401008E5E28 /* THNCommentViewController.xib */,
@@ -2793,6 +2807,12 @@
 			children = (
 				4BECF128217F1401008E5E28 /* THNShopWindowModel.h */,
 				4BECF129217F1401008E5E28 /* THNShopWindowModel.m */,
+				D8DCFC192181C6A300DC4FF4 /* THNWindowModel.h */,
+				D8DCFC1B2181C6A300DC4FF4 /* THNWindowModel.m */,
+				D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */,
+				D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */,
+				D8DCFC1A2181C6A300DC4FF4 /* THNWindowModelShopWindows.h */,
+				D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3301,6 +3321,7 @@
 				4BECF1CA217F1401008E5E28 /* THNGoodsSkuCollectionViewCell.m in Sources */,
 				4BECF2A9217F1402008E5E28 /* THNStoreModelProduct.m in Sources */,
 				4BECF170217F1401008E5E28 /* THNCouponDetailView.m in Sources */,
+				D8DCFC1D2181C6A300DC4FF4 /* THNWindowModelShopWindows.m in Sources */,
 				4BECF296217F1402008E5E28 /* THNLifeCashViewController.m in Sources */,
 				4BECF176217F1401008E5E28 /* THNCartViewController.m in Sources */,
 				4BECF1C3217F1401008E5E28 /* THNGoodsManager.m in Sources */,
@@ -3382,6 +3403,7 @@
 				4BECF213217F1401008E5E28 /* THNAddressIDCardView.m in Sources */,
 				4BECF217217F1401008E5E28 /* THNLikedGoodsCollectionViewCell.m in Sources */,
 				4BECF23C217F1401008E5E28 /* THNNoLogisticsView.m in Sources */,
+				D8DCFC212181CAC000DC4FF4 /* THNWindowListViewController.m in Sources */,
 				4BECF1D6217F1401008E5E28 /* THNGoodsTagTableViewCell.m in Sources */,
 				4BECF1BD217F1401008E5E28 /* THNGoodsModel.m in Sources */,
 				4BECF17F217F1401008E5E28 /* THNArticleHeaderView.m in Sources */,
@@ -3389,7 +3411,6 @@
 				4BECF19A217F1401008E5E28 /* THNExploreTableViewCell.m in Sources */,
 				4BECF2CE217F1402008E5E28 /* THNFirstLevelCommentTableViewCell.m in Sources */,
 				4BECF2A1217F1402008E5E28 /* THNLifeOrderDataModel.m in Sources */,
-				4BECF20A217F1401008E5E28 /* THNLikedWindowViewController.m in Sources */,
 				4BECF1D2217F1401008E5E28 /* THNGoodsDirectTableViewCell.m in Sources */,
 				4BECF164217F1401008E5E28 /* THNBrandHallDefaultView.m in Sources */,
 				4BECF297217F1402008E5E28 /* THNLifeManagementViewController.m in Sources */,
@@ -3485,6 +3506,7 @@
 				4BECF2DC217F1402008E5E28 /* WBEmoticonInputView.m in Sources */,
 				4BECF195217F1401008E5E28 /* THNBrandCollectionViewCell.m in Sources */,
 				4BECF1A6217F1401008E5E28 /* THNCollectionViewFlowLayout.m in Sources */,
+				D8DCFC1E2181C6A300DC4FF4 /* THNWindowModel.m in Sources */,
 				4BECF299217F1402008E5E28 /* THNLifeTransactionRecordsViewController.m in Sources */,
 				4BECF14C217F1401008E5E28 /* THNCollectionModel.m in Sources */,
 				4BECF269217F1401008E5E28 /* THNWebKitViewViewController.m in Sources */,
@@ -3530,11 +3552,13 @@
 				4BECF252217F1401008E5E28 /* THNSelectCouponTableViewCell.m in Sources */,
 				4BECF2D6217F1402008E5E28 /* THNShopWindowTableViewCell.m in Sources */,
 				4BECF1CD217F1401008E5E28 /* THNGoodsBaseTableViewCell.m in Sources */,
+				D8DCFC1C2181C6A300DC4FF4 /* THNWindowModelProducts.m in Sources */,
 				4BECF17E217F1401008E5E28 /* THNDiscoverViewController.m in Sources */,
 				4BECF1D4217F1401008E5E28 /* THNGoodsInfoTableViewCell.m in Sources */,
 				4BECF1D8217F1401008E5E28 /* THNGoodsUserTableViewCell.m in Sources */,
 				4BECF2C1217F1402008E5E28 /* THNApplySuccessView.m in Sources */,
 				4BECF1F4217F1401008E5E28 /* THNSetPasswordViewController.m in Sources */,
+				D8011B872181A13D00619240 /* THNUserCenterViewController.m in Sources */,
 				4BECF291217F1402008E5E28 /* THNUserApplyViewController.m in Sources */,
 				4BECF2D2217F1402008E5E28 /* THNSecondLevelCommentTableViewCell.m in Sources */,
 				4BECF156217F1401008E5E28 /* THNTableViewFooterView.m in Sources */,

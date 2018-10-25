@@ -13,6 +13,7 @@
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "YYLabel+Helper.h"
+#import "UIImageView+SDWedImage.h"
 
 @interface THNLikedWindowCollectionViewCell ()
 
@@ -40,10 +41,14 @@
     return self;
 }
 
-- (void)thn_setWindowModel:(THNShopWindowModel *)model {
+- (void)thn_setWindowShopModel:(THNWindowModelShopWindows *)model {
     [self thn_setTitleLabelText:model.title];
     
-    [self layoutIfNeeded];
+    if (model.productCovers.count >= 3) {
+        [self.mainImageView downloadImage:model.productCovers[0] place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.secondImageView downloadImage:model.productCovers[1] place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.thirdImageView downloadImage:model.productCovers[2] place:[UIImage imageNamed:@"default_goods_place"]];
+    }
 }
 
 #pragma mark - private methods
@@ -65,6 +70,10 @@
     [self addSubview:self.mainImageView];
     [self addSubview:self.secondImageView];
     [self addSubview:self.thirdImageView];
+    self.backView.frame = self.bounds;
+    [self.backView drawGradientMaskWithStartPoint:(CGPointMake(0, 0))
+                                         endPoint:CGPointMake(0, 1)
+                                           colors:@[@"#000000", @"#000000"]];
     [self addSubview:self.backView];
     [self addSubview:self.titleLabel];
 }
@@ -93,14 +102,6 @@
         make.top.equalTo(self.secondImageView.mas_bottom).with.offset(2);
     }];
     
-    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(cellWidth, cellHeight));
-        make.top.left.mas_equalTo(0);
-    }];
-    [self.backView drawGradientMaskWithStartPoint:(CGPointMake(0, 0))
-                                         endPoint:CGPointMake(0, 1)
-                                           colors:@[@"#000000", @"#000000"]];
-    
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(cellWidth - 30, self.titleHeight > 40 ? 40 : self.titleHeight));
         make.left.mas_equalTo(15);
@@ -122,6 +123,7 @@
         _mainImageView = [[UIImageView alloc] init];
         _mainImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _mainImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _mainImageView.layer.masksToBounds = YES;
     }
     return _mainImageView;
 }
@@ -131,6 +133,7 @@
         _secondImageView = [[UIImageView alloc] init];
         _secondImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _secondImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _secondImageView.layer.masksToBounds = YES;
     }
     return _secondImageView;
 }
@@ -140,6 +143,7 @@
         _thirdImageView = [[UIImageView alloc] init];
         _thirdImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
         _thirdImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _thirdImageView.layer.masksToBounds = YES;
     }
     return _thirdImageView;
 }

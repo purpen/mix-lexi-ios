@@ -8,6 +8,8 @@
 
 #import "THNBaseViewController.h"
 
-@interface THNLikedWindowViewController : THNBaseViewController
+@interface THNWindowListViewController : THNBaseViewController
+
+- (instancetype)initWithUserId:(NSString *)userId;
 
 @end

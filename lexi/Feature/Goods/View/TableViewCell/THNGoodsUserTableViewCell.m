@@ -11,6 +11,7 @@
 #include "UIImageView+SDWedImage.h"
 #import "THNUserModel.h"
 
+static NSInteger const kHeaderButtonTag = 235;
 static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 
 @interface THNGoodsUserTableViewCell ()
@@ -52,12 +53,25 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];
+        
+        UIButton *headerButton = [[UIButton alloc] initWithFrame:CGRectMake(20 + 24 * idx, 10, 30, 30)];
+        headerButton.tag = kHeaderButtonTag + [model.uid integerValue];
+        [headerButton addTarget:self action:@selector(headerButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        [self addSubview:headerButton];
     }
 }
 
 #pragma mark - event response
 - (void)moreButtonAction:(id)sender {
     self.baseCell.selectedCellBlock(@"");
+}
+
+- (void)headerButtonAction:(UIButton *)button {
+    NSString *userId = [NSString stringWithFormat:@"%zi", button.tag - kHeaderButtonTag];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedGoodsLikedUser:)]) {
+        [self.delegate thn_didSelectedGoodsLikedUser:userId];
+    }
 }
 
 #pragma mark - setup UI
