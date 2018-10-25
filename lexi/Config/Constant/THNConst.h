@@ -34,6 +34,17 @@ UIKIT_EXTERN NSString *const kFontFamily;
 UIKIT_EXTERN NSString *const kAppStoreId;
 UIKIT_EXTERN NSString *const kAppName;
 
+#pragma mark - UM
+UIKIT_EXTERN NSString *const kUMAppleKey;
+
+#pragma mark - WX
+UIKIT_EXTERN NSString *const kWXAppKey;
+UIKIT_EXTERN NSString *const kWXAppSecret;
+
+#pragma mark - WB
+UIKIT_EXTERN NSString *const kWBAppKey;
+UIKIT_EXTERN NSString *const kWBAppSecret;
+
 #pragma mark - Error Domain
 UIKIT_EXTERN NSString *const kDomain;
 UIKIT_EXTERN NSInteger const kServerError;
