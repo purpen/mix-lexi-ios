@@ -33,13 +33,13 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
                                   return;
                               }
                               
-                              self.selected = !self.selected;
                               [self thn_changeButtonAnimation];
     }];
 }
 
 #pragma mark - private methods
 - (void)thn_changeButtonAnimation {
+    self.selected = !self.selected;
     self.backgroundColor = [UIColor colorWithHexString:self.selected ? @"#EFF3F2" : kColorMain];
     [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, self.selected ? 0 : 5, 0, 0))];
 }
@@ -55,14 +55,17 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 - (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSString *)storeId completed:(void (^)(NSError *error))completed {
     THNRequest *request = [THNAPI postWithUrlString:url requestDictionary:@{@"rid": storeId} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (result.success) {
-            
-            if (self.followStoreBlock) {
-                self.followStoreBlock(!self.selected);
-            }
-            
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             completed(nil);
+            return ;
         }
+        
+        if (self.followStoreBlock) {
+            self.followStoreBlock(!self.selected);
+        }
+        
+        completed(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
         completed(error);
