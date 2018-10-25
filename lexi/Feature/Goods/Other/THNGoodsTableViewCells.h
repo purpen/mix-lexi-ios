@@ -23,6 +23,7 @@
 @class THNGoodsHeaderTableViewCell;
 @class THNGoodsContactTableViewCell;
 @class THNGoodsContentTableViewCell;
+@class THNGoodsCouponTableViewCell;
 @class UITableViewCell;
 
 typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
@@ -34,7 +35,8 @@ typedef NS_ENUM(NSUInteger, THNGoodsTableViewCellType) {
     THNGoodsTableViewCellTypeDescribe,  // 描述
     THNGoodsTableViewCellTypeStore,     // 店铺
     THNGoodsTableViewCellTypeSimilar,   // 相似商品
-    THNGoodsTableViewCellTypeContent    // 商品详情内容
+    THNGoodsTableViewCellTypeContent,   // 商品详情内容
+    THNGoodsTableViewCellTypeCoupon     // 优惠券
 };
 
 typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
@@ -67,6 +69,8 @@ typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
 /// 详情内容
 @property (nonatomic, weak) THNGoodsHeaderTableViewCell     *infoHeaderCell;
 @property (nonatomic, weak) THNGoodsContentTableViewCell    *contentCell;
+/// 优惠券
+@property (nonatomic, weak) THNGoodsCouponTableViewCell     *couponCell;
 
 /**
  店铺数据
@@ -97,6 +101,11 @@ typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
  喜欢商品用户数据
  */
 @property (nonatomic, strong) NSArray *likeUserData;
+
+/**
+ 优惠券数据
+ */
+@property (nonatomic, strong) NSArray *couponData;
 
 /**
  cell 类型

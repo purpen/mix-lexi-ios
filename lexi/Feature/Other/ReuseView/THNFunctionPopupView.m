@@ -263,8 +263,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     NSDictionary *params = nil;
     
     if (self.goodsListType == THNGoodsListViewTypeUser) {
-        params = @{
-                   kKeyMinPrice: @(self.minPrice),
+        params = @{kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice)};
         
     } else if (self.goodsListType == THNGoodsListViewTypeStore){
@@ -397,15 +396,14 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
  */
 - (void)resetButtonAction:(UIButton *)button {
     self.selectedCount = 0;
-    [self.categoryView thn_resetLoad];
-    [self.recommendView thn_resetLoad];
-    [self.priceView thn_resetSliderValue];
-    
-    [self.categoryIdArr removeAllObjects];
     [self.paramsDict removeAllObjects];
+    [self.categoryIdArr removeAllObjects];
     self.minPrice = 0;
     self.maxPrice = 0;
     
+    [self.categoryView thn_resetLoad];
+    [self.recommendView thn_resetLoad];
+    [self.priceView thn_resetSliderValue];
     [self thn_requestScreenGoodsData];
 }
 

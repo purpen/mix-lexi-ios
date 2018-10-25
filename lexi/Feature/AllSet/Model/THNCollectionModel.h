@@ -15,5 +15,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSArray <THNProductModel *> *products;
 @property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) NSInteger collectionID;
+@property (nonatomic, strong) NSString *cover;
 
 @end

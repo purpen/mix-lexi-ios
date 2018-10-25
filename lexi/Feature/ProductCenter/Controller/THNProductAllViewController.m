@@ -19,6 +19,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNLoginManager.h"
 #import "THNGoodsInfoViewController.h"
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const KUrlDistributeCenterAll = @"/fx_distribute/choose_center";
 static NSString *const kProductCenterCellIdentifier = @"kProductCenterCellIdentifier";
@@ -59,7 +60,7 @@ static CGFloat interitemSpacing = 10;
 }
 
 - (void)loadProdctCenterAllData {
-    [self showHud];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @1;
     params[@"per_page"] = @10;
@@ -67,7 +68,7 @@ static CGFloat interitemSpacing = 10;
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:KUrlDistributeCenterAll requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -76,7 +77,7 @@ static CGFloat interitemSpacing = 10;
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -160,11 +161,12 @@ static CGFloat interitemSpacing = 10;
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+        layout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
         layout.itemSize = CGSizeMake((SCREEN_WIDTH - interitemSpacing - collectionViewX * 2) / 2, 250);
         layout.minimumInteritemSpacing = interitemSpacing;
         layout.minimumLineSpacing = 20;
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.functionView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.functionView.frame)) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.functionView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.functionView.frame)) collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 220, 0);
         _collectionView.delegate = self;
