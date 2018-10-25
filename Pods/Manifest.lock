@@ -30,6 +30,19 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
+  - UMCCommon (1.5.2)
+  - UMCSecurityPlugins (1.0.6)
+  - UMCShare/Core (6.9.3):
+    - UMCCommon
+  - UMCShare/Social/ReducedQQ (6.9.3):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedSina (6.9.3):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedWeChat (6.9.3):
+    - UMCCommon
+    - UMCShare/Core
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -46,6 +59,11 @@ DEPENDENCIES:
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
   - TYAlertController (~> 1.2.0)
+  - UMCCommon
+  - UMCSecurityPlugins
+  - UMCShare/Social/ReducedQQ
+  - UMCShare/Social/ReducedSina
+  - UMCShare/Social/ReducedWeChat
   - YYKit
 
 SPEC REPOS:
@@ -63,6 +81,9 @@ SPEC REPOS:
     - SDWebImage
     - SVProgressHUD
     - TYAlertController
+    - UMCCommon
+    - UMCSecurityPlugins
+    - UMCShare
     - YYKit
 
 SPEC CHECKSUMS:
@@ -79,8 +100,11 @@ SPEC CHECKSUMS:
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
+  UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
+  UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 3f7319f7c27def004a4b9f5924fc6018d49c617e
+PODFILE CHECKSUM: b88d339d1a3f67919f4320616ce19a7963686aad
 
 COCOAPODS: 1.5.3

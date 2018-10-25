@@ -72,7 +72,7 @@ NSString *const kTHNStoreModelTown = @"town";
 	}
 
 	if(![dictionary[kTHNStoreModelIsFollowed] isKindOfClass:[NSNull class]]){
-        self.followedStatus = [dictionary[kTHNStoreModelIsFollowed] boolValue];
+        self.isFollowed = [dictionary[kTHNStoreModelIsFollowed] boolValue];
 	}
 
 	if(![dictionary[kTHNStoreModelLifeRecordCount] isKindOfClass:[NSNull class]]){
@@ -112,4 +112,5 @@ NSString *const kTHNStoreModelTown = @"town";
 	}	
 	return self;
 }
+
 @end

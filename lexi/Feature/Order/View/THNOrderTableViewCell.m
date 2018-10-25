@@ -23,6 +23,7 @@
 #import "THNObtainedView.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
+static NSString *const kUrlOrdersWechatPay= @"/orders/wx_pay/app";
 static NSString *const kUrlOrdersSigned = @"/orders/signed";
 CGFloat kOrderProductViewHeight = 75;
 CGFloat kOrderLogisticsViewHeight = 49;
@@ -91,6 +92,18 @@ CGFloat orderCellLineSpacing = 10;
                 [self.delegate confirmReceipt];
             }
         }];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+- (void)wechatPay {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.ordersModel.rid;
+    params[@"authAppid"] = kWXAppKey;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersWechatPay requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -205,7 +218,7 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (IBAction)pay:(id)sender {
-    
+    [self wechatPay];
 }
 
 - (IBAction)backGroundButton:(id)sender {

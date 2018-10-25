@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSString * deliveryCountry;
 @property (nonatomic, strong) NSString * deliveryProvince;
 @property (nonatomic, assign) NSInteger fansCount;
-@property (nonatomic, assign) BOOL followedStatus;
+@property (nonatomic, assign) BOOL isFollowed;
 @property (nonatomic, assign) NSInteger lifeRecordCount;
 @property (nonatomic, strong) NSString * logo;
 @property (nonatomic, strong) NSString * name;
@@ -33,4 +33,5 @@
 @property (nonatomic, strong) NSString * town;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 @end

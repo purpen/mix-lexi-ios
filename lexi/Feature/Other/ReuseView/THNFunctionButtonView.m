@@ -90,7 +90,11 @@ static NSInteger const kFunctionButtonTag = 5123;
 
 - (void)thn_setFunctionButtonSelected:(BOOL)selected {
     THNFunctionButton *selectedButton = (THNFunctionButton *)self.functionButtonArr[self.selectedIndex];
-    selectedButton.selected = selected;
+    selectedButton.isSelected = selected;
+    
+    if (self.goodsListType == THNGoodsListViewTypeCategory && self.selectedIndex == 1) {
+        selectedButton.isBold = selected;
+    }
 }
 
 - (void)thn_resetButtonTitltWithIndex:(NSInteger)index {
@@ -101,8 +105,13 @@ static NSInteger const kFunctionButtonTag = 5123;
 #pragma mark - event response
 - (void)functionButtonAction:(THNFunctionButton *)button {
     self.selectedIndex = [self.functionButtonArr indexOfObject:button];
-    [self thn_setFunctionButtonSelected:YES];
     
+    if (self.goodsListType == THNGoodsListViewTypeCategory && self.selectedIndex == 1) {
+        [self thn_setFunctionButtonSelected:!button.isSelected];
+        
+    } else {
+        [self thn_setFunctionButtonSelected:YES];
+    }
     
     if ([self.delegate respondsToSelector:@selector(thn_functionViewSelectedWithIndex:)]) {
         [self.delegate thn_functionViewSelectedWithIndex:(button.tag - kFunctionButtonTag)];
@@ -136,7 +145,7 @@ static NSInteger const kFunctionButtonTag = 5123;
             button.iconHidden = YES;
         }
     
-        button.selected = NO;
+        button.isSelected = NO;
         [button addTarget:self action:@selector(functionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         
         [self addSubview:button];

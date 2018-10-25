@@ -7,6 +7,7 @@
 //
 
 #import "THNFollowStoreButton.h"
+#import "THNStoreModel.h"
 
 @interface THNFollowStoreButton (SelfManager)
 
