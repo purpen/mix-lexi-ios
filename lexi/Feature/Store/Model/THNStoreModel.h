@@ -33,4 +33,5 @@
 @property (nonatomic, strong) NSString * town;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 @end

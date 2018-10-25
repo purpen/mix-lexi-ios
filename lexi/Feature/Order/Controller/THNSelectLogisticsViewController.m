@@ -12,6 +12,7 @@
 #import "THNLogisticsPlaceTableViewCell.h"
 #import "THNLogisticsPriceView.h"
 #import "THNSkuModelItem.h"
+#import "NSString+Helper.h"
 
 static NSString *const kURLExpress = @"/logistics/same_template_express";
 
@@ -56,9 +57,10 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
     
     THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        
-        if (!result.isSuccess) return;
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        };
         
         for (NSDictionary *dict in result.data) {
             THNFreightModelItem *model = [[THNFreightModelItem alloc] initWithDictionary:dict];
@@ -66,6 +68,7 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
         }
     
         [weakSelf thn_defaultSelected];
+        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showInfoWithStatus:[error localizedDescription]];
