@@ -17,7 +17,7 @@ NSString *const kTHNStoreModelDeliveryCity = @"delivery_city";
 NSString *const kTHNStoreModelDeliveryCountry = @"delivery_country";
 NSString *const kTHNStoreModelDeliveryProvince = @"delivery_province";
 NSString *const kTHNStoreModelFansCount = @"fans_count";
-NSString *const kTHNStoreModelIsFollowed = @"is_followed";
+NSString *const kTHNStoreModelIsFollowed = @"followed_status";
 NSString *const kTHNStoreModelLifeRecordCount = @"life_record_count";
 NSString *const kTHNStoreModelLogo = @"logo";
 NSString *const kTHNStoreModelName = @"name";
@@ -112,4 +112,5 @@ NSString *const kTHNStoreModelTown = @"town";
 	}	
 	return self;
 }
+
 @end
