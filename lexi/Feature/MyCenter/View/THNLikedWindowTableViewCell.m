@@ -50,12 +50,8 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     if (self.modelArray.count) {
         [self.modelArray removeAllObjects];
     }
-    
-    for (NSDictionary *window in data) {
-        THNShopWindowModel *model = [THNShopWindowModel mj_objectWithKeyValues:window];
-        [self.modelArray addObject:model];
-    }
-    
+
+    [self.modelArray addObjectsFromArray:data];
     [self.windowCollectionView reloadData];
 }
 
@@ -80,7 +76,7 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     THNLikedWindowCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellId
                                                                                       forIndexPath:indexPath];
     if (self.modelArray.count) {
-        [cell thn_setWindowModel:self.modelArray[indexPath.row]];
+        [cell thn_setWindowShopModel:self.modelArray[indexPath.row]];
     }
     
     return cell;
@@ -88,8 +84,8 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.cell.selectedCellBlock) {
-        THNShopWindowModel *model = self.modelArray[indexPath.row];
-        self.cell.selectedCellBlock(model.rid);
+        THNWindowModelShopWindows *model = self.modelArray[indexPath.row];
+        self.cell.selectedCellBlock([NSString stringWithFormat:@"%zi", model.rid]);
     }
 }
 

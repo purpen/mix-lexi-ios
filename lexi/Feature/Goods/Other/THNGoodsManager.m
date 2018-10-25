@@ -18,8 +18,11 @@
 #pragma mark - api 拼接地址
 #pragma mark 用户商品
 static NSString *const kURLUserLikedGoods       = @"/userlike";
+static NSString *const kURLOtherUserLikedGoods  = @"/other_userlike";
 static NSString *const kURLUserBrowses          = @"/user_browses";
+static NSString *const kURLOtherUserBrowses     = @"/other_user_browses";
 static NSString *const kURLUserWishlist         = @"/wishlist";
+static NSString *const kURLOtherUserWishlist    = @"/other_wishlist";
 #pragma mark 分类商品
 static NSString *const kURLCategories           = @"/categories";
 static NSString *const kURLProductsCategory     = @"/category/products";
@@ -38,7 +41,6 @@ static NSString *const kURLCartCount            = @"/cart/item_count";
 static NSString *const kURLCartRemove           = @"/cart/remove";
 #pragma mark 栏目浏览记录
 static NSString *const kURLColumnRecords        = @"/column/browse_records";
-
 #pragma mark - 接收数据参数
 static NSString *const kKeyProducts         = @"products";
 static NSString *const kKeyCategories       = @"categories";
@@ -56,6 +58,7 @@ static NSString *const kKeyItemCount        = @"item_count";
 static NSString *const kKeyQuantity         = @"quantity";
 static NSString *const kKeyUsers            = @"users";
 static NSString *const kKeyCode             = @"code";
+static NSString *const kKeyUid              = @"uid";
 
 @implementation THNGoodsManager
 
@@ -79,7 +82,10 @@ static NSString *const kKeyCode             = @"code";
 
 + (void)getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger, NSError *))completion {
     NSArray *urlArr = @[kURLUserLikedGoods, kURLUserBrowses, kURLUserWishlist];
-    NSString *requestUrl = urlArr[(NSInteger)type];
+    NSArray *otherUrlArr = @[kURLOtherUserLikedGoods, kURLOtherUserBrowses, kURLOtherUserWishlist];
+    BOOL isOtherUser = [[params allKeys] containsObject:kKeyUid];
+    
+    NSString *requestUrl = isOtherUser ? otherUrlArr[(NSInteger)type] : urlArr[(NSInteger)type];
     
     [[THNGoodsManager sharedManager] requestUserCenterProductsWithUrl:requestUrl params:params completion:completion];
 }

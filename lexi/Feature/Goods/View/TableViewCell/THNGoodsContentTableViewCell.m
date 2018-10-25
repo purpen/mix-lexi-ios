@@ -42,11 +42,11 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     if (self.subviews.count > 1) return;
     
     self.originY = 0;
-
+    
     for (THNGoodsModelDealContent *contentModel in content) {
         if ([contentModel.type isEqualToString:@"text"]) {
-            [self thn_creatAttributedStringWithText:contentModel.content];
-
+            [self thn_creatAttributedStringWithText:[self thn_filterHTML:contentModel.content]];
+            
         } else if ([contentModel.type isEqualToString:@"image"]) {
             [self thn_creatContentImageWithImageUrl:contentModel.content];
         }
@@ -83,12 +83,25 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
 }
 
 /**
+ 过滤 html 标签
+ */
+- (NSString *)thn_filterHTML:(NSString *)html {
+    NSScanner *scanner = [NSScanner scannerWithString:html];
+    NSString *text = nil;
+    while (![scanner isAtEnd]) {
+        [scanner scanUpToString:@"<" intoString:nil];
+        [scanner scanUpToString:@">" intoString:&text];
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+    }
+    
+    return html;
+}
+
+/**
  图片内容
  */
 - (void)thn_creatContentImageWithImageUrl:(NSString *)imageUrl {
     if (!imageUrl.length) return;
-    
-    [SVProgressHUD thn_show];
     
     UIImageView *imageView = [[UIImageView alloc] init];
     [self addSubview:imageView];

@@ -10,6 +10,10 @@
 
 typedef NS_ENUM(NSUInteger, THNUserListType) {
     THNUserListTypeLikeGoods = 0,   // 喜欢商品的人
+    THNUserListTypeFans,            // 粉丝列表
+    THNUserListTypeFollow,          // 关注的人列表
+    THNUserListTypeOtherFans,       // 其他人的粉丝列表
+    THNUserListTypeOtherFollow,     // 其他人的关注列表
 };
 
 @interface THNUserListViewController : THNBaseViewController
