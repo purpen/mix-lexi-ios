@@ -52,11 +52,11 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSetCollectionCellIdentifier forIndexPath:indexPath];
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row]];
     
     if (indexPath.row == 0) {
         [cell setCollectionModel:self.collectionModel];
     } else {
+         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row - 1]];
         [cell setProductModel:productModel];
     }
     
@@ -64,16 +64,21 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row]];
-    if (self.allsetBlcok) {
-        self.allsetBlcok(productModel.rid);
+    if (indexPath.row == 0) {
+        if (self.pushDetailBlock) {
+            self.pushDetailBlock(self.collectionModel.collectionID);
+        }
+    } else {
+         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row - 1]];
+        if (self.allsetBlcok) {
+            self.allsetBlcok(productModel.rid);
+        }
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewFlowLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     CGFloat itemWidth = indexPath.row == 0 ? SCREEN_WIDTH - 30 : (SCREEN_WIDTH - 60) / 4;
     CGFloat itemHeight = indexPath.row == 0 ? 200  : 79;
     return CGSizeMake(itemWidth, itemHeight);

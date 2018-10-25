@@ -247,13 +247,9 @@ THNPreViewTableViewCellDelegate
                 [coupons addObject:storeDict[@"coupon"]];
             }
 
-            // 每个店铺的优惠券数组降序，取出最大面值的优惠券金额
-            NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
-            NSArray *storeCoupons = [coupons sortedArrayUsingDescriptors:sortArr];
-
-            if (storeCoupons.count > 0) {
-                dict[@"coupon_codes"] = storeCoupons[0][@"code"];
-                self.totalCouponAmount += [storeCoupons[0][@"amount"] floatValue];
+            if (coupons.count > 0) {
+                dict[@"coupon_codes"] = coupons[0][@"code"];
+                self.totalCouponAmount += [coupons[0][@"amount"] floatValue];
             }
         }
 
@@ -265,8 +261,20 @@ THNPreViewTableViewCellDelegate
 // 官方优惠券
 - (void)loadOfficialCouponData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    NSMutableArray *skus = [NSMutableArray array];
+    
+    for (NSDictionary *skuDict in self.skuItems) {
+        [mutableArray addObjectsFromArray:skuDict[@"sku_items"]];
+    }
+    
+    for (NSDictionary *dict in mutableArray) {
+        [skus addObject:dict[@"sku"]];
+    }
+    
+    params[@"sku"] = skus;
     params[@"amount"] = @(self.totalPrice);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlOfficialFill requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlOfficialFill requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
@@ -353,6 +361,8 @@ THNPreViewTableViewCellDelegate
             CGFloat freight  = [self.freightDict[dict[@"rid"]] floatValue];
             self.totalFreight += freight;
         }
+        
+        [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
