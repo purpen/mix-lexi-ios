@@ -8,9 +8,17 @@
 
 #import "UIImageView+SDWedImage.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImageManager.h>
 #import "UIImage+Helper.h"
 
 @implementation UIImageView (SDWedImage)
+
+- (UIImage *)downloadImageWithUrl:(NSString *)url {
+    __block UIImage *downloadImage = [UIImage new];
+
+    
+    return downloadImage;
+}
 
 #pragma mark SDWebImage缓存图片
 - (void)downloadImage:(NSString *)url place:(UIImage *)place {

@@ -97,7 +97,6 @@ static CGFloat const couponViewHeight = 65;
 
 // 点击领取
 - (IBAction)receive:(id)sender {
-    
     [self showCouponDetailView];
 }
 

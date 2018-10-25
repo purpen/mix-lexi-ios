@@ -56,8 +56,6 @@ UITextFieldDelegate
 @property (nonatomic, strong) NSArray *defaultLogistics;
 // 所有物流数组
 @property (nonatomic, strong) NSArray *products;
-// 最大的优惠券金额
-@property (nonatomic, assign) CGFloat maxCouponCount;
 
 @end
 
@@ -125,14 +123,8 @@ UITextFieldDelegate
         [newCoupons addObject:storeDict[@"coupon"]];
     }
 
-    // 每个店铺的优惠券数组降序，取出最大面值的优惠券金额
-    NSArray *amountSortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
-    NSArray *storeCoupons = [newCoupons sortedArrayUsingDescriptors:amountSortArr];
-
-    
-    if (storeCoupons.count > 0) {
-        self.maxCouponCount = [storeCoupons[0][@"amount"] floatValue];
-        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",self.maxCouponCount];
+    if (newCoupons.count > 0) {
+        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[newCoupons[0][@"amount"] floatValue]];
     } else {
         self.couponLabel.text = @"当前没有优惠券";
     }
@@ -149,7 +141,6 @@ UITextFieldDelegate
     
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.selectCouponView.frame = window.bounds;
-    self.selectCouponView.maxCouponCount = self.maxCouponCount;
     self.selectCouponView.coupons = self.coupons;
     __weak typeof(self)weakSelf = self;
     

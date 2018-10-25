@@ -235,6 +235,7 @@ static NSString *const kKeyCode             = @"code";
                               completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 心愿单商品： %@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -279,6 +280,7 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestCategoryProductsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsCategory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+//        THNLog(@"======= 分类的商品：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -355,6 +357,7 @@ static NSString *const kKeyCode             = @"code";
 - (void)requestOfficialStoreInfoWithParams:(NSDictionary *)params completion:(void (^)(THNStoreModel *model, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLOfficialStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 店铺的信息：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -595,6 +598,7 @@ static NSString *const kKeyCode             = @"code";
                                  @(THNGoodsListViewTypeCategory):       @"/category/products/count",
                                  @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
                                  @(THNGoodsListViewTypeSearch):         @"/core_platforms/search/products/count",
+                                 @(THNGoodsListViewTypeStore):          @"/core_platforms/products/by_store/count"
                                  };
     
     return urlResult[@(type)];

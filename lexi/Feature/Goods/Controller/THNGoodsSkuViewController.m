@@ -16,7 +16,7 @@
 #import "THNGoodsManager.h"
 
 static NSString *const kTitleSure   = @"确定";
-static NSString *const kTextNone    = @"已售罄";
+static NSString *const kTextNone    = @"已下架";
 /// 自定义的 key
 static NSString *const kKeyItems    = @"items";
 static NSString *const kKeyRid      = @"rid";
@@ -50,7 +50,7 @@ static NSString *const kKeyQuantity = @"quantity";
     if (self) {
         self.goodsModel = goodsModel;
         [self thn_getGoodsSkuDataWithGoodsId:goodsModel.rid];
-        [self thn_setSureButtonStatusWithStockCount:goodsModel.totalStock];
+        [self thn_setSureButtonTypeWithStatus:goodsModel.status];
         self.viewType = THNGoodsSkuTypeDefault;
     }
     return self;
@@ -61,7 +61,7 @@ static NSString *const kKeyQuantity = @"quantity";
     if (self) {
         self.skuModel = model;
         self.goodsModel = goodsModel;
-        [self thn_setSureButtonStatusWithStockCount:goodsModel.stockCount];
+        [self thn_setSureButtonTypeWithStatus:goodsModel.status];
         self.viewType = viewTpye;
     }
     return self;
@@ -89,13 +89,15 @@ static NSString *const kKeyQuantity = @"quantity";
     
     WEAKSELF;
     
-    [THNGoodsManager getProductSkusInfoWithId:goodsId params:@{} completion:^(THNSkuModel *model, NSError *error) {
-        if (error) return;
+    [THNGoodsManager getProductSkusInfoWithId:goodsId
+                                       params:@{}
+                                   completion:^(THNSkuModel *model, NSError *error) {
+                                       if (error) return;
         
-        weakSelf.skuModel = model;
-        weakSelf.skuView.skuModel = model;
-        [SVProgressHUD dismiss];
-    }];
+                                       weakSelf.skuModel = model;
+                                       weakSelf.skuView.skuModel = model;
+                                       [SVProgressHUD dismiss];
+                                   }];
 }
 
 #pragma mark - custom delegate
@@ -147,11 +149,11 @@ static NSString *const kKeyQuantity = @"quantity";
  */
 - (NSArray *)thn_getSelectedGoodsSkuItems {
     NSMutableDictionary *skuItem = [@{kKeySkuId: self.skuView.selectSkuItem.rid,
-                              kKeyQuantity: @(1)} mutableCopy];
+                                      kKeyQuantity: @(1)} mutableCopy];
     NSArray *skuItems = @[skuItem];
     
     NSMutableDictionary *storeItem = [@{kKeyRid: self.skuView.selectSkuItem.storeRid,
-                                kKeySkuItems: skuItems} mutableCopy];
+                                        kKeySkuItems: skuItems} mutableCopy];
     
     return @[storeItem];
 }
@@ -215,13 +217,11 @@ static NSString *const kKeyQuantity = @"quantity";
 /**
  根据有库存设置按钮状态
  */
-- (void)thn_setSureButtonStatusWithStockCount:(NSInteger)count {
-    BOOL hasStockCount = count > 0;
-    
-    NSString *title = hasStockCount ? kTitleSure : kTextNone;
+- (void)thn_setSureButtonTypeWithStatus:(NSInteger)status {
+    NSString *title = status == 1 ? kTitleSure : kTextNone;
     [self.sureButton setTitle:title forState:(UIControlStateNormal)];
-    self.sureButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:hasStockCount ? 1 : 0.5];
-    self.sureButton.userInteractionEnabled = hasStockCount;
+    self.sureButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:status == 1 ? 1 : 0.5];
+    self.sureButton.userInteractionEnabled = status == 1;
 }
 
 #pragma mark - setup UI

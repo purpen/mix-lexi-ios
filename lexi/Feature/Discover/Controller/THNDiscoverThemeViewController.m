@@ -10,6 +10,7 @@
 #import "THNTextCollectionView.h"
 #import "THNAPI.h"
 #import "THNArticleViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const KUrlLifeRemember = @"/life_records/life_remember";
 static NSString *const kUrlCreatorStory = @"/life_records/creator_story";
@@ -48,14 +49,20 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
             self.requestUrl = kUrlHandTeach;
             break;
     }
-    
+    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:self.requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.lifeRecords = result.data[@"life_records"];
         self.collectionView.dataArray = self.lifeRecords;
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 

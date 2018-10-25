@@ -7,7 +7,14 @@
 //
 
 #import "THNCollectionModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation THNCollectionModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{
+             @"collectionID": @"id"
+             };
+}
 
 @end
