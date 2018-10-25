@@ -53,6 +53,8 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
 - (void)requestSameTemplateExpressWithParams:(NSDictionary *)params {
     [SVProgressHUD thn_show];
     
+    NSString *paramsExpressId = params[@"items"][0][@"express_id"];
+    
     WEAKSELF;
     
     THNRequest *request = [THNAPI postWithUrlString:kURLExpress requestDictionary:params delegate:nil];
@@ -67,7 +69,7 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
             [weakSelf.expressArr addObject:model];
         }
     
-        [weakSelf thn_defaultSelected];
+        [weakSelf thn_defaultSelectedWithExpress:paramsExpressId];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -99,15 +101,27 @@ static NSString *const kURLExpress = @"/logistics/same_template_express";
     return [models copy];
 }
 
-- (void)thn_defaultSelected {
+- (NSUInteger)thn_getDefaultExpressIndexWithId:(NSString *)expressId {
+    for (THNFreightModelItem *model in self.expressArr) {
+        if (model.expressId == [expressId integerValue]) {
+            return [self.expressArr indexOfObject:model];
+        }
+    }
+    
+    return 0;
+}
+
+- (void)thn_defaultSelectedWithExpress:(NSString *)express {
     if (!self.expressArr.count) return;
     
-    self.selectIndex = [NSIndexPath indexPathForRow:1 inSection:1];
+    NSUInteger index = [self thn_getDefaultExpressIndexWithId:express];
+    
+    self.selectIndex = [NSIndexPath indexPathForRow:index + 1 inSection:1];
     [self.expressTableView selectRowAtIndexPath:self.selectIndex
                                        animated:NO
                                  scrollPosition:(UITableViewScrollPositionNone)];
     
-    THNFreightModelItem *item = self.expressArr[0];
+    THNFreightModelItem *item = self.expressArr[index];
     [self.priceView thn_setLogisticsPriceValue:item.freight];
     
     [self.expressTableView reloadData];
