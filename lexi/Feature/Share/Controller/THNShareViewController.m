@@ -8,6 +8,7 @@
 
 #import "THNShareViewController.h"
 #import "THNShareActionView.h"
+#import <UMShare/UMShare.h>
 
 static NSString *const kTextCancel = @"取消";
 
@@ -39,11 +40,83 @@ static NSString *const kTextCancel = @"取消";
 #pragma mark - custom delegate
 - (void)thn_shareView:(THNShareActionView *)shareView didSelectedShareActionIndex:(NSInteger)index {
     if (shareView == self.thirdActionView) {
-        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"分享到：%zi", index]];
-    
+        switch (index) {
+            case 0:
+                [self shareMiniProgramToPlatformType:UMSocialPlatformType_WechatSession];
+                break;
+            case 1:
+                [self shareWebPageToPlatformType:UMSocialPlatformType_WechatTimeLine];
+                break;
+            case 2:
+                [self shareWebPageToPlatformType:UMSocialPlatformType_Sina];
+                break;
+            case 3:
+                [self shareWebPageToPlatformType:UMSocialPlatformType_QQ];
+                break;
+            case 4:
+                [self shareWebPageToPlatformType:UMSocialPlatformType_Qzone];
+                break;
+        }
     } else if (shareView == self.moreActionView) {
         [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"更多：%zi", index]];
     }
+}
+
+- (void)shareMiniProgramToPlatformType:(UMSocialPlatformType)platformType
+{
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    UMShareMiniProgramObject *shareObject = [UMShareMiniProgramObject shareObjectWithTitle:@"小程序标题" descr:@"小程序内容描述" thumImage:[UIImage imageNamed:@"icon_Applets_share"]];
+    shareObject.webpageUrl = @"https://www.baidu.com";
+    shareObject.userName = @"gh_65428219bffb";
+    shareObject.path = @"/pages/index/index";
+    messageObject.shareObject = shareObject;
+    shareObject.hdImageData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"logo" ofType:@"png"]];
+    shareObject.miniProgramType = UShareWXMiniProgramTypeRelease; // 可选体验版和开发板
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            UMSocialLogInfo(@"************Share fail with error %@*********",error);
+        }else{
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+                //分享结果消息
+                UMSocialLogInfo(@"response message is %@",resp.message);
+                //第三方原始返回的数据
+                UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                
+            }else{
+                UMSocialLogInfo(@"response data is %@",data);
+            }
+        }
+    }];
+}
+
+- (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
+{
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    //创建网页内容对象
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"分享标题" descr:@"分享内容描述" thumImage:[UIImage imageNamed:@"icon_start_yellow"]];
+    //设置网页地址
+    shareObject.webpageUrl = @"http://mobile.umeng.com/social";
+    
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        [self thn_showAnimation:NO];
+        if (error) {
+            [SVProgressHUD showInfoWithStatus:@"分享失败"];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"分享成功"];
+            
+        }
+    }];
 }
 
 #pragma mark - event response
