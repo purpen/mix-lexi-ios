@@ -121,7 +121,12 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
                 self.promptViewHeightConstraint.constant = 0;
                 self.promptView.hidden = YES;
             } else {
-                [self layoutOpenedPromptView];
+                if ([THNSaveTool objectForKey:kIsCloseOpenedPromptView]) {
+                    [self layoutPracticePromptView:self.storeModel];
+                } else {
+                    [self layoutOpenedPromptView];
+                }
+                
             }
         } else {
             [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
