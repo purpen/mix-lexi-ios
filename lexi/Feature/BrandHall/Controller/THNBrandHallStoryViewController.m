@@ -94,7 +94,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
-            [self hiddenHud];
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
@@ -135,7 +134,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
-            [self hiddenHud];
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
