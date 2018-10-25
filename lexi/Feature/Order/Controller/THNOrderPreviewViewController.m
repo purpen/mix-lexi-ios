@@ -178,6 +178,11 @@ THNPreViewTableViewCellDelegate
     params[@"address_rid"] = self.addressModel.rid;
     params[@"bonus_code"] =  self.officalCouponCode;
     params[@"store_items"] = items;
+    // 来源客户端，1、小程序；2、H5 3、App 4、TV 5、POS 6、PAD
+    params[@"from_client"] = @(3);
+    // 是否同步返回支付参数 0、否 1、是
+    params[@"sync_pay"] = @(1);
+    params[@"authAppid"] = kWXAppKey;
 
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {

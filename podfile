@@ -15,4 +15,9 @@ target "lexi" do
  pod "Qiniu", "~> 7.1"
  pod 'MLeaksFinder'
  pod 'DateTools'
+ pod 'UMCCommon'
+ pod 'UMCSecurityPlugins'
+ pod 'UMCShare/Social/ReducedWeChat'
+ pod 'UMCShare/Social/ReducedQQ'
+ pod 'UMCShare/Social/ReducedSina'
 end
