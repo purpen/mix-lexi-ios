@@ -116,6 +116,7 @@ static NSString *const kKeyCoupons      = @"coupons";
 - (void)requestUserFollowStoreWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUserFollowStore requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 关注的店铺：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
