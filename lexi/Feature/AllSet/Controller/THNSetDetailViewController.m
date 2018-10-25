@@ -134,7 +134,7 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 132, SCREEN_WIDTH - 40, 24)];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 135, SCREEN_WIDTH - 40, 24)];
         _titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:24];
         _titleLabel.textColor = [UIColor whiteColor];
     }
@@ -142,8 +142,8 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 }
 - (UILabel *)productCountLabel {
     if (!_productCountLabel) {
-        _productCountLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         _productCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 170, SCREEN_WIDTH - 40, 12)];
+        _productCountLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         _productCountLabel.textColor = [UIColor whiteColor];
     }
     return _productCountLabel;
