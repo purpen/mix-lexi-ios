@@ -15,6 +15,7 @@
 #import "THNBaseTabBarController.h"
 #import "THNLoginViewController.h"
 #import "THNLoginManager.h"
+#import <UMShare/UMShare.h>
 
 @interface AppDelegate ()
 
@@ -26,6 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setRootViewController];
     [self setThirdExpandConfig];
+    
     
     return YES;
 }
@@ -64,6 +66,13 @@
     manager.enable = YES;
     manager.shouldResignOnTouchOutside = YES;
     manager.enableAutoToolbar = NO;
+}
+
+#pragma mark - 友盟设置
+- (void)setupUMSocial {
+    UMSocialManager *socialManger = [UMSocialManager defaultManager];
+    [socialManger openLog:YES];
+    [socialManger setPlaform:UMSocialPlatformType_Whatsapp appKey:<#(NSString *)#> appSecret:<#(NSString *)#> redirectURL:<#(NSString *)#>]
 }
 
 
