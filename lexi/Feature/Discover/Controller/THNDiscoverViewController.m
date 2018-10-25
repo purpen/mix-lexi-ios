@@ -21,6 +21,7 @@
 #import "THNArticleViewController.h"
 #import "THNGoodsListViewController.h"
 #import "THNWebKitViewViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
@@ -34,6 +35,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 @property (nonatomic, strong) NSArray *wonderfulStories;
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) THNDidcoverSetView *setView;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 @end
 
@@ -41,10 +43,37 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadWonderfulStoriesData];
-    [self loadGuessLikesData];
-    [self loadBannerData];
+    [self loadData];
     [self setupUI];
+}
+
+- (void)loadData {
+    [self loadBannerData];
+    //创建信号量
+    self.semaphore = dispatch_semaphore_create(0);
+    //创建全局并行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    self.isTransparent = YES;
+    [self showHud];
+    
+    dispatch_group_async(group, queue, ^{
+        [self loadWonderfulStoriesData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadGuessLikesData];
+    });
+    
+    dispatch_group_notify(group, queue, ^{
+        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddenHud];
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)psuhNext {
@@ -58,7 +87,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlDiscoverBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -70,10 +98,14 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 - (void)loadGuessLikesData {
     THNRequest *request = [THNAPI getWithUrlString:kUrGuessLikes requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
         self.guessLikes = result.data[@"life_records"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -81,10 +113,14 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 - (void)loadWonderfulStoriesData {
     THNRequest *request = [THNAPI getWithUrlString:kUrWonderfulStories requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
         self.wonderfulStories = result.data[@"life_records"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
