@@ -11,6 +11,6 @@
 
 @interface THNUserListTableViewCell : UITableViewCell
 
-- (void)thn_setUserListCellModel:(THNUserModel *)model;
+- (void)thn_setUserListCellData:(NSDictionary *)data;
 
 @end

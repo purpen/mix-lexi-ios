@@ -8,6 +8,7 @@
 
 #import "THNFollowUserButton+SelfManager.h"
 #import "THNApi.h"
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kURLFollow   = @"/follow/user";
 static NSString *const kURLUnFollow = @"/unfollow/user";
@@ -24,6 +25,11 @@ static NSString *const kKeyStatus   = @"followed_status";
 
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
+    if (!self.userId.length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"用户数据错误"];
+        return;
+    }
+    
     [self requestFollowUserWithURL:self.followStatus == THNUserFollowStatusNot ? kURLFollow : kURLUnFollow
                             userId:self.userId
                          completed:^(NSInteger status, NSError *error) {

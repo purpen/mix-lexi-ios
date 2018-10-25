@@ -40,6 +40,7 @@
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNShareViewController.h"
+#import "THNUserCenterViewController.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -47,7 +48,7 @@ static NSString *const kURLNotLoginCoupon   = @"/market/not_login_coupons";
 static NSString *const kURLLoginCoupon      = @"/market/user_master_coupons";
 static NSString *const kKeyStoreRid         = @"store_rid";
 
-@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate> {
+@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate, THNGoodsUserTableViewCellDelegate> {
     UIStatusBarStyle _statusBarStyle;
 }
 
@@ -534,6 +535,10 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     [self presentViewController:goodsImageVC animated:NO completion:nil];
 }
 
+- (void)thn_didSelectedGoodsLikedUser:(NSString *)userId {
+    [self thn_openUserCenterControllerWithUserId:userId];
+}
+
 #pragma mark - private methods
 /**
  刷新“组”数据，视图
@@ -680,6 +685,18 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 /**
+ 打开用户中心
+ */
+- (void)thn_openUserCenterControllerWithUserId:(NSString *)userId {
+    if ([[THNLoginManager sharedManager].userId isEqualToString:userId]) {
+        return;
+    }
+    
+    THNUserCenterViewController *userCenterVC = [[THNUserCenterViewController alloc] initWithUserId:userId];
+    [self.navigationController pushViewController:userCenterVC animated:YES];
+}
+
+/**
  打开品牌馆视图
  */
 - (void)thn_openBrandHallControllerWithRid:(NSString *)rid {
@@ -793,6 +810,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsUserTableViewCell *userCell = [THNGoodsUserTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.userCell = userCell;
             userCell.baseCell = goodsCells;
+            userCell.delegate = self;
             [userCell thn_setLikedUserData:goodsCells.likeUserData];
             
             return userCell;
