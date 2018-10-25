@@ -12,6 +12,7 @@
 #import <MJExtension/MJExtension.h>
 #import "THNProductModel.h"
 #import "THNMarco.h"
+#import "THNBannnerCollectionViewCell.h"
 
 static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdentifier";
 
@@ -27,6 +28,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetCollectionCellIdentifier];
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.minimumLineSpacing = 10;
@@ -41,7 +43,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 - (void)setCollectionModel:(THNCollectionModel *)collectionModel {
     _collectionModel = collectionModel;
     self.nameLabel.text = collectionModel.name;
-    self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",collectionModel.count];
+    self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",collectionModel.products.count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -50,15 +52,33 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSetCollectionCellIdentifier forIndexPath:indexPath];
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row]];
-    [cell setProductModel:productModel];
+    
+    if (indexPath.row == 0) {
+        [cell setCollectionModel:self.collectionModel];
+    } else {
+         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row - 1]];
+        [cell setProductModel:productModel];
+    }
+    
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        if (self.pushDetailBlock) {
+            self.pushDetailBlock(self.collectionModel.collectionID);
+        }
+    } else {
+         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.collectionModel.products[indexPath.row - 1]];
+        if (self.allsetBlcok) {
+            self.allsetBlcok(productModel.rid);
+        }
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewFlowLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     CGFloat itemWidth = indexPath.row == 0 ? SCREEN_WIDTH - 30 : (SCREEN_WIDTH - 60) / 4;
     CGFloat itemHeight = indexPath.row == 0 ? 200  : 79;
     return CGSizeMake(itemWidth, itemHeight);

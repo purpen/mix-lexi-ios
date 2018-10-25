@@ -29,7 +29,6 @@ typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
     THNUserCenterGoodsTypeLikedGoods = 0, // 喜欢的商品
     THNUserCenterGoodsTypeBrowses,        // 最近查看
     THNUserCenterGoodsTypeWishList,       // 心愿单
-    THNUserCenterGoodsTypeStore           // 设计馆商品
 };
 
 typedef NS_ENUM(NSUInteger, THNGoodsFunctionViewType) {

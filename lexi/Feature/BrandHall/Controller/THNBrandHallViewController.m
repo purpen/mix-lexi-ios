@@ -141,6 +141,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         
         self.products = result.data[@"products"];
          [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
+        [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];

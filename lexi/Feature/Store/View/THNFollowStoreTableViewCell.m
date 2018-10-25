@@ -56,9 +56,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self.headerImageView downloadImage:model.logo place:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
-    [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeRid:model.rid];
-    
-    [self layoutIfNeeded];
+    [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeRid:model.rid];
 }
 
 #pragma mark - setup UI

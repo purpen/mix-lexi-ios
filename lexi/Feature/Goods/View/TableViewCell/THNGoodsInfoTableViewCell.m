@@ -326,12 +326,12 @@ static NSString *const kTextResetSku        = @"重选规格";
     if (self.cellType == THNGoodsInfoCellTypeCartNormal) {
         [self thn_setGoodsStatusInfoWithText:self.stockCount ? @"" : kTextSaleOut];
         self.editCountView.hidden = self.goodsStatus == 2;
-        [self thn_setHintStatusText:self.goodsStatus == 2 ? kTextGoodsOut : @""];
         
     } else if (self.cellType == THNGoodsInfoCellTypeCartWish) {
-        self.addCart.hidden = self.stockCount == 0;
-        [self thn_setHintStatusText:self.stockCount ? @"" : kTextGoodsSaleOut];
+        self.addCart.hidden = self.goodsStatus == 2;
     }
+    
+    [self thn_setHintStatusText:self.goodsStatus == 2 ? kTextGoodsOut : @""];
 }
 
 /**

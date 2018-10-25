@@ -82,6 +82,7 @@ static CGFloat const kBrandHallHeight = 375;
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHallFeatured requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
+        THNLog(@"------- 品牌馆 %@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -130,8 +131,6 @@ static CGFloat const kBrandHallHeight = 375;
      THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.handpickStores[indexPath.row]];
     [self bannerPushBrandHall:brandModel.rid];
 }
-
-
 
 #pragma mark - THNBannerViewDelegate
 

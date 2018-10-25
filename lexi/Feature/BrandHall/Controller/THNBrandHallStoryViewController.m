@@ -18,6 +18,8 @@
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import "UIViewController+THNHud.h"
 #import "THNBrandHallDefaultView.h"
+#import "UIImage+Helper.h"
+#import <SDWebImage/SDWebImageManager.h>
 
 static NSString *const kUrlStoreDetail = @"/official_store/detail";
 static NSString *const kUrlStoreInfo = @"/official_store/info";
@@ -92,7 +94,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
-            [self hiddenHud];
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
@@ -133,7 +134,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
-            [self hiddenHud];
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
@@ -146,7 +146,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
 /**
  获取图文详情的高度
  */
-- (CGFloat)thn_getGoodsDealContentHeightWithContent:(NSArray *)content {
+- (CGFloat)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
     CGFloat contentH = 0.0;
     
     for (THNGoodsModelDealContent *model in content) {
@@ -158,15 +158,24 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
-            UIImage *contentImage = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.content]]];
-            CGFloat image_scale = (kScreenWidth - 30) / contentImage.size.width;
-            CGFloat image_h = contentImage.size.height * image_scale;
+            UIImage *contentImage = [UIImage getImageFormDiskCacheForKey:model.content];
             
-            contentH += (image_h + 10);
+            if (![UIImage isCacheImageOfImageUrl:model.content]) {
+                [[SDWebImageManager sharedManager].imageCache storeImage:contentImage
+                                                                  forKey:model.content
+                                                                  toDisk:YES
+                                                              completion:nil];
+            }
+            
+            CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
+            CGFloat imageH = contentImage.size.height * imageScale;
+            
+            contentH += (imageH + 10);
         }
     }
     
-    return contentH + 20;
+    return contentH;
+    
 }
 
 
@@ -194,7 +203,10 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
         return cell;
     } else {
         THNGoodsContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KStoreContentCellIdentifier forIndexPath:indexPath];
-        [cell thn_setContentData:self.contentModels];
+        if (self.contentModels.count > 0) {
+             [cell thn_setContentData:self.contentModels];
+        }
+       
         return cell;
     }
 }
@@ -205,7 +217,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     } else if (indexPath.row == 1) {
         return 285;
     } else {
-        return [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+        return [self thn_getGoodsInfoDealContentHeightWithData:self.contentModels];
     }
 }
 

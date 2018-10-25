@@ -9,7 +9,7 @@
 #import "THNArticleViewController.h"
 #import "THNGoodsContentTableViewCell.h"
 #import "YYLabel+Helper.h"
-#import <SDWebImage/UIImage+MultiFormat.h>
+#import "UIImage+Helper.h"
 #import "THNGrassListModel.h"
 #import "THNGoodsModelDealContent.h"
 #import "THNArticleHeaderView.h"
@@ -20,6 +20,7 @@
 #import "THNArticleStoryTableViewCell.h"
 #import "THNArticleProductTableViewCell.h"
 #import "THNGoodsInfoViewController.h"
+#import <SDWebImage/SDWebImageManager.h>
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -137,7 +138,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 /**
  获取图文详情的高度
  */
-- (CGFloat)thn_getGoodsDealContentHeightWithContent:(NSArray *)content {
+- (CGFloat)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
     CGFloat contentH = 0.0;
     
     for (THNGoodsModelDealContent *model in content) {
@@ -149,15 +150,23 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
-            UIImage *contentImage = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.content]]];
-            CGFloat image_scale = (kScreenWidth - 30) / contentImage.size.width;
-            CGFloat image_h = contentImage.size.height * image_scale;
+            UIImage *contentImage = [UIImage getImageFormDiskCacheForKey:model.content];
             
-            contentH += (image_h + 10);
+            if (![UIImage isCacheImageOfImageUrl:model.content]) {
+                [[SDWebImageManager sharedManager].imageCache storeImage:contentImage
+                                                                  forKey:model.content
+                                                                  toDisk:YES
+                                                              completion:nil];
+            }
+            
+            CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
+            CGFloat imageH = contentImage.size.height * imageScale;
+            
+            contentH += (imageH + 10);
         }
     }
     
-    return contentH + 20;
+    return contentH;
 }
 
 
@@ -260,7 +269,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     switch (self.articleCellType) {
         case ArticleCellTypeArticle:
             if (!self.lifeRecordsDetailCellHeight) {
-               self.lifeRecordsDetailCellHeight = [self thn_getGoodsDealContentHeightWithContent:self.contentModels];
+               self.lifeRecordsDetailCellHeight = [self thn_getGoodsInfoDealContentHeightWithData:self.contentModels];
             }
             return self.lifeRecordsDetailCellHeight;
         case ArticleCellTypeStore:

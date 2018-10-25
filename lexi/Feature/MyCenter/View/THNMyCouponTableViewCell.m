@@ -53,7 +53,7 @@ static NSString *const kTextUseType = @" 全场通用";
     THNCouponModel *infoModel = [THNCouponModel mj_objectWithKeyValues:model.coupon];
     
     [self thn_setAmountLabelTextWithValue:infoModel.amount minAmount:infoModel.min_amount];
-    [self thn_setTimeLabelTextWithStartTime:infoModel.start_date endTime:infoModel.end_date type:(THNUserCouponTypeBrand)];
+    [self thn_setTimeLabelTextWithStartTime:model.get_at endTime:model.end_at type:(THNUserCouponTypeBrand)];
     [self thn_setStoreLabelTextWithName:model.store_name logoUrl:model.store_logo];
 }
 
@@ -245,7 +245,7 @@ static NSString *const kTextUseType = @" 全场通用";
     }];
     
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150, 12));
+        make.size.mas_equalTo(CGSizeMake(160, 12));
         make.left.mas_equalTo(158);
         make.top.mas_equalTo(21);
     }];
