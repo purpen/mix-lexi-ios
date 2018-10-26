@@ -36,7 +36,7 @@ static NSString *const kPopularProductCellIdentifier = @"kPopularProductCellIden
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPopularProductCellIdentifier forIndexPath:indexPath];
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
-    [cell setProductModel:productModel initWithType:THNHomeTypeFeatured];
+    [cell setProductModel:productModel initWithType:THNHomeTypeShowPrice];
     return cell;
 }
 
