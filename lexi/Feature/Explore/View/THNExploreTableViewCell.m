@@ -51,6 +51,12 @@ CGFloat const cellOtherHeight = 190;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
 
+- (IBAction)lookAll:(id)sender {
+    if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
+        [self.delagate lookAllWithType:self.cellType];
+    }
+}
+
 - (void)setCellTypeStyle:(ExploreCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title{
     self.cellType = cellType;
     self.titleLabel.text = title;
@@ -99,6 +105,7 @@ CGFloat const cellOtherHeight = 190;
     
     [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:lineSpacing initWithWidth:itemWidth initwithHeight:itemHeight];
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
     [self.productCollectionView setCollectionViewLayout:flowLayout];
 }
 
@@ -159,6 +166,71 @@ CGFloat const cellOtherHeight = 190;
         
         [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
         return cell;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    THNProductModel *productModel;
+    
+    switch (self.cellType) {
+ 
+        case ExploreRecommend:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.recommendDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+            
+        case ExploreFeaturedBrand:
+        {
+            THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushBrandHall:)]) {
+                [self.delagate pushBrandHall:featuredBrandModel];
+            }
+            
+        }
+            break;
+            
+        case ExploreNewProduct:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.productNewDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+            
+        case ExploreSet:
+        {
+            THNSetModel *setModel = [THNSetModel mj_objectWithKeyValues:self.setDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushSetDetail:)]) {
+                [self.delagate pushSetDetail:setModel];
+            }
+        }
+           break;
+            
+        case ExploreGoodDesign:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodDesignDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+            
+        case ExploreGoodThings:
+            productModel = [THNProductModel mj_objectWithKeyValues:self.goodThingDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
     }
 }
 

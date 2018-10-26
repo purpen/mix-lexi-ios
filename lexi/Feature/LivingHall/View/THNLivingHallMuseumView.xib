@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nci-eM-Zda">
-                    <rect key="frame" x="42.5" y="160.5" width="290" height="366"/>
+                    <rect key="frame" x="42.5" y="110.5" width="290" height="366"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编辑生活馆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxF-WS-pN3">
                             <rect key="frame" x="20" y="12.5" width="85" height="24"/>
@@ -142,12 +142,12 @@
             <color key="backgroundColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="0.40167487157534248" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Nci-eM-Zda" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Suk-id-kgj"/>
-                <constraint firstItem="Nci-eM-Zda" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="fmp-JB-Lil"/>
+                <constraint firstItem="Nci-eM-Zda" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" constant="-50" id="fmp-JB-Lil"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backGroundView" destination="Nci-eM-Zda" id="aEa-CS-tNH"/>
-                <outlet property="introductionCountLabel" destination="VrN-cd-6dN" id="w83-FI-D7u"/>
+                <outlet property="introductionCountLabel" destination="Xcq-WV-QtN" id="bIP-4r-e3J"/>
                 <outlet property="introductionTextView" destination="GZ4-Yv-OQm" id="NEo-x3-yId"/>
                 <outlet property="nameCountLabel" destination="qqo-kj-KdX" id="lqx-t4-0YU"/>
                 <outlet property="nameTextView" destination="iKw-ut-Jlk" id="wwv-gz-zue"/>

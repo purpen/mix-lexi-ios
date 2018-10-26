@@ -7,7 +7,7 @@
 //
 
 #import "THNLikedGoodsCollectionViewCell.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
@@ -24,12 +24,11 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 @property (nonatomic, strong) UIView *infoView;
 /// 商品标题
 @property (nonatomic, strong) UILabel *titleLabel;
-/// 商品价格
+/// 商品价格&喜欢数量
 @property (nonatomic, strong) YYLabel *priceLabel;
-@property (nonatomic, assign) CGFloat priceWidth;
-/// 喜欢数量
-@property (nonatomic, strong) YYLabel *likeValueLabel;
-@property (nonatomic, assign) CGFloat likeValueWidth;
+/// 视图类型
+@property (nonatomic, assign) THNGoodsListCellViewType viewType;
+
 
 @end
 
@@ -44,106 +43,104 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 }
 
 #pragma mark - public methods
-- (void)thn_setGoodsModel:(THNProductModel *)model showInfoView:(BOOL)show {
-    [self.goodsImageView downloadImage:model.cover
-                               placess:[UIImage imageNamed:@""]
-                             completed:^(UIImage *image, NSError *error) {
-                                 if (error) return;
-                                 [self thn_showLoadImageAnimate:YES];
-                             }];
+- (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
+    self.viewType = cellViewType;
+    [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"]];
     
     if (show) {
         self.infoView.hidden = NO;
-        self.titleLabel.text = model.name;
-        [self thn_setPriceLabelTextWithPrice:model.min_sale_price ? model.min_sale_price : model.min_price];
-        [self thn_setLikeValueLabelTextWithValue:model.like_count];
+        self.titleLabel.text = goodsModel.name;
+        [self thn_setPriceLabelTextWithPrice:goodsModel.minSalePrice ? goodsModel.minSalePrice : goodsModel.minPrice
+                                   likeValue:goodsModel.likeCount];
     };
-
-    [self layoutIfNeeded];
 }
 
 #pragma mark - private methods
-- (void)thn_setPriceLabelTextWithPrice:(CGFloat)price {
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", price]];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
-    self.priceLabel.attributedText = attStr;
+- (void)thn_setPriceLabelTextWithPrice:(CGFloat)price likeValue:(NSInteger)value {
+    // 价格
+    NSString *priceStr = [NSString stringWithFormat:@"￥%.2f  ", price];
+    NSMutableAttributedString *priceAtt = [[NSMutableAttributedString alloc] initWithString:priceStr];
+    priceAtt.color = [UIColor colorWithHexString:@"#333333"];
+    priceAtt.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
     
-    // 喜欢数量的动态宽度
-    self.priceWidth = [self.priceLabel thn_getLabelWidthWithMaxHeight:11];
-}
-
-- (void)thn_setLikeValueLabelTextWithValue:(NSInteger)value {
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString: \
-                                         [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value]];
-    attStr.yy_color = [UIColor colorWithHexString:@"#999999"];
-    attStr.yy_font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
-    self.likeValueLabel.attributedText = attStr;
-    
-    // 喜欢数量的动态宽度
-    self.likeValueWidth = [self.likeValueLabel thn_getLabelWidthWithMaxHeight:11];
-}
-
-- (void)thn_showLoadImageAnimate:(BOOL)show {
-    if (show) {
-        self.goodsImageView.alpha = 0.0f;
-        [UIView animateWithDuration:0.4 animations:^{
-            self.goodsImageView.alpha = 1.0f;
-        }];
+    if (value > 0) {
+        // 喜欢数量
+        NSString *likeStr = [NSString stringWithFormat:@"%@%zi", kTextLikePrefix, value];
+        NSMutableAttributedString *likeAtt = [[NSMutableAttributedString alloc] initWithString:likeStr];
+        likeAtt.color = [UIColor colorWithHexString:@"#999999"];
+        likeAtt.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightLight)];
+        
+        [priceAtt appendAttributedString:likeAtt];
     }
+
+    self.priceLabel.attributedText = priceAtt;
+}
+
+// 图片加载渐变
+- (void)thn_showLoadImageAnimate:(BOOL)show {
+    if (!show) return;
+    
+    self.goodsImageView.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        self.goodsImageView.alpha = 1.0f;
+    }];
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.goodsImageView];
-    
-    [self addSubview:self.infoView];
     [self.infoView addSubview:self.titleLabel];
     [self.infoView addSubview:self.priceLabel];
-    [self.infoView addSubview:self.likeValueLabel];
+    [self addSubview:self.infoView];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)));
-        make.top.left.mas_equalTo(0);
-    }];
-    [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    self.goodsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds));
+    [self thn_drawCorner];
     
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
-    
+
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
         make.height.mas_equalTo(12);
     }];
-    
+
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(11);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(self.priceWidth, 11));
     }];
-    
-    [self.likeValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.priceLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
-        make.size.mas_equalTo(CGSizeMake(self.likeValueWidth, 11));
-    }];
+}
+
+- (void)thn_drawCorner {
+    switch (self.viewType) {
+        case THNGoodsListCellViewTypeGoodsInfoStore:
+        case THNGoodsListCellViewTypeSimilarGoods:
+            self.goodsImageView.layer.masksToBounds = YES;
+            break;
+            
+        case THNGoodsListCellViewTypeGoodsList:
+        case THNGoodsListCellViewTypeUserCenter:
+            [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - getters and setters
 - (UIImageView *)goodsImageView {
     if (!_goodsImageView) {
-        _goodsImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#EFEFEF"];
+        _goodsImageView = [[UIImageView alloc] init];
+        _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _goodsImageView.alpha = 0;
     }
     return _goodsImageView;
 }
@@ -170,13 +167,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _priceLabel = [[YYLabel alloc] init];
     }
     return _priceLabel;
-}
-
-- (YYLabel *)likeValueLabel {
-    if (!_likeValueLabel) {
-        _likeValueLabel = [[YYLabel alloc] init];
-    }
-    return _likeValueLabel;
 }
 
 @end

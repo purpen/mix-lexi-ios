@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNNavigationBarView.h"
 #import "UIColor+Extension.h"
 #import "UIView+LayoutMethods.h"
 #import "UIView+HandyAutoLayout.h"
-#import <Masonry/Masonry.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNMarco.h"
 #import "THNConst.h"
 #import "THNTextConst.h"
-#import "THNNavigationBarView.h"
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
+#import <YYKit/YYKit.h>
+#import <Masonry/Masonry.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface THNBaseViewController : UIViewController
 

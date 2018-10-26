@@ -9,6 +9,24 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/**
+ 时间戳转换类型
+ - FormatterYear: 年
+ - FormatterMonth: 月
+ - FormatterDay: 天
+ - FormatterHour: 时
+ - FormatterMin: 分
+ - FormatterSecond: 秒
+ */
+typedef NS_ENUM(NSUInteger,Formatter) {
+    FormatterYear,
+    FormatterMonth,
+    FormatterDay,
+    FormatterHour,
+    FormatterMin,
+    FormatterSecond
+};
+
 @interface NSString (Helper)
 
 /**
@@ -56,7 +74,7 @@
 /**
  根据数字返回性别
  */
-+ (NSString*)getSexByNum:(NSNumber*)num;
++ (NSString *)getSexByNum:(NSNumber*)num;
 
 /**
  转换时间戳格式
@@ -81,6 +99,24 @@
 + (NSTimeInterval)comparisonStartTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime;
 
 /**
+ timeInterval转分钟秒
+
+ @param timeInterval timeInterval
+ @return 分秒字符串
+ */
++ (NSString *)stringWithNSTimeInterval:(NSTimeInterval)timeInterval;
+
+/**
+ 时间戳差转化分钟秒
+ 
+ 
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @return 间隔时间
+ */
++ (NSString *)stringWithTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime;
+
+/**
  数据转json格式
 
  @param object 数据对象
@@ -103,5 +139,24 @@
  @return 本地路径
  */
 + (NSString *)getImagePath:(UIImage *)image;
+
+/**
+ 时间戳转换日期
+
+ @param timeStampString 时间戳
+ @return date
+ */
++ (NSString *)timeConversion:(NSString *)timeStampString initWithFormatterType:(Formatter)type;
+
+/**
+ 获取文字的宽度
+ 
+ @param fontSize 字体大小
+ @return 宽度
+ */
+- (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize;
+
+// 小数点处理
++ (NSString *)formatFloat:(float)f;
 
 @end

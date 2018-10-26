@@ -25,6 +25,21 @@ typedef NS_ENUM(NSInteger, ExploreCellType) {
     ExploreGoodThings
 };
 
+@class THNExploreTableViewCell;
+@class THNSetModel;
+@class THNFeaturedBrandModel;
+
+
+@protocol THNExploreTableViewCellDelegate<NSObject>
+
+@optional
+- (void)lookAllWithType:(ExploreCellType)cellType;
+- (void)pushSetDetail:(THNSetModel *)setModel;
+- (void)pushBrandHall:(THNFeaturedBrandModel *)featuredBrandModel;
+- (void)pushGoodInfo:(NSString *)rid;
+
+@end
+
 UIKIT_EXTERN  CGFloat const cellSetHeight;
 UIKIT_EXTERN  CGFloat const cellFeaturedBrandHeight;
 UIKIT_EXTERN  CGFloat const cellOtherHeight;
@@ -35,5 +50,6 @@ UIKIT_EXTERN  CGFloat const cellOtherHeight;
        initWithDataArray:(NSArray *)dataArray
            initWithTitle:(NSString *)title;
 
+@property (nonatomic, weak) id <THNExploreTableViewCellDelegate> delagate;
 
 @end

@@ -34,24 +34,22 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 
 #pragma mark - network
 - (void)networdPostNewPasswordWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
-    [SVProgressHUD show];
-    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    [SVProgressHUD thn_show];
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result isSuccess]) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showSuccessWithStatus:result.statusMessage];
             return ;
         }
     
+        [SVProgressHUD dismiss];
         if (completion) {
             completion();
         }
      
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -61,8 +59,9 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
     WEAKSELF;
+    
     if (!weakSelf.email.length || !password.length || !affirmPassword.length) {
-        [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
+        [SVProgressHUD thn_showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
@@ -70,8 +69,8 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [self networdPostNewPasswordWithParam:paramDict completion:^{
-        [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+    [weakSelf networdPostNewPasswordWithParam:paramDict completion:^{
+        [SVProgressHUD thn_showSuccessWithStatus:@"修改成功"];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -92,6 +91,13 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         };
     }
     return _setPasswordView;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.setPasswordView removeFromSuperview];
+    
+    return YES;
 }
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -17,17 +17,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbr-hW-3Tv">
-                    <rect key="frame" x="77" y="279.5" width="220" height="128"/>
+                    <rect key="frame" x="43" y="260.5" width="289" height="166"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jff-D7-YEi">
-                            <rect key="frame" x="0.0" y="83.5" width="220" height="0.5"/>
+                            <rect key="frame" x="0.0" y="121.5" width="289" height="0.5"/>
                             <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="Wy5-2A-j03"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7L5-AJ-2eL">
-                            <rect key="frame" x="110.5" y="84" width="0.5" height="44"/>
+                            <rect key="frame" x="145" y="122" width="0.5" height="44"/>
                             <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="UPN-qM-54d"/>
@@ -35,7 +35,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cf-zH-YDT">
-                            <rect key="frame" x="0.0" y="84" width="109" height="44"/>
+                            <rect key="frame" x="0.0" y="122" width="143.5" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="NGU-ca-ZVs"/>
                             </constraints>
@@ -47,7 +47,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2g-rT-56z">
-                            <rect key="frame" x="111" y="84" width="109" height="44"/>
+                            <rect key="frame" x="145.5" y="122" width="143.5" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="NqS-Md-SF3"/>
                             </constraints>
@@ -59,13 +59,13 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你确认要下架这件商品吗？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBi-Dg-iV6">
-                            <rect key="frame" x="20" y="34" width="180" height="21"/>
+                            <rect key="frame" x="54.5" y="53" width="180" height="21"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tja-ne-R5P">
-                            <rect key="frame" x="163" y="-4" width="88" height="41"/>
+                            <rect key="frame" x="232" y="-4" width="88" height="41"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="41" id="2c6-3S-VU7"/>
                                 <constraint firstAttribute="width" constant="88" id="sgq-lQ-6J9"/>
@@ -78,7 +78,6 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="220" id="5QC-yf-ppY"/>
                         <constraint firstAttribute="bottom" secondItem="Q2g-rT-56z" secondAttribute="bottom" id="5eq-kd-RTY"/>
                         <constraint firstAttribute="trailing" secondItem="tja-ne-R5P" secondAttribute="trailing" constant="-31" id="6Wx-0q-ShO"/>
                         <constraint firstItem="jff-D7-YEi" firstAttribute="leading" secondItem="pbr-hW-3Tv" secondAttribute="leading" id="7Rl-JW-lGI"/>
@@ -91,7 +90,7 @@
                         <constraint firstAttribute="bottom" secondItem="5cf-zH-YDT" secondAttribute="bottom" id="aRp-wv-u0Q"/>
                         <constraint firstAttribute="trailing" secondItem="Q2g-rT-56z" secondAttribute="trailing" id="iL6-Ck-bNd"/>
                         <constraint firstItem="tja-ne-R5P" firstAttribute="top" secondItem="pbr-hW-3Tv" secondAttribute="top" constant="-4" id="kDf-28-QIW"/>
-                        <constraint firstAttribute="height" constant="128" id="ksh-L6-wWU"/>
+                        <constraint firstAttribute="height" constant="166" id="ksh-L6-wWU"/>
                         <constraint firstAttribute="bottom" secondItem="jff-D7-YEi" secondAttribute="bottom" constant="44" id="nwc-5A-siL"/>
                         <constraint firstItem="wBi-Dg-iV6" firstAttribute="centerX" secondItem="pbr-hW-3Tv" secondAttribute="centerX" id="wyy-04-JaF"/>
                         <constraint firstItem="Q2g-rT-56z" firstAttribute="leading" secondItem="7L5-AJ-2eL" secondAttribute="trailing" id="zf8-K6-8nJ"/>
@@ -100,13 +99,16 @@
             </subviews>
             <color key="backgroundColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="0.39929366438356162" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pbr-hW-3Tv" secondAttribute="trailing" constant="43" id="Any-6t-lRD"/>
                 <constraint firstItem="pbr-hW-3Tv" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Ntr-pp-Ne6"/>
+                <constraint firstItem="pbr-hW-3Tv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="43" id="Wnb-P8-Jhb"/>
                 <constraint firstItem="pbr-hW-3Tv" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="gZz-EU-LwS"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backGroundView" destination="pbr-hW-3Tv" id="swd-Um-ejh"/>
                 <outlet property="deleteButton" destination="5cf-zH-YDT" id="0ml-5d-qsQ"/>
+                <outlet property="titleLabel" destination="wBi-Dg-iV6" id="41t-UU-hys"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="73.5"/>
         </view>

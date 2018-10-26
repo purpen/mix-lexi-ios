@@ -7,6 +7,8 @@
 //
 
 #import "UIImage+Helper.h"
+#import <SDWebImage/SDWebImageManager.h>
+#import <SDWebImage/UIImage+MultiFormat.h>
 
 @implementation UIImage (Helper)
 
@@ -162,22 +164,105 @@
 
 #pragma mark - 压缩图片
 + (UIImage *)compressImage:(UIImage *)image {
-    CGFloat hFactor = image.size.width / [[UIScreen mainScreen] bounds].size.width;
-    CGFloat wFactor = image.size.height / [[UIScreen mainScreen] bounds].size.height;
-    CGFloat factor = fmaxf(hFactor, wFactor);
-    CGFloat newW = image.size.width / factor;
-    CGFloat newH = image.size.height / factor;
-    CGSize newSize = CGSizeMake(newW, newH);
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:CGRectMake(0, 0, newW, newH)];
+    return [self compressImage:image width:[[UIScreen mainScreen] bounds].size.width];
+}
+
++ (UIImage *)compressImage:(UIImage *)image width:(CGFloat)width {
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    float height = image.size.height / (image.size.width / width);
+    float widthScale = imageWidth / width;
+    float heightScale = imageHeight / height;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    
+    if (widthScale > heightScale) {
+        [image drawInRect:CGRectMake(0, 0, imageWidth/heightScale, height)];
+        
+    } else {
+        [image drawInRect:CGRectMake(0, 0, width, imageHeight/widthScale)];
+    }
+
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    
     return newImage;
 }
 
 + (NSData *)compressImageToData:(UIImage *)image {
     UIImage *newImage = [self compressImage:image];
     return UIImageJPEGRepresentation(newImage, 0.9);
+}
+
+#pragma mark - 通过 url 获取图片的尺寸
++ (CGSize)getImageSizeFromUrl:(NSString *)imageUrl {
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)[NSURL URLWithString:imageUrl], NULL);
+    NSDictionary *imageHeader = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    
+    CGFloat imageW = [imageHeader[@"PixelWidth"] floatValue];
+    CGFloat imageH = [imageHeader[@"PixelHeight"] floatValue];
+    CGSize imageSize = CGSizeMake(imageW, imageH);
+    
+    return imageSize;
+}
+
+#pragma mark - 获取缓存中的图片
++ (UIImage *)getImageFormDiskCacheForKey:(NSString *)key {
+    if ([self isCacheImageOfImageUrl:key]) {
+        return [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
+    }
+    
+    UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:key]]];
+    
+    return [self compressImage:image width:700];
+}
+
++ (BOOL)isCacheImageOfImageUrl:(NSString *)imageUrl {
+    return [[SDImageCache sharedImageCache] diskImageDataExistsWithKey:imageUrl];
+}
+
+#pragma mark - 圆形
+- (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        //        NSTimeInterval start = CACurrentMediaTime();
+        
+        // 1. 利用绘图，建立上下文 BOOL选项为是否为不透明
+        UIGraphicsBeginImageContextWithOptions(size, opaque, 0);
+        
+        CGRect rect = CGRectMake(0, 0, size.width, size.height);
+        
+        // 2. 设置填充颜色
+        if (opaque) {
+            [fillColor setFill];
+            UIRectFill(rect);
+        }
+        
+        // 3. 利用 贝赛尔路径 `裁切 效果
+        UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
+        
+        [path addClip];
+        
+        // 4. 绘制图像 如果图片为空那么为单色渲染
+        if (self) {
+            [self drawInRect:rect];
+        }
+        
+        // 5. 取得结果
+        UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+        
+        // 6. 关闭上下文
+        UIGraphicsEndImageContext();
+
+        
+        // 7. 完成回调
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion != nil) {
+                completion(result);
+            }
+        });
+    });
 }
 
 @end

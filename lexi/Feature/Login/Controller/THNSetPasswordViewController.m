@@ -38,8 +38,9 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
     WEAKSELF;
+    
     if (!weakSelf.email.length || !weakSelf.areacode.length || !password.length || !affirmPassword.length) {
-        [SVProgressHUD showErrorWithStatus:@"获取注册信息失败"];
+        [SVProgressHUD thn_showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
@@ -72,6 +73,13 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         };
     }
     return _setPasswordView;
+}
+
+#pragma mark - dealloc
+- (BOOL)willDealloc {
+    [self.setPasswordView removeFromSuperview];
+    
+    return YES;
 }
 
 @end
