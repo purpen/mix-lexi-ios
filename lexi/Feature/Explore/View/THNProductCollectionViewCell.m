@@ -81,9 +81,14 @@
         case THNHomeTypeBrandHall: {
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
-            self.producrOriginalPriceLabel.hidden = YES;
             [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
             break;
+        }
+        
+        case THNHomeTypeShowPrice: {
+            self.centerButtonViewComstraint.constant = 0;
+            self.centerButtonView.hidden = YES;
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:0];
         }
     }
     
