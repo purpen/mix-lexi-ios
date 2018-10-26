@@ -8,8 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, BannerType) {
+    BannerTypeLeft,
+    BannerTypeCenter
+};
+
+@protocol THNFeaturedCollectionViewDelegate <NSObject>
+
+@optional
+- (void)bannerPushWeb:(NSString *)url;
+- (void)bannerPushGoodInfo:(NSString *)rid;
+- (void)bannerPushBrandHall:(NSString *)rid;
+- (void)bannerPushArticle:(NSInteger)rid;
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID;
+
+@end
+
 @interface THNFeaturedCollectionView : UICollectionView
 
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, assign) BannerType bannerType;
+@property (nonatomic, weak) id <THNFeaturedCollectionViewDelegate> featuredDelegate;
 
 @end

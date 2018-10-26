@@ -51,16 +51,18 @@
 
 - (void)thn_loginViewDidSelectSignUpButton:(UIButton *)button {
     THNSignUpViewController *signUpVC = [[THNSignUpViewController alloc] init];
+    signUpVC.canSkip = YES;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
 - (void)thn_loginViewDidSelectSignInButton:(UIButton *)button {
     THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+    signInVC.canSkip = YES;
     [self.navigationController pushViewController:signInVC animated:YES];
 }
 
 - (void)thn_loginViewDidSelectWechatButton:(UIButton *)button {
-    [SVProgressHUD showInfoWithStatus:@"打开微信登录"];
+    [SVProgressHUD thn_showInfoWithStatus:@"打开微信登录"];
 }
 
 #pragma mark - getters and setters

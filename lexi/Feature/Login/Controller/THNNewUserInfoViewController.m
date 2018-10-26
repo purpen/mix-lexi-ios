@@ -14,8 +14,7 @@
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";
 static NSString *const kActionCancelTitle       = @"取消";
-/// 获取七牛token
-static NSString *const kURLUpToken              = @"/assets/user_upload_token";
+
 /// 首次设置个人信息
 static NSString *const kURLCompleteInfo         = @"/auth/complete_info";
 static NSString *const kResultData              = @"data";
@@ -41,43 +40,26 @@ static NSString *const kParamAvatarId           = @"avatar_id";
     [super viewDidLoad];
     
     [self setupUI];
-    [self networkGetQiNiuUploadToken];
+
 }
 
 #pragma mark - network
-- (void)networkGetQiNiuUploadToken {
-    THNRequest *request = [THNAPI getWithUrlString:kURLUpToken
-                                 requestDictionary:nil
-                                            isSign:YES
-                                          delegate:nil];
-    
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData]) return;
-        
-        self.qiNiuParams = result.data;
-        
-    } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
-    }];
-}
-
 - (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo
-                                  requestDictionary:param
-                                             isSign:YES
-                                           delegate:nil];
+    [SVProgressHUD thn_show];
     
+    THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
         }
         
+        [SVProgressHUD dismiss];
         if (completion) {
             completion();
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -87,11 +69,11 @@ static NSString *const kParamAvatarId           = @"avatar_id";
  */
 - (void)thn_getSelectImage {
     WEAKSELF;
+    
     [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
         [weakSelf.newUserInfoView setHeaderImageWithData:imageData];
         
-        [[THNQiNiuUpload sharedManager] uploadQiNiuWithParams:weakSelf.qiNiuParams
-                                                    imageData:imageData
+        [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:imageData
                                                     compltion:^(NSDictionary *result) {
                                                         NSArray *idsArray = result[kResultDataIds];
                                                         [weakSelf.newUserInfoView setHeaderAvatarId:[idsArray[0] integerValue]];
@@ -105,9 +87,8 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
-    WEAKSELF;
     [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

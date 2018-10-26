@@ -10,7 +10,7 @@
 #import "THNFindPassword.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kTitleLabelText      = @"找回密码";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -70,9 +70,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
     
-    WEAKSELF;
-    if (![weakSelf.phoneTextField.text checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self.phoneTextField.text checkTel]) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -81,10 +80,10 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_setPasswordWithPhoneNum:zipCode:verifyCode:)]) {
-        [weakSelf.delegate thn_setPasswordWithPhoneNum:[weakSelf getPhoneNum]
-                                               zipCode:[weakSelf getZipCode]
-                                            verifyCode:[weakSelf getVerifyCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_setPasswordWithPhoneNum:zipCode:verifyCode:)]) {
+        [self.delegate thn_setPasswordWithPhoneNum:[self getPhoneNum]
+                                           zipCode:[self getZipCode]
+                                        verifyCode:[self getVerifyCode]];
     }
 }
 
@@ -119,7 +118,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
         return;
     }
     
@@ -261,12 +260,11 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }

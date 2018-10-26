@@ -34,6 +34,6 @@
     self.titleLabel.text = dailyRecommendModel.recommend_label;
     self.subTitleLabel.text = dailyRecommendModel.recommend_title;
     self.contentLabel.text = dailyRecommendModel.recommend_description;
-    [self.backImageView sd_setImageWithURL:[NSURL URLWithString:dailyRecommendModel.cover]];
+    [self.backImageView sd_setImageWithURL:[NSURL URLWithString:dailyRecommendModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 @end

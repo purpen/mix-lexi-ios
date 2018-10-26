@@ -8,9 +8,10 @@
 
 #import "THNNewUserInfoView.h"
 #import "THNDoneButton.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "NSString+Helper.h"
 #import "UIBarButtonItem+Helper.h"
+#import <DateTools/DateTools.h>
 
 static NSString *const kTitleLabelText      = @"欢迎来到乐喜";
 static NSString *const kHintLabelText       = @"有个真实头像，会增加辨识度哦！";
@@ -108,21 +109,20 @@ static NSString *const kParamGender     = @"gender";
 
 #pragma mark - event response
 - (void)thn_doneButtonAction {
-    WEAKSELF;
-    [weakSelf endEditing:YES];
+    [self endEditing:YES];
     
-    if (!weakSelf.avatarId) {
-        [SVProgressHUD showInfoWithStatus:kHintLabelText];
+    if (!self.avatarId) {
+        [SVProgressHUD thn_showInfoWithStatus:kHintLabelText];
         return;
     }
     
-    if (![weakSelf getUserNickname].length) {
-        [SVProgressHUD showInfoWithStatus:kNamePlaceholder];
+    if (![self getUserNickname].length) {
+        [SVProgressHUD thn_showInfoWithStatus:kNamePlaceholder];
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
-        [weakSelf.delegate thn_setUserInfoEditDoneWithParam:[weakSelf getUserInfoParam]];
+    if ([self.delegate respondsToSelector:@selector(thn_setUserInfoEditDoneWithParam:)]) {
+        [self.delegate thn_setUserInfoEditDoneWithParam:[self getUserInfoParam]];
     }
 }
 
@@ -324,6 +324,8 @@ static NSString *const kParamGender     = @"gender";
         _dayDatePicker = [[UIDatePicker alloc] init];
         _dayDatePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
         _dayDatePicker.datePickerMode = UIDatePickerModeDate;
+        [_dayDatePicker setMaximumDate:[NSDate dateWithTimeIntervalSinceNow:0]];
+        [_dayDatePicker setMinimumDate:[[NSDate date] dateBySubtractingYears:100]];
     }
     return _dayDatePicker;
 }
@@ -403,12 +405,11 @@ static NSString *const kParamGender     = @"gender";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:kDoneButtonTitle
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:kDoneButtonTitle
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }

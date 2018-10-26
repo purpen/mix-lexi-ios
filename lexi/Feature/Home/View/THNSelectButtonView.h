@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ - ButtonTypeDefault: 纯文字
+ - ButtonTypeLine: 线状
+ */
+typedef NS_ENUM(NSUInteger, ButtonType) {
+    ButtonTypeDefault,
+    ButtonTypeLine
+};
+
 @protocol THNSelectButtonViewDelegate <NSObject>
 
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index;
@@ -16,7 +25,9 @@
 
 @interface THNSelectButtonView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray;
+- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titleArray initWithButtonType:(ButtonType)type;
 @property (nonatomic, weak) id <THNSelectButtonViewDelegate> delegate;
+// 默认展示的按钮
+@property (nonatomic, assign) NSInteger defaultShowIndex;
 
 @end

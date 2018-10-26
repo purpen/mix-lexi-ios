@@ -15,8 +15,7 @@
 
 static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCellIdentifier";
 
-@interface THNFeaturedCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
-
+@interface THNFeaturedCollectionView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
@@ -29,8 +28,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewFlowLayout *)layout {
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
-        CGFloat itemWidth = self.viewWidth - 75;
-        layout.itemSize = CGSizeMake(itemWidth, itemWidth / 1.5);
+        layout.itemSize = CGSizeMake(self.viewWidth - 75, self.viewHeight);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         layout.minimumLineSpacing = 15;
         self.showsHorizontalScrollIndicator = NO;
@@ -39,7 +37,6 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
         self.dataSource = self;
         [self registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kFeatureTopBannerCellIdentifier];
         self.backgroundColor = [UIColor whiteColor];
-        [self reloadData];
     }
     return self;
 }
@@ -59,8 +56,16 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     self.m_currentIndex = self.m_currentIndex <= 0 ? 0 : self.m_currentIndex;
     self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
     
+    switch (self.bannerType) {
+        case BannerTypeLeft:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+            break;
+            
+        default:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+            break;
+    }
     
-    [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -89,5 +94,44 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     [cell setBannerModel:bannerModel];
     return cell;
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+    
+    switch (bannerModel.type) {
+        case BannerContentTypeLink:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushWeb:)]) {
+                [self.featuredDelegate bannerPushWeb:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeProduct:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {
+                [self.featuredDelegate bannerPushGoodInfo:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeCatogories:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushCategorie:initWithCategoriesID:)]) {
+                
+                [self.featuredDelegate bannerPushCategorie:bannerModel.title initWithCategoriesID:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeBrandHall:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushBrandHall:)]) {
+                [self.featuredDelegate bannerPushBrandHall:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeSpecialTopic:
+            break;
+        default:
+            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushArticle:)]) {
+                [self.featuredDelegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+    }
+}
+
 
 @end

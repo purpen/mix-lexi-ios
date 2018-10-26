@@ -11,16 +11,17 @@
 #import "UIView+Helper.h"
 #import "THNTextTool.h"
 #import "THNAPI.h"
+#import "THNLivingHallHeadLineModel.h"
+#import <MJExtension/MJExtension.h>
+#import "THNFeaturedOpenCarouselScrollView.h"
 
 // 开馆指引
 static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 
 @interface THNFeaturedOpeningView()
 
-
+@property (weak, nonatomic) IBOutlet UIView *bottomCarouselView;
 @property (weak, nonatomic) IBOutlet UIButton *openingButton;
-@property (weak, nonatomic) IBOutlet UILabel *openLivingHallLabel;
-@property (weak, nonatomic) IBOutlet UILabel *soldOrderCountTextLabel;
 
 @end
 
@@ -33,25 +34,43 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 }
 
 // 开馆指引
-- (void)loadLivingHallHeadLineData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLivingHallHeadLine requestDictionary:nil isSign:YES delegate:nil];
+- (void)loadLivingHallHeadLineData:(FeatureOpeningType)openingType {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLivingHallHeadLine requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSString *fistUserName = result.data[@"username_one"];
-        NSString *secondUserName = result.data[@"username_two"];
-        NSInteger orderCount = [result.data[@"order_count"] integerValue];
-        NSString *openLivingHallStr = [NSString stringWithFormat:@"设计师%@秒前开了自己的设计馆",fistUserName];
-        NSString *soldOrderStr = [NSString stringWithFormat:@"%@的设计馆1小时售出%ld单",secondUserName,orderCount];
-        NSAttributedString *openLivingHallAttStr = [THNTextTool setTextColor:openLivingHallStr initWithColor:@"5fe4b1" initWithRange:NSMakeRange(0, 3 + fistUserName.length)];
-        NSInteger loc = secondUserName.length + 7;
-        NSAttributedString *soldOrderAttStr = [THNTextTool setTextColor:soldOrderStr initWithColor:@"f4b329" initWithRange:NSMakeRange(loc, soldOrderStr.length - loc)];
-        self.openLivingHallLabel.attributedText = openLivingHallAttStr;
-        self.soldOrderCountTextLabel.attributedText = soldOrderAttStr;
+        NSArray *headlines = result.data[@"headlines"];
+        NSMutableArray *headlineAttStrArray = [NSMutableArray array];
+        
+        for (NSDictionary *dict in headlines) {
+            THNLivingHallHeadLineModel *headLineModel = [THNLivingHallHeadLineModel mj_objectWithKeyValues:dict];
+            NSString *headLineStr;
+            NSAttributedString *headLineAttStr;
+            if (headLineModel.event == HeadlineShowTypeOpen) {
+                headLineStr = [NSString stringWithFormat:@"设计师%@%@%@开了自己的设计馆",headLineModel.username, headLineModel.time, headLineModel.time_info];
+                headLineAttStr = [THNTextTool setTextColor:headLineStr initWithColor:@"5fe4b1" initWithRange:NSMakeRange(0, 3 + headLineModel.username.length)];
+            } else {
+                NSString *saleOrderCountStr = [NSString stringWithFormat:@"售出%ld单", headLineModel.quantity];
+                headLineStr = [NSString stringWithFormat:@"%@的设计馆%@%@%@",headLineModel.username, headLineModel.time, headLineModel.time_info, saleOrderCountStr];
+                headLineAttStr = [THNTextTool setTextColor:headLineStr initWithColor:@"f4b329" initWithRange:NSMakeRange(headLineStr.length - saleOrderCountStr.length, saleOrderCountStr.length)];
+            }
+            [headlineAttStrArray addObject:headLineAttStr];
+        }
+        
+        CGFloat y = 0;
+        if (openingType == FeatureOpeningTypeMain) {
+            y = 20;
+        } else {
+            y = - 45.5;
+        }
+        
+       THNFeaturedOpenCarouselScrollView *carouselScrollView = [[THNFeaturedOpenCarouselScrollView alloc] initWithFrame:CGRectMake(68, y, self.viewWidth - 68, 40)];
+        [carouselScrollView setDataTitleArray:headlineAttStrArray];
+        [self.bottomCarouselView addSubview:carouselScrollView];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
-- (IBAction)opening:(id)sender {
+ - (IBAction)opening:(id)sender {
     self.openingBlcok();
 }
 

@@ -8,12 +8,30 @@
 
 #import <Foundation/Foundation.h>
 
+@class THNProductModel;
+
 @interface THNFeaturedBrandModel : NSObject
 
+// 背景图
 @property (nonatomic, strong) NSString *bgcover;
+// 上架商品数量
 @property (nonatomic, assign) NSInteger store_products_counts;
+ // 店铺logo
 @property (nonatomic, strong) NSString *logo;
+// 店铺名
 @property (nonatomic, strong) NSString *name;
+
 @property (nonatomic, strong) NSArray *products_cover;
+// 品牌馆ID
+@property (nonatomic, strong) NSString *rid;
+// 国家
+@property (nonatomic, strong) NSString *delivery_country;
+// 城市
+@property (nonatomic, strong) NSString *delivery_city;
+@property (nonatomic, strong) NSArray <THNProductModel *>*products;
+//宣传语
+@property (nonatomic, strong) NSString *tag_line;
+
+@property (nonatomic, assign) BOOL is_followed;
 
 @end

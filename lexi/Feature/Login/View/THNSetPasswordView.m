@@ -8,7 +8,7 @@
 
 #import "THNSetPasswordView.h"
 #import "THNPasswordTextField.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "THNDoneButton.h"
 
 static NSString *const kTitleNew                = @"设置密码";
@@ -48,21 +48,19 @@ static NSString *const kDoneButtonSure          = @"确认";
 
 #pragma mark - private methods
 - (void)thn_doneButtonAction {
-    WEAKSELF;
+    [self endEditing:YES];
     
-    [weakSelf endEditing:YES];
-    
-    if (![weakSelf.verifyPwdTextField.text isEqualToString:weakSelf.pwdTextField.text]) {
-        [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
+    if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
+        [SVProgressHUD thn_showInfoWithStatus:@"两次密码输入不一致"];
         return;
     }
     
-    if (weakSelf.pwdTextField.text.length < 8 || weakSelf.verifyPwdTextField.text.length < 8) {
-        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
+    if (self.pwdTextField.text.length < 8 || self.verifyPwdTextField.text.length < 8) {
+        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
         return;
     }
     
-    weakSelf.SetPasswordRegisterBlock(weakSelf.pwdTextField.text, weakSelf.verifyPwdTextField.text);
+    self.SetPasswordRegisterBlock(self.pwdTextField.text, self.verifyPwdTextField.text);
 }
 
 #pragma mark - setup UI
@@ -121,12 +119,11 @@ static NSString *const kDoneButtonSure          = @"确认";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
-        _doneButton = [THNDoneButton thn_initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                             withTitle:_setType == THNSetPasswordTypeNew ? kDoneButtonTitle : kDoneButtonSure
-                                            completion:^{
-                                                [weakSelf thn_doneButtonAction];
-                                            }];
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                 withTitle:_setType == THNSetPasswordTypeNew ? kDoneButtonTitle : kDoneButtonSure
+                                                completion:^{
+                                                    [self thn_doneButtonAction];
+                                                }];
     }
     return _doneButton;
 }

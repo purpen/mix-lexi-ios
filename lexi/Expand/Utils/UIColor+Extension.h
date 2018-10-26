@@ -34,4 +34,13 @@
  */
 + (UIColor *)colorWithHexString:(NSString *)color alpha:(CGFloat)alpha;
 
+/**
+ 设置渐变色
+ 
+ @param view 视图
+ @param colors 渐变色, [开始色，结束色]
+ @return layer
+ */
++ (CAGradientLayer *)colorGradientWithView:(UIView *)view colors:(NSArray *)colors;
+
 @end

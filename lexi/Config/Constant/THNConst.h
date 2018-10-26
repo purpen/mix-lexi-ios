@@ -34,6 +34,17 @@ UIKIT_EXTERN NSString *const kFontFamily;
 UIKIT_EXTERN NSString *const kAppStoreId;
 UIKIT_EXTERN NSString *const kAppName;
 
+#pragma mark - UM
+UIKIT_EXTERN NSString *const kUMAppleKey;
+
+#pragma mark - WX
+UIKIT_EXTERN NSString *const kWXAppKey;
+UIKIT_EXTERN NSString *const kWXAppSecret;
+
+#pragma mark - WB
+UIKIT_EXTERN NSString *const kWBAppKey;
+UIKIT_EXTERN NSString *const kWBAppSecret;
+
 #pragma mark - Error Domain
 UIKIT_EXTERN NSString *const kDomain;
 UIKIT_EXTERN NSInteger const kServerError;
@@ -53,7 +64,16 @@ UIKIT_EXTERN NSString *const kColorBlack;
 UIKIT_EXTERN NSString *const kColorTabDefault;
 UIKIT_EXTERN NSString *const kColorTabSelected;
 UIKIT_EXTERN NSString *const kColorNavTitle;
+UIKIT_EXTERN NSString *const kColorBackground;
 
 #pragma mark - 本地记录状态
 UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
-UIKIT_EXTERN NSString *const kLoginSuccess;
+UIKIT_EXTERN NSString *const kBrandHallRid;
+UIKIT_EXTERN NSString *const kSearchKeyword;
+
+#pragma mark -NSNotification
+UIKIT_EXTERN NSString *const kOrderLogisticsTracking;
+UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
+UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;
+UIKIT_EXTERN NSString *const kShelfSuccess;
+UIKIT_EXTERN NSString *const kUpdateLivingHallStatus;
