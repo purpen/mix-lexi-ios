@@ -23,5 +23,6 @@ typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
  设置关注的状态
  */
 - (void)setFollowUserStatus:(THNUserFollowStatus)status;
+- (void)setupViewUI;
 
 @end

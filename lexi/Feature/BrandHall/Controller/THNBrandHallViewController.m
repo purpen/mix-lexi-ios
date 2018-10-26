@@ -77,7 +77,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCouponData) name:@"brandHallReceiveCoupon" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCouponData) name:kBrandHallReceiveCoupon object:nil];
     [self loadData];
     // 存储品牌馆ID
     [THNSaveTool setObject:self.rid forKey:kBrandHallRid];
@@ -133,15 +133,17 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        dispatch_semaphore_signal(self.semaphore);
+        NSInteger signalQuantity = dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
         self.products = result.data[@"products"];
-         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
-        [self.collectionView reloadData];
+        [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
+        if (signalQuantity == 0) {
+            [self.collectionView reloadData];
+        }
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];
@@ -272,14 +274,15 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 }
 
 - (void)setupLayout {
-    [self.headerView addSubview:self.brandHallView];
-    self.brandHallView.delegate = self;
-    [self.headerView addSubview:self.couponView];
-    [self.headerView addSubview:self.announcementView];
-    [self.headerView addSubview:self.functionView];
-    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeStore];
-    [self.headerView addSubview:self.lineView];
-    
+    if (self.headerView.subviews.count == 0) {
+        [self.headerView addSubview:self.brandHallView];
+        self.brandHallView.delegate = self;
+        [self.headerView addSubview:self.couponView];
+        [self.headerView addSubview:self.announcementView];
+        [self.headerView addSubview:self.functionView];
+        [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeStore];
+        [self.headerView addSubview:self.lineView];
+    }
     
     if (self.announcementModel.announcement.length == 0) {
         self.announcementViewHeight = 0;

@@ -14,12 +14,13 @@
 #import "THNBannnerCollectionViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNProductModel.h"
+#import "THNFollowStoreButton+SelfManager.h"
 
 static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooductCellIdentifier";
 
 @interface THNSearchStoreTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet THNFollowStoreButton *followButton;
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
@@ -33,6 +34,7 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
     [super awakeFromNib];
     [self.storeImageView drawCornerWithType:0 radius:4];
     [self.followButton drawCornerWithType:0 radius:4];
+    [self.followButton setupViewUI];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:10 initWithWidth:90 initwithHeight:90];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
@@ -47,6 +49,7 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.storeNameLabel.text = brandModel.name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.store_products_counts];
+    [self.followButton selfManagerFollowStoreStatus:brandModel.is_followed storeRid:brandModel.rid];
 }
 
 #pragma mark - UICollectionViewDataSource method 实现

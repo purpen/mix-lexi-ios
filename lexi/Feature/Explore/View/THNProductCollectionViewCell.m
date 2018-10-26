@@ -48,7 +48,7 @@
         case THNHomeTypeExplore: {
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
-            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:0];
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
             break;
         }
         case THNHomeTypeFeatured: {

@@ -93,7 +93,7 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
             return;
         }
         
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"brandHallReceiveCoupon" object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kBrandHallReceiveCoupon object:nil];
         
     } failure:^(THNRequest *request, NSError *error) {
         

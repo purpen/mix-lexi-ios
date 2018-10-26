@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "THNOffcialStoreModel.h"
 #import "UIColor+Extension.h"
+#import "THNFollowStoreButton+SelfManager.h"
 
 @interface THNBrandHallHeaderView()
 
@@ -23,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *fanLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *desLabel;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet THNFollowStoreButton *followButton;
 @property (weak, nonatomic) IBOutlet UIButton *designHallButton;
 
 @end
@@ -35,6 +36,7 @@
     [self.productImageView drawCornerWithType:0 radius:4];
     self.followButton.layer.cornerRadius = self.followButton.viewHeight / 2;
     self.designHallButton.layer.cornerRadius = self.designHallButton.viewHeight / 2;
+    [self.followButton setupViewUI];
     [self drwaShadow];
 }
 
@@ -47,6 +49,7 @@
     self.addressLabel.text = offcialStoreModel.city;
     self.desLabel.text = offcialStoreModel.tag_line;
     self.nameLabel.text = offcialStoreModel.name;
+    [self.followButton selfManagerFollowStoreStatus:offcialStoreModel.is_followed storeRid:offcialStoreModel.rid];
 }
 
 - (IBAction)productButton:(id)sender {
