@@ -10,6 +10,7 @@
 #import "UIImageView+SDWedImage.h"
 #import "UIView+Helper.h"
 #import "THNUserModel.h"
+#import "THNFollowUserButton+SelfManager.h"
 
 @interface THNSearchUserTableViewCell()
 
@@ -17,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *wishCountLabel;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet THNFollowUserButton *followButton;
 
 @end
 
@@ -26,6 +27,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.followButton drawCornerWithType:0 radius:4];
+    [self.followButton setupViewUI];
 }
 
 - (void)setUserModel:(THNUserModel *)userModel {
@@ -34,6 +36,7 @@
     self.userNameLabel.text = userModel.username;
     self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢%ld",userModel.user_like_counts];
     self.wishCountLabel.text = [NSString stringWithFormat:@"心愿单%ld",userModel.wish_list_counts];
+    [self.followButton selfManagerFollowUserStatus:userModel.followed_status userId:[NSString stringWithFormat:@"%zi", userModel.uid]];
 }
 
 - (IBAction)follow:(id)sender {

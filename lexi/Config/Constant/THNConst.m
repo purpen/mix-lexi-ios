@@ -10,14 +10,14 @@
 
 #pragma mark - API 地址
 ////  正式环境
-//NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
-//NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
-//NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
+NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
+NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
+NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
 
 //  开发环境
-NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
-NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
-NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
+//NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
+//NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
+//NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark - 测试账号
 /**
@@ -93,3 +93,4 @@ NSString *const kOrderLogisticsTracking         = @"OrderLogisticsTracking";
 NSString *const kOrderDetailLogisticsTracking   = @"kOrderDetailLogisticsTracking";
 NSString *const kShelfSuccess                   = @"shelfSuccess";
 NSString *const kUpdateLivingHallStatus         = @"kUpdateLivingHallStatus";
+NSString *const kBrandHallReceiveCoupon         = @"kBrandHallReceiveCoupon";

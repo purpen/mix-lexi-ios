@@ -58,10 +58,11 @@ static NSString *const kTextCancel = @"取消";
                 break;
         }
     } else if (shareView == self.moreActionView) {
-
+        [self systemShare];
     }
 }
 
+// 系统分享
 - (void)systemShare {
     NSString *shareText = @"分享标题";
     UIImage *shareImage = [UIImage imageNamed:@"icon_brandHall_v"];
@@ -86,6 +87,7 @@ static NSString *const kTextCancel = @"取消";
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+// 友盟分享小程序
 - (void)shareMiniProgramToPlatformType:(UMSocialPlatformType)platformType
 {
     //创建分享消息对象
@@ -118,6 +120,7 @@ static NSString *const kTextCancel = @"取消";
     }];
 }
 
+// 友盟分享
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
 {
     //创建分享消息对象

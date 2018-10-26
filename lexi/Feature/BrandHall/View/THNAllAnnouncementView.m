@@ -10,14 +10,13 @@
 #import "THNAnnouncementModel.h"
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
+#import "UIColor+Extension.h"
 
 @interface THNAllAnnouncementView()
 
 @property (weak, nonatomic) IBOutlet UILabel *announcementTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *closedTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *deliveryTimeLabel;
-//遮罩
-@property (weak, nonatomic) IBOutlet UIView *maskView;
 
 @end
 

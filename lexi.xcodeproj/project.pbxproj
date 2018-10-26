@@ -11,6 +11,8 @@
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2656D1211D30D2001CA9DD /* THNSaveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D0211D30D2001CA9DD /* THNSaveTool.m */; };
 		4B2656D4211D5C0D001CA9DD /* THNTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2656D3211D5C0D001CA9DD /* THNTextTool.m */; };
+		4B2755082182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2755062182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.m */; };
+		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
 		4B5FF5DC210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */; };
 		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
@@ -465,6 +467,9 @@
 		4B2656D0211D30D2001CA9DD /* THNSaveTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSaveTool.m; sourceTree = "<group>"; };
 		4B2656D2211D5C0D001CA9DD /* THNTextTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNTextTool.h; sourceTree = "<group>"; };
 		4B2656D3211D5C0D001CA9DD /* THNTextTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNTextTool.m; sourceTree = "<group>"; };
+		4B2755052182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPoupalRecommendCollectionViewCell.h; sourceTree = "<group>"; };
+		4B2755062182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPoupalRecommendCollectionViewCell.m; sourceTree = "<group>"; };
+		4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPoupalRecommendCollectionViewCell.xib; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		4B72060C212D778F002606EE /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
@@ -1722,6 +1727,9 @@
 				4BECEED6217F1401008E5E28 /* THNLifeAestheticsCollectionViewCell.h */,
 				4BECEED7217F1401008E5E28 /* THNLifeAestheticsCollectionViewCell.m */,
 				4BECEED8217F1401008E5E28 /* THNLifeAestheticsCollectionViewCell.xib */,
+				4B2755052182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.h */,
+				4B2755062182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.m */,
+				4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3147,6 +3155,7 @@
 				4BECF2CD217F1402008E5E28 /* THNCommentTableViewCell.xib in Resources */,
 				4BECF24B217F1401008E5E28 /* THNOrderTableViewCell.xib in Resources */,
 				4B25F210211EA79F00115E57 /* searchHis.json in Resources */,
+				4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */,
 				4BECF27D217F1402008E5E28 /* THNSearchStoreTableViewCell.xib in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				4BECF196217F1401008E5E28 /* THNBrandCollectionViewCell.xib in Resources */,
@@ -3257,6 +3266,7 @@
 				4BECF271217F1401008E5E28 /* THNSearchIndexModel.m in Sources */,
 				4BECF2CB217F1402008E5E28 /* WBStatusHelper.m in Sources */,
 				CD3D01D321718D130030E3B0 /* UIViewController+THNHud.m in Sources */,
+				4B2755082182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.m in Sources */,
 				4BECF151217F1401008E5E28 /* THNBaseTableViewController.m in Sources */,
 				4BECF2B7217F1402008E5E28 /* THNLifeTransactionRecordTableViewCell.m in Sources */,
 				4BECF183217F1401008E5E28 /* THNArticleStoreTableViewCell.m in Sources */,

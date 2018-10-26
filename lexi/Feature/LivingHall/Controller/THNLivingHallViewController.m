@@ -128,7 +128,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        dispatch_semaphore_signal(self.semaphore);
+       NSInteger signalQuantity =  dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -145,9 +145,12 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
             self.livingHallHeaderView.noProductView.hidden = YES;
         } else {
             self.livingHallHeaderView.noProductView.hidden = NO;
-           
         }
-        [self.tableView reloadData];
+        
+        if (signalQuantity == 0) {
+            [self.tableView reloadData];
+        }
+        
     } failure:^(THNRequest *request, NSError *error) {
        dispatch_semaphore_signal(self.semaphore);
     }];

@@ -61,7 +61,7 @@
                             <constraint firstAttribute="height" constant="10" id="8ou-i6-SD0"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQR-59-Tg0">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQR-59-Tg0" customClass="THNFollowStoreButton">
                         <rect key="frame" x="308" y="22.5" width="88" height="30"/>
                         <color key="backgroundColor" red="0.37254901959999998" green="0.89411764709999997" blue="0.69411764710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
