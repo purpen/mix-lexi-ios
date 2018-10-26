@@ -18,8 +18,8 @@
  @param completion 点击事件
  @return 功能按钮
  */
-+ (instancetype)thn_initWithFrame:(CGRect)frame
-                        withTitle:(NSString *)title
-                       completion:(void (^)(void))completion;
+- (instancetype)initWithFrame:(CGRect)frame
+                    withTitle:(NSString *)title
+                   completion:(void (^)(void))completion;
 
 @end

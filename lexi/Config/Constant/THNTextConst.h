@@ -20,6 +20,10 @@ UIKIT_EXTERN NSString *const kTitleFindPWD;
 UIKIT_EXTERN NSString *const kTitleLikedWindow;
 UIKIT_EXTERN NSString *const kTitleLikedGoods;
 UIKIT_EXTERN NSString *const kTitleLikedDynamic;
+UIKIT_EXTERN NSString *const kTitleSelectAddress;
+UIKIT_EXTERN NSString *const kTitleSubmitOrder;
+UIKIT_EXTERN NSString *const kTitleSelectLogistics;
+UIKIT_EXTERN NSString *const kTitlePayment;
 
 #pragma mark - 网络请求
 UIKIT_EXTERN NSString *const kTextRequestError;
@@ -37,3 +41,9 @@ UIKIT_EXTERN NSString *const kTextRegisterError;
 
 #pragma mark - 等待信息
 UIKIT_EXTERN NSString *const kTextWaitOpen;
+
+#pragma mark - button title
+UIKIT_EXTERN NSString *const kButtonTitleSort;
+UIKIT_EXTERN NSString *const kButtonTitleScreen;
+UIKIT_EXTERN NSString *const kButtonTitleNew;
+UIKIT_EXTERN NSString *const kButtonTitleProfit;

@@ -7,7 +7,8 @@
 //
 
 #import "THNMyCenterHeaderView.h"
-#import <YYText/YYText.h>
+#import <YYKit/YYLabel.h>
+#import <YYKit/NSAttributedString+YYText.h>
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
@@ -15,6 +16,8 @@
 #import "UIImageView+SDWedImage.h"
 #import "THNMyCenterDataButton.h"
 #import "THNMarco.h"
+#import "THNFollowUserButton.h"
+#import "THNFollowUserButton+SelfManager.h"
 
 static NSString *const kTextFollow   = @"关注";
 static NSString *const kTextFans     = @"粉丝";
@@ -61,18 +64,19 @@ static NSInteger const kSelectedButtonTag = 452;
 @property (nonatomic, strong) THNMyCenterDataButton *selectedButton;
 /// 分割线
 @property (nonatomic, strong) UIView *lineView;
+/// 类型
+@property (nonatomic, assign) THNMyCenterHeaderViewType viewType;
+/// 关注按钮
+@property (nonatomic, strong) THNFollowUserButton *followButton;
 
 @end
 
 @implementation THNMyCenterHeaderView
 
-- (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 250)];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithType:(THNMyCenterHeaderViewType)type {
+    self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 250)];
     if (self) {
+        self.viewType = type;
         [self setupViewUI];
     }
     return self;
@@ -80,11 +84,13 @@ static NSInteger const kSelectedButtonTag = 452;
 
 - (void)thn_setUserInfoModel:(THNUserModel *)model {
     self.nameLabel.text = model.username;
-    [self.headerImageView downloadImage:model.avatar place:[UIImage new]];
+    [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
     [self thn_setFollowLabelTextWithValue:model.followed_users_counts];
     [self thn_setFansLabelTextWithValue:model.fans_counts];
     [self thn_setSignatureLabelTextWith:model.about_me];
-    [self thn_showCouponDot:YES];
+    [self thn_showCouponDot:NO];
+    [self thn_showOrderButton:model.has_order];
+    [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status userId:model.uid];
     
     NSArray *valueArr = @[[NSString stringWithFormat:@"%zi", model.user_like_counts],
                           [NSString stringWithFormat:@"%zi", model.wish_list_counts],
@@ -99,22 +105,28 @@ static NSInteger const kSelectedButtonTag = 452;
 }
 
 #pragma mark - private methods
+- (void)thn_showView {
+    BOOL isMyCenter = self.viewType == THNMyCenterHeaderViewTypeDefault;
+    self.bottomView.hidden = !isMyCenter;
+    self.followButton.hidden = isMyCenter;
+}
+
 /**
  设置关注人数量
  */
 - (void)thn_setFollowLabelTextWithValue:(NSInteger)value {
     NSString *jointStr = [NSString stringWithFormat:@"%@ %zi", kTextFollow, value];
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFollow.length)
-                               color:[UIColor colorWithHexString:@"#949EA6"]
-                     backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
-                           tapAction:nil];
+    attStr.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+    attStr.color = [UIColor colorWithHexString:@"#333333"];
+    [attStr setTextHighlightRange:NSMakeRange(0, kTextFollow.length)
+                            color:[UIColor colorWithHexString:@"#949EA6"]
+                  backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
+                        tapAction:nil];
     self.followLabel.attributedText = attStr;
     
     // 关注人数的动态宽度
-    self.followWidth = [self.followLabel thn_getLabelWidthWithMaxHeight:12];
+    self.followWidth = [self.followLabel thn_getLabelWidthWithMaxHeight:12] + 2;
 }
 
 /**
@@ -123,12 +135,12 @@ static NSInteger const kSelectedButtonTag = 452;
 - (void)thn_setFansLabelTextWithValue:(NSInteger)value {
     NSString *jointStr = [NSString stringWithFormat:@"%@ %zi", kTextFans, value];
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:jointStr];
-    attStr.yy_font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
-    attStr.yy_color = [UIColor colorWithHexString:@"#333333"];
-    [attStr yy_setTextHighlightRange:NSMakeRange(0, kTextFans.length)
-                                  color:[UIColor colorWithHexString:@"#949EA6"]
-                        backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
-                              tapAction:nil];
+    attStr.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
+    attStr.color = [UIColor colorWithHexString:@"#333333"];
+    [attStr setTextHighlightRange:NSMakeRange(0, kTextFans.length)
+                            color:[UIColor colorWithHexString:@"#949EA6"]
+                  backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
+                        tapAction:nil];
     self.fansLabel.attributedText = attStr;
     
     // 粉丝人数的动态宽度
@@ -140,19 +152,29 @@ static NSInteger const kSelectedButtonTag = 452;
  */
 - (void)thn_setSignatureLabelTextWith:(NSString *)signature {
     signature = !signature.length ? @"" : signature;
-    
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:signature];
-    attStr.yy_font = [UIFont systemFontOfSize:13 weight:(UIFontWeightRegular)];
-    attStr.yy_lineSpacing = 6;
-    attStr.yy_color = [UIColor colorWithHexString:@"#555555"];
+    attStr.font = [UIFont systemFontOfSize:13 weight:(UIFontWeightRegular)];
+    attStr.lineSpacing = 6;
+    attStr.color = [UIColor colorWithHexString:@"#555555"];
     self.signatureLabel.attributedText = attStr;
     
     // 签名的动态高度
     self.signatureHeight = [self.signatureLabel thn_getLabelHeightWithMaxWidth:SCREEN_WIDTH - 40];
+    self.signatureHeight = self.signatureHeight > 44 ? 44 : self.signatureHeight;
 }
 
+/**
+ 显示优惠券提示小红点
+ */
 - (void)thn_showCouponDot:(BOOL)show {
     self.couponDotView.hidden = !show;
+}
+
+/**
+ 显示订单按钮
+ */
+- (void)thn_showOrderButton:(NSInteger)orderCount {
+    self.orderButton.hidden = orderCount == 0;
 }
 
 #pragma mark - event response
@@ -168,9 +190,28 @@ static NSInteger const kSelectedButtonTag = 452;
     }
 }
 
+- (void)selectedHeadImage:(UITapGestureRecognizer *)tap {
+    if ([self.delegate respondsToSelector:@selector(thn_selectedUserHeadImage)]) {
+        [self.delegate thn_selectedUserHeadImage];
+    }
+}
+
+- (void)followLabelAction:(UITapGestureRecognizer *)tap {
+    if ([self.delegate respondsToSelector:@selector(thn_selectedButtonType:)]) {
+        [self.delegate thn_selectedButtonType:THNHeaderViewSelectedTypeFollow];
+    }
+}
+
+- (void)fansLabelAction:(UITapGestureRecognizer *)tap {
+    if ([self.delegate respondsToSelector:@selector(thn_selectedButtonType:)]) {
+        [self.delegate thn_selectedButtonType:THNHeaderViewSelectedTypeFans];
+    }
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
+    [self thn_showView];
     
     [self addSubview:self.headerImageView];
     [self addSubview:self.nameLabel];
@@ -184,6 +225,7 @@ static NSInteger const kSelectedButtonTag = 452;
     [self.bottomView addSubview:self.couponDotView];
     [self.bottomView addSubview:self.serviceButton];
     [self addSubview:self.lineView];
+    [self addSubview:self.followButton];
     
     [self creatDataButtonWithTitles:@[kTextLiked, kTextCollect, kTextStore]];
     [self.dataContainer addSubview:self.dynamicButton];
@@ -193,53 +235,53 @@ static NSInteger const kSelectedButtonTag = 452;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 70));
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(24);
     }];
     [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:70/2];
     
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(120, 20));
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenWidth - 40, 20));
         make.top.equalTo(self.headerImageView.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
     }];
     
-    [self.followLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.followLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
         make.height.mas_equalTo(12);
         make.width.mas_equalTo(self.followWidth);
     }];
     
-    [self.fansLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.followLabel.mas_right).with.offset(20);
+    [self.fansLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.followLabel.mas_right).with.offset(18);
         make.centerY.mas_equalTo(self.followLabel);
         make.height.mas_equalTo(12);
         make.width.mas_equalTo(self.fansWidth);
     }];
     
-    [self.signatureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.signatureLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.followLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(self.signatureHeight);
     }];
     
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(60);
         make.left.bottom.right.mas_equalTo(0);
     }];
     
-    [self.activityButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.activityButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
     self.activityButton.layer.cornerRadius = 30/2;
     
-    [self.orderButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
         make.left.equalTo(self.activityButton.mas_right).with.offset(15);
         make.bottom.mas_equalTo(-20);
@@ -247,7 +289,7 @@ static NSInteger const kSelectedButtonTag = 452;
     self.orderButton.layer.cornerRadius = 30/2;
     [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.serviceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.serviceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-20);
@@ -255,7 +297,7 @@ static NSInteger const kSelectedButtonTag = 452;
     self.serviceButton.layer.cornerRadius = 30/2;
     [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.couponButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.couponButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
         make.bottom.mas_equalTo(-20);
@@ -263,19 +305,19 @@ static NSInteger const kSelectedButtonTag = 452;
     self.couponButton.layer.cornerRadius = 30/2;
     [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
-    [self.couponDotView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.couponDotView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 7));
         make.right.equalTo(self.couponButton.mas_right).with.offset(-5);
         make.top.equalTo(self.couponButton.mas_top).with.offset(0);
     }];
     [self.couponDotView drawCornerWithType:(UILayoutCornerRadiusAll) radius:7/2];
     
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(1);
     }];
     
-    [self.dataContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.dataContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(70);
         make.left.equalTo(self.headerImageView.mas_right).with.offset(kDeviceiPhone5 ? 30 : 40);
         make.right.mas_equalTo(-35);
@@ -288,12 +330,19 @@ static NSInteger const kSelectedButtonTag = 452;
         make.top.mas_equalTo(0);
     }];
     
-    [self.dynamicButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.dataContainer);
         make.left.right.bottom.mas_equalTo(0);
     }];
     self.dynamicButton.layer.cornerRadius = 4;
     [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(88, 30));
+        make.left.mas_equalTo(20);
+        make.bottom.mas_equalTo(-20);
+    }];
+    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:88 / 2];
     
     // 调整视图的高度
     self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 230 + self.signatureHeight);
@@ -305,6 +354,10 @@ static NSInteger const kSelectedButtonTag = 452;
         _headerImageView = [[UIImageView alloc] init];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
+        _headerImageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedHeadImage:)];
+        [_headerImageView addGestureRecognizer:tap];
     }
     return _headerImageView;
 }
@@ -322,6 +375,9 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_followLabel) {
         _followLabel = [[YYLabel alloc] init];
         _followLabel.font = [UIFont systemFontOfSize:12];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followLabelAction:)];
+        [_followLabel addGestureRecognizer:tap];
     }
     return _followLabel;
 }
@@ -330,6 +386,9 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_fansLabel) {
         _fansLabel = [[YYLabel alloc] init];
         _fansLabel.font = [UIFont systemFontOfSize:12];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fansLabelAction:)];
+        [_fansLabel addGestureRecognizer:tap];
     }
     return _fansLabel;
 }
@@ -453,6 +512,13 @@ static NSInteger const kSelectedButtonTag = 452;
         _lineView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
     }
     return _lineView;
+}
+
+- (THNFollowUserButton *)followButton {
+    if (!_followButton) {
+        _followButton = [[THNFollowUserButton alloc] init];
+    }
+    return _followButton;
 }
 
 @end

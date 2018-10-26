@@ -44,6 +44,7 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     textView.layer.borderColor = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
     textView.layer.borderWidth = 0.5;
     textView.alpha = 1;
+    textView.returnKeyType = UIReturnKeyDone;
 }
 
 - (void)editStore {
@@ -51,8 +52,12 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     params[@"rid"] = [THNLoginManager sharedManager].storeRid;
     params[@"name"] = self.nameTextView.text;
     params[@"description"] =  self.introductionTextView.text;
-    THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
          self.reloadLivingHallBlock();
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -69,18 +74,48 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    if ([textView isKindOfClass:self.nameTextView.class]) {
-        if (textView.text.length > 16) {
-            textView.editable = NO;
-            [SVProgressHUD showInfoWithStatus:@"不得超过16字"];
+    if (textView.viewHeight == 44) {
+        [self layoutTextView:textView initShowLenthLabel:self.nameCountLabel initWithMaxLenth:16];
+    } else {
+        [self layoutTextView:textView initShowLenthLabel:self.introductionCountLabel initWithMaxLenth:40];
+    }
+}
+
+- (void)layoutTextView:(UITextView *)textView initShowLenthLabel:(UILabel *)label initWithMaxLenth:(NSInteger)lenth {
+    NSString *toBeString = textView.text;
+    NSString *lang = [[UIApplication sharedApplication]textInputMode].primaryLanguage;
+    if ([lang isEqualToString:@"zh-Hans"]) { //中文输入
+        UITextRange *selectedRange = [textView markedTextRange];
+        //获取高亮部分
+        UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
+        if (!position) { // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+            label.text = [NSString stringWithFormat:@"%ld",textView.text.length];
+            if (toBeString.length > lenth) {
+                textView.text = [toBeString substringToIndex:lenth];
+                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多输入%ld个字符",lenth]];
+                label.text = [NSString stringWithFormat:@"%ld",lenth];
+            }
         }
     } else {
-        if (textView.text.length > 40) {
-            textView.editable = NO;
-            [SVProgressHUD showInfoWithStatus:@"不得超过40字"];
+        if (toBeString.length > lenth) {
+            textView.text = [toBeString substringToIndex:lenth];
         }
     }
-    
 }
+
+// 点击Return 隐藏键盘
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    if ([text isEqualToString:@"\n"]){
+        
+        [textView resignFirstResponder];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+}
+
 
 @end

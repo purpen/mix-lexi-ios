@@ -15,13 +15,16 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
 
 @interface UIImageView (SDWedImage)
 
+- (UIImage *)downloadImageWithUrl:(NSString *)url;
+
 /**
  SDWebImage 下载并缓存图片
  
  @param url 图片的url
  @param place 还未下载成功时的替换图片
  */
-- (void)downloadImage:(NSString *)url place:(UIImage *)place;
+- (void)downloadImage:(NSString *)url
+                place:(UIImage *)place;
 
 /**
  SDWebImage 下载并缓存图片
@@ -30,7 +33,9 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
  @param place 还未下载成功时的替换图片
  @param completed 成功后的回调
  */
-- (void)downloadImage:(NSString *)url placess:(UIImage *)place completed:(DownloadCompleted)completed;
+- (void)downloadImage:(NSString *)url
+                place:(UIImage *)place
+            completed:(DownloadCompleted)completed;
 
 /**
  SDWebImage 下载并缓存图片和下载进度
@@ -47,5 +52,7 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
               failure:(DownloadFailureBlock)failure
              received:(DownloadProgressBlock)progress;
 
+//网络延迟下载--圆形    背景色为透明 无背景色
+- (void)thn_setCircleImageWithUrlString:(NSString *)urlString placeholder:(UIImage *)image;
 
 @end

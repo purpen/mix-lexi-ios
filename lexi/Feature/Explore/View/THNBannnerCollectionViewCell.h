@@ -11,6 +11,8 @@
 @class THNSetModel;
 @class THNBannerModel;
 @class THNUserPartieModel;
+@class THNProductModel;
+@class THNCollectionModel;
 
 @interface THNBannnerCollectionViewCell : UICollectionViewCell
 
@@ -19,5 +21,7 @@
 @property (nonatomic, strong) THNUserPartieModel *userPartieModel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet UIView *setLabelsView;
+@property (nonatomic, strong) THNProductModel *productModel;
+@property (nonatomic, strong) THNCollectionModel *collectionModel;
 
 @end

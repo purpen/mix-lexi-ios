@@ -52,6 +52,14 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 }
 
 #pragma mark - getters and setters
+- (CGFloat)headerHeight {
+    return _headerHeight ? _headerHeight : 0.01;
+}
+
+- (CGFloat)footerHeight {
+    return _footerHeight ? _footerHeight : 0.01;
+}
+
 - (NSMutableArray *)dataCells {
     if (!_dataCells) {
         _dataCells = [NSMutableArray array];

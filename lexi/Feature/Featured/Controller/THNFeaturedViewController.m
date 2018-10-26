@@ -23,6 +23,12 @@
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNShopWindowViewController.h"
+#import "THNGoodsListViewController.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNApplyStoreViewController.h"
+#import "THNArticleViewController.h"
+#import "THNBrandHallViewController.h"
+#import "THNWebKitViewViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -44,7 +50,7 @@ static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
-@interface THNFeaturedViewController ()
+@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate, THNBannerViewDelegate, THNFeaturedCollectionViewDelegate>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -72,6 +78,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 @property (nonatomic, assign) NSInteger optimalPerPageCount;
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
+@property (nonatomic, assign) CGFloat customGrassCellHeight;
 
 @end
 
@@ -79,7 +86,6 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self initPageNumber];
     [self loadTopBannerData];
     [self loadContentBannerData];
@@ -118,9 +124,10 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 #pragma mark - 请求数据
 // 顶部Banner
 - (void)loadTopBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        self.featuredCollectionView.bannerType = BannerTypeLeft;
         [self.featuredCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -129,7 +136,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 // 内容区Banner
 - (void)loadContentBannerData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
@@ -140,9 +147,9 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 今日推荐
 - (void)loadDailyRecommendData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @(self.pageCount);
-    params[@"per_page"] = @(self.dailyPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params isSign:YES delegate:nil];
+//    params[@"page"] = @(self.pageCount);
+//    params[@"per_page"] = @(self.dailyPerPageCount);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.dailyTitle = result.data[@"title"];
         self.dailyDataArray = result.data[@"daily_recommends"];
@@ -158,7 +165,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.pupularPerPageCount);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularTitle = result.data[@"title"];
         self.popularDataArray = result.data[@"products"];
@@ -170,7 +177,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 // 发现生活美学
 - (void)loadLifeAestheticData {
-    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil isSign:YES delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.lifeAestheticTitle = result.data[@"title"];
        
@@ -187,7 +194,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.optimalPerPageCount);
-    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.optimalTitle = result.data[@"title"];
         self.optimalDataArray = result.data[@"products"];
@@ -202,7 +209,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.grassListPerPageCount);
-    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params isSign:YES delegate:nil];
+    THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.grassListDataArray = result.data[@"life_records"];
         self.grassListTitle = result.data[@"title"];
@@ -217,8 +224,15 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     if (section == 0) {
         UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
         headerView.backgroundColor = [UIColor whiteColor];
+        self.featuredCollectionView.featuredDelegate = self;
+        
+        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
+            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeProductCenterType];
+        } else {
+            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+        }
+        
         [headerView addSubview:self.featuredCollectionView];
-        [self.openingView loadLivingHallHeadLineData];
         [headerView addSubview:self.openingView];
         __weak typeof(self)weakSelf = self;
         self.openingView.openingBlcok = ^{
@@ -227,6 +241,12 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                 THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
                 THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
                 [weakSelf presentViewController:navController animated:YES completion:nil];
+            
+            } else {
+                THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
+                [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
+//                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
+//                [weakSelf presentViewController:navController animated:YES completion:nil];
             }
         };
         return headerView;
@@ -258,6 +278,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kPopularFooterViewHeight)];
         footerView.backgroundColor = [UIColor whiteColor];
         [footerView addSubview:self.lineView];
+        self.bannerView.delegate = self;
         [footerView addSubview:self.bannerView];
         return footerView;
     } else {
@@ -278,6 +299,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delagate = self;
     NSArray *dataArray = [NSArray array];
     NSString *title;
     
@@ -331,12 +354,15 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         case 4:
             self.cellType = FearuredGrassList;
-           __block CGFloat firstRowMaxtitleHeight = 0;
-           __block CGFloat firstRowMaxcontentHeight = 0;
-           __block CGFloat secondRowMaxtitleHeight = 0;
-            __block CGFloat secondRowMaxcontentHeight = 0;
+         
             // 多次执行该方法造成重复的计算
             if (self.grassLabelHeights.count == 0) {
+                    
+                __block CGFloat firstRowMaxtitleHeight = 0;
+                __block CGFloat firstRowMaxcontentHeight = 0;
+                __block CGFloat secondRowMaxtitleHeight = 0;
+                __block CGFloat secondRowMaxcontentHeight = 0;
+                
                 [self.grassListDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
                     //  设置最大size
@@ -347,7 +373,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                     NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
                     NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:11]};
                     CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-                    CGFloat contentHeight = [grassListModel.content boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+                    CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
                     
                     // 取出第一列最大的titleLabel和contentLabel的高度
                     if (idx <= 1) {
@@ -373,13 +399,14 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
                     }
                     
                     CGFloat grassLabelHeight = titleHeight + contentHeight;
+                    
                     [self.grassLabelHeights addObject:@(grassLabelHeight)];
+                    
+                    self.customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
                 }];
-                
-               
             }
-             CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
-             return kCellGrassListHeight * 2 + customGrassCellHeight + 20 + kFeaturedCellTopBottomHeight;
+         
+            return kCellGrassListHeight * 2 + self.customGrassCellHeight + 25 + kFeaturedCellTopBottomHeight;
             break;
     }
     
@@ -394,10 +421,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         case 1:
             break;
-        case 2:{
-            THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
-            [self.navigationController pushViewController:shopWindow animated:YES];
-        }
+        case 2:
             
             break;
         case 3:
@@ -409,11 +433,82 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     }
 }
 
+#pragma mark - THNFeatureTableViewCellDelegate method 实现
+// 橱窗主页
+- (void)pushShopWindow:(NSString *)rid {
+    THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
+    [self.navigationController pushViewController:shopWindow animated:YES];
+}
+
+- (void)lookAllWithType:(FeaturedCellType)cellType {
+    switch (cellType) {
+            
+        case FeaturedLifeAesthetics: {
+            break;
+        }
+        case FearuredOptimal: {
+            THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:self.optimalTitle];
+            [self.navigationController pushViewController:goodsList animated:YES];
+            break;
+        }
+        case FearuredGrassList: {
+
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+// 商品详情
+- (void)pushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+// 文章详情
+- (void)pushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+#pragma mark - THNBannerViewDelegate
+
+- (void)bannerPushWeb:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc]init];
+    webVC.url = url;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
+- (void)bannerPushGoodInfo:(NSString *)rid {
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+- (void)bannerPushBrandHall:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc]init];
+    brandHall.rid = rid;
+    [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+- (void)bannerPushArticle:(NSInteger)rid {
+    THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
+    articleVC.rid = rid;
+    [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
         THNCollectionViewFlowLayout *flowLayout = [[THNCollectionViewFlowLayout alloc]init];
-        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, 200) collectionViewLayout:flowLayout];
+        CGFloat height = (SCREEN_WIDTH - 75) / 1.5;;
+        _featuredCollectionView = [[THNFeaturedCollectionView alloc]initWithFrame:CGRectMake(kFeaturedX, 15, SCREEN_WIDTH - kFeaturedX, height) collectionViewLayout:flowLayout];
     }
     return _featuredCollectionView;
 }
@@ -421,8 +516,15 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
-        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 156);
+        
+        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
+            _openingView.topTintView.hidden = YES;
+            _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
+        } else {
+             _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
+        }
     }
+    
     return _openingView;
 }
 

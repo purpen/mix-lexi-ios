@@ -44,6 +44,8 @@ CGFloat const kCellGrassListHeight = 158;
 @property (nonatomic, strong) NSArray *weekPopularDataArray;
 @property (nonatomic, strong) NSArray *lifeAestheticDataArray;
 @property (nonatomic, strong) NSArray *dailyDataArray;
+@property (weak, nonatomic) IBOutlet UIButton *lookAllButton;
+@property (weak, nonatomic) IBOutlet UIImageView *instructionImageView;
 
 @end
 
@@ -51,13 +53,20 @@ CGFloat const kCellGrassListHeight = 158;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-   [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
+    
+    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kGrassListCellIdentifier];
-     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNDailyRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kDailyRecommendCellIdentifier];
+    [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNDailyRecommendCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kDailyRecommendCellIdentifier];
     self.productCollectionView.delegate = self;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
+}
+
+- (IBAction)lookAll:(id)sender {
+    if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
+        [self.delagate lookAllWithType:self.cellType];
+    }
 }
 
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
@@ -65,20 +74,32 @@ CGFloat const kCellGrassListHeight = 158;
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.dailyDataArray = dataArray;
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             break;
         case FeaturedRecommendationPopular:
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             self.popularDataArray = dataArray;
             break;
         case FeaturedLifeAesthetics:
             self.lifeAestheticDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FearuredOptimal:
             self.optimalDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FearuredGrassList:
             self.grassListDataArray = dataArray;
+            self.lookAllButton.hidden = NO;
+            self.instructionImageView.hidden = NO;
             break;
         case FeaturedNo:
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             self.weekPopularDataArray = dataArray;
             break;
     }
@@ -86,15 +107,14 @@ CGFloat const kCellGrassListHeight = 158;
     //  放在初始化设置Layout前，否则数据样式错乱，卡顿，以及可能会有崩溃的问题产生
    [self.productCollectionView reloadData];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
     flowLayout.minimumInteritemSpacing = cellType == FeaturedLifeAesthetics ? 20 : 9;
     flowLayout.minimumLineSpacing = 10;
     
     if (self.cellType == FeaturedLifeAesthetics || self.cellType == FeaturedRecommendedToday) {
-        self.collectionViewConstraint.constant = 0;
         flowLayout.scrollDirection =  UICollectionViewScrollDirectionHorizontal;
+        
     } else {
-        self.collectionViewConstraint.constant = 20;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
     
@@ -112,7 +132,7 @@ CGFloat const kCellGrassListHeight = 158;
             itemHeight = kCellTodayHeight;
             break;
         case FeaturedRecommendationPopular:
-            itemWidth = indexPath.row <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
+            itemWidth = indexPath.row  <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
             itemHeight = indexPath.row <= 1 ? 160 : 145;
             break;
         case FeaturedLifeAesthetics:
@@ -200,8 +220,69 @@ CGFloat const kCellGrassListHeight = 158;
     }
 }
 
-
-
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    THNProductModel *productModel;
+    
+    switch (self.cellType) {
+           
+        case FeaturedRecommendedToday:{
+            THNDailyRecommendModel *dailyRecommendModel = [THNDailyRecommendModel mj_objectWithKeyValues:self.dailyDataArray[indexPath.row]];
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
+                [self.delagate pushArticle:dailyRecommendModel.recommend_id];
+            }
+            break;
+        }
+        
+        case FeaturedRecommendationPopular: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FeaturedLifeAesthetics: {
+            THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushShopWindow:)]) {
+                [self.delagate pushShopWindow:lifeRecordModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FearuredOptimal: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FearuredGrassList: {
+            THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:self.grassListDataArray[indexPath.row]];
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
+                [self.delagate pushArticle:grassListModel.rid];
+            }
+            
+            break;
+        }
+            
+        case FeaturedNo: {
+            productModel = [THNProductModel mj_objectWithKeyValues:self.weekPopularDataArray[indexPath.row]];
+            
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:productModel.rid];
+            }
+            
+            break;
+        }
+    }
+}
 
 @end

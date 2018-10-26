@@ -17,38 +17,72 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
 #pragma mark - 是否空字符串
 - (BOOL)isEmptyString {
     if (![self isKindOfClass:[NSString class]]) {
-        return TRUE;
+        return YES;
         
     } else if (self == nil) {
-        return TRUE;
+        return YES;
         
     } else if (!self) {
-        // null object
-        return TRUE;
+        return YES;
         
-    } else if (self == NULL) {
-        // null object
-        return TRUE;
+    } else if ([self isKindOfClass:[NSNull class]]) {
+        return YES;
         
     } else if ([self isEqualToString:@"NULL"]) {
-        // null object
-        return TRUE;
+        return YES;
         
     } else if ([self isEqualToString:@"(null)"]) {
-        return TRUE;
+        return YES;
+        
+    } else if (!self.length) {
+        return YES;
         
     } else {
         //  使用 whitespaceAndNewlineCharacterSet 删除周围的空白字符串
         //  然后在判断首位字符串是否为空
         NSString *trimedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if ([trimedString length] == 0) {
-            return TRUE;
+            return YES;
             
         } else {
-            return FALSE;
+            return NO;
         }
     }
+    
+    return NO;
 }
+
+#pragma mark - 时间戳转换Date
++ (NSString *)timeConversion:(NSString *)timeStampString initWithFormatterType:(Formatter)type {
+    NSTimeInterval interval = [timeStampString doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    switch (type) {
+        case FormatterYear:
+            [formatter setDateFormat:@"yyyy"];
+            break;
+        case FormatterMonth:
+             [formatter setDateFormat:@"yyyy-MM"];
+            break;
+        case FormatterDay:
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            break;
+        case FormatterHour:
+            [formatter setDateFormat:@"yyyy-MM-dd HH"];
+            break;
+        case FormatterMin:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            break;
+        case FormatterSecond:
+             [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            break;
+    }
+    
+    NSString *dateString = [formatter stringFromDate: date];
+    return dateString;
+}
+
 
 #pragma mark - 判断是否是手机号
 - (BOOL)checkTel {
@@ -150,6 +184,33 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return interval;
 }
 
+#pragma mark timeInterval转分秒
++ (NSString *)stringWithNSTimeInterval:(NSTimeInterval)timeInterval {
+    NSInteger min = timeInterval / 60;
+    NSInteger sec = (NSInteger)timeInterval % 60;
+    
+    if (min < 10 && sec < 10) {
+        return [NSString stringWithFormat:@"0%ld:0%ld",min,sec];
+    } else if (min < 10) {
+        return [NSString stringWithFormat:@"0%ld:%ld",min,sec];
+    } else if (sec < 10) {
+        return [NSString stringWithFormat:@"%ld:0%ld",min,sec];
+    } else {
+        return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+    }
+}
+
+#pragma mark 时间戳差转分秒
++ (NSString *)stringWithTimestamp:(NSString *)startTime endTimestamp:(NSString *)endTime {
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[endTime doubleValue]];
+    
+    NSTimeInterval interval = [endDate timeIntervalSinceDate:startDate];
+    NSInteger min = interval / 60;
+    NSInteger sec = (NSInteger)interval % 60;
+    return [NSString stringWithFormat:@"%ld:%ld",min,sec];
+}
+
 #pragma mark - 数据转json格式
 + (NSString *)jsonStringWithObject:(id)object {
     NSData *data = [NSJSONSerialization dataWithJSONObject:object
@@ -198,6 +259,29 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     //得到选择后沙盒中图片的完整路径
     filePath = [[NSString alloc] initWithFormat:@"%@%@", DocumentsPath, ImagePath];
     return filePath;
+}
+
+#pragma mark - 获取文字的宽度
+- (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize {
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    
+    CGSize retSize = [self boundingRectWithSize:CGSizeMake(MAXFLOAT, fontSize + 1)
+                                          options:NSStringDrawingUsesFontLeading
+                                       attributes:attribute
+                                          context:nil].size;
+    return retSize.width;
+}
+
+// 如果有两位小数不为0则保留两位小数，如果有一位小数不为0则保留一位小数，否则显示整数
++ (NSString *)formatFloat:(float)f
+{
+    if (fmodf(f, 1) == 0) {//如果有一位小数点
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.0f",f]];
+    } else if (fmodf(f * 10, 1)==0) {//如果有两位小数点
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.1f",f]];
+    } else {
+        return [NSString stringWithFormat:@"¥%@",[NSString stringWithFormat:@"%.2f",f]];
+    }
 }
 
 @end

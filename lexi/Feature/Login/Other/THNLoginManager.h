@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "THNResponse.h"
+#import "THNUserDataModel.h"
 
 typedef NS_ENUM(NSUInteger, THNLoginModeType) {
     THNLoginModeTypePassword,   // 密码登录
@@ -38,14 +39,30 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 @property (nonatomic, assign) NSInteger firstLogin;
 
 /**
+ 登录用户 ID
+ */
+@property (nonatomic, copy) NSString *userId;
+
+/**
  店铺ID
  */
-@property (nonatomic, strong) NSString *storeRid;
+@property (nonatomic, copy) NSString *storeRid;
 
 /**
  是否小B用户
  */
 @property (nonatomic, assign) BOOL openingUser;
+
+
+/**
+ 是否大B用户
+ */
+@property (nonatomic, assign) BOOL supplier;
+
+/**
+ 用户资料
+ */
+@property (nonatomic, strong) NSDictionary *userData;
 
 + (instancetype)sharedManager;
 
@@ -62,11 +79,6 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  @return 0:不是、 1:是
  */
 + (BOOL)isFirstLogin;
-
-/**
- 获取用户信息
- */
-- (void)getUserProfile:(void (^)(THNResponse *, NSError *))completion;
 
 /**
  保存登录信息
@@ -102,5 +114,26 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  退出登录
  */
 + (void)userLogoutCompletion:(void(^)(NSError *error))completion;
+
+/**
+ 获取用户信息
+ */
+- (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion;
+
+/**
+ 更新用户信息
+ */
+- (void)updateUserProfileWithParams:(NSDictionary *)params
+                         completion:(void (^)(THNResponse *date, NSError *error))completion;
+
+
+/**
+ 更新生活馆信息
+
+ @param openingUser 是否生活馆用户
+ @param supplier 是否大B
+ @param storeId 生活馆ID
+ */
+- (void)updateUserLivingHallStatus:(BOOL)openingUser initSupplier:(BOOL)supplier initStoreId:(NSString *)storeId;
 
 @end

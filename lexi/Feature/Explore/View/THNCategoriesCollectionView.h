@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CategoriesBlock)(NSInteger categorieID, NSString *name);
+
 @interface THNCategoriesCollectionView : UICollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame
          collectionViewLayout:(UICollectionViewLayout *)layout;
 
 @property (nonatomic, strong) NSArray *categorieDataArray;
+@property (nonatomic, copy) CategoriesBlock categoriesBlock;
 
 @end

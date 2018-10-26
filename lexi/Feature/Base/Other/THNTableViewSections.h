@@ -19,6 +19,16 @@ typedef void (^THNTableViewSectionMoreBlock)(void);
 @property (nonatomic, assign) NSInteger index;
 
 /**
+ 每组组顶部的间隔
+ */
+@property (nonatomic, assign) CGFloat headerHeight;
+
+/**
+ 每组组底部的间隔
+ */
+@property (nonatomic, assign) CGFloat footerHeight;
+
+/**
  单元格
  */
 @property (nonatomic, strong) NSMutableArray *dataCells;
@@ -35,8 +45,8 @@ typedef void (^THNTableViewSectionMoreBlock)(void);
 @property (nonatomic, copy) THNTableViewSectionMoreBlock selectedMoreCompletion;
 
 + (instancetype)initSections;
++ (instancetype)initSectionsWithCells:(NSMutableArray *)cells;
 + (instancetype)initSectionsWithHeaderTitle:(NSString *)title;
 + (instancetype)initSectionsWithHeaderTitle:(NSString *)title moreCompletion:(void (^)(void))completion;
-+ (instancetype)initSectionsWithCells:(NSMutableArray *)cells;
 
 @end

@@ -83,8 +83,16 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
 - (void)layoutPageControl {
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
+        switch (self.carouselBannerType) {
+            case CarouselBannerTypeBrandHallFeatured:
+                make.centerX.equalTo(self);
+                make.bottom.equalTo(self);
+                break;
+            default:
+                make.bottom.right.equalTo(self);
+                break;
+        }
+       make.size.mas_equalTo(CGSizeMake(25 * self.bannerDataArray.count, 44));
     }];
 }
 
@@ -103,7 +111,6 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     NSInteger pageIndex = [[[self.collectionView indexPathsForVisibleItems] lastObject] row];
     pageIndex++;
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:pageIndex inSection:0];
-   
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 
@@ -123,6 +130,41 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     [cell setBannerModel:bannerModel];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+   
+    switch (bannerModel.type) {
+        case BannerContentTypeLink:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushWeb:)]) {
+                [self.delegate bannerPushWeb:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeProduct:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushGoodInfo:)]) {
+                [self.delegate bannerPushGoodInfo:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeCatogories:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushCategorie:initWithCategoriesID:)]) {
+                
+                [self.delegate bannerPushCategorie:bannerModel.title initWithCategoriesID:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeBrandHall:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushBrandHall:)]) {
+                [self.delegate bannerPushBrandHall:bannerModel.link];
+            }
+            break;
+        case BannerContentTypeSpecialTopic:
+            break;
+        default:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushArticle:)]) {
+                [self.delegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+    }
 }
 
 #pragma mark - UICollectionViewDelegate method 实现

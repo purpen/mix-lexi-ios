@@ -11,7 +11,13 @@ target "lexi" do
  pod 'IQKeyboardManager', '~> 4.0.10'
  pod 'SVProgressHUD', '~> 2.2.5'
  pod 'TYAlertController', '~> 1.2.0'
- pod 'YYText'
+ pod 'YYKit'
  pod "Qiniu", "~> 7.1"
  pod 'MLeaksFinder'
+ pod 'DateTools'
+ pod 'UMCCommon'
+ pod 'UMCSecurityPlugins'
+ pod 'UMCShare/Social/ReducedWeChat'
+ pod 'UMCShare/Social/ReducedQQ'
+ pod 'UMCShare/Social/ReducedSina'
 end

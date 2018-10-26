@@ -32,17 +32,23 @@ static NSString *const kParamStatus = @"status";
 
 #pragma mark - network
 - (void)networkGetAreaCode {
-    THNRequest *request = [THNAPI getWithUrlString:kURLAreaCode
-                                 requestDictionary:@{kParamStatus: @1}
-                                            isSign:NO
-                                          delegate:nil];
+    [SVProgressHUD thn_show];
     
+    WEAKSELF;
+    
+    THNRequest *request = [THNAPI getWithUrlString:kURLAreaCode requestDictionary:@{kParamStatus: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [SVProgressHUD dismiss];
         THNAreaModel *areaModel = [THNAreaModel mj_objectWithKeyValues:result.data];
-        [self.zipCodeView thn_setAreaCodes:areaModel.area_codes];
+        [weakSelf.zipCodeView thn_setAreaCodes:areaModel.area_codes];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
