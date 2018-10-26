@@ -21,7 +21,8 @@ typedef NS_ENUM(NSInteger, THNHomeType) {
     THNHomeTypeExplore,
     THNHomeTypeFeatured,
     THNHomeTypeCenter,
-    THNHomeTypeBrandHall
+    THNHomeTypeBrandHall,
+    THNHomeTypeShowPrice
 };
 
 typedef void(^ShelfBlock)(THNProductCollectionViewCell *cell);
