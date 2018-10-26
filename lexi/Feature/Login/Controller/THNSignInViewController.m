@@ -116,6 +116,8 @@ static NSString *const kTextSkip            = @"跳过";
 
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
@@ -130,6 +132,7 @@ static NSString *const kTextSkip            = @"跳过";
         }
         
         [weakSelf thn_loginSuccessWithModeType:type];
+        [SVProgressHUD dismiss];
     }];
 }
 
