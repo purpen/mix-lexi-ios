@@ -58,8 +58,32 @@ static NSString *const kTextCancel = @"取消";
                 break;
         }
     } else if (shareView == self.moreActionView) {
-        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"更多：%zi", index]];
+
     }
+}
+
+- (void)systemShare {
+    NSString *shareText = @"分享标题";
+    UIImage *shareImage = [UIImage imageNamed:@"icon_brandHall_v"];
+    NSURL *shareURL = [NSURL URLWithString:@"https://www.baidu.com/"];
+    NSArray *activityItems = [[NSArray alloc] initWithObjects:shareText, shareImage, shareURL, nil];
+
+    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+
+    UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        NSLog(@"%@",activityType);
+        if (completed) {
+            NSLog(@"分享成功");
+        } else {
+            NSLog(@"分享失败");
+        }
+
+        [vc dismissViewControllerAnimated:YES completion:nil];
+    };
+
+    vc.completionWithItemsHandler = myBlock;
+
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)shareMiniProgramToPlatformType:(UMSocialPlatformType)platformType
