@@ -79,6 +79,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
 @property (nonatomic, assign) CGFloat customGrassCellHeight;
+@property (nonatomic, strong) NSMutableArray *news;
 
 @end
 
@@ -105,7 +106,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 初始化页码
 - (void)initPageNumber {
     self.pageCount = 1;
-    self.pupularPerPageCount = 5;
+    self.pupularPerPageCount = 40;
     self.optimalPerPageCount = 4;
     self.grassListPerPageCount = 4;
 }
@@ -168,7 +169,21 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularTitle = result.data[@"title"];
-        self.popularDataArray = result.data[@"products"];
+        NSArray *allPopularProducts = result.data[@"products"];
+        
+        [allPopularProducts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSInteger showMaxCount = 5;
+            NSArray *array = [NSArray array];
+            if (idx % showMaxCount == 0) {
+                if (allPopularProducts.count - idx > showMaxCount) {
+                    array = [allPopularProducts subarrayWithRange:NSMakeRange(idx, showMaxCount)];
+                } else {
+                    array = [allPopularProducts subarrayWithRange:NSMakeRange(idx, allPopularProducts.count - idx)];
+                }
+                [self.news addObject:array];
+            }
+        }];
+        self.popularDataArray = self.news;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -555,6 +570,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         _grassLabelHeights = [NSMutableArray array];
     }
     return _grassLabelHeights;
+}
+
+- (NSMutableArray *)news {
+    if (!_news) {
+        _news = [NSMutableArray array];
+    }
+    return _news;
 }
 
 @end

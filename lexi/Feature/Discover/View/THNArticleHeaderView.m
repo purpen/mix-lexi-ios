@@ -13,6 +13,7 @@
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNFollowUserButton+SelfManager.h"
 
 @interface THNArticleHeaderView()
 
@@ -25,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet THNFollowUserButton *followButton;
 
 @end
 
@@ -34,6 +35,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.followButton drawCornerWithType:0 radius:13];
+    [self.followButton setupViewUI];
     self.backgroundImageView.layer.masksToBounds = YES;
 }
 
@@ -50,13 +52,13 @@
         self.themeLabel.textColor = [UIColor colorWithHexString:@"8C7A6E"];
     } else if ([grassListModel.channel_name isEqualToString:handTeachTitle]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"E3B395"];
-
     }
 
     self.themeLabel.text = grassListModel.channel_name;
     self.titleLabel.text = grassListModel.title;
     self.visitorsNumberLabel.text = [NSString stringWithFormat:@"%ld",grassListModel.browse_count];
     self.dateLabel.text = [NSString timeConversion:grassListModel.created_at initWithFormatterType:FormatterDay];
+    [self.followButton selfManagerFollowUserStatus:grassListModel.is_follow userId:grassListModel.uid];
 }
 
 @end
