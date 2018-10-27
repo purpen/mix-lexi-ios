@@ -355,7 +355,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  商品优惠券视图
  */
 - (void)thn_setGoodsInfoCouponCell {
-    WEAKSELF;
+//    WEAKSELF;
     
     THNGoodsTableViewCells *couponCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeCoupon) didSelectedItem:^(NSString *rid) {
         [SVProgressHUD thn_showInfoWithStatus:@"领取优惠券"];
