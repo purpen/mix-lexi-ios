@@ -13,6 +13,7 @@
 #import "THNGoodsManager.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNGoodsListCollectionReusableView.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 static NSString *const kCollectionViewHeaderViewId = @"kCollectionViewHeaderViewId";
@@ -23,7 +24,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
     THNFunctionButtonViewDelegate,
-    THNFunctionPopupViewDelegate
+    THNFunctionPopupViewDelegate,
+    THNMJRefreshDelegate
 >
 
 /// 商品列表

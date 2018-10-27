@@ -58,7 +58,7 @@ static NSString *const kTextCancel = @"取消";
                 break;
         }
     } else if (shareView == self.moreActionView) {
-
+        [self systemShare];
     }
 }
 

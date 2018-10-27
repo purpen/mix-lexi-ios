@@ -447,6 +447,7 @@
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D85DA80E2106030200A36A71 /* THNConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D72106030100A36A71 /* THNConst.m */; };
 		D85DA80F2106030200A36A71 /* THNTextConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7D82106030100A36A71 /* THNTextConst.m */; };
+		D88E1E2921841A65008B7DD9 /* UIScrollView+THNMJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */; };
 		D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
 		D8DCFC1C2181C6A300DC4FF4 /* THNWindowModelProducts.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */; };
@@ -1260,6 +1261,8 @@
 		D85DA7D92106030100A36A71 /* THNConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNConst.h; sourceTree = "<group>"; };
 		D85DA7DA2106030100A36A71 /* THNTextConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNTextConst.h; sourceTree = "<group>"; };
 		D85DA7DC2106030100A36A71 /* THNMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMarco.h; sourceTree = "<group>"; };
+		D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+THNMJRefresh.h"; sourceTree = "<group>"; };
+		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
@@ -2934,6 +2937,8 @@
 				CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */,
 				D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */,
 				D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */,
+				D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */,
+				D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3293,6 +3298,7 @@
 				4BECF29F217F1402008E5E28 /* THNLifeSaleCollectModel.m in Sources */,
 				4BECF223217F1401008E5E28 /* THNEvaluationViewController.m in Sources */,
 				D85DA7FF2106030200A36A71 /* UIView+LayoutMethods.m in Sources */,
+				D88E1E2921841A65008B7DD9 /* UIScrollView+THNMJRefresh.m in Sources */,
 				4BECF193217F1401008E5E28 /* THNBannnerCollectionViewCell.m in Sources */,
 				4BECF29A217F1402008E5E28 /* THNLifeCashBillDataModel.m in Sources */,
 				4BECF22D217F1401008E5E28 /* THNSelectLogisticsViewController.m in Sources */,

@@ -70,6 +70,11 @@
 + (UIImage *)getImageFormDiskCacheForKey:(NSString *)key;
 + (BOOL)isCacheImageOfImageUrl:(NSString *)imageUrl;
 
+/**
+ 调整图片的尺寸
+ */
++ (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size;
+
 //圆形
 - (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion;
 
