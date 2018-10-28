@@ -18,7 +18,8 @@
  */
 typedef NS_ENUM(NSUInteger, CarouselBannerType) {
     CarouselBannerTypeDefault,
-    CarouselBannerTypeBrandHallFeatured
+    CarouselBannerTypeBrandHallFeatured,
+    CarouselBannerTypeZoom
 };
 
 @protocol THNBannerViewDelegate <NSObject>

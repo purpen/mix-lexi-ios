@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -55,11 +55,18 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_right_gray" translatesAutoresizingMaskIntoConstraints="NO" id="nRx-ht-5fh">
                         <rect key="frame" x="448" y="32" width="4" height="9"/>
                     </imageView>
+                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="YJt-Mo-Cyc">
+                        <rect key="frame" x="389" y="18" width="39" height="37"/>
+                        <color key="pageIndicatorTintColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="currentPageIndicatorTintColor" red="0.77647058820000003" green="0.81960784310000001" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </pageControl>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="YJt-Mo-Cyc" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="0Md-O2-BVV"/>
                     <constraint firstItem="vCq-2U-Ad6" firstAttribute="top" secondItem="zIa-fe-r3h" secondAttribute="top" constant="25" id="3eo-2j-Ctx"/>
                     <constraint firstItem="ZmH-ps-M0q" firstAttribute="leading" secondItem="vCq-2U-Ad6" secondAttribute="trailing" constant="10" id="5Ar-9f-lm3"/>
                     <constraint firstItem="vCq-2U-Ad6" firstAttribute="leading" secondItem="zIa-fe-r3h" secondAttribute="leading" constant="15" id="5Tj-eV-u6q"/>
+                    <constraint firstItem="nRx-ht-5fh" firstAttribute="leading" secondItem="YJt-Mo-Cyc" secondAttribute="trailing" constant="20" id="7aj-11-gv0"/>
                     <constraint firstAttribute="trailing" secondItem="2CI-qc-qCo" secondAttribute="trailing" id="7sT-zf-fx9"/>
                     <constraint firstItem="A8s-Tc-jQf" firstAttribute="top" secondItem="ZmH-ps-M0q" secondAttribute="bottom" constant="15" id="I8r-UN-PmG"/>
                     <constraint firstItem="nRx-ht-5fh" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="PIa-Od-zDa"/>
@@ -78,10 +85,11 @@
                 <outlet property="collectionViewConstraint" destination="pE6-22-MQk" id="m1e-L1-Oyx"/>
                 <outlet property="instructionImageView" destination="nRx-ht-5fh" id="3ai-8d-eSR"/>
                 <outlet property="lookAllButton" destination="ZmH-ps-M0q" id="DZg-Ej-duF"/>
+                <outlet property="pageControl" destination="YJt-Mo-Cyc" id="Cud-Ee-MUk"/>
                 <outlet property="productCollectionView" destination="A8s-Tc-jQf" id="rVk-1p-eu7"/>
                 <outlet property="titleLabel" destination="vCq-2U-Ad6" id="BBd-SJ-qDH"/>
             </connections>
-            <point key="canvasLocation" x="11" y="-18"/>
+            <point key="canvasLocation" x="10.5" y="-18.5"/>
         </tableViewCell>
     </objects>
     <resources>

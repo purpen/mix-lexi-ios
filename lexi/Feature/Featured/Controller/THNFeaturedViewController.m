@@ -106,7 +106,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 初始化页码
 - (void)initPageNumber {
     self.pageCount = 1;
-    self.pupularPerPageCount = 40;
+    self.pupularPerPageCount = 20;
     self.optimalPerPageCount = 4;
     self.grassListPerPageCount = 4;
 }

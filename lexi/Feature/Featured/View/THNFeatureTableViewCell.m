@@ -51,6 +51,7 @@ CGFloat const kCellGrassListHeight = 158;
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
 @property (assign,nonatomic) CGFloat m_dragEndX;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end
 
@@ -75,42 +76,41 @@ CGFloat const kCellGrassListHeight = 158;
     }
 }
 
-//#pragma mark - UIScrollViewDelegate
-////手指拖动开始
-//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    self.m_dragStartX = scrollView.contentOffset.x;
-//}
-//
-////手指拖动停止
-//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    self.m_dragEndX = scrollView.contentOffset.x;
-//    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self fixCellToCenter];
-//    });
-//}
-//
-////配置cell居中
-//- (void)fixCellToCenter {
-//    //最小滚动距离
-//    float dragMiniDistance = self.viewWidth / 5.0f;
-//    if (self.m_dragStartX -  self.m_dragEndX >= dragMiniDistance) {
-//        self.m_currentIndex -= 1;//向右
-//    }else if(self.m_dragEndX -  self.m_dragStartX >= dragMiniDistance){
-//        self.m_currentIndex += 1;//向左
-//    }
-//    NSInteger maxIndex = [self.productCollectionView numberOfItemsInSection:0] - 1;
-//    
-//    
-//    self.m_currentIndex = self.m_currentIndex <= 0 ? 0 : self.m_currentIndex;
-//    self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
-//    [self.productCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-//    
-//}
+#pragma mark - UIScrollViewDelegate
+//手指拖动开始
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.m_dragStartX = scrollView.contentOffset.x;
+}
+
+//手指拖动停止
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    self.m_dragEndX = scrollView.contentOffset.x;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self fixCellToCenter];
+    });
+}
+
+//配置cell居中
+- (void)fixCellToCenter {
+    //最小滚动距离
+    float dragMiniDistance = self.viewWidth / 5.0f;
+    if (self.m_dragStartX -  self.m_dragEndX >= dragMiniDistance) {
+        self.m_currentIndex -= 1;//向右
+    }else if(self.m_dragEndX -  self.m_dragStartX >= dragMiniDistance){
+        self.m_currentIndex += 1;//向左
+    }
+    NSInteger maxIndex = [self.productCollectionView numberOfItemsInSection:0] - 1;
+    self.m_currentIndex = self.m_currentIndex <= 0 ? 0 : self.m_currentIndex;
+    self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
+    [self.productCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    self.pageControl.currentPage = self.m_currentIndex;
+}
 
 
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
+    self.pageControl.hidden = YES;
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.dailyDataArray = dataArray;
@@ -121,6 +121,8 @@ CGFloat const kCellGrassListHeight = 158;
             self.lookAllButton.hidden = YES;
             self.instructionImageView.hidden = YES;
             self.popularDataArray = dataArray;
+            self.pageControl.hidden = NO;
+            self.pageControl.numberOfPages = self.popularDataArray.count;
             break;
         case FeaturedLifeAesthetics:
             self.lifeAestheticDataArray = dataArray;
@@ -134,8 +136,9 @@ CGFloat const kCellGrassListHeight = 158;
             break;
         case FearuredGrassList:
             self.grassListDataArray = dataArray;
-            self.lookAllButton.hidden = NO;
+            self.lookAllButton.hidden = YES;
             self.instructionImageView.hidden = NO;
+
             break;
         case FeaturedNo:
             self.lookAllButton.hidden = YES;
