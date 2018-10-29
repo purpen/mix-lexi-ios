@@ -14,8 +14,8 @@
  管理用户关注状态
  
  @param status 关注状态
- @param uid 用户 id
+ @param model 用户数据
  */
-- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userId:(NSString *)uid;
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userModel:(THNUserModel *)model;
 
 @end

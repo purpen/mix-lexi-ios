@@ -7,7 +7,6 @@
 //
 
 #import "THNFollowStoreButton.h"
-#import "THNStoreModel.h"
 
 @interface THNFollowStoreButton (SelfManager)
 
@@ -15,8 +14,8 @@
  管理店铺关注状态
 
  @param follow 是否关注
- @param rid 店铺 id
+ @param model 店铺数据
  */
-- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSString *)rid;
+- (void)selfManagerFollowStoreStatus:(BOOL)follow storeModel:(THNStoreModel *)model;
 
 @end

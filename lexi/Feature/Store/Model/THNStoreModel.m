@@ -17,7 +17,8 @@ NSString *const kTHNStoreModelDeliveryCity = @"delivery_city";
 NSString *const kTHNStoreModelDeliveryCountry = @"delivery_country";
 NSString *const kTHNStoreModelDeliveryProvince = @"delivery_province";
 NSString *const kTHNStoreModelFansCount = @"fans_count";
-NSString *const kTHNStoreModelIsFollowed = @"followed_status";
+NSString *const kTHNStoreModelIsFollowed = @"is_followed";
+NSString *const kTHNStoreModelFollowedStatus = @"followed_status";
 NSString *const kTHNStoreModelLifeRecordCount = @"life_record_count";
 NSString *const kTHNStoreModelLogo = @"logo";
 NSString *const kTHNStoreModelName = @"name";
@@ -71,9 +72,13 @@ NSString *const kTHNStoreModelTown = @"town";
 		self.fansCount = [dictionary[kTHNStoreModelFansCount] integerValue];
 	}
 
-	if(![dictionary[kTHNStoreModelIsFollowed] isKindOfClass:[NSNull class]]){
+    if(![dictionary[kTHNStoreModelIsFollowed] isKindOfClass:[NSNull class]]){
         self.isFollowed = [dictionary[kTHNStoreModelIsFollowed] boolValue];
-	}
+    }
+    
+    if(![dictionary[kTHNStoreModelFollowedStatus] isKindOfClass:[NSNull class]]){
+        self.followedStatus = [dictionary[kTHNStoreModelFollowedStatus] boolValue];
+    }
 
 	if(![dictionary[kTHNStoreModelLifeRecordCount] isKindOfClass:[NSNull class]]){
 		self.lifeRecordCount = [dictionary[kTHNStoreModelLifeRecordCount] integerValue];

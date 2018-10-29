@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNStoreModel.h"
 
 typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
     THNFollowButtonTypeExplore = 0,     // 探索页面
@@ -23,6 +24,11 @@ typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
  店铺 id
  */
 @property (nonatomic, strong) NSString *storeId;
+
+/**
+ 店铺数据
+ */
+@property (nonatomic, strong) THNStoreModel *storeModel;
 
 /**
  根据加载的页面创建

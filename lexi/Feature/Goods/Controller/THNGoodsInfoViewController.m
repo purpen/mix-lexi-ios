@@ -202,10 +202,12 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_getGoodsInfoLikedUserDataWithGroup:(dispatch_group_t)group {
     WEAKSELF;
     
+    NSNumber *userCount = kDeviceiPhone5 ? @(10) : @(12);
+    
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [THNGoodsManager getLikeGoodsUserDataWithGoodsId:self.goodsId
-                                                  params:@{}
+                                                  params:@{@"per_page": userCount}
                                               completion:^(NSArray *userData, NSError *error) {
                                                   dispatch_group_leave(group);
                                                   if (error) return;
@@ -732,6 +734,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     goodsSkuVC.functionType = self.functionView.type;
     goodsSkuVC.handleType = type;
     goodsSkuVC.selectGoodsAddCartCompleted = ^(NSString *skuId) {
+        [SVProgressHUD thn_showSuccessWithStatus:@"已添加到购物车"];
         [weakSelf thn_getCartGoodsCount];
     };
     [self presentViewController:goodsSkuVC animated:NO completion:nil];
