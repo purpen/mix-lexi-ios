@@ -12,6 +12,7 @@
 #import "THNUserCenterViewController.h"
 #import "THNLoginManager.h"
 #import "UIScrollView+THNMJRefresh.h"
+#import "NSString+Helper.h"
 
 /// url
 static NSString *const kURLLikeGoodsUser    = @"/product/userlike";
@@ -76,11 +77,13 @@ static NSString *const kTitleUserFollow     = @"关注";
 
 #pragma mark - network
 - (void)thn_requestUserListDataWithRefresh:(BOOL)refresh {
+    NSLog(@"请求参数：%@", [self thn_requestParams]);
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_requestParams]
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"============ 用户列表：%@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
             if (refresh) {
                 [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
@@ -97,14 +100,14 @@ static NSString *const kTitleUserFollow     = @"关注";
         if (refresh) {
             [self.userTableView endHeaderRefreshAndCurrentPageChange:YES];
             [self.modelArr removeAllObjects];
-            [self.modelArr addObjectsFromArray:dataArr];
+            [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
             [self.userTableView resetNoMoreData];
             
         } else {
             [self.userTableView endFooterRefreshAndCurrentPageChange:YES];
             
             if (dataArr.count) {
-                [self.modelArr addObjectsFromArray:dataArr];
+                [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
                 
             } else {
                 [self.userTableView noMoreData];
@@ -124,6 +127,17 @@ static NSString *const kTitleUserFollow     = @"关注";
     }];
 }
 
+- (NSArray *)thn_convertModelWithData:(NSArray *)data {
+    NSMutableArray *modelArr = [NSMutableArray array];
+    
+    for (NSDictionary *dict in data) {
+        THNUserModel *model = [THNUserModel mj_objectWithKeyValues:dict];
+        [modelArr addObject:model];
+    }
+    
+    return [modelArr copy];
+}
+
 - (NSString *)thn_resultDataKey {
     NSDictionary *resultDict = @{@(THNUserListTypeLikeGoods):   kKeyLikeUsers,
                                  @(THNUserListTypeFans):        kKeyUserFans,
@@ -135,7 +149,7 @@ static NSString *const kTitleUserFollow     = @"关注";
 }
 
 - (NSDictionary *)thn_requestParams {
-    NSDictionary *paramsDict = @{kKeyPerPage: @(15),
+    NSDictionary *paramsDict = @{kKeyPerPage: @(10),
                                  kKeyPage: @(self.currentPage)};
     
     if (self.requestId.length) {
@@ -172,9 +186,6 @@ static NSString *const kTitleUserFollow     = @"关注";
     [super viewWillAppear:animated];
     
     [self thn_setNavigationTitle];
-    
-//    self.currentPage = 1;
-//    [self thn_requestUserListDataWithRefresh:YES];
 }
 
 - (void)thn_setNavigationTitle {
@@ -198,7 +209,7 @@ static NSString *const kTitleUserFollow     = @"关注";
     }
     
     if (self.modelArr.count) {
-        [cell thn_setUserListCellData:self.modelArr[indexPath.row]];
+        [cell thn_setUserListCellModel:self.modelArr[indexPath.row]];
     }
     
     return cell;

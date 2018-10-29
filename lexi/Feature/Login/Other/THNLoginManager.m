@@ -130,6 +130,7 @@ MJCodingImplementation
 - (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"======== 用户的资料：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;

@@ -18,9 +18,10 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 
 @implementation THNFollowStoreButton (SelfManager)
 
-- (void)selfManagerFollowStoreStatus:(BOOL)follow storeRid:(NSString *)rid {
+- (void)selfManagerFollowStoreStatus:(BOOL)follow storeModel:(THNStoreModel *)model {
     [self setFollowStoreStatus:follow];
-    self.storeId = rid;
+    self.storeId = model.rid;
+    self.storeModel = model;
     [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
@@ -37,8 +38,6 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
                                   [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
                                   return;
                               }
-                              
-                              [self thn_changeButtonAnimation];
     }];
 }
 
@@ -47,6 +46,9 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     self.selected = !self.selected;
     self.backgroundColor = [UIColor colorWithHexString:self.selected ? @"#EFF3F2" : kColorMain];
     [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, self.selected ? 0 : 5, 0, 0))];
+    
+    self.storeModel.isFollowed = self.selected;
+    self.storeModel.followedStatus = self.selected;
 }
 
 #pragma mark - request
@@ -58,10 +60,13 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
  @param completed 成功后的回调
  */
 - (void)requestFollowStoreWithURL:(NSString *)url storeId:(NSString *)storeId completed:(void (^)(NSError *error))completed {
+    [self thn_changeButtonAnimation];
+    
     THNRequest *request = [THNAPI postWithUrlString:url requestDictionary:@{@"rid": storeId} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            [self thn_changeButtonAnimation];
             completed(nil);
             return ;
         }
@@ -73,6 +78,8 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
         completed(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        [self thn_changeButtonAnimation];
         completed(error);
     }];
 }
