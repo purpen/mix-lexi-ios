@@ -38,10 +38,11 @@ UIKIT_EXTERN  CGFloat const kCellGrassListHeight;
 
 @optional
 // 点击发现生活美学
-- (void)pushShopWindow:(NSString *)rid;
+- (void)pushShopWindow:(NSInteger)rid;
 - (void)lookAllWithType:(FeaturedCellType)cellType;
 - (void)pushGoodInfo:(NSString *)rid;
 - (void)pushArticle:(NSInteger)rid;
+- (void)pushSetDetail:(NSInteger)collectionID;
 
 @end
 

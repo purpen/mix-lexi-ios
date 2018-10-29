@@ -21,6 +21,7 @@
 #import "THNArticleProductTableViewCell.h"
 #import "THNGoodsInfoViewController.h"
 #import <SDWebImage/SDWebImageManager.h>
+#import "THNBrandHallViewController.h"
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -263,6 +264,16 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         return cell;
     }
 
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *articleStr = self.dataArray[indexPath.row];
+    if ([articleStr isEqualToString:kArticleCellTypeStore]) {
+        THNLifeOrderStoreModel *storeModel = [THNLifeOrderStoreModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
+        THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+        brandHallVC.rid = storeModel.store_rid;
+        [self.navigationController pushViewController:brandHallVC animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

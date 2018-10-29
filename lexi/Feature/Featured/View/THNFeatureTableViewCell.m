@@ -79,16 +79,20 @@ CGFloat const kCellGrassListHeight = 158;
 #pragma mark - UIScrollViewDelegate
 //手指拖动开始
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    self.m_dragStartX = scrollView.contentOffset.x;
+    if (self.cellType == FeaturedRecommendationPopular) {
+        self.m_dragStartX = scrollView.contentOffset.x;
+    }
 }
 
 //手指拖动停止
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    self.m_dragEndX = scrollView.contentOffset.x;
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self fixCellToCenter];
-    });
+    if (self.cellType == FeaturedRecommendationPopular) {
+        self.m_dragEndX = scrollView.contentOffset.x;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self fixCellToCenter];
+        });
+    }
 }
 
 //配置cell居中
@@ -106,7 +110,6 @@ CGFloat const kCellGrassListHeight = 158;
     [self.productCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     self.pageControl.currentPage = self.m_currentIndex;
 }
-
 
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
@@ -136,7 +139,7 @@ CGFloat const kCellGrassListHeight = 158;
             break;
         case FearuredGrassList:
             self.grassListDataArray = dataArray;
-            self.lookAllButton.hidden = YES;
+            self.lookAllButton.hidden = NO;
             self.instructionImageView.hidden = NO;
 
             break;
@@ -160,7 +163,6 @@ CGFloat const kCellGrassListHeight = 158;
          flowLayout.scrollDirection =  UICollectionViewScrollDirectionHorizontal;
          flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
          flowLayout.minimumLineSpacing = 0;
-         self.productCollectionView.pagingEnabled = YES;
     } else {
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
@@ -247,6 +249,13 @@ CGFloat const kCellGrassListHeight = 158;
          return cell;
     } else if (self.cellType == FeaturedRecommendationPopular) {
         THNPoupalRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPopularRecommendCellIdentifier forIndexPath:indexPath];
+        
+        cell.recommendCellBlock = ^(NSString *rid) {
+            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                [self.delagate pushGoodInfo:rid];
+            }
+        };
+        
         cell.popularDataArray = self.popularDataArray[indexPath.row];
         [cell.collectionView reloadData];
         return cell;
@@ -277,19 +286,20 @@ CGFloat const kCellGrassListHeight = 158;
            
         case FeaturedRecommendedToday:{
             THNDailyRecommendModel *dailyRecommendModel = [THNDailyRecommendModel mj_objectWithKeyValues:self.dailyDataArray[indexPath.row]];
-            if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
-                [self.delagate pushArticle:dailyRecommendModel.recommend_id];
+            if (dailyRecommendModel.target_type == RecommendTypeArticle) {
+                if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
+                    [self.delagate pushArticle:dailyRecommendModel.recommend_id];
+                }
+            } else if (dailyRecommendModel.target_type == RecommendTypeSet) {
+                if (self.delagate && [self.delagate respondsToSelector:@selector(pushSetDetail:)]) {
+                    [self.delagate pushSetDetail:dailyRecommendModel.recommend_id];
+                }
             }
+           
             break;
         }
         
         case FeaturedRecommendationPopular: {
-            productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
-            
-            if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
-                [self.delagate pushGoodInfo:productModel.rid];
-            }
-            
             break;
         }
             

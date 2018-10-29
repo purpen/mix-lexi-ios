@@ -41,7 +41,7 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 - (void)setupUI {
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
-    self.navigationBarView.title = @"集合";
+    self.navigationBarView.title = @"集合详情";
     [self.view addSubview:self.collectionView];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetDetailProductCellIdentifier];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier];

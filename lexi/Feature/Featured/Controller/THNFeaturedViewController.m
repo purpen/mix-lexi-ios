@@ -29,6 +29,8 @@
 #import "THNArticleViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNWebKitViewViewController.h"
+#import "THNDiscoverThemeViewController.h"
+#import "THNSetDetailViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -42,7 +44,7 @@ static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";
 // 人气推荐
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 // 发现生活美学
-static NSString *const kUrlLifeAesthetics = @"/shop_windows/recommend";
+static NSString *const kUrlLifeAesthetics = @"/shop_windows/handpick";
 // 乐喜优选
 static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
 // 种草清单
@@ -127,9 +129,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (void)loadTopBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        self.featuredCollectionView.banners = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeLeft;
-        [self.featuredCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -195,13 +196,10 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.lifeAestheticTitle = result.data[@"title"];
-       
+        self.lifeAestheticDataArray = result.data[@"shop_windows"];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"searchHis" ofType:@"json"]];
-    NSDictionary *result = [data mj_JSONObject];
-    self.lifeAestheticDataArray = result[@"data"][@"daily_recommends"];
 }
 
 //优选
@@ -429,36 +427,18 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case 0:
-            
-            break;
-        case 1:
-            break;
-        case 2:
-            
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-            break;
-    }
-}
-
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
 // 橱窗主页
-- (void)pushShopWindow:(NSString *)rid {
-    THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
-    [self.navigationController pushViewController:shopWindow animated:YES];
+- (void)pushShopWindow:(NSInteger)rid {
+    
 }
 
 - (void)lookAllWithType:(FeaturedCellType)cellType {
     switch (cellType) {
             
         case FeaturedLifeAesthetics: {
+            THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
+            [self.navigationController pushViewController:shopWindow animated:YES];
             break;
         }
         case FearuredOptimal: {
@@ -467,7 +447,10 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         }
         case FearuredGrassList: {
-
+            THNDiscoverThemeViewController *themeVC = [[THNDiscoverThemeViewController alloc]init];
+            themeVC.themeType = DiscoverThemeTypeGrassNote;
+            themeVC.navigationBarViewTitle = @"种草清单";
+            [self.navigationController pushViewController:themeVC animated:YES];
             break;
         }
         default:
@@ -486,6 +469,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
     articleVC.rid = rid;
     [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+// 集合详情
+- (void)pushSetDetail:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
 }
 
 #pragma mark - THNBannerViewDelegate

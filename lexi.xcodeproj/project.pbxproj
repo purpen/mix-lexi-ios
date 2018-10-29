@@ -1550,7 +1550,6 @@
 			isa = PBXGroup;
 			children = (
 				4BECEE72217F1401008E5E28 /* Controller */,
-				4BECEE79217F1401008E5E28 /* Model */,
 				4BECEE7A217F1401008E5E28 /* View */,
 			);
 			path = Discover;
@@ -1567,13 +1566,6 @@
 				4BECEE78217F1401008E5E28 /* THNDiscoverViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		4BECEE79217F1401008E5E28 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		4BECEE7A217F1401008E5E28 /* View */ = {
@@ -1706,13 +1698,13 @@
 				4BECEEC1217F1401008E5E28 /* THNActivityView.h */,
 				4BECEEC2217F1401008E5E28 /* THNActivityView.m */,
 				4BECEEC3217F1401008E5E28 /* THNActivityView.xib */,
-				4BECEEC4217F1401008E5E28 /* THNCollectionViewFlowLayout.h */,
-				4BECEEC5217F1401008E5E28 /* THNCollectionViewFlowLayout.m */,
 				4BECEEC6217F1401008E5E28 /* THNDailyRecommendCollectionViewCell.h */,
 				4BECEEC7217F1401008E5E28 /* THNDailyRecommendCollectionViewCell.m */,
 				4BECEEC8217F1401008E5E28 /* THNDailyRecommendCollectionViewCell.xib */,
 				4BECEEC9217F1401008E5E28 /* THNFeaturedCollectionView.h */,
 				4BECEECA217F1401008E5E28 /* THNFeaturedCollectionView.m */,
+				4BECEEC4217F1401008E5E28 /* THNCollectionViewFlowLayout.h */,
+				4BECEEC5217F1401008E5E28 /* THNCollectionViewFlowLayout.m */,
 				4BECEECB217F1401008E5E28 /* THNFeaturedOpenCarouselScrollView.h */,
 				4BECEECC217F1401008E5E28 /* THNFeaturedOpenCarouselScrollView.m */,
 				4BECEECD217F1401008E5E28 /* THNFeaturedOpeningView.h */,

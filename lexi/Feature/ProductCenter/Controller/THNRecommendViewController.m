@@ -89,7 +89,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        self.featuredCollectionView.banners = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeCenter;
         [self.featuredCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
