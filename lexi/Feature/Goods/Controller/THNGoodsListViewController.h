@@ -34,8 +34,9 @@
 
  @param type 查看商品类型
  @param title 页面名称
+ @param userId 用户id
  @return self
  */
-- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title;
+- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title userId:(NSString *)userId;
 
 @end

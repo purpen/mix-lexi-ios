@@ -33,7 +33,6 @@
 }
 
 - (UIViewController * _Nullable)popViewControllerAnimated:(BOOL)animated {
-    
     if (self.viewControllers.count > 1) {
         return [super popViewControllerAnimated:animated];
     }

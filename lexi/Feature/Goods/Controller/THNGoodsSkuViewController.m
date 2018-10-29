@@ -170,15 +170,13 @@ static NSString *const kKeyQuantity = @"quantity";
     NSDictionary *skuParam = @{kKeyRid: self.skuView.selectSkuItem.rid,
                                kKeyQuantity: @(1)};
     
-    [SVProgressHUD thn_show];
+//    [SVProgressHUD thn_show];
     
     WEAKSELF;
     
     [THNGoodsManager postAddGoodsToCartWithSkuParams:skuParam completion:^(NSError *error) {
         if (error) return;
-        
-        [SVProgressHUD dismiss];
-        
+    
         weakSelf.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
         [weakSelf dismissViewControllerAnimated:YES completion:^{
             if (weakSelf.selectGoodsAddCartCompleted) {

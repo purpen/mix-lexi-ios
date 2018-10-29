@@ -32,6 +32,7 @@
 #import "THNDiscoverThemeViewController.h"
 #import "THNSetDetailViewController.h"
 
+
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
 static CGFloat const kPopularFooterViewHeight = 180;
@@ -45,6 +46,7 @@ static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 // 发现生活美学
 static NSString *const kUrlLifeAesthetics = @"/shop_windows/handpick";
+
 // 乐喜优选
 static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
 // 种草清单
@@ -82,6 +84,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
 @property (nonatomic, assign) CGFloat customGrassCellHeight;
 @property (nonatomic, strong) NSMutableArray *news;
+
 
 @end
 
@@ -430,7 +433,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
 // 橱窗主页
 - (void)pushShopWindow:(NSInteger)rid {
-    
+
 }
 
 - (void)lookAllWithType:(FeaturedCellType)cellType {

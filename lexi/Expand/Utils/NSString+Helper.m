@@ -272,6 +272,19 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     return retSize.width;
 }
 
+#pragma mark - 过滤 html 标签
++ (NSString *)filterHTML:(NSString *)html {
+    NSScanner *scanner = [NSScanner scannerWithString:html];
+    NSString *text = nil;
+    while (![scanner isAtEnd]) {
+        [scanner scanUpToString:@"<" intoString:nil];
+        [scanner scanUpToString:@">" intoString:&text];
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+    }
+    
+    return html;
+}
+
 // 如果有两位小数不为0则保留两位小数，如果有一位小数不为0则保留一位小数，否则显示整数
 + (NSString *)formatFloat:(float)f
 {

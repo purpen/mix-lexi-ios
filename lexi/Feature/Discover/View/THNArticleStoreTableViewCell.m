@@ -12,6 +12,7 @@
 #import "UIView+Helper.h"
 #import "THNFollowStoreButton+SelfManager.h"
 
+
 @interface THNArticleStoreTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
@@ -36,7 +37,7 @@
     self.storeNameLabel.text = storeModel.store_name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",storeModel.product_counts];
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.followButton selfManagerFollowStoreStatus:storeModel.is_follow_store storeRid:storeModel.store_rid];
+//    [self.followButton selfManagerFollowStoreStatus:storeModel.is_follow_store storeModel:storeModel];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

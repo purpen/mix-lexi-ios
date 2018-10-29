@@ -8,7 +8,16 @@
 
 #import "THNGoodsBaseTableViewCell.h"
 
+@protocol THNGoodsUserTableViewCellDelegate <NSObject>
+
+@optional
+- (void)thn_didSelectedGoodsLikedUser:(NSString *)userId;
+
+@end
+
 @interface THNGoodsUserTableViewCell : THNGoodsBaseTableViewCell
+
+@property (nonatomic, weak) id <THNGoodsUserTableViewCellDelegate> delegate;
 
 /**
  喜欢商品的用户
