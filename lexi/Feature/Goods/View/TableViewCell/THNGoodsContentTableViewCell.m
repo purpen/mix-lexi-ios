@@ -13,6 +13,7 @@
 #import <YYKit/YYKit.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import "SVProgressHUD+Helper.h"
+#import "NSString+Helper.h"
 
 static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCellId";
 
@@ -45,7 +46,7 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     
     for (THNGoodsModelDealContent *contentModel in content) {
         if ([contentModel.type isEqualToString:@"text"]) {
-            [self thn_creatAttributedStringWithText:[self thn_filterHTML:contentModel.content]];
+            [self thn_creatAttributedStringWithText:[NSString filterHTML:contentModel.content]];
             
         } else if ([contentModel.type isEqualToString:@"image"]) {
             [self thn_creatContentImageWithImageUrl:contentModel.content];
@@ -80,21 +81,6 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     [self addSubview:textLabel];
 
     self.originY += (layout.textBoundingSize.height + 10);
-}
-
-/**
- 过滤 html 标签
- */
-- (NSString *)thn_filterHTML:(NSString *)html {
-    NSScanner *scanner = [NSScanner scannerWithString:html];
-    NSString *text = nil;
-    while (![scanner isAtEnd]) {
-        [scanner scanUpToString:@"<" intoString:nil];
-        [scanner scanUpToString:@">" intoString:&text];
-        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
-    }
-    
-    return html;
 }
 
 /**

@@ -448,6 +448,8 @@
 		D876723E2186AFED00EDD442 /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D87672392186AFED00EDD442 /* THNFollowStoreButton+SelfManager.m */; };
 		D876723F2186AFED00EDD442 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D876723A2186AFED00EDD442 /* THNFollowUserButton+SelfManager.m */; };
 		D87672442186B88800EDD442 /* THNNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = D87672432186B88800EDD442 /* THNNotification.m */; };
+		D876724C218700F300EDD442 /* THNCouponsCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D876724B218700F300EDD442 /* THNCouponsCenterViewController.m */; };
+		D876724F2187010A00EDD442 /* THNStoreCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */; };
 		D88E1E2921841A65008B7DD9 /* UIScrollView+THNMJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */; };
 		D8A97ADC2170782200A7FAF6 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
@@ -1265,6 +1267,10 @@
 		D87672422186B88800EDD442 /* THNNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNotification.h; sourceTree = "<group>"; };
 		D87672432186B88800EDD442 /* THNNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNotification.m; sourceTree = "<group>"; };
 		D87672452186BC8F00EDD442 /* THNNotificationHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNNotificationHeader.h; sourceTree = "<group>"; };
+		D876724A218700F300EDD442 /* THNCouponsCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterViewController.h; sourceTree = "<group>"; };
+		D876724B218700F300EDD442 /* THNCouponsCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterViewController.m; sourceTree = "<group>"; };
+		D876724D2187010A00EDD442 /* THNStoreCouponViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNStoreCouponViewController.h; sourceTree = "<group>"; };
+		D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNStoreCouponViewController.m; sourceTree = "<group>"; };
 		D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+THNMJRefresh.h"; sourceTree = "<group>"; };
 		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
@@ -1331,6 +1337,7 @@
 				4BECEE90217F1401008E5E28 /* Explore */,
 				4BECEEB1217F1401008E5E28 /* Featured */,
 				4BECEED9217F1401008E5E28 /* Goods */,
+				D8767246218700CF00EDD442 /* Coupons */,
 				4BECEF3B217F1401008E5E28 /* Home */,
 				4BECEF45217F1401008E5E28 /* Inbox */,
 				4BECEF49217F1401008E5E28 /* LivingHall */,
@@ -3023,6 +3030,41 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		D8767246218700CF00EDD442 /* Coupons */ = {
+			isa = PBXGroup;
+			children = (
+				D8767247218700CF00EDD442 /* Controller */,
+				D8767248218700CF00EDD442 /* Model */,
+				D8767249218700CF00EDD442 /* View */,
+			);
+			path = Coupons;
+			sourceTree = "<group>";
+		};
+		D8767247218700CF00EDD442 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D876724A218700F300EDD442 /* THNCouponsCenterViewController.h */,
+				D876724B218700F300EDD442 /* THNCouponsCenterViewController.m */,
+				D876724D2187010A00EDD442 /* THNStoreCouponViewController.h */,
+				D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D8767248218700CF00EDD442 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D8767249218700CF00EDD442 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		D8EECABB20D9E7F800BB63F4 = {
 			isa = PBXGroup;
 			children = (
@@ -3416,6 +3458,7 @@
 				4BECF166217F1401008E5E28 /* THNBrandHallFeaturedCollectionViewCell.m in Sources */,
 				4BECF204217F1401008E5E28 /* THNSignInView.m in Sources */,
 				4BECF21D217F1401008E5E28 /* THNMyCenterMenuView.m in Sources */,
+				D876724C218700F300EDD442 /* THNCouponsCenterViewController.m in Sources */,
 				4BECF2C0217F1402008E5E28 /* THNLifeSegmentView.m in Sources */,
 				4BECF1D0217F1401008E5E28 /* THNGoodsContentTableViewCell.m in Sources */,
 				4BECF191217F1401008E5E28 /* THNSetModel.m in Sources */,
@@ -3506,6 +3549,7 @@
 				4BECF2B2217F1402008E5E28 /* THNLifeOrderInfoTableViewCell.m in Sources */,
 				4BECF1F2217F1401008E5E28 /* THNNewPasswordViewController.m in Sources */,
 				4BECF26B217F1401008E5E28 /* THNPruductCenterViewController.m in Sources */,
+				D876724F2187010A00EDD442 /* THNStoreCouponViewController.m in Sources */,
 				D85DA7FC2106030200A36A71 /* NSString+Helper.m in Sources */,
 				D85DA7FA2106030200A36A71 /* THNAPI.m in Sources */,
 				4BECF25D217F1401008E5E28 /* THNFunctionButton.m in Sources */,
