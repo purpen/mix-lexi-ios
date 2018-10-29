@@ -45,7 +45,7 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     [self.headerImageView downloadImage:model.logo place:[UIImage imageNamed:@"default_header_place"]];
     self.typeLabel.text = kTextType;
     self.titleLabel.text = model.name;
-    [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeRid:model.rid];
+    [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeModel:model];
     self.storeId = model.rid;
 }
 

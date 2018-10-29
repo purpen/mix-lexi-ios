@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "THNTableViewCells.h"
 #import "THNStoreModel.h"
+#import "THNFollowStoreButton.h"
 
 @interface THNFollowStoreTableViewCell : UITableViewCell
 
