@@ -599,7 +599,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     
     for (THNGoodsModelDealContent *model in content) {
         if ([model.type isEqualToString:@"text"]) {
-            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:model.content
+            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
                                                               lineSpacing:7
                                                                   fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
