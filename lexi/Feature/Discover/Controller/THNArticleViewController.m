@@ -84,7 +84,6 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"文章详情 --------%@", [NSString jsonStringWithObject:result.data]);
         [self loadRecommendProductData];
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         
