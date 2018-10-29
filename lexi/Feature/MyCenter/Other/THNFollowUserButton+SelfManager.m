@@ -40,7 +40,6 @@ static NSString *const kKeyStatus   = @"followed_status";
                              
                              [self setFollowUserStatus:(THNUserFollowStatus)status];
                              self.userModel.followed_status = status;
-                             [self thn_postNotification:kNotificationFollowUser userInfo:nil];
                          }];
 }
 

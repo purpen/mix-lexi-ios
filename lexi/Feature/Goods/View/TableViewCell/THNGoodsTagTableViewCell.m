@@ -65,14 +65,10 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
     symbolAtt.color = [UIColor colorWithHexString:color];
     symbolAtt.alignment = NSTextAlignmentCenter;
     
-    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = 13;
-    
     YYLabel *symbolLabel = [[YYLabel alloc] initWithFrame:CGRectMake(self.tagW, 2, 10, 13)];
     symbolLabel.attributedText = symbolAtt;
-    symbolLabel.linePositionModifier = modifier;
     
-    self.tagW += 10;
+    self.tagW += 12;
     [self addSubview:symbolLabel];
 }
 
