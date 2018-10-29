@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 
 @protocol THNSelectButtonViewDelegate <NSObject>
 
+@optional
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index;
 
 @end

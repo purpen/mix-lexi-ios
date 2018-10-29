@@ -82,6 +82,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [super viewDidLoad];
     [self loadBannerData];
     [self loadSetData];
+    [self loadData];
     [self setupUI];
 }
 
