@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^PopularRecommendCellBlcok)(NSString *rid);
+
 @interface THNPoupalRecommendCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSArray *popularDataArray;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, copy) PopularRecommendCellBlcok recommendCellBlock;
 
 @end

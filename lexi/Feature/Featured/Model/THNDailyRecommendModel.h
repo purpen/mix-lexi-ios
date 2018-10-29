@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, RecommendType) {
+    RecommendTypeArticle = 1,
+    RecommendTypeGrassList,
+    RecommendTypeSet
+};
+
 @interface THNDailyRecommendModel : NSObject
 
 @property (nonatomic, strong) NSString *cover;
@@ -18,5 +24,6 @@
 // 推荐描述内容
 @property (nonatomic, strong) NSString *recommend_description;
 @property (nonatomic, assign) NSInteger recommend_id;
+@property (nonatomic, assign) RecommendType target_type;
 
 @end

@@ -40,6 +40,13 @@ static NSString *const kPopularProductCellIdentifier = @"kPopularProductCellIden
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.popularDataArray[indexPath.row]];
+    if (self.recommendCellBlock) {
+        self.recommendCellBlock(productModel.rid);
+    }
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat itemWidth = 0;
     CGFloat itemHeight = 0;

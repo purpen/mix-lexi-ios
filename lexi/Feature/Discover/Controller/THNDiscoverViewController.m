@@ -76,10 +76,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     });
 }
 
-- (void)psuhNext {
-    THNDiscoverThemeViewController *theme = [[THNDiscoverThemeViewController alloc]init];
-    [self.navigationController pushViewController:theme animated:YES];
-}
 
 #pragma mark - 请求数据
 // banner

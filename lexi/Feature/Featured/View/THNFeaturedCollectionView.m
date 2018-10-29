@@ -20,6 +20,8 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 @property (assign,nonatomic) NSInteger m_currentIndex;
 @property (assign,nonatomic) CGFloat m_dragStartX;
 @property (assign,nonatomic) CGFloat m_dragEndX;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
@@ -41,6 +43,13 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     return self;
 }
 
+- (void)setBanners:(NSArray *)banners {
+    _banners = banners;
+    [self addTimer];
+    [self reloadData];
+    [self scrollStartPoint];
+}
+
 //配置cell居中
 - (void)fixCellToCenter {
     //最小滚动距离
@@ -52,10 +61,54 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     }
     NSInteger maxIndex = [self numberOfItemsInSection:0] - 1;
     
+    // 回到开始的位置往左滑回到最后的位置
+    if (self.m_currentIndex == 0) {
+        self.m_currentIndex = maxIndex - 1;
+        switch (self.bannerType) {
+            case BannerTypeLeft:
+                [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+                break;
+                
+            default:
+                [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+                break;
+        }
+        return;
+    }
+
+    // 最后回到最初的位置
+    if (self.m_currentIndex == maxIndex) {
+        [self scrollStartPoint];
+        return;
+    }
     
-    self.m_currentIndex = self.m_currentIndex <= 0 ? 0 : self.m_currentIndex;
-    self.m_currentIndex = self.m_currentIndex >= maxIndex ? maxIndex : self.m_currentIndex;
+    [self thn_scrollToIndexpathItem];
     
+}
+
+- (void)removeTimer {
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+- (void)addTimer {
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(scrollNextPage) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSRunLoopCommonModes];
+    self.timer = timer;
+}
+
+- (void)scrollNextPage {
+    self.m_currentIndex++;
+    NSInteger maxIndex = [self numberOfItemsInSection:0] - 1;
+    if (self.m_currentIndex == maxIndex) {
+        [self scrollStartPoint];
+        return;
+    }
+    
+    [self thn_scrollToIndexpathItem];
+}
+
+- (void)thn_scrollToIndexpathItem {
     switch (self.bannerType) {
         case BannerTypeLeft:
             [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
@@ -65,13 +118,26 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
             [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
             break;
     }
-    
+}
+
+- (void)scrollStartPoint {
+    self.m_currentIndex = 1;
+    switch (self.bannerType) {
+        case BannerTypeLeft:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            break;
+            
+        default:
+            [self scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.m_currentIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+            break;
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
 //手指拖动开始
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.m_dragStartX = scrollView.contentOffset.x;
+    [self removeTimer];
 }
 
 //手指拖动停止
@@ -80,6 +146,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self fixCellToCenter];
+        [self addTimer];
     });
 }
 
@@ -96,8 +163,6 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     
     THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     
@@ -133,5 +198,17 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     }
 }
 
+#pragma mark - lazy
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [_banners mutableCopy];
+        // data数组最后加上第一个数据,第一个数据前加上最后一个数据，从而实现视觉上轮播效果
+        if (_banners.count > 1) {
+            [_dataArray addObject:_banners.firstObject];
+            [_dataArray insertObject:_banners.lastObject atIndex:0];
+        }
+    }
+    return _dataArray;
+}
 
 @end

@@ -18,19 +18,31 @@
 #import "THNShopWindowModel.h"
 #import "THNShopWindowDetailViewController.h"
 #import "THNCommentViewController.h"
+#import "UIViewController+THNHud.h"
+
+typedef NS_ENUM(NSUInteger, ShowWindowType) {
+    ShowWindowTypeFollow,
+    ShowWindowTypeRecommend
+    
+};
 
 static CGFloat const showImageViewHeight = 256;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
+static NSString *const kShopWindowsRecommend = @"/shop_windows/recommend";
+static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
-@interface THNShopWindowViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface THNShopWindowViewController ()<UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UIImageView *showImageView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *showWindows;
+@property (nonatomic, strong) NSArray *showWindowRecommends;
+@property (nonatomic, strong) NSArray *showWindowFollows;
 // 拼接橱窗按钮
 @property (nonatomic, strong) UIButton *stitchingButton;
+@property (nonatomic, assign) ShowWindowType showWindowType;
 
 @end
 
@@ -39,22 +51,54 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self loadShopWindowData];
-}
-
-- (void)loadShopWindowData {
-    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"showWindow" ofType:@"json"]];
-    NSDictionary *result = [data mj_JSONObject];
-    self.showWindows = result[@"data"][@"shop_windows"];
+    [self loadData];
 }
 
 - (void)setupUI {
-    self.navigationBarView.hidden = YES;
+    self.navigationBarView.transparent = YES;
+    [self.navigationBarView setNavigationCloseButton];
+    [self.navigationBarView setNavigationCloseButtonHidden:YES];
     [self.view addSubview:self.tableView];
+     self.showWindowType = ShowWindowTypeFollow;
+}
+
+- (void)loadData {
+    [self loadShopWindowData];
 }
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)loadShopWindowData {
+    NSString *requestUrl;
+    if (self.showWindowType == ShowWindowTypeFollow) {
+        requestUrl = kShopWindowsFollow;
+    } else {
+        requestUrl = kShopWindowsRecommend;
+    }
+    self.isTransparent = YES;
+    [self showHud];
+    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
+        if (self.showWindowType == ShowWindowTypeFollow) {
+            self.showWindowFollows = result.data[@"shop_windows"];
+            self.showWindows = self.showWindowFollows;
+        } else {
+            self.showWindowRecommends = result.data[@"shop_windows"];
+            self.showWindows = self.showWindowRecommends;
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        [self hiddenHud];
+    }];
 }
 
 #pragma UITableViewDataSource method 实现
@@ -81,10 +125,9 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, CGRectGetMaxY(self.lineView.frame))];
     [headerView addSubview:self.showImageView];
-    [self.showImageView sd_setImageWithURL:[NSURL URLWithString:@"http://kg.erp.taihuoniao.com/static/img/default-logo-540x540.png"]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     [headerView addSubview:self.selectButtonView];
     self.lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
-    [headerView addSubview:self.lineView ];
+    [headerView addSubview:self.lineView];
     return headerView;
 }
 
@@ -99,11 +142,43 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
+    if (scrollView.contentOffset.y > maxY) {
+        self.navigationBarView.transparent = NO;
+        self.navigationBarView.title = @"橱窗";
+    } else {
+        self.navigationBarView.transparent = YES;
+        self.navigationBarView.title = @"";
+    }
+}
+
+- (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
+    if (index == ShowWindowTypeFollow) {
+        self.showWindowType = ShowWindowTypeFollow;
+        if (self.showWindowFollows.count > 0) {
+            self.showWindows = self.showWindowFollows;
+            [self.tableView reloadData];
+            return;
+        }
+    } else {
+        self.showWindowType = ShowWindowTypeRecommend;
+        if (self.showWindowRecommends.count > 0) {
+            self.showWindows = self.showWindowRecommends;
+            [self.tableView reloadData];
+            return;
+        }
+    }
+    
+    [self loadData];
+}
+
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray =  @[@"关注",@"推荐"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+        _selectButtonView.delegate = self;
         _selectButtonView.backgroundColor = [UIColor whiteColor];
     }
     return _selectButtonView;
@@ -115,11 +190,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, -showImageViewY, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        UIButton * backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, STATUS_BAR_HEIGHT, 60, 60)];
-        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        [backButton setImage:[UIImage imageNamed:@"icon_back_gray"] forState:UIControlStateNormal];
-        _showImageView.userInteractionEnabled = YES;
-        [_showImageView addSubview:backButton];
+        _showImageView.image = kDeviceiPhoneX ? [UIImage imageNamed:@"icon_showWindow_bg_X"] : [UIImage imageNamed:@"icon_showWindow_bg"];
     }
     return _showImageView;
 }

@@ -12,8 +12,7 @@
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
     
-    return @{@"des":@"description",
-             @"user_name":@"username"
+    return @{@"des":@"description"
              };
     
 }

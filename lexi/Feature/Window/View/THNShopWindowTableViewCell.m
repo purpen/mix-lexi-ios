@@ -17,6 +17,7 @@
 #import <MJExtension/MJExtension.h>
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
+#import "UIImageView+SDWedImage.h"
 
 CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
@@ -49,16 +50,17 @@ CGFloat sevenToGrowImageHeight = 90;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
     _shopWindowModel = shopWindowModel;
     self.nameLabel.text = shopWindowModel.user_name;
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:shopWindowModel.user_avatar]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.avatarImageView thn_setCircleImageWithUrlString:shopWindowModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
-    self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame) + 10;
+    self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame);
     self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
     self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
     
@@ -100,6 +102,8 @@ CGFloat sevenToGrowImageHeight = 90;
 //动态添加label方法
 - (void)createLabelWithArray:(NSArray *)titleArr FontSize:(CGFloat)fontSize SpcX:(CGFloat)spcX SpcY:(CGFloat)spcY
 {
+    // 清空子视图
+    [self.keywordView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     //创建标签位置变量
     CGFloat positionX = spcX;
     CGFloat positionY = spcY;
@@ -108,10 +112,10 @@ CGFloat sevenToGrowImageHeight = 90;
     for(int i = 0; i < titleArr.count; i++)
     {
         CGSize labelSize = [self getSizeByString:titleArr[i] AndFontSize:fontSize];
-        CGFloat labelWidth = labelSize.width;
+        CGFloat labelWidth = labelSize.width + 20;
         
         if (i == 0) {
-            positionX = 0;
+            positionX = -10;
             positionY = 0;
         } else {
             if (positionX + labelWidth > SCREEN_WIDTH - 40) {
@@ -122,7 +126,7 @@ CGFloat sevenToGrowImageHeight = 90;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(positionX, positionY, labelWidth, 24)];
         label.font = [UIFont systemFontOfSize:fontSize];
-        label.text = titleArr[i];
+        label.text = [NSString stringWithFormat:@"#%@",titleArr[i]];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor colorWithHexString:@"5FE4B1"];
         positionX += (labelWidth + 5);
@@ -131,8 +135,6 @@ CGFloat sevenToGrowImageHeight = 90;
     }
    
 }
-
-
 
 //获取字符串长度的方法
 - (CGSize)getSizeByString:(NSString*)string AndFontSize:(CGFloat)font
