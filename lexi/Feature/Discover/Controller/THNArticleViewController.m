@@ -85,7 +85,6 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-
         [self loadRecommendProductData];
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         
@@ -144,7 +143,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     
     for (THNGoodsModelDealContent *model in content) {
         if ([model.type isEqualToString:@"text"]) {
-            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:model.content
+            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
                                                               lineSpacing:7
                                                                   fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;

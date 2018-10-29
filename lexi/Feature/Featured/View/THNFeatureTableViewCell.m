@@ -22,11 +22,13 @@
 #import "THNDailyRecommendCollectionViewCell.h"
 #import "THNPoupalRecommendCollectionViewCell.h"
 
+
 static NSString *const kLifeAestheticsCellIdentifier = @"kLifeAestheticsCellIdentifier";
 static NSString *const kProductCellIdentifier = @"kProductCellIdentifier";
 static NSString *const kGrassListCellIdentifier = @"kGrassListCellIdentifier";
 static NSString *const kDailyRecommendCellIdentifier = @"kDailyRecommendCellIdentifier";
 static NSString *const kPopularRecommendCellIdentifier = @"kPopularRecommendCellIdentifier";
+
 
 CGFloat const kCellTodayHeight = 195;
 CGFloat const kCellPopularHeight = 330;
@@ -114,6 +116,7 @@ CGFloat const kCellGrassListHeight = 158;
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
     self.pageControl.hidden = YES;
+    
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.dailyDataArray = dataArray;
@@ -141,7 +144,6 @@ CGFloat const kCellGrassListHeight = 158;
             self.grassListDataArray = dataArray;
             self.lookAllButton.hidden = NO;
             self.instructionImageView.hidden = NO;
-
             break;
         case FeaturedNo:
             self.lookAllButton.hidden = YES;
@@ -241,7 +243,6 @@ CGFloat const kCellGrassListHeight = 158;
             THNGrassListModel *grassListModel =  [THNGrassListModel mj_objectWithKeyValues:self.grassListDataArray[indexPath.row]];
             [cell setGrassListModel:grassListModel];
         return cell;
-        
     } else if (self.cellType == FeaturedRecommendedToday) {
           THNDailyRecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDailyRecommendCellIdentifier forIndexPath:indexPath];
         THNDailyRecommendModel *dailyRecommendModel = [THNDailyRecommendModel mj_objectWithKeyValues:self.dailyDataArray[indexPath.row]];
@@ -259,11 +260,10 @@ CGFloat const kCellGrassListHeight = 158;
         cell.popularDataArray = self.popularDataArray[indexPath.row];
         [cell.collectionView reloadData];
         return cell;
-        
     } else {
         THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
         THNProductModel *productModel;
-        
+
         if (self.cellType == FearuredOptimal) {
             productModel = [THNProductModel mj_objectWithKeyValues:self.optimalDataArray[indexPath.row]];
         }
@@ -295,7 +295,6 @@ CGFloat const kCellGrassListHeight = 158;
                     [self.delagate pushSetDetail:dailyRecommendModel.recommend_id];
                 }
             }
-           
             break;
         }
         

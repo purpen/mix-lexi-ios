@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "THNNavigationBarView.h"
 #import "UIColor+Extension.h"
+#import "NSString+Helper.h"
 #import "UIView+LayoutMethods.h"
 #import "UIView+HandyAutoLayout.h"
 #import "SVProgressHUD+Helper.h"

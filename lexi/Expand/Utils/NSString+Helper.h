@@ -156,6 +156,11 @@ typedef NS_ENUM(NSUInteger,Formatter) {
  */
 - (CGFloat)boundingSizeWidthWithFontSize:(NSInteger)fontSize;
 
+/**
+ 过滤 html 标签
+ */
++ (NSString *)filterHTML:(NSString *)html;
+
 // 小数点处理
 + (NSString *)formatFloat:(float)f;
 

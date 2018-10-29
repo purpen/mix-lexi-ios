@@ -48,6 +48,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 @property (nonatomic, assign) NSInteger currentPage;
 /// 按最新排序  0=否, 1=是
 @property (nonatomic, assign) NSInteger sortNewest;
+/// 用户id
+@property (nonatomic, strong) NSString *userId;
 
 @end
 
@@ -73,12 +75,13 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     return self;
 }
 
-- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title {
+- (instancetype)initWithUserCenterGoodsType:(THNUserCenterGoodsType)type title:(NSString *)title userId:(NSString *)userId {
     self = [super init];
     if (self) {
         self.navigationBarView.title = title;
         self.goodsListType = THNGoodsListViewTypeUser;
         self.userGoodsType = type;
+        self.userId = userId;
     }
     return self;
 }
@@ -317,6 +320,13 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
                              @"per_page": @(10),
                              @"sort_newest": @(1)};
     
+    if (self.userId.length) {
+        NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
+        [paramDict setObject:self.userId forKey:@"uid"];
+        
+        return [paramDict copy];
+    }
+
     return params;
 }
 

@@ -36,7 +36,7 @@
     self.userNameLabel.text = userModel.username;
     self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢%ld",userModel.user_like_counts];
     self.wishCountLabel.text = [NSString stringWithFormat:@"心愿单%ld",userModel.wish_list_counts];
-    [self.followButton selfManagerFollowUserStatus:userModel.followed_status userId:[NSString stringWithFormat:@"%zi", userModel.uid]];
+    [self.followButton selfManagerFollowUserStatus:userModel.followed_status userModel:userModel];
 }
 
 - (IBAction)follow:(id)sender {

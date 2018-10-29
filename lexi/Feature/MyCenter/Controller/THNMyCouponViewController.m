@@ -15,6 +15,7 @@
 #import "THNBrandHallViewController.h"
 #import "THNSelectButtonView.h"
 #import "THNBaseTabBarController.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 static NSString *const kMyCouponTableViewCellId = @"THNMyCouponTableViewCellId";
 /// text
@@ -25,15 +26,18 @@ static NSString *const kTextCouponFail      = @"已失效";
 /// key
 static NSString *const kKeyPage     = @"page";
 
-@interface THNMyCouponViewController () <UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate>
+@interface THNMyCouponViewController () <
+    UITableViewDelegate,
+    UITableViewDataSource,
+    THNSelectButtonViewDelegate,
+    THNMJRefreshDelegate
+>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) THNMyCouponDefaultView *couponDefaultView;
 @property (nonatomic, strong) UITableView *couponTable;
 /// 优惠券
 @property (nonatomic, strong) NSMutableArray *couponDataArr;
-/// 优惠券当前页数
-@property (nonatomic, assign) NSInteger currentPage;
 /// 优惠券列表类型
 @property (nonatomic, assign) THNUserCouponType couponType;
 @property (nonatomic, assign) BOOL backHome;
@@ -49,34 +53,61 @@ static NSString *const kKeyPage     = @"page";
     [self setupUI];
 }
 
+#pragma mark - custom delegate
+- (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
+    self.couponType = (THNUserCouponType)index;
+    
+    [self.couponDataArr removeAllObjects];
+    [self.couponTable reloadData];
+    [self.couponTable beginHeaderRefresh];
+    [self thn_getUserCouponDataWithPage:1 refresh:YES];
+}
+
+- (void)beginRefreshing {
+    [self thn_getUserCouponDataWithPage:1 refresh:YES];
+}
+
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    [self thn_getUserCouponDataWithPage:currentPage.integerValue refresh:NO];
+}
+
 #pragma mark - network
 // 获取自己的优惠券
-- (void)thn_getUserCouponDataWithType:(THNUserCouponType)type {
-    self.couponType = type;
-    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
-    
-    WEAKSELF;
-   
-    [THNUserManager getUserCouponDataWithType:type
-                                       params:@{kKeyPage: @(self.currentPage += 1)}
+- (void)thn_getUserCouponDataWithPage:(NSInteger)page refresh:(BOOL)refresh {
+    [THNUserManager getUserCouponDataWithType:self.couponType
+                                       params:@{kKeyPage: @(page)}
                                    completion:^(NSArray *couponData, NSError *error) {
                                        if (error) {
-                                           [weakSelf thn_reloadTableStatus];
+                                           [self thn_reloadTableStatus];
+                                           
+                                           if (refresh) {
+                                               [self.couponTable endHeaderRefreshAndCurrentPageChange:NO];
+                                               
+                                           } else {
+                                               [self.couponTable endFooterRefreshAndCurrentPageChange:NO];
+                                           }
+                                           
+                                           [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
                                            return ;
                                        }
                                        
-                                       [weakSelf thn_getCouponModelOfData:couponData];
-                                       [SVProgressHUD dismiss];
+                                       if (refresh) {
+                                           [self.couponTable endHeaderRefreshAndCurrentPageChange:YES];
+                                           [self.couponDataArr removeAllObjects];
+                                           [self thn_getCouponModelOfData:couponData];
+                                           [self.couponTable resetNoMoreData];
+                                           
+                                       } else {
+                                           [self.couponTable endFooterRefreshAndCurrentPageChange:YES];
+                                           
+                                           if (couponData.count) {
+                                               [self thn_getCouponModelOfData:couponData];
+                                               
+                                           } else {
+                                               [self.couponTable noMoreData];
+                                           }
+                                       }
                                    }];
-}
-
-#pragma mark - custom delegate
-- (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
-    self.currentPage = 0;
-    [self.couponDataArr removeAllObjects];
-    [self.couponTable reloadData];
-    
-    [self thn_getUserCouponDataWithType:(THNUserCouponType)index];
 }
 
 #pragma mark - private methods
@@ -172,13 +203,15 @@ static NSString *const kKeyPage     = @"page";
     
     [self.view addSubview:self.couponTable];
     [self.view addSubview:self.selectButtonView];
+    // 添加刷新&加载更多
+    [self.couponTable setRefreshHeaderWithClass:nil beginRefresh:YES animation:YES delegate:self];
+    [self.couponTable setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self setNavigationBar];
-    [self thn_getUserCouponDataWithType:(THNUserCouponTypeBrand)];
 }
 
 - (void)setNavigationBar {

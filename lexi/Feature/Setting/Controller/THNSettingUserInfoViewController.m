@@ -61,7 +61,6 @@ static NSString *const kKeyAddress      = @"street_address";
         NSString *obj = cell.editInfo.length ? cell.editInfo : allData[idx];
         [paramDict setObject:obj forKey:allKey[idx]];
     }
-    NSLog(@"------- 编辑的信息： %@", paramDict);
     return [paramDict copy];
 }
 
