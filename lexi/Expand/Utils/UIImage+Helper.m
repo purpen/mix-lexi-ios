@@ -221,6 +221,25 @@
     return [[SDImageCache sharedImageCache] diskImageDataExistsWithKey:imageUrl];
 }
 
+#pragma mark - 调整图片的尺寸
++ (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size {
+    if ([[UIScreen mainScreen] scale] == 2.0) {
+        UIGraphicsBeginImageContextWithOptions(size, NO, 2.0);
+        
+    } else if ([[UIScreen mainScreen] scale] == 3.0) {
+        UIGraphicsBeginImageContextWithOptions(size, NO, 3.0);
+        
+    } else {
+        UIGraphicsBeginImageContext(size);
+    }
+    
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return scaledImage;
+}
+
 #pragma mark - 圆形
 - (void)thn_roundImageWithSize:(CGSize)size fillColor:(UIColor *)fillColor opaque:(BOOL)opaque completion:(void (^)(UIImage *))completion {
     

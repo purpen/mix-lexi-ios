@@ -76,7 +76,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     });
 }
 
-
 #pragma mark - 请求数据
 // banner
 - (void)loadBannerData {

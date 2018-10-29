@@ -134,6 +134,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         NSInteger signalQuantity = dispatch_semaphore_signal(self.semaphore);
+
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;

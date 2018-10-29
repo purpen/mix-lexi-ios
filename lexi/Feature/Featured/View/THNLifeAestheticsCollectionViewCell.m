@@ -35,7 +35,7 @@
     self.rightBottomImageView.layer.masksToBounds = YES;
     self.leftImageView.layer.masksToBounds = YES;
     [self drwaShadow];
-} 
+}
 
 - (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
     _lifeRecordModel = lifeRecordModel;

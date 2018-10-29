@@ -13,6 +13,7 @@
 #import <YYKit/YYKit.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import "SVProgressHUD+Helper.h"
+#import "NSString+Helper.h"
 
 static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCellId";
 
@@ -42,10 +43,10 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
     if (self.subviews.count > 1) return;
     
     self.originY = 0;
-
+    
     for (THNGoodsModelDealContent *contentModel in content) {
         if ([contentModel.type isEqualToString:@"text"]) {
-            [self thn_creatAttributedStringWithText:contentModel.content];
+            [self thn_creatAttributedStringWithText:[NSString filterHTML:contentModel.content]];
 
         } else if ([contentModel.type isEqualToString:@"image"]) {
             [self thn_creatContentImageWithImageUrl:contentModel.content];
@@ -87,8 +88,6 @@ static NSString *const kGoodsContentTableViewCellId = @"kGoodsContentTableViewCe
  */
 - (void)thn_creatContentImageWithImageUrl:(NSString *)imageUrl {
     if (!imageUrl.length) return;
-    
-    [SVProgressHUD thn_show];
     
     UIImageView *imageView = [[UIImageView alloc] init];
     [self addSubview:imageView];

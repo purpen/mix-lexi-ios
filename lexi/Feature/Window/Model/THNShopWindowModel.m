@@ -11,10 +11,8 @@
 @implementation THNShopWindowModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
-    
     return @{@"des":@"description"
              };
-    
 }
 
 @end

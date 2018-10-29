@@ -163,7 +163,6 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     THNBannerModel *bannerModel = [THNBannerModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     
     switch (bannerModel.type) {

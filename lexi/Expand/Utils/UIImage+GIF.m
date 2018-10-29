@@ -8,6 +8,7 @@
 
 #import "UIImage+GIF.h"
 #import <ImageIO/ImageIO.h>
+#import "UIImage+Helper.h"
 
 @implementation UIImage (GIF)
 
@@ -111,6 +112,25 @@
     CFRelease(cfFrameProperties);
     
     return frameDuration;
+}
+
+#pragma mark - gif 图拆分成图片数组
++ (NSArray *)imagesWithGifNamed:(NSString *)name {
+    NSURL *fileUrl = [[NSBundle mainBundle] URLForResource:name withExtension:@"gif"];
+    
+    CGImageSourceRef gifSource = CGImageSourceCreateWithURL((CFURLRef)fileUrl, NULL);
+    size_t gifCount = CGImageSourceGetCount(gifSource);
+    
+    NSMutableArray *frames = [[NSMutableArray alloc] init];
+    
+    for (size_t i = 0; i< gifCount; i++) {
+        CGImageRef imageRef = CGImageSourceCreateImageAtIndex(gifSource, i, NULL);
+        UIImage *image = [UIImage resizeImage:[UIImage imageWithCGImage:imageRef] size:CGSizeMake(60, 60)];
+        [frames addObject:image];
+        CGImageRelease(imageRef);
+    }
+    
+    return frames;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNUserModel.h"
 
 typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
     THNUserFollowStatusNot = 0,     // 未关注
@@ -17,12 +18,14 @@ typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
 @interface THNFollowUserButton : UIButton
 
 @property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) THNUserModel *userModel;
 @property (nonatomic, assign) THNUserFollowStatus followStatus;
 
 /**
  设置关注的状态
  */
 - (void)setFollowUserStatus:(THNUserFollowStatus)status;
+
 - (void)setupViewUI;
 
 @end

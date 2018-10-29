@@ -42,14 +42,14 @@
 - (void)thn_setUserListCellModel:(THNUserModel *)model {
     [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
     self.nameLabel.text = model.username;
-
-    if (model.uid == [[THNLoginManager sharedManager].userId integerValue]) {
+    
+    if ([model.uid isEqualToString:[THNLoginManager sharedManager].userId]) {
         self.followButton.hidden = YES;
         
     } else {
         self.followButton.hidden = NO;
         [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status
-                                                userId:[NSString stringWithFormat:@"%zi", model.uid]];
+                                             userModel:model];
     }
 }
 

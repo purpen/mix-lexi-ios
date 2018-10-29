@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "THNUserModel.h"
+#import "THNWindowModel.h"
 #import "NSObject+EnumManagement.h"
 
 @interface THNUserManager : NSObject
@@ -15,7 +16,7 @@
 /**
  获取自己的个人中心信息
  */
-+ (void)getUserCenterCompletion:(void (^)(THNUserModel *model, NSError *error))completion;
++ (void)getUserCenterWithUserId:(NSString *)userId Completion:(void (^)(THNUserModel *model, NSError *error))completion;
 
 /**
  获取用户关注的设计馆
@@ -27,7 +28,7 @@
  获取自己喜欢的橱窗
  */
 + (void)getUserLikedWindowWithParams:(NSDictionary *)params
-                          completion:(void (^)(NSArray *windowData, NSError *error))completion;
+                          completion:(void (^)(THNWindowModel *model, NSError *error))completion;
 
 /**
  获取自己的优惠券
@@ -47,11 +48,5 @@
  */
 + (void)getUserOfficialCouponWithParams:(NSDictionary *)params
                              completion:(void (^)(NSArray *couponData, NSError *error))completion;
-
-/**
- 获取自己的失效优惠券列表
- */
-+ (void)getUserFailCouponWithParams:(NSDictionary *)params
-                         completion:(void (^)(NSArray *couponData, NSError *error))completion;
 
 @end
