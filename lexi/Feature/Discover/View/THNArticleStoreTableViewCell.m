@@ -10,13 +10,15 @@
 #import "UIImageView+WebCache.h"
 #import "THNLifeOrderStoreModel.h"
 #import "UIView+Helper.h"
+#import "THNFollowStoreButton+SelfManager.h"
+
 
 @interface THNArticleStoreTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet THNFollowStoreButton *followButton;
 @property (weak, nonatomic) IBOutlet UIView *borderBackgroundView;
 
 @end
@@ -26,6 +28,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.followButton drawCornerWithType:0 radius:14.5];
+    [self.followButton setupViewUI];
     self.borderBackgroundView.layer.cornerRadius = 4;
 }
 
@@ -34,6 +37,7 @@
     self.storeNameLabel.text = storeModel.store_name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",storeModel.product_counts];
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+//    [self.followButton selfManagerFollowStoreStatus:storeModel.is_follow_store storeModel:storeModel];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -17,8 +17,9 @@ static NSString *const kKeyStatus   = @"followed_status";
 
 @implementation THNFollowUserButton (SelfManager)
 
-- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userId:(NSString *)uid {
-    self.userId = uid;
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userModel:(THNUserModel *)model {
+    self.userModel = model;
+    self.userId = model.uid;
     [self setFollowUserStatus:status];
     [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
@@ -34,7 +35,9 @@ static NSString *const kKeyStatus   = @"followed_status";
                             userId:self.userId
                          completed:^(NSInteger status, NSError *error) {
                              if (error) return;
+                             
                              [self setFollowUserStatus:(THNUserFollowStatus)status];
+                             self.userModel.followed_status = status;
                          }];
 }
 

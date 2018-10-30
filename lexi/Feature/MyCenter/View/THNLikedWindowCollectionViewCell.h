@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "THNWindowModel.h"
 
 @interface THNLikedWindowCollectionViewCell : UICollectionViewCell

@@ -29,6 +29,9 @@
 #import "THNArticleViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNWebKitViewViewController.h"
+#import "THNDiscoverThemeViewController.h"
+#import "THNSetDetailViewController.h"
+#import "THNCouponsCenterViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -42,7 +45,8 @@ static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";
 // 人气推荐
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 // 发现生活美学
-static NSString *const kUrlLifeAesthetics = @"/shop_windows/recommend";
+static NSString *const kUrlLifeAesthetics = @"/shop_windows/handpick";
+
 // 乐喜优选
 static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
 // 种草清单
@@ -50,7 +54,12 @@ static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
-@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate, THNBannerViewDelegate, THNFeaturedCollectionViewDelegate>
+@interface THNFeaturedViewController () <
+THNFeatureTableViewCellDelegate,
+THNBannerViewDelegate,
+THNFeaturedCollectionViewDelegate,
+THNActivityViewDelegate
+>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -79,6 +88,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
 @property (nonatomic, assign) CGFloat customGrassCellHeight;
+@property (nonatomic, strong) NSMutableArray *news;
+
 
 @end
 
@@ -105,7 +116,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 // 初始化页码
 - (void)initPageNumber {
     self.pageCount = 1;
-    self.pupularPerPageCount = 5;
+    self.pupularPerPageCount = 20;
     self.optimalPerPageCount = 4;
     self.grassListPerPageCount = 4;
 }
@@ -126,9 +137,8 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (void)loadTopBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.featuredCollectionView.dataArray = result.data[@"banner_images"];
+        self.featuredCollectionView.banners = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeLeft;
-        [self.featuredCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -168,7 +178,21 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.popularTitle = result.data[@"title"];
-        self.popularDataArray = result.data[@"products"];
+        NSArray *allPopularProducts = result.data[@"products"];
+        
+        [allPopularProducts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSInteger showMaxCount = 5;
+            NSArray *array = [NSArray array];
+            if (idx % showMaxCount == 0) {
+                if (allPopularProducts.count - idx > showMaxCount) {
+                    array = [allPopularProducts subarrayWithRange:NSMakeRange(idx, showMaxCount)];
+                } else {
+                    array = [allPopularProducts subarrayWithRange:NSMakeRange(idx, allPopularProducts.count - idx)];
+                }
+                [self.news addObject:array];
+            }
+        }];
+        self.popularDataArray = self.news;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -180,13 +204,10 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.lifeAestheticTitle = result.data[@"title"];
-       
+        self.lifeAestheticDataArray = result.data[@"shop_windows"];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"searchHis" ofType:@"json"]];
-    NSDictionary *result = [data mj_JSONObject];
-    self.lifeAestheticDataArray = result[@"data"][@"daily_recommends"];
 }
 
 //优选
@@ -414,36 +435,18 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case 0:
-            
-            break;
-        case 1:
-            break;
-        case 2:
-            
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-            break;
-    }
-}
-
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
 // 橱窗主页
-- (void)pushShopWindow:(NSString *)rid {
-    THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
-    [self.navigationController pushViewController:shopWindow animated:YES];
+- (void)pushShopWindow:(NSInteger)rid {
+
 }
 
 - (void)lookAllWithType:(FeaturedCellType)cellType {
     switch (cellType) {
             
         case FeaturedLifeAesthetics: {
+            THNShopWindowViewController *shopWindow = [[THNShopWindowViewController alloc]init];
+            [self.navigationController pushViewController:shopWindow animated:YES];
             break;
         }
         case FearuredOptimal: {
@@ -452,7 +455,10 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
             break;
         }
         case FearuredGrassList: {
-
+            THNDiscoverThemeViewController *themeVC = [[THNDiscoverThemeViewController alloc]init];
+            themeVC.themeType = DiscoverThemeTypeGrassNote;
+            themeVC.navigationBarViewTitle = @"种草清单";
+            [self.navigationController pushViewController:themeVC animated:YES];
             break;
         }
         default:
@@ -471,6 +477,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
     articleVC.rid = rid;
     [self.navigationController pushViewController:articleVC animated:YES];
+}
+
+// 集合详情
+- (void)pushSetDetail:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
 }
 
 #pragma mark - THNBannerViewDelegate
@@ -503,6 +516,18 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     [self.navigationController pushViewController:goodsListVC animated:YES];
 }
 
+#pragma mark - THNActivityViewDelegate
+
+- (void)pushGoodList {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeFreeShipping title:@"包邮专区"];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)pushCouponsCenter {
+    THNCouponsCenterViewController *couponCenterVC = [[THNCouponsCenterViewController alloc]init];
+    [self.navigationController pushViewController:couponCenterVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
@@ -531,6 +556,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNActivityView *)activityView {
     if (!_activityView) {
         _activityView = [THNActivityView viewFromXib];
+        _activityView.delegate = self;
     }
     return _activityView;
 }
@@ -555,6 +581,13 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
         _grassLabelHeights = [NSMutableArray array];
     }
     return _grassLabelHeights;
+}
+
+- (NSMutableArray *)news {
+    if (!_news) {
+        _news = [NSMutableArray array];
+    }
+    return _news;
 }
 
 @end

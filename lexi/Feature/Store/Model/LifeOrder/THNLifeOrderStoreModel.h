@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *store_name;
 @property (nonatomic, strong) NSString *store_rid;
 @property (nonatomic, assign) NSInteger product_counts;
+@property (nonatomic, assign) BOOL is_follow_store;
 
 @end

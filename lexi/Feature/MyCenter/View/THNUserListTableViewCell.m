@@ -39,19 +39,17 @@
     return self;
 }
 
-- (void)thn_setUserListCellData:(NSDictionary *)data {
-    THNUserModel *model = [THNUserModel mj_objectWithKeyValues:data];
-    
+- (void)thn_setUserListCellModel:(THNUserModel *)model {
     [self.headerImageView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
     self.nameLabel.text = model.username;
-
+    
     if ([model.uid isEqualToString:[THNLoginManager sharedManager].userId]) {
         self.followButton.hidden = YES;
         
     } else {
         self.followButton.hidden = NO;
         [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status
-                                                userId:model.uid];
+                                             userModel:model];
     }
 }
 

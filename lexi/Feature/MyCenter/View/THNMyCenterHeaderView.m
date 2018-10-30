@@ -90,7 +90,7 @@ static NSInteger const kSelectedButtonTag = 452;
     [self thn_setSignatureLabelTextWith:model.about_me];
     [self thn_showCouponDot:NO];
     [self thn_showOrderButton:model.has_order];
-    [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status userId:model.uid];
+    [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status userModel:model];
     
     NSArray *valueArr = @[[NSString stringWithFormat:@"%zi", model.user_like_counts],
                           [NSString stringWithFormat:@"%zi", model.wish_list_counts],
@@ -336,14 +336,14 @@ static NSInteger const kSelectedButtonTag = 452;
     }];
     self.dynamicButton.layer.cornerRadius = 4;
     [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
-    
+
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
     [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:88 / 2];
-    
+
     // 调整视图的高度
     self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 230 + self.signatureHeight);
 }
@@ -375,7 +375,6 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_followLabel) {
         _followLabel = [[YYLabel alloc] init];
         _followLabel.font = [UIFont systemFontOfSize:12];
-        
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followLabelAction:)];
         [_followLabel addGestureRecognizer:tap];
     }
@@ -386,7 +385,6 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_fansLabel) {
         _fansLabel = [[YYLabel alloc] init];
         _fansLabel.font = [UIFont systemFontOfSize:12];
-        
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fansLabelAction:)];
         [_fansLabel addGestureRecognizer:tap];
     }

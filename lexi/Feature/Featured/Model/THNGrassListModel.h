@@ -34,4 +34,8 @@ UIKIT_EXTERN NSString *const grassNote;
 @property (nonatomic, strong) NSDictionary *recommend_store;
 @property (nonatomic, strong) NSArray <THNGoodsModelDealContent *> *deal_content;
 
+@property (nonatomic, assign) BOOL is_follow;
+// 用户ID
+@property (nonatomic, strong) NSString *uid;
+
 @end

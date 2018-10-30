@@ -25,11 +25,6 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 }
 
 - (void)followStoreAction:(id)sender {
-    if (!self.storeId.length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"品牌馆数据错误"];
-        return;
-    }
-    
     [self requestFollowStoreWithURL:self.selected ? kURLFollowCancel : kURLFollow
                             storeId:self.storeId
                           completed:^(NSError *error) {

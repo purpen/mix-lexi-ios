@@ -50,7 +50,7 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     if (self.modelArray.count) {
         [self.modelArray removeAllObjects];
     }
-
+    
     [self.modelArray addObjectsFromArray:data];
     [self.windowCollectionView reloadData];
 }

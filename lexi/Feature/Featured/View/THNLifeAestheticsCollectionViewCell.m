@@ -12,6 +12,8 @@
 #import "THNLifeRecordModel.h"
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
+#import "UIImageView+SDWedImage.h"
+#import "UIColor+Extension.h"
 
 @interface THNLifeAestheticsCollectionViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *leftImageView;
@@ -29,11 +31,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self drwaShadow];
-    [self.avatarImageView drawCornerWithType:0 radius:self.avatarImageView.viewHeight / 2];
     self.rightTopImageView.layer.masksToBounds = YES;
     self.rightBottomImageView.layer.masksToBounds = YES;
     self.leftImageView.layer.masksToBounds = YES;
+    [self drwaShadow];
 }
 
 - (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
@@ -41,6 +42,7 @@
     self.nameLabel.text = lifeRecordModel.user_name;
     self.contentLabel.text = lifeRecordModel.des;
     self.titleLabel.text = lifeRecordModel.title;
+    [self.avatarImageView thn_setCircleImageWithUrlString:lifeRecordModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
     [lifeRecordModel.products enumerateObjectsUsingBlock:^(THNProductModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:obj];
         switch (idx) {

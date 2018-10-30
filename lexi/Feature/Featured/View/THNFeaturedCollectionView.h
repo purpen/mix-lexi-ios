@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, BannerType) {
 
 @interface THNFeaturedCollectionView : UICollectionView
 
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray *banners;
 @property (nonatomic, assign) BannerType bannerType;
 @property (nonatomic, weak) id <THNFeaturedCollectionViewDelegate> featuredDelegate;
 

@@ -326,7 +326,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         
         return [paramDict copy];
     }
-    
+
     return params;
 }
 

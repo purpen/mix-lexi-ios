@@ -82,14 +82,10 @@
     [hi setColor:[UIColor colorWithHexString:@"6ED7AF"]];
     
     hi.tapAction = ^(UIView *containerView,NSAttributedString *text,NSRange range, CGRect rect) {
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            UIWindow *window  = [UIApplication sharedApplication].keyWindow;
-            weakSelf.allAnnouncementView.frame = window.bounds;
-            weakSelf.allAnnouncementView.announcementModel = self.announcementModel;
-            [window addSubview:weakSelf.allAnnouncementView];
-        }];
-        
+        UIWindow *window  = [UIApplication sharedApplication].keyWindow;
+        weakSelf.allAnnouncementView.frame = window.bounds;
+        weakSelf.allAnnouncementView.announcementModel = self.announcementModel;
+        [window addSubview:weakSelf.allAnnouncementView];
     };
     
     

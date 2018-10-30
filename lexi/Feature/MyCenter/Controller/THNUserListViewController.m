@@ -11,6 +11,8 @@
 #import "THNGoodsManager.h"
 #import "THNUserCenterViewController.h"
 #import "THNLoginManager.h"
+#import "UIScrollView+THNMJRefresh.h"
+#import "NSString+Helper.h"
 
 /// url
 static NSString *const kURLLikeGoodsUser    = @"/product/userlike";
@@ -30,7 +32,7 @@ static NSString *const kTitleLikeGoods      = @"喜欢该商品的人";
 static NSString *const kTitleUserFans       = @"粉丝";
 static NSString *const kTitleUserFollow     = @"关注";
 
-@interface THNUserListViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNUserListViewController () <UITableViewDelegate, UITableViewDataSource, THNMJRefreshDelegate>
 
 /// 类型
 @property (nonatomic, assign) THNUserListType listType;
@@ -62,33 +64,78 @@ static NSString *const kTitleUserFollow     = @"关注";
     [self setupUI];
 }
 
-#pragma mark - network
-/**
- 获取用户的数据
- */
-- (void)thn_requestUserListData {
-    [SVProgressHUD thn_show];
-    
-    WEAKSELF;
+#pragma mark - custom delegate
+- (void)beginRefreshing {
+    self.currentPage = 1;
+    [self thn_requestUserListDataWithRefresh:YES];
+}
 
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self thn_requestUserListDataWithRefresh:NO];
+}
+
+#pragma mark - network
+- (void)thn_requestUserListDataWithRefresh:(BOOL)refresh {
+    NSLog(@"请求参数：%@", [self thn_requestParams]);
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_requestParams]
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"---------- 用户列表：%@", result.responseDict);
+        THNLog(@"============ 用户列表：%@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
+            if (refresh) {
+                [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
+            } else {
+                [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
+            }
+            
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
-        [weakSelf.modelArr addObjectsFromArray:(NSArray *)result.data[[self thn_resultDataKey]]];
-        [weakSelf.userTableView reloadData];
-        [SVProgressHUD dismiss];
+        NSArray *dataArr = [NSArray arrayWithArray:(NSArray *)result.data[[self thn_resultDataKey]]];
+        
+        if (refresh) {
+            [self.userTableView endHeaderRefreshAndCurrentPageChange:YES];
+            [self.modelArr removeAllObjects];
+            [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
+            [self.userTableView resetNoMoreData];
+            
+        } else {
+            [self.userTableView endFooterRefreshAndCurrentPageChange:YES];
+            
+            if (dataArr.count) {
+                [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
+                
+            } else {
+                [self.userTableView noMoreData];
+            }
+        }
+    
+        [self.userTableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        
+        if (refresh) {
+            [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
+        } else {
+            [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
+        }
     }];
+}
+
+- (NSArray *)thn_convertModelWithData:(NSArray *)data {
+    NSMutableArray *modelArr = [NSMutableArray array];
+    
+    for (NSDictionary *dict in data) {
+        THNUserModel *model = [THNUserModel mj_objectWithKeyValues:dict];
+        [modelArr addObject:model];
+    }
+    
+    return [modelArr copy];
 }
 
 - (NSString *)thn_resultDataKey {
@@ -103,7 +150,7 @@ static NSString *const kTitleUserFollow     = @"关注";
 
 - (NSDictionary *)thn_requestParams {
     NSDictionary *paramsDict = @{kKeyPerPage: @(10),
-                                 kKeyPage: @(self.currentPage + 1)};
+                                 kKeyPage: @(self.currentPage)};
     
     if (self.requestId.length) {
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:paramsDict];
@@ -129,15 +176,15 @@ static NSString *const kTitleUserFollow     = @"关注";
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.userTableView];
+    // 添加刷新&加载更多
+    [self.userTableView setRefreshHeaderWithClass:nil beginRefresh:YES animation:YES delegate:self];
+    [self.userTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self thn_setNavigationTitle];
-    
-    [self.modelArr removeAllObjects];
-    [self thn_requestUserListData];
 }
 
 - (void)thn_setNavigationTitle {
@@ -161,7 +208,7 @@ static NSString *const kTitleUserFollow     = @"关注";
     }
     
     if (self.modelArr.count) {
-        [cell thn_setUserListCellData:self.modelArr[indexPath.row]];
+        [cell thn_setUserListCellModel:self.modelArr[indexPath.row]];
     }
     
     return cell;

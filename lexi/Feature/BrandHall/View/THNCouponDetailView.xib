@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAR-je-TSG">
-                    <rect key="frame" x="0.0" y="20" width="375" height="255"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
                     <connections>
                         <action selector="remove:" destination="iN0-l3-epB" eventType="touchUpInside" id="FCO-pL-ZjL"/>
                     </connections>
@@ -116,15 +115,14 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="CAR-je-TSG" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="1pT-zz-u6S"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="9QC-h9-N42" secondAttribute="bottom" id="9Js-aV-fNi"/>
+                <constraint firstItem="CAR-je-TSG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1pT-zz-u6S"/>
+                <constraint firstAttribute="bottom" secondItem="9QC-h9-N42" secondAttribute="bottom" id="9Js-aV-fNi"/>
                 <constraint firstItem="9QC-h9-N42" firstAttribute="top" secondItem="CAR-je-TSG" secondAttribute="bottom" id="LyV-UQ-con"/>
-                <constraint firstItem="CAR-je-TSG" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="XC9-Vo-bQa"/>
-                <constraint firstItem="9QC-h9-N42" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="bE4-cq-OLk"/>
-                <constraint firstItem="CAR-je-TSG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="enV-b6-Gkp"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="9QC-h9-N42" secondAttribute="trailing" id="lpU-NW-wvo"/>
+                <constraint firstItem="CAR-je-TSG" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="XC9-Vo-bQa"/>
+                <constraint firstItem="9QC-h9-N42" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bE4-cq-OLk"/>
+                <constraint firstItem="CAR-je-TSG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="enV-b6-Gkp"/>
+                <constraint firstAttribute="trailing" secondItem="9QC-h9-N42" secondAttribute="trailing" id="lpU-NW-wvo"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="couponDetailViewHeightConstraint" destination="wlj-Qr-2eF" id="VX2-bd-dhV"/>
                 <outlet property="finishButton" destination="nub-YX-1yO" id="nWk-Be-OQU"/>

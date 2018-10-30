@@ -80,16 +80,24 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadBrandHallData) name:@"followStoreButtonSuccess" object:nil];
-    [self loadBrandHallData];
     [self loadBannerData];
+    [self loadSetData];
+    [self loadData];
+    [self setupUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadData];
+}
+
+- (void)loadData {
+    [self loadBrandHallData];
     [self loadCategorieData];
     [self loadRecommendData];
     [self loadNewProductData];
-    [self loadSetData];
     [self loadGoodDesignData];
     [self loadGoodThingData];
-    [self setupUI];
 }
 
 // 解决HeaderView和footerView悬停的问题

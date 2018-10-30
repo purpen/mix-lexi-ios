@@ -25,6 +25,9 @@
                     <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="7LB-Jd-XEq">
                         <rect key="frame" x="0.0" y="0.0" width="245" height="163"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_set_mask" translatesAutoresizingMaskIntoConstraints="NO" id="pMM-Qr-UuC">
+                                <rect key="frame" x="0.0" y="0.0" width="245" height="163"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="个性化礼物" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imn-qQ-5LP">
                                 <rect key="frame" x="9" y="133" width="70" height="20"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
@@ -58,11 +61,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="pMM-Qr-UuC" secondAttribute="trailing" id="EBO-yN-9qO"/>
                             <constraint firstItem="Imn-qQ-5LP" firstAttribute="leading" secondItem="7LB-Jd-XEq" secondAttribute="leading" constant="9" id="F3r-TB-qsJ"/>
+                            <constraint firstAttribute="bottom" secondItem="pMM-Qr-UuC" secondAttribute="bottom" id="OKY-4q-HwV"/>
                             <constraint firstItem="4IB-SX-ziq" firstAttribute="leading" secondItem="Imn-qQ-5LP" secondAttribute="leading" id="PgX-Ge-rAA"/>
+                            <constraint firstItem="pMM-Qr-UuC" firstAttribute="leading" secondItem="7LB-Jd-XEq" secondAttribute="leading" id="SEe-J1-eN9"/>
                             <constraint firstItem="4IB-SX-ziq" firstAttribute="top" secondItem="7L1-sD-1Tj" secondAttribute="bottom" constant="5.5" id="a1N-m0-bhS"/>
                             <constraint firstAttribute="bottom" secondItem="Imn-qQ-5LP" secondAttribute="bottom" constant="10" id="fCI-ig-iWF"/>
                             <constraint firstItem="Imn-qQ-5LP" firstAttribute="top" secondItem="4IB-SX-ziq" secondAttribute="bottom" constant="2.5" id="tl0-8S-tHj"/>
+                            <constraint firstItem="pMM-Qr-UuC" firstAttribute="top" secondItem="7LB-Jd-XEq" secondAttribute="top" id="wpu-dr-ayD"/>
                             <constraint firstItem="7L1-sD-1Tj" firstAttribute="leading" secondItem="Imn-qQ-5LP" secondAttribute="leading" id="zfh-pm-aRk"/>
                         </constraints>
                     </view>
@@ -90,4 +97,7 @@
             <point key="canvasLocation" x="50.5" y="-28.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_set_mask" width="316" height="106"/>
+    </resources>
 </document>

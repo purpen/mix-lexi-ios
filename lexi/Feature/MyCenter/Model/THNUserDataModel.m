@@ -13,7 +13,13 @@
 
 - (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property {
     if ([property.name isEqualToString:@"street_address"]) {
-        if ([oldValue isEmptyString]) {
+        if ([oldValue isKindOfClass:[NSNull class]]) {
+            return @"";
+        }
+    }
+    
+    if ([property.name isEqualToString:@"mail"]) {
+        if ([oldValue isKindOfClass:[NSNull class]]) {
             return @"";
         }
     }

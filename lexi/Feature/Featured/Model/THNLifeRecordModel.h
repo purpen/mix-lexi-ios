@@ -13,11 +13,11 @@
 @interface THNLifeRecordModel : NSObject
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSArray *user_avatar;
+@property (nonatomic, strong) NSString *user_avatar;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *des;
 @property (nonatomic, strong) NSArray <THNProductModel *> *products;
 // 橱窗编号
-@property (nonatomic, strong) NSString *rid;
+@property (nonatomic, assign) NSInteger rid;
 
 @end

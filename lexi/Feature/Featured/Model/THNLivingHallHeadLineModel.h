@@ -16,7 +16,7 @@
  - HeadlineShowTypeNumber: 售出单数
  */
 typedef NS_ENUM(NSUInteger, HeadlineShowType) {
-    HeadlineShowTypeOpen,
+    HeadlineShowTypeOpen = 1,
     HeadlineShowTypeFormal,
     HeadlineShowTypeNumber,
 };

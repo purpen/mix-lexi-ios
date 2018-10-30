@@ -53,7 +53,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];
-        
+
         UIButton *headerButton = [[UIButton alloc] initWithFrame:CGRectMake(20 + 24 * idx, 10, 30, 30)];
         headerButton.tag = kHeaderButtonTag + [model.uid integerValue];
         [headerButton addTarget:self action:@selector(headerButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];

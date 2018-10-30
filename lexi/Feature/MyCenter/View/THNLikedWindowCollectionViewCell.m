@@ -70,10 +70,12 @@
     [self addSubview:self.mainImageView];
     [self addSubview:self.secondImageView];
     [self addSubview:self.thirdImageView];
+
     self.backView.frame = self.bounds;
     [self.backView drawGradientMaskWithStartPoint:(CGPointMake(0, 0))
                                          endPoint:CGPointMake(0, 1)
                                            colors:@[@"#000000", @"#000000"]];
+
     [self addSubview:self.backView];
     [self addSubview:self.titleLabel];
 }

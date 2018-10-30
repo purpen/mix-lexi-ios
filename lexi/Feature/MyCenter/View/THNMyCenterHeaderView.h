@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, THNMyCenterHeaderViewType) {
 
 @required
 - (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type;
+
 @optional
 - (void)thn_selectedUserHeadImage;
 

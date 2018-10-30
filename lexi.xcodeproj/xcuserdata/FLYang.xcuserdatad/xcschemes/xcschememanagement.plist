@@ -8,8 +8,11 @@
 		<dict>
 			<key>orderHint</key>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 			<integer>13</integer>
 =======
+>>>>>>> a583185c851049f8d34520a78e24f58e0409f708
 			<integer>15</integer>
 		</dict>
 	</dict>
@@ -19,7 +22,10 @@
 		<dict>
 			<key>primary</key>
 			<true/>
+<<<<<<< HEAD
+=======
 >>>>>>> fynn
+>>>>>>> a583185c851049f8d34520a78e24f58e0409f708
 		</dict>
 	</dict>
 </dict>
