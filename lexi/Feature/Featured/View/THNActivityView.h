@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol THNActivityViewDelegate <NSObject>
+
+@optional
+- (void)pushGoodList;
+- (void)pushCouponsCenter;
+
+@end
+
 @interface THNActivityView : UIView
+
+@property (nonatomic, weak) id <THNActivityViewDelegate> delegate;
 
 @end
