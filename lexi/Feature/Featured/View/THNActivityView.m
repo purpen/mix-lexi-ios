@@ -8,14 +8,29 @@
 
 #import "THNActivityView.h"
 
+@interface THNActivityView ()
+
+@end
+
 @implementation THNActivityView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+// 活动
+- (IBAction)activity:(id)sender {
+    
 }
-*/
+
+// 领劵
+- (IBAction)collarCoupon:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushCouponsCenter)]) {
+        [self.delegate pushCouponsCenter];
+    }
+}
+
+// 包邮专区
+- (IBAction)freeShippingArea:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushGoodList)]) {
+        [self.delegate pushGoodList];
+    }
+}
 
 @end

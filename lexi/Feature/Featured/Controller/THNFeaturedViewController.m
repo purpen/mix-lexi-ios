@@ -31,7 +31,7 @@
 #import "THNWebKitViewViewController.h"
 #import "THNDiscoverThemeViewController.h"
 #import "THNSetDetailViewController.h"
-
+#import "THNCouponsCenterViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -54,7 +54,12 @@ static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
 
-@interface THNFeaturedViewController ()<THNFeatureTableViewCellDelegate, THNBannerViewDelegate, THNFeaturedCollectionViewDelegate>
+@interface THNFeaturedViewController () <
+THNFeatureTableViewCellDelegate,
+THNBannerViewDelegate,
+THNFeaturedCollectionViewDelegate,
+THNActivityViewDelegate
+>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
@@ -511,6 +516,18 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
     [self.navigationController pushViewController:goodsListVC animated:YES];
 }
 
+#pragma mark - THNActivityViewDelegate
+
+- (void)pushGoodList {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeFreeShipping title:@"包邮专区"];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)pushCouponsCenter {
+    THNCouponsCenterViewController *couponCenterVC = [[THNCouponsCenterViewController alloc]init];
+    [self.navigationController pushViewController:couponCenterVC animated:YES];
+}
+
 #pragma mark - lazy
 - (THNFeaturedCollectionView *)featuredCollectionView {
     if (!_featuredCollectionView) {
@@ -539,6 +556,7 @@ static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content"
 - (THNActivityView *)activityView {
     if (!_activityView) {
         _activityView = [THNActivityView viewFromXib];
+        _activityView.delegate = self;
     }
     return _activityView;
 }
