@@ -46,6 +46,7 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupUI];
     [self loadData];
 }
@@ -147,23 +148,24 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
         cell.flag = @"shopWindowDetail";
         [cell setShopWindowModel:self.shopWindowModel];
         return cell;
+        
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeComment) {
         self.cellType = ShopWindowDetailCellTypeComment;
         THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
         cell.comments = self.comments;
-        
         cell.lookCommentBlock = ^{
             THNCommentViewController *comment = [[THNCommentViewController alloc]init];
             [self.navigationController pushViewController:comment animated:YES];
         };
-        
         return cell;
+        
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeExplore) {
         self.cellType = ShopWindowDetailCellTypeExplore;
         THNExploreTableViewCell *cell = [THNExploreTableViewCell viewFromXib];
         // cell.isRewriteCellHeight = YES;
         [cell setCellTypeStyle:ExploreRecommend initWithDataArray:self.guessLikeArray initWithTitle:@"猜你喜欢"];
         return cell;
+        
     } else {
         self.cellType = ShopWindowDetailCellTypeFeature;
         THNFeatureTableViewCell *cell = [THNFeatureTableViewCell viewFromXib];

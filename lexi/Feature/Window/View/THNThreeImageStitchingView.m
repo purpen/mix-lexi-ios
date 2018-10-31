@@ -21,7 +21,6 @@
 @implementation THNThreeImageStitchingView
 
 - (void)setThreeImageStitchingView:(NSArray *)images {
-    
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         switch (idx) {
             case 0:
@@ -41,7 +40,6 @@
     } else {
         self.moreImageCountLabel.hidden = YES;
     }
-    
 }
 
 @end

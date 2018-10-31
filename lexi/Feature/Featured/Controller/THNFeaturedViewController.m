@@ -205,6 +205,7 @@ THNActivityViewDelegate
         self.lifeAestheticTitle = result.data[@"title"];
         self.lifeAestheticDataArray = result.data[@"shop_windows"];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

@@ -61,6 +61,7 @@ CGFloat const kCellGrassListHeight = 158;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];

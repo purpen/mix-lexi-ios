@@ -25,6 +25,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+
+    [self.brandImageView drawCornerWithType:0 radius:4];
     self.brandImageView.layer.borderColor = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
     self.brandImageView.layer.borderWidth = 1;
     self.brandImageView.layer.cornerRadius = 4;

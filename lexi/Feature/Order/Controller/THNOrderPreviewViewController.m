@@ -38,10 +38,10 @@ static NSString *const kUrlNewUserDiscount = @"/market/coupons/new_user_discount
 static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 @interface THNOrderPreviewViewController ()<
-UITableViewDelegate,
-UITableViewDataSource,
-THNPreViewTableViewCellDelegate,
-WXApiDelegate
+    UITableViewDelegate,
+    UITableViewDataSource,
+    THNPreViewTableViewCellDelegate,
+    WXApiDelegate
 >
 
 /// 完成按钮
@@ -185,7 +185,6 @@ WXApiDelegate
     params[@"from_client"] = @(3);
     // 是否同步返回支付参数 0、否 1、是
     params[@"sync_pay"] = @(1);
-    
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
@@ -201,6 +200,7 @@ WXApiDelegate
         paymentVC.totalFreight = self.totalFreight;
         paymentVC.orderRid = result.data[@"order_rid"];
         paymentVC.payModel = payModel;
+
         [self.navigationController pushViewController:paymentVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {

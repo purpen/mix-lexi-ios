@@ -169,7 +169,6 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     self.lastContentOffset = scrollView.contentOffset.y;
 }
 
-
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
     if (index == ShowWindowTypeFollow) {
         self.showWindowType = ShowWindowTypeFollow;

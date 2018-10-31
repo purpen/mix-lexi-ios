@@ -46,20 +46,18 @@ NSString *const kFontFamily         = @"PingFang";
 NSString *const kAppStoreId         = @"com.taihuoniao.lexi";
 NSString *const kAppName            = @"lexi";
 
-#pragma mark - UM
-NSString *const kUMAppleKey = @"5bc5c570b465f5c5b2000086";
-
-#pragma mark - WX
+#pragma mark - Third
+// 友盟
+NSString *const kUMAppleKey         = @"5bc5c570b465f5c5b2000086";
 // 微信分享
-NSString *const kWXShareAppKey    = @"wx777520ec6a61fff5";
-NSString *const kWXShareAppSecret = @"a049e19a6f464e7d53ad28b4dbc905e2";
+NSString *const kWXShareAppKey      = @"wx777520ec6a61fff5";
+NSString *const kWXShareAppSecret   = @"a049e19a6f464e7d53ad28b4dbc905e2";
 // 微信支付
-NSString *const kWXPayAppKey    = @"wx456e2f0cb22db269";
-NSString *const kWXPayAppSecret = @"8eddb55d39cbfdb9fee1afa93a495db1";
-
-#pragma mark - WB
-NSString *const kWBAppKey = @"146542115";
-NSString *const kWBAppSecret = @"3d2cff91e7e95529e97aa6a2320c940e";
+NSString *const kWXPayAppKey        = @"wx456e2f0cb22db269";
+NSString *const kWXPayAppSecret     = @"8eddb55d39cbfdb9fee1afa93a495db1";
+// 微博
+NSString *const kWBAppKey           = @"146542115";
+NSString *const kWBAppSecret        = @"3d2cff91e7e95529e97aa6a2320c940e";
 
 #pragma mark - Error Domain
 NSString *const kDomain             = @"TaiHuoNiao";

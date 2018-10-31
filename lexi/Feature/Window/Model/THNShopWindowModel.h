@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <MJExtension/MJExtension.h>
 
-
 /**
  用户身份
 

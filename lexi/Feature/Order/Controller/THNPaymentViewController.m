@@ -38,6 +38,7 @@ static NSString *kTextPayment   = @"选择支付方式";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadPaymentDetail) name:@"paySuccess" object:nil];
     [self setupUI];
 }

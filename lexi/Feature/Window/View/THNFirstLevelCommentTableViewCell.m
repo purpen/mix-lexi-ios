@@ -34,6 +34,7 @@ static NSString *const kSecondLevelCellIdentifier = @"kSecondLevelCellIdentifier
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
