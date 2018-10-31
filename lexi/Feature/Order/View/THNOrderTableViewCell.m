@@ -23,6 +23,7 @@
 #import "THNObtainedView.h"
 #import "THNWxPayModel.h"
 #import <WXApi.h>
+#import "THNOrderPayView.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
 static NSString *const kUrlOrdersWechatPay= @"/orders/wx_pay/app";
@@ -55,6 +56,7 @@ CGFloat orderCellLineSpacing = 10;
 @property (nonatomic, assign) BOOL isAddTimer;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
 @property (nonatomic, strong) THNOrdersItemsModel *itemModel;
+@property (nonatomic, strong) THNOrderPayView *orderPayView;
 
 @end
 
@@ -99,6 +101,8 @@ CGFloat orderCellLineSpacing = 10;
     }];
 }
 
+
+// 微信支付
 - (void)wechatPay {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.ordersModel.rid;
@@ -106,36 +110,35 @@ CGFloat orderCellLineSpacing = 10;
     params[@"pay_type"] = @(1);
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersWechatPay requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
         
+        THNWxPayModel *wxPayModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
+        if ([result.data[@"is_merge"] boolValue]) {
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            self.orderPayView.orderLists = result.data[@"order_list"];
+            
+            WEAKSELF;
+            self.orderPayView.payViewBlock = ^{
+                [weakSelf againPay:wxPayModel];
+            };
+            
+            self.orderPayView.frame = window.bounds;
+            [window addSubview:self.orderPayView];
+        } else {
+            [self againPay:wxPayModel];
+        }
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
-// 调起微信支付
-- (void)tuneUpWechatPay:(THNWxPayModel *)payModel {
-    PayReq *request = [[PayReq alloc]init];
-    request.partnerId = payModel.mch_id;
-    request.prepayId= payModel.prepay_id;
-    request.package = @"Sign=WXPay";
-    request.nonceStr = payModel.nonce_str;
-    request.timeStamp = payModel.timestamp;
-    request.sign = payModel.sign;
-    [WXApi sendReq:request];
-}
-
-- (void)onResp:(BaseResp*)resp {
-    if ([resp isKindOfClass:[PayResp class]]){
-        PayResp*response=(PayResp*)resp;
-        switch(response.errCode){
-            case WXSuccess:
-                //服务器端查询支付通知或查询API返回的结果再提示成功
-                NSLog(@"支付成功");
-                break;
-            default:
-                NSLog(@"支付失败，retcode=%d",resp.errCode);
-                break;
-        }
+// 再次付款
+- (void)againPay:(THNWxPayModel *)wxPayModel {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushPayment:)]) {
+        [self.delegate pushPayment:wxPayModel];
     }
 }
 
@@ -236,7 +239,8 @@ CGFloat orderCellLineSpacing = 10;
 - (void)countDown {
     self.timeInterval--;
     
-    if (self.timeInterval == 0) {
+    if (self.timeInterval < 1) {
+        [self removeTimer];
         if (self.countDownBlock) {
              self.countDownBlock(self);
         }
@@ -245,6 +249,12 @@ CGFloat orderCellLineSpacing = 10;
     
     self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
     self.payCountDownTextLabel.text = self.countDownText;
+    self.orderPayView.countDownLabel.text = [NSString stringWithFormat:@"付款 %@",self.countDownText];
+}
+
+- (void)removeTimer {
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (IBAction)pay:(id)sender {
@@ -380,6 +390,13 @@ CGFloat orderCellLineSpacing = 10;
 - (void)dealloc {
     [self.timer invalidate];
     self.timer = nil;
+}
+
+- (THNOrderPayView *)orderPayView {
+    if (!_orderPayView) {
+        _orderPayView = [THNOrderPayView viewFromXib];
+    }
+    return _orderPayView;
 }
 
 @end

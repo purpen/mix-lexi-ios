@@ -34,8 +34,8 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadCollectionsDetailData];
     [self setupUI];
+    [self loadCollectionsDetailData];
 }
 
 - (void)setupUI {

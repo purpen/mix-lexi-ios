@@ -29,8 +29,8 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadData];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)loadData {

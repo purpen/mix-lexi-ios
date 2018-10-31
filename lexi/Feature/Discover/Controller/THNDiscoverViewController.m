@@ -43,8 +43,8 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadData];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)loadData {

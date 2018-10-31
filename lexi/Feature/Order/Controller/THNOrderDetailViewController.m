@@ -41,8 +41,8 @@
         self.requestUrl = [NSString stringWithFormat:@"/orders/after_payment/%@",self.rid];
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderDetailLogisticsTracking object:nil];
-    [self loadOrderDetailData];
     [self setupUI];
+    [self loadOrderDetailData];
 }
 
 - (void)loadOrderDetailData {

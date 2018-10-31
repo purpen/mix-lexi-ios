@@ -67,8 +67,8 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     [super viewDidLoad];
     tableViewY = kDeviceiPhoneX ? -44 : -22;
     articleHeaderViewHeight = 335 + 64 + 22;
-    [self loadLifeRecordsDetailData];
     [self setupUI];
+    [self loadLifeRecordsDetailData];
 }
 
 - (void)setupUI {

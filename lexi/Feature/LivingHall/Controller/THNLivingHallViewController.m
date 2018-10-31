@@ -67,8 +67,8 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCuratorRecommendedData) name:kShelfSuccess object:nil];
     [self initPageNumber];
     [self.livingHallHeaderView setLifeStore];
-    [self loadData];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)loadData {

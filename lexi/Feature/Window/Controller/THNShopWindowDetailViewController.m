@@ -46,7 +46,6 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupUI];
     [self loadData];
 }

@@ -78,10 +78,10 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCouponData) name:kBrandHallReceiveCoupon object:nil];
-    [self loadData];
     // 存储品牌馆ID
     [THNSaveTool setObject:self.rid forKey:kBrandHallRid];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)loadData {

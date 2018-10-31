@@ -49,7 +49,7 @@ static const void *kIsTransparent = @"kIsTransparent";
     }
 
     if (self.loadViewY == 0) {
-        self.loadViewY = NAVIGATION_BAR_HEIGHT;
+        self.loadViewY = 0;
     }
 
     loadView.frame = CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -60,8 +60,8 @@ static const void *kIsTransparent = @"kIsTransparent";
     }
     loadView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight;
     objc_setAssociatedObject(self, &loadViewKey, loadView , OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:loadView];
+//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [self.view addSubview:loadView];
 }
 
 - (void)hiddenHud {

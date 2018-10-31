@@ -50,11 +50,11 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:kShelfSuccess object:nil];
+    [self setupUI];
     [self loadDistributeHotData];
     [self loadDistributeStickedData];
     [self loadDistributeLatestData];
     [self loadTopBannerData];
-    [self setupUI];
 }
 
 // 解决HeaderView和footerView悬停的问题

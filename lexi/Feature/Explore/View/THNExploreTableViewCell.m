@@ -75,7 +75,7 @@ CGFloat const cellOtherHeight = 190;
     
     switch (cellType) {
         case ExploreSet:
-            itemWidth = 190;
+            itemWidth = 158;
             itemHeight = cellSetHeight;
             lineSpacing = 10;
             self.setDataArray = dataArray;

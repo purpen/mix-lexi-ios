@@ -32,6 +32,7 @@
 #import "THNDiscoverThemeViewController.h"
 #import "THNSetDetailViewController.h"
 #import "THNCouponsCenterViewController.h"
+#import "THNShopWindowDetailViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -437,11 +438,6 @@ THNActivityViewDelegate
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
-// 橱窗主页
-- (void)pushShopWindow:(NSInteger)rid {
-
-}
-
 - (void)lookAllWithType:(FeaturedCellType)cellType {
     switch (cellType) {
             
@@ -466,6 +462,13 @@ THNActivityViewDelegate
             break;
     }
 }
+
+// 橱窗主页
+- (void)pushShopWindow:(NSInteger)rid {
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
+}
+
 
 // 商品详情
 - (void)pushGoodInfo:(NSString *)rid {
