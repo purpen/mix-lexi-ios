@@ -460,6 +460,8 @@
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
+		D8BEB42E2189591700DF3212 /* THNCouponsCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */; };
+		D8BEB4312189821800DF3212 /* THNCouponCenterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -1280,6 +1282,10 @@
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
+		D8BEB42C2189591700DF3212 /* THNCouponsCenterHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterHeaderView.h; sourceTree = "<group>"; };
+		D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterHeaderView.m; sourceTree = "<group>"; };
+		D8BEB42F2189821800DF3212 /* THNCouponCenterSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponCenterSectionView.h; sourceTree = "<group>"; };
+		D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponCenterSectionView.m; sourceTree = "<group>"; };
 		D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelProducts.h; sourceTree = "<group>"; };
 		D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelProducts.m; sourceTree = "<group>"; };
 		D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelShopWindows.m; sourceTree = "<group>"; };
@@ -3060,6 +3066,10 @@
 		D8BEB42B2189587000DF3212 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D8BEB42C2189591700DF3212 /* THNCouponsCenterHeaderView.h */,
+				D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */,
+				D8BEB42F2189821800DF3212 /* THNCouponCenterSectionView.h */,
+				D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3446,6 +3456,7 @@
 				4B27B3EB218717D1004AF42F /* THNGoodsFunctionView.m in Sources */,
 				4B27B3EC218717D1004AF42F /* THNGoodsListCollectionReusableView.m in Sources */,
 				4B27B3ED218717D1004AF42F /* THNImageCollectionViewCell.m in Sources */,
+				D8BEB4312189821800DF3212 /* THNCouponCenterSectionView.m in Sources */,
 				4B27B3EE218717D1004AF42F /* THNImagesView.m in Sources */,
 				4B27B3EF218717D1004AF42F /* THNCouponsCenterViewController.m in Sources */,
 				4B27B3F0218717D1004AF42F /* THNStoreCouponViewController.m in Sources */,
@@ -3606,6 +3617,7 @@
 				4B27B48D218717D2004AF42F /* THNLifeCashBillOrderModel.m in Sources */,
 				4B27B48E218717D2004AF42F /* THNLifeCashCollectModel.m in Sources */,
 				4B27B48F218717D2004AF42F /* THNLifeOrdersCollectModel.m in Sources */,
+				D8BEB42E2189591700DF3212 /* THNCouponsCenterHeaderView.m in Sources */,
 				4B27B490218717D2004AF42F /* THNLifeSaleCollectModel.m in Sources */,
 				4B27B491218717D2004AF42F /* THNLifeStoreModel.m in Sources */,
 				4B27B492218717D2004AF42F /* THNLifeOrderDataModel.m in Sources */,
