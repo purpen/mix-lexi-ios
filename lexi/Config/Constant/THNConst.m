@@ -10,14 +10,14 @@
 
 #pragma mark - API 地址
 ////  正式环境
-NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
-NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
-NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
+//NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
+//NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
+//NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
 
 //  开发环境
-//NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
-//NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
-//NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
+NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
+NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
+NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark - 测试账号
 /**
@@ -50,8 +50,12 @@ NSString *const kAppName            = @"lexi";
 NSString *const kUMAppleKey = @"5bc5c570b465f5c5b2000086";
 
 #pragma mark - WX
-NSString *const kWXAppKey    = @"wx777520ec6a61fff5";
-NSString *const kWXAppSecret = @"a049e19a6f464e7d53ad28b4dbc905e2";
+// 微信分享
+NSString *const kWXShareAppKey    = @"wx777520ec6a61fff5";
+NSString *const kWXShareAppSecret = @"a049e19a6f464e7d53ad28b4dbc905e2";
+// 微信支付
+NSString *const kWXPayAppKey    = @"wx456e2f0cb22db269";
+NSString *const kWXPayAppSecret = @"8eddb55d39cbfdb9fee1afa93a495db1";
 
 #pragma mark - WB
 NSString *const kWBAppKey = @"146542115";

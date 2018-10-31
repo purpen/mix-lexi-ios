@@ -38,8 +38,10 @@ UIKIT_EXTERN NSString *const kAppName;
 UIKIT_EXTERN NSString *const kUMAppleKey;
 
 #pragma mark - WX
-UIKIT_EXTERN NSString *const kWXAppKey;
-UIKIT_EXTERN NSString *const kWXAppSecret;
+UIKIT_EXTERN NSString *const kWXShareAppKey;
+UIKIT_EXTERN NSString *const kWXShareAppSecret;
+UIKIT_EXTERN NSString *const kWXPayAppKey;
+UIKIT_EXTERN NSString *const kWXPayAppSecret;
 
 #pragma mark - WB
 UIKIT_EXTERN NSString *const kWBAppKey;

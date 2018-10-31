@@ -46,7 +46,6 @@ static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";
 static NSString *const kUrlColumnHandpickRecommend = @"/column/handpick_recommend";
 // 发现生活美学
 static NSString *const kUrlLifeAesthetics = @"/shop_windows/handpick";
-
 // 乐喜优选
 static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optimization";
 // 种草清单
@@ -205,6 +204,7 @@ THNActivityViewDelegate
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.lifeAestheticTitle = result.data[@"title"];
         self.lifeAestheticDataArray = result.data[@"shop_windows"];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

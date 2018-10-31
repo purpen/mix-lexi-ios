@@ -341,6 +341,11 @@ Copyright 2011 - 2018 umeng.com. All rights reserved.
 Copyright 2011 - 2018 umeng.com. All rights reserved.
 
 
+## WechatOpenSDK
+
+Copyright 2018 tencent.com. All rights reserved.
+
+
 ## YYKit
 
 The MIT License (MIT)

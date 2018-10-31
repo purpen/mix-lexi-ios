@@ -61,22 +61,32 @@ CGFloat sevenToGrowImageHeight = 90;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
     self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame);
+    self.likeLabel.hidden = shopWindowModel.like_count == 0 ?: NO;
     self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
+    self.commentLabel.hidden = shopWindowModel.comment_count == 0 ?: NO;
     self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
+    
+    if (self.likeLabel.hidden == YES && self.commentLabel.hidden == YES) {
+        self.titleLabelTopConstraint.constant = -15;
+    }
     
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {
         [self hiddenShowWindowDetail];
     }
     
+    if (shopWindowModel.is_official) {
+        self.identityImageView.image = [UIImage imageNamed:@"icon_official"];
+    } else {
+        self.identityImageView.image = [UIImage imageNamed:@"icon_talent"];
+    }
+    
     switch (self.imageType) {
         case ShopWindowImageTypeThree:
+            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight;
             [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
         case ShopWindowImageTypeFive:
-            [self.threeImageStitchingView removeFromSuperview];
-            self.likeLabel.hidden = YES;
-            self.commentLabel.hidden = YES;
             self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
             [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];

@@ -85,7 +85,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         
-        
     }];
 }
 

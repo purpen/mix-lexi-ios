@@ -8,7 +8,8 @@
 @property (nonatomic, assign) BOOL prev;
 @property (nonatomic, strong) NSArray * shopWindows;
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
--(NSDictionary *)toDictionary;
+- (NSDictionary *)toDictionary;
+
 @end

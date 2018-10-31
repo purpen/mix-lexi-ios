@@ -85,6 +85,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         [self loadRecommendProductData];
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         
@@ -101,7 +102,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+            
     }];
 }
 
@@ -125,7 +126,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendStory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        
         self.lifeRecords = result.data[@"life_records"];
         [self.dataArray addObject:kArticleCellTypeStory];
         [self.tableView reloadData];

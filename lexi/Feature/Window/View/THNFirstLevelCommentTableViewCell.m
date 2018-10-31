@@ -10,6 +10,8 @@
 #import "THNSecondLevelCommentTableViewCell.h"
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
+#import "UIImageView+SDWedImage.h"
+#import "THNCommentModel.h"
 
 static NSString *const kSecondLevelCellIdentifier = @"kSecondLevelCellIdentifier";
 
@@ -18,7 +20,13 @@ static NSString *const kSecondLevelCellIdentifier = @"kSecondLevelCellIdentifier
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 // 查看更多数据button
 @property (nonatomic, strong) UIButton *expandButton;
-
+@property (weak, nonatomic) IBOutlet UILabel *contentlabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewConstraint;
+@property (nonatomic, strong) NSArray *array;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @end
 
@@ -26,10 +34,18 @@ static NSString *const kSecondLevelCellIdentifier = @"kSecondLevelCellIdentifier
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSecondLevelCommentTableViewCell" bundle:nil] forCellReuseIdentifier:kSecondLevelCellIdentifier];
     self.tableView.scrollEnabled = NO;
+}
+
+- (void)setCommentModel:(THNCommentModel *)commentModel {
+    _commentModel = commentModel;
+    [self.avatarImageView thn_setCircleImageWithUrlString:commentModel.user_avatar placeholder:[UIImage imageNamed:@"default_user_place"]];
+    self.nameLabel.text = commentModel.user_name;
+    self.contentlabel.text = commentModel.content;
 }
 
 - (void)loadMoreData {
@@ -39,6 +55,16 @@ static NSString *const kSecondLevelCellIdentifier = @"kSecondLevelCellIdentifier
 - (void)setArray:(NSArray *)array {
     _array = array;
     [self.tableView reloadData];
+}
+
+// 赞
+- (IBAction)reply:(id)sender {
+    
+}
+
+// 回复
+- (IBAction)awesome:(id)sender {
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
