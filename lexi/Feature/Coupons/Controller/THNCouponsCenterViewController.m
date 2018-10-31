@@ -16,9 +16,9 @@ static NSString *const kTextOfficial        = @"乐喜官方券";
 static NSString *const kTextBrand           = @"精选品牌券";
 static NSString *const kTextProduct         = @"精选商品券";
 ///
-static NSString *const kRecommendCollectionCellId = @"kRecommendCollectionCell";
-static NSString *const kCollectionHeaderViewId = @"kCollectionHeaderView";
-static NSString *const kCollectionSectionViewId = @"kCollectionSectionView";
+static NSString *const kRecommendCollectionCellId   = @"kRecommendCollectionCell";
+static NSString *const kCollectionHeaderViewId      = @"kCollectionHeaderView";
+static NSString *const kCollectionSectionViewId     = @"kCollectionSectionView";
 
 @interface THNCouponsCenterViewController () <
     UICollectionViewDelegate,

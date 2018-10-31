@@ -23,6 +23,8 @@
 #import "THNOrderDetailModel.h"
 #import "THNSelectOfficalCouponView.h"
 #import "UIViewController+THNHud.h"
+#import "THNWxPayModel.h"
+#import <WXApi.h>
 
 static NSString *kTitleDone = @"提交订单";
 static NSString *const KOrderPreviewCellIdentifier = @"KOrderPreviewCellIdentifier";
@@ -38,7 +40,8 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 @interface THNOrderPreviewViewController ()<
 UITableViewDelegate,
 UITableViewDataSource,
-THNPreViewTableViewCellDelegate
+THNPreViewTableViewCellDelegate,
+WXApiDelegate
 >
 
 /// 完成按钮
@@ -182,8 +185,7 @@ THNPreViewTableViewCellDelegate
     params[@"from_client"] = @(3);
     // 是否同步返回支付参数 0、否 1、是
     params[@"sync_pay"] = @(1);
-    params[@"authAppid"] = kWXAppKey;
-
+    
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
@@ -191,10 +193,13 @@ THNPreViewTableViewCellDelegate
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
+        
+        THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data[@"pay_params"]];
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
         paymentVC.totalPrice = self.totalPrice;
         paymentVC.paymentAmount = self.payAmount;
         paymentVC.totalFreight = self.totalFreight;
+        paymentVC.payModel = payModel;
         [self.navigationController pushViewController:paymentVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {

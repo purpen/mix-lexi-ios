@@ -61,7 +61,7 @@ CGFloat const kCellGrassListHeight = 158;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNLifeAestheticsCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:kLifeAestheticsCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kGrassListCellIdentifier];
@@ -70,6 +70,14 @@ CGFloat const kCellGrassListHeight = 158;
     self.productCollectionView.delegate = self;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
+}
+
+- (void)setFrame:(CGRect)frame {
+    if (self.isRewriteCellHeight) {
+        frame.origin.y += 15;
+        frame.size.height -= 15;
+    }
+    [super setFrame:frame];
 }
 
 - (IBAction)lookAll:(id)sender {

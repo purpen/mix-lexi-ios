@@ -81,16 +81,6 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFirstLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFirstLevelCellIdentifier forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        cell.contentlabel.text = @"dsafsakfl;lak;f";
-        cell.array = @[@"",@""];
-        cell.tableViewConstraint.constant = 280;
-    } else {
-        cell.contentlabel.text = @"dd the image referenced from a nib in the bundle with identifier image referenced from a nib in the bundle witimage referenced from a nib in the bundle wit";
-        cell.tableViewConstraint.constant = 140;
-        cell.array = @[@""];
-    }
-    
     return cell;
 }
 

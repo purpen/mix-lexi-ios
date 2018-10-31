@@ -56,7 +56,9 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>wx456e2f0cb22db269</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>

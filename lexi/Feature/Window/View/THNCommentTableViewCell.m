@@ -8,6 +8,8 @@
 
 #import "THNCommentTableViewCell.h"
 #import "THNFirstLevelCommentTableViewCell.h"
+#import "THNCommentModel.h"
+#import <MJExtension/MJExtension.h>
 
 static NSString *const kFirstLevelInCommentCellIdentifier = @"kFirstLevelInCommentCellIdentifier";
 
@@ -27,28 +29,29 @@ static NSString *const kFirstLevelInCommentCellIdentifier = @"kFirstLevelInComme
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFirstLevelCommentTableViewCell" bundle:nil] forCellReuseIdentifier:kFirstLevelInCommentCellIdentifier];
 }
 
-#pragma mark - Table view data source
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
-}
 - (IBAction)lookComment:(id)sender {
     self.lookCommentBlock();
 }
 
+- (void)setComments:(NSArray *)comments {
+    _comments = comments;
+    [self.tableView reloadData];
+}
+
+#pragma mark - Table view data source
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.comments.count;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFirstLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFirstLevelInCommentCellIdentifier forIndexPath:indexPath];
-    cell.lineView.hidden = YES;
-    if (indexPath.row == 0) {
-        cell.contentlabel.text = @"dsafsakfl;lak;f";
-        cell.array = @[@"",@""];
-        cell.tableViewConstraint.constant = 280;
-    } else {
-        cell.contentlabel.text = @"dd the image referenced from a nib in the bundle with identifier image referenced from a nib in the bundle witimage referenced from a nib in the bundle wit";
-        cell.tableViewConstraint.constant = 140;
-        cell.array = @[@""];
-    }
-    
+    THNCommentModel *commentModel = [THNCommentModel mj_objectWithKeyValues:self.comments[indexPath.row]];
+    [cell setCommentModel:commentModel];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
 }
 
 @end

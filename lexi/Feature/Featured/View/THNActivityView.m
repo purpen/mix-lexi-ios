@@ -8,10 +8,6 @@
 
 #import "THNActivityView.h"
 
-@interface THNActivityView ()
-
-@end
-
 @implementation THNActivityView
 
 // 活动

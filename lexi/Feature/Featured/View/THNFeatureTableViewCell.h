@@ -56,5 +56,7 @@ UIKIT_EXTERN  CGFloat const kCellGrassListHeight;
 // 种草清单（titleLabel + contentLabel） 高度数组
 @property (nonatomic, strong) NSMutableArray *grassLabelHeights;
 @property (nonatomic, weak) id <THNFeatureTableViewCellDelegate> delagate;
+// 是否给cell设置间距
+@property (nonatomic, assign) BOOL isRewriteCellHeight;
 
 @end

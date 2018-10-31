@@ -19,6 +19,7 @@
 #import "THNNavigationBarView.h"
 #import "THNLoginManager.h"
 #import "THNSearchViewController.h"
+#import "THNShopWindowViewController.h"
 
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) THNFeaturedViewController *featured;
 @property (nonatomic, strong) THNExploresViewController *explore;
 @property (nonatomic, strong) THNLivingHallViewController *livingHall;
+@property (nonatomic, strong) THNShopWindowViewController *showWindow;
 
 @end
 
@@ -55,6 +57,7 @@
     [self.featured removeFromParentViewController];
     [self.livingHall removeFromParentViewController];
     [self.explore removeFromParentViewController];
+    [self.showWindow removeFromParentViewController];
 }
 
 - (void)setupUI {
@@ -86,10 +89,13 @@
     [self addChildViewController:featured];
     THNExploresViewController *explore = [[THNExploresViewController alloc]init];
     [self addChildViewController:explore];
+    THNShopWindowViewController *showWindow = [[THNShopWindowViewController alloc]init];
+    [self addChildViewController:showWindow];
    
     self.featured = featured;
     self.explore = explore;
-    NSInteger showIndex = self.childViewControllers.count - 2;
+    self.showWindow = showWindow;
+    NSInteger showIndex = self.childViewControllers.count - 3;
     self.childViewControllers[showIndex].view.frame = self.publicView.bounds;
     [self.publicView addSubview:self.childViewControllers[showIndex].view];
     self.currentSubViewController = self.childViewControllers[showIndex];
@@ -114,9 +120,9 @@
 
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
-        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索"] : @[@"精选", @"探索"];
+        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索", @"橱窗"] : @[@"精选", @"探索", @"橱窗"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
-        _selectButtonView.defaultShowIndex = titleArray.count - 2;
+        _selectButtonView.defaultShowIndex = titleArray.count - 3;
     }
     return _selectButtonView;
 }

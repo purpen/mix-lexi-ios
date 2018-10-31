@@ -21,6 +21,8 @@
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
 #import "THNObtainedView.h"
+#import "THNWxPayModel.h"
+#import <WXApi.h>
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
 static NSString *const kUrlOrdersWechatPay= @"/orders/wx_pay/app";
@@ -100,13 +102,41 @@ CGFloat orderCellLineSpacing = 10;
 - (void)wechatPay {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.ordersModel.rid;
-    params[@"authAppid"] = kWXAppKey;
+    // 支付方式 1、微信 2、支付宝
+    params[@"pay_type"] = @(1);
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersWechatPay requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
+}
+
+// 调起微信支付
+- (void)tuneUpWechatPay:(THNWxPayModel *)payModel {
+    PayReq *request = [[PayReq alloc]init];
+    request.partnerId = payModel.mch_id;
+    request.prepayId= payModel.prepay_id;
+    request.package = @"Sign=WXPay";
+    request.nonceStr = payModel.nonce_str;
+    request.timeStamp = payModel.timestamp;
+    request.sign = payModel.sign;
+    [WXApi sendReq:request];
+}
+
+- (void)onResp:(BaseResp*)resp {
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode){
+            case WXSuccess:
+                //服务器端查询支付通知或查询API返回的结果再提示成功
+                NSLog(@"支付成功");
+                break;
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
+    }
 }
 
 - (void)setOrdersModel:(THNOrdersModel *)ordersModel {

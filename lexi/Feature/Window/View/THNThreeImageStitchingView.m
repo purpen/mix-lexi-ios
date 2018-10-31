@@ -14,12 +14,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *leftImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *rightTopImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *rightBottomImageView;
+@property (weak, nonatomic) IBOutlet UILabel *moreImageCountLabel;
 
 @end
 
 @implementation THNThreeImageStitchingView
 
 - (void)setThreeImageStitchingView:(NSArray *)images {
+    
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         switch (idx) {
             case 0:
@@ -32,6 +34,14 @@
                 break;
         }
     }];
+    
+    if (images.count > 3) {
+        self.moreImageCountLabel.hidden = NO;
+        self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%ld",images.count - 3];
+    } else {
+        self.moreImageCountLabel.hidden = YES;
+    }
+    
 }
 
 @end

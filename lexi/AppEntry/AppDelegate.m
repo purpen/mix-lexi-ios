@@ -16,6 +16,8 @@
 #import "THNLoginViewController.h"
 #import "THNLoginManager.h"
 #import <UMShare/UMShare.h>
+#import <WXApi.h>
+#import "THNPaymentViewController.h"
 
 @interface AppDelegate ()
 
@@ -23,12 +25,12 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setRootViewController];
     [self setThirdExpandConfig];
     // U-Share 平台设置
     [self configUSharePlatforms];
+    [self configWXPlatforms];
     
     return YES;
 }
@@ -37,7 +39,6 @@
 - (void)setRootViewController {
     THNBaseTabBarController *tabBarC = [[THNBaseTabBarController alloc] init];
     self.window.rootViewController = tabBarC;
-    
    // [self thn_loadLoginController];
 }
 
@@ -78,7 +79,7 @@
     /* 设置友盟appkey */
     [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppleKey];
     /* 设置微信的appKey和appSecret */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAppKey appSecret:kWXAppSecret redirectURL:@"http:mobile.umeng.com/social"];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXShareAppKey appSecret:kWXShareAppSecret redirectURL:@"http:mobile.umeng.com/social"];
     /*
      * 移除相应平台的分享，如微信收藏
      */
@@ -91,10 +92,16 @@
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWBAppKey appSecret:kWBAppSecret redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
 }
 
+#pragma mark - 微信支付设置
+- (void)configWXPlatforms {
+    [WXApi registerApp:kWXPayAppKey];
+}
+
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
     if (!result) {
-        // 其他如支付等SDK的回调
+        THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
+        return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)paymentVC];
     }
     return result;
 }
