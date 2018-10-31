@@ -19,7 +19,7 @@
 #import <WXApi.h>
 #import "THNPaymentViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate>
 
 @end
 
@@ -100,10 +100,27 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
     if (!result) {
-        THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
-        return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)paymentVC];
+        return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)self];
     }
     return result;
+}
+
+#pragma mark - WXApiDelegate
+- (void)onResp:(BaseResp *)resp {
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp *response = (PayResp *)resp;
+        // 0 成功 -1 错误 -2 取消
+        switch(response.errCode){
+            case WXSuccess:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"paySuccess" object:nil];
+                break;
+            case WXErrCodeUserCancel:
+                [SVProgressHUD showInfoWithStatus:@"您已取消支付"];
+                break;
+            default:
+                [SVProgressHUD showInfoWithStatus:@"支付失败"];
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

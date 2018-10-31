@@ -58,9 +58,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 - (void)setupUI {
     self.showWindowType = ShowWindowTypeFollow;
-    self.navigationBarView.transparent = YES;
-    [self.navigationBarView setNavigationCloseButton];
-    [self.navigationBarView setNavigationCloseButtonHidden:YES];
+    self.navigationBarView.hidden = YES;
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.stitchingButton];
 }
@@ -126,7 +124,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 #pragma UITableViewDelegate method 实现
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, CGRectGetMaxY(self.lineView.frame))];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.lineView.frame))];
     [headerView addSubview:self.showImageView];
     [headerView addSubview:self.selectButtonView];
     self.lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
@@ -146,14 +144,14 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
-    if (scrollView.contentOffset.y > maxY) {
-        self.navigationBarView.transparent = NO;
-        self.navigationBarView.title = @"发现生活美学";
-    } else {
-        self.navigationBarView.transparent = YES;
-        self.navigationBarView.title = @"";
-    }
+//    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
+//    if (scrollView.contentOffset.y > maxY) {
+//        self.navigationBarView.transparent = NO;
+//        self.navigationBarView.title = @"发现生活美学";
+//    } else {
+//        self.navigationBarView.transparent = YES;
+//        self.navigationBarView.title = @"";
+//    }
     
     if (self.lastContentOffset < scrollView.contentOffset.y){
         [UIView animateWithDuration:0.5 animations:^{
@@ -205,18 +203,18 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 - (UIImageView *)showImageView {
     if (!_showImageView) {
-        CGFloat showImageViewY = kDeviceiPhoneX ?  44 : 20;
-        _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, -showImageViewY, SCREEN_WIDTH, showImageViewHeight)];
+//        CGFloat showImageViewY = kDeviceiPhoneX ?  44 : 20;
+        _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        _showImageView.image = kDeviceiPhoneX ? [UIImage imageNamed:@"icon_showWindow_bg_X"] : [UIImage imageNamed:@"icon_showWindow_bg"];
+        _showImageView.image = [UIImage imageNamed:@"icon_showWindow_bg"];
     }
     return _showImageView;
 }
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lineView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.lineView.frame)) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 110) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc]init];
