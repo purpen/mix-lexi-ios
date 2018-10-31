@@ -3033,6 +3033,8 @@
 			isa = PBXGroup;
 			children = (
 				D8767247218700CF00EDD442 /* Controller */,
+				D8BEB42A2189587000DF3212 /* Model */,
+				D8BEB42B2189587000DF3212 /* View */,
 			);
 			path = Coupons;
 			sourceTree = "<group>";
@@ -3046,6 +3048,20 @@
 				D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		D8BEB42A2189587000DF3212 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D8BEB42B2189587000DF3212 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D8EECABB20D9E7F800BB63F4 = {
