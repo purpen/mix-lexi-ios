@@ -383,6 +383,9 @@
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */; };
+		4BCAF8E42189BE5C00EF9491 /* THNOrderPayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */; };
+		4BCAF8E52189BE5C00EF9491 /* THNOrderPayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */; };
+		4BCAF8E82189C1A900EF9491 /* THNOrderPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
 		4BECF161217F1401008E5E28 /* THNAllAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE42217F1401008E5E28 /* THNAllAnnouncementView.xib */; };
 		4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE45217F1401008E5E28 /* THNAnnouncementView.xib */; };
@@ -501,6 +504,11 @@
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWxPayModel.h; sourceTree = "<group>"; };
 		4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNWxPayModel.m; sourceTree = "<group>"; };
+		4BCAF8E12189BE5C00EF9491 /* THNOrderPayTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderPayTableViewCell.h; sourceTree = "<group>"; };
+		4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayTableViewCell.m; sourceTree = "<group>"; };
+		4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNOrderPayTableViewCell.xib; sourceTree = "<group>"; };
+		4BCAF8E62189C1A900EF9491 /* THNOrderPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderPayModel.h; sourceTree = "<group>"; };
+		4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayModel.m; sourceTree = "<group>"; };
 		4BECEE0B217F1401008E5E28 /* THNAllsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewController.h; sourceTree = "<group>"; };
 		4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewController.m; sourceTree = "<group>"; };
 		4BECEE0D217F1401008E5E28 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
@@ -2260,6 +2268,8 @@
 				4BECEFEF217F1401008E5E28 /* THNOrderStoreModel.m */,
 				4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */,
 				4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */,
+				4BCAF8E62189C1A900EF9491 /* THNOrderPayModel.h */,
+				4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2310,6 +2320,9 @@
 				4BECF010217F1401008E5E28 /* THNOrderPayView.h */,
 				4BECF011217F1401008E5E28 /* THNOrderPayView.m */,
 				4BECF012217F1401008E5E28 /* THNOrderPayView.xib */,
+				4BCAF8E12189BE5C00EF9491 /* THNOrderPayTableViewCell.h */,
+				4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */,
+				4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */,
 				4BECF013217F1401008E5E28 /* THNOrderProductTableViewCell.h */,
 				4BECF014217F1401008E5E28 /* THNOrderProductTableViewCell.m */,
 				4BECF015217F1401008E5E28 /* THNOrderProductTableViewCell.xib */,
@@ -3209,6 +3222,7 @@
 				4BECF16B217F1401008E5E28 /* THNBrandHallHeaderView.xib in Resources */,
 				4BECF224217F1401008E5E28 /* THNEvaluationViewController.xib in Resources */,
 				4BECF2C5217F1402008E5E28 /* THNCommentViewController.xib in Resources */,
+				4BCAF8E52189BE5C00EF9491 /* THNOrderPayTableViewCell.xib in Resources */,
 				4BECF194217F1401008E5E28 /* THNBannnerCollectionViewCell.xib in Resources */,
 				4BECF27B217F1402008E5E28 /* THNSearchIndexTableViewCell.xib in Resources */,
 				4BECF199217F1401008E5E28 /* THNCategoriesCollectionViewCell.xib in Resources */,
@@ -3458,6 +3472,7 @@
 				4B27B3E1218717D1004AF42F /* THNGoodsDescribeTableViewCell.m in Sources */,
 				4B27B3E2218717D1004AF42F /* THNGoodsDirectTableViewCell.m in Sources */,
 				4B27B3E3218717D1004AF42F /* THNGoodsHeaderTableViewCell.m in Sources */,
+				4BCAF8E42189BE5C00EF9491 /* THNOrderPayTableViewCell.m in Sources */,
 				4B27B3E4218717D1004AF42F /* THNGoodsInfoTableViewCell.m in Sources */,
 				4B27B3E5218717D1004AF42F /* THNGoodsStoreTableViewCell.m in Sources */,
 				4B27B3E6218717D1004AF42F /* THNGoodsTagTableViewCell.m in Sources */,
@@ -3611,6 +3626,7 @@
 				4B27B47A218717D2004AF42F /* THNSettingViewController.m in Sources */,
 				4B27B47B218717D2004AF42F /* THNSettingHeaderView.m in Sources */,
 				4B27B47C218717D2004AF42F /* THNSettingInfoTableViewCell.m in Sources */,
+				4BCAF8E82189C1A900EF9491 /* THNOrderPayModel.m in Sources */,
 				4B27B47D218717D2004AF42F /* THNSettingUserView.m in Sources */,
 				4B27B47E218717D2004AF42F /* THNShareViewController.m in Sources */,
 				4B27B47F218717D2004AF42F /* THNShareActionView.m in Sources */,

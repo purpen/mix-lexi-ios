@@ -121,8 +121,8 @@ static NSString *kTextPayment   = @"选择支付方式";
     self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
     
     // 显示金额
-    [self.priceView thn_setPriceValue:self.paymentAmount
-                      totalPriceValue:self.totalPrice
+    [self.priceView thn_setPriceValue:self.totalPrice
+                      totalPriceValue:self.paymentAmount
                          freightValue:self.totalFreight];
 }
 

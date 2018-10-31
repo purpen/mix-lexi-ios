@@ -18,6 +18,7 @@
 #import "THNLogisticsViewController.h"
 #import "THNEvaluationViewController.h"
 #import "UIViewController+THNHud.h"
+#import "THNPaymentViewController.h"
 
 /**
  请求订单类型
@@ -187,7 +188,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
         THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
-        [self delete:orderModel.rid];
+        [self deleteOrderData:orderModel.rid];
         [self.orders removeObjectAtIndex:currentIndexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
     };
@@ -264,6 +265,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 // 确认收货
 - (void)confirmReceipt {
     [self loadOrdersData];
+}
+
+// 付款
+- (void)pushPayment:(THNWxPayModel *)wxPayModel {
+    THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
+    paymentVC.payModel = wxPayModel;
+    [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
 #pragma mark - lazy

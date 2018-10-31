@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^OrderPayViewBlock)(void);
+
 @interface THNOrderPayView : UIView
+
+@property (nonatomic, strong) NSArray *orderLists;
+@property (weak, nonatomic) IBOutlet UILabel *countDownLabel;
+@property (nonatomic, copy) OrderPayViewBlock payViewBlock;
 
 @end

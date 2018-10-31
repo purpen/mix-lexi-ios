@@ -90,8 +90,8 @@ UICollectionViewDelegateFlowLayout
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadUserBrowseData];
     [self setupUI];
+    [self loadUserBrowseData];
 }
 
 - (void)setupUI {

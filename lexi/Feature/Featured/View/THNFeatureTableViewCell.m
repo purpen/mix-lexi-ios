@@ -141,8 +141,8 @@ CGFloat const kCellGrassListHeight = 158;
             break;
         case FeaturedLifeAesthetics:
             self.lifeAestheticDataArray = dataArray;
-            self.lookAllButton.hidden = NO;
-            self.instructionImageView.hidden = NO;
+            self.lookAllButton.hidden = YES;
+            self.instructionImageView.hidden = YES;
             break;
         case FearuredOptimal:
             self.optimalDataArray = dataArray;

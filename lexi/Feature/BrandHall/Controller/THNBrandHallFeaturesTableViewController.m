@@ -31,8 +31,8 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadFeatureStoreData];
     [self setupUI];
+    [self loadFeatureStoreData];
 }
 
 - (void)setupUI {
