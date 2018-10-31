@@ -97,7 +97,7 @@ static const CGFloat kDestSeemOverlap = 2.0f;   // the numbers of pixels to over
     }
     
     UIImage *image = [[UIImage alloc] initWithData:data];
-
+    
     return image;
 }
 

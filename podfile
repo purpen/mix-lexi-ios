@@ -3,6 +3,7 @@ inhibit_all_warnings!
 
 target "lexi" do
  use_frameworks!
+
  pod "AFNetworking", "~> 3.1.0"
  pod 'SDWebImage', '~> 4.4.1'
  pod 'MJRefresh', '~> 3.1.15.3'
@@ -15,6 +16,7 @@ target "lexi" do
  pod "Qiniu", "~> 7.1"
  pod 'MLeaksFinder'
  pod 'DateTools'
+ pod 'HMSegmentedControl'
  pod 'UMCCommon'
  pod 'UMCSecurityPlugins'
  pod 'UMCShare/Social/ReducedWeChat'
