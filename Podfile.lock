@@ -17,6 +17,7 @@ PODS:
   - DateTools (2.0.0)
   - FBRetainCycleDetector (0.1.4)
   - HappyDNS (0.3.14)
+  - HMSegmentedControl (1.5.5)
   - IQKeyboardManager (4.0.13)
   - Masonry (1.1.0)
   - MJExtension (3.0.15)
@@ -30,11 +31,7 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
-<<<<<<< HEAD
-  - UMCCommon (1.5.2)
-=======
   - UMCCommon (1.5.1)
->>>>>>> a583185c851049f8d34520a78e24f58e0409f708
   - UMCSecurityPlugins (1.0.6)
   - UMCShare/Core (6.9.3):
     - UMCCommon
@@ -54,6 +51,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - DateTools
+  - HMSegmentedControl
   - IQKeyboardManager (~> 4.0.10)
   - Masonry (~> 1.1.0)
   - MJExtension (~> 3.0.15)
@@ -76,6 +74,7 @@ SPEC REPOS:
     - DateTools
     - FBRetainCycleDetector
     - HappyDNS
+    - HMSegmentedControl
     - IQKeyboardManager
     - Masonry
     - MJExtension
@@ -95,6 +94,7 @@ SPEC CHECKSUMS:
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   HappyDNS: dc6a164ee81979093123c241c6353bcf0218add6
+  HMSegmentedControl: f514c6dad47aa3065e0ed2e8046b73efc71221b9
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 3f039575db1b135a20699ad298713b26acec1528
@@ -104,15 +104,11 @@ SPEC CHECKSUMS:
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
-<<<<<<< HEAD
-  UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
-=======
   UMCCommon: 16b674e9de0616d3a6128c551348a686d869c3c7
->>>>>>> a583185c851049f8d34520a78e24f58e0409f708
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: b88d339d1a3f67919f4320616ce19a7963686aad
+PODFILE CHECKSUM: 0b4fb8c0500bcbd344baac6bc43ff39f9a799f0a
 
 COCOAPODS: 1.5.3

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */; };
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
@@ -453,7 +454,6 @@
 		4BECF2D7217F1402008E5E28 /* THNShopWindowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF141217F1401008E5E28 /* THNShopWindowTableViewCell.xib */; };
 		4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */; };
 		4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF147217F1401008E5E28 /* THNToolBarView.xib */; };
-		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
@@ -1214,8 +1214,8 @@
 		4BECF147217F1401008E5E28 /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
 		4BECF148217F1401008E5E28 /* WBEmoticonInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEmoticonInputView.h; sourceTree = "<group>"; };
 		4BECF149217F1401008E5E28 /* WBEmoticonInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEmoticonInputView.m; sourceTree = "<group>"; };
+		782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
-		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+THNHud.h"; sourceTree = "<group>"; };
 		CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+THNHud.m"; sourceTree = "<group>"; };
 		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
@@ -1304,7 +1304,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */,
+				2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,7 +1314,7 @@
 		1E70776F992AB408DBBE7142 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */,
+				782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3033,8 +3033,6 @@
 			isa = PBXGroup;
 			children = (
 				D8767247218700CF00EDD442 /* Controller */,
-				D8767248218700CF00EDD442 /* Model */,
-				D8767249218700CF00EDD442 /* View */,
 			);
 			path = Coupons;
 			sourceTree = "<group>";
@@ -3048,20 +3046,6 @@
 				D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		D8767248218700CF00EDD442 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D8767249218700CF00EDD442 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		D8EECABB20D9E7F800BB63F4 = {
@@ -3263,6 +3247,7 @@
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
+				"${BUILT_PRODUCTS_DIR}/HMSegmentedControl/HMSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/HappyDNS/HappyDNS.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
@@ -3280,6 +3265,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HappyDNS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
