@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */; };
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
@@ -455,13 +456,14 @@
 		4BECF2D7217F1402008E5E28 /* THNShopWindowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF141217F1401008E5E28 /* THNShopWindowTableViewCell.xib */; };
 		4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */; };
 		4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF147217F1401008E5E28 /* THNToolBarView.xib */; };
-		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
+		D8BEB42E2189591700DF3212 /* THNCouponsCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */; };
+		D8BEB4312189821800DF3212 /* THNCouponCenterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -1220,8 +1222,8 @@
 		4BECF147217F1401008E5E28 /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
 		4BECF148217F1401008E5E28 /* WBEmoticonInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEmoticonInputView.h; sourceTree = "<group>"; };
 		4BECF149217F1401008E5E28 /* WBEmoticonInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEmoticonInputView.m; sourceTree = "<group>"; };
+		782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
-		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+THNHud.h"; sourceTree = "<group>"; };
 		CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+THNHud.m"; sourceTree = "<group>"; };
 		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
@@ -1286,6 +1288,10 @@
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
+		D8BEB42C2189591700DF3212 /* THNCouponsCenterHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterHeaderView.h; sourceTree = "<group>"; };
+		D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterHeaderView.m; sourceTree = "<group>"; };
+		D8BEB42F2189821800DF3212 /* THNCouponCenterSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponCenterSectionView.h; sourceTree = "<group>"; };
+		D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponCenterSectionView.m; sourceTree = "<group>"; };
 		D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelProducts.h; sourceTree = "<group>"; };
 		D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelProducts.m; sourceTree = "<group>"; };
 		D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelShopWindows.m; sourceTree = "<group>"; };
@@ -1310,7 +1316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */,
+				2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1320,7 +1326,7 @@
 		1E70776F992AB408DBBE7142 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */,
+				782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3043,8 +3049,8 @@
 			isa = PBXGroup;
 			children = (
 				D8767247218700CF00EDD442 /* Controller */,
-				D8767248218700CF00EDD442 /* Model */,
-				D8767249218700CF00EDD442 /* View */,
+				D8BEB42A2189587000DF3212 /* Model */,
+				D8BEB42B2189587000DF3212 /* View */,
 			);
 			path = Coupons;
 			sourceTree = "<group>";
@@ -3060,16 +3066,20 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		D8767248218700CF00EDD442 /* Model */ = {
+		D8BEB42A2189587000DF3212 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D8767249218700CF00EDD442 /* View */ = {
+		D8BEB42B2189587000DF3212 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D8BEB42C2189591700DF3212 /* THNCouponsCenterHeaderView.h */,
+				D8BEB42D2189591700DF3212 /* THNCouponsCenterHeaderView.m */,
+				D8BEB42F2189821800DF3212 /* THNCouponCenterSectionView.h */,
+				D8BEB4302189821800DF3212 /* THNCouponCenterSectionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3273,6 +3283,7 @@
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
+				"${BUILT_PRODUCTS_DIR}/HMSegmentedControl/HMSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/HappyDNS/HappyDNS.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
@@ -3290,6 +3301,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HappyDNS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
@@ -3455,6 +3467,7 @@
 				4B27B3EB218717D1004AF42F /* THNGoodsFunctionView.m in Sources */,
 				4B27B3EC218717D1004AF42F /* THNGoodsListCollectionReusableView.m in Sources */,
 				4B27B3ED218717D1004AF42F /* THNImageCollectionViewCell.m in Sources */,
+				D8BEB4312189821800DF3212 /* THNCouponCenterSectionView.m in Sources */,
 				4B27B3EE218717D1004AF42F /* THNImagesView.m in Sources */,
 				4B27B3EF218717D1004AF42F /* THNCouponsCenterViewController.m in Sources */,
 				4B27B3F0218717D1004AF42F /* THNStoreCouponViewController.m in Sources */,
@@ -3616,6 +3629,7 @@
 				4B27B48D218717D2004AF42F /* THNLifeCashBillOrderModel.m in Sources */,
 				4B27B48E218717D2004AF42F /* THNLifeCashCollectModel.m in Sources */,
 				4B27B48F218717D2004AF42F /* THNLifeOrdersCollectModel.m in Sources */,
+				D8BEB42E2189591700DF3212 /* THNCouponsCenterHeaderView.m in Sources */,
 				4B27B490218717D2004AF42F /* THNLifeSaleCollectModel.m in Sources */,
 				4B27B491218717D2004AF42F /* THNLifeStoreModel.m in Sources */,
 				4B27B492218717D2004AF42F /* THNLifeOrderDataModel.m in Sources */,
