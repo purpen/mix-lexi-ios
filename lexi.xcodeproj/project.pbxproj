@@ -201,7 +201,6 @@
 		4B27B435218717D1004AF42F /* THNPaySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFDF217F1401008E5E28 /* THNPaySuccessViewController.m */; };
 		4B27B436218717D1004AF42F /* THNSelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFE1217F1401008E5E28 /* THNSelectAddressViewController.m */; };
 		4B27B437218717D1004AF42F /* THNSelectLogisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFE3217F1401008E5E28 /* THNSelectLogisticsViewController.m */; };
-		4B27B438218717D1004AF42F /* THNAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFE7217F1401008E5E28 /* THNAddressModel.m */; };
 		4B27B439218717D1004AF42F /* THNOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFE9217F1401008E5E28 /* THNOrderDetailModel.m */; };
 		4B27B43A218717D1004AF42F /* THNOrdersItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFEB217F1401008E5E28 /* THNOrdersItemsModel.m */; };
 		4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFED217F1401008E5E28 /* THNOrdersModel.m */; };
@@ -383,9 +382,6 @@
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */; };
-		4BCAF8E42189BE5C00EF9491 /* THNOrderPayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */; };
-		4BCAF8E52189BE5C00EF9491 /* THNOrderPayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */; };
-		4BCAF8E82189C1A900EF9491 /* THNOrderPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
 		4BECF161217F1401008E5E28 /* THNAllAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE42217F1401008E5E28 /* THNAllAnnouncementView.xib */; };
 		4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE45217F1401008E5E28 /* THNAnnouncementView.xib */; };
@@ -460,6 +456,8 @@
 		4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */; };
 		4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF147217F1401008E5E28 /* THNToolBarView.xib */; };
 		D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC232189C5D8007A5FF0 /* THNImageUrl.m */; };
+		D803BC2C2189E735007A5FF0 /* THNOrderPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC272189E730007A5FF0 /* THNOrderPayModel.m */; };
+		D803BC312189E753007A5FF0 /* THNAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC2F2189E753007A5FF0 /* THNAddressModel.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
@@ -505,11 +503,6 @@
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWxPayModel.h; sourceTree = "<group>"; };
 		4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNWxPayModel.m; sourceTree = "<group>"; };
-		4BCAF8E12189BE5C00EF9491 /* THNOrderPayTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderPayTableViewCell.h; sourceTree = "<group>"; };
-		4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayTableViewCell.m; sourceTree = "<group>"; };
-		4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNOrderPayTableViewCell.xib; sourceTree = "<group>"; };
-		4BCAF8E62189C1A900EF9491 /* THNOrderPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOrderPayModel.h; sourceTree = "<group>"; };
-		4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayModel.m; sourceTree = "<group>"; };
 		4BECEE0B217F1401008E5E28 /* THNAllsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewController.h; sourceTree = "<group>"; };
 		4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewController.m; sourceTree = "<group>"; };
 		4BECEE0D217F1401008E5E28 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
@@ -918,8 +911,6 @@
 		4BECEFE1217F1401008E5E28 /* THNSelectAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectAddressViewController.m; sourceTree = "<group>"; };
 		4BECEFE2217F1401008E5E28 /* THNSelectLogisticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSelectLogisticsViewController.h; sourceTree = "<group>"; };
 		4BECEFE3217F1401008E5E28 /* THNSelectLogisticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectLogisticsViewController.m; sourceTree = "<group>"; };
-		4BECEFE6217F1401008E5E28 /* THNAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAddressModel.h; sourceTree = "<group>"; };
-		4BECEFE7217F1401008E5E28 /* THNAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressModel.m; sourceTree = "<group>"; };
 		4BECEFE8217F1401008E5E28 /* THNOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrderDetailModel.h; sourceTree = "<group>"; };
 		4BECEFE9217F1401008E5E28 /* THNOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrderDetailModel.m; sourceTree = "<group>"; };
 		4BECEFEA217F1401008E5E28 /* THNOrdersItemsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrdersItemsModel.h; sourceTree = "<group>"; };
@@ -1240,6 +1231,10 @@
 		D803BC222189C5D8007A5FF0 /* THNImageUrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImageUrl.h; sourceTree = "<group>"; };
 		D803BC232189C5D8007A5FF0 /* THNImageUrl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImageUrl.m; sourceTree = "<group>"; };
 		D803BC262189CADD007A5FF0 /* THNPch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNPch.h; sourceTree = "<group>"; };
+		D803BC272189E730007A5FF0 /* THNOrderPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayModel.m; sourceTree = "<group>"; };
+		D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrderPayModel.h; sourceTree = "<group>"; };
+		D803BC2F2189E753007A5FF0 /* THNAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressModel.m; sourceTree = "<group>"; };
+		D803BC302189E753007A5FF0 /* THNAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAddressModel.h; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
@@ -2261,7 +2256,9 @@
 		4BECEFE4217F1401008E5E28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEFE5217F1401008E5E28 /* Address */,
+				D803BC2E2189E753007A5FF0 /* Address */,
+				D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */,
+				D803BC272189E730007A5FF0 /* THNOrderPayModel.m */,
 				4BECEFE8217F1401008E5E28 /* THNOrderDetailModel.h */,
 				4BECEFE9217F1401008E5E28 /* THNOrderDetailModel.m */,
 				4BECEFEA217F1401008E5E28 /* THNOrdersItemsModel.h */,
@@ -2272,19 +2269,8 @@
 				4BECEFEF217F1401008E5E28 /* THNOrderStoreModel.m */,
 				4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */,
 				4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */,
-				4BCAF8E62189C1A900EF9491 /* THNOrderPayModel.h */,
-				4BCAF8E72189C1A900EF9491 /* THNOrderPayModel.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		4BECEFE5217F1401008E5E28 /* Address */ = {
-			isa = PBXGroup;
-			children = (
-				4BECEFE6217F1401008E5E28 /* THNAddressModel.h */,
-				4BECEFE7217F1401008E5E28 /* THNAddressModel.m */,
-			);
-			path = Address;
 			sourceTree = "<group>";
 		};
 		4BECEFF0217F1401008E5E28 /* View */ = {
@@ -2324,9 +2310,6 @@
 				4BECF010217F1401008E5E28 /* THNOrderPayView.h */,
 				4BECF011217F1401008E5E28 /* THNOrderPayView.m */,
 				4BECF012217F1401008E5E28 /* THNOrderPayView.xib */,
-				4BCAF8E12189BE5C00EF9491 /* THNOrderPayTableViewCell.h */,
-				4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */,
-				4BCAF8E32189BE5C00EF9491 /* THNOrderPayTableViewCell.xib */,
 				4BECF013217F1401008E5E28 /* THNOrderProductTableViewCell.h */,
 				4BECF014217F1401008E5E28 /* THNOrderProductTableViewCell.m */,
 				4BECF015217F1401008E5E28 /* THNOrderProductTableViewCell.xib */,
@@ -2916,6 +2899,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D803BC2E2189E753007A5FF0 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				D803BC2F2189E753007A5FF0 /* THNAddressModel.m */,
+				D803BC302189E753007A5FF0 /* THNAddressModel.h */,
+			);
+			path = Address;
+			sourceTree = "<group>";
+		};
 		D85DA7A92106030100A36A71 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
@@ -3229,7 +3221,6 @@
 				4BECF16B217F1401008E5E28 /* THNBrandHallHeaderView.xib in Resources */,
 				4BECF224217F1401008E5E28 /* THNEvaluationViewController.xib in Resources */,
 				4BECF2C5217F1402008E5E28 /* THNCommentViewController.xib in Resources */,
-				4BCAF8E52189BE5C00EF9491 /* THNOrderPayTableViewCell.xib in Resources */,
 				4BECF194217F1401008E5E28 /* THNBannnerCollectionViewCell.xib in Resources */,
 				4BECF27B217F1402008E5E28 /* THNSearchIndexTableViewCell.xib in Resources */,
 				4BECF199217F1401008E5E28 /* THNCategoriesCollectionViewCell.xib in Resources */,
@@ -3479,7 +3470,6 @@
 				4B27B3E1218717D1004AF42F /* THNGoodsDescribeTableViewCell.m in Sources */,
 				4B27B3E2218717D1004AF42F /* THNGoodsDirectTableViewCell.m in Sources */,
 				4B27B3E3218717D1004AF42F /* THNGoodsHeaderTableViewCell.m in Sources */,
-				4BCAF8E42189BE5C00EF9491 /* THNOrderPayTableViewCell.m in Sources */,
 				4B27B3E4218717D1004AF42F /* THNGoodsInfoTableViewCell.m in Sources */,
 				4B27B3E5218717D1004AF42F /* THNGoodsStoreTableViewCell.m in Sources */,
 				4B27B3E6218717D1004AF42F /* THNGoodsTagTableViewCell.m in Sources */,
@@ -3562,7 +3552,6 @@
 				4B27B435218717D1004AF42F /* THNPaySuccessViewController.m in Sources */,
 				4B27B436218717D1004AF42F /* THNSelectAddressViewController.m in Sources */,
 				4B27B437218717D1004AF42F /* THNSelectLogisticsViewController.m in Sources */,
-				4B27B438218717D1004AF42F /* THNAddressModel.m in Sources */,
 				4B27B439218717D1004AF42F /* THNOrderDetailModel.m in Sources */,
 				4B27B43A218717D1004AF42F /* THNOrdersItemsModel.m in Sources */,
 				4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */,
@@ -3634,7 +3623,7 @@
 				4B27B47A218717D2004AF42F /* THNSettingViewController.m in Sources */,
 				4B27B47B218717D2004AF42F /* THNSettingHeaderView.m in Sources */,
 				4B27B47C218717D2004AF42F /* THNSettingInfoTableViewCell.m in Sources */,
-				4BCAF8E82189C1A900EF9491 /* THNOrderPayModel.m in Sources */,
+				D803BC2C2189E735007A5FF0 /* THNOrderPayModel.m in Sources */,
 				4B27B47D218717D2004AF42F /* THNSettingUserView.m in Sources */,
 				4B27B47E218717D2004AF42F /* THNShareViewController.m in Sources */,
 				4B27B47F218717D2004AF42F /* THNShareActionView.m in Sources */,
@@ -3686,6 +3675,7 @@
 				4B27B4AD218717D2004AF42F /* THNLifeCountdownView.m in Sources */,
 				4B27B4AE218717D2004AF42F /* THNLifeDataView.m in Sources */,
 				4B27B4AF218717D2004AF42F /* THNLifeHintView.m in Sources */,
+				D803BC312189E753007A5FF0 /* THNAddressModel.m in Sources */,
 				4B27B4B0218717D2004AF42F /* THNLifeManagementUserView.m in Sources */,
 				4B27B4B1218717D2004AF42F /* THNLifeSegmentView.m in Sources */,
 				4B27B4B2218717D2004AF42F /* THNApplySuccessView.m in Sources */,

@@ -43,7 +43,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 - (void)setCollectionModel:(THNCollectionModel *)collectionModel {
     _collectionModel = collectionModel;
     self.nameLabel.text = collectionModel.name;
-    self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",collectionModel.products.count];
+    self.productCountTextLabel.text = [NSString stringWithFormat:@"%zi件商品",collectionModel.products.count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
