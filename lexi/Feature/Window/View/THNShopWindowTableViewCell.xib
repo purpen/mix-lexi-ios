@@ -37,7 +37,6 @@
                         <rect key="frame" x="127.5" y="31.5" width="13" height="13"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="13" id="4m6-N0-REm"/>
-                            <constraint firstAttribute="width" constant="13" id="JdM-Ql-bsF"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiY-PM-8xD">
@@ -48,7 +47,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个让你爱不释手的包包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcO-G3-wlf">
-                        <rect key="frame" x="20" y="390.5" width="165" height="21"/>
+                        <rect key="frame" x="20" y="390.5" width="511" height="21"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="15"/>
                         <color key="textColor" red="0.14509803921568626" green="0.12941176470588234" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -146,6 +145,7 @@
                     <constraint firstItem="zfq-Lp-Dw2" firstAttribute="leading" secondItem="lcO-G3-wlf" secondAttribute="leading" id="V2b-Ba-cSQ"/>
                     <constraint firstItem="ZiY-PM-8xD" firstAttribute="centerY" secondItem="btv-Nl-teY" secondAttribute="centerY" id="Vaw-S7-WzL"/>
                     <constraint firstItem="btv-Nl-teY" firstAttribute="centerY" secondItem="Yd1-JJ-jx7" secondAttribute="centerY" id="XWK-Bq-SGZ"/>
+                    <constraint firstItem="lcO-G3-wlf" firstAttribute="trailing" secondItem="zfq-Lp-Dw2" secondAttribute="trailing" id="aGA-Xx-wsI"/>
                     <constraint firstAttribute="bottomMargin" secondItem="eIA-GB-siH" secondAttribute="bottom" constant="20" id="aXR-jA-dK3"/>
                     <constraint firstItem="Yd1-JJ-jx7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="btW-Rz-512"/>
                     <constraint firstItem="eIA-GB-siH" firstAttribute="leading" secondItem="lcO-G3-wlf" secondAttribute="leading" id="drx-4P-cQG"/>
@@ -176,7 +176,7 @@
                 <outlet property="titleLabel" destination="lcO-G3-wlf" id="1Cg-r2-aAy"/>
                 <outlet property="titleLabelTopConstraint" destination="fvI-U0-YwX" id="5XH-Qw-9vS"/>
             </connections>
-            <point key="canvasLocation" x="50.5" y="168.5"/>
+            <point key="canvasLocation" x="191" y="70"/>
         </tableViewCell>
     </objects>
     <resources>

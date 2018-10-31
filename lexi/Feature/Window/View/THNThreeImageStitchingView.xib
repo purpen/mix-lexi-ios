@@ -38,14 +38,22 @@
                         <constraint firstItem="TA2-zi-Fy3" firstAttribute="width" secondItem="77g-Rk-OgH" secondAttribute="width" id="hA4-W9-Uag"/>
                     </constraints>
                 </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULH-wJ-CZv">
+                    <rect key="frame" x="336" y="173.5" width="24.5" height="28"/>
+                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Ugs-Lf-hNF" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="5dm-8H-hVu"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="width" secondItem="Ugs-Lf-hNF" secondAttribute="width" multiplier="1:2" id="8qv-fO-YVU"/>
+                <constraint firstItem="ULH-wJ-CZv" firstAttribute="centerX" secondItem="YaA-07-x6v" secondAttribute="centerX" id="Itk-dL-99X"/>
                 <constraint firstItem="Ugs-Lf-hNF" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="MK5-Ov-SL7"/>
                 <constraint firstItem="Ugs-Lf-hNF" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="NWM-Yn-co5"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ZYK-I6-Eow"/>
+                <constraint firstItem="ULH-wJ-CZv" firstAttribute="centerY" secondItem="TA2-zi-Fy3" secondAttribute="centerY" id="cuk-Sc-rzA"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="gXv-Vv-nf0"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="leading" secondItem="Ugs-Lf-hNF" secondAttribute="trailing" id="nxz-zK-f9D"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="w5G-8k-pEQ"/>
@@ -54,6 +62,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="leftImageView" destination="Ugs-Lf-hNF" id="ViD-ia-Q0N"/>
+                <outlet property="moreImageCountLabel" destination="ULH-wJ-CZv" id="USZ-iK-DLv"/>
                 <outlet property="rightBottomImageView" destination="TA2-zi-Fy3" id="LsJ-zN-syt"/>
                 <outlet property="rightTopImageView" destination="77g-Rk-OgH" id="7Vt-wm-kLO"/>
             </connections>

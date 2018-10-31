@@ -19,6 +19,7 @@
 #import "THNShopWindowDetailViewController.h"
 #import "THNCommentViewController.h"
 #import "UIViewController+THNHud.h"
+#import "UIColor+Extension.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -43,6 +44,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 // 拼接橱窗按钮
 @property (nonatomic, strong) UIButton *stitchingButton;
 @property (nonatomic, assign) ShowWindowType showWindowType;
+@property (nonatomic, assign) CGFloat lastContentOffset;
 
 @end
 
@@ -55,11 +57,12 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 }
 
 - (void)setupUI {
+    self.showWindowType = ShowWindowTypeFollow;
     self.navigationBarView.transparent = YES;
     [self.navigationBarView setNavigationCloseButton];
     [self.navigationBarView setNavigationCloseButtonHidden:YES];
     [self.view addSubview:self.tableView];
-     self.showWindowType = ShowWindowTypeFollow;
+    [self.view addSubview:self.stitchingButton];
 }
 
 - (void)loadData {
@@ -146,11 +149,26 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
     if (scrollView.contentOffset.y > maxY) {
         self.navigationBarView.transparent = NO;
-        self.navigationBarView.title = @"橱窗";
+        self.navigationBarView.title = @"发现生活美学";
     } else {
         self.navigationBarView.transparent = YES;
         self.navigationBarView.title = @"";
     }
+    
+    if (self.lastContentOffset < scrollView.contentOffset.y){
+        [UIView animateWithDuration:0.5 animations:^{
+            self.stitchingButton.viewY = SCREEN_HEIGHT;
+        }];
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.stitchingButton.viewY = SCREEN_HEIGHT - 100;
+        }];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.lastContentOffset = scrollView.contentOffset.y;
 }
 
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
@@ -212,7 +230,18 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 - (UIButton *)stitchingButton {
     if (!_stitchingButton) {
-        _stitchingButton = [[UIButton alloc]init];
+        _stitchingButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 60, SCREEN_HEIGHT - 100, 120, 40)];
+        [_stitchingButton setTitle:@"拼贴我的橱窗" forState:UIControlStateNormal];
+        [_stitchingButton setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
+        [_stitchingButton setImage:[UIImage imageNamed:@"icon_addShopWindow"] forState:UIControlStateNormal];
+        _stitchingButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
+        _stitchingButton.backgroundColor = [UIColor whiteColor];
+        _stitchingButton.layer.cornerRadius = 20;
+        _stitchingButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000"].CGColor;
+        _stitchingButton.layer.shadowOffset = CGSizeMake(0, 2);
+        _stitchingButton.imageEdgeInsets = UIEdgeInsetsMake(-2, 95, 0, 0);
+        _stitchingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 30);
+        _stitchingButton.layer.shadowOpacity = 0.15;
     }
     return _stitchingButton;
 }

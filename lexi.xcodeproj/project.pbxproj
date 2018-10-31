@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */; };
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
@@ -380,6 +381,8 @@
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
 		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
+		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
+		4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
 		4BECF161217F1401008E5E28 /* THNAllAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE42217F1401008E5E28 /* THNAllAnnouncementView.xib */; };
 		4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE45217F1401008E5E28 /* THNAnnouncementView.xib */; };
@@ -453,7 +456,6 @@
 		4BECF2D7217F1402008E5E28 /* THNShopWindowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF141217F1401008E5E28 /* THNShopWindowTableViewCell.xib */; };
 		4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */; };
 		4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF147217F1401008E5E28 /* THNToolBarView.xib */; };
-		54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
@@ -493,6 +495,10 @@
 		4B72060D212D778F002606EE /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B720622212EB281002606EE /* UITableView+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helper.h"; sourceTree = "<group>"; };
 		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
+		4BCAF8DB218834C300EF9491 /* THNCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentModel.h; sourceTree = "<group>"; };
+		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
+		4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWxPayModel.h; sourceTree = "<group>"; };
+		4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNWxPayModel.m; sourceTree = "<group>"; };
 		4BECEE0B217F1401008E5E28 /* THNAllsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewController.h; sourceTree = "<group>"; };
 		4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewController.m; sourceTree = "<group>"; };
 		4BECEE0D217F1401008E5E28 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
@@ -1214,8 +1220,8 @@
 		4BECF147217F1401008E5E28 /* THNToolBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNToolBarView.xib; sourceTree = "<group>"; };
 		4BECF148217F1401008E5E28 /* WBEmoticonInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEmoticonInputView.h; sourceTree = "<group>"; };
 		4BECF149217F1401008E5E28 /* WBEmoticonInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEmoticonInputView.m; sourceTree = "<group>"; };
+		782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93071A2DC25321CD66B54DA /* Pods-lexi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.debug.xcconfig"; sourceTree = "<group>"; };
-		C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lexi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+THNHud.h"; sourceTree = "<group>"; };
 		CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+THNHud.m"; sourceTree = "<group>"; };
 		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
@@ -1304,7 +1310,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54BCC88F7CBDAADFD48D2CA3 /* Pods_lexi.framework in Frameworks */,
+				2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,7 +1320,7 @@
 		1E70776F992AB408DBBE7142 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8FD8F63C91A4EBEB9D47C66 /* Pods_lexi.framework */,
+				782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2246,6 +2252,8 @@
 				4BECEFED217F1401008E5E28 /* THNOrdersModel.m */,
 				4BECEFEE217F1401008E5E28 /* THNOrderStoreModel.h */,
 				4BECEFEF217F1401008E5E28 /* THNOrderStoreModel.m */,
+				4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */,
+				4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2818,6 +2826,8 @@
 		4BECF127217F1401008E5E28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BCAF8DB218834C300EF9491 /* THNCommentModel.h */,
+				4BCAF8DC218834C300EF9491 /* THNCommentModel.m */,
 				4BECF128217F1401008E5E28 /* THNShopWindowModel.h */,
 				4BECF129217F1401008E5E28 /* THNShopWindowModel.m */,
 				D8DCFC192181C6A300DC4FF4 /* THNWindowModel.h */,
@@ -2850,21 +2860,21 @@
 				4BECF133217F1401008E5E28 /* THNFirstLevelCommentTableViewCell.h */,
 				4BECF134217F1401008E5E28 /* THNFirstLevelCommentTableViewCell.m */,
 				4BECF135217F1401008E5E28 /* THNFirstLevelCommentTableViewCell.xib */,
-				4BECF136217F1401008E5E28 /* THNFiveImagesStitchView.h */,
-				4BECF137217F1401008E5E28 /* THNFiveImagesStitchView.m */,
-				4BECF138217F1401008E5E28 /* THNFiveImagesStitchView.xib */,
 				4BECF139217F1401008E5E28 /* THNSecondLevelCommentTableViewCell.h */,
 				4BECF13A217F1401008E5E28 /* THNSecondLevelCommentTableViewCell.m */,
 				4BECF13B217F1401008E5E28 /* THNSecondLevelCommentTableViewCell.xib */,
+				4BECF142217F1401008E5E28 /* THNThreeImageStitchingView.h */,
+				4BECF143217F1401008E5E28 /* THNThreeImageStitchingView.m */,
+				4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */,
+				4BECF136217F1401008E5E28 /* THNFiveImagesStitchView.h */,
+				4BECF137217F1401008E5E28 /* THNFiveImagesStitchView.m */,
+				4BECF138217F1401008E5E28 /* THNFiveImagesStitchView.xib */,
 				4BECF13C217F1401008E5E28 /* THNSevenImagesStitchView.h */,
 				4BECF13D217F1401008E5E28 /* THNSevenImagesStitchView.m */,
 				4BECF13E217F1401008E5E28 /* THNSevenImagesStitchView.xib */,
 				4BECF13F217F1401008E5E28 /* THNShopWindowTableViewCell.h */,
 				4BECF140217F1401008E5E28 /* THNShopWindowTableViewCell.m */,
 				4BECF141217F1401008E5E28 /* THNShopWindowTableViewCell.xib */,
-				4BECF142217F1401008E5E28 /* THNThreeImageStitchingView.h */,
-				4BECF143217F1401008E5E28 /* THNThreeImageStitchingView.m */,
-				4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */,
 				4BECF145217F1401008E5E28 /* THNToolBarView.h */,
 				4BECF146217F1401008E5E28 /* THNToolBarView.m */,
 				4BECF147217F1401008E5E28 /* THNToolBarView.xib */,
@@ -3033,8 +3043,8 @@
 			isa = PBXGroup;
 			children = (
 				D8767247218700CF00EDD442 /* Controller */,
-				D8767248218700CF00EDD442 /* Model */,
-				D8767249218700CF00EDD442 /* View */,
+				D8BEB42A2189587000DF3212 /* Model */,
+				D8BEB42B2189587000DF3212 /* View */,
 			);
 			path = Coupons;
 			sourceTree = "<group>";
@@ -3050,14 +3060,14 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		D8767248218700CF00EDD442 /* Model */ = {
+		D8BEB42A2189587000DF3212 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D8767249218700CF00EDD442 /* View */ = {
+		D8BEB42B2189587000DF3212 /* View */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -3263,6 +3273,7 @@
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
+				"${BUILT_PRODUCTS_DIR}/HMSegmentedControl/HMSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/HappyDNS/HappyDNS.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
@@ -3280,6 +3291,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HappyDNS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
@@ -3373,6 +3385,7 @@
 				4B27B3A4218717D1004AF42F /* THNDidcoverSetView.m in Sources */,
 				4B27B3A5218717D1004AF42F /* THNDiscoverSetCollectionViewCell.m in Sources */,
 				4B27B3A6218717D1004AF42F /* THNDiscoverTableViewCell.m in Sources */,
+				4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */,
 				4B27B3A7218717D1004AF42F /* THNExploresViewController.m in Sources */,
 				4B27B3A8218717D1004AF42F /* THNBannerModel.m in Sources */,
 				4B27B3A9218717D1004AF42F /* THNCategoriesModel.m in Sources */,
@@ -3543,6 +3556,7 @@
 				4B27B451218717D2004AF42F /* THNSelectCouponView.m in Sources */,
 				4B27B4F12187222A004AF42F /* THNFollowStoreButton+SelfManager.m in Sources */,
 				4B27B452218717D2004AF42F /* THNSelectLogisticsTableViewCell.m in Sources */,
+				4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */,
 				4B27B453218717D2004AF42F /* THNSelectOfficalCouponView.m in Sources */,
 				4B27B454218717D2004AF42F /* THNAlertView.m in Sources */,
 				4B27B455218717D2004AF42F /* THNCustomTextTableViewCell.m in Sources */,

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <MJExtension/MJExtension.h>
 
-
 /**
  用户身份
 
@@ -49,5 +48,7 @@ typedef NS_ENUM(NSUInteger, UserIdentityType) {
 @property (nonatomic, strong) NSArray *product_covers;
 //橱窗编号
 @property (nonatomic, strong) NSString *rid;
+// 是否官方橱窗
+@property (nonatomic, assign) BOOL is_official;
 
 @end

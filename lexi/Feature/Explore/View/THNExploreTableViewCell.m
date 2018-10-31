@@ -43,6 +43,7 @@ CGFloat const cellOtherHeight = 190;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBannnerCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNBrandCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandCellIdentifier];
     [self.productCollectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCellIdentifier];
@@ -50,6 +51,14 @@ CGFloat const cellOtherHeight = 190;
     self.productCollectionView.dataSource = self;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
+
+//- (void)setFrame:(CGRect)frame {
+//    if (self.isRewriteCellHeight) {
+//        frame.origin.y += 15;
+//        frame.size.height -= 15;
+//    }
+//    [super setFrame:frame];
+//}
 
 - (IBAction)lookAll:(id)sender {
     if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {

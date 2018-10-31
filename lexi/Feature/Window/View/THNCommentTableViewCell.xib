@@ -60,7 +60,7 @@
                         </constraints>
                     </view>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qBl-XF-2TE">
-                        <rect key="frame" x="21" y="67" width="360" height="181.5"/>
+                        <rect key="frame" x="21" y="47" width="360" height="201.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tableView>
                 </subviews>
@@ -72,7 +72,7 @@
                     <constraint firstItem="OU1-Zh-71E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="O8k-GF-ZYq"/>
                     <constraint firstItem="Siq-z0-rHp" firstAttribute="top" secondItem="qBl-XF-2TE" secondAttribute="bottom" id="YGN-9Y-6P7"/>
                     <constraint firstAttribute="bottom" secondItem="Siq-z0-rHp" secondAttribute="bottom" id="ZwE-un-wdL"/>
-                    <constraint firstItem="qBl-XF-2TE" firstAttribute="top" secondItem="OU1-Zh-71E" secondAttribute="bottom" constant="20" id="nY1-n5-rL3"/>
+                    <constraint firstItem="qBl-XF-2TE" firstAttribute="top" secondItem="OU1-Zh-71E" secondAttribute="bottom" id="nY1-n5-rL3"/>
                     <constraint firstAttribute="trailing" secondItem="Siq-z0-rHp" secondAttribute="trailing" id="wEC-oh-U1i"/>
                 </constraints>
             </tableViewCellContentView>

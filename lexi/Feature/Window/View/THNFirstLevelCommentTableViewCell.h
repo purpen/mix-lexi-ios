@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNCommentModel;
+
 @interface THNFirstLevelCommentTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *contentlabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewConstraint;
-@property (nonatomic, strong) NSArray *array;
-@property (weak, nonatomic) IBOutlet UIView *lineView;
+
+@property (nonatomic, strong) THNCommentModel *commentModel;
 
 @end

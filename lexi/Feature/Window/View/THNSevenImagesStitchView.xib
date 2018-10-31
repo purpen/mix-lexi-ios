@@ -13,7 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="aVt-yl-D28" customClass="THNFiveImagesStitchView">
+        <view contentMode="scaleToFill" id="aVt-yl-D28" customClass="THNSevenImagesStitchView">
             <rect key="frame" x="0.0" y="0.0" width="460" height="345"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -84,11 +84,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="1ml-eD-32S"/>
             <connections>
-                <outlet property="leftBottomImageView" destination="zpR-rv-YiM" id="DWc-f0-dmc"/>
-                <outlet property="leftTopImageView" destination="TuP-WS-dgG" id="GM7-pC-qKO"/>
-                <outlet property="rightBottomImageView" destination="vDa-gp-vya" id="zlR-xG-XxH"/>
-                <outlet property="rightMiddleImageView" destination="Otn-cg-9L5" id="kx7-8N-UJa"/>
-                <outlet property="rightTopImageView" destination="ZGb-vH-l5W" id="XuM-xG-Pcr"/>
+                <outletCollection property="imageViews" destination="ZGb-vH-l5W" id="Dnk-s5-GBP"/>
+                <outletCollection property="imageViews" destination="Otn-cg-9L5" id="IK8-pq-53v"/>
+                <outletCollection property="imageViews" destination="PSn-GW-CbO" id="aLa-zw-LiW"/>
+                <outletCollection property="imageViews" destination="TuP-WS-dgG" id="HOb-xS-RD3"/>
+                <outletCollection property="imageViews" destination="zpR-rv-YiM" id="WDv-cA-E9C"/>
+                <outletCollection property="imageViews" destination="vDa-gp-vya" id="Et8-4T-cdP"/>
+                <outletCollection property="imageViews" destination="0w1-yh-Pe7" id="XpK-d2-5RB"/>
             </connections>
             <point key="canvasLocation" x="-5" y="-192.5"/>
         </view>

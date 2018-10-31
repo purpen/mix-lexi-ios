@@ -11,11 +11,14 @@
 #import "THNPaymentTableViewCell.h"
 #import "THNHeaderTitleView.h"
 #import "THNPaymentPriceView.h"
+#import "THNWxPayModel.h"
+#import <WXApi.h>
+#import "THNPaySuccessViewController.h"
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
 
-@interface THNPaymentViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNPaymentViewController () <UITableViewDelegate, UITableViewDataSource, WXApiDelegate>
 
 /// 进度条
 @property (nonatomic, strong) THNBuyProgressView *progressView;
@@ -34,7 +37,7 @@ static NSString *kTextPayment   = @"选择支付方式";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupUI];
 }
 
@@ -42,7 +45,7 @@ static NSString *kTextPayment   = @"选择支付方式";
 - (void)doneButtonAction:(UIButton *)button {
     switch ([self thn_getPaymentType]) {
         case THNPaymentTypeWechat: {
-            [SVProgressHUD thn_showSuccessWithStatus:@"微信支付"];
+            [self tuneUpWechatPay:self.payModel];
         }
             break;
             
@@ -56,6 +59,23 @@ static NSString *kTextPayment   = @"选择支付方式";
         }
             break;
     }
+}
+
+// 调起微信支付
+- (void)tuneUpWechatPay:(THNWxPayModel *)payModel {
+    PayReq *request = [[PayReq alloc]init];
+    request.partnerId = payModel.mch_id;
+    request.prepayId= payModel.prepay_id;
+    request.package = @"Sign=WXPay";
+    request.nonceStr = payModel.nonce_str;
+    request.timeStamp = payModel.timestamp;
+    request.sign = payModel.sign;
+    [WXApi sendReq:request];
+}
+
+- (void)pushSuccessVC {
+    THNPaySuccessViewController *successVC = [[THNPaySuccessViewController alloc]init];
+    [self.navigationController pushViewController:successVC animated:YES];
 }
 
 #pragma mark - private methods
@@ -138,6 +158,23 @@ static NSString *kTextPayment   = @"选择支付方式";
     cell.isSelectedPayment = YES;
 
     self.selectIndex = indexPath;
+}
+
+#pragma mark - WXApiDelegate
+- (void)onResp:(BaseResp *)resp {
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp *response = (PayResp *)resp;
+        // 0 成功 -1 错误 -2 取消
+        switch(response.errCode){
+            case WXSuccess:
+                //服务器端查询支付通知或查询API返回的结果再提示成功
+                [self pushSuccessVC];
+                break;
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
+    }
 }
 
 #pragma mark - getters and setters

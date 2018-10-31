@@ -45,7 +45,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
             NSString *headLineStr;
             NSAttributedString *headLineAttStr;
             if (headLineModel.event == HeadlineShowTypeOpen) {
-                headLineStr = [NSString stringWithFormat:@"设计师%@%@%@开了自己的设计馆",headLineModel.username, headLineModel.time, headLineModel.time_info];
+                headLineStr = [NSString stringWithFormat:@"%@%@%@开了自己的设计馆",headLineModel.username, headLineModel.time, headLineModel.time_info];
                 headLineAttStr = [THNTextTool setTextColor:headLineStr initWithColor:@"5fe4b1" initWithRange:NSMakeRange(0, 3 + headLineModel.username.length)];
             } else {
                 NSString *saleOrderCountStr = [NSString stringWithFormat:@"售出%ld单", headLineModel.quantity];

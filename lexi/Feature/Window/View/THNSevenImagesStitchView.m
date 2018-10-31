@@ -7,29 +7,26 @@
 //
 
 #import "THNSevenImagesStitchView.h"
+#import "UIImageView+WebCache.h"
+
+@interface THNSevenImagesStitchView()
+
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
+
+@end
 
 @implementation THNSevenImagesStitchView
 
-//- (void)setFiveImageStitchingView:(NSArray *)images {
-//    [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        switch (idx) {
-//            case 0:
-//                [self.leftTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
-//                break;
-//            case 1:
-//                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
-//            case 2:
-//                [self.rightMiddleImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
-//                break;
-//            case 3:
-//                [self.leftBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
-//                break;
-//            default:
-//                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]];
-//                break;
-//                
-//        }
-//    }];
-//}
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+}
+
+- (void)setSevenImageStitchingView:(NSArray *)images {
+    [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = self.imageViews[idx];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    }];
+}
 
 @end
