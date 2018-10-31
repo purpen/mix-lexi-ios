@@ -1,6 +1,0 @@
-framework module Pods_lexi {
-  umbrella header "Pods-lexi-umbrella.h"
-
-  export *
-  module * { export * }
-}

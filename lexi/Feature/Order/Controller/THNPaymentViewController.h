@@ -19,5 +19,7 @@
 // 总运费
 @property (nonatomic, assign) CGFloat totalFreight;
 @property (nonatomic, strong) THNWxPayModel *payModel;
+// 订单ID
+@property (nonatomic, strong) NSString *orderRid;
 
 @end

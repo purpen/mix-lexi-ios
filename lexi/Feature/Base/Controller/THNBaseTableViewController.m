@@ -130,7 +130,6 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;
-        _tableView.contentInset = UIEdgeInsetsMake(44, 0, 20, 0);
     }
     return _tableView;
 }

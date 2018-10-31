@@ -49,7 +49,8 @@ static NSString *const kTextMoney  = @"订单总计";
 
 #pragma mark - private methods
 - (void)thn_setLifeOrderUserData:(THNLifeOrderUserModel *)model {
-    [self.headView downloadImage:model.user_logo place:[UIImage imageNamed:@"default_user_place"]];
+    [self.headView downloadImage:[model.user_logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                           place:[UIImage imageNamed:@"default_user_place"]];
     self.nameLabel.text = model.user_name;
 }
 

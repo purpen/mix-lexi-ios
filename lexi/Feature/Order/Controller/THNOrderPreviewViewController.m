@@ -198,6 +198,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         paymentVC.totalPrice = self.totalPrice;
         paymentVC.paymentAmount = self.payAmount;
         paymentVC.totalFreight = self.totalFreight;
+        paymentVC.orderRid = result.data[@"order_rid"];
         paymentVC.payModel = payModel;
 
         [self.navigationController pushViewController:paymentVC animated:YES];

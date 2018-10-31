@@ -126,7 +126,7 @@ NSString *const kTHNGoodsModelTown = @"town";
 	}	
 	if(![dictionary[kTHNGoodsModelCover] isKindOfClass:[NSNull class]]){
 		self.cover = dictionary[kTHNGoodsModelCover];
-	}	
+	}
 	if(![dictionary[kTHNGoodsModelCoverId] isKindOfClass:[NSNull class]]){
 		self.coverId = [dictionary[kTHNGoodsModelCoverId] integerValue];
 	}

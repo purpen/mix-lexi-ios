@@ -456,6 +456,7 @@
 		4BECF2D7217F1402008E5E28 /* THNShopWindowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF141217F1401008E5E28 /* THNShopWindowTableViewCell.xib */; };
 		4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF144217F1401008E5E28 /* THNThreeImageStitchingView.xib */; };
 		4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF147217F1401008E5E28 /* THNToolBarView.xib */; };
+		D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC232189C5D8007A5FF0 /* THNImageUrl.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
@@ -1228,6 +1229,9 @@
 		CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+THNHud.m"; sourceTree = "<group>"; };
 		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
 		D8011B862181A13D00619240 /* THNUserCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserCenterViewController.m; sourceTree = "<group>"; };
+		D803BC222189C5D8007A5FF0 /* THNImageUrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImageUrl.h; sourceTree = "<group>"; };
+		D803BC232189C5D8007A5FF0 /* THNImageUrl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImageUrl.m; sourceTree = "<group>"; };
+		D803BC262189CADD007A5FF0 /* THNPch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNPch.h; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
@@ -3008,6 +3012,7 @@
 		D85DA7D42106030100A36A71 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				D803BC262189CADD007A5FF0 /* THNPch.h */,
 				D85DA7D62106030100A36A71 /* Constant */,
 				D85DA7DB2106030100A36A71 /* Marco */,
 			);
@@ -3041,6 +3046,8 @@
 				D87672452186BC8F00EDD442 /* THNNotificationHeader.h */,
 				D87672422186B88800EDD442 /* THNNotification.h */,
 				D87672432186B88800EDD442 /* THNNotification.m */,
+				D803BC222189C5D8007A5FF0 /* THNImageUrl.h */,
+				D803BC232189C5D8007A5FF0 /* THNImageUrl.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -3486,6 +3493,7 @@
 				4B27B3FD218717D1004AF42F /* THNLoginViewController.m in Sources */,
 				4B27B3FE218717D1004AF42F /* THNNewPasswordViewController.m in Sources */,
 				4B27B3FF218717D1004AF42F /* THNNewUserInfoViewController.m in Sources */,
+				D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */,
 				4B27B400218717D1004AF42F /* THNSetPasswordViewController.m in Sources */,
 				4B27B401218717D1004AF42F /* THNSignInViewController.m in Sources */,
 				4B27B402218717D1004AF42F /* THNSignUpViewController.m in Sources */,
@@ -3861,27 +3869,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBRetainCycleDetector\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/HMSegmentedControl\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/HappyDNS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJExtension\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MLeaksFinder\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Qiniu\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/TYAlertController\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYKit\"",
-					"\"${PODS_ROOT}/UMCCommon\"",
-					"\"${PODS_ROOT}/UMCSecurityPlugins/thirdparties\"",
-					"\"${PODS_ROOT}/UMCShare/UMShare\"",
-				);
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3907,27 +3897,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBRetainCycleDetector\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/HMSegmentedControl\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/HappyDNS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJExtension\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/MLeaksFinder\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Qiniu\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/TYAlertController\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYKit\"",
-					"\"${PODS_ROOT}/UMCCommon\"",
-					"\"${PODS_ROOT}/UMCSecurityPlugins/thirdparties\"",
-					"\"${PODS_ROOT}/UMCShare/UMShare\"",
-				);
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				INFOPLIST_FILE = "$(SRCROOT)/lexi/AppEntry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

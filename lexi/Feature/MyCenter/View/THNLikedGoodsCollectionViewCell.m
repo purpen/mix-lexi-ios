@@ -45,7 +45,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 #pragma mark - public methods
 - (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
     self.viewType = cellViewType;
-    [self.goodsImageView downloadImage:goodsModel.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView downloadImage:[goodsModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]
+                                 place:[UIImage imageNamed:@"default_goods_place"]];
     
     if (show) {
         self.infoView.hidden = NO;

@@ -53,7 +53,8 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
 
 #pragma mark - public methods
 - (void)thn_setStoreData:(THNStoreModel *)model {
-    [self.headerImageView downloadImage:model.logo place:[UIImage imageNamed:@"default_image_place"]];
+    [self.headerImageView downloadImage:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  place:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
     [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeModel:model];

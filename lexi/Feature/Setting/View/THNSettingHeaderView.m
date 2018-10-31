@@ -33,7 +33,8 @@ static NSString *const kTextHint = @"查看并编辑个人资料";
 
 - (void)thn_setNickname:(NSString *)name headImageUrl:(NSString *)imageUrl {
     self.nameLabel.text = name;
-    [self.headImageView downloadImage:imageUrl place:[UIImage imageNamed:@"default_user_place"]];
+    [self.headImageView downloadImage:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                place:[UIImage imageNamed:@"default_user_place"]];
 }
 
 #pragma mark - setup UI

@@ -112,7 +112,8 @@ static NSString *const kTextResetSku        = @"重选规格";
 
 #pragma mark - set model
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model {
-    [self.goodsImageView downloadImage:model.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView downloadImage:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
+                                 place:[UIImage imageNamed:@"default_goods_place"]];
     
     switch (self.cellType) {
         case THNGoodsInfoCellTypeSelectLogistics: {
@@ -136,14 +137,18 @@ static NSString *const kTextResetSku        = @"重选规格";
 }
 
 - (void)thn_setSkuGoodsInfoWithModel:(THNSkuModelItem *)model {
-    [self.goodsImageView downloadImage:model.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView downloadImage:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
+                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    
     [self thn_setGoodsTitleWithText:model.productName font:[UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)]];
 }
 
 - (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model {
     if (!model.product.rid) return;
     
-    [self.goodsImageView downloadImage:model.product.cover place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView downloadImage:[model.product.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
+                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    
     [self thn_setGoodsTitleWithText:model.product.productName font:[UIFont systemFontOfSize:13 weight:(UIFontWeightMedium)]];
     [self thn_setStoreNameWithText:model.product.storeName];
     [self thn_setSalePriceWithValue:model.product.salePrice oriPrice:model.product.price];

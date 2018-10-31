@@ -45,9 +45,12 @@
     [self thn_setTitleLabelText:model.title];
     
     if (model.productCovers.count >= 3) {
-        [self.mainImageView downloadImage:model.productCovers[0] place:[UIImage imageNamed:@"default_goods_place"]];
-        [self.secondImageView downloadImage:model.productCovers[1] place:[UIImage imageNamed:@"default_goods_place"]];
-        [self.thirdImageView downloadImage:model.productCovers[2] place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.mainImageView downloadImage:[model.productCovers[0] loadImageUrlWithType:(THNLoadImageUrlTypeWindowP500)]
+                                    place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.secondImageView downloadImage:[model.productCovers[1] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
+                                      place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.thirdImageView downloadImage:[model.productCovers[2] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
+                                     place:[UIImage imageNamed:@"default_goods_place"]];
     }
 }
 

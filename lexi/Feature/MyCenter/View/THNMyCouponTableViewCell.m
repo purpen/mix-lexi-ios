@@ -125,7 +125,8 @@ static NSString *const kTextUseType = @" 全场通用";
 
 // 品牌信息
 - (void)thn_setStoreLabelTextWithName:(NSString *)name logoUrl:(NSString *)logoUrl {
-    [self.storeIconImageView downloadImage:logoUrl place:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeIconImageView downloadImage:[logoUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                     place:[UIImage imageNamed:@"default_image_place"]];
     self.storeIconImageView.hidden = NO;
     
     self.storeLabel.text = name;

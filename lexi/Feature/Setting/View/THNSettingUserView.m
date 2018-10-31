@@ -35,7 +35,8 @@ static NSString *const kTextTime = @"注册时间：";
 
 - (void)thn_setUserInfoData:(THNUserDataModel *)model {
     self.headId = model.avatar_id.length ? model.avatar_id : @"0";
-    [self.headImageView downloadImage:model.avatar place:[UIImage new]];
+    [self.headImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarBg)]
+                                place:[UIImage imageNamed:@"default_image_place"]];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
     self.timeLabel.text = [NSString stringWithFormat:@"%@%@", kTextTime, [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"]];
 }

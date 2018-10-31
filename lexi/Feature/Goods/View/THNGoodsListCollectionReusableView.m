@@ -118,7 +118,8 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
         headerView.layer.borderColor = [UIColor whiteColor].CGColor;
         headerView.layer.cornerRadius = 30 / 2;
         headerView.layer.masksToBounds = YES;
-        [headerView downloadImage:model.avatar place:[UIImage imageNamed:@"default_user_place"]];
+        [headerView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]
+                            place:[UIImage imageNamed:@"default_user_place"]];
         
         [self.userView addSubview:headerView];
     }

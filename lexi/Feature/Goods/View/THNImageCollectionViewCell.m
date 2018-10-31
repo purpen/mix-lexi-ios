@@ -28,7 +28,8 @@
 - (void)thn_setImageUrl:(NSString *)url {
     if (!url.length) return;
     
-    [self.imageView downloadImage:url place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.imageView downloadImage:[url loadImageUrlWithType:(THNLoadImageUrlTypeGoodsInfo)]
+                            place:[UIImage imageNamed:@"default_goods_place"]];
 }
 
 #pragma mark - setup UI
