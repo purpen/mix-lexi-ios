@@ -41,5 +41,10 @@
  失效类型：1、店铺优惠券 2、官方优惠券
  */
 @property (nonatomic, assign) NSInteger type;
+@property (nonatomic, strong) NSString *created_at;
+@property (nonatomic, assign) BOOL is_grant;
+@property (nonatomic, assign) NSInteger pickup_count;
+@property (nonatomic, assign) NSInteger surplus_count;
+@property (nonatomic, assign) NSInteger use_count;
 
 @end

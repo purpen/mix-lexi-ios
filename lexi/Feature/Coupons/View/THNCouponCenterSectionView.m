@@ -8,6 +8,7 @@
 
 #import "THNCouponCenterSectionView.h"
 #import <Masonry/Masonry.h>
+#import "UIColor+Extension.h"
 
 @interface THNCouponCenterSectionView ()
 
@@ -29,6 +30,8 @@
 
 #pragma mark - setup UI
 - (void)setupViewUI {
+    self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
+    
     [self addSubview:self.leftIconImageView];
     [self addSubview:self.rightIconImageView];
     [self addSubview:self.titleLabel];

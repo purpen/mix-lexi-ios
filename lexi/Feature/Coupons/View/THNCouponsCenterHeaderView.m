@@ -36,8 +36,6 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.frame = CGRectMake(-15, 0, SCREEN_WIDTH, 150);
-    
     self.headerImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 150);
 }
 

@@ -1,8 +1,8 @@
 //
-//  THNCouponsCenterHeaderView.h
+//  THNOfficialCouponCollectionViewCell.h
 //  lexi
 //
-//  Created by FLYang on 2018/10/31.
+//  Created by FLYang on 2018/11/1.
 //  Copyright © 2018 taihuoniao. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface THNCouponsCenterHeaderView : UIView
+@interface THNOfficialCouponCollectionViewCell : UICollectionViewCell
 
 @end
 
