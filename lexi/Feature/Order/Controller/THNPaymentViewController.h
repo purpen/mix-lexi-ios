@@ -9,15 +9,11 @@
 #import "THNBaseViewController.h"
 
 @class THNWxPayModel;
+@class THNOrderDetailModel;
 
 @interface THNPaymentViewController : THNBaseViewController
 
-// 商品总价
-@property (nonatomic, assign) CGFloat totalPrice;
-// 支付金额
-@property (nonatomic, assign) CGFloat paymentAmount;
-// 总运费
-@property (nonatomic, assign) CGFloat totalFreight;
+@property (nonatomic, strong) THNOrderDetailModel *detailModel;
 @property (nonatomic, strong) THNWxPayModel *payModel;
 // 订单ID
 @property (nonatomic, strong) NSString *orderRid;

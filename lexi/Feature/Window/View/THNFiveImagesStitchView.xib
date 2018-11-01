@@ -17,16 +17,16 @@
             <rect key="frame" x="0.0" y="0.0" width="521" height="390"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="kUi-H0-BuL">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="kUi-H0-BuL">
                     <rect key="frame" x="0.0" y="0.0" width="347.5" height="230"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-1F-CE2">
                     <rect key="frame" x="347.5" y="0.0" width="173.5" height="230"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="nxm-RR-VKr">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="nxm-RR-VKr">
                             <rect key="frame" x="0.0" y="0.0" width="173.5" height="115"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="mR7-Ov-Zzm">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="mR7-Ov-Zzm">
                             <rect key="frame" x="0.0" y="115" width="173.5" height="115"/>
                         </imageView>
                     </subviews>
@@ -38,10 +38,10 @@
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QN4-lr-tgH">
                     <rect key="frame" x="0.0" y="230" width="521" height="160"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="wgR-jF-jrs">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="wgR-jF-jrs">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="2yg-NR-yPj">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="2yg-NR-yPj">
                             <rect key="frame" x="300" y="0.0" width="221" height="160"/>
                         </imageView>
                     </subviews>
@@ -69,11 +69,11 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="Sty-Yc-Ll1"/>
             <connections>
-                <outlet property="leftBottomImageView" destination="wgR-jF-jrs" id="cy3-HL-HyU"/>
-                <outlet property="leftTopImageView" destination="kUi-H0-BuL" id="KnT-C9-Xd7"/>
-                <outlet property="rightBottomImageView" destination="2yg-NR-yPj" id="RjU-A9-IfW"/>
-                <outlet property="rightMiddleImageView" destination="mR7-Ov-Zzm" id="YZh-ld-wdZ"/>
-                <outlet property="rightTopImageView" destination="nxm-RR-VKr" id="19i-YU-tnH"/>
+                <outletCollection property="imageViews" destination="kUi-H0-BuL" id="0Kr-u5-4xu"/>
+                <outletCollection property="imageViews" destination="nxm-RR-VKr" id="8Di-fb-IdP"/>
+                <outletCollection property="imageViews" destination="mR7-Ov-Zzm" id="WmS-lh-a3e"/>
+                <outletCollection property="imageViews" destination="wgR-jF-jrs" id="gZ7-cl-nSg"/>
+                <outletCollection property="imageViews" destination="2yg-NR-yPj" id="ZFB-fV-HjL"/>
             </connections>
             <point key="canvasLocation" x="25.5" y="-130"/>
         </view>

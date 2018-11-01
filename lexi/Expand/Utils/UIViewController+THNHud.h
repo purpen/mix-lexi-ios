@@ -13,6 +13,8 @@
 @property(nonatomic, assign) CGFloat loadViewY;
 // 是否透明
 @property (nonatomic, assign) BOOL isTransparent;
+@property (nonatomic, assign) BOOL isAddWindow;
+@property (nonatomic, assign) BOOL isFromMain;
 
 - (void)showHud;
 - (void)hiddenHud;

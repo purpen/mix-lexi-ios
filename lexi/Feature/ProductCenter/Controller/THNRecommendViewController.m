@@ -51,10 +51,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:kShelfSuccess object:nil];
     [self setupUI];
-    [self loadDistributeHotData];
-    [self loadDistributeStickedData];
-    [self loadDistributeLatestData];
+    [self loadData];
+}
+
+- (void)loadData {
     [self loadTopBannerData];
+    [self refreshData];
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -68,6 +70,11 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNCenterProductTableViewCell" bundle:nil] forCellReuseIdentifier:kCenterProductCellIdentifier];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self hiddenHud];
 }
 
 - (void)refreshData {
@@ -86,7 +93,6 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 // 顶部Banner
 - (void)loadTopBannerData {
-    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.featuredCollectionView.banners = result.data[@"banner_images"];
@@ -99,11 +105,19 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 // 热门单品
 - (void)loadDistributeHotData {
+    self.isAddWindow = YES;
+    self.loadViewY = NAVIGATION_BAR_HEIGHT;
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.hotDataArray = result.data[@"products"];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -113,27 +127,41 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 // 官方推荐
 - (void)loadDistributeStickedData {
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeSticked requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.officialRecommendDataArray = result.data[@"products"];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
 //新品首发
 - (void)loadDistributeLatestData {
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeLatest requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.dataArrayNew = result.data[@"products"];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -144,7 +172,6 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     webVC.url = url;
     [self.navigationController pushViewController:webVC animated:YES];
 }
-
 
 - (void)bannerPushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
@@ -272,12 +299,24 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     switch (index) {
         case 0:
             self.productType = ProductTypeHot;
+            if (self.hotDataArray.count == 0) {
+                [self loadDistributeHotData];
+                return;
+            }
             break;
         case 1:
             self.productType = ProductTypeOfficialRecommend;
+            if (self.officialRecommendDataArray.count == 0) {
+                [self loadDistributeStickedData];
+                return;
+            }
             break;
         default:
             self.productType = ProductTypeNew;
+            if (self.dataArrayNew.count == 0) {
+                [self loadDistributeLatestData];
+                return;
+            }
             break;
     }
     [self.tableView reloadData];

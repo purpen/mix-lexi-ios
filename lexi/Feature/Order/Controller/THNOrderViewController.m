@@ -77,12 +77,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 - (void)loadOrdersData {
-    [SVProgressHUD thn_show];
+    self.loadViewY = CGRectGetMaxY(self.selectButtonView.frame);
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -115,7 +116,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD dismiss];
+        [self hiddenHud];
     }];
 }
 
@@ -219,7 +220,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     
     THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[indexPath.row]];
     
-    if (orderModel.user_order_status == OrderStatusWaitDelivery || orderModel.user_order_status == OrderStatusReceipt) {
+    if (orderModel.user_order_status == OrderStatusReceipt) {
         NSArray *items = orderModel.items;
         // 获取不隐藏运费模板的数量
         NSMutableArray *expressArr = [NSMutableArray array];
@@ -234,6 +235,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
             // 有运费模板商品的高度 + 无运费模板的高度 + 满减View的高度 + 其他的高度
             return set.count * (kOrderProductViewHeight + kOrderLogisticsViewHeight) + (items.count - set.count) * kOrderProductViewHeight + 114 + orderCellLineSpacing;
         }
+    } else if (orderModel.user_order_status == OrderStatusWaitDelivery) {
+        return kOrderProductViewHeight * orderModel.items.count + 75 + orderCellLineSpacing;
     } else {
         return kOrderProductViewHeight * orderModel.items.count + 114 + orderCellLineSpacing;
     }
@@ -268,9 +271,10 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 // 付款
-- (void)pushPayment:(THNWxPayModel *)wxPayModel {
+- (void)pushPayment:(THNOrderDetailModel *)detailModel initWithOrderRid:(NSString *)orderRid {
     THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
-    paymentVC.payModel = wxPayModel;
+    paymentVC.detailModel = detailModel;
+    paymentVC.orderRid = orderRid;
     [self.navigationController pushViewController:paymentVC animated:YES];
 }
 

@@ -90,6 +90,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 @property (nonatomic, strong) NSString *officalCouponCode;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, assign) CGFloat payDetailViewHeight;
+@property (nonatomic, strong) THNOrderDetailModel *detailModel;
 
 @end
 
@@ -154,8 +155,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 // 创建订单
 - (void)createOrder {
-    self.isTransparent = YES;
-    [self showHud];
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSMutableArray *items = [NSMutableArray array];
 
@@ -187,7 +187,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     params[@"sync_pay"] = @(1);
     THNRequest *request = [THNAPI postWithUrlString:kUrlCreateOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -195,16 +195,14 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         
         THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data[@"pay_params"]];
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
-        paymentVC.totalPrice = self.totalPrice;
-        paymentVC.paymentAmount = self.payAmount;
-        paymentVC.totalFreight = self.totalFreight;
+        paymentVC.detailModel = self.detailModel;
         paymentVC.orderRid = result.data[@"order_rid"];
         paymentVC.payModel = payModel;
 
         [self.navigationController pushViewController:paymentVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -510,8 +508,8 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
                                 @"user_pay_amount":@(self.payAmount)
                                 };
     
-    THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
-    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:detailModel];
+    self.detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
+    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
     
     return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
 }

@@ -82,6 +82,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 - (void)loadLifeRecordsDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = @(self.rid);
+    self.loadViewY = NAVIGATION_BAR_HEIGHT;
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -116,7 +117,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         [self.dataArray addObject:kArticleCellTypeProduct];
         [self loadRecommendStoryData];
     } failure:^(THNRequest *request, NSError *error) {
-
+        [self hiddenHud];
     }];
 }
 

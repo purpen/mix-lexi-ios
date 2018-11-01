@@ -2410,7 +2410,6 @@
 			isa = PBXGroup;
 			children = (
 				4BECF053217F1401008E5E28 /* Controller */,
-				4BECF05C217F1401008E5E28 /* Model */,
 				4BECF05D217F1401008E5E28 /* View */,
 			);
 			path = ProductCenter;
@@ -2429,13 +2428,6 @@
 				4BECF05B217F1401008E5E28 /* THNShelfViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		4BECF05C217F1401008E5E28 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		4BECF05D217F1401008E5E28 /* View */ = {

@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="418" height="250"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="Ugs-Lf-hNF">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="Ugs-Lf-hNF">
                     <rect key="frame" x="0.0" y="0.0" width="278.5" height="250"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="250" id="iQJ-rZ-GOQ"/>
@@ -26,10 +26,10 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YaA-07-x6v">
                     <rect key="frame" x="278.5" y="0.0" width="139.5" height="250"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="77g-Rk-OgH">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="77g-Rk-OgH">
                             <rect key="frame" x="0.0" y="0.0" width="139.5" height="125"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="TA2-zi-Fy3">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="TA2-zi-Fy3">
                             <rect key="frame" x="0.0" y="125" width="139.5" height="125"/>
                         </imageView>
                     </subviews>

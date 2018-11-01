@@ -46,9 +46,9 @@
 }
 
 - (void)loadOrderDetailData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
-    [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];

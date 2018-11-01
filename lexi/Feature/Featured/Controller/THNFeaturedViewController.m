@@ -33,6 +33,7 @@
 #import "THNSetDetailViewController.h"
 #import "THNCouponsCenterViewController.h"
 #import "THNShopWindowDetailViewController.h"
+#import "UIViewController+THNHud.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -88,8 +89,8 @@ THNActivityViewDelegate
 //种草清单请求数据数量
 @property (nonatomic, assign) NSInteger grassListPerPageCount;
 @property (nonatomic, assign) CGFloat customGrassCellHeight;
-@property (nonatomic, strong) NSMutableArray *news;
-
+@property (nonatomic, strong) NSMutableArray *newPopularDataArray;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 @end
 
@@ -98,14 +99,8 @@ THNActivityViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initPageNumber];
-    [self loadTopBannerData];
-    [self loadContentBannerData];
-    [self loadDailyRecommendData];
-    [self loadPupularData];
-    [self loadOptimalData];
-    [self loadLifeAestheticData];
-    [self loadGrassListData];
     [self setupUI];
+    [self loadData];
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -116,7 +111,7 @@ THNActivityViewDelegate
 // 初始化页码
 - (void)initPageNumber {
     self.pageCount = 1;
-    self.pupularPerPageCount = 20;
+    self.pupularPerPageCount = 15;
     self.optimalPerPageCount = 4;
     self.grassListPerPageCount = 4;
 }
@@ -132,15 +127,71 @@ THNActivityViewDelegate
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
 }
 
+- (void)loadData {
+    //创建信号量
+    self.semaphore = dispatch_semaphore_create(0);
+    //创建全局并行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    self.isAddWindow = YES;
+    self.isFromMain = YES;
+    self.loadViewY = 135 + 22;
+    [self showHud];
+    
+    dispatch_group_async(group, queue, ^{
+        [self loadTopBannerData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadContentBannerData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadDailyRecommendData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadPupularData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadOptimalData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadGrassListData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadLifeAestheticData];
+    });
+  
+    dispatch_group_notify(group, queue, ^{
+        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddenHud];
+            [self.tableView reloadData];
+        });
+    });
+}
+
 #pragma mark - 请求数据
 // 顶部Banner
 - (void)loadTopBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.featuredCollectionView.banners = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeLeft;
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -148,9 +199,15 @@ THNActivityViewDelegate
 - (void)loadContentBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickContent requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -161,12 +218,16 @@ THNActivityViewDelegate
 //    params[@"per_page"] = @(self.dailyPerPageCount);
     THNRequest *request = [THNAPI getWithUrlString:kUrlDailyRecommends requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.dailyTitle = result.data[@"title"];
         self.dailyDataArray = result.data[@"daily_recommends"];
-        // 刷新全部列表，刷新单独第一节的话也刷新了headerView导致错乱的BUG
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -177,6 +238,12 @@ THNActivityViewDelegate
     params[@"per_page"] = @(self.pupularPerPageCount);
     THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.popularTitle = result.data[@"title"];
         NSArray *allPopularProducts = result.data[@"products"];
         
@@ -189,13 +256,13 @@ THNActivityViewDelegate
                 } else {
                     array = [allPopularProducts subarrayWithRange:NSMakeRange(idx, allPopularProducts.count - idx)];
                 }
-                [self.news addObject:array];
+                [self.newPopularDataArray addObject:array];
             }
         }];
-        self.popularDataArray = self.news;
+        self.popularDataArray = self.newPopularDataArray;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -203,12 +270,16 @@ THNActivityViewDelegate
 - (void)loadLifeAestheticData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeAesthetics requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.lifeAestheticTitle = result.data[@"title"];
         self.lifeAestheticDataArray = result.data[@"shop_windows"];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -219,11 +290,17 @@ THNActivityViewDelegate
     params[@"per_page"] = @(self.optimalPerPageCount);
     THNRequest *request= [THNAPI getWithUrlString:kUrlColumnHandpickOptimization requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.optimalTitle = result.data[@"title"];
         self.optimalDataArray = result.data[@"products"];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationNone];
-    } failure:^(THNRequest *request, NSError *error) {
         
+    } failure:^(THNRequest *request, NSError *error) {
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -234,11 +311,16 @@ THNActivityViewDelegate
     params[@"per_page"] = @(self.grassListPerPageCount);
     THNRequest *request= [THNAPI getWithUrlString:kUrlLifeRecords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.grassListDataArray = result.data[@"life_records"];
         self.grassListTitle = result.data[@"title"];
-       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
-
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -587,11 +669,11 @@ THNActivityViewDelegate
     return _grassLabelHeights;
 }
 
-- (NSMutableArray *)news {
-    if (!_news) {
-        _news = [NSMutableArray array];
+- (NSMutableArray *)newPopularDataArray {
+    if (!_newPopularDataArray) {
+        _newPopularDataArray = [NSMutableArray array];
     }
-    return _news;
+    return _newPopularDataArray;
 }
 
 @end

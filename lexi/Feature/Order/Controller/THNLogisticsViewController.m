@@ -13,6 +13,7 @@
 #import "THNLogisticsTableViewCell.h"
 #import "THNNoLogisticsView.h"
 #import "UIView+Helper.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrlLogisticsInformation = @"/logistics/information";
 static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
@@ -54,11 +55,18 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
 }
 
 - (void)loadLogisticsInformationData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"logistic_code"] = self.itemsModel.express_no;
     params[@"kdn_company_code"] = self.itemsModel.express_code;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsInformation requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         // 物流状态：2-在途中,3-签收,4-问题件
         NSInteger logisticsStatus = [result.data[@"State"]integerValue];
         if (logisticsStatus == 2) {
@@ -89,7 +97,7 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
         
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 

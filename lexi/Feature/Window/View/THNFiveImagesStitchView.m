@@ -11,11 +11,7 @@
 
 @interface THNFiveImagesStitchView()
 
-@property (weak, nonatomic) IBOutlet UIImageView *leftTopImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *rightTopImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *rightMiddleImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *leftBottomImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *rightBottomImageView;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
 
 @end
 
@@ -23,23 +19,9 @@
 
 - (void)setFiveImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        switch (idx) {
-            case 0:
-                [self.leftTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
-            case 1:
-                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-            case 2:
-                [self.rightMiddleImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
-            case 3:
-                [self.leftBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
-            default:
-                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
-                
-        }
+        UIImageView *imageView = self.imageViews[idx];
+        imageView.layer.masksToBounds = YES;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     }];
 }
 

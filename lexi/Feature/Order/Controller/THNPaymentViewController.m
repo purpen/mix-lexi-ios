@@ -15,9 +15,12 @@
 #import <WXApi.h>
 #import "THNPaySuccessViewController.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNOrderDetailPayView.h"
+#import "UIView+Helper.h"
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
+static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 
 @interface THNPaymentViewController () <UITableViewDelegate, UITableViewDataSource, WXApiDelegate>
 
@@ -28,7 +31,7 @@ static NSString *kTextPayment   = @"选择支付方式";
 /// 支付方式
 @property (nonatomic, strong) UITableView *paymentTable;
 /// 价格
-@property (nonatomic, strong) THNPaymentPriceView *priceView;
+@property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
 ///
 @property (nonatomic, strong) NSIndexPath *selectIndex;
 
@@ -65,6 +68,8 @@ static NSString *kTextPayment   = @"选择支付方式";
         }
             break;
     }
+    
+    [self pay];
 }
 
 // 调起微信支付
@@ -100,6 +105,19 @@ static NSString *kTextPayment   = @"选择支付方式";
     }];
 }
 
+- (void)pay {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.orderRid;
+    params[@"pay_type"] = @(1);
+    THNRequest *request = [THNAPI postWithUrlString:kUrlOrderWXPay requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
+        [self tuneUpWechatPay:payModel];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (void)pushSuccessVC {
     THNPaySuccessViewController *successVC = [[THNPaySuccessViewController alloc]init];
     [self.navigationController pushViewController:successVC animated:YES];
@@ -113,17 +131,13 @@ static NSString *kTextPayment   = @"选择支付方式";
 #pragma mark - setup UI
 - (void)setupUI {
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
-    
+    CGFloat payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
+    self.payDetailView.frame = CGRectMake(0, 0, SCREEN_WIDTH, payDetailViewHeight);
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.paymentTable];
     [self.view addSubview:self.doneButton];
-    self.paymentTable.tableHeaderView = self.priceView;
+    self.paymentTable.tableHeaderView = self.payDetailView;
     self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
-    
-    // 显示金额
-    [self.priceView thn_setPriceValue:self.totalPrice
-                      totalPriceValue:self.paymentAmount
-                         freightValue:self.totalFreight];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -150,12 +164,14 @@ static NSString *kTextPayment   = @"选择支付方式";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44.0;
+    return 54.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    THNHeaderTitleView *headerView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)
+    THNHeaderTitleView *titleView = [[THNHeaderTitleView alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 44)
                                                                          title:kTextPayment];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 54)];
+    [headerView addSubview:titleView];
     
     return headerView;
 }
@@ -200,7 +216,7 @@ static NSString *kTextPayment   = @"选择支付方式";
     if (!_paymentTable) {
         CGFloat originBottom = kDeviceiPhoneX ? 82 : 50;
         _paymentTable = [[UITableView alloc] initWithFrame: \
-                         CGRectMake(0, CGRectGetMaxY(self.progressView.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.progressView.frame) - originBottom)
+                         CGRectMake(0, CGRectGetMaxY(self.progressView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.progressView.frame) - originBottom)
                                                      style:(UITableViewStyleGrouped)];
         _paymentTable.delegate = self;
         _paymentTable.dataSource = self;
@@ -214,11 +230,11 @@ static NSString *kTextPayment   = @"选择支付方式";
     return _paymentTable;
 }
 
-- (THNPaymentPriceView *)priceView {
-    if (!_priceView) {
-        _priceView = [[THNPaymentPriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 95)];
+- (THNOrderDetailPayView *)payDetailView {
+    if (!_payDetailView) {
+        _payDetailView = [THNOrderDetailPayView viewFromXib];
     }
-    return _priceView;
+    return _payDetailView;
 }
 
 - (UIButton *)doneButton {

@@ -25,6 +25,7 @@
 - (void)setSevenImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIImageView *imageView = self.imageViews[idx];
+        imageView.layer.masksToBounds = YES;
         [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     }];
 }
