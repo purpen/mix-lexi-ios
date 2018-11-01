@@ -77,7 +77,9 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     //创建全局并行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
-    self.isTransparent = YES;
+    self.isAddWindow = YES;
+    self.isFromMain = YES;
+    self.loadViewY = 135 + 22;
     [self showHud];
     dispatch_group_async(group, queue, ^{
         [self loadCuratorRecommendedData];

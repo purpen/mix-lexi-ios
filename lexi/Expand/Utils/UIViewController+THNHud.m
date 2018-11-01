@@ -18,6 +18,8 @@ NSString * const _loadHeightKey = @"loadHeightKey";
 static char loadViewKey;
 
 static const void *kIsTransparent = @"kIsTransparent";
+static const void *kIsAddWindow = @"kIsAddWindow";
+static const void *kIsFromMain = @"kIsFromMain";
 
 @implementation UIViewController (THNHud)
 
@@ -41,6 +43,22 @@ static const void *kIsTransparent = @"kIsTransparent";
     objc_setAssociatedObject(self, kIsTransparent, [NSNumber numberWithBool:isTransparent], OBJC_ASSOCIATION_ASSIGN);
 }
 
+- (BOOL)isAddWindow {
+    return [objc_getAssociatedObject(self, kIsAddWindow) boolValue];
+}
+
+- (void)setIsAddWindow:(BOOL)isAddWindow {
+    objc_setAssociatedObject(self, kIsAddWindow, [NSNumber numberWithBool:isAddWindow], OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (BOOL)isFromMain {
+    return [objc_getAssociatedObject(self, kIsFromMain) boolValue];
+}
+
+- (void)setIsFromMain:(BOOL)isFromMain {
+    objc_setAssociatedObject(self, kIsFromMain, [NSNumber numberWithBool:isFromMain], OBJC_ASSOCIATION_ASSIGN);
+}
+
 - (void)showHud{
     THNLoadView *loadView = objc_getAssociatedObject(self, &loadViewKey);
     
@@ -51,17 +69,27 @@ static const void *kIsTransparent = @"kIsTransparent";
     if (self.loadViewY == 0) {
         self.loadViewY = 0;
     }
-
-    loadView.frame = CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    CGFloat tabbarHeight = kDeviceiPhoneX ? 84 : 50;
+    
+    loadView.frame = self.isFromMain ? CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT - self.loadViewY - tabbarHeight) : CGRectMake(0, self.loadViewY, SCREEN_WIDTH, SCREEN_HEIGHT - self.loadViewY);
+    
     if (self.isTransparent) {
         loadView.backgroundColor = [UIColor clearColor];
     } else {
         loadView.backgroundColor = [UIColor whiteColor];
     }
+    
     loadView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight;
     objc_setAssociatedObject(self, &loadViewKey, loadView , OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [self.view addSubview:loadView];
+   
+    if (self.isAddWindow) {
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        [window addSubview:loadView];
+    } else {
+        [self.view addSubview:loadView];
+    }
+   
 }
 
 - (void)hiddenHud {

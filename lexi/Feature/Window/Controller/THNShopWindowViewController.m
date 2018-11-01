@@ -74,15 +74,19 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 - (void)loadShopWindowData {
     NSString *requestUrl;
     if (self.showWindowType == ShowWindowTypeFollow) {
+        self.isAddWindow = YES;
+        self.loadViewY = 135 + 5;
+        [self showHud];
         requestUrl = kShopWindowsFollow;
     } else {
+        [SVProgressHUD thn_show];
         requestUrl = kShopWindowsRecommend;
     }
-    self.isTransparent = YES;
-    [self showHud];
+  
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
+        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;

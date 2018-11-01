@@ -20,10 +20,10 @@
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xcH-cy-eXM">
                     <rect key="frame" x="0.0" y="0.0" width="195" height="78"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="ZGb-vH-l5W">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="ZGb-vH-l5W">
                             <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="Otn-cg-9L5">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="Otn-cg-9L5">
                             <rect key="frame" x="97.5" y="0.0" width="97.5" height="78"/>
                         </imageView>
                     </subviews>
@@ -36,13 +36,13 @@
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOD-68-93e">
                     <rect key="frame" x="0.0" y="215" width="460" height="130"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="zpR-rv-YiM">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="zpR-rv-YiM">
                             <rect key="frame" x="0.0" y="0.0" width="153.5" height="130"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="vDa-gp-vya">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="vDa-gp-vya">
                             <rect key="frame" x="153.5" y="0.0" width="153" height="130"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="0w1-yh-Pe7">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="0w1-yh-Pe7">
                             <rect key="frame" x="306.5" y="0.0" width="153.5" height="130"/>
                         </imageView>
                     </subviews>
@@ -53,10 +53,10 @@
                         <constraint firstItem="vDa-gp-vya" firstAttribute="height" secondItem="zpR-rv-YiM" secondAttribute="height" id="vcL-iH-2Kc"/>
                     </constraints>
                 </stackView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="PSn-GW-CbO">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="PSn-GW-CbO">
                     <rect key="frame" x="0.0" y="78" width="195" height="137"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="TuP-WS-dgG">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="TuP-WS-dgG">
                     <rect key="frame" x="195" y="0.0" width="265" height="215"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="215" id="b02-KB-wjX"/>

@@ -54,7 +54,8 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     //创建全局并行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
-    self.isTransparent = YES;
+    self.isAddWindow = YES;
+    self.loadViewY = kDeviceiPhoneX ? 88 : 64;
     [self showHud];
     
     dispatch_group_async(group, queue, ^{

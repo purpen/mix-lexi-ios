@@ -21,12 +21,12 @@
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
 #import "THNObtainedView.h"
-#import "THNWxPayModel.h"
 #import <WXApi.h>
 #import "THNOrderPayView.h"
+#import "THNOrderDetailModel.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
-static NSString *const kUrlOrdersWechatPay= @"/orders/wx_pay/app";
+static NSString *const kUrlOrdersWechatPay= @"/orders/app_pay/is_merge";
 static NSString *const kUrlOrdersSigned = @"/orders/signed";
 CGFloat kOrderProductViewHeight = 75;
 CGFloat kOrderLogisticsViewHeight = 49;
@@ -46,6 +46,7 @@ CGFloat orderCellLineSpacing = 10;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backgroundButtonWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderButtonRightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backGroundHeightConstraint;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 @property (nonatomic, strong) NSString *countDownText;
@@ -115,20 +116,21 @@ CGFloat orderCellLineSpacing = 10;
             return;
         }
         
-        THNWxPayModel *wxPayModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
+        THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:result.data];
+    
         if ([result.data[@"is_merge"] boolValue]) {
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             self.orderPayView.orderLists = result.data[@"order_list"];
             
             WEAKSELF;
             self.orderPayView.payViewBlock = ^{
-                [weakSelf againPay:wxPayModel];
+                [weakSelf againPay:detailModel];
             };
             
             self.orderPayView.frame = window.bounds;
             [window addSubview:self.orderPayView];
         } else {
-            [self againPay:wxPayModel];
+            [self againPay:detailModel];
         }
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -136,9 +138,9 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 // 再次付款
-- (void)againPay:(THNWxPayModel *)wxPayModel {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pushPayment:)]) {
-        [self.delegate pushPayment:wxPayModel];
+- (void)againPay:(THNOrderDetailModel *)detailModel {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushPayment:initWithOrderRid:)]) {
+        [self.delegate pushPayment:detailModel initWithOrderRid:self.ordersModel.rid];
     }
 }
 
@@ -149,17 +151,16 @@ CGFloat orderCellLineSpacing = 10;
     self.dateLabel.text = [NSString timeConversion:ordersModel.created_at initWithFormatterType:FormatterDay];
     self.moneyLabel.text = [NSString formatFloat:ordersModel.user_pay_amount];
     self.payView.hidden = YES;
+    self.lineView.hidden = YES;
+    self.backGroundHeightConstraint.constant = 30;
 
     switch (ordersModel.user_order_status) {
             
         case OrderStatusWaitDelivery:
             self.statusLabel.text = @"待发货";
-            [self.borderButton setTitle:@"物流追踪" forState:UIControlStateNormal];
-            [self.backgroundButton setTitle:@"确认收货" forState:UIControlStateNormal];
-            self.backgroundButtonWidthConstraint.constant = 80;
-            self.borderButtonRightConstraint.constant = 15;
-            self.backgroundButton.hidden = NO;
-            self.borderButton.hidden = NO;
+            self.backGroundHeightConstraint.constant = 0;
+            self.backgroundButton.hidden = YES;
+            self.borderButton.hidden = YES;
             break;
         case OrderStatusReceipt:
             self.statusLabel.text = @"待收货";
@@ -182,7 +183,7 @@ CGFloat orderCellLineSpacing = 10;
             self.payView.hidden = NO;
             self.borderButton.hidden = YES;
             self.backgroundButton.hidden = YES;
-            self.statusLabel.text = @"去付款";
+            self.statusLabel.text = @"待付款";
 
             if (self.payCountDownTextLabel.text.length == 0) {
                 self.timeInterval = 600 - [NSString comparisonStartTimestamp:ordersModel.created_at endTimestamp:ordersModel.current_time];
@@ -325,7 +326,7 @@ CGFloat orderCellLineSpacing = 10;
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
     self.itemModel = itemModel;
-    if (self.ordersModel.user_order_status == OrderStatusWaitDelivery || self.ordersModel.user_order_status == OrderStatusReceipt) {
+    if (self.ordersModel.user_order_status == OrderStatusReceipt) {
         // 只有一个运费模板
         if (self.set.count == 1) {
             cell.borderButton.hidden = YES;
@@ -366,7 +367,7 @@ CGFloat orderCellLineSpacing = 10;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNOrdersItemsModel *itemModel = [THNOrdersItemsModel mj_objectWithKeyValues:self.products[indexPath.row]];
     
-    if (self.ordersModel.user_order_status == OrderStatusWaitDelivery || self.ordersModel.user_order_status == OrderStatusReceipt) {
+    if (self.ordersModel.user_order_status == OrderStatusReceipt) {
         if (self.set.count == 1) {
             return kOrderProductViewHeight;
         } else {

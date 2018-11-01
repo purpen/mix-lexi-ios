@@ -97,11 +97,13 @@ UICollectionViewDelegateFlowLayout
 - (void)setupUI {
     self.navigationBarView.hidden = YES;
     [self.view addSubview:self.searchView];
+    [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
     [self.view addSubview:self.collectionView];
 }
 
 // 最近查看
 - (void)loadUserBrowseData {
+    self.loadViewY = CGRectGetMaxY(self.searchView.frame);
     [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
@@ -146,7 +148,6 @@ UICollectionViewDelegateFlowLayout
             [self.sectionTitles addObject:kSearchHotSearchTitle];
         }
         [self.sections addObject:self.popularSearchs];
-        [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

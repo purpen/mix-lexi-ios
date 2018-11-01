@@ -17,6 +17,7 @@
 #import "THNConst.h"
 #import "THNLoginManager.h"
 #import "AppDelegate.h"
+#import "UIViewController+THNHud.h"
 
 @interface THNBaseTabBarController () <UITabBarControllerDelegate> {
     THNHomeViewController       *_homeVC;

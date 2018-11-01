@@ -20,6 +20,13 @@
 
 @implementation THNThreeImageStitchingView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.leftImageView.layer.masksToBounds = YES;
+    self.rightTopImageView.layer.masksToBounds = YES;
+    self.rightBottomImageView.layer.masksToBounds = YES;
+}
+
 - (void)setThreeImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         switch (idx) {

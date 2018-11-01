@@ -29,6 +29,7 @@
 #import "THNBannerModel.h"
 #import "THNArticleViewController.h"
 #import "THNWebKitViewViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSInteger const allLinesCount = 6;
 static CGFloat const kBannerViewHeight = 115;
@@ -73,6 +74,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 @property (nonatomic, strong) NSString *setTitle;
 @property (nonatomic, strong) NSString *goodDesignTitle;
 @property (nonatomic, strong) NSString *goodThingTitle;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 @end
 
@@ -80,24 +82,62 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadBannerData];
-    [self loadSetData];
-    [self loadData];
     [self setupUI];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     [self loadData];
 }
 
 - (void)loadData {
-    [self loadBrandHallData];
-    [self loadCategorieData];
-    [self loadRecommendData];
-    [self loadNewProductData];
-    [self loadGoodDesignData];
-    [self loadGoodThingData];
+    //创建信号量
+    self.semaphore = dispatch_semaphore_create(0);
+    //创建全局并行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    self.isAddWindow = YES;
+    self.isFromMain = YES;
+    self.loadViewY = 135 + 22;
+    [self showHud];
+    
+    dispatch_group_async(group, queue, ^{
+        [self loadBannerData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadSetData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadBrandHallData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadCategorieData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadRecommendData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadNewProductData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadGoodDesignData];
+    });
+    dispatch_group_async(group, queue, ^{
+        [self loadGoodThingData];
+    });
+    
+    dispatch_group_notify(group, queue, ^{
+        
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddenHud];
+            [self.tableView reloadData];
+        });
+    });
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -121,9 +161,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -131,11 +177,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadCategorieData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.categoriesCollectionView.categorieDataArray = result.data[@"categories"];
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
         
+        self.categoriesCollectionView.categorieDataArray = result.data[@"categories"];
         [self.categoriesCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -143,11 +194,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadRecommendData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlRecommend requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.recommendTitle = result.data[@"title"];
         self.recommendDataArray = result.data[@"products"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -155,11 +211,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBrandHallData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.brandHallDataArray = result.data[@"stores"];
         self.brandHallTitle = result.data[@"title"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -167,11 +228,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadNewProductData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlNewProduct requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.productNewTitle = result.data[@"title"];
         self.productNewDataArray = result.data[@"products"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -179,11 +245,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadSetData {
     THNRequest *request= [THNAPI getWithUrlString:kUrlSet requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.setTitle = result.data[@"title"];
         self.setDataArray = result.data[@"collections"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -191,11 +262,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadGoodDesignData {
     THNRequest *request= [THNAPI getWithUrlString:kUrlGoodDesign requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.goodDesignTitle = result.data[@"title"];
         self.goodDesignDataArray = result.data[@"products"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
@@ -203,11 +279,16 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadGoodThingData {
     THNRequest *request= [THNAPI getWithUrlString:kUrlHundredGoodThings requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        dispatch_semaphore_signal(self.semaphore);
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.goodThingTitle = result.data[@"title"];
         self.goodThingDataArray = result.data[@"products"];
-        [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 

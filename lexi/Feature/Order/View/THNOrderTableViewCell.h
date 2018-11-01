@@ -10,7 +10,7 @@
 
 @class THNOrdersModel;
 @class THNOrderTableViewCell;
-@class THNWxPayModel;
+@class THNOrderDetailModel;
 
 UIKIT_EXTERN CGFloat kOrderProductViewHeight;
 UIKIT_EXTERN CGFloat kOrderLogisticsViewHeight;
@@ -27,7 +27,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 - (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid;
 - (void)pushOrderDetail:(NSString *)orderRid;
 - (void)confirmReceipt;
-- (void)pushPayment:(THNWxPayModel *)wxPayModel;
+- (void)pushPayment:(THNOrderDetailModel *)detailModel initWithOrderRid:(NSString *)orderRid;
 
 @end
 

@@ -63,7 +63,7 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
             self.orderStatusLabel.text = @"交易取消";
             break;
         case OrderStatuspayment:
-            self.orderStatusLabel.text = @"去付款";
+            self.orderStatusLabel.text = @"待付款";
             break;
         case OrderStatusEvaluation:
         case OrderStatusFinish:

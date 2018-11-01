@@ -13,6 +13,7 @@
 #import "THNRecommendViewController.h"
 #import "THNProductAllViewController.h"
 #import "THNSearchViewController.h"
+#import "UIViewController+THNHud.h"
 
 @interface THNPruductCenterViewController ()<THNSelectButtonViewDelegate>
 
