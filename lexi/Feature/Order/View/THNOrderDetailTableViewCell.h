@@ -35,4 +35,6 @@ UIKIT_EXTERN NSString *const kSelectDelivery;
 // 选择配送方式按钮
 @property (weak, nonatomic) IBOutlet UIButton *selectDeliveryButton;
 
+- (void)setPaySuccessProductView:(THNOrdersItemsModel *)itemsModel;
+
 @end

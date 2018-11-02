@@ -34,12 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (self.pushOrderDetailType == PushOrderDetailTypeOrder) {
-        self.requestUrl = [NSString stringWithFormat:@"/core_orders/%@",self.rid];
-    } else {
-        self.requestUrl = [NSString stringWithFormat:@"/orders/after_payment/%@",self.rid];
-    }
+    self.requestUrl = [NSString stringWithFormat:@"/core_orders/%@",self.rid];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderDetailLogisticsTracking object:nil];
     [self setupUI];
     [self loadOrderDetailData];

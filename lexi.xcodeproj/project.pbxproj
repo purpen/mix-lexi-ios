@@ -381,6 +381,10 @@
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
 		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
+		4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */; };
+		4BC70ACF218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */; };
+		4BC70AD7218C05880073A9F0 /* THNPaySuccessTintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */; };
+		4BC70AD9218C05A00073A9F0 /* THNPaySuccessTintView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */; };
 		4BCAF8E42189BE5C00EF9491 /* THNOrderPayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8E22189BE5C00EF9491 /* THNOrderPayTableViewCell.m */; };
@@ -500,6 +504,12 @@
 		4B72060D212D778F002606EE /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B720622212EB281002606EE /* UITableView+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helper.h"; sourceTree = "<group>"; };
 		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
+		4BC70ACB218BD7F40073A9F0 /* THNPaySuccessTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPaySuccessTableViewCell.h; sourceTree = "<group>"; };
+		4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPaySuccessTableViewCell.m; sourceTree = "<group>"; };
+		4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPaySuccessTableViewCell.xib; sourceTree = "<group>"; };
+		4BC70AD5218C05880073A9F0 /* THNPaySuccessTintView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPaySuccessTintView.h; sourceTree = "<group>"; };
+		4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPaySuccessTintView.m; sourceTree = "<group>"; };
+		4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPaySuccessTintView.xib; sourceTree = "<group>"; };
 		4BCAF8DB218834C300EF9491 /* THNCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentModel.h; sourceTree = "<group>"; };
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWxPayModel.h; sourceTree = "<group>"; };
@@ -1273,7 +1283,7 @@
 		D85DA7C72106030100A36A71 /* UIView+LayoutMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LayoutMethods.h"; sourceTree = "<group>"; };
 		D85DA7C82106030100A36A71 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
 		D85DA7CA2106030100A36A71 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D85DA7CB2106030100A36A71 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D85DA7CB2106030100A36A71 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../../main.m; sourceTree = "<group>"; };
 		D85DA7CC2106030100A36A71 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D85DA7CD2106030100A36A71 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_background_image_x@3x.png"; sourceTree = "<group>"; };
@@ -2350,6 +2360,12 @@
 				4BECF02B217F1401008E5E28 /* THNSelectOfficalCouponView.h */,
 				4BECF02C217F1401008E5E28 /* THNSelectOfficalCouponView.m */,
 				4BECF02D217F1401008E5E28 /* THNSelectOfficalCouponView.xib */,
+				4BC70ACB218BD7F40073A9F0 /* THNPaySuccessTableViewCell.h */,
+				4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */,
+				4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */,
+				4BC70AD5218C05880073A9F0 /* THNPaySuccessTintView.h */,
+				4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */,
+				4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3204,6 +3220,7 @@
 				4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				4BECF2C7217F1402008E5E28 /* THNShopWindowDetailViewController.xib in Resources */,
+				4BC70ACF218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib in Resources */,
 				D8B36C602174916000A6009F /* image_life_wechat.png in Resources */,
 				4BECF171217F1401008E5E28 /* THNCouponDetailView.xib in Resources */,
 				4BECF26F217F1401008E5E28 /* THNCenterProductTableViewCell.xib in Resources */,
@@ -3258,6 +3275,7 @@
 				4BECF27D217F1402008E5E28 /* THNSearchStoreTableViewCell.xib in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				4BECF196217F1401008E5E28 /* THNBrandCollectionViewCell.xib in Resources */,
+				4BC70AD9218C05A00073A9F0 /* THNPaySuccessTintView.xib in Resources */,
 				4BECF241217F1401008E5E28 /* THNOrderDetailPayView.xib in Resources */,
 				D8F998872137D6440012AED3 /* loading.gif in Resources */,
 				4BECF214217F1401008E5E28 /* THNAddressIDCardView.xib in Resources */,
@@ -3479,6 +3497,7 @@
 				4B27B3EF218717D1004AF42F /* THNCouponsCenterViewController.m in Sources */,
 				4B27B3F0218717D1004AF42F /* THNStoreCouponViewController.m in Sources */,
 				4B27B3F1218717D1004AF42F /* THNHomeViewController.m in Sources */,
+				4BC70AD7218C05880073A9F0 /* THNPaySuccessTintView.m in Sources */,
 				4B27B3F2218717D1004AF42F /* THNHomeSearchView.m in Sources */,
 				4B27B3F3218717D1004AF42F /* THNSelectButtonView.m in Sources */,
 				4B27B3F4218717D1004AF42F /* THNInboxViewController.m in Sources */,
@@ -3492,6 +3511,7 @@
 				4B27B3FC218717D1004AF42F /* THNFindPasswordViewController.m in Sources */,
 				4B27B3FD218717D1004AF42F /* THNLoginViewController.m in Sources */,
 				4B27B3FE218717D1004AF42F /* THNNewPasswordViewController.m in Sources */,
+				4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */,
 				4B27B3FF218717D1004AF42F /* THNNewUserInfoViewController.m in Sources */,
 				4B27B400218717D1004AF42F /* THNSetPasswordViewController.m in Sources */,
 				4B27B401218717D1004AF42F /* THNSignInViewController.m in Sources */,

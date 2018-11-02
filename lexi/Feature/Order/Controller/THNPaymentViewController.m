@@ -17,9 +17,12 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "THNOrderDetailPayView.h"
 #import "UIView+Helper.h"
+#import "THNOrderDetailModel.h"
+
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
+static NSString *kUrlCreateOrderWXPay = @"/orders/app_pay";
 static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 
 @interface THNPaymentViewController () <UITableViewDelegate, UITableViewDataSource, WXApiDelegate>
@@ -34,6 +37,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 @property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
 ///
 @property (nonatomic, strong) NSIndexPath *selectIndex;
+@property (nonatomic, strong) THNWxPayModel *payModel;
 
 @end
 
@@ -41,7 +45,6 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadPaymentDetail) name:@"paySuccess" object:nil];
     [self setupUI];
 }
@@ -54,7 +57,6 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
                 [SVProgressHUD showInfoWithStatus:@"暂无微信客户端"];
                 return;
             }
-            [self tuneUpWechatPay:self.payModel];
         }
             break;
             
@@ -72,7 +74,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     [self pay];
 }
 
-// 调起微信支付
+// 调起微信支付模板
 - (void)tuneUpWechatPay:(THNWxPayModel *)payModel {
     PayReq *request = [[PayReq alloc]init];
     request.partnerId = payModel.mch_id;
@@ -95,7 +97,10 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
         }
         
         if ([result.data[@"pay_status"] isEqualToString:@"SUCCESS"]) {
-            [self pushSuccessVC];
+            THNPaySuccessViewController *successVC = [[THNPaySuccessViewController alloc]init];
+            successVC.detailModel = [THNOrderDetailModel mj_objectWithKeyValues:result.data];
+            successVC.orders = result.data[@"orders"];
+            [self.navigationController pushViewController:successVC animated:YES];
         } else {
             [SVProgressHUD showInfoWithStatus:@"支付失败"];
         }
@@ -108,19 +113,15 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 - (void)pay {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.orderRid;
-    params[@"pay_type"] = @(1);
-    THNRequest *request = [THNAPI postWithUrlString:kUrlOrderWXPay requestDictionary:params delegate:nil];
+    params[@"pay_type"] = @([self thn_getPaymentType] + 1);
+    NSString *requestUrl = self.fromPaymentType == FromPaymentTypePreViewVC ?  kUrlCreateOrderWXPay : kUrlOrderWXPay;
+    THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
         [self tuneUpWechatPay:payModel];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-}
-
-- (void)pushSuccessVC {
-    THNPaySuccessViewController *successVC = [[THNPaySuccessViewController alloc]init];
-    [self.navigationController pushViewController:successVC animated:YES];
 }
 
 #pragma mark - private methods

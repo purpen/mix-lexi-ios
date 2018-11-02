@@ -23,7 +23,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 @protocol THNOrderTableViewCellDelegate<NSObject>
 
 @optional
-- (void)deleteOrder:(NSString *)rid;
+- (void)deleteOrder:(NSString *)rid initWithCell:(THNOrderTableViewCell *)cell;
 - (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid;
 - (void)pushOrderDetail:(NSString *)orderRid;
 - (void)confirmReceipt;

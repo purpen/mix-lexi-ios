@@ -198,6 +198,7 @@
                 <outlet property="logisticsButton" destination="wQf-2l-Brf" id="arW-hl-NWX"/>
                 <outlet property="logisticsTimeLabel" destination="new-Kz-rrJ" id="bgi-zV-S2y"/>
                 <outlet property="logisticsView" destination="2wU-Pa-sG8" id="NOS-th-ZUf"/>
+                <outlet property="logisticsViewHeightConstraint" destination="tdN-Dm-N7B" id="1mG-ZC-Lzt"/>
                 <outlet property="modeLabel" destination="J96-Sg-VCJ" id="Z4M-de-tUi"/>
                 <outlet property="originalMoneyLabel" destination="BCy-gR-kyk" id="ES2-Y2-Y5K"/>
                 <outlet property="productCountLabel" destination="hfa-bD-lLg" id="wWl-0C-Flq"/>

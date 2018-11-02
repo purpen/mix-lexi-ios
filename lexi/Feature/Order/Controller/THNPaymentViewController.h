@@ -8,14 +8,19 @@
 
 #import "THNBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, FromPaymentType) {
+    FromPaymentTypePreViewVC,
+    FromPaymentTypeOrderVC
+};
+
 @class THNWxPayModel;
 @class THNOrderDetailModel;
 
 @interface THNPaymentViewController : THNBaseViewController
 
 @property (nonatomic, strong) THNOrderDetailModel *detailModel;
-@property (nonatomic, strong) THNWxPayModel *payModel;
 // 订单ID
 @property (nonatomic, strong) NSString *orderRid;
+@property (nonatomic, assign) FromPaymentType fromPaymentType;
 
 @end

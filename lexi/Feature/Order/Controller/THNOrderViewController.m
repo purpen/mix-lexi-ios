@@ -19,6 +19,7 @@
 #import "THNEvaluationViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNPaymentViewController.h"
+#import "THNBaseTabBarController.h"
 
 /**
  请求订单类型
@@ -45,7 +46,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNSelectButtonViewDelegate,
     THNOrderTableViewCellDelegate,
     UITableViewDelegate,
-    UITableViewDataSource
+    UITableViewDataSource,
+    THNNavigationBarViewDelegate
 >
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
@@ -72,6 +74,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
 - (void)setupUI {
     self.navigationBarView.title = @"订单";
+    [self.navigationBarView setNavigationBackButton];
     [self.view addSubview:self.selectButtonView];
     [self.view addSubview:self.tableView];
 }
@@ -128,12 +131,18 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 // 删除订单
-- (void)deleteOrderData:(NSString *)rid {
+- (void)deleteOrderData:(NSString *)rid initWithCurrenIndex:(NSInteger)index {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlOrdersDelete requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self loadOrdersData];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [self.orders removeObjectAtIndex:index];
+        [self.tableView deleteRow:index inSection:0 withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -189,9 +198,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
         NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
         THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
-        [self deleteOrderData:orderModel.rid];
-        [self.orders removeObjectAtIndex:currentIndexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [self deleteOrderData:orderModel.rid initWithCurrenIndex:currentIndexPath.row];
     };
     
     // 解决滑动没结束切换视图刷新tableView 数据越界问题
@@ -243,14 +250,14 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 }
 
 #pragma mark - THNOrderTableViewCellDelegate
-- (void)deleteOrder:(NSString *)rid {
-    [self deleteOrderData:rid];
+- (void)deleteOrder:(NSString *)rid initWithCell:(THNOrderTableViewCell *)cell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self deleteOrderData:rid initWithCurrenIndex:indexPath.row];
 }
 
 - (void)pushOrderDetail:(NSString *)orderRid {
         THNOrderDetailViewController *detail = [[THNOrderDetailViewController alloc]init];
         detail.rid = orderRid;
-        detail.pushOrderDetailType = PushOrderDetailTypeOrder;
         [self.navigationController pushViewController:detail animated:YES];
 }
 
@@ -275,7 +282,19 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
     paymentVC.detailModel = detailModel;
     paymentVC.orderRid = orderRid;
+    paymentVC.fromPaymentType = FromPaymentTypeOrderVC;
     [self.navigationController pushViewController:paymentVC animated:YES];
+}
+
+#pragma mark - THNNavigationBarViewDelegate
+- (void)didNavigationBackButtonEvent {
+    if (self.pushOrderDetailType == PushOrderDetailTypePaySuccess) {
+        THNBaseTabBarController *tabVC = [[THNBaseTabBarController alloc]init];
+        tabVC.selectedIndex = 0;
+        [UIApplication sharedApplication].keyWindow.rootViewController = tabVC;
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - lazy

@@ -283,8 +283,8 @@ CGFloat orderCellLineSpacing = 10;
     [obtainedMuseumView show];
     
     obtainedMuseumView.obtainedBlock = ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:)]) {
-            [self.delegate deleteOrder:self.ordersModel.rid];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:initWithCell:)]) {
+            [self.delegate deleteOrder:self.ordersModel.rid initWithCell:self];
         }
     };
 }
