@@ -7,11 +7,11 @@
 //
 
 #import "THNCouponsCenterViewController.h"
-#import <HMSegmentedControl/HMSegmentedControl.h>
 #import "THNCouponsCenterHeaderView.h"
 #import "THNCouponCenterSectionView.h"
 #import "THNCouponManager.h"
 #import "THNLoginManager.h"
+#import "THNGoodsManager.h"
 #import "THNOfficialCollectionViewCell.h"
 
 static NSString *const kTitleCouponsCenter  = @"领券中心";
@@ -27,13 +27,13 @@ static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionVi
 @interface THNCouponsCenterViewController () <
     UICollectionViewDelegate,
     UICollectionViewDataSource,
-    UICollectionViewDelegateFlowLayout
+    UICollectionViewDelegateFlowLayout,
+    THNCouponsCenterHeaderViewDelegate
 >
 
 @property (nonatomic, strong) UICollectionView *recommendCollectionView;
 @property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, strong) THNCouponsCenterHeaderView *headerView;
-@property (nonatomic, strong) HMSegmentedControl *segmentControl;
 @property (nonatomic, assign) CGFloat originY;
 
 @end
@@ -44,24 +44,64 @@ static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionVi
     [super viewDidLoad];
     
     [self setupUI];
+    [self thn_getCategoryData];
     [self thn_getOfficialCouponsData];
-    [self thn_getBrandCouponsData];
-    [self thn_getProductCouponsData];
+    [self thn_getBrandCouponsDataWithCategoryId:@"0"];
+    [self thn_getProductCouponsDataWithCategoryId:@"0"];
 }
 
 #pragma mark - get data
+/**
+ 获取官方券
+ */
 - (void)thn_getOfficialCouponsData {
-    [THNCouponManager getCouponsCenterOfOfficialWithUserId:[self thn_getUserId] completion:^(NSArray *data, NSError *error) {
+    [THNCouponManager getCouponsCenterOfOfficialWithUserId:[self thn_getUserId]
+                                                completion:^(NSArray *data, NSError *error) {
         
+                                                }];
+}
+
+/**
+ 获取同享券（店铺）
+ */
+- (void)thn_getBrandCouponsDataWithCategoryId:(NSString *)categoryId {
+    [THNCouponManager getCouponsCenterOfBrandWithCategory:categoryId
+                                                   params:@{}
+                                               completion:^(NSArray *data, NSError *error) {
+        
+                                               }];
+}
+
+/**
+ 获取单享券（商品）
+ */
+- (void)thn_getProductCouponsDataWithCategoryId:(NSString *)categoryId {
+    [THNCouponManager getCouponsCenterOfProductWithCategory:categoryId
+                                                     params:@{}
+                                                 completion:^(NSArray *data, NSError *error) {
+        
+                                                 }];
+}
+
+/**
+ 获取分类
+ */
+- (void)thn_getCategoryData {
+    WEAKSELF;
+    
+    [THNGoodsManager getCategoryDataWithPid:0 completion:^(NSArray *categoryData, NSError *error) {
+        NSLog(@"---------- 所有分类：%@", categoryData);
+        [weakSelf.headerView thn_setCategoryData:categoryData];
     }];
 }
 
-- (void)thn_getBrandCouponsData {
-    [THNCouponManager getCouponsCenterOfBrandWithCategory:@"0" params:@{}];
+#pragma mark - custom delegate
+- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index {
+    NSLog(@"=========== 选中分类：%zi", index);
 }
 
-- (void)thn_getProductCouponsData {
-    [THNCouponManager getCouponsCenterOfProductWithCategory:@"0" params:@{}];
+- (void)thn_didSelectedCouponType:(NSInteger)type {
+    NSLog(@"=========== 选中类型：%zi", type);
 }
 
 #pragma mark - private methods
@@ -72,9 +112,6 @@ static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionVi
     
     CGPoint headerOriginY = CGPointMake(0, offsetY);
     self.headerView.origin = headerOriginY;
-    
-    CGPoint segmentOriginY = CGPointMake(0, offsetY + 150);
-    self.segmentControl.origin = segmentOriginY;
 }
 
 - (NSString *)thn_getUserId {
@@ -151,7 +188,6 @@ static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionVi
     
     [self.view addSubview:self.recommendCollectionView];
     [self.view addSubview:self.headerView];
-    [self.view addSubview:self.segmentControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -171,27 +207,10 @@ static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionVi
 
 - (THNCouponsCenterHeaderView *)headerView {
     if (!_headerView) {
-        _headerView = [[THNCouponsCenterHeaderView alloc] initWithFrame:CGRectMake(0, self.originY, SCREEN_WIDTH, 150)];
+        _headerView = [[THNCouponsCenterHeaderView alloc] initWithFrame:CGRectMake(0, self.originY, SCREEN_WIDTH, 240)];
+        _headerView.delegate = self;
     }
     return _headerView;
-}
-
-- (HMSegmentedControl *)segmentControl {
-    if (!_segmentControl) {
-        _segmentControl = [[HMSegmentedControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headerView.frame), SCREEN_WIDTH, 44)];
-        _segmentControl.sectionTitles = @[@"推荐", @"测试测试", @"测试测试", @"测试测试", @"测试测试", @"测试测试", @"测试测试", @"测试测试"];
-        _segmentControl.type = HMSegmentedControlTypeText;
-        _segmentControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStripe;
-        _segmentControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-        _segmentControl.selectionIndicatorHeight = 3.0f;
-        _segmentControl.selectionIndicatorColor = [UIColor colorWithHexString:kColorMain];
-        _segmentControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
-        _segmentControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#0F0F0F"],
-                                                NSFontAttributeName: [UIFont systemFontOfSize:14]};
-        _segmentControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:kColorMain],
-                                                        NSFontAttributeName: [UIFont systemFontOfSize:14]};
-    }
-    return _segmentControl;
 }
 
 - (UICollectionView *)recommendCollectionView {

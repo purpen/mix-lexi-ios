@@ -469,6 +469,10 @@
 		D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16C8218AF1D5006AAB9E /* THNCouponManager.m */; };
 		D8DF16CC218B02A3006AAB9E /* THNOfficialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */; };
 		D8DF16CF218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */; };
+		D8DF16D6218BECC1006AAB9E /* THNCouponSharedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D3218BECC1006AAB9E /* THNCouponSharedModel.m */; };
+		D8DF16D7218BECC1006AAB9E /* THNCouponSharedModelProductSku.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D4218BECC1006AAB9E /* THNCouponSharedModelProductSku.m */; };
+		D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D5218BECC1006AAB9E /* THNCouponSingleModel.m */; };
+		D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -1316,6 +1320,14 @@
 		D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCollectionViewCell.m; sourceTree = "<group>"; };
 		D8DF16CD218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOfficialCouponCollectionViewCell.h; sourceTree = "<group>"; };
 		D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCouponCollectionViewCell.m; sourceTree = "<group>"; };
+		D8DF16D0218BECC1006AAB9E /* THNCouponSingleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSingleModel.h; sourceTree = "<group>"; };
+		D8DF16D1218BECC1006AAB9E /* THNCouponSharedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSharedModel.h; sourceTree = "<group>"; };
+		D8DF16D2218BECC1006AAB9E /* THNCouponSharedModelProductSku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSharedModelProductSku.h; sourceTree = "<group>"; };
+		D8DF16D3218BECC1006AAB9E /* THNCouponSharedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponSharedModel.m; sourceTree = "<group>"; };
+		D8DF16D4218BECC1006AAB9E /* THNCouponSharedModelProductSku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponSharedModelProductSku.m; sourceTree = "<group>"; };
+		D8DF16D5218BECC1006AAB9E /* THNCouponSingleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponSingleModel.m; sourceTree = "<group>"; };
+		D8DF16D9218BECEC006AAB9E /* THNCouponOfficialModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponOfficialModel.h; sourceTree = "<group>"; };
+		D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponOfficialModel.m; sourceTree = "<group>"; };
 		D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Helper.h"; sourceTree = "<group>"; };
 		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3107,6 +3119,14 @@
 		D8DF16C6218AF1A1006AAB9E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D8DF16D9218BECEC006AAB9E /* THNCouponOfficialModel.h */,
+				D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */,
+				D8DF16D1218BECC1006AAB9E /* THNCouponSharedModel.h */,
+				D8DF16D3218BECC1006AAB9E /* THNCouponSharedModel.m */,
+				D8DF16D2218BECC1006AAB9E /* THNCouponSharedModelProductSku.h */,
+				D8DF16D4218BECC1006AAB9E /* THNCouponSharedModelProductSku.m */,
+				D8DF16D0218BECC1006AAB9E /* THNCouponSingleModel.h */,
+				D8DF16D5218BECC1006AAB9E /* THNCouponSingleModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3387,6 +3407,7 @@
 				D8BEB436218996D200DF3212 /* THNCouponCenterSectionView.m in Sources */,
 				4B27B382218717D1004AF42F /* THNTableViewFooterView.m in Sources */,
 				4B27B383218717D1004AF42F /* THNTableViewSectionHeaderView.m in Sources */,
+				D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */,
 				4B27B384218717D1004AF42F /* THNAllBrandHallViewController.m in Sources */,
 				4B27B385218717D1004AF42F /* THNBrandHallFeaturedViewController.m in Sources */,
 				D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */,
@@ -3456,6 +3477,7 @@
 				4B27B3C2218717D1004AF42F /* THNPoupalRecommendCollectionViewCell.m in Sources */,
 				4B27B3C3218717D1004AF42F /* THNGoodsDescribeViewController.m in Sources */,
 				4B27B3C4218717D1004AF42F /* THNGoodsImagesViewController.m in Sources */,
+				D8DF16D7218BECC1006AAB9E /* THNCouponSharedModelProductSku.m in Sources */,
 				4B27B3C5218717D1004AF42F /* THNGoodsInfoViewController.m in Sources */,
 				4B27B3C6218717D1004AF42F /* THNGoodsListViewController.m in Sources */,
 				4B27B3C7218717D1004AF42F /* THNGoodsSkuViewController.m in Sources */,
@@ -3524,6 +3546,7 @@
 				4B27B405218717D1004AF42F /* THNAreaModel.m in Sources */,
 				4B27B406218717D1004AF42F /* THNLoginManager.m in Sources */,
 				4B27B407218717D1004AF42F /* THNPhotoManager.m in Sources */,
+				D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */,
 				4B27B408218717D1004AF42F /* THNAuthCodeButton.m in Sources */,
 				4B27B409218717D1004AF42F /* THNDoneButton.m in Sources */,
 				4B27B40A218717D1004AF42F /* THNFindPassword.m in Sources */,
@@ -3686,6 +3709,7 @@
 				4B27B4A6218717D2004AF42F /* THNLifeOrderView.m in Sources */,
 				4B27B4A7218717D2004AF42F /* THNLifeManagementTextTableViewCell.m in Sources */,
 				4B27B4A8218717D2004AF42F /* THNLifeTransactionRecordTableViewCell.m in Sources */,
+				D8DF16D6218BECC1006AAB9E /* THNCouponSharedModel.m in Sources */,
 				4B27B4A9218717D2004AF42F /* THNEarningsDateView.m in Sources */,
 				4B27B4AA218717D2004AF42F /* THNEarningsView.m in Sources */,
 				4B27B4AB218717D2004AF42F /* THNLifeActionView.m in Sources */,

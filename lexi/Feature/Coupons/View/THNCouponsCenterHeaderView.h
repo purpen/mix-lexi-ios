@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol THNCouponsCenterHeaderViewDelegate <NSObject>
 
-@interface THNCouponsCenterHeaderView : UIView
+/// 选择主分类
+- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index;
+/// 选择优惠券的类型：0:同享券；1:单品券
+- (void)thn_didSelectedCouponType:(NSInteger)type;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface THNCouponsCenterHeaderView : UIView
+
+@property (nonatomic, weak) id <THNCouponsCenterHeaderViewDelegate> delegate;
+
+- (void)thn_setCategoryData:(NSArray *)category;
+
+@end

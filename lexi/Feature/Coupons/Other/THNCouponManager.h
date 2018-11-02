@@ -24,7 +24,9 @@
  @param category 分类id (0=推荐)
  @param params 附加参数
  */
-+ (void)getCouponsCenterOfBrandWithCategory:(NSString *)category params:(NSDictionary *)params;
++ (void)getCouponsCenterOfBrandWithCategory:(NSString *)category
+                                     params:(NSDictionary *)params
+                                 completion:(void (^)(NSArray *data, NSError *error))completion;
 
 /**
  领券中心-商品优惠券(单享券)
@@ -32,7 +34,9 @@
  @param category 分类id (0=推荐)
  @param params 附加参数
  */
-+ (void)getCouponsCenterOfProductWithCategory:(NSString *)category params:(NSDictionary *)params;
++ (void)getCouponsCenterOfProductWithCategory:(NSString *)category
+                                       params:(NSDictionary *)params
+                                   completion:(void (^)(NSArray *data, NSError *error))completion;
 
 /**
  领券中心-新闻动态
