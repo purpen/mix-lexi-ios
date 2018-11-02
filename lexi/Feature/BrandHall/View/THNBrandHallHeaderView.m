@@ -49,6 +49,7 @@
     self.addressLabel.text = offcialStoreModel.city;
     self.desLabel.text = offcialStoreModel.tag_line;
     self.nameLabel.text = offcialStoreModel.name;
+    [self.followButton selfManagerFollowBrandStatus:offcialStoreModel.is_followed OffcialStoreModel:offcialStoreModel];
 }
 
 - (IBAction)productButton:(id)sender {

@@ -79,7 +79,7 @@
     /* 设置友盟appkey */
     [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppleKey];
     /* 设置微信的appKey和appSecret */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXShareAppKey appSecret:kWXShareAppSecret redirectURL:@"http:mobile.umeng.com/social"];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAppKey appSecret:kWXAppSecret redirectURL:@"http:mobile.umeng.com/social"];
     /*
      * 移除相应平台的分享，如微信收藏
      */
@@ -94,7 +94,7 @@
 
 #pragma mark - 微信支付设置
 - (void)configWXPlatforms {
-    [WXApi registerApp:kWXPayAppKey];
+    [WXApi registerApp:kWXAppKey];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

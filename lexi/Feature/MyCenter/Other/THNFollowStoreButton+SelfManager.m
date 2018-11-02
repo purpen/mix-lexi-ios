@@ -25,6 +25,20 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowBrandStatus:(BOOL)follow brandModel:(THNFeaturedBrandModel *)model {
+    [self setFollowStoreStatus:follow];
+    self.storeId = model.rid ? model.rid : model.store_rid;
+    self.brandModel = model;
+    [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)selfManagerFollowBrandStatus:(BOOL)follow OffcialStoreModel:(THNOffcialStoreModel *)model {
+    [self setFollowStoreStatus:follow];
+    self.storeId = model.rid;
+    self.offcialStoreModel = model;
+    [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
 - (void)followStoreAction:(id)sender {
     if (!self.storeId.length) {
         [SVProgressHUD thn_showInfoWithStatus:@"品牌馆数据错误"];
@@ -49,6 +63,9 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     
     self.storeModel.isFollowed = self.selected;
     self.storeModel.followedStatus = self.selected;
+    self.brandModel.is_followed = self.selected;
+    self.brandModel.is_follow_store = self.selected;
+    self.offcialStoreModel.is_followed = self.selected;
 }
 
 #pragma mark - request

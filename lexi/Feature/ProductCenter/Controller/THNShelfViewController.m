@@ -37,12 +37,6 @@ static NSString *const kUrlPublishProduct = @"/core_platforms/fx_distribute/publ
 -  (void)sureShelf {
     [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    if (self.textView.text.length < 10) {
-        [SVProgressHUD thn_showErrorWithStatus:@"推荐语不得少于十个字"];
-        return;
-    }
-    
     params[@"stick_text"] = self.textView.text;
     params[@"rid"] = self.productModel.rid;
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;

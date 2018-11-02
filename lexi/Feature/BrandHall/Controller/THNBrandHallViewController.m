@@ -43,12 +43,20 @@ static NSString *const kUrlUserMasterCoupons = @"/market/user_master_coupons";
 static NSString *const kUrlNotLoginCoupons = @"/market/not_login_coupons";
 static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 
-@interface THNBrandHallViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelegate, THNBrandHallHeaderViewDelegate, THNFunctionButtonViewDelegate, THNFunctionPopupViewDelegate>
+@interface THNBrandHallViewController () <
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+THNNavigationBarViewDelegate,
+THNBrandHallHeaderViewDelegate,
+THNFunctionButtonViewDelegate,
+THNFunctionPopupViewDelegate,
+THNMJRefreshDelegate
+>
 
 @property (nonatomic, strong) THNBrandHallHeaderView *brandHallView;
 @property (nonatomic, strong) THNAnnouncementView *announcementView;
 @property (nonatomic, strong) THNCouponView *couponView;
-@property (nonatomic, strong) NSArray *products;
+@property (nonatomic, strong) NSMutableArray *products;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) THNAnnouncementModel *announcementModel;
 @property (nonatomic, assign) CGFloat announcementViewHeight;
@@ -70,6 +78,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
 // 是否展示文章
 @property (nonatomic, assign) BOOL isRecords;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -130,6 +139,7 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     params[@"sid"] = self.rid;
     // 商品类别 0: 全部; 1：自营商品；2：分销商品
     params[@"is_distributed"] = @(1);
+    params[@"page"] = @(self.currentPage);
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductsByStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -140,7 +150,8 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
             return;
         }
         
-        self.products = result.data[@"products"];
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
+        [self.products addObjectsFromArray:result.data[@"products"]];
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         if (signalQuantity == 0) {
             [self.collectionView reloadData];
@@ -272,6 +283,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNGrassListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallLifeRecordsCellIdentifier];
      [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kBrandHallHeaderViewIdentifier];
      self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)setupLayout {
@@ -375,6 +389,9 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
     [self.functionView thn_setSelectedButtonTitle:screenStr];
     self.producrConditionParams = screenParams;
+    [self.products removeAllObjects];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
     [self loadProductsByStoreData];
 }
 
@@ -529,6 +546,12 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
     }
 }
 
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadProductsByStoreData];
+}
+
 #pragma mark - lazy
 - (THNBrandHallHeaderView *)brandHallView {
     if (!_brandHallView) {
@@ -599,6 +622,13 @@ static NSString *const kUrlLifeRecords = @"/core_platforms/life_records";
         _producrConditionParams = [NSDictionary dictionary];
     }
     return _producrConditionParams;
+}
+
+- (NSMutableArray *)products {
+    if (!_products) {
+        _products = [NSMutableArray array];
+    }
+    return _products;
 }
 
 @end

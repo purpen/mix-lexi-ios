@@ -137,11 +137,9 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         }
         
         [self.recommendedMutableArray removeAllObjects];
-        self.recommendedArray = result.data[@"products"];
-        
-        for (NSDictionary *dict in self.recommendedArray) {
-            [self.recommendedmutableArray addObject:dict];
-        }
+        NSArray *array = result.data[@"products"];
+        self.recommendedArray = [THNProductModel mj_objectArrayWithKeyValuesArray:array] ;
+        [self.recommendedMutableArray addObjectsFromArray:self.recommendedArray];
         
         if (self.recommendedmutableArray.count > 0) {
             self.livingHallHeaderView.noProductView.hidden = YES;
@@ -218,7 +216,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNLivingHallRecommendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLivingHallRecommendCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
+    THNProductModel *productModel = self.recommendedmutableArray[indexPath.row];
     // 设置喜欢用户头像
     [cell loadLikeProductUserData:productModel.rid];
     // 设置馆长头像

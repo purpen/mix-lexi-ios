@@ -18,4 +18,8 @@
  */
 - (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userModel:(THNUserModel *)model;
 
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status grassListModel:(THNGrassListModel *)model;
+
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status shopWindowModel:(THNShopWindowModel *)model;
+
 @end

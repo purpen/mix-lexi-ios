@@ -33,15 +33,19 @@ static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
 static NSString *const kUrlDistributeSticked = @"/fx_distribute/sticked";
 static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
-@interface THNRecommendViewController ()<THNSelectButtonViewDelegate, THNCenterProductTableViewCellDelegate, THNFeaturedCollectionViewDelegate>
+@interface THNRecommendViewController ()<THNSelectButtonViewDelegate, THNCenterProductTableViewCellDelegate, THNFeaturedCollectionViewDelegate, THNMJRefreshDelegate>
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
 @property (nonatomic, strong) THNFeaturedOpeningView *openingView;
 @property (nonatomic, strong) UIScrollView *backgroundScrollView;
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
-@property (nonatomic, strong) NSArray *hotDataArray;
-@property (nonatomic, strong) NSArray *officialRecommendDataArray;
-@property (nonatomic, strong) NSArray *dataArrayNew;
+@property (nonatomic, strong) NSMutableArray *hotDataArray;
+@property (nonatomic, strong) NSMutableArray *officialRecommendDataArray;
+@property (nonatomic, strong) NSMutableArray *dataArrayNew;
+/// 当前页码
+@property (nonatomic, assign) NSInteger currentPage;
+// 之前记录的页码
+@property (nonatomic, assign) NSInteger lastPage;
 
 @end
 
@@ -70,6 +74,9 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNCenterProductTableViewCell" bundle:nil] forCellReuseIdentifier:kCenterProductCellIdentifier];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -78,6 +85,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 }
 
 - (void)refreshData {
+    [self.hotDataArray removeAllObjects];
+    [self.officialRecommendDataArray removeAllObjects];
+    [self.dataArrayNew removeAllObjects];
+    self.currentPage = 1;
+    [self.tableView resetCurrentPageNumber];
+    
     switch (self.productType) {
         case ProductTypeHot:
             [self loadDistributeHotData];
@@ -107,9 +120,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 - (void)loadDistributeHotData {
     self.isAddWindow = YES;
     self.loadViewY = NAVIGATION_BAR_HEIGHT;
-    [self showHud];
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    params[@"page"] = @(self.currentPage);
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeHot requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
@@ -117,8 +133,8 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
         }
-        
-        self.hotDataArray = result.data[@"products"];
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.hotDataArray addObjectsFromArray:result.data[@"products"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -127,9 +143,14 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 // 官方推荐
 - (void)loadDistributeStickedData {
-    [SVProgressHUD thn_show];
+    
+    if (self.currentPage == 1) {
+        [SVProgressHUD thn_show];
+    }
+   
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    params[@"page"] = @(self.currentPage);
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeSticked requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -138,7 +159,8 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
             return;
         }
         
-        self.officialRecommendDataArray = result.data[@"products"];
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.officialRecommendDataArray addObjectsFromArray:result.data[@"products"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
@@ -147,9 +169,14 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 //新品首发
 - (void)loadDistributeLatestData {
-    [SVProgressHUD thn_show];
+    
+    if (self.currentPage == 1) {
+        [SVProgressHUD thn_show];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    params[@"page"] = @(self.currentPage);
     THNRequest *request = [THNAPI getWithUrlString:kUrlDistributeLatest requestDictionary:params  delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
@@ -158,7 +185,8 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
             return;
         }
         
-        self.dataArrayNew = result.data[@"products"];
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.dataArrayNew addObjectsFromArray:result.data[@"products"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
@@ -300,6 +328,9 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         case 0:
             self.productType = ProductTypeHot;
             if (self.hotDataArray.count == 0) {
+                self.lastPage = self.currentPage;
+                self.currentPage = 1;
+                [self.tableView resetCurrentPageNumber];
                 [self loadDistributeHotData];
                 return;
             }
@@ -307,6 +338,9 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         case 1:
             self.productType = ProductTypeOfficialRecommend;
             if (self.officialRecommendDataArray.count == 0) {
+                self.lastPage = self.currentPage;
+                self.currentPage = 1;
+                [self.tableView resetCurrentPageNumber];
                 [self loadDistributeStickedData];
                 return;
             }
@@ -314,12 +348,38 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         default:
             self.productType = ProductTypeNew;
             if (self.dataArrayNew.count == 0) {
+                self.lastPage = self.currentPage;
+                self.currentPage = 1;
+                [self.tableView resetCurrentPageNumber];
                 [self loadDistributeLatestData];
                 return;
             }
             break;
     }
     [self.tableView reloadData];
+}
+
+#pragma mark - THNMJRefreshDelegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    
+    // 切换页面拿到的数据一直加载第二页数据的问题
+    if (self.currentPage == 1 && self.lastPage != 0) {
+        self.currentPage = self.lastPage + 1;
+    } else {
+        self.currentPage = currentPage.integerValue;
+    }
+    
+    switch (self.productType) {
+        case ProductTypeHot:
+            [self loadDistributeHotData];
+            break;
+        case ProductTypeOfficialRecommend:
+            [self loadDistributeStickedData];
+            break;
+        case ProductTypeNew:
+            [self loadDistributeLatestData];
+            break;
+    }
 }
 
 #pragma mark - lazy
@@ -350,5 +410,27 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
     }
     return _selectButtonView;
 }
+
+- (NSMutableArray *)hotDataArray {
+    if (!_hotDataArray) {
+        _hotDataArray = [NSMutableArray array];
+    }
+    return _hotDataArray;
+}
+
+- (NSMutableArray *)officialRecommendDataArray {
+    if (!_officialRecommendDataArray) {
+        _officialRecommendDataArray = [NSMutableArray array];
+    }
+    return _officialRecommendDataArray;
+}
+
+- (NSMutableArray *)dataArrayNew {
+    if (!_dataArrayNew) {
+        _dataArrayNew = [NSMutableArray array];
+    }
+    return _dataArrayNew;
+}
+
 
 @end

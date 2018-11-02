@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNLifeOrderStoreModel;
+@class THNFeaturedBrandModel;
 
 @interface THNArticleStoreTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) THNLifeOrderStoreModel *storeModel;
+@property (nonatomic, strong) THNFeaturedBrandModel *featuredBrandModel;
 
 @end

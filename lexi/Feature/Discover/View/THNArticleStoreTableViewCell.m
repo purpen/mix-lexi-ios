@@ -32,12 +32,12 @@
     self.borderBackgroundView.layer.cornerRadius = 4;
 }
 
-- (void)setStoreModel:(THNLifeOrderStoreModel *)storeModel {
-    _storeModel = storeModel;
-    self.storeNameLabel.text = storeModel.store_name;
-    self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",storeModel.product_counts];
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-//    [self.followButton selfManagerFollowStoreStatus:storeModel.is_follow_store storeModel:storeModel];
+- (void)setFeaturedBrandModel:(THNFeaturedBrandModel *)featuredBrandModel {
+    _featuredBrandModel = featuredBrandModel;
+    self.storeNameLabel.text = featuredBrandModel.store_name;
+    self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",featuredBrandModel.product_counts];
+    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featuredBrandModel.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.followButton selfManagerFollowBrandStatus:featuredBrandModel.is_follow_store brandModel:featuredBrandModel];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

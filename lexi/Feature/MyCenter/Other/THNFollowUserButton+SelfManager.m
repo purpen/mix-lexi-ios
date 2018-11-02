@@ -24,6 +24,22 @@ static NSString *const kKeyStatus   = @"followed_status";
     [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status grassListModel:(THNGrassListModel *)model {
+    self.grassListModel = model;
+    self.userId = model.uid;
+    [self setFollowUserStatus:status];
+    [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status shopWindowModel:(THNShopWindowModel *)model {
+    self.shopWindowModel = model;
+    self.userId = model.uid;
+    [self setFollowUserStatus:status];
+    [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+
+
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
     if (!self.userId.length) {
@@ -38,6 +54,8 @@ static NSString *const kKeyStatus   = @"followed_status";
                              
                              [self setFollowUserStatus:(THNUserFollowStatus)status];
                              self.userModel.followed_status = status;
+                             self.grassListModel.is_follow = status;
+                             self.shopWindowModel.is_follow = status;
                          }];
 }
 

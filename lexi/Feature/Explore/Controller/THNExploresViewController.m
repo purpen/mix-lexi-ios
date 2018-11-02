@@ -217,7 +217,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
             return;
         }
         
-        self.brandHallDataArray = result.data[@"stores"];
+        self.brandHallDataArray = [THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:result.data[@"stores"]];
         self.brandHallTitle = result.data[@"title"];
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
