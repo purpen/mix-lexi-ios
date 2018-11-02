@@ -60,8 +60,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (![THNLoginManager sharedManager].storeRid) {
-        [SVProgressHUD thn_showInfoWithStatus:@"生活馆不存在"];
+    if (![THNLoginManager sharedManager].openingUser) {
         return;
     }
     

@@ -63,7 +63,7 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-     THNSearchUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchUserCellIdentifier forIndexPath:indexPath];
+    THNSearchUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchUserCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     THNUserModel *userModel = [THNUserModel mj_objectWithKeyValues:self.users[indexPath.row]];
     [cell setUserModel:userModel];

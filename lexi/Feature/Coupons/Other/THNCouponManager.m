@@ -22,6 +22,7 @@ static NSString *kURLCouponsProduct     = @"/market/coupon_center_single";
 static NSString *kKeyRid            = @"rid";
 static NSString *kKeyStoreCategory  = @"store_category";
 static NSString *kKeyOfficial       = @"official_coupons";
+static NSString *kKeyCoupons        = @"coupons";
 
 @implementation THNCouponManager
 
@@ -78,7 +79,7 @@ static NSString *kKeyOfficial       = @"official_coupons";
             return;
         }
         
-        completion([self thn_transitionBrandCouponModelData:result.data[kKeyOfficial]], nil);
+        completion([self thn_transitionBrandCouponModelData:result.data[kKeyCoupons]], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -95,7 +96,7 @@ static NSString *kKeyOfficial       = @"official_coupons";
             return;
         }
         
-        completion([self thn_transitionProductCouponModelData:result.data[kKeyOfficial]], nil);
+        completion([self thn_transitionProductCouponModelData:result.data[kKeyCoupons]], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];

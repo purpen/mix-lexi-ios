@@ -9,12 +9,14 @@
 #import "THNOfficialCollectionViewCell.h"
 #import "UIColor+Extension.h"
 #import "THNOfficialCouponCollectionViewCell.h"
+#import "THNMarco.h"
 
 static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCouponCollectionViewCellId";
 
 @interface THNOfficialCollectionViewCell () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *couponCollectionView;
+@property (nonatomic, strong) NSArray *couponArr;
 
 @end
 
@@ -28,6 +30,11 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
     return self;
 }
 
+- (void)thn_setOfficialCouponData:(NSArray *)couponData {
+    self.couponArr = [NSArray arrayWithArray:couponData];
+    [self.couponCollectionView reloadData];
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
@@ -35,12 +42,15 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return self.couponArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNOfficialCouponCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kOfficialCouponCollectionViewCellId
                                                                                           forIndexPath:indexPath];
+    if (self.couponArr.count) {
+        [cell thn_setOfficialModel:self.couponArr[indexPath.row]];
+    }
     
     return cell;
 }
@@ -54,8 +64,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         flowLayout.itemSize = CGSizeMake(100, 128);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _couponCollectionView = [[UICollectionView alloc] initWithFrame: \
-                                 CGRectMake(-15, 0, CGRectGetWidth(self.bounds) + 30, CGRectGetHeight(self.bounds))
+        _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-15, 0, SCREEN_WIDTH, 128)
                                                    collectionViewLayout:flowLayout];
         _couponCollectionView.delegate = self;
         _couponCollectionView.dataSource = self;

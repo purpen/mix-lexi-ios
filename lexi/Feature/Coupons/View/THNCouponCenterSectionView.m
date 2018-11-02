@@ -40,6 +40,12 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    if (self.bounds.size.height < 1) {
+        [self thn_hiddenView:YES];
+        return;
+    }
+    
+    [self thn_hiddenView:NO];
     self.titleLabel.frame = self.bounds;
     
     [self.leftIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -53,6 +59,12 @@
         make.right.mas_equalTo(-55);
         make.centerY.equalTo(self);
     }];
+}
+
+- (void)thn_hiddenView:(BOOL)hidden {
+    self.titleLabel.hidden = hidden;
+    self.leftIconImageView.hidden = hidden;
+    self.rightIconImageView.hidden = hidden;
 }
 
 #pragma mark - getters and setters

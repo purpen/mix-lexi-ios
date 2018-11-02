@@ -10,6 +10,7 @@
 #import "THNNewUserInfoView.h"
 #import "THNPhotoManager.h"
 #import "THNQiNiuUpload.h"
+#import "THNLoginManager.h"
 
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";
@@ -81,6 +82,25 @@ static NSString *const kParamAvatarId           = @"avatar_id";
     }];
 }
 
+- (void)thn_loginSuccessBack {
+    WEAKSELF;
+    
+    [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
+        if (error) {
+            [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+            return ;
+        }
+        
+        if (![result isSuccess]) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
 #pragma mark - custom delegate
 - (void)thn_setUserInfoSelectHeader {
      [self thn_getSelectImage];
@@ -88,7 +108,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
     [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self thn_loginSuccessBack];
     }];
 }
 

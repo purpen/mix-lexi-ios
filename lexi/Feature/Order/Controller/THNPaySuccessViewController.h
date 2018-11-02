@@ -6,8 +6,13 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNBaseViewController.h"
+#import "THNBaseTableViewController.h"
 
-@interface THNPaySuccessViewController : THNBaseViewController
+@class THNOrderDetailModel;
+
+@interface THNPaySuccessViewController : THNBaseTableViewController
+
+@property (nonatomic, strong) THNOrderDetailModel *detailModel;
+@property (nonatomic, strong) NSArray *orders;
 
 @end

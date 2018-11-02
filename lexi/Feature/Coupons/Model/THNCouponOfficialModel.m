@@ -34,7 +34,7 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 {
 	self = [super init];
 	if(![dictionary[kTHNCouponOfficialModelAmount] isKindOfClass:[NSNull class]]){
-		self.amount = [dictionary[kTHNCouponOfficialModelAmount] integerValue];
+		self.amount = [dictionary[kTHNCouponOfficialModelAmount] floatValue];
 	}
 
 	if(![dictionary[kTHNCouponOfficialModelCode] isKindOfClass:[NSNull class]]){
@@ -57,7 +57,7 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 	}
 
 	if(![dictionary[kTHNCouponOfficialModelMinAmount] isKindOfClass:[NSNull class]]){
-		self.minAmount = [dictionary[kTHNCouponOfficialModelMinAmount] integerValue];
+		self.minAmount = [dictionary[kTHNCouponOfficialModelMinAmount] floatValue];
 	}
 
 	if(![dictionary[kTHNCouponOfficialModelPickupCount] isKindOfClass:[NSNull class]]){

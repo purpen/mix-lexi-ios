@@ -27,11 +27,11 @@ NSString *const kTHNCouponSharedModelProductSkuProductRid = @"product_rid";
 {
 	self = [super init];
 	if(![dictionary[kTHNCouponSharedModelProductSkuProductAmount] isKindOfClass:[NSNull class]]){
-		self.productAmount = [dictionary[kTHNCouponSharedModelProductSkuProductAmount] integerValue];
+		self.productAmount = [dictionary[kTHNCouponSharedModelProductSkuProductAmount] floatValue];
 	}
 
 	if(![dictionary[kTHNCouponSharedModelProductSkuProductCouponAmount] isKindOfClass:[NSNull class]]){
-		self.productCouponAmount = [dictionary[kTHNCouponSharedModelProductSkuProductCouponAmount] integerValue];
+		self.productCouponAmount = [dictionary[kTHNCouponSharedModelProductSkuProductCouponAmount] floatValue];
 	}
 
 	if(![dictionary[kTHNCouponSharedModelProductSkuProductCover] isKindOfClass:[NSNull class]]){

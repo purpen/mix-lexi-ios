@@ -28,6 +28,7 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
 @property (weak, nonatomic) IBOutlet UILabel *originalMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *modeLabel;
 @property (weak, nonatomic) IBOutlet UIView *deliveryView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logisticsViewHeightConstraint;
 
 @end
 
@@ -58,6 +59,27 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
     self.modeLabel.text = itemsModel.mode;
     self.deliveryMethodLabel.text = itemsModel.express_name;
     self.deliveryView.hidden = YES;
+}
+
+- (void)setPaySuccessProductView:(THNOrdersItemsModel *)itemsModel {
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    self.productNameLabel.text = itemsModel.product_name;
+    self.productCountLabel.text = [NSString stringWithFormat:@"x%ld", itemsModel.quantity];
+    
+    if (itemsModel.sale_price == 0) {
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.price];
+        self.originalMoneyLabel.hidden = YES;
+    } else {
+        self.originalMoneyLabel.hidden = NO;
+        self.saleMoneyLabel.text = [NSString formatFloat:itemsModel.sale_price];
+        self.originalMoneyLabel.attributedText = [THNTextTool setStrikethrough:itemsModel.price];
+    }
+    
+    self.modeLabel.text = itemsModel.mode;
+    self.deliveryMethodLabel.text = itemsModel.express_name;
+    self.deliveryView.hidden = YES;
+    self.logisticsView.hidden = YES;
+    self.logisticsViewHeightConstraint.constant = 0;
 }
 
 // 提交订单界面

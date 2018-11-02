@@ -193,12 +193,10 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
             return;
         }
         
-        THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data[@"pay_params"]];
         THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc] init];
         paymentVC.detailModel = self.detailModel;
         paymentVC.orderRid = result.data[@"order_rid"];
-        paymentVC.payModel = payModel;
-
+        paymentVC.fromPaymentType = FromPaymentTypePreViewVC;
         [self.navigationController pushViewController:paymentVC animated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {

@@ -34,6 +34,32 @@
     return self;
 }
 
+- (void)thn_setOfficialModel:(THNCouponOfficialModel *)model {
+    [self thn_setCouponAmoutTextWithValue:model.amount];
+    self.conditionLabel.text = [NSString stringWithFormat:@"满%.0f元可用", model.minAmount];
+    [self thn_setCouponStatusWithCount:model.count];
+}
+
+#pragma mark - private methods
+- (void)thn_setCouponAmoutTextWithValue:(CGFloat)value {
+    NSMutableAttributedString *sysAtt = [[NSMutableAttributedString alloc] initWithString:@"￥"];
+    sysAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightMedium)];
+    sysAtt.color = [UIColor whiteColor];
+    
+    NSMutableAttributedString *amoutAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f", value]];
+    amoutAtt.font = [UIFont systemFontOfSize:30 weight:(UIFontWeightMedium)];
+    amoutAtt.color = [UIColor whiteColor];
+    
+    [sysAtt appendAttributedString:amoutAtt];
+    sysAtt.alignment = NSTextAlignmentCenter;
+    self.moneyLabel.attributedText = sysAtt;
+}
+
+- (void)thn_setCouponStatusWithCount:(NSInteger)count {
+    self.noneImageView.hidden = count;
+    self.containerView.alpha = count ? 1 : 0.4;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
@@ -66,15 +92,15 @@
     }];
     
     [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
+        make.left.mas_equalTo(5);
+        make.right.mas_equalTo(-5);
         make.top.mas_equalTo(25);
         make.height.mas_equalTo(30);
     }];
     
     [self.conditionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
+        make.left.mas_equalTo(5);
+        make.right.mas_equalTo(-5);
         make.top.equalTo(self.moneyLabel.mas_bottom).with.offset(10);
         make.height.mas_equalTo(12);
     }];
@@ -89,10 +115,6 @@
         make.size.mas_equalTo(CGSizeMake(52, 52));
         make.top.right.mas_equalTo(0);
     }];
-}
-
-- (void)thn_drawLine {
-    
 }
 
 #pragma mark - getters and setters
@@ -126,10 +148,6 @@
 - (YYLabel *)moneyLabel {
     if (!_moneyLabel) {
         _moneyLabel = [[YYLabel alloc] init];
-        _moneyLabel.font = [UIFont systemFontOfSize:30 weight:(UIFontWeightRegular)];
-        _moneyLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF"];
-        _moneyLabel.textAlignment = NSTextAlignmentCenter;
-        _moneyLabel.text = @"10";
     }
     return _moneyLabel;
 }
@@ -140,7 +158,6 @@
         _conditionLabel.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightRegular)];
         _conditionLabel.textColor = [UIColor colorWithHexString:@"#FFFFFF"];
         _conditionLabel.textAlignment = NSTextAlignmentCenter;
-        _conditionLabel.text = @"满1000元可用";
     }
     return _conditionLabel;
 }

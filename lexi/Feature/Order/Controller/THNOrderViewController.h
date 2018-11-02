@@ -8,6 +8,19 @@
 
 #import "THNBaseViewController.h"
 
+/**
+ 跳转订单详情的类型
+ 
+ - PushOrderDetailTypeOrder: 订单跳转
+ - PushOrderDetailTypePaySuccess: 支付成功跳转
+ */
+typedef NS_ENUM(NSUInteger, PushOrderDetailType) {
+    PushOrderDetailTypeOrder,
+    PushOrderDetailTypePaySuccess
+};
+
 @interface THNOrderViewController : THNBaseViewController
+
+@property (nonatomic, assign) PushOrderDetailType pushOrderDetailType;
 
 @end

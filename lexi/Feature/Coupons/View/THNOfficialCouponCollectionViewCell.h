@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "THNCouponOfficialModel.h"
 
 @interface THNOfficialCouponCollectionViewCell : UICollectionViewCell
 
-@end
+- (void)thn_setOfficialModel:(THNCouponOfficialModel *)model;
 
-NS_ASSUME_NONNULL_END
+@end

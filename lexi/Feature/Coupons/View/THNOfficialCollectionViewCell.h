@@ -10,4 +10,9 @@
 
 @interface THNOfficialCollectionViewCell : UICollectionViewCell
 
+/**
+ 官方优惠券
+ */
+- (void)thn_setOfficialCouponData:(NSArray *)couponData;
+
 @end
