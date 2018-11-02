@@ -39,6 +39,7 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 @property (weak, nonatomic) IBOutlet UIView *fieldBackgroundView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (weak, nonatomic) IBOutlet UIView *commentView;
 
 @end
 
@@ -118,6 +119,8 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 }
 
 - (void)setupUI {
+    // 业务隐藏
+    self.commentView.hidden = YES;
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     self.tableViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
     self.navigationBarView.title = @"橱窗详情";

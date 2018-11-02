@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "THNUserModel.h"
+#import "THNGrassListModel.h"
+#import "THNShopWindowModel.h"
 
 typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
     THNUserFollowStatusNot = 0,     // 未关注
@@ -20,6 +22,8 @@ typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) THNUserModel *userModel;
 @property (nonatomic, assign) THNUserFollowStatus followStatus;
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
+@property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
 
 /**
  设置关注的状态

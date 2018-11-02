@@ -58,7 +58,7 @@
     self.titleLabel.text = grassListModel.title;
     self.visitorsNumberLabel.text = [NSString stringWithFormat:@"%ld",grassListModel.browse_count];
     self.dateLabel.text = [NSString timeConversion:grassListModel.created_at initWithFormatterType:FormatterDay];
-//    [self.followButton selfManagerFollowUserStatus:grassListModel.is_follow userId:grassListModel.uid];
+    [self.followButton selfManagerFollowUserStatus:grassListModel.is_follow grassListModel:grassListModel];
 }
 
 @end

@@ -25,14 +25,14 @@
                             <constraint firstAttribute="height" constant="73" id="vMl-H0-6if"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fB-Gp-wpD">
-                        <rect key="frame" x="58" y="83" width="30.5" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fB-Gp-wpD">
+                        <rect key="frame" x="0.0" y="83" width="145" height="17"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iju-9V-xvF">
-                        <rect key="frame" x="58.5" y="105" width="28" height="15.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iju-9V-xvF">
+                        <rect key="frame" x="0.0" y="105" width="145" height="15.5"/>
                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="11"/>
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -41,12 +41,15 @@
             </view>
             <constraints>
                 <constraint firstItem="8hd-bc-3dL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="2VE-GZ-1Ra"/>
+                <constraint firstItem="2fB-Gp-wpD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="4TA-gj-93w"/>
                 <constraint firstItem="iju-9V-xvF" firstAttribute="centerX" secondItem="8hd-bc-3dL" secondAttribute="centerX" id="8rS-KD-NRL"/>
                 <constraint firstItem="iju-9V-xvF" firstAttribute="top" secondItem="2fB-Gp-wpD" secondAttribute="bottom" constant="5" id="Gsz-6t-woZ"/>
+                <constraint firstItem="iju-9V-xvF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="HZq-iZ-Jtd"/>
+                <constraint firstAttribute="trailing" secondItem="iju-9V-xvF" secondAttribute="trailing" id="JmT-I3-x03"/>
                 <constraint firstItem="8hd-bc-3dL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Kd8-US-ejd"/>
                 <constraint firstItem="2fB-Gp-wpD" firstAttribute="top" secondItem="8hd-bc-3dL" secondAttribute="bottom" constant="10" id="Tfz-VW-J0K"/>
                 <constraint firstAttribute="trailing" secondItem="8hd-bc-3dL" secondAttribute="trailing" id="d5U-1g-LdJ"/>
-                <constraint firstItem="2fB-Gp-wpD" firstAttribute="centerX" secondItem="8hd-bc-3dL" secondAttribute="centerX" id="wCD-cs-6Ue"/>
+                <constraint firstAttribute="trailing" secondItem="2fB-Gp-wpD" secondAttribute="trailing" id="ibd-Zk-HOQ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="145" height="141"/>

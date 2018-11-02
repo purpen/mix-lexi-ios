@@ -11,6 +11,9 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
+#import "THNLoginManager.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 /// api 地址
 static NSString *const kURLFollow       = @"/follow/store";
@@ -25,7 +28,26 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowBrandStatus:(BOOL)follow brandModel:(THNFeaturedBrandModel *)model {
+    [self setFollowStoreStatus:follow];
+    self.storeId = model.rid ? model.rid : model.store_rid;
+    self.brandModel = model;
+    [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)selfManagerFollowBrandStatus:(BOOL)follow OffcialStoreModel:(THNOffcialStoreModel *)model {
+    [self setFollowStoreStatus:follow];
+    self.storeId = model.rid;
+    self.offcialStoreModel = model;
+    [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
 - (void)followStoreAction:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
     if (!self.storeId.length) {
         [SVProgressHUD thn_showInfoWithStatus:@"品牌馆数据错误"];
         return;
@@ -49,6 +71,22 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     
     self.storeModel.isFollowed = self.selected;
     self.storeModel.followedStatus = self.selected;
+    self.brandModel.is_followed = self.selected;
+    self.brandModel.is_follow_store = self.selected;
+    self.offcialStoreModel.is_followed = self.selected;
+}
+
+/**
+ 打开登录视图
+ */
+- (void)thn_openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
+                                                                                     animated:YES
+                                                                                   completion:nil];
+    });
 }
 
 #pragma mark - request

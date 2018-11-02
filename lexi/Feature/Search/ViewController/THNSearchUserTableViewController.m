@@ -49,7 +49,7 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchUser requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.users = result.data[@"users"];
+        self.users = [THNUserModel mj_objectArrayWithKeyValuesArray:result.data[@"users"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -65,7 +65,7 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSearchUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchUserCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    THNUserModel *userModel = [THNUserModel mj_objectWithKeyValues:self.users[indexPath.row]];
+    THNUserModel *userModel = self.users[indexPath.row];
     [cell setUserModel:userModel];
     return cell;
 }

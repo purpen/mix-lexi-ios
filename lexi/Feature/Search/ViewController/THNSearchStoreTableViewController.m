@@ -51,7 +51,7 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.stores = result.data[@"stores"];
+        self.stores =  [THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:result.data[@"stores"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -73,14 +73,14 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
     };
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
+    THNFeaturedBrandModel *brandModel = self.stores[indexPath.row];
     [cell setBrandModel:brandModel];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
-    THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
+    THNFeaturedBrandModel *brandModel = self.stores[indexPath.row];
     brandHallVC.rid = brandModel.rid;
     [self.navigationController pushViewController:brandHallVC animated:YES];
 }

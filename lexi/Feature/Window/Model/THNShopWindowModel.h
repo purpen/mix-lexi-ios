@@ -50,5 +50,6 @@ typedef NS_ENUM(NSUInteger, UserIdentityType) {
 @property (nonatomic, strong) NSString *rid;
 // 是否官方橱窗
 @property (nonatomic, assign) BOOL is_official;
+@property (nonatomic, strong) NSString *uid;
 
 @end

@@ -12,7 +12,6 @@
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
 		4B27B375218717D1004AF42F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7CC2106030100A36A71 /* AppDelegate.m */; };
-		4B27B376218717D1004AF42F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D85DA7CB2106030100A36A71 /* main.m */; };
 		4B27B377218717D1004AF42F /* THNAllsetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */; };
 		4B27B378218717D1004AF42F /* THNSetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEE0E217F1401008E5E28 /* THNSetDetailViewController.m */; };
 		4B27B379218717D1004AF42F /* THNCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEE11217F1401008E5E28 /* THNCollectionModel.m */; };
@@ -377,6 +376,7 @@
 		4B27B4F12187222A004AF42F /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4EB21872229004AF42F /* THNFollowStoreButton+SelfManager.m */; };
 		4B27B4F22187222A004AF42F /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4EC21872229004AF42F /* THNFollowUserButton+SelfManager.m */; };
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
+		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
 		4B72060E212D7790002606EE /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060C212D778F002606EE /* EmoticonWeibo.bundle */; };
 		4B72060F212D7790002606EE /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B72060D212D778F002606EE /* ResourceWeibo.bundle */; };
 		4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */; };
@@ -508,6 +508,7 @@
 		4B27B4EC21872229004AF42F /* THNFollowUserButton+SelfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "THNFollowUserButton+SelfManager.m"; sourceTree = "<group>"; };
 		4B27B4ED21872229004AF42F /* THNUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserManager.m; sourceTree = "<group>"; };
 		4B27B4EE2187222A004AF42F /* THNFollowUserButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFollowUserButton.h; sourceTree = "<group>"; };
+		4B36A225218C9771007F670E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		4B72060C212D778F002606EE /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
@@ -1291,7 +1292,6 @@
 		D85DA7C72106030100A36A71 /* UIView+LayoutMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LayoutMethods.h"; sourceTree = "<group>"; };
 		D85DA7C82106030100A36A71 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
 		D85DA7CA2106030100A36A71 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D85DA7CB2106030100A36A71 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../../main.m; sourceTree = "<group>"; };
 		D85DA7CC2106030100A36A71 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D85DA7CD2106030100A36A71 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_background_image_x@3x.png"; sourceTree = "<group>"; };
@@ -3024,7 +3024,7 @@
 				D85DA7CA2106030100A36A71 /* AppDelegate.h */,
 				D85DA7CC2106030100A36A71 /* AppDelegate.m */,
 				D85DA7CD2106030100A36A71 /* Info.plist */,
-				D85DA7CB2106030100A36A71 /* main.m */,
+				4B36A225218C9771007F670E /* main.m */,
 			);
 			path = AppEntry;
 			sourceTree = "<group>";
@@ -3430,7 +3430,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B27B375218717D1004AF42F /* AppDelegate.m in Sources */,
-				4B27B376218717D1004AF42F /* main.m in Sources */,
 				4B27B377218717D1004AF42F /* THNAllsetTableViewController.m in Sources */,
 				4B27B378218717D1004AF42F /* THNSetDetailViewController.m in Sources */,
 				4B27B379218717D1004AF42F /* THNCollectionModel.m in Sources */,
@@ -3644,6 +3643,7 @@
 				4B27B43F218717D1004AF42F /* THNEvaluationTableViewCell.m in Sources */,
 				4B27B440218717D1004AF42F /* THNLogisticsPlaceTableViewCell.m in Sources */,
 				4B27B441218717D1004AF42F /* THNLogisticsPriceView.m in Sources */,
+				4B36A226218C9771007F670E /* main.m in Sources */,
 				4B27B442218717D1004AF42F /* THNLogisticsTableViewCell.m in Sources */,
 				4B27B443218717D1004AF42F /* THNNewlyAddressTableViewCell.m in Sources */,
 				4B27B444218717D1004AF42F /* THNNoLogisticsView.m in Sources */,

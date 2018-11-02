@@ -20,6 +20,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNPaymentViewController.h"
 #import "THNBaseTabBarController.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 /**
  请求订单类型
@@ -47,18 +48,23 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNOrderTableViewCellDelegate,
     UITableViewDelegate,
     UITableViewDataSource,
-    THNNavigationBarViewDelegate
+    THNNavigationBarViewDelegate,
+    THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) OrderType orderType;
 @property (nonatomic, strong) NSMutableArray *orders;
-@property (nonatomic, strong) NSArray *allOrders;
-@property (nonatomic, strong) NSArray *waitDeliveryOrders;
-@property (nonatomic, strong) NSArray *waiteReceiptOrders;
-@property (nonatomic, strong) NSArray *evaluationOrders;
-@property (nonatomic, strong) NSArray *paymentOrders;
+@property (nonatomic, strong) NSMutableArray *allOrders;
+@property (nonatomic, strong) NSMutableArray *waitDeliveryOrders;
+@property (nonatomic, strong) NSMutableArray *waiteReceiptOrders;
+@property (nonatomic, strong) NSMutableArray *evaluationOrders;
+@property (nonatomic, strong) NSMutableArray *paymentOrders;
+/// 当前页码
+@property (nonatomic, assign) NSInteger currentPage;
+// 之前记录的页码
+@property (nonatomic, assign) NSInteger lastPage;
 
 @end
 
@@ -77,12 +83,20 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [self.navigationBarView setNavigationBackButton];
     [self.view addSubview:self.selectButtonView];
     [self.view addSubview:self.tableView];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadOrdersData {
     self.loadViewY = CGRectGetMaxY(self.selectButtonView.frame);
-    [self showHud];
+    
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -92,27 +106,28 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
             return;
         }
         
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         [self.orders removeAllObjects];
         switch (self.orderType) {
             
             case OrderTypeAll:
-                self.allOrders = result.data[@"orders"];
+                [self.allOrders addObjectsFromArray:result.data[@"orders"]];
                 [self.orders setArray:self.allOrders];
                 break;
             case OrderTypeWaitDelivery:
-                self.waitDeliveryOrders = result.data[@"orders"];
+                [self.waitDeliveryOrders addObjectsFromArray:result.data[@"orders"]];
                 [self.orders setArray:self.waitDeliveryOrders];
                 break;
             case OrderTypWaiteReceipt:
-                self.waiteReceiptOrders = result.data[@"orders"];
+                [self.waiteReceiptOrders addObjectsFromArray:result.data[@"orders"]];
                  [self.orders setArray:self.waiteReceiptOrders];
                 break;
             case OrderTypeEvaluation:
-                self.evaluationOrders = result.data[@"orders"];
+                [self.evaluationOrders addObjectsFromArray:result.data[@"orders"]];
                  [self.orders setArray:self.evaluationOrders];
                 break;
             case OrderTypePayment:
-                self.paymentOrders= result.data[@"orders"];
+                [self.paymentOrders addObjectsFromArray:result.data[@"orders"]];
                  [self.orders setArray:self.paymentOrders];
                 break;
         }
@@ -177,6 +192,9 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     }
     
     if (self.orders.count == 0) {
+        self.lastPage = self.currentPage;
+        self.currentPage = 1;
+        [self.tableView resetCurrentPageNumber];
         [self loadOrdersData];
     } else {
         [self.tableView reloadData];
@@ -297,6 +315,19 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     }
 }
 
+#pragma mark - THNMJRefreshDelegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    
+    // 切换页面拿到的数据一直加载第二页数据的问题
+    if (self.currentPage == 1 && self.lastPage != 0) {
+        self.currentPage = self.lastPage + 1;
+    } else {
+        self.currentPage = currentPage.integerValue;
+    }
+    
+    [self loadOrdersData];
+}
+
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
@@ -331,6 +362,41 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         _orders = [NSMutableArray array];
     }
     return _orders;
+}
+
+- (NSMutableArray *)allOrders {
+    if (!_allOrders) {
+        _allOrders = [NSMutableArray array];
+    }
+    return _allOrders;
+}
+
+- (NSMutableArray *)waitDeliveryOrders {
+    if (!_waitDeliveryOrders) {
+        _waitDeliveryOrders = [NSMutableArray array];
+    }
+    return _waitDeliveryOrders;
+}
+
+- (NSMutableArray *)waiteReceiptOrders {
+    if (!_waiteReceiptOrders) {
+        _waiteReceiptOrders = [NSMutableArray array];
+    }
+    return _waiteReceiptOrders;
+}
+
+- (NSMutableArray *)evaluationOrders {
+    if (!_evaluationOrders) {
+        _evaluationOrders = [NSMutableArray array];
+    }
+    return _evaluationOrders;
+}
+
+- (NSMutableArray *)paymentOrders {
+    if (!_paymentOrders) {
+        _paymentOrders = [NSMutableArray array];
+    }
+    return _paymentOrders;
 }
 
 @end

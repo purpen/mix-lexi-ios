@@ -16,7 +16,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "UIViewController+THNHud.h"
 #import "THNArticleStoreTableViewCell.h"
-#import "THNLifeOrderStoreModel.h"
+#import "THNFeaturedBrandModel.h"
 #import "THNArticleStoryTableViewCell.h"
 #import "THNArticleProductTableViewCell.h"
 #import "THNGoodsInfoViewController.h"
@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) THNGrassListModel *grassListModel;
+@property (nonatomic, strong) THNFeaturedBrandModel *featuredBrandModel;
 @property (nonatomic, strong) NSMutableArray *contentModels;
 @property (nonatomic, strong) NSArray *lifeRecords;
 @property (nonatomic, strong) NSArray *products;
@@ -89,7 +90,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         [self hiddenHud];
         [self loadRecommendProductData];
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
-        
+        self.featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
         for (NSDictionary *dict in self.grassListModel.deal_content) {
             THNGoodsModelDealContent *contenModel = [THNGoodsModelDealContent mj_objectWithKeyValues:dict];
             [self.contentModels addObject:contenModel];
@@ -232,8 +233,8 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         self.articleCellType = ArticleCellTypeStore;
         THNArticleStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleStoreCellIdentifier forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        THNLifeOrderStoreModel *storeModel = [THNLifeOrderStoreModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
-        [cell setStoreModel:storeModel];
+        
+        [cell setFeaturedBrandModel:self.featuredBrandModel];
         return cell;
 
     } else if ([articleStr isEqualToString:kArticleCellTypeProduct]){
@@ -269,9 +270,9 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *articleStr = self.dataArray[indexPath.row];
     if ([articleStr isEqualToString:kArticleCellTypeStore]) {
-        THNLifeOrderStoreModel *storeModel = [THNLifeOrderStoreModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
+        THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
         THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
-        brandHallVC.rid = storeModel.store_rid;
+        brandHallVC.rid = featuredBrandModel.store_rid;
         [self.navigationController pushViewController:brandHallVC animated:YES];
     }
 }

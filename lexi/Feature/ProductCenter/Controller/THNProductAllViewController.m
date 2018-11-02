@@ -26,16 +26,17 @@ static NSString *const kProductCenterCellIdentifier = @"kProductCenterCellIdenti
 static CGFloat collectionViewX = 20;
 static CGFloat interitemSpacing = 10;
 
-@interface THNProductAllViewController ()<THNFunctionButtonViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, THNFunctionPopupViewDelegate>
+@interface THNProductAllViewController ()<THNFunctionButtonViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, THNFunctionPopupViewDelegate, THNMJRefreshDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 // 设置商品的弹窗
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
 // 设置商品的buttonView
 @property (nonatomic, strong) THNFunctionButtonView *functionView;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 // 商品筛选的参数
 @property (nonatomic, strong) NSDictionary *producrConditionParams;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -43,7 +44,7 @@ static CGFloat interitemSpacing = 10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadProdctCenterAllData) name:kShelfSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshData) name:kShelfSuccess object:nil];
     [self loadProdctCenterAllData];
     [self setupUI];
 }
@@ -57,13 +58,26 @@ static CGFloat interitemSpacing = 10;
     [self.view addSubview:lineView];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
+    [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
+}
+
+- (void)refreshData {
+    [self.dataArray removeAllObjects];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
+    [self loadProdctCenterAllData];
 }
 
 - (void)loadProdctCenterAllData {
-    [SVProgressHUD thn_show];
+    
+    if (self.currentPage == 1) {
+        [SVProgressHUD thn_show];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @1;
-    params[@"per_page"] = @10;
+    params[@"page"] = @(self.currentPage);
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:KUrlDistributeCenterAll requestDictionary:params delegate:nil];
@@ -73,7 +87,8 @@ static CGFloat interitemSpacing = 10;
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
-        self.dataArray = result.data[@"products"];
+        [self.dataArray addObjectsFromArray:result.data[@"products"]];
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -112,7 +127,7 @@ static CGFloat interitemSpacing = 10;
     [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
     [self.functionView thn_setSelectedButtonTitle:screenStr];
     self.producrConditionParams = screenParams;
-    [self loadProdctCenterAllData];
+    [self refreshData];
 }
 
 - (void)thn_functionPopupViewType:(THNFunctionPopupViewType)viewType sortType:(NSInteger)type title:(NSString *)title {
@@ -157,6 +172,13 @@ static CGFloat interitemSpacing = 10;
     [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadProdctCenterAllData];
+}
+
+
 #pragma mark - lazy
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -198,6 +220,13 @@ static CGFloat interitemSpacing = 10;
         _producrConditionParams = [NSDictionary dictionary];
     }
     return _producrConditionParams;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end

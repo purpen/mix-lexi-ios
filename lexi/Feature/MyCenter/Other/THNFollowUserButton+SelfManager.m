@@ -9,6 +9,9 @@
 #import "THNFollowUserButton+SelfManager.h"
 #import "THNApi.h"
 #import "SVProgressHUD+Helper.h"
+#import "THNLoginManager.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 static NSString *const kURLFollow   = @"/follow/user";
 static NSString *const kURLUnFollow = @"/unfollow/user";
@@ -24,8 +27,27 @@ static NSString *const kKeyStatus   = @"followed_status";
     [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status grassListModel:(THNGrassListModel *)model {
+    self.grassListModel = model;
+    self.userId = model.uid;
+    [self setFollowUserStatus:status];
+    [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status shopWindowModel:(THNShopWindowModel *)model {
+    self.shopWindowModel = model;
+    self.userId = model.uid;
+    [self setFollowUserStatus:status];
+    [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
     if (!self.userId.length) {
         [SVProgressHUD thn_showInfoWithStatus:@"用户数据错误"];
         return;
@@ -38,7 +60,22 @@ static NSString *const kKeyStatus   = @"followed_status";
                              
                              [self setFollowUserStatus:(THNUserFollowStatus)status];
                              self.userModel.followed_status = status;
+                             self.grassListModel.is_follow = status;
+                             self.shopWindowModel.is_follow = status;
                          }];
+}
+
+/**
+ 打开登录视图
+ */
+- (void)thn_openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
+                                                                                     animated:YES
+                                                                                   completion:nil];
+    });
 }
 
 #pragma mark - request

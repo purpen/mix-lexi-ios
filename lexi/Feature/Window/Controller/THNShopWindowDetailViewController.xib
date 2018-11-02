@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="THNShopWindowDetailViewController">
             <connections>
+                <outlet property="commentView" destination="S6a-g3-8D5" id="Wt0-Am-xXd"/>
                 <outlet property="fieldBackgroundView" destination="Aeg-4x-9QY" id="MBA-vN-U6U"/>
                 <outlet property="tableView" destination="XHf-oh-qXc" id="Sfp-Vc-bpR"/>
                 <outlet property="tableViewTopConstraint" destination="wih-XB-P6Q" id="Z1r-Yb-OKP"/>

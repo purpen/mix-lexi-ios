@@ -20,9 +20,10 @@ static NSString *const kUrlCollections = @"/column/collections";
 static NSString *const KAllsetCellIdentifier = @"KAllsetCellIdentifier";
 static CGFloat const kCellRowHeight = 382;
 
-@interface THNAllsetTableViewController ()<THNNavigationBarViewDelegate>
+@interface THNAllsetTableViewController ()<THNNavigationBarViewDelegate, THNMJRefreshDelegate>
 
-@property (nonatomic, strong) NSArray *collections;
+@property (nonatomic, strong) NSMutableArray *collections;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -30,7 +31,6 @@ static CGFloat const kCellRowHeight = 382;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupUI];
     [self loadCollectionData];
 }
@@ -43,14 +43,27 @@ static CGFloat const kCellRowHeight = 382;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNAllsetTableViewCell" bundle:nil] forCellReuseIdentifier:KAllsetCellIdentifier];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadCollectionData {
-    [self showHud];
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCollections requestDictionary:nil delegate:nil];
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlCollections requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
-        self.collections = result.data[@"collections"];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.collections addObjectsFromArray:result.data[@"collections"]];
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -80,7 +93,6 @@ static CGFloat const kCellRowHeight = 382;
     };
     
     THNCollectionModel *collectionModel = [THNCollectionModel mj_objectWithKeyValues:self.collections[indexPath.row]];
-    cell.collectionModel = nil;
     [cell setCollectionModel:collectionModel];
     return cell;
 }
@@ -88,6 +100,20 @@ static CGFloat const kCellRowHeight = 382;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return kCellRowHeight;
+}
+
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadCollectionData];
+}
+
+#pragma mark - lazy
+- (NSMutableArray *)collections {
+    if (!_collections) {
+        _collections = [NSMutableArray array];
+    }
+    return _collections;
 }
 
 @end

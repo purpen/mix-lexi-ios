@@ -377,8 +377,10 @@ THNActivityViewDelegate
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    // 业务隐藏
     if (section == 0) {
-        return self.activityView;
+//        return self.activityView;
+        return [[UIView alloc]init];
     } else if (section == 1){
         UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kPopularFooterViewHeight)];
         footerView.backgroundColor = [UIColor whiteColor];
@@ -393,7 +395,7 @@ THNActivityViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return 130;
+        return 0;
     } else if (section == 1) {
         return kPopularFooterViewHeight;
     } else {

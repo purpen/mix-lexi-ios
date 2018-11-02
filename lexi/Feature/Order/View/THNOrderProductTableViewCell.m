@@ -26,6 +26,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.productImageView.layer.masksToBounds = YES;
     [self borderButtonStyle];
 }
 

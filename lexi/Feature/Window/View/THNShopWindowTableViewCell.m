@@ -18,6 +18,7 @@
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
 #import "UIImageView+SDWedImage.h"
+#import "THNFollowUserButton+SelfManager.h"
 
 CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
@@ -29,7 +30,7 @@ CGFloat sevenToGrowImageHeight = 90;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *identityImageView;
-@property (weak, nonatomic) IBOutlet UIButton *flowButton;
+@property (weak, nonatomic) IBOutlet THNFollowUserButton *flowButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *desLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
@@ -51,6 +52,8 @@ CGFloat sevenToGrowImageHeight = 90;
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    [self.flowButton setupViewUI];
+    [self.flowButton drawCornerWithType:0 radius:4];
 }
 
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
@@ -97,6 +100,13 @@ CGFloat sevenToGrowImageHeight = 90;
             [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
             break;
     }
+    
+    // 业务隐藏
+    self.likeLabel.hidden = YES;
+    self.commentLabel.hidden = YES;
+    self.buttonView.hidden = YES;
+    self.titleLabelTopConstraint.constant = -35;
+    [self.flowButton selfManagerFollowUserStatus:shopWindowModel.is_follow shopWindowModel:shopWindowModel];
     
 }
 

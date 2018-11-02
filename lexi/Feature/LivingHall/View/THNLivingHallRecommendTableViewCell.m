@@ -94,7 +94,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 - (void)removeLikeUser:(NSString *)rid {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlUserLike requestDictionary:params delegate:nil ];
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlUserLike requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
@@ -123,6 +123,8 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 - (IBAction)changeLikeStatu:(UIButton *)sender {
     sender.selected = !sender.selected;
+    self.productModel.is_like = sender.selected;
+    
     if (!sender.selected) {
         self.likeLabel.textColor = [UIColor colorWithHexString:@"959fa7"];
         self.likeImageView.image = [UIImage imageNamed:@"icon_humbsUp_gray"];

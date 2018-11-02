@@ -16,14 +16,16 @@
 #import "THNGoodsInfoViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNBrandHallViewController.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 static NSString *const kUrlFeatureStore = @"/column/feature_store_all";
 static NSString *const kBrandHallFeaturesCellIdentifier = @"kBrandHallFeaturesCellIdentifier";
 static CGFloat const kBrandHallFeaturesHeight = 300;
 
-@interface THNBrandHallFeaturesTableViewController ()
+@interface THNBrandHallFeaturesTableViewController () <THNMJRefreshDelegate>
 
-@property (nonatomic, strong) NSArray *stores;
+@property (nonatomic, strong) NSMutableArray *stores;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -41,20 +43,27 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.rowHeight = kBrandHallFeaturesHeight;
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadFeatureStoreData {
-    [self showHud];
-    
-    THNRequest *request = [THNAPI getWithUrlString:kUrlFeatureStore requestDictionary:nil delegate:nil];
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlFeatureStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
-        THNLog(@"------- 品牌馆 %@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
-        self.stores = result.data[@"stores"];
+        
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.stores addObjectsFromArray:result.data[@"stores"]];
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -89,6 +98,20 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
     brandHallVC.rid = brandModel.rid;
     [self.navigationController pushViewController:brandHallVC animated:YES];
+}
+
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadFeatureStoreData];
+}
+
+#pragma mark - lazy
+- (NSMutableArray *)stores {
+    if (!_stores) {
+        _stores = [NSMutableArray array];
+    }
+    return _stores;
 }
 
 @end

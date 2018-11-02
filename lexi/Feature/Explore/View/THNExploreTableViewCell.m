@@ -150,8 +150,7 @@ CGFloat const cellOtherHeight = 190;
         return cell;
     } else if (self.cellType == ExploreFeaturedBrand) {
         THNBrandCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandCellIdentifier forIndexPath:indexPath];
-        THNFeaturedBrandModel *featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.brandHallDataArray[indexPath.row]];
-        [cell setFeatureBrandModel:featuredBrandModel];
+        [cell setFeatureBrandModel:self.brandHallDataArray[indexPath.row]];
         return cell;
     } else {
        THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCellIdentifier forIndexPath:indexPath];
