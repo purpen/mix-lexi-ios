@@ -41,6 +41,7 @@
 #import "THNBaseNavigationController.h"
 #import "THNShareViewController.h"
 #import "THNUserCenterViewController.h"
+#import "THNShareImageViewController.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -526,15 +527,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 - (void)thn_didSelectImageAtIndex:(NSInteger)index {
-    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
-                                                                                                 skuModel:self.skuModel];
-    [goodsImageVC thn_scrollContentWithIndex:index];
-    [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
-                                  handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
-                       titleAttributedString:[self thn_getGoodsInfoTitle]];
-    goodsImageVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    
-    [self presentViewController:goodsImageVC animated:NO completion:nil];
+    [self thn_openGoodsImageControllerWithIndex:index];
 }
 
 - (void)thn_didSelectedGoodsLikedUser:(NSString *)userId {
@@ -664,7 +657,9 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  打开卖货分享图片视图
  */
 - (void)thn_openGoodsSellShareController {
-    [SVProgressHUD thn_showInfoWithStatus:@"卖货"];
+    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] init];
+    shareImageVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareImageVC animated:NO completion:nil];
 }
 
 /**
@@ -705,6 +700,21 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc] init];
     brandHall.rid = rid;
     [self.navigationController pushViewController:brandHall animated:YES];
+}
+
+/**
+ 查看商品图片
+ */
+- (void)thn_openGoodsImageControllerWithIndex:(NSInteger)index {
+    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
+                                                                                                 skuModel:self.skuModel];
+    [goodsImageVC thn_scrollContentWithIndex:index];
+    [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
+                                  handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
+                       titleAttributedString:[self thn_getGoodsInfoTitle]];
+    goodsImageVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    [self presentViewController:goodsImageVC animated:NO completion:nil];
 }
 
 /**
