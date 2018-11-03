@@ -583,7 +583,7 @@ static NSString *const kKeyQuantity = @"quantity";
 
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf thn_startEditCartGoods:!self.isCartEdit];
+        [weakSelf thn_startEditCartGoods:!weakSelf.isCartEdit];
     }];
 }
 
@@ -594,7 +594,8 @@ static NSString *const kKeyQuantity = @"quantity";
 #pragma mark - getters and setters
 - (CGFloat)thn_originBottom {
     CGFloat tabbarH = self.tabBarController.tabBar.frame.size.height;
-    CGFloat originBottom = self.navigationController.viewControllers.count == 1 ? tabbarH : 32.0;
+    CGFloat originY = kDeviceiPhoneX ? 32 : 0;
+    CGFloat originBottom = self.navigationController.viewControllers.count == 1 ? tabbarH : originY;
     
     return originBottom;
 }
