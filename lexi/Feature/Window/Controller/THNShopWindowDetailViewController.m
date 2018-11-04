@@ -40,6 +40,7 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewheightConstraint;
 
 @end
 
@@ -121,9 +122,10 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 - (void)setupUI {
     // 业务隐藏
     self.commentView.hidden = YES;
+    self.commentViewheightConstraint = 0;
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     self.tableViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
-    self.navigationBarView.title = @"橱窗详情";
+    self.navigationBarView.title = @"橱窗";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 }
@@ -181,22 +183,17 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat imageViewHeight = 0.0;
     switch (self.cellType) {
         case ShopWindowDetailCellTypeMain:
+
             switch (self.imageType) {
                 case ShopWindowImageTypeThree:
-                    imageViewHeight = 0.0;
-                    break;
+                    return  180 + threeImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
                 case ShopWindowImageTypeFive:
-                    imageViewHeight = fiveToGrowImageHeight;
-                    break;
+                    return  180 + threeImageHeight + fiveToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
                 default:
-                    imageViewHeight = sevenToGrowImageHeight;
-                    break;
+                    return  180 + threeImageHeight + sevenToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
             }
-            return self.shopWindowCellHeight + imageViewHeight - shopWindowCellHiddenHeight;
-            break;
         case ShopWindowDetailCellTypeComment:
             return 1250;
             break;
@@ -207,6 +204,13 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
             return kCellLifeAestheticsHeight + 90;
             break;
     }
+}
+
+//获取字符串高度的方法
+- (CGFloat)getSizeByString:(NSString*)string AndFontSize:(UIFont *)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 36, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    return size.height;
 }
 
 #pragma mark - lazy

@@ -103,8 +103,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 // 初始化页码
 - (void)initPageNumber {
     self.pageCount = 1;
-    self.curatorPerPageCount = 3;
-    self.weekPopularPerPageCount = 4;
+    self.curatorPerPageCount = 10;
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -157,23 +156,29 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 }
 
 // 删除馆长推荐商品
-- (void)deleteProduct:(NSString *)rid {
+- (void)deleteProduct:(NSString *)rid initCellIndex:(NSInteger)index {
+    [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self loadCuratorRecommendedData];
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        [self.recommendedMutableArray removeObjectAtIndex:index];
+        [self.tableView deleteRow:index inSection:0 withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
 // 本周最受人气欢迎
 - (void)loadWeekPopularData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @(1);
-    params[@"per_page"] = @(self.weekPopularPerPageCount);
     THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
@@ -227,7 +232,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     cell.deleteProductBlock = ^(UITableViewCell *cell) {
         NSIndexPath *indexPath = [tableView indexPathForCell:cell];
          THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
-        [weakSelf deleteProduct:productModel.rid];
+        [weakSelf deleteProduct:productModel.rid initCellIndex:indexPath.row];
     };
     
     cell.shareProductBlock = ^{

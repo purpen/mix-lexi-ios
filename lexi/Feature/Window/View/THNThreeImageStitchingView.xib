@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,19 +18,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="Ugs-Lf-hNF">
-                    <rect key="frame" x="0.0" y="0.0" width="278.5" height="250"/>
+                    <rect key="frame" x="0.0" y="0.0" width="277" height="250"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="250" id="iQJ-rZ-GOQ"/>
                     </constraints>
                 </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YaA-07-x6v">
-                    <rect key="frame" x="278.5" y="0.0" width="139.5" height="250"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="YaA-07-x6v">
+                    <rect key="frame" x="279" y="0.0" width="139" height="250"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="77g-Rk-OgH">
-                            <rect key="frame" x="0.0" y="0.0" width="139.5" height="125"/>
+                            <rect key="frame" x="0.0" y="0.0" width="139" height="124"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="TA2-zi-Fy3">
-                            <rect key="frame" x="0.0" y="125" width="139.5" height="125"/>
+                            <rect key="frame" x="0.0" y="126" width="139" height="124"/>
                         </imageView>
                     </subviews>
                     <constraints>
@@ -39,7 +39,7 @@
                     </constraints>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULH-wJ-CZv">
-                    <rect key="frame" x="336" y="173.5" width="24.5" height="28"/>
+                    <rect key="frame" x="336.5" y="175" width="24.5" height="28"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -55,7 +55,7 @@
                 <constraint firstItem="YaA-07-x6v" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ZYK-I6-Eow"/>
                 <constraint firstItem="ULH-wJ-CZv" firstAttribute="centerY" secondItem="TA2-zi-Fy3" secondAttribute="centerY" id="cuk-Sc-rzA"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="gXv-Vv-nf0"/>
-                <constraint firstItem="YaA-07-x6v" firstAttribute="leading" secondItem="Ugs-Lf-hNF" secondAttribute="trailing" id="nxz-zK-f9D"/>
+                <constraint firstItem="YaA-07-x6v" firstAttribute="leading" secondItem="Ugs-Lf-hNF" secondAttribute="trailing" constant="2" id="nxz-zK-f9D"/>
                 <constraint firstItem="YaA-07-x6v" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="w5G-8k-pEQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

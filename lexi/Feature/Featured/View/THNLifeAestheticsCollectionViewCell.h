@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class THNLifeRecordModel;
+@class THNShopWindowModel;
 
 @interface THNLifeAestheticsCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) THNLifeRecordModel *lifeRecordModel;
+@property (nonatomic, strong) THNShopWindowModel *lifeRecordModel;
 
 @end

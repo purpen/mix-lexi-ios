@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="THNShopWindowDetailViewController">
             <connections>
                 <outlet property="commentView" destination="S6a-g3-8D5" id="Wt0-Am-xXd"/>
+                <outlet property="commentViewheightConstraint" destination="l1h-nR-dyJ" id="hUL-w7-egf"/>
                 <outlet property="fieldBackgroundView" destination="Aeg-4x-9QY" id="MBA-vN-U6U"/>
                 <outlet property="tableView" destination="XHf-oh-qXc" id="Sfp-Vc-bpR"/>
                 <outlet property="tableViewTopConstraint" destination="wih-XB-P6Q" id="Z1r-Yb-OKP"/>
@@ -25,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XHf-oh-qXc">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6a-g3-8D5">
@@ -105,7 +106,7 @@
                 <constraint firstItem="S6a-g3-8D5" firstAttribute="leading" secondItem="ETm-UV-x66" secondAttribute="leading" id="9zZ-1B-xUd"/>
                 <constraint firstItem="XHf-oh-qXc" firstAttribute="leading" secondItem="Yu1-BI-N6m" secondAttribute="leading" id="DqV-Nc-7gM"/>
                 <constraint firstItem="S6a-g3-8D5" firstAttribute="bottom" secondItem="Yu1-BI-N6m" secondAttribute="bottom" id="M1G-tm-w0d"/>
-                <constraint firstItem="S6a-g3-8D5" firstAttribute="top" secondItem="XHf-oh-qXc" secondAttribute="bottom" id="dKD-0u-CJy"/>
+                <constraint firstItem="Yu1-BI-N6m" firstAttribute="bottom" secondItem="XHf-oh-qXc" secondAttribute="bottom" id="Nm6-yN-i8B"/>
                 <constraint firstItem="Yu1-BI-N6m" firstAttribute="trailing" secondItem="S6a-g3-8D5" secondAttribute="trailing" id="oQW-JG-ntI"/>
                 <constraint firstItem="XHf-oh-qXc" firstAttribute="trailing" secondItem="Yu1-BI-N6m" secondAttribute="trailing" id="ocq-kq-824"/>
                 <constraint firstItem="XHf-oh-qXc" firstAttribute="top" secondItem="ETm-UV-x66" secondAttribute="top" id="wih-XB-P6Q"/>

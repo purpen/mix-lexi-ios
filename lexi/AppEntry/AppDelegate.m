@@ -29,7 +29,7 @@
     [self setRootViewController];
     [self setThirdExpandConfig];
     // U-Share 平台设置
-    [self configUSharePlatforms];
+//    [self configUSharePlatforms];
     [self configWXPlatforms];
     
     return YES;
@@ -71,26 +71,25 @@
 }
 
 #pragma mark - 友盟设置
-- (void)configUSharePlatforms
-{
-    /* 打开调试日志 */
-    [[UMSocialManager defaultManager] openLog:YES];
-
-    /* 设置友盟appkey */
-    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppleKey];
-    /* 设置微信的appKey和appSecret */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAppKey appSecret:kWXAppSecret redirectURL:@"http:mobile.umeng.com/social"];
-    /*
-     * 移除相应平台的分享，如微信收藏
-     */
-    //[[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
-    /* 设置分享到QQ互联的appID
-     * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
-     */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1105821097"/*设置QQ平台的appID*/  appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
-    /* 设置新浪的appKey和appSecret */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWBAppKey appSecret:kWBAppSecret redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
-}
+//- (void)configUSharePlatforms
+//{
+//    /* 打开调试日志 */
+//    [[UMSocialManager defaultManager] openLog:YES];
+//    /* 设置友盟appkey */
+//    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppleKey];
+//    /* 设置微信的appKey和appSecret */
+//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAppKey appSecret:kWXAppSecret redirectURL:@"http:mobile.umeng.com/social"];
+//    /*
+//     * 移除相应平台的分享，如微信收藏
+//     */
+//    //[[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
+//    /* 设置分享到QQ互联的appID
+//     * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
+//     */
+//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1105821097"/*设置QQ平台的appID*/  appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
+//    /* 设置新浪的appKey和appSecret */
+//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWBAppKey appSecret:kWBAppSecret redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
+//}
 
 #pragma mark - 微信支付设置
 - (void)configWXPlatforms {

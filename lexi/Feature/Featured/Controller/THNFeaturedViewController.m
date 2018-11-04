@@ -548,8 +548,9 @@ THNActivityViewDelegate
 }
 
 // 橱窗主页
-- (void)pushShopWindow:(NSInteger)rid {
+- (void)pushShopWindow:(THNShopWindowModel *)shopWindowModel {
     THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.shopWindowModel = shopWindowModel;
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 

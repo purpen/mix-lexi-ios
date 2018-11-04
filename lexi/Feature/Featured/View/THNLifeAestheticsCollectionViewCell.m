@@ -9,7 +9,7 @@
 #import "THNLifeAestheticsCollectionViewCell.h"
 #import "UIView+Helper.h"
 #import "UIImageView+WebCache.h"
-#import "THNLifeRecordModel.h"
+#import "THNShopWindowModel.h"
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
 #import "UIImageView+SDWedImage.h"
@@ -37,7 +37,7 @@
     [self drwaShadow];
 }
 
-- (void)setLifeRecordModel:(THNLifeRecordModel *)lifeRecordModel {
+- (void)setLifeRecordModel:(THNShopWindowModel *)lifeRecordModel {
     _lifeRecordModel = lifeRecordModel;
     self.nameLabel.text = lifeRecordModel.user_name;
     self.contentLabel.text = lifeRecordModel.des;

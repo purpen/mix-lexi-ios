@@ -290,10 +290,10 @@ UICollectionViewDelegateFlowLayout
         
     } else if ([sectionTitle isEqualToString:KSearchRecentlyViewedTitle]) {
         self.searchTintType = SearchTintTypeRecentlyViewed;
-        return CGSizeMake(SCREEN_WIDTH, 129);
+        return CGSizeMake(SCREEN_WIDTH, 146);
     } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
         self.searchTintType = SearchTintTypePopularRecommend;
-        return CGSizeMake(75, 72);
+        return CGSizeMake((SCREEN_WIDTH) / 4, 72);
     } else {
         self.searchTintType = SearchTintTypePopularSearch;
         return CGSizeMake(SCREEN_WIDTH, 50);
@@ -327,13 +327,19 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    switch (self.searchTintType) {
+        case SearchTintTypePopularRecommend:
+            return 0;
+        default:
+            return 10;
+    }
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     switch (self.searchTintType) {
+        case SearchTintTypeRecentlyViewed:
         case SearchTintTypePopularRecommend:
-            return UIEdgeInsetsMake(15, 10, 20, 20);
+            return UIEdgeInsetsMake(15, 0, 20, 0);
         default:
             return UIEdgeInsetsMake(15, 20, 20, 20);
     }
@@ -407,7 +413,6 @@ UICollectionViewDelegateFlowLayout
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT + 20, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:layout];
-        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 70, 0);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -437,12 +442,12 @@ UICollectionViewDelegateFlowLayout
 
 - (THNRecentlyViewedCollectionView *)productCollectionView {
     if (!_productCollectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
-                                                                                       initWithWidth:100
-                                                                                      initwithHeight:129];
-        layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 40);
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:10
+    initWithWidth:100
+                                                                                      initwithHeight:146];
+        layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _productCollectionView = [[THNRecentlyViewedCollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 129) collectionViewLayout:layout];
+        _productCollectionView = [[THNRecentlyViewedCollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 146) collectionViewLayout:layout];
     }
     return _productCollectionView;
 }

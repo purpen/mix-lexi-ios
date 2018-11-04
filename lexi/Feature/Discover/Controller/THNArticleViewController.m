@@ -287,7 +287,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         case ArticleCellTypeStore:
             return 110;
         case ArticleCellTypeProduct:
-            return 279;
+            return 259;
         case ArticleCellTypeStory:
             if (!self.storyCellHeight) {
                 self.storyCellHeight = [self getCellHeight:self.lifeRecords] + 10;

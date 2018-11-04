@@ -20,28 +20,28 @@ PODS:
   - HMSegmentedControl (1.5.5)
   - IQKeyboardManager (4.0.13)
   - Masonry (1.1.0)
-  - MJExtension (3.0.15)
+  - MJExtension (3.0.15.1)
   - MJRefresh (3.1.15.3)
   - MLeaksFinder (1.0.0):
     - FBRetainCycleDetector
   - Qiniu (7.2.4):
     - HappyDNS (~> 0.3)
-  - SDWebImage (4.4.1):
-    - SDWebImage/Core (= 4.4.1)
-  - SDWebImage/Core (4.4.1)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
-  - UMCCommon (1.5.1)
+  - UMCCommon (1.5.2)
   - UMCSecurityPlugins (1.0.6)
-  - UMCShare/Core (6.9.3):
+  - UMCShare/Core (6.9.4):
     - UMCCommon
-  - UMCShare/Social/ReducedQQ (6.9.3):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedSina (6.9.3):
+  - UMCShare/Social/ReducedQQ (6.9.4):
     - UMCCommon
     - UMCShare/Core
-  - UMCShare/Social/ReducedWeChat (6.9.3):
+  - UMCShare/Social/ReducedSina (6.9.4):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedWeChat (6.9.4):
     - UMCCommon
     - UMCShare/Core
   - WechatOpenSDK (1.8.2)
@@ -100,19 +100,19 @@ SPEC CHECKSUMS:
   HMSegmentedControl: f514c6dad47aa3065e0ed2e8046b73efc71221b9
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJExtension: 3f039575db1b135a20699ad298713b26acec1528
+  MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
   Qiniu: 65384bca1cdb0480a68d9b9b8f54db53418c0355
-  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
-  UMCCommon: 16b674e9de0616d3a6128c551348a686d869c3c7
+  UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
+  UMCShare: aa233aecad67979930fe43f3a2f676023b669439
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: e8f27eb41bbdd1ae94861f221368678ef5bd7177
+PODFILE CHECKSUM: e3aedc24916c95fb4d771bfe93fa7367082e332f
 
 COCOAPODS: 1.5.3

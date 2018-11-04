@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -17,14 +17,14 @@
             <rect key="frame" x="0.0" y="0.0" width="460" height="345"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xcH-cy-eXM">
-                    <rect key="frame" x="0.0" y="0.0" width="195" height="78"/>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="xcH-cy-eXM">
+                    <rect key="frame" x="0.0" y="0.0" width="194" height="78"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="ZGb-vH-l5W">
-                            <rect key="frame" x="0.0" y="0.0" width="97.5" height="78"/>
+                            <rect key="frame" x="0.0" y="0.0" width="96" height="78"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="Otn-cg-9L5">
-                            <rect key="frame" x="97.5" y="0.0" width="97.5" height="78"/>
+                            <rect key="frame" x="98" y="0.0" width="96" height="78"/>
                         </imageView>
                     </subviews>
                     <constraints>
@@ -33,17 +33,17 @@
                         <constraint firstItem="Otn-cg-9L5" firstAttribute="height" secondItem="ZGb-vH-l5W" secondAttribute="height" id="wDx-sE-OJG"/>
                     </constraints>
                 </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOD-68-93e">
-                    <rect key="frame" x="0.0" y="215" width="460" height="130"/>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="SOD-68-93e">
+                    <rect key="frame" x="0.0" y="217" width="460" height="128"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="zpR-rv-YiM">
-                            <rect key="frame" x="0.0" y="0.0" width="153.5" height="130"/>
+                            <rect key="frame" x="0.0" y="0.0" width="152" height="128"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="vDa-gp-vya">
-                            <rect key="frame" x="153.5" y="0.0" width="153" height="130"/>
+                            <rect key="frame" x="154" y="0.0" width="152" height="128"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="0w1-yh-Pe7">
-                            <rect key="frame" x="306.5" y="0.0" width="153.5" height="130"/>
+                            <rect key="frame" x="308" y="0.0" width="152" height="128"/>
                         </imageView>
                     </subviews>
                     <constraints>
@@ -54,10 +54,10 @@
                     </constraints>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_home_default" translatesAutoresizingMaskIntoConstraints="NO" id="PSn-GW-CbO">
-                    <rect key="frame" x="0.0" y="78" width="195" height="137"/>
+                    <rect key="frame" x="0.0" y="80" width="194" height="135"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_cart_selected" translatesAutoresizingMaskIntoConstraints="NO" id="TuP-WS-dgG">
-                    <rect key="frame" x="195" y="0.0" width="265" height="215"/>
+                    <rect key="frame" x="196" y="0.0" width="264" height="215"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="215" id="b02-KB-wjX"/>
                     </constraints>
@@ -65,18 +65,17 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="TuP-WS-dgG" firstAttribute="leading" secondItem="PSn-GW-CbO" secondAttribute="trailing" id="7ce-OH-xYE"/>
+                <constraint firstItem="TuP-WS-dgG" firstAttribute="leading" secondItem="PSn-GW-CbO" secondAttribute="trailing" constant="2" id="7ce-OH-xYE"/>
                 <constraint firstItem="PSn-GW-CbO" firstAttribute="width" secondItem="xcH-cy-eXM" secondAttribute="width" id="8oW-b7-fLY"/>
                 <constraint firstItem="PSn-GW-CbO" firstAttribute="leading" secondItem="1ml-eD-32S" secondAttribute="leading" id="Al9-cX-2vf"/>
                 <constraint firstItem="TuP-WS-dgG" firstAttribute="top" secondItem="1ml-eD-32S" secondAttribute="top" id="FzH-Fm-MuX"/>
-                <constraint firstItem="PSn-GW-CbO" firstAttribute="top" secondItem="xcH-cy-eXM" secondAttribute="bottom" id="I4l-rS-GxU"/>
+                <constraint firstItem="PSn-GW-CbO" firstAttribute="top" secondItem="xcH-cy-eXM" secondAttribute="bottom" constant="2" id="I4l-rS-GxU"/>
                 <constraint firstAttribute="bottom" secondItem="SOD-68-93e" secondAttribute="bottom" id="OHM-aa-0ho"/>
                 <constraint firstItem="PSn-GW-CbO" firstAttribute="width" secondItem="TuP-WS-dgG" secondAttribute="width" multiplier="158:215" id="QyH-Lc-cYx"/>
                 <constraint firstItem="xcH-cy-eXM" firstAttribute="top" secondItem="1ml-eD-32S" secondAttribute="top" id="TOL-8h-DFE"/>
                 <constraint firstItem="PSn-GW-CbO" firstAttribute="bottom" secondItem="TuP-WS-dgG" secondAttribute="bottom" id="W0w-UI-AWL"/>
-                <constraint firstItem="PSn-GW-CbO" firstAttribute="top" secondItem="xcH-cy-eXM" secondAttribute="bottom" id="Wuq-D7-4o5"/>
                 <constraint firstItem="SOD-68-93e" firstAttribute="leading" secondItem="1ml-eD-32S" secondAttribute="leading" id="c0h-ED-yXT"/>
-                <constraint firstItem="SOD-68-93e" firstAttribute="top" secondItem="TuP-WS-dgG" secondAttribute="bottom" id="gqM-lA-AF4"/>
+                <constraint firstItem="SOD-68-93e" firstAttribute="top" secondItem="TuP-WS-dgG" secondAttribute="bottom" constant="2" id="gqM-lA-AF4"/>
                 <constraint firstItem="1ml-eD-32S" firstAttribute="trailing" secondItem="TuP-WS-dgG" secondAttribute="trailing" id="vb9-I8-jOn"/>
                 <constraint firstItem="1ml-eD-32S" firstAttribute="trailing" secondItem="SOD-68-93e" secondAttribute="trailing" id="xeY-WM-EZa"/>
                 <constraint firstItem="xcH-cy-eXM" firstAttribute="leading" secondItem="1ml-eD-32S" secondAttribute="leading" id="xi1-9f-XqP"/>

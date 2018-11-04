@@ -112,6 +112,7 @@ CGFloat sevenToGrowImageHeight = 90;
 
 // 隐藏橱窗详情橱窗Cell与当前Cell不同点
 - (void)hiddenShowWindowDetail {
+    self.desLabel.numberOfLines = 0;
     [self.threeImageStitchingView removeFromSuperview];
     self.likeLabel.hidden = YES;
     self.commentLabel.hidden = YES;

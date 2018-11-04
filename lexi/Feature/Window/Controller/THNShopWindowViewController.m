@@ -20,6 +20,9 @@
 #import "THNCommentViewController.h"
 #import "UIViewController+THNHud.h"
 #import "UIColor+Extension.h"
+#import "THNLoginManager.h"
+#import "THNLoginViewController.h"
+#import "THNBaseNavigationController.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -61,7 +64,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 }
 
 - (void)setupUI {
-    self.showWindowType = ShowWindowTypeFollow;
+    self.showWindowType = ShowWindowTypeRecommend;
     self.navigationBarView.hidden = YES;
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.stitchingButton];
@@ -107,15 +110,16 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         if (self.showWindowType == ShowWindowTypeFollow) {
-            [self.showWindowFollows addObjectsFromArray:result.data[@"shop_windows"]];
-             self.showWindows = [THNShopWindowModel mj_objectArrayWithKeyValuesArray:self.showWindowFollows];
+            [self.showWindowFollows addObjectsFromArray:[THNShopWindowModel mj_objectArrayWithKeyValuesArray:result.data[@"shop_windows"]]];
+             self.showWindows = self.showWindowFollows;
         } else {
-            [self.showWindowRecommends addObjectsFromArray:result.data[@"shop_windows"]];
-            self.showWindows = [THNShopWindowModel mj_objectArrayWithKeyValuesArray:self.showWindowRecommends];
+            [self.showWindowRecommends addObjectsFromArray:[THNShopWindowModel mj_objectArrayWithKeyValuesArray:result.data[@"shop_windows"]]];
+            self.showWindows = self.showWindowRecommends;
         }
         
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
+        [self.tableView endFooterRefreshAndCurrentPageChange:NO];
         [self hiddenHud];
     }];
 }
@@ -190,6 +194,17 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
     if (index == ShowWindowTypeFollow) {
         self.showWindowType = ShowWindowTypeFollow;
+        if (![THNLoginManager isLogin]) {
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
+                THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
+                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController animated:YES completion:nil];
+            });
+            self.showWindows = self.showWindowFollows;
+            [self.tableView reloadData];
+            return;
+        }
         if (self.showWindowFollows.count > 0) {
             self.showWindows = self.showWindowFollows;
             [self.tableView reloadData];
@@ -229,6 +244,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         NSArray *titleArray =  @[@"关注",@"推荐"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.showImageView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.delegate = self;
+        _selectButtonView.defaultShowIndex = 1;
         _selectButtonView.backgroundColor = [UIColor whiteColor];
     }
     return _selectButtonView;

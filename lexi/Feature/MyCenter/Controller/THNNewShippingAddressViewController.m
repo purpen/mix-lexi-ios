@@ -689,7 +689,7 @@ UITextFieldDelegate
 
 - (NSArray *)placeholders {
     if (!_placeholders) {
-        _placeholders = @[@"收件人真实姓名", @"手机号", @"选择国家", @"选择地区", @"详细地址", @"邮政编码"];
+        _placeholders = @[@"收件人真实姓名", @"手机号", @"选择国家/地区", @"选择地区", @"详细地址", @"邮政编码"];
     }
     return _placeholders;
 }

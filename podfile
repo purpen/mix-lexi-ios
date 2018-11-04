@@ -14,7 +14,6 @@ target "lexi" do
  pod 'TYAlertController', '~> 1.2.0'
  pod 'YYKit'
  pod "Qiniu", "~> 7.1"
- pod 'MLeaksFinder'
  pod 'DateTools'
  pod 'HMSegmentedControl'
  pod 'UMCCommon'
@@ -23,5 +22,6 @@ target "lexi" do
  pod 'UMCShare/Social/ReducedQQ'
  pod 'UMCShare/Social/ReducedSina'
  pod 'WechatOpenSDK'
+ pod 'MLeaksFinder'
 
 end

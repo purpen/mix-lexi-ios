@@ -17,7 +17,7 @@
 #import <MJExtension/MJExtension.h>
 #import "THNMarco.h"
 #import "THNGrassListModel.h"
-#import "THNLifeRecordModel.h"
+#import "THNShopWindowModel.h"
 #import "THNDailyRecommendModel.h"
 #import "THNDailyRecommendCollectionViewCell.h"
 #import "THNPoupalRecommendCollectionViewCell.h"
@@ -32,7 +32,7 @@ static NSString *const kPopularRecommendCellIdentifier = @"kPopularRecommendCell
 
 CGFloat const kCellTodayHeight = 195;
 CGFloat const kCellPopularHeight = 330;
-CGFloat const kCellLifeAestheticsHeight = 293.5;
+CGFloat const kCellLifeAestheticsHeight = 298.5;
 CGFloat const kCellOptimalHeight = 200;
 CGFloat const kCellGrassListHeight = 158;
 
@@ -244,7 +244,7 @@ CGFloat const kCellGrassListHeight = 158;
     
     if (self.cellType == FeaturedLifeAesthetics) {
         THNLifeAestheticsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLifeAestheticsCellIdentifier forIndexPath:indexPath];
-        THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+        THNShopWindowModel *lifeRecordModel = [THNShopWindowModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
         [cell setLifeRecordModel:lifeRecordModel];
         return cell;
     } else if (self.cellType == FearuredGrassList) {
@@ -312,10 +312,10 @@ CGFloat const kCellGrassListHeight = 158;
         }
             
         case FeaturedLifeAesthetics: {
-            THNLifeRecordModel *lifeRecordModel = [THNLifeRecordModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
+            THNShopWindowModel *shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:self.lifeAestheticDataArray[indexPath.row]];
             
             if (self.delagate && [self.delagate respondsToSelector:@selector(pushShopWindow:)]) {
-                [self.delagate pushShopWindow:lifeRecordModel.rid];
+                [self.delagate pushShopWindow:shopWindowModel];
             }
             
             break;
