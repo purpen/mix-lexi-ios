@@ -13,6 +13,10 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "THNMarco.h"
 #import "UIImage+Helper.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";

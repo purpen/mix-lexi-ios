@@ -13,6 +13,7 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import "THNLoginManager.h"
 
 static NSString *const kTextNone = @"已售罄";
 
@@ -69,7 +70,7 @@ static NSString *const kTextNone = @"已售罄";
         self.type = THNGoodsFunctionViewTypeDefault;
     }
     
-    if (model.isDistributed) {
+    if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.type = THNGoodsFunctionViewTypeSell;
     }
 }
