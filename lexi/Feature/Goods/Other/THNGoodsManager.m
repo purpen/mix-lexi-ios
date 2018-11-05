@@ -578,14 +578,15 @@ static NSString *const kKeyUid              = @"uid";
  */
 - (NSString *)thn_getColumnProductsUrlWithListType:(THNGoodsListViewType)type {
     NSDictionary *urlResult = @{
-                                @(THNGoodsListViewTypeEditors):    @"/column/explore_recommend",
-                                @(THNGoodsListViewTypeNewProduct): @"/column/explore_new",
-                                @(THNGoodsListViewTypeGather):     @"/column/affordable_goods",
-                                @(THNGoodsListViewTypeDesign):     @"/column/preferential_design",
-                                @(THNGoodsListViewTypeGoodThing):  @"/column/affordable_goods",
-                                @(THNGoodsListViewTypeOptimal):    @"/column/handpick_optimization",
-                                @(THNGoodsListViewTypeRecommend):  @"/column/handpick_recommend",
-                                @(THNGoodsListViewTypeSearch):     @"/core_platforms/search/products"
+                                @(THNGoodsListViewTypeEditors):      @"/column/explore_recommend",
+                                @(THNGoodsListViewTypeNewProduct):   @"/column/explore_new",
+                                @(THNGoodsListViewTypeGather):       @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeDesign):       @"/column/preferential_design",
+                                @(THNGoodsListViewTypeGoodThing):    @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeOptimal):      @"/column/handpick_optimization",
+                                @(THNGoodsListViewTypeRecommend):    @"/column/handpick_recommend",
+                                @(THNGoodsListViewTypeSearch):       @"/core_platforms/search/products",
+                                @(THNGoodsListViewTypeFreeShipping): @"/products/free_postage"
                                 };
     
     return urlResult[@(type)];
@@ -604,7 +605,8 @@ static NSString *const kKeyUid              = @"uid";
                                  @(THNGoodsListViewTypeCategory):       @"/category/products/count",
                                  @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
                                  @(THNGoodsListViewTypeSearch):         @"/core_platforms/search/products/count",
-                                 @(THNGoodsListViewTypeStore):          @"/core_platforms/products/by_store/count"
+                                 @(THNGoodsListViewTypeStore):          @"/core_platforms/products/by_store/count",
+                                 @(THNGoodsListViewTypeFreeShipping):   @"/products/free_postage/count",
                                  };
     
     return urlResult[@(type)];

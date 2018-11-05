@@ -124,7 +124,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         case THNGoodsListViewTypeEditors:
         case THNGoodsListViewTypeNewProduct:
         case THNGoodsListViewTypeDesign:
-        case THNGoodsListViewTypeGoodThing: {
+        case THNGoodsListViewTypeGoodThing:
+        case THNGoodsListViewTypeFreeShipping: {
             [self thn_showFunctionView:type != THNGoodsListViewTypeGoodThing];
             
             NSDictionary *params = [self thn_requestColumnDefaultParams];
@@ -280,6 +281,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     [self thn_reloadGoodsData];
 }
 
+// 关闭
 - (void)thn_functionPopupViewClose {
     [self.functionView thn_setFunctionButtonSelected:NO];
 }
@@ -304,7 +306,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         case THNGoodsListViewTypeEditors:
         case THNGoodsListViewTypeNewProduct:
         case THNGoodsListViewTypeDesign:
-        case THNGoodsListViewTypeGoodThing: {
+        case THNGoodsListViewTypeGoodThing:
+        case THNGoodsListViewTypeFreeShipping: {
             [self thn_getColumnProductsWithType:self.goodsListType params:self.paramDict];
         }
             break;
