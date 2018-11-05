@@ -13,6 +13,7 @@
 #import "THNGoodsManager.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNGoodsListCollectionReusableView.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 static NSString *const kCollectionViewHeaderViewId = @"kCollectionViewHeaderViewId";
@@ -23,7 +24,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout,
     THNFunctionButtonViewDelegate,
-    THNFunctionPopupViewDelegate
+    THNFunctionPopupViewDelegate,
+    THNMJRefreshDelegate
 >
 
 /// 商品列表
@@ -41,7 +43,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 /// 创建商品视图类型
 @property (nonatomic, assign) THNGoodsListViewType goodsListType;
 /// 分类的 id
-@property (nonatomic, assign) NSInteger categoryId;
+@property (nonatomic, strong) NSString *categoryId;
 /// 请求商品的数据
 @property (nonatomic, strong) NSMutableDictionary *paramDict;
 /// 页码
@@ -65,7 +67,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     return self;
 }
 
-- (instancetype)initWithCategoryId:(NSInteger)categoryId categoryName:(NSString *)name {
+- (instancetype)initWithCategoryId:(NSString *)categoryId categoryName:(NSString *)name {
     self = [super init];
     if (self) {
         self.navigationBarView.title = name;
@@ -103,8 +105,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             NSDictionary *params = [self thn_requestUserDefaultParams];
             [self.paramDict setDictionary:params];
             
-            [self thn_getUserCenterProductsWithType:self.userGoodsType params:params];
             self.popupView.userGoodsType = self.userGoodsType;
+            [self thn_getUserCenterProductsWithType:self.userGoodsType params:params];
         }
             break;
             
@@ -115,8 +117,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             NSDictionary *params = [self thn_requestCategoryDefaultParams];
             [self.paramDict setDictionary:params];
             
-            [self thn_getCategoryProductsWithParams:params];
             [self.popupView thn_setCategoryId:self.categoryId];
+            [self thn_getCategoryProductsWithParams:params];
         }
             break;
     
@@ -131,12 +133,12 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             NSDictionary *params = [self thn_requestColumnDefaultParams];
             [self.paramDict setDictionary:params];
             
-            [self thn_getColumnProductsWithType:type params:params];
-            [self.popupView thn_setCategoryId:self.categoryId];
-            
             if ([self thn_showHeaderView]) {
                 [self thn_getColumnRecordWithType:type params:@{@"per_page": @(12)}];
             }
+            
+            [self.popupView thn_setCategoryId:self.categoryId];
+            [self thn_getColumnProductsWithType:type params:params];
         }
             break;
             
@@ -152,67 +154,91 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
-    [SVProgressHUD thn_show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD thn_show];
+    });
     
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:type
                                             params:params
                                         completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-                                            if (error || !goodsData.count) return;
+                                            if (error || !goodsData.count) {
+                                                [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
+                                                return;
+                                            };
         
                                             [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             [weakSelf.modelArray addObjectsFromArray:goodsData];
                                             [weakSelf.goodsCollectionView reloadData];
+                                            [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
                                             [SVProgressHUD dismiss];
                                         }];
 }
 
 // 获取分类商品数据
 - (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
-    [SVProgressHUD thn_show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD thn_show];
+    });
     
     WEAKSELF;
     
     [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) return;
+        if (error || !goodsData.count) {
+            [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
+            return;
+        };
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
+        [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
         [SVProgressHUD dismiss];
     }];
 }
 
 // 获取接单订制商品
 - (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params {
-    [SVProgressHUD thn_show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD thn_show];
+    });
     
     WEAKSELF;
 
     [THNGoodsManager getCustomizationProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) return;
+        if (error || !goodsData.count) {
+            [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
+            return;
+        };
         
         [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
         [weakSelf.goodsCollectionView reloadData];
+        [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
         [SVProgressHUD dismiss];
     }];
 }
 
 // 获取栏目商品
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    [SVProgressHUD thn_show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD thn_show];
+    });
     
     WEAKSELF;
     
     [THNGoodsManager getColumnProductsWithListType:type
                                             params:params
                                         completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-                                            if (error || !goodsData.count) return;
+                                            if (error || !goodsData.count) {
+                                                [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
+                                                return;
+                                            };
         
                                             [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
                                             [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
                                             [weakSelf.goodsCollectionView reloadData];
+                                            [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
                                             [SVProgressHUD dismiss];
                                         }];
 }
@@ -235,6 +261,10 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 }
 
 #pragma mark - custom delegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    [self thn_reloadGoodsDataWithPage:currentPage.integerValue loadMore:YES];
+}
+
 - (void)thn_functionViewSelectedWithIndex:(NSInteger)index {
     if (index == 0) {
         [self.popupView thn_showFunctionViewWithType:(THNFunctionPopupViewTypeSort)];
@@ -257,7 +287,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     self.sortNewest = self.sortNewest == 0 ? 1 : 0;
     [self.paramDict setObject:@(self.sortNewest) forKey:@"sort_newest"];
     
-    [self thn_reloadGoodsData];
+    [self thn_reloadGoodsDataWithPage:1 loadMore:NO];
 }
 
 // 排序
@@ -266,7 +296,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     [self.functionView thn_setSelectedButtonTitle:title];
     
     [self.paramDict setObject:@(type) forKey:@"sort_type"];
-    [self thn_reloadGoodsData];
+    [self thn_reloadGoodsDataWithPage:1 loadMore:NO];
 }
 
 // 筛选
@@ -278,7 +308,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     [self.functionView thn_setSelectedButtonTitle:screenStr];
     
     [self.paramDict setValuesForKeysWithDictionary:screenParams];
-    [self thn_reloadGoodsData];
+    [self thn_reloadGoodsDataWithPage:1 loadMore:NO];
 }
 
 // 关闭
@@ -288,8 +318,14 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 #pragma mark - private methods
 // 刷新商品数据
-- (void)thn_reloadGoodsData {
-    [self.modelArray removeAllObjects];
+- (void)thn_reloadGoodsDataWithPage:(NSInteger)page loadMore:(BOOL)loadMore {
+    if (!loadMore) {
+        [self.goodsCollectionView resetCurrentPageNumber];
+        [self.modelArray removeAllObjects];
+    }
+    
+    self.currentPage = page;
+    [self.paramDict setObject:@(page) forKey:@"page"];
     
     switch (self.goodsListType) {
         case THNGoodsListViewTypeUser: {
@@ -311,6 +347,10 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             [self thn_getColumnProductsWithType:self.goodsListType params:self.paramDict];
         }
             break;
+            
+        case THNGoodsListViewTypeCustomization: {
+            [self thn_getCustomizationProductsWithParams:self.paramDict];
+        }
             
         default:
             break;
@@ -335,7 +375,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 分类商品数据：默认的请求参数
 - (NSDictionary *)thn_requestCategoryDefaultParams {
-    NSDictionary *params = @{@"id": @(self.categoryId),
+    NSDictionary *params = @{@"id": self.categoryId,
                              @"page": @(self.currentPage += 1),
                              @"per_page": @(10),
                              @"status": @(1)};
@@ -469,6 +509,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 - (void)setupUI {
     [self.view addSubview:self.goodsCollectionView];
     [self.view addSubview:self.functionView];
+    
+    [self.goodsCollectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.goodsCollectionView resetCurrentPageNumber];
     
     [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
 }

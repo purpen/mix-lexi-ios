@@ -119,7 +119,7 @@
  @param pid 父 id (获取全部时为 0)
  @param completion 完成回调
  */
-+ (void)getCategoryDataWithPid:(NSInteger)pid
++ (void)getCategoryDataWithPid:(NSString *)pid
                     completion:(void (^)(NSArray *categoryData, NSError *error))completion;
 
 /**

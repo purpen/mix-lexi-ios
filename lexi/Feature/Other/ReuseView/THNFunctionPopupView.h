@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 /**
  显示分类时：父类 id
  */
-@property (nonatomic, assign) NSInteger categoryId;
+@property (nonatomic, strong) NSString *categoryId;
 
 /**
  视图类型
@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, THNFunctionPopupViewType) {
 /**
  设置分类id 获取子分类
  */
-- (void)thn_setCategoryId:(NSInteger)cid;
+- (void)thn_setCategoryId:(NSString *)cid;
 
 /**
  设置子分类数据

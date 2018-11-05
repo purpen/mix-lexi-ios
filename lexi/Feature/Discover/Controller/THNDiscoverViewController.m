@@ -260,7 +260,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     [self.navigationController pushViewController:articleVC animated:YES];
 }
 
-- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
 }

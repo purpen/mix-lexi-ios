@@ -111,7 +111,7 @@ static NSString *const kKeyUid              = @"uid";
     [[THNGoodsManager sharedManager] requestColumnRecordWithParams:paramDict completion:completion];
 }
 
-+ (void)getCategoryDataWithPid:(NSInteger)pid completion:(void (^)(NSArray *, NSError *))completion {
++ (void)getCategoryDataWithPid:(NSString *)pid completion:(void (^)(NSArray *, NSError *))completion {
     [[THNGoodsManager sharedManager] requestCategoryWithPid:pid completion:completion];
 }
 
@@ -304,6 +304,8 @@ static NSString *const kKeyUid              = @"uid";
  获取栏目的商品
  */
 - (void)requestColumnProductsWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSArray *, NSInteger , NSError *))completion {
+    if (!url.length) return;
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
@@ -342,6 +344,8 @@ static NSString *const kKeyUid              = @"uid";
  获取商品数量
  */
 - (void)requestProductsCountWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(NSInteger , NSError *))completion {
+    if (!url.length) return;
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
@@ -381,11 +385,13 @@ static NSString *const kKeyUid              = @"uid";
 /**
  获取分类
  */
-- (void)requestCategoryWithPid:(NSInteger)pid completion:(void (^)(NSArray *, NSError *))completion {
-    THNRequest *request = [THNAPI getWithUrlString:kURLCategories requestDictionary:@{kKeyPid: @(pid)} delegate:nil];
+- (void)requestCategoryWithPid:(NSString *)pid completion:(void (^)(NSArray *, NSError *))completion {
+    if (!pid.length) return;
+    
+    THNRequest *request = [THNAPI getWithUrlString:kURLCategories requestDictionary:@{kKeyPid: pid} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
@@ -405,6 +411,8 @@ static NSString *const kKeyUid              = @"uid";
  @param completion 完成回调
  */
 - (void)requestFreightTemplateDataWithUrl:(NSString *)url params:(NSDictionary *)params completion:(void (^)(THNFreightModel *model, NSError *error))completion {
+    if (!url.length) return;
+    
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {

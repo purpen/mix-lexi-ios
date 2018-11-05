@@ -370,7 +370,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     WEAKSELF
     self.bannerView.delegate = self;
     [headerView addSubview:self.bannerView];
-    self.categoriesCollectionView.categoriesBlock = ^(NSInteger categorieID, NSString *name) {
+    self.categoriesCollectionView.categoriesBlock = ^(NSString *categorieID, NSString *name) {
         THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
         [weakSelf.navigationController pushViewController:goodsListVC animated:YES];
     };
@@ -472,7 +472,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [self.navigationController pushViewController:articleVC animated:YES];
 }
 
-- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSInteger)categorieID {
+- (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
 }

@@ -149,7 +149,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 
  @param cid 父类 id
  */
-- (void)thn_setCategoryId:(NSInteger)cid {
+- (void)thn_setCategoryId:(NSString *)cid {
     self.categoryId = cid;
     
     [THNGoodsManager getCategoryDataWithPid:cid completion:^(NSArray *categoryData, NSError *error) {
@@ -221,13 +221,13 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self thn_requestScreenGoodsData];
 }
 
-- (void)thn_getCategoryId:(NSInteger)cid selected:(BOOL)selected {
+- (void)thn_getCategoryId:(NSString *)cid selected:(BOOL)selected {
     if (selected) {
-        [self.categoryIdArr addObject:@(cid)];
+        [self.categoryIdArr addObject:cid];
         self.selectedCount += 1;
         
     } else {
-        [self.categoryIdArr removeObject:@(cid)];
+        [self.categoryIdArr removeObject:cid];
         self.selectedCount -= 1;
     }
     
@@ -267,14 +267,14 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                    kKeyMaxPrice: @(self.maxPrice)};
         
     } else if (self.goodsListType == THNGoodsListViewTypeStore){
-        params = @{kKeyId: @(self.categoryId),
+        params = @{kKeyId: self.categoryId,
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice),
                    kKeySid : self.sid};
         
     } else {
-        params = @{kKeyId: @(self.categoryId),
+        params = @{kKeyId: self.categoryId,
                    kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
                    kKeyMinPrice: @(self.minPrice),
                    kKeyMaxPrice: @(self.maxPrice),

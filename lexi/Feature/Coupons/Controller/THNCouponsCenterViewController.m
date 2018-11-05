@@ -110,7 +110,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [THNCouponManager getCouponsCenterOfBrandWithCategory:categoryId
-                                                       params:@{}
+                                                       params:@{@"per_page": @(50)}
                                                    completion:^(NSArray *data, NSError *error) {
                                                        dispatch_group_leave(group);
                                                        
@@ -133,7 +133,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [THNCouponManager getCouponsCenterOfProductWithCategory:categoryId
-                                                         params:@{}
+                                                         params:@{@"per_page": @(50)}
                                                      completion:^(NSArray *data, NSError *error) {
                                                          dispatch_group_leave(group);
                                                          

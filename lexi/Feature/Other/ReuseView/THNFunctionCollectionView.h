@@ -10,7 +10,7 @@
 
 @protocol THNFunctionCollectionViewDelegate <NSObject>
 
-- (void)thn_getCategoryId:(NSInteger)cid selected:(BOOL)selected;
+- (void)thn_getCategoryId:(NSString *)cid selected:(BOOL)selected;
 - (void)thn_getRecommandTags:(NSString *)selectTag selected:(BOOL)selected;
 
 @end
