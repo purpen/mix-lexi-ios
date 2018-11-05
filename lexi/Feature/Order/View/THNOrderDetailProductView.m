@@ -117,7 +117,7 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
         cell.logisticsView.hidden = NO;
     }
     
-    if (self.detailModel.user_order_status == OrderStatusWaitDelivery || self.detailModel.user_order_status == OrderStatusReceipt) {
+    if (self.detailModel.user_order_status == OrderStatusReceipt) {
         cell.logisticsButton.hidden = NO;
     } else {
         cell.logisticsButton.hidden = YES;

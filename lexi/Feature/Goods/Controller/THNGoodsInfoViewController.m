@@ -42,6 +42,7 @@
 #import "THNShareViewController.h"
 #import "THNUserCenterViewController.h"
 #import "THNShareImageViewController.h"
+#import "THNCouponDetailView.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -67,14 +68,20 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 @property (nonatomic, strong) NSArray *likedUserArr;
 /// 相似的商品
 @property (nonatomic, strong) NSArray *similarGoodsArr;
-/// 优惠券
-@property (nonatomic, strong) NSArray *couponArr;
+@property (nonatomic, strong) NSArray *fullReductions;
+@property (nonatomic, strong) NSArray *allCouponsArr;
+@property (nonatomic, strong) NSArray *loginCoupons;
+@property (nonatomic, strong) NSArray *noLoginCoupons;
 /// 详情的高度
 @property (nonatomic, assign) CGFloat dealContentH;
 /// 图片列表
 @property (nonatomic, strong) THNImagesView *imagesView;
 /// 底部功能视图
 @property (nonatomic, strong) THNGoodsFunctionView *functionView;
+/// 优惠券详情视图
+@property (nonatomic, strong) THNCouponDetailView *couponDetailView;
+// 满减信息
+@property (nonatomic, strong) NSMutableString *mutableString;
 
 @end
 
@@ -126,6 +133,9 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         [weakSelf thn_getGoodsInfoSkuDataWithGroup:group];
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
         [weakSelf thn_getGoodsInfoStoreCouponDataWithGroup:group];
+        if ([THNLoginManager isLogin]) {
+            [weakSelf thn_getUserMasterCouponsDataWithGroup:group];
+        }
         [weakSelf thn_getGoodsInfoStoreDataWithGroup:group];
         [weakSelf thn_getGoodsInfoFreightDataWithGroup:group];
         [weakSelf thn_getGoodsInfoSimilarGoodsDataWithGroup:group];
@@ -256,6 +266,30 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     });
 }
 
+//已登录用户获取商家优惠券列表
+- (void)thn_getUserMasterCouponsDataWithGroup:(dispatch_group_t)group  {
+    WEAKSELF;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"store_rid"] = self.goodsModel.storeRid;
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        THNRequest *request = [THNAPI getWithUrlString:kURLLoginCoupon requestDictionary:params delegate:nil];
+        [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+            dispatch_group_leave(group);
+            
+            if (!result.success) {
+                [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+                return;
+            }
+            weakSelf.loginCoupons = result.data[@"coupons"];
+            
+        } failure:^(THNRequest *request, NSError *error) {
+            dispatch_group_leave(group);
+        }];
+    });
+}
+
 /**
  获取优惠券信息
  */
@@ -268,7 +302,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                                      requestDictionary:@{kKeyStoreRid: self.goodsModel.storeRid}
                                               delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-            THNLog(@"==== 优惠券：%@", result.responseDict);
             
             dispatch_group_leave(group);
             if (!result.isSuccess) {
@@ -276,7 +309,17 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                 return ;
             }
             
-            weakSelf.couponArr = [NSArray arrayWithArray:result.data[@"coupons"]];
+//            NSArray *allCoupons = [NSArray arrayWithArray:result.data[@"coupons"]];
+            weakSelf.allCouponsArr = [NSArray arrayWithArray:result.data[@"coupons"]];
+            
+            // type = 3  满减   type = 1 或者 2  为优惠券
+            NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
+            NSPredicate *couponPredicate = [NSPredicate predicateWithFormat:@"type = 1 || type = 2"];
+            weakSelf.fullReductions = [weakSelf.allCouponsArr  filteredArrayUsingPredicate:fullReductionPredicate];
+            
+            if (![THNLoginManager isLogin]) {
+                weakSelf.noLoginCoupons = [weakSelf.allCouponsArr  filteredArrayUsingPredicate:couponPredicate];
+            }
             
         } failure:^(THNRequest *request, NSError *error) {
             dispatch_group_leave(group);
@@ -358,13 +401,23 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  商品优惠券视图
  */
 - (void)thn_setGoodsInfoCouponCell {
-//    WEAKSELF;
+    WEAKSELF;
     
     THNGoodsTableViewCells *couponCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeCoupon) didSelectedItem:^(NSString *rid) {
-        [SVProgressHUD thn_showInfoWithStatus:@"领取优惠券"];
+        
+        weakSelf.mutableString = nil;
+        for (NSDictionary *dict in weakSelf.fullReductions) {
+            NSString *fullReductionStr = [NSString stringWithFormat:@"  %@",dict[@"type_text"]];
+            [weakSelf.mutableString appendString:fullReductionStr];
+        }
+        
+        [weakSelf.couponDetailView layoutCouponDetailView:weakSelf.mutableString withLoginCoupons:weakSelf.loginCoupons withNologinCoupos:weakSelf.noLoginCoupons];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        weakSelf.couponDetailView.frame = window.bounds;
+        [window addSubview:weakSelf.couponDetailView];
     }];
-    couponCells.height = self.couponArr.count ? [self thn_getGoodsInfoCouponHeight] : 0.01;
-    couponCells.couponData = self.couponArr;
+    couponCells.height = self.allCouponsArr.count ? [self thn_getGoodsInfoCouponHeight] : 0.01;
+    couponCells.couponData = self.allCouponsArr;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[couponCells] mutableCopy]];
     sections.index = 3;
@@ -642,12 +695,11 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     CGFloat cellHeight = 80;
     
     // 满减活动
-    NSArray *minusCouponArr = [self.couponArr filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = 3"]];
-    cellHeight -= !minusCouponArr.count ? 19 : 0;
+    cellHeight -= !self.fullReductions.count ? 19 : 0;
     
     // 可领取红包
-    NSArray *couponArr = [self.couponArr filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = 1 || type = 2"]];
-    cellHeight -= !couponArr.count ? 26 : 0;
+  
+    cellHeight -= !self.loginCoupons.count ? 26 : 0;
     
     return cellHeight;
 }
@@ -1026,6 +1078,20 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     [super viewDidDisappear:animated];
     
     [[SDWebImageManager sharedManager].imageCache clearMemory];
+}
+
+- (THNCouponDetailView *)couponDetailView {
+    if (!_couponDetailView) {
+        _couponDetailView = [THNCouponDetailView viewFromXib];
+    }
+    return _couponDetailView;
+}
+
+- (NSMutableString *)mutableString {
+    if (!_mutableString) {
+        _mutableString = [NSMutableString string];
+    }
+    return _mutableString;
 }
 
 @end

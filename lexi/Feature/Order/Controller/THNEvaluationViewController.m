@@ -157,6 +157,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
 }
 
 - (void)selectPhoto:(NSInteger)tag {
+    WEAKSELF;
     [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
         [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:imageData
                                                        compltion:^(NSDictionary *result) {
@@ -169,7 +170,7 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
                                                            NSMutableArray *imageMutableArray = [NSMutableArray arrayWithArray:dict[@"imageDatas"]];
                                                            [imageMutableArray addObject:imageData];
                                                            dict[@"imageDatas"] = imageMutableArray;
-                                                           [self.tableView reloadData];
+                                                           [weakSelf.tableView reloadData];
                                                        }];
         
     }];

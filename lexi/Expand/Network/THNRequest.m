@@ -121,6 +121,16 @@ static const NSString *kResponseInfoMessage = @"message";
     }];
 }
 
++ (AFHTTPSessionManager *)defaultNetManager {
+//    static AFHTTPSessionManager *manager;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        manager = [[AFHTTPSessionManager alloc]init];
+//        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    });
+    return [AFHTTPSessionManager manager];
+}
+
 + (void)startMonitoring {
     _canSendMessage = YES;
     [_managerReachability.reachabilityManager startMonitoring];
@@ -172,7 +182,7 @@ static const NSString *kResponseInfoMessage = @"message";
  默认设置
  */
 - (void)defaultConfig {
-    self.manager = [AFHTTPSessionManager manager];
+    self.manager = [THNRequest defaultNetManager];
     self.isRunning = NO;
 }
 
@@ -697,7 +707,7 @@ static const NSString *kResponseInfoMessage = @"message";
                                                    timeoutInterval:(NSTimeInterval)timeInterval
                                                       headerFields:(NSDictionary *)headerFields {
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager *manager = [THNRequest defaultNetManager];
     
     // 设置请求类型
     if (requestType) {

@@ -74,7 +74,10 @@ CGFloat sevenToGrowImageHeight = 90;
     }
     
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {
+        self.threeImageStitchingView.isHaveUserInteractionEnabled = YES;
         [self hiddenShowWindowDetail];
+    } else {
+        self.threeImageStitchingView.isHaveUserInteractionEnabled = NO;
     }
     
     if (shopWindowModel.is_official) {
@@ -82,6 +85,19 @@ CGFloat sevenToGrowImageHeight = 90;
     } else {
         self.identityImageView.image = [UIImage imageNamed:@"icon_talent"];
     }
+    
+    WEAKSELF;
+    self.fiveImagesStitchingView.fiveImageBlock = ^(NSInteger index) {
+        [weakSelf callBlcokMethodmethod:index];
+    };
+    
+    self.sevenImagesStitchingView.sevenImageBlock = ^(NSInteger index) {
+        [weakSelf callBlcokMethodmethod:index];
+    };
+
+    self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
+        [weakSelf callBlcokMethodmethod:index];
+    };
     
     switch (self.imageType) {
         case ShopWindowImageTypeThree:
@@ -93,10 +109,12 @@ CGFloat sevenToGrowImageHeight = 90;
             self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
             [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
+        
             break;
         case ShopWindowImageTypeSeven:
             self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
             [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
+            
             [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
             break;
     }
@@ -108,6 +126,14 @@ CGFloat sevenToGrowImageHeight = 90;
     self.titleLabelTopConstraint.constant = -35;
     [self.flowButton selfManagerFollowUserStatus:shopWindowModel.is_follow shopWindowModel:shopWindowModel];
     
+}
+
+// 调用代理方法
+- (void)callBlcokMethodmethod:(NSInteger)index {
+    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.shopWindowModel.products[index]];
+    if (self.shopWindowCellBlock) {
+        self.shopWindowCellBlock(productModel.rid);
+    }
 }
 
 // 隐藏橱窗详情橱窗Cell与当前Cell不同点

@@ -412,7 +412,8 @@ UICollectionViewDelegateFlowLayout
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT + 20, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:layout];
+        CGFloat collectionY = kDeviceiPhoneX ? 108 : 84;
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, collectionY, SCREEN_WIDTH, SCREEN_HEIGHT - collectionY) collectionViewLayout:layout];
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

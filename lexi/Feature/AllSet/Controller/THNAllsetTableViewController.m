@@ -76,6 +76,7 @@ static CGFloat const kCellRowHeight = 382;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WEAKSELF;
     THNAllsetTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
         cell = [THNAllsetTableViewCell viewFromXib];
@@ -83,13 +84,13 @@ static CGFloat const kCellRowHeight = 382;
     
     cell.allsetBlcok = ^(NSString *rid) {
         THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
-        [self.navigationController pushViewController:goodInfo animated:YES];
+        [weakSelf.navigationController pushViewController:goodInfo animated:YES];
     };
     
     cell.pushDetailBlock = ^(NSInteger collectionRid) {
         THNSetDetailViewController *setVC = [[THNSetDetailViewController alloc]init];
         setVC.collectionID = collectionRid;
-        [self.navigationController pushViewController:setVC animated:YES];
+        [weakSelf.navigationController pushViewController:setVC animated:YES];
     };
     
     THNCollectionModel *collectionModel = [THNCollectionModel mj_objectWithKeyValues:self.collections[indexPath.row]];

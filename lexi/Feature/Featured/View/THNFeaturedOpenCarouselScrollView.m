@@ -195,5 +195,4 @@
     return _secondLabel2;
 }
 
-
 @end

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^SevenImageBlock)(NSInteger index);
+
 @interface THNSevenImagesStitchView : UIView
 
 - (void)setSevenImageStitchingView:(NSArray *)images;
+@property (nonatomic, copy) SevenImageBlock sevenImageBlock;
 
 @end

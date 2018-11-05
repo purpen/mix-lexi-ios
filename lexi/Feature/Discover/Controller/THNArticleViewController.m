@@ -222,6 +222,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *articleStr = self.dataArray[indexPath.row];
+     WEAKSELF;
     if ([articleStr isEqualToString:KArticleCellTypeArticle]) {
         self.articleCellType = ArticleCellTypeArticle;
         THNGoodsContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleContentCellIdentifier forIndexPath:indexPath];
@@ -238,14 +239,14 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         return cell;
 
     } else if ([articleStr isEqualToString:kArticleCellTypeProduct]){
-        THNArticleProductTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:kArticleProductCellIdentifier forIndexPath:indexPath];;
+        THNArticleProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleProductCellIdentifier forIndexPath:indexPath];;
         self.articleCellType = ArticleCellTypeProduct;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.products = self.products;
         
         cell.articleProductBlcok = ^(NSString *rid) {
             THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
-            [self.navigationController pushViewController:goodInfo animated:YES];
+            [weakSelf.navigationController pushViewController:goodInfo animated:YES];
         };
         
         return cell;
@@ -257,7 +258,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         cell.collectionView.textCollectionBlock = ^(NSInteger rid) {
             THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
             articleVC.rid = rid;
-            [self.navigationController pushViewController:articleVC animated:YES];
+            [weakSelf.navigationController pushViewController:articleVC animated:YES];
         };
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

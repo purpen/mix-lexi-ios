@@ -11,34 +11,26 @@
 #import "THNProductModel.h"
 
 @interface THNThreeImageStitchingView()
-@property (weak, nonatomic) IBOutlet UIImageView *leftImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *rightTopImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *rightBottomImageView;
+
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
 @property (weak, nonatomic) IBOutlet UILabel *moreImageCountLabel;
 
 @end
 
 @implementation THNThreeImageStitchingView
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    self.leftImageView.layer.masksToBounds = YES;
-    self.rightTopImageView.layer.masksToBounds = YES;
-    self.rightBottomImageView.layer.masksToBounds = YES;
-}
-
 - (void)setThreeImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        switch (idx) {
-            case 0:
-                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
-            case 1:
-                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-            default:
-                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-                break;
+        if (idx > 2) {
+            return;
         }
+        UIImageView *imageView = self.imageViews[idx];
+        imageView.layer.masksToBounds = YES;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickEvent:)];
+        [imageView addGestureRecognizer:singleTap];
+        singleTap.view.tag = idx;
+        imageView.userInteractionEnabled = self.isHaveUserInteractionEnabled;
     }];
     
     if (images.count > 3) {
@@ -46,6 +38,14 @@
         self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%ld",images.count - 3];
     } else {
         self.moreImageCountLabel.hidden = YES;
+    }
+}
+
+- (void)clickEvent:(id)sender {
+    UITapGestureRecognizer *tap = (UITapGestureRecognizer *)sender;
+    UIView *views = (UIView*) tap.view;
+    if (self.threeImageBlock) {
+        self.threeImageBlock(views.tag);
     }
 }
 

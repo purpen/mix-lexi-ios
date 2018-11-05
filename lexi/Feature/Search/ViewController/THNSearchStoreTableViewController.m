@@ -66,10 +66,10 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSearchStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchStoreCellIdentifier forIndexPath:indexPath];
-    
+    WEAKSELF;
     cell.searchStoreBlcok = ^(NSString *productRid) {
         THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productRid];
-        [self.navigationController pushViewController:goodInfoVC animated:YES];
+        [weakSelf.navigationController pushViewController:goodInfoVC animated:YES];
     };
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

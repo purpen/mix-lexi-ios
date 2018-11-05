@@ -84,7 +84,7 @@
     hi.tapAction = ^(UIView *containerView,NSAttributedString *text,NSRange range, CGRect rect) {
         UIWindow *window  = [UIApplication sharedApplication].keyWindow;
         weakSelf.allAnnouncementView.frame = window.bounds;
-        weakSelf.allAnnouncementView.announcementModel = self.announcementModel;
+        weakSelf.allAnnouncementView.announcementModel = weakSelf.announcementModel;
         [window addSubview:weakSelf.allAnnouncementView];
     };
     

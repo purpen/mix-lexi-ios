@@ -13,7 +13,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self.backgroundImageView drawCornerWithType:0 radius:4];
+    self.backgroundImageView.layer.cornerRadius = 4;
+    self.backgroundImageView.layer.masksToBounds = YES;
 }
 
 @end

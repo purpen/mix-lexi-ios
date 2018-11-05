@@ -14,6 +14,6 @@
         withLoginCoupons:(NSArray *)loginCoupons
        withNologinCoupos:(NSArray *)noLoginCoupons;
 
-- (void)layoutFullReductionLabelText:(NSMutableString*)text;
+- (void)layoutFullReductionLabelText:(NSMutableString *)text;
 
 @end

@@ -212,9 +212,10 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    __weak typeof(cell)weakCell = cell;
     
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
-        NSIndexPath *currentIndexPath = [tableView indexPathForCell:cell];
+        NSIndexPath *currentIndexPath = [tableView indexPathForCell:weakCell];
         THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
         [self deleteOrderData:orderModel.rid initWithCurrenIndex:currentIndexPath.row];
     };
