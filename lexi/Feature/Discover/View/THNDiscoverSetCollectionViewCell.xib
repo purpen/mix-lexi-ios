@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="199" height="128"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h3s-kx-DYz">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h3s-kx-DYz">
                         <rect key="frame" x="0.0" y="0.0" width="199" height="105"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="105" id="2ia-hR-Znm"/>
@@ -36,6 +36,7 @@
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="i9i-7V-hcf" firstAttribute="top" secondItem="h3s-kx-DYz" secondAttribute="bottom" constant="10" id="1gT-zF-6jR"/>
                 <constraint firstItem="h3s-kx-DYz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="8wr-ww-iYN"/>

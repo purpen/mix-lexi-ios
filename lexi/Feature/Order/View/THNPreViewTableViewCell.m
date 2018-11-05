@@ -184,7 +184,7 @@ UITextFieldDelegate
         }
 
         if (weakSelf.delagate && [weakSelf.delagate respondsToSelector:@selector(selectLogistic:WithFid:withStoreIndex:)]) {
-            [weakSelf.delagate selectLogistic:skuIds WithFid:fid withStoreIndex:self.tag];
+            [weakSelf.delagate selectLogistic:skuIds WithFid:fid withStoreIndex:weakSelf.tag];
         }
         
     };

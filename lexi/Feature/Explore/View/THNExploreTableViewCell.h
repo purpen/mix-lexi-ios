@@ -53,5 +53,6 @@ UIKIT_EXTERN  CGFloat const cellOtherHeight;
 @property (nonatomic, weak) id <THNExploreTableViewCellDelegate> delagate;
 //// 是否给cell设置间距
 //@property (nonatomic, assign) BOOL isRewriteCellHeight;
+@property (nonatomic, assign) BOOL isHiddenLoadMoreTitle;
 
 @end

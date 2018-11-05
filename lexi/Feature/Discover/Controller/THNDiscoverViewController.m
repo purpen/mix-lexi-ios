@@ -47,11 +47,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     [self loadData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self showHud];
-}
-
 - (void)loadData {
     [self loadBannerData];
     //创建信号量
@@ -148,10 +143,11 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
             break;
     }
     
+    WEAKSELF;
     cell.collectionView.textCollectionBlock = ^(NSInteger rid) {
         THNArticleViewController *articleVC = [[THNArticleViewController alloc]init];
         articleVC.rid = rid;
-        [self.navigationController pushViewController:articleVC animated:YES];
+        [weakSelf.navigationController pushViewController:articleVC animated:YES];
     };
     
     [cell.collectionView reloadData];

@@ -97,6 +97,8 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
  */
 + (UIView *)initLineView:(CGRect)frame;
 
+
+
 /**
  view的属性 获取当前视图的 Height，Width，X, Y
  */

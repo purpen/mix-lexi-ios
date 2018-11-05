@@ -36,6 +36,8 @@ CGFloat const cellOtherHeight = 190;
 @property (nonatomic, strong) NSArray *productNewDataArray;
 @property (nonatomic, strong) NSArray *goodDesignDataArray;
 @property (nonatomic, strong) NSArray *setDataArray;
+@property (weak, nonatomic) IBOutlet UIButton *lookAllButton;
+@property (weak, nonatomic) IBOutlet UIImageView *instructionImageView;
 
 @end
 
@@ -90,6 +92,8 @@ CGFloat const cellOtherHeight = 190;
             itemWidth = 140;
             itemHeight = cellOtherHeight;
             lineSpacing = 10;
+            self.lookAllButton.hidden = self.isHiddenLoadMoreTitle;
+            self.instructionImageView.hidden = self.isHiddenLoadMoreTitle;
             self.recommendDataArray = dataArray;
             break;
         case ExploreNewProduct:

@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ThreeImageBlock)(NSInteger index);
+
 @interface THNThreeImageStitchingView : UIView
 
 - (void)setThreeImageStitchingView:(NSArray *)images;
+@property (nonatomic, copy) ThreeImageBlock threeImageBlock;
+
+@property (nonatomic, assign) BOOL isHaveUserInteractionEnabled;
 
 @end

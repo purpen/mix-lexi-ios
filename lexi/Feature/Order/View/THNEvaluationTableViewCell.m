@@ -115,7 +115,7 @@ static NSInteger maxShowPhotoCount = 9;
     cell.deletePhotoBlock = ^(NSInteger tag) {
         [weakSelf.imageMutableArray removeObjectAtIndex:tag];
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(deleteProductTag:initWithPhotoTag:)]) {
-            [weakSelf.delegate deleteProductTag:self.tag initWithPhotoTag:tag];
+            [weakSelf.delegate deleteProductTag:weakSelf.tag initWithPhotoTag:tag];
         }
         [weakSelf.collectionView reloadData];
         

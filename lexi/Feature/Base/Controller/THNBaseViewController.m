@@ -7,6 +7,7 @@
 //
 
 #import "THNBaseViewController.h"
+#import "UIViewController+THNHud.h"
 
 @interface THNBaseViewController () <THNNavigationBarViewDelegate>
 
@@ -40,6 +41,8 @@
     [super viewWillDisappear:animated];
     
     [SVProgressHUD dismiss];
+    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [rootViewController hiddenHud];
 }
 
 #pragma mark - custom delegate

@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^FiveImageBlock)(NSInteger index);
+
 @interface THNFiveImagesStitchView : UIView
 
 - (void)setFiveImageStitchingView:(NSArray *)images;
+
+@property (nonatomic, copy) FiveImageBlock fiveImageBlock;
 
 @end

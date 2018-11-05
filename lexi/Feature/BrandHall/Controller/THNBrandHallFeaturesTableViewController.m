@@ -84,9 +84,10 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    WEAKSELF;
     cell.brandHallFeaturesBlock = ^(NSString *rid) {
         THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
-        [self.navigationController pushViewController:goodInfo animated:YES];
+        [weakSelf.navigationController pushViewController:goodInfo animated:YES];
     };
     THNFeaturedBrandModel *brandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.stores[indexPath.row]];
     [cell setBrandModel:brandModel];

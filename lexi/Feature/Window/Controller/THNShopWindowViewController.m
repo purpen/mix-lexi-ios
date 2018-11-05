@@ -135,10 +135,11 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     [cell setShopWindowModel:shopWindowModel];
     cell.imageType = ShopWindowImageTypeThree;
     
+    WEAKSELF;
     cell.contentBlock = ^{
         THNCommentViewController *comment = [[THNCommentViewController alloc]init];
         comment.rid = shopWindowModel.rid;
-        [self.navigationController pushViewController:comment animated:YES];
+        [weakSelf.navigationController pushViewController:comment animated:YES];
     };
     
     return cell;
