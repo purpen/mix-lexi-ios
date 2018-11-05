@@ -23,6 +23,8 @@ static NSInteger const kMenuButtonTag = 1351;
 @property (nonatomic, strong) UIButton *selectedButton;
 @property (nonatomic, strong) NSMutableArray *menuButtonArr;
 @property (nonatomic, strong) NSMutableArray *categoryModelArr;
+@property (nonatomic, strong) NSMutableArray *categoryIdArr;
+@property (nonatomic, strong) NSString *selectedCategory;
 
 @end
 
@@ -44,10 +46,13 @@ static NSInteger const kMenuButtonTag = 1351;
     for (NSDictionary *dict in category) {
         THNCategoriesModel *model = [THNCategoriesModel mj_objectWithKeyValues:dict];
         [self.categoryModelArr addObject:model];
+        [self.categoryIdArr addObject:model.category_id];
         [titleArr addObject:model.name];
     }
     
     [titleArr insertObject:@"推荐" atIndex:0];
+    [self.categoryIdArr insertObject:@"0" atIndex:0];
+    
     [self.segmentControl setSectionTitles:titleArr];
     self.segmentControl.segmentWidthStyle = HMSegmentedControlSegmentWidthStyleDynamic;
     self.segmentControl.hidden = NO;
@@ -55,12 +60,15 @@ static NSInteger const kMenuButtonTag = 1351;
 
 #pragma mark - event response
 - (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl {
+    NSInteger index = segmentedControl.selectedSegmentIndex;
+    NSString *categoryId = self.categoryIdArr[index];
+    
     [UIView animateWithDuration:0.3 animations:^{
-        self.menuView.alpha = segmentedControl.selectedSegmentIndex == 0 ? 0 : 1;
+        self.menuView.alpha = index == 0 ? 0 : 1;
     }];
     
-    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCategoryWithIndex:)]) {
-        [self.delegate thn_didSelectedCategoryWithIndex:segmentedControl.selectedSegmentIndex];
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCategoryWithIndex:categoryId:)]) {
+        [self.delegate thn_didSelectedCategoryWithIndex:index categoryId:categoryId];
     }
 }
 
@@ -71,8 +79,11 @@ static NSInteger const kMenuButtonTag = 1351;
     self.selectedButton = button;
     [self thn_setMenuButtonStyle:button selected:YES];
     
-    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCouponType:)]) {
-        [self.delegate thn_didSelectedCouponType:button.tag - kMenuButtonTag];
+    NSInteger index = button.tag - kMenuButtonTag;
+    NSString *categoryId = self.selectedCategory.length ? self.selectedCategory : @"0";
+    
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCouponType:categoryId:)]) {
+        [self.delegate thn_didSelectedCouponType:index categoryId:categoryId];
     }
 }
 
@@ -184,6 +195,13 @@ static NSInteger const kMenuButtonTag = 1351;
         _categoryModelArr = [NSMutableArray array];
     }
     return _categoryModelArr;
+}
+
+- (NSMutableArray *)categoryIdArr {
+    if (!_categoryIdArr) {
+        _categoryIdArr = [NSMutableArray array];
+    }
+    return _categoryIdArr;
 }
 
 @end

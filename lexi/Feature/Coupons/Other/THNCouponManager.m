@@ -35,7 +35,7 @@ static NSString *kKeyCoupons        = @"coupons";
 + (void)getCouponsCenterOfBrandWithCategory:(NSString *)category params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     NSString *categoryId = category.length ? category : @"";
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
-    [paramDict setObject:categoryId forKey:kKeyRid];
+    [paramDict setObject:categoryId forKey:kKeyStoreCategory];
     
     [[THNCouponManager sharedManager] requestCouponsCenterOfBrandWithParams:[paramDict copy] completion:completion];
 }
@@ -43,7 +43,7 @@ static NSString *kKeyCoupons        = @"coupons";
 + (void)getCouponsCenterOfProductWithCategory:(NSString *)category params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     NSString *categoryId = category.length ? category : @"";
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
-    [paramDict setObject:categoryId forKey:kKeyRid];
+    [paramDict setObject:categoryId forKey:kKeyStoreCategory];
     
     [[THNCouponManager sharedManager] requestCouponsCenterOfProductWithParams:[paramDict copy] completion:completion];
 }

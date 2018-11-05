@@ -469,6 +469,7 @@
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
 		D8BEB436218996D200DF3212 /* THNCouponCenterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB432218996CF00DF3212 /* THNCouponCenterSectionView.m */; };
 		D8BEB437218996D200DF3212 /* THNCouponsCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB435218996D200DF3212 /* THNCouponsCenterHeaderView.m */; };
+		D8D1C60B2190214200D2C523 /* THNNoneCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */; };
 		D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16C8218AF1D5006AAB9E /* THNCouponManager.m */; };
 		D8DF16CC218B02A3006AAB9E /* THNOfficialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */; };
 		D8DF16CF218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */; };
@@ -1319,6 +1320,8 @@
 		D8BEB433218996D100DF3212 /* THNCouponsCenterHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterHeaderView.h; sourceTree = "<group>"; };
 		D8BEB434218996D200DF3212 /* THNCouponCenterSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponCenterSectionView.h; sourceTree = "<group>"; };
 		D8BEB435218996D200DF3212 /* THNCouponsCenterHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterHeaderView.m; sourceTree = "<group>"; };
+		D8D1C6092190214200D2C523 /* THNNoneCouponView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNoneCouponView.h; sourceTree = "<group>"; };
+		D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNoneCouponView.m; sourceTree = "<group>"; };
 		D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelProducts.h; sourceTree = "<group>"; };
 		D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelProducts.m; sourceTree = "<group>"; };
 		D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelShopWindows.m; sourceTree = "<group>"; };
@@ -3144,6 +3147,8 @@
 				D8DF16E6218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m */,
 				D8DF16EB218C71E8006AAB9E /* THNCouponGoodsView.h */,
 				D8DF16EC218C71E8006AAB9E /* THNCouponGoodsView.m */,
+				D8D1C6092190214200D2C523 /* THNNoneCouponView.h */,
+				D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3818,6 +3823,7 @@
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,
 				4B27B4E0218717D2004AF42F /* YYLabel+Helper.m in Sources */,
+				D8D1C60B2190214200D2C523 /* THNNoneCouponView.m in Sources */,
 				4B27B4E1218717D2004AF42F /* UITableView+Helper.m in Sources */,
 				4B27B4E2218717D2004AF42F /* UIViewController+THNHud.m in Sources */,
 				4B27B4E3218717D2004AF42F /* SVProgressHUD+Helper.m in Sources */,
@@ -3969,7 +3975,7 @@
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -4067,7 +4073,7 @@
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

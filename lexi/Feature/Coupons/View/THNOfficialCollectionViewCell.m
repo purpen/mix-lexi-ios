@@ -64,7 +64,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         flowLayout.itemSize = CGSizeMake(100, 128);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-15, 0, SCREEN_WIDTH, 128)
+        _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-15, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame))
                                                    collectionViewLayout:flowLayout];
         _couponCollectionView.delegate = self;
         _couponCollectionView.dataSource = self;
