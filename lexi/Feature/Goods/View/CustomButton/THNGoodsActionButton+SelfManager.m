@@ -46,7 +46,7 @@ static NSString *const kKeyRids = @"rids";
 #pragma mark - event response
 - (void)likeButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [self thn_openUserLoginController];
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
         return;
     }
     
@@ -70,7 +70,7 @@ static NSString *const kKeyRids = @"rids";
 
 - (void)likeCountButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [self thn_openUserLoginController];
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
         return;
     }
     
@@ -98,7 +98,7 @@ static NSString *const kKeyRids = @"rids";
 
 - (void)wishButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [self thn_openUserLoginController];
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
         return;
     }
     
@@ -120,20 +120,6 @@ static NSString *const kKeyRids = @"rids";
             self.wishGoodsCompleted(self.selected);
         }];
     }
-}
-
-#pragma mark - event response
-/**
- 打开登录视图
- */
-- (void)thn_openUserLoginController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
-        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
-                                                                                     animated:YES
-                                                                                   completion:nil];
-    });
 }
 
 #pragma mark - network

@@ -61,14 +61,14 @@ static NSInteger const kMenuButtonTag = 1351;
 #pragma mark - event response
 - (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl {
     NSInteger index = segmentedControl.selectedSegmentIndex;
-    NSString *categoryId = self.categoryIdArr[index];
+    self.selectedCategory = self.categoryIdArr[index];
     
     [UIView animateWithDuration:0.3 animations:^{
         self.menuView.alpha = index == 0 ? 0 : 1;
     }];
     
     if ([self.delegate respondsToSelector:@selector(thn_didSelectedCategoryWithIndex:categoryId:)]) {
-        [self.delegate thn_didSelectedCategoryWithIndex:index categoryId:categoryId];
+        [self.delegate thn_didSelectedCategoryWithIndex:index categoryId:self.selectedCategory];
     }
 }
 

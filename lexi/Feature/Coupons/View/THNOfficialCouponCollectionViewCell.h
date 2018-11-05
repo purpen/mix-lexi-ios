@@ -11,6 +11,8 @@
 
 @interface THNOfficialCouponCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 - (void)thn_setOfficialModel:(THNCouponOfficialModel *)model;
 
 @end

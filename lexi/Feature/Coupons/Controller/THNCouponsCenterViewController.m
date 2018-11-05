@@ -17,6 +17,7 @@
 #import "THNProductCouponCollectionViewCell.h"
 #import "THNStoreCouponCollectionViewCell.h"
 #import "THNNoneCouponView.h"
+#import "THNMyCouponViewController.h"
 
 static NSString *const kTitleCouponsCenter  = @"领券中心";
 static NSString *const kTextOfficial        = @"乐喜官方券";
@@ -44,6 +45,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 @property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, assign) CGFloat originY;
 @property (nonatomic, strong) THNNoneCouponView *defaultView;
+@property (nonatomic, strong) UIButton *myCouponButton;
 /// 推荐优惠券
 @property (nonatomic, strong) UICollectionView *recommendCollectionView;
 @property (nonatomic, strong) NSArray *officialCouponArr;
@@ -185,15 +187,18 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 #pragma mark - custom delegate
 // 切换分类
 - (void)thn_didSelectedCategoryWithIndex:(NSInteger)index categoryId:(NSString *)categoryId {
-    NSLog(@"=========== 选中分类：%zi ---- %@", index, categoryId);
     [self thn_changeCollectionViewFrameWithIndex:index];
+    [self thn_fixedHeaderView];
     
     if (index == 0) {
         [self.recommendCollectionView setContentOffset:CGPointMake(-15, -288) animated:NO];
+        self.defaultView.alpha = 0;
         
     } else {
         [self.couponsCollectionView setContentOffset:CGPointMake(-15, -343) animated:NO];
         [self.sharedCouponArr removeAllObjects];
+        [self.singleCouponArr removeAllObjects];
+        
         [self thn_getCouponeDataWithCategoryId:categoryId];
     }
 }
@@ -202,7 +207,15 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 - (void)thn_didSelectedCouponType:(NSInteger)type categoryId:(NSString *)categoryId {
     _couponType = (THNCouponsType)type;
     [self.singleCouponArr removeAllObjects];
+    [self.sharedCouponArr removeAllObjects];
+    
     [self thn_getCouponeDataWithCategoryId:categoryId];
+}
+
+#pragma mark - event response
+- (void)myCouponButtonAction:(UIButton *)button {
+    THNMyCouponViewController *myCouponVC = [[THNMyCouponViewController alloc] init];
+    [self.navigationController pushViewController:myCouponVC animated:YES];
 }
 
 #pragma mark - private methods
@@ -213,6 +226,11 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     offsetY = offsetY <= self.originY - 150 ? self.originY - 150 : offsetY;
     
     CGPoint headerOriginY = CGPointMake(0, offsetY);
+    self.headerView.origin = headerOriginY;
+}
+
+- (void)thn_fixedHeaderView {
+    CGPoint headerOriginY = CGPointMake(0, self.originY);
     self.headerView.origin = headerOriginY;
 }
 
@@ -248,6 +266,11 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
             self.defaultView.alpha = self.singleCouponArr.count ? 0 : 1;
         }];
     }
+}
+
+// 显示“我的优惠券”按钮
+- (void)thn_showMyCouponButton {
+    self.myCouponButton.hidden = ![THNLoginManager isLogin];
 }
 
 // 用户是否登录，获取 id
@@ -370,6 +393,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                     forIndexPath:indexPath];
             if (self.officialCouponArr.count) {
                 [officialCell thn_setOfficialCouponData:self.officialCouponArr];
+                officialCell.currentVC = self;
             }
             
             return officialCell;
@@ -380,6 +404,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
                 if (self.brandCouponArr.count) {
                     [brandCell thn_setBrandCouponModel:self.brandCouponArr[indexPath.row]];
+                    brandCell.currentVC = self;
                 }
                 
                 return brandCell;
@@ -389,6 +414,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
                 if (self.brandCouponArr.count) {
                     [storeCell thn_setStoreCouponModel:self.brandCouponArr[indexPath.row]];
+                    storeCell.currentVC = self;
                 }
                 
                 return storeCell;
@@ -399,6 +425,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
             if (self.productCouponArr.count) {
                 [productCell thn_setProductCouponModel:self.productCouponArr[indexPath.row]];
+                productCell.currentVC = self;
             }
             
             return productCell;
@@ -411,6 +438,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
                 if (self.sharedCouponArr.count) {
                     [brandCell thn_setBrandCouponModel:self.sharedCouponArr[indexPath.row]];
+                    brandCell.currentVC = self;
                 }
                 
                 return brandCell;
@@ -420,6 +448,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
                 if (self.sharedCouponArr.count) {
                     [storeCell thn_setStoreCouponModel:self.sharedCouponArr[indexPath.row]];
+                    storeCell.currentVC = self;
                 }
                 
                 return storeCell;
@@ -430,6 +459,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                                                                                                         forIndexPath:indexPath];
             if (self.singleCouponArr.count) {
                 [productCell thn_setProductCouponModel:self.singleCouponArr[indexPath.row]];
+                productCell.currentVC = self;
             }
             
             return productCell;
@@ -468,12 +498,14 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     [self.view addSubview:self.couponsCollectionView];
     [self.view addSubview:self.headerView];
     [self.view addSubview:self.defaultView];
+    [self.view addSubview:self.myCouponButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self thn_showMyCouponButton];
 }
 
 - (void)setNavigationBar {
@@ -565,6 +597,15 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
                           withReuseIdentifier:kCollectionSectionViewId];
     }
     return _couponsCollectionView;
+}
+
+- (UIButton *)myCouponButton {
+    if (!_myCouponButton) {
+        _myCouponButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 76, SCREEN_HEIGHT - 200, 78, 30)];
+        [_myCouponButton setImage:[UIImage imageNamed:@"coupon_my"] forState:(UIControlStateNormal)];
+        [_myCouponButton addTarget:self action:@selector(myCouponButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _myCouponButton;
 }
 
 - (THNNoneCouponView *)defaultView {

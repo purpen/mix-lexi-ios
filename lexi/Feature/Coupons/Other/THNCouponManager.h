@@ -45,4 +45,24 @@
  */
 + (void)getCouponsCenterOfNewsWithParams:(NSDictionary *)params;
 
+/**
+ 用户领取官方优惠券
+ 
+ @param rid 优惠券 code
+ @param completion 领取结果回调
+ */
++ (void)getOfficialCouponWithRid:(NSString *)rid
+                      completion:(void (^)(BOOL success))completion;
+
+/**
+ 用户领取优惠券
+ 
+ @param rid 优惠券code
+ @param storeId 店铺rid
+ @param completion 领取结果回调
+ */
++ (void)getCouponWithRid:(NSString *)rid
+                 storeId:(NSString *)storeId
+              completion:(void (^)(BOOL success))completion;
+
 @end

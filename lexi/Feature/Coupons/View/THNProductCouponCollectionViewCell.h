@@ -11,6 +11,8 @@
 
 @interface THNProductCouponCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 /**
  单个商品的优惠券（单享券）
  */

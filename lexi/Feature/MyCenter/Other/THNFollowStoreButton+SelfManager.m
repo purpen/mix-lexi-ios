@@ -44,7 +44,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 
 - (void)followStoreAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [self thn_openUserLoginController];
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
         return;
     }
     
@@ -74,19 +74,6 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     self.brandModel.is_followed = self.selected;
     self.brandModel.is_follow_store = self.selected;
     self.offcialStoreModel.is_followed = self.selected;
-}
-
-/**
- 打开登录视图
- */
-- (void)thn_openUserLoginController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
-        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
-                                                                                     animated:YES
-                                                                                   completion:nil];
-    });
 }
 
 #pragma mark - request

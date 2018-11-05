@@ -11,6 +11,10 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import "THNCouponManager.h"
+#import "SVProgressHUD+Helper.h"
+#import "THNLoginManager.h"
+#import "THNBaseTabBarController.h"
 
 @interface THNOfficialCouponCollectionViewCell ()
 
@@ -21,6 +25,7 @@
 @property (nonatomic, strong) YYLabel *conditionLabel;
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIImageView *noneImageView;
+@property (nonatomic, strong) THNCouponOfficialModel *couponModel;
 
 @end
 
@@ -35,9 +40,39 @@
 }
 
 - (void)thn_setOfficialModel:(THNCouponOfficialModel *)model {
+    self.couponModel = model;
+    
     [self thn_setCouponAmoutTextWithValue:model.amount];
     self.conditionLabel.text = [NSString stringWithFormat:@"满%.0f元可用", model.minAmount];
     [self thn_setCouponStatusWithCount:model.count];
+    [self thn_setDoneButtonStatus:self.couponModel.isGrant];
+}
+
+#pragma mark - event response
+- (void)doneButtonAction:(UIButton *)button {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        return;
+    }
+    
+    if (button.selected == NO) {
+        if (!self.couponModel.code.length) {
+            return;
+        }
+        
+        [THNCouponManager getOfficialCouponWithRid:self.couponModel.code completion:^(BOOL success) {
+            if (!success) {
+                [SVProgressHUD thn_showInfoWithStatus:@"领取失败"];
+                return ;
+            }
+            
+            [SVProgressHUD thn_showSuccessWithStatus:@"领取成功"];
+            [self thn_setDoneButtonStatus:success];
+        }];
+    
+    } else {
+        [self.currentVC.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - private methods
@@ -58,6 +93,15 @@
 - (void)thn_setCouponStatusWithCount:(NSInteger)count {
     self.noneImageView.hidden = count;
     self.containerView.alpha = count ? 1 : 0.4;
+}
+
+// 领取按钮的状态
+- (void)thn_setDoneButtonStatus:(BOOL)status {
+    self.couponModel.isGrant = status;
+    self.doneButton.selected = status;
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:status ? 0 : 1];
+    self.doneButton.layer.borderColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:status ? 1 : 0].CGColor;
+    self.doneButton.layer.borderWidth = 1;
 }
 
 #pragma mark - setup UI
@@ -168,8 +212,11 @@
         _doneButton.backgroundColor = [UIColor whiteColor];
         [_doneButton setTitle:@"立即领取" forState:(UIControlStateNormal)];
         [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FD7162"] forState:(UIControlStateNormal)];
+        [_doneButton setTitle:@"去使用" forState:(UIControlStateSelected)];
+        [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:(UIControlStateSelected)];
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
         _doneButton.layer.cornerRadius = 12;
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
 }

@@ -13,6 +13,10 @@
 #import "UIColor+Extension.h"
 #import "THNCouponGoodsView.h"
 #import "THNMarco.h"
+#import "THNBrandHallViewController.h"
+#import "THNGoodsInfoViewController.h"
+
+static NSInteger const kGoodsViewTag = 1625;
 
 @interface THNStoreCouponCollectionViewCell ()
 
@@ -23,6 +27,8 @@
 @property (nonatomic, strong) YYLabel *hintLabel;
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIView *goodsView;
+@property (nonatomic, strong) NSMutableArray *goodsIdArr;
+@property (nonatomic, strong) THNCouponSharedModel *couponModel;
 
 @end
 
@@ -37,15 +43,51 @@
 }
 
 - (void)thn_setStoreCouponModel:(THNCouponSharedModel *)model {
+    self.couponModel = model;
+    
     [self.storeLogoImageView downloadImage:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
                                      place:[UIImage imageNamed:@"default_image_place"]];
-    
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount minAmout:model.minAmount];
     [self thn_createGoodsViewWithSkus:model.productSku];
 }
 
+#pragma mark - event response
+- (void)doneButtonAction:(UIButton *)button {
+    if (!self.couponModel.storeRid.length) {
+        return;
+    }
+    
+    [self thn_openBrandHallControllerWithRid:self.couponModel.storeRid];
+}
+
+- (void)goodsViewAction:(UITapGestureRecognizer *)tap {
+    if (!self.couponModel.productSku.count && !self.goodsIdArr.count) {
+        return;
+    }
+    
+    NSInteger index = tap.view.tag - kGoodsViewTag;
+    [self thn_openGoodsInfoControllerWithRid:self.goodsIdArr[index]];
+}
+
 #pragma mark - private methods
+/**
+ 打开品牌馆视图
+ */
+- (void)thn_openBrandHallControllerWithRid:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc] init];
+    brandHall.rid = rid;
+    [self.currentVC.navigationController pushViewController:brandHall animated:YES];
+}
+
+/**
+ 打开商品详情
+ */
+- (void)thn_openGoodsInfoControllerWithRid:(NSString *)goodsId {
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:goodsId];
+    [self.currentVC.navigationController pushViewController:goodsInfoVC animated:YES];
+}
+
 - (void)thn_setCouponAmoutTextWithValue:(NSInteger)value minAmout:(NSInteger)minAmout {
     NSMutableAttributedString *sysAtt = [[NSMutableAttributedString alloc] initWithString:@"￥"];
     sysAtt.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
@@ -184,6 +226,7 @@
         [_doneButton setImage:[UIImage imageNamed:@"icon_arrow_circle_0"] forState:(UIControlStateNormal)];
         [_doneButton setImageEdgeInsets:(UIEdgeInsetsMake(6, 64, 7, 13))];
         _doneButton.layer.cornerRadius = 12;
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
 }
@@ -207,9 +250,22 @@
         THNCouponSharedModelProductSku *skuModel = (THNCouponSharedModelProductSku *)skus[idx];
         THNCouponGoodsView *goodsView = [[THNCouponGoodsView alloc] initWithFrame: \
                                          CGRectMake(11 + (viewW + 10) * idx, 15, viewW, viewW * 1.53)];
+        goodsView.tag = kGoodsViewTag + idx;
         [goodsView thn_setStoreCouponGoodsSku:skuModel];
+        [self.goodsIdArr addObject:skuModel.productRid];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goodsViewAction:)];
+        [goodsView addGestureRecognizer:tap];
+        
         [self.goodsView addSubview:goodsView];
     }
+}
+
+- (NSMutableArray *)goodsIdArr {
+    if (!_goodsIdArr) {
+        _goodsIdArr = [NSMutableArray array];
+    }
+    return _goodsIdArr;
 }
 
 @end

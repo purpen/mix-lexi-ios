@@ -35,6 +35,12 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
     [self.couponCollectionView reloadData];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.couponCollectionView.frame = CGRectMake(-15, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame));
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
@@ -50,6 +56,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
                                                                                           forIndexPath:indexPath];
     if (self.couponArr.count) {
         [cell thn_setOfficialModel:self.couponArr[indexPath.row]];
+        cell.currentVC = self.currentVC;
     }
     
     return cell;

@@ -10,6 +10,8 @@
 
 @interface THNOfficialCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 /**
  官方优惠券
  */
