@@ -87,12 +87,12 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         self.isAddWindow = YES;
         self.loadViewY = 135 + 5;
         if (self.currentPage == 1) {
-            [self showHud];
+            [SVProgressHUD thn_show];
         }
         requestUrl = kShopWindowsFollow;
     } else {
         if (self.currentPage == 1) {
-            [SVProgressHUD thn_show];
+            [self showHud];
         }
         requestUrl = kShopWindowsRecommend;
     }

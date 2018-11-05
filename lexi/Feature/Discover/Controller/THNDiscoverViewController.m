@@ -47,6 +47,11 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     [self loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self showHud];
+}
+
 - (void)loadData {
     [self loadBannerData];
     //创建信号量
