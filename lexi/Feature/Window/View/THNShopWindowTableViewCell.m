@@ -119,11 +119,6 @@ CGFloat sevenToGrowImageHeight = 90;
             break;
     }
     
-    // 业务隐藏
-    self.likeLabel.hidden = YES;
-    self.commentLabel.hidden = YES;
-    self.buttonView.hidden = YES;
-    self.titleLabelTopConstraint.constant = -35;
     [self.flowButton selfManagerFollowUserStatus:shopWindowModel.is_follow shopWindowModel:shopWindowModel];
     
 }

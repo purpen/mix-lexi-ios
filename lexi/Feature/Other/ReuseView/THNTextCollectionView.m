@@ -15,7 +15,7 @@
 
 static NSString *const kUrlTextCellIdentifier = @"kUrlTextCellIdentifier";
 
-@interface THNTextCollectionView()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface THNTextCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
 

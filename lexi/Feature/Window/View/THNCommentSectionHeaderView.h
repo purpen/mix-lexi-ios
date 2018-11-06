@@ -1,8 +1,8 @@
 //
-//  THNFirstLevelCommentTableViewCell.h
+//  THNSectionHeaderView.h
 //  lexi
 //
-//  Created by HongpingRao on 2018/8/21.
+//  Created by HongpingRao on 2018/11/6.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 @class THNCommentModel;
 
-@interface THNFirstLevelCommentTableViewCell : UITableViewCell
+@interface THNCommentSectionHeaderView : UITableViewHeaderFooterView
 
 @property (nonatomic, strong) THNCommentModel *commentModel;
 

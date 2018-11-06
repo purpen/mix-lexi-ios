@@ -35,7 +35,7 @@ static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 static NSString *const kShopWindowsRecommend = @"/shop_windows/recommend";
 static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
-@interface THNShopWindowViewController ()<UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate, THNMJRefreshDelegate>
+@interface THNShopWindowViewController () <UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate, THNMJRefreshDelegate>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UIImageView *showImageView;
