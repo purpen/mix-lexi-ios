@@ -55,17 +55,17 @@ THNFeatureTableViewCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+   
     [self loadData];
 }
 
 - (void)loadData {
     [self.dataArray addObject:@(ShopWindowDetailCellTypeMain)];
-    [self loadShowWindowGuessLikeData];
+     [self loadShopWindowDetailData];
 }
 
 //猜你喜欢
 - (void)loadShowWindowGuessLikeData {
-    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowGuessLike requestDictionary:params delegate:nil];
@@ -102,6 +102,7 @@ THNFeatureTableViewCellDelegate
         if (self.similarShowWindowArray.count > 0) {
             [self.dataArray addObject:@(ShopWindowDetailCellTypeFeature)];
         }
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -110,6 +111,7 @@ THNFeatureTableViewCellDelegate
 
 // 评论列表
 - (void)loadShopWindowDetailData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
@@ -120,15 +122,18 @@ THNFeatureTableViewCellDelegate
         }
         
         self.comments = result.data[@"comments"];
+        if (self.comments.count > 0) {
+            [self.dataArray addObject:@(ShopWindowDetailCellTypeComment)];
+        }
+        
+        [self loadShowWindowGuessLikeData];
         
     } failure:^(THNRequest *request, NSError *error) {
     }];
 }
 
 - (void)setupUI {
-    // 业务隐藏
-    self.commentView.hidden = YES;
-    self.commentViewheightConstraint = 0;
+    self.commentViewheightConstraint.constant = shopWindowCellHiddenHeight;
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     self.tableViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
     self.navigationBarView.title = @"橱窗";
@@ -170,10 +175,6 @@ THNFeatureTableViewCellDelegate
         self.cellType = ShopWindowDetailCellTypeComment;
         THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
         cell.comments = self.comments;
-        cell.lookCommentBlock = ^{
-            THNCommentViewController *comment = [[THNCommentViewController alloc]init];
-            [weakSelf.navigationController pushViewController:comment animated:YES];
-        };
         return cell;
         
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeExplore) {
@@ -210,14 +211,11 @@ THNFeatureTableViewCellDelegate
                     return  180 + threeImageHeight + sevenToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
             }
         case ShopWindowDetailCellTypeComment:
-            return 1250;
-            break;
+            return 580;
         case ShopWindowDetailCellTypeExplore:
             return cellOtherHeight + 87;
-            break;
         default:
             return kCellLifeAestheticsHeight + 105;
-            break;
     }
 }
 
@@ -242,7 +240,6 @@ THNFeatureTableViewCellDelegate
     shopWindowDetail.shopWindowModel = shopWindowModel;
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
-
 
 #pragma mark - lazy
 - (NSMutableArray *)dataArray {

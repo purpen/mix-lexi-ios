@@ -11,7 +11,6 @@
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
 #import "UIView+Helper.h"
-#import "THNFirstLevelCommentTableViewCell.h"
 #import "THNToolBarView.h"
 #import "YYKit.h"
 
@@ -75,14 +74,27 @@ static NSString *const kFirstLevelCellIdentifier = @"kFirstLevelCellIdentifier";
 }
 
 #pragma mark - Table view data source
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
-}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNFirstLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFirstLevelCellIdentifier forIndexPath:indexPath];
-    return cell;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    
+//}
+
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return 5;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    THNFirstLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFirstLevelCellIdentifier forIndexPath:indexPath];
+//    return cell;
+//}
 
 #pragma mark @protocol YYTextKeyboardObserver
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {

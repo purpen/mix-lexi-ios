@@ -13,13 +13,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self drawCornerWithType:0 radius:4];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)setFrame:(CGRect)frame {
+    frame.origin.x += 62;
+    frame.size.width -= 82;
+    [super setFrame:frame];
 }
 
 @end
