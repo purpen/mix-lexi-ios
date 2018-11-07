@@ -572,7 +572,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     if (!self.goodsModel && !self.skuModel) return;
     
     if (type == THNGoodsButtonTypeSell) {
-        [self thn_openGoodsSellShareController];
+//        [self thn_openGoodsSellShareController];
         
     } else {
         [self thn_openGoodsSkuControllerWithType:type];

@@ -179,7 +179,7 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
         case BannerContentTypeCatogories:
             if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushCategorie:initWithCategoriesID:)]) {
                 
-                [self.featuredDelegate bannerPushCategorie:bannerModel.title initWithCategoriesID:[bannerModel.link integerValue]];
+                [self.featuredDelegate bannerPushCategorie:bannerModel.title initWithCategoriesID:bannerModel.link];
             }
             break;
         case BannerContentTypeBrandHall:

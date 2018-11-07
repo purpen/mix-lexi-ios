@@ -12,6 +12,10 @@
 #import "UIImageView+SDWedImage.h"
 #import "UIColor+Extension.h"
 #import "NSString+Helper.h"
+#import "THNCouponManager.h"
+#import "SVProgressHUD+Helper.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNLoginManager.h"
 
 @interface THNProductCouponCollectionViewCell ()
 
@@ -27,6 +31,7 @@
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIImageView *noneImageView;
 @property (nonatomic, strong) UIView *noneView;
+@property (nonatomic, strong) THNCouponSingleModel *couponModel;
 
 @end
 
@@ -41,6 +46,8 @@
 }
 
 - (void)thn_setProductCouponModel:(THNCouponSingleModel *)model {
+    self.couponModel = model;
+    
     [self.goodsImageView downloadImage:[model.productCover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
                                  place:[UIImage imageNamed:@"default_image_place"]];
     self.titleLabel.text = model.productName;
@@ -49,9 +56,55 @@
     self.conditionLabel.text = [NSString stringWithFormat:@"满%zi可用", model.minAmount];
     [self thn_setOriginalPriceWithValue:model.productCouponAmount];
     [self thn_setNoneCouponStyleWithCount:model.surplusCount];
+    [self thn_setDoneButtonStatus:self.couponModel.isGrant];
+}
+
+#pragma mark - event response
+- (void)doneButtonAction:(UIButton *)button {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        return;
+    }
+    
+    if (button.selected == NO) {
+        if (!self.couponModel.couponCode.length && !self.couponModel.storeRid.length) {
+            return;
+        }
+        
+        [THNCouponManager getCouponWithRid:self.couponModel.couponCode
+                                   storeId:self.couponModel.storeRid
+                                completion:^(BOOL success) {
+                                    if (!success) {
+                                        [SVProgressHUD thn_showInfoWithStatus:@"领取失败"];
+                                        return ;
+                                    }
+                                    
+                                    [SVProgressHUD thn_showSuccessWithStatus:@"领取成功"];
+                                    [self thn_setDoneButtonStatus:success];
+                                }];
+        
+    } else {
+        [self thn_openGoodsInfoControllerWithRid:self.couponModel.productRid];
+    }
+}
+
+- (void)goodsImageViewAction:(UITapGestureRecognizer *)tap {
+    if (!self.couponModel.couponCode.length && !self.couponModel.storeRid.length) {
+        return;
+    }
+    
+    [self thn_openGoodsInfoControllerWithRid:self.couponModel.productRid];
 }
 
 #pragma mark - private methods
+/**
+ 打开商品详情
+ */
+- (void)thn_openGoodsInfoControllerWithRid:(NSString *)goodsId {
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:goodsId];
+    [self.currentVC.navigationController pushViewController:goodsInfoVC animated:YES];
+}
+
 - (void)thn_setNoneCouponStyleWithCount:(NSInteger)count {
     self.headerView.alpha = count ? 1 : 0.4;
     self.noneView.hidden = count;
@@ -86,6 +139,16 @@
     
     self.oriPriceLabel.hidden = NO;
     self.oriPriceLabel.attributedText = originalPriceAtt;
+}
+
+// 领取按钮的状态
+- (void)thn_setDoneButtonStatus:(BOOL)status {
+    self.couponModel.isGrant = status;
+    self.doneButton.selected = status;
+    
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:@"#FF6B34" alpha:status ? 0 : 1];
+    self.doneButton.layer.borderColor = [UIColor colorWithHexString:@"#FF6B34" alpha:status ? 1 : 0].CGColor;
+    self.doneButton.layer.borderWidth = 1;
 }
 
 #pragma mark - setup UI
@@ -207,6 +270,10 @@
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
         _goodsImageView.layer.cornerRadius = 2;
         _goodsImageView.layer.masksToBounds = YES;
+        _goodsImageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goodsImageViewAction:)];
+        [_goodsImageView addGestureRecognizer:tap];
     }
     return _goodsImageView;
 }
@@ -265,8 +332,11 @@
         _doneButton.backgroundColor = [UIColor colorWithHexString:@"#FF6B34"];
         [_doneButton setTitle:@"立即领取" forState:(UIControlStateNormal)];
         [_doneButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        [_doneButton setTitle:@"去使用" forState:(UIControlStateSelected)];
+        [_doneButton setTitleColor:[UIColor colorWithHexString:@"#FF6B34"] forState:(UIControlStateSelected)];
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:11 weight:(UIFontWeightMedium)];
         _doneButton.layer.cornerRadius = 12;
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
 }

@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface THNStoreCouponCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 /**
  设置品牌馆（同享券）优惠券
  

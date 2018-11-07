@@ -27,7 +27,7 @@
  @param name 分类名称
  @return self
  */
-- (instancetype)initWithCategoryId:(NSInteger)categoryId categoryName:(NSString *)name;
+- (instancetype)initWithCategoryId:(NSString *)categoryId categoryName:(NSString *)name;
 
 /**
  用户个人中心查看商品

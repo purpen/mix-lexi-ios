@@ -15,14 +15,18 @@
 #import "THNCouponSingleModel.h"
 #import "THNCouponSharedModel.h"
 
-static NSString *kURLCouponsOfficial    = @"/market/official_coupons/recommend";
-static NSString *kURLCouponsBrand       = @"/market/coupon_center_shared";
-static NSString *kURLCouponsProduct     = @"/market/coupon_center_single";
+static NSString *const kURLCouponsOfficial    = @"/market/official_coupons/recommend";
+static NSString *const kURLCouponsBrand       = @"/market/coupon_center_shared";
+static NSString *const kURLCouponsProduct     = @"/market/coupon_center_single";
+static NSString *const kURLGetCoupon          = @"/market/coupons/grant";
+static NSString *const kURLGetOfficialCoupon  = @"/market/official_coupons/grant";
+
 /// key
-static NSString *kKeyRid            = @"rid";
-static NSString *kKeyStoreCategory  = @"store_category";
-static NSString *kKeyOfficial       = @"official_coupons";
-static NSString *kKeyCoupons        = @"coupons";
+static NSString *const kKeyRid            = @"rid";
+static NSString *const kKeyStoreRid       = @"store_rid";
+static NSString *const kKeyStoreCategory  = @"store_category";
+static NSString *const kKeyOfficial       = @"official_coupons";
+static NSString *const kKeyCoupons        = @"coupons";
 
 @implementation THNCouponManager
 
@@ -35,7 +39,7 @@ static NSString *kKeyCoupons        = @"coupons";
 + (void)getCouponsCenterOfBrandWithCategory:(NSString *)category params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     NSString *categoryId = category.length ? category : @"";
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
-    [paramDict setObject:categoryId forKey:kKeyRid];
+    [paramDict setObject:categoryId forKey:kKeyStoreCategory];
     
     [[THNCouponManager sharedManager] requestCouponsCenterOfBrandWithParams:[paramDict copy] completion:completion];
 }
@@ -43,13 +47,22 @@ static NSString *kKeyCoupons        = @"coupons";
 + (void)getCouponsCenterOfProductWithCategory:(NSString *)category params:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     NSString *categoryId = category.length ? category : @"";
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
-    [paramDict setObject:categoryId forKey:kKeyRid];
+    [paramDict setObject:categoryId forKey:kKeyStoreCategory];
     
     [[THNCouponManager sharedManager] requestCouponsCenterOfProductWithParams:[paramDict copy] completion:completion];
 }
 
 + (void)getCouponsCenterOfNewsWithParams:(NSDictionary *)params {
     
+}
+
++ (void)getOfficialCouponWithRid:(NSString *)rid completion:(void (^)(BOOL ))completion {
+    [[THNCouponManager sharedManager] requestOfficialCouponWithParams:@{kKeyRid: rid} completion:completion];
+}
+
++ (void)getCouponWithRid:(NSString *)rid storeId:(NSString *)storeId completion:(void (^)(BOOL ))completion {
+    NSDictionary *params = @{kKeyRid: rid, kKeyStoreRid: storeId};
+    [[THNCouponManager sharedManager] requestCouponWithParams:params completion:completion];
 }
 
 #pragma mark - network
@@ -101,6 +114,38 @@ static NSString *kKeyCoupons        = @"coupons";
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
+    }];
+}
+
+- (void)requestOfficialCouponWithParams:(NSDictionary *)params completion:(void (^)(BOOL ))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLGetOfficialCoupon requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 领取官方券：%@", [NSString jsonStringWithObject:result.data]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        completion(YES);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(NO);
+    }];
+}
+
+- (void)requestCouponWithParams:(NSDictionary *)params completion:(void (^)(BOOL ))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLGetCoupon requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"===== 领取优惠券券：%@", [NSString jsonStringWithObject:result.responseDict]);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        completion(YES);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(NO);
     }];
 }
 

@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIImageView+SDWedImage.h"
 #import "UIColor+Extension.h"
+#import "THNBrandHallViewController.h"
 
 @interface THNBrandCouponCollectionViewCell ()
 
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) YYLabel *moneyLabel;
 @property (nonatomic, strong) YYLabel *conditionLabel;
 @property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) THNCouponSharedModel *couponModel;
 
 @end
 
@@ -37,6 +39,8 @@
 }
 
 - (void)thn_setBrandCouponModel:(THNCouponSharedModel *)model {
+    self.couponModel = model;
+    
     [self.storeImageView downloadImage:[model.storeBgcover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
                                  place:[UIImage imageNamed:@"default_image_place"]];
     
@@ -48,7 +52,25 @@
     self.conditionLabel.text = [NSString stringWithFormat:@"满%zi可用", model.minAmount];
 }
 
+#pragma mark - event response
+- (void)doneButtonAction:(UIButton *)button {
+    if (!self.couponModel.storeRid.length) {
+        return;
+    }
+    
+    [self thn_openBrandHallControllerWithRid:self.couponModel.storeRid];
+}
+
 #pragma mark - private methods
+/**
+ 打开品牌馆视图
+ */
+- (void)thn_openBrandHallControllerWithRid:(NSString *)rid {
+    THNBrandHallViewController *brandHall = [[THNBrandHallViewController alloc] init];
+    brandHall.rid = rid;
+    [self.currentVC.navigationController pushViewController:brandHall animated:YES];
+}
+
 - (void)thn_setCouponAmoutTextWithValue:(NSInteger)value {
     NSMutableAttributedString *sysAtt = [[NSMutableAttributedString alloc] initWithString:@"￥"];
     sysAtt.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightMedium)];
@@ -222,6 +244,7 @@
         [_doneButton setImage:[UIImage imageNamed:@"icon_arrow_circle_0"] forState:(UIControlStateNormal)];
         [_doneButton setImageEdgeInsets:(UIEdgeInsetsMake(0, 90, 0, 0))];
         _doneButton.layer.cornerRadius = 15;
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
 }

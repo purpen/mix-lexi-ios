@@ -14,6 +14,8 @@
 #import "THNTextConst.h"
 #import "THNConst.h"
 #import "THNMarco.h"
+#import "THNSignInViewController.h"
+#import "THNBaseNavigationController.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 
@@ -282,6 +284,19 @@ MJCodingImplementation
     }
     
     return postUrl;
+}
+
+/**
+ 打开登录视图
+ */
+- (void)thn_openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
+                                                                                     animated:YES
+                                                                                   completion:nil];
+    });
 }
 
 #pragma mark - shared

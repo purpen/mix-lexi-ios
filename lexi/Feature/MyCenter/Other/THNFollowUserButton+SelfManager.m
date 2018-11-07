@@ -44,7 +44,7 @@ static NSString *const kKeyStatus   = @"followed_status";
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [self thn_openUserLoginController];
+        [[THNLoginManager sharedManager] thn_openUserLoginController];
         return;
     }
     
@@ -63,19 +63,6 @@ static NSString *const kKeyStatus   = @"followed_status";
                              self.grassListModel.is_follow = status;
                              self.shopWindowModel.is_follow = status;
                          }];
-}
-
-/**
- 打开登录视图
- */
-- (void)thn_openUserLoginController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
-        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
-                                                                                     animated:YES
-                                                                                   completion:nil];
-    });
 }
 
 #pragma mark - request

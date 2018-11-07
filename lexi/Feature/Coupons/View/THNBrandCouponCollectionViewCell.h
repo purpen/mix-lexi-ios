@@ -11,6 +11,8 @@
 
 @interface THNBrandCouponCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 /**
  设置品牌馆（同享券）优惠券
 

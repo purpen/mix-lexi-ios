@@ -8,6 +8,11 @@
 
 #import "THNBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, THNCouponsType) {
+    THNCouponsTypeShared = 0,   // 同享券（品牌）
+    THNCouponsTypeSingle,       // 单享券（商品）
+};
+
 @interface THNCouponsCenterViewController : THNBaseViewController
 
 @end
