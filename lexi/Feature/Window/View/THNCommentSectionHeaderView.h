@@ -10,8 +10,11 @@
 
 @class THNCommentModel;
 
+
+
 @interface THNCommentSectionHeaderView : UITableViewHeaderFooterView
 
 @property (nonatomic, strong) THNCommentModel *commentModel;
+@property (nonatomic, strong) NSString *shopWindowRid;
 
 @end

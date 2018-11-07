@@ -17,14 +17,19 @@
 
 @implementation THNCommentTableViewCell
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)awakeFromNib {
+    [super awakeFromNib];
     self.commentTableView = [[THNCommentTableView alloc]initWithFrame:self.bounds initWithCommentType:CommentTypeSection];
     [self addSubview:self.commentTableView];
 }
 
-- (void)setComments:(NSArray *)comments {
-    self.commentTableView.comments = comments;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.commentTableView.frame = self.bounds;
+}
+
+- (void)setComments:(NSArray *)comments initWithSubComments:(NSMutableArray *)subComments initWithRid:(NSString *)rid {
+    [self.commentTableView setComments:comments initWithSubComments:subComments initWithRid:rid];
 }
 
 @end

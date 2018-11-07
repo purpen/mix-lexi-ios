@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface THNCommentModel : NSObject
 
@@ -20,6 +21,6 @@
 @property (nonatomic, assign) NSInteger sub_comment_count;
 @property (nonatomic, strong) NSString *user_avatar;
 @property (nonatomic, strong) NSString *user_name;
-
+@property (nonatomic, assign) CGFloat height;
 
 @end

@@ -23,7 +23,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot" translatesAutoresizingMaskIntoConstraints="NO" id="Gm4-Tt-dov">
-                    <rect key="frame" x="342" y="23" width="3" height="3"/>
+                    <rect key="frame" x="342" y="23.5" width="3" height="3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="3" id="WBZ-vX-ZfG"/>
                         <constraint firstAttribute="width" constant="3" id="lb5-Hh-aNE"/>
@@ -49,8 +49,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rXt-6E-fhO">
-                    <rect key="frame" x="355" y="16" width="35" height="17"/>
+                    <rect key="frame" x="355" y="2.5" width="35" height="45"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="45" id="kob-BF-PGM"/>
                         <constraint firstAttribute="width" constant="35" id="wYE-3O-70q"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
@@ -63,8 +64,12 @@
                         <action selector="reply:" destination="iN0-l3-epB" eventType="touchUpInside" id="NJV-ae-FWn"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RA5-TY-3J6">
-                    <rect key="frame" x="302" y="10" width="30" height="29"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RA5-TY-3J6">
+                    <rect key="frame" x="232" y="2.5" width="100" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="csE-mm-9RZ"/>
+                        <constraint firstAttribute="width" constant="100" id="tWo-ec-DFz"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                     <state key="normal" title="回复">
                         <color key="titleColor" red="0.58039215690000001" green="0.61960784310000006" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>

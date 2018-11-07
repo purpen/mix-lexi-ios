@@ -12,6 +12,8 @@ typedef void(^LookCommentBlock)(void);
 
 @interface THNCommentTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) NSArray *comments;
+- (void)setComments:(NSArray *)comments
+initWithSubComments:(NSMutableArray *)subComments
+        initWithRid:(NSString *)rid;
 
 @end
