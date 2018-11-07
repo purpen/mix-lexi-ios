@@ -148,6 +148,7 @@ static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSe
         UIView *lineView = [UIView initLineView:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
         [_footView addSubview:lineView];
         UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 40)];
+        [button setTitle:@"查看所有评论" forState:UIControlStateNormal];
         [button addTarget:self action:@selector(lookAllCommentData) forControlEvents:UIControlEventTouchUpInside];
         [button setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
