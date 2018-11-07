@@ -9,6 +9,16 @@
 #import "THNSecondLevelCommentTableViewCell.h"
 #import "UIView+Helper.h"
 
+@interface THNSecondLevelCommentTableViewCell ()
+
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *praisesButton;
+
+@end
+
 @implementation THNSecondLevelCommentTableViewCell
 
 - (void)awakeFromNib {

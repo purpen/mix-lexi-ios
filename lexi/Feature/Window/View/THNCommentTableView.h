@@ -22,7 +22,6 @@ typedef NS_ENUM(NSUInteger, CommentType) {
 @interface THNCommentTableView : UITableView
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType;
-@property (nonatomic, assign) NSInteger allCommentCount;
 - (void)setComments:(NSArray *)comments
 initWithSubComments:(NSMutableArray *)subComments
         initWithRid:(NSString *)rid;

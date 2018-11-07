@@ -15,6 +15,7 @@
 #import "THNSectionSecondLevelCommentTableViewCell.h"
 #import "THNCommentModel.h"
 #import <MJExtension/MJExtension.h>
+#import "THNSaveTool.h"
 
 static NSString *const kCommentSectionHeaderViewidentifier = @"kCommentSectionHeaderViewidentifier";
 static NSString *const kCommentSecondCellIdentifier = @"kCommentSecondCellIdentifier";
@@ -29,6 +30,7 @@ static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSe
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) NSMutableArray *subComments;
 @property (nonatomic, strong) NSString *shopWindowRid;
+@property (nonatomic, assign) NSInteger allCommentCount;
 
 @end
 
@@ -36,6 +38,7 @@ static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSe
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType {
     self.commentType = commentType;
+   self.allCommentCount = [[THNSaveTool objectForKey:@"kCommentCount"] integerValue];
     return [self initWithFrame:frame style:UITableViewStyleGrouped];
 }
 
@@ -45,14 +48,23 @@ static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSe
         self.delegate = self;
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableHeaderView = self.headerView;
-        self.tableFooterView = self.footView;
+        self.showsVerticalScrollIndicator = NO;
+       
+        if (self.commentType == CommentTypeSection) {
+            if (self.allCommentCount > 3) {
+                self.tableFooterView = self.footView;
+            }
+             self.tableHeaderView = self.headerView;
+        }
+        
         [self registerNib:[UINib nibWithNibName:@"THNCommentSectionHeaderView" bundle:nil] forHeaderFooterViewReuseIdentifier:kCommentSectionHeaderViewidentifier];
         
         if (self.commentType == CommentTypeSection) {
              [self registerNib:[UINib nibWithNibName:@"THNSectionSecondLevelCommentTableViewCell" bundle:nil] forCellReuseIdentifier:kCommentSectionSecondCellIdentifier];
+            self.scrollEnabled = NO;
         } else {
-             [self registerNib:[UINib nibWithNibName:@"THNSecondLevelCommentTableViewCell" bundle:nil] forCellReuseIdentifier:kCommentSecondCellIdentifier];
+            self.scrollEnabled = YES;
+            [self registerNib:[UINib nibWithNibName:@"THNSecondLevelCommentTableViewCell" bundle:nil] forCellReuseIdentifier:kCommentSecondCellIdentifier];
         }
        
         self.sectionHeaderHeight = 15;
@@ -144,11 +156,12 @@ static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSe
 
 - (UIView *)footView {
     if (!_footView) {
-        _footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 41)];
+        _footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40.5)];
         UIView *lineView = [UIView initLineView:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
         [_footView addSubview:lineView];
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 40)];
-        [button setTitle:@"查看所有评论" forState:UIControlStateNormal];
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 40.5)];
+        NSString *btnTitle = [NSString stringWithFormat:@"查看全部%ld条评论",self.allCommentCount];
+        [button setTitle:btnTitle forState:UIControlStateNormal];
         [button addTarget:self action:@selector(lookAllCommentData) forControlEvents:UIControlEventTouchUpInside];
         [button setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];

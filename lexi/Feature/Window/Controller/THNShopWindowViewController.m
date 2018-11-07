@@ -139,6 +139,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     cell.contentBlock = ^{
         THNCommentViewController *comment = [[THNCommentViewController alloc]init];
         comment.rid = shopWindowModel.rid;
+        comment.commentCount = shopWindowModel.comment_count;
         [weakSelf.navigationController pushViewController:comment animated:YES];
     };
     

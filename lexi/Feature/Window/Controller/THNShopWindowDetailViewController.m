@@ -19,6 +19,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNCommentModel.h"
+#import "THNSaveTool.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -57,6 +58,7 @@ THNFeatureTableViewCellDelegate
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewheightConstraint;
+@property (nonatomic, assign) NSInteger allCommentCount;
 
 @end
 
@@ -131,6 +133,8 @@ THNFeatureTableViewCellDelegate
             return;
         }
         
+        self.allCommentCount = [result.data[@"comment_count"] integerValue];
+        [THNSaveTool setObject:@(self.allCommentCount) forKey:@"kCommentCount"];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         for (THNCommentModel *commentModel in self.comments) {
@@ -227,6 +231,10 @@ THNFeatureTableViewCellDelegate
         self.cellType = ShopWindowDetailCellTypeExplore;
         THNExploreTableViewCell *cell = [THNExploreTableViewCell viewFromXib];
         cell.isHiddenLoadMoreTitle = YES;
+        if (self.comments.count > 0) {
+            cell.isRewriteCellHeight = YES;
+        }
+        
         [cell setCellTypeStyle:ExploreRecommend initWithDataArray:self.guessLikeArray initWithTitle:@"猜你喜欢"];
         cell.delagate = self;
         return cell;
@@ -261,7 +269,8 @@ THNFeatureTableViewCellDelegate
             CGFloat commentHeight = 45 * self.comments.count + self.commentHeight;
             CGFloat subCommentHeight = 32 * self.moreThanSubComments.count + 18 * self.lessThanSubComments.count + self.subCommentHeight;
              // 间距 + 头部视图和尾部视图 + 一级评论 + 二级评论
-            return  15 * self.comments.count + 90 + commentHeight + subCommentHeight;
+            CGFloat headerWithFooterViewHeight = self.allCommentCount > 3 ? 89.5 : 49;
+            return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
         }
         case ShopWindowDetailCellTypeExplore:
             return cellOtherHeight + 87;

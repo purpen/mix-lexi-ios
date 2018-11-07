@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNCommentModel;
+
 @interface THNSecondLevelCommentTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+
+@property (nonatomic, strong) THNCommentModel *subCommentModel;
 
 @end

@@ -19,10 +19,14 @@
 #import "THNMarco.h"
 #import "UIImageView+SDWedImage.h"
 #import "THNFollowUserButton+SelfManager.h"
+#import "THNAPI.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
 CGFloat sevenToGrowImageHeight = 90;
+
+static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
 @interface THNShopWindowTableViewCell()
 
@@ -44,6 +48,7 @@ CGFloat sevenToGrowImageHeight = 90;
 @property (nonatomic, strong) THNThreeImageStitchingView *threeImageStitchingView;
 @property (nonatomic, strong) THNFiveImagesStitchView *fiveImagesStitchingView;
 @property (nonatomic, strong) THNSevenImagesStitchView *sevenImagesStitchingView;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 
 @end
 
@@ -66,6 +71,7 @@ CGFloat sevenToGrowImageHeight = 90;
     self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame);
     self.likeLabel.hidden = shopWindowModel.like_count == 0 ?: NO;
     self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
+    self.likeButton.selected = shopWindowModel.is_like;
     self.commentLabel.hidden = shopWindowModel.comment_count == 0 ?: NO;
     self.commentLabel.text = [NSString stringWithFormat:@"%ld条评论",shopWindowModel.comment_count];
     
@@ -186,8 +192,54 @@ CGFloat sevenToGrowImageHeight = 90;
     return size;
 }
 
+- (void)addUserLikes {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.shopWindowModel.rid;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        self.shopWindowModel.is_like = YES;
+        self.likeButton.selected = YES;
+        self.shopWindowModel.like_count += 1;
+        self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+- (void)deleteUserLikes {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.shopWindowModel.rid;
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        self.shopWindowModel.is_like = NO;
+        self.likeButton.selected = NO;
+        self.shopWindowModel.like_count -= 1;
+        self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (IBAction)content:(id)sender {
     self.contentBlock();
+}
+
+- (IBAction)like:(UIButton *)sender {
+    if (self.likeButton.selected) {
+        [self deleteUserLikes];
+    } else {
+        [self addUserLikes];
+    }
 }
 
 #pragma mark - lazy
