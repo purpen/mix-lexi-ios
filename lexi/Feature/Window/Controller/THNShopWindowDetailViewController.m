@@ -20,6 +20,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNCommentModel.h"
 #import "THNSaveTool.h"
+#import "THNCommentViewController.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -66,8 +67,8 @@ THNFeatureTableViewCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushCommentVC) name:kLookAllCommentData object:nil];
     [self setupUI];
-   
     [self loadData];
 }
 
@@ -189,6 +190,13 @@ THNFeatureTableViewCellDelegate
     self.navigationBarView.title = @"橱窗";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+}
+
+- (void)pushCommentVC {
+    THNCommentViewController *commentVC = [[THNCommentViewController alloc]init];
+    commentVC.rid = self.shopWindowModel.rid;
+    commentVC.commentCount = self.allCommentCount;
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 #pragma mark - UITableViewDataSource

@@ -23,10 +23,12 @@
 #import "THNGoodsInfoViewController.h"
 #import <SDWebImage/SDWebImageManager.h>
 #import "THNBrandHallViewController.h"
+#import "THNCommentTableViewCell.h"
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
 static NSString *const kUrlLifeRecordsRecommendStory = @"/life_records/similar";
+static NSString *const kUrlLifeRecordsComments = @"/life_records/comments";
 
 static NSString *const kArticleContentCellIdentifier = @"kArticleContentCellIdentifier";
 static NSString *const kArticleStoreCellIdentifier  = @"kArticleStoreCellIdentifier";
@@ -91,6 +93,7 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         THNLog(@"---------- 文章详情：%@", result.responseDict);
         [self hiddenHud];
         [self loadRecommendProductData];
+
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         self.featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
         for (NSDictionary *dict in self.grassListModel.deal_content) {
@@ -102,11 +105,22 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         if (self.grassListModel.recommend_store.count > 0) {
             [self.dataArray addObject:kArticleCellTypeStore];
         }
-
-        [self.tableView reloadData];
+        
+        [self loadRecommendProductData];
         
     } failure:^(THNRequest *request, NSError *error) {
 
+    }];
+}
+
+- (void)loadLifeRecordsCommentData {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = @(self.rid);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsComments requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
     }];
 }
 
@@ -130,10 +144,10 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendStory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         self.lifeRecords = result.data[@"life_records"];
         [self.dataArray addObject:kArticleCellTypeStory];
         [self.tableView reloadData];
-
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
     }];

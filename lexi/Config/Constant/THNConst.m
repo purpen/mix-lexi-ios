@@ -93,3 +93,4 @@ NSString *const kOrderDetailLogisticsTracking   = @"kOrderDetailLogisticsTrackin
 NSString *const kShelfSuccess                   = @"shelfSuccess";
 NSString *const kUpdateLivingHallStatus         = @"kUpdateLivingHallStatus";
 NSString *const kBrandHallReceiveCoupon         = @"kBrandHallReceiveCoupon";
+NSString *const kLookAllCommentData             = @"kLookAllCommentData";
