@@ -30,8 +30,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 @property (nonatomic, strong) NSMutableArray *comments;
 // 组合 lessThanSubComments 和 moreThanSubComments
 @property (nonatomic, strong) NSMutableArray *subComments;
-@property (nonatomic, assign) CGFloat commentHeight;
-@property (nonatomic, assign) CGFloat subCommentHeight;
+
 
 
 @end
@@ -48,9 +47,11 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
-    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50) initWithCommentType:CommentTypeAll];
+    CGFloat topHeight = kDeviceiPhoneX ? 88 : 64;
+    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topHeight) initWithCommentType:CommentTypeAll];
     self.commentTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
-    self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评价", self.commentCount];
+    self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", self.commentCount];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     [self.view addSubview:self.commentTableView];
 }
 
@@ -71,28 +72,17 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
         
         for (THNCommentModel *commentModel in self.comments) {
             commentModel.height = [self getSizeByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
-            self.commentHeight += commentModel.height;
-            // 记录单个评论下的子评论
-            NSMutableArray *moreThanSubComments = [NSMutableArray array];
             NSMutableArray *lessThanSubComments = [NSMutableArray array];
-            if (commentModel.sub_comment_count > 2) {
-                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:commentModel.sub_comments[0]];
-                [moreThanSubComments addObject:subCommentModel];
-                [self.subComments addObject:moreThanSubComments];
-                self.subCommentHeight += subCommentModel.height;
-            } else {
+            
+            for (NSDictionary *dict in commentModel.sub_comments) {
                 
-                for (NSDictionary *dict in commentModel.sub_comments) {
-                    
-                    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
-                    NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                    subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
-                    [lessThanSubComments addObject:subCommentModel];
-                    self.subCommentHeight += subCommentModel.height;
-                }
-                
-                [self.subComments addObject:lessThanSubComments];
+                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
+                NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
+                subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                [lessThanSubComments addObject:subCommentModel];
             }
+            
+            [self.subComments addObject:lessThanSubComments];
         }
         
         [self.commentTableView setComments:self.comments initWithSubComments:self.subComments initWithRid:self.rid];

@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSArray *sub_comments;
 // 子评论数
 @property (nonatomic, assign) NSInteger sub_comment_count;
+@property (nonatomic, assign) NSInteger praise_count;
 @property (nonatomic, strong) NSString *user_avatar;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, assign) CGFloat height;

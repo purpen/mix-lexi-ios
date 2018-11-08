@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kUrlCommentsPraises;
+
 @class THNCommentModel;
-
-
 
 @interface THNCommentSectionHeaderView : UITableViewHeaderFooterView
 

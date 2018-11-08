@@ -79,3 +79,4 @@ UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;
 UIKIT_EXTERN NSString *const kShelfSuccess;
 UIKIT_EXTERN NSString *const kUpdateLivingHallStatus;
 UIKIT_EXTERN NSString *const kBrandHallReceiveCoupon;
+UIKIT_EXTERN NSString *const kLookAllCommentData;

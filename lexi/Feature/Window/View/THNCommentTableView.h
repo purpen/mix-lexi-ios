@@ -19,6 +19,9 @@ typedef NS_ENUM(NSUInteger, CommentType) {
     CommentTypeAll
 };
 
+
+extern NSInteger const maxShowSubComment;
+
 @interface THNCommentTableView : UITableView
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType;
