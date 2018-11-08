@@ -18,6 +18,8 @@
 #import "THNCommentViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNCommentModel.h"
+#import "THNSaveTool.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -41,12 +43,22 @@ THNFeatureTableViewCellDelegate
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) NSArray *guessLikeArray;
 @property (nonatomic, strong) NSArray *similarShowWindowArray;
-@property (nonatomic, strong) NSArray *comments;
+// 所有一级
+@property (nonatomic, strong) NSMutableArray *comments;
+// 组合 lessThanSubComments 和 moreThanSubComments
+@property (nonatomic, strong) NSMutableArray *subComments;
+// 小于最大显示行数的所有子评论数组
+@property (nonatomic, strong) NSMutableArray *lessThanSubComments;
+// 大于最大显示行数的所有子评论数组
+@property (nonatomic, strong) NSMutableArray *moreThanSubComments;
+@property (nonatomic, assign) CGFloat commentHeight;
+@property (nonatomic, assign) CGFloat subCommentHeight;
 @property (weak, nonatomic) IBOutlet UIView *fieldBackgroundView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewheightConstraint;
+@property (nonatomic, assign) NSInteger allCommentCount;
 
 @end
 
@@ -55,17 +67,17 @@ THNFeatureTableViewCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+   
     [self loadData];
 }
 
 - (void)loadData {
     [self.dataArray addObject:@(ShopWindowDetailCellTypeMain)];
-    [self loadShowWindowGuessLikeData];
+     [self loadShopWindowDetailData];
 }
 
 //猜你喜欢
 - (void)loadShowWindowGuessLikeData {
-    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowGuessLike requestDictionary:params delegate:nil];
@@ -102,6 +114,7 @@ THNFeatureTableViewCellDelegate
         if (self.similarShowWindowArray.count > 0) {
             [self.dataArray addObject:@(ShopWindowDetailCellTypeFeature)];
         }
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -110,6 +123,7 @@ THNFeatureTableViewCellDelegate
 
 // 评论列表
 - (void)loadShopWindowDetailData {
+    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
@@ -119,16 +133,57 @@ THNFeatureTableViewCellDelegate
             return;
         }
         
-        self.comments = result.data[@"comments"];
+        self.allCommentCount = [result.data[@"comment_count"] integerValue];
+        [THNSaveTool setObject:@(self.allCommentCount) forKey:@"kCommentCount"];
+        [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
+        
+        for (THNCommentModel *commentModel in self.comments) {
+            commentModel.height = [self getSizeByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+            self.commentHeight += commentModel.height;
+            // 记录单个评论下的子评论
+            NSMutableArray *moreThanSubComments = [NSMutableArray array];
+            NSMutableArray *lessThanSubComments = [NSMutableArray array];
+            if (commentModel.sub_comment_count > 2) {
+                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:commentModel.sub_comments[0]];
+                [moreThanSubComments addObject:subCommentModel];
+                [self.moreThanSubComments addObject:subCommentModel];
+                [self.subComments addObject:moreThanSubComments];
+                self.subCommentHeight += subCommentModel.height;
+            } else {
+                
+                for (NSDictionary *dict in commentModel.sub_comments) {
+                  
+                    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
+                    NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
+                    subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                    [lessThanSubComments addObject:subCommentModel];
+                    [self.lessThanSubComments addObject:subCommentModel];
+                    self.subCommentHeight += subCommentModel.height;
+                }
+                
+                [self.subComments addObject:lessThanSubComments];
+            }
+        }
+        
+        if (self.comments.count > 0) {
+            [self.dataArray addObject:@(ShopWindowDetailCellTypeComment)];
+        }
+        
+        [self loadShowWindowGuessLikeData];
         
     } failure:^(THNRequest *request, NSError *error) {
     }];
 }
 
+//获取字符串长度的方法
+- (CGFloat)getHeightByString:(NSString*)string AndFontSize:(CGFloat)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size;
+    return size.height;
+}
+
 - (void)setupUI {
-    // 业务隐藏
-    self.commentView.hidden = YES;
-    self.commentViewheightConstraint = 0;
+    self.commentViewheightConstraint.constant = shopWindowCellHiddenHeight;
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     self.tableViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
     self.navigationBarView.title = @"橱窗";
@@ -169,17 +224,17 @@ THNFeatureTableViewCellDelegate
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeComment) {
         self.cellType = ShopWindowDetailCellTypeComment;
         THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
-        cell.comments = self.comments;
-        cell.lookCommentBlock = ^{
-            THNCommentViewController *comment = [[THNCommentViewController alloc]init];
-            [weakSelf.navigationController pushViewController:comment animated:YES];
-        };
+        [cell setComments:self.comments initWithSubComments:self.subComments initWithRid:self.shopWindowModel.rid];
         return cell;
         
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeExplore) {
         self.cellType = ShopWindowDetailCellTypeExplore;
         THNExploreTableViewCell *cell = [THNExploreTableViewCell viewFromXib];
         cell.isHiddenLoadMoreTitle = YES;
+        if (self.comments.count > 0) {
+            cell.isRewriteCellHeight = YES;
+        }
+        
         [cell setCellTypeStyle:ExploreRecommend initWithDataArray:self.guessLikeArray initWithTitle:@"猜你喜欢"];
         cell.delagate = self;
         return cell;
@@ -209,25 +264,27 @@ THNFeatureTableViewCellDelegate
                 default:
                     return  180 + threeImageHeight + sevenToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
             }
-        case ShopWindowDetailCellTypeComment:
-            return 1250;
-            break;
+        case ShopWindowDetailCellTypeComment: {
+           
+            CGFloat commentHeight = 45 * self.comments.count + self.commentHeight;
+            CGFloat subCommentHeight = 32 * self.moreThanSubComments.count + 18 * self.lessThanSubComments.count + self.subCommentHeight;
+             // 间距 + 头部视图和尾部视图 + 一级评论 + 二级评论
+            CGFloat headerWithFooterViewHeight = self.allCommentCount > 3 ? 89.5 : 49;
+            return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
+        }
         case ShopWindowDetailCellTypeExplore:
             return cellOtherHeight + 87;
-            break;
         default:
             return kCellLifeAestheticsHeight + 105;
-            break;
     }
 }
 
 //获取字符串高度的方法
 - (CGFloat)getSizeByString:(NSString*)string AndFontSize:(UIFont *)font
 {
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 36, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     return size.height;
 }
-
 
 #pragma mark - custom Delegate
 // 商品详情
@@ -243,13 +300,40 @@ THNFeatureTableViewCellDelegate
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
-
 #pragma mark - lazy
 - (NSMutableArray *)dataArray {
     if (!_dataArray) {
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
+}
+
+- (NSMutableArray *)comments {
+    if (!_comments) {
+        _comments = [NSMutableArray array];
+    }
+    return _comments;
+}
+
+- (NSMutableArray *)subComments {
+    if (!_subComments) {
+        _subComments = [NSMutableArray array];
+    }
+    return _subComments;
+}
+
+- (NSMutableArray *)lessThanSubComments {
+    if (!_lessThanSubComments) {
+        _lessThanSubComments = [NSMutableArray array];
+    }
+    return _lessThanSubComments;
+}
+
+- (NSMutableArray *)moreThanSubComments {
+    if (!_moreThanSubComments) {
+        _moreThanSubComments = [NSMutableArray array];
+    }
+    return _moreThanSubComments;
 }
 
 @end

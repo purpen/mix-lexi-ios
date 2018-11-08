@@ -14,8 +14,6 @@
             <connections>
                 <outlet property="commentLikesView" destination="MAO-gC-Eyf" id="oPK-en-P9b"/>
                 <outlet property="fieldBackgroundView" destination="1d7-8I-5h1" id="FqZ-pi-k57"/>
-                <outlet property="tableView" destination="yQ2-3A-x8u" id="ENl-aD-FnX"/>
-                <outlet property="tableViewTopConstraint" destination="Xdq-hw-258" id="F9J-kK-g5n"/>
                 <outlet property="textfield" destination="1LL-tQ-hUQ" id="psf-rS-GTo"/>
                 <outlet property="view" destination="iN0-l3-epB" id="ghN-Gm-Hbt"/>
             </connections>
@@ -25,14 +23,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yQ2-3A-x8u">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
-                    <color key="backgroundColor" red="0.96862745098039216" green="0.97647058823529409" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="nuc-WS-aIf"/>
-                        <outlet property="delegate" destination="-1" id="Yj4-Ji-NMo"/>
-                    </connections>
-                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAO-gC-Eyf">
                     <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                     <subviews>
@@ -82,11 +72,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="MAO-gC-Eyf" firstAttribute="top" secondItem="yQ2-3A-x8u" secondAttribute="bottom" id="CIX-6g-GKH"/>
-                <constraint firstItem="yQ2-3A-x8u" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="TJ6-4q-YeS"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="MAO-gC-Eyf" secondAttribute="trailing" id="XMh-8P-tFZ"/>
-                <constraint firstItem="yQ2-3A-x8u" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Xdq-hw-258"/>
-                <constraint firstItem="yQ2-3A-x8u" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="s7J-mx-Qcf"/>
                 <constraint firstItem="MAO-gC-Eyf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="x1O-Z4-Knm"/>
                 <constraint firstItem="MAO-gC-Eyf" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="x3I-PT-Wdr"/>
             </constraints>

@@ -12,6 +12,8 @@
 @interface THNCommentViewController : THNBaseViewController
 
 @property (nonatomic, strong) NSString *rid;
+// 评论数
+@property (nonatomic, assign) NSInteger commentCount;
 
 
 @end

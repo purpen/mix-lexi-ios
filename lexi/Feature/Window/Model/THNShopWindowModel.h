@@ -31,8 +31,10 @@ typedef NS_ENUM(NSUInteger, UserIdentityType) {
 @interface THNShopWindowModel : NSObject
 
 @property (nonatomic, strong) NSArray *keywords;
-//是否关注过该橱窗
+//是否关注过该用户
 @property (nonatomic, assign) BOOL is_follow;
+//是否喜欢过该橱窗
+@property (nonatomic, assign) BOOL is_like;
 //橱窗喜欢数
 @property (nonatomic, assign) NSInteger like_count;
 // 评论数

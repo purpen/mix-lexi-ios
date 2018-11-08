@@ -54,13 +54,13 @@ CGFloat const cellOtherHeight = 190;
     self.productCollectionView.showsHorizontalScrollIndicator = NO;
 }
 
-//- (void)setFrame:(CGRect)frame {
-//    if (self.isRewriteCellHeight) {
-//        frame.origin.y += 15;
-//        frame.size.height -= 15;
-//    }
-//    [super setFrame:frame];
-//}
+- (void)setFrame:(CGRect)frame {
+    if (self.isRewriteCellHeight) {
+        frame.origin.y += 15;
+        frame.size.height -= 15;
+    }
+    [super setFrame:frame];
+}
 
 - (IBAction)lookAll:(id)sender {
     if (self.delagate && [self.delagate respondsToSelector:@selector(lookAllWithType:)]) {
