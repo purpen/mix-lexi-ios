@@ -462,9 +462,6 @@
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
-		D8BEB436218996D200DF3212 /* THNCouponCenterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB432218996CF00DF3212 /* THNCouponCenterSectionView.m */; };
-		D8BEB437218996D200DF3212 /* THNCouponsCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BEB435218996D200DF3212 /* THNCouponsCenterHeaderView.m */; };
-		D8D1C60B2190214200D2C523 /* THNNoneCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */; };
 		D8D7CFB22194234E00948247 /* THNFollowStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFAE2194234D00948247 /* THNFollowStoreButton.m */; };
 		D8D7CFB32194234E00948247 /* THNDealContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFB12194234E00948247 /* THNDealContentTableViewCell.m */; };
 		D8D7CFB7219423AC00948247 /* THNFollowUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFB6219423AC00948247 /* THNFollowUserButton.m */; };
@@ -472,18 +469,21 @@
 		D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBB219423B400948247 /* THNFollowUserButton+SelfManager.m */; };
 		D8D7CFC1219425E300948247 /* THNDealContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBF219425E300948247 /* THNDealContentModel.m */; };
 		D8D7CFCF21942B1D00948247 /* UITableViewCell+DealContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFCE21942B1D00948247 /* UITableViewCell+DealContent.m */; };
+		D8D7CFFF219437DB00948247 /* THNStoreCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFE6219437D800948247 /* THNStoreCouponCollectionViewCell.m */; };
+		D8D7D000219437DB00948247 /* THNProductCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFE9219437D800948247 /* THNProductCouponCollectionViewCell.m */; };
+		D8D7D001219437DB00948247 /* THNCouponGoodsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFEA219437D800948247 /* THNCouponGoodsView.m */; };
+		D8D7D003219437DB00948247 /* THNOfficialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFED219437D900948247 /* THNOfficialCollectionViewCell.m */; };
+		D8D7D004219437DB00948247 /* THNBrandCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFEF219437D900948247 /* THNBrandCouponCollectionViewCell.m */; };
+		D8D7D005219437DB00948247 /* THNNoneCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFF3219437D900948247 /* THNNoneCouponView.m */; };
+		D8D7D007219437DB00948247 /* THNOfficialCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFF5219437DA00948247 /* THNOfficialCouponCollectionViewCell.m */; };
+		D8D7D008219437DB00948247 /* THNCouponCenterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFF9219437DA00948247 /* THNCouponCenterSectionView.m */; };
+		D8D7D009219437DB00948247 /* THNCouponsCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFFC219437DA00948247 /* THNCouponsCenterHeaderView.m */; };
 		D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16C8218AF1D5006AAB9E /* THNCouponManager.m */; };
-		D8DF16CC218B02A3006AAB9E /* THNOfficialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */; };
-		D8DF16CF218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */; };
 		D8DF16D6218BECC1006AAB9E /* THNCouponSharedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D3218BECC1006AAB9E /* THNCouponSharedModel.m */; };
 		D8DF16D7218BECC1006AAB9E /* THNCouponSharedModelProductSku.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D4218BECC1006AAB9E /* THNCouponSharedModelProductSku.m */; };
 		D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D5218BECC1006AAB9E /* THNCouponSingleModel.m */; };
 		D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */; };
 		D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */; };
-		D8DF16E1218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16E0218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.m */; };
-		D8DF16E7218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16E6218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m */; };
-		D8DF16EA218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16E9218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.m */; };
-		D8DF16ED218C71E8006AAB9E /* THNCouponGoodsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16EC218C71E8006AAB9E /* THNCouponGoodsView.m */; };
 		D8DF16F0218DADDA006AAB9E /* THNShareImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16EF218DADDA006AAB9E /* THNShareImageViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
@@ -1309,12 +1309,6 @@
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
-		D8BEB432218996CF00DF3212 /* THNCouponCenterSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponCenterSectionView.m; sourceTree = "<group>"; };
-		D8BEB433218996D100DF3212 /* THNCouponsCenterHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterHeaderView.h; sourceTree = "<group>"; };
-		D8BEB434218996D200DF3212 /* THNCouponCenterSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponCenterSectionView.h; sourceTree = "<group>"; };
-		D8BEB435218996D200DF3212 /* THNCouponsCenterHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterHeaderView.m; sourceTree = "<group>"; };
-		D8D1C6092190214200D2C523 /* THNNoneCouponView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNoneCouponView.h; sourceTree = "<group>"; };
-		D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNoneCouponView.m; sourceTree = "<group>"; };
 		D8D7CFAC2193DF0500948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		D8D7CFAD2193DF0600948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		D8D7CFAE2194234D00948247 /* THNFollowStoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreButton.m; sourceTree = "<group>"; };
@@ -1331,6 +1325,24 @@
 		D8D7CFC0219425E300948247 /* THNDealContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDealContentModel.h; sourceTree = "<group>"; };
 		D8D7CFCD21942B1D00948247 /* UITableViewCell+DealContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+DealContent.h"; sourceTree = "<group>"; };
 		D8D7CFCE21942B1D00948247 /* UITableViewCell+DealContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+DealContent.m"; sourceTree = "<group>"; };
+		D8D7CFE5219437D800948247 /* THNNoneCouponView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNNoneCouponView.h; sourceTree = "<group>"; };
+		D8D7CFE6219437D800948247 /* THNStoreCouponCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNStoreCouponCollectionViewCell.m; sourceTree = "<group>"; };
+		D8D7CFE7219437D800948247 /* THNBrandCouponCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNBrandCouponCollectionViewCell.h; sourceTree = "<group>"; };
+		D8D7CFE8219437D800948247 /* THNProductCouponCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNProductCouponCollectionViewCell.h; sourceTree = "<group>"; };
+		D8D7CFE9219437D800948247 /* THNProductCouponCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNProductCouponCollectionViewCell.m; sourceTree = "<group>"; };
+		D8D7CFEA219437D800948247 /* THNCouponGoodsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponGoodsView.m; sourceTree = "<group>"; };
+		D8D7CFEB219437D800948247 /* THNOfficialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOfficialCollectionViewCell.h; sourceTree = "<group>"; };
+		D8D7CFED219437D900948247 /* THNOfficialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCollectionViewCell.m; sourceTree = "<group>"; };
+		D8D7CFEF219437D900948247 /* THNBrandCouponCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNBrandCouponCollectionViewCell.m; sourceTree = "<group>"; };
+		D8D7CFF0219437D900948247 /* THNCouponCenterSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponCenterSectionView.h; sourceTree = "<group>"; };
+		D8D7CFF1219437D900948247 /* THNStoreCouponCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNStoreCouponCollectionViewCell.h; sourceTree = "<group>"; };
+		D8D7CFF2219437D900948247 /* THNCouponGoodsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponGoodsView.h; sourceTree = "<group>"; };
+		D8D7CFF3219437D900948247 /* THNNoneCouponView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNNoneCouponView.m; sourceTree = "<group>"; };
+		D8D7CFF5219437DA00948247 /* THNOfficialCouponCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCouponCollectionViewCell.m; sourceTree = "<group>"; };
+		D8D7CFF6219437DA00948247 /* THNCouponsCenterHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponsCenterHeaderView.h; sourceTree = "<group>"; };
+		D8D7CFF9219437DA00948247 /* THNCouponCenterSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponCenterSectionView.m; sourceTree = "<group>"; };
+		D8D7CFFB219437DA00948247 /* THNOfficialCouponCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOfficialCouponCollectionViewCell.h; sourceTree = "<group>"; };
+		D8D7CFFC219437DA00948247 /* THNCouponsCenterHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterHeaderView.m; sourceTree = "<group>"; };
 		D8DCFC162181C6A200DC4FF4 /* THNWindowModelProducts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNWindowModelProducts.h; sourceTree = "<group>"; };
 		D8DCFC172181C6A200DC4FF4 /* THNWindowModelProducts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelProducts.m; sourceTree = "<group>"; };
 		D8DCFC182181C6A300DC4FF4 /* THNWindowModelShopWindows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowModelShopWindows.m; sourceTree = "<group>"; };
@@ -1341,10 +1353,6 @@
 		D8DCFC202181CAC000DC4FF4 /* THNWindowListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNWindowListViewController.m; sourceTree = "<group>"; };
 		D8DF16C7218AF1D5006AAB9E /* THNCouponManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponManager.h; sourceTree = "<group>"; };
 		D8DF16C8218AF1D5006AAB9E /* THNCouponManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponManager.m; sourceTree = "<group>"; };
-		D8DF16CA218B02A3006AAB9E /* THNOfficialCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOfficialCollectionViewCell.h; sourceTree = "<group>"; };
-		D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCollectionViewCell.m; sourceTree = "<group>"; };
-		D8DF16CD218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNOfficialCouponCollectionViewCell.h; sourceTree = "<group>"; };
-		D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNOfficialCouponCollectionViewCell.m; sourceTree = "<group>"; };
 		D8DF16D0218BECC1006AAB9E /* THNCouponSingleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSingleModel.h; sourceTree = "<group>"; };
 		D8DF16D1218BECC1006AAB9E /* THNCouponSharedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSharedModel.h; sourceTree = "<group>"; };
 		D8DF16D2218BECC1006AAB9E /* THNCouponSharedModelProductSku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponSharedModelProductSku.h; sourceTree = "<group>"; };
@@ -1355,14 +1363,6 @@
 		D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponOfficialModel.m; sourceTree = "<group>"; };
 		D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMyCouponViewController.m; sourceTree = "<group>"; };
 		D8DF16DD218C3DE9006AAB9E /* THNMyCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCouponViewController.h; sourceTree = "<group>"; };
-		D8DF16DF218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBrandCouponCollectionViewCell.h; sourceTree = "<group>"; };
-		D8DF16E0218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBrandCouponCollectionViewCell.m; sourceTree = "<group>"; };
-		D8DF16E5218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNProductCouponCollectionViewCell.h; sourceTree = "<group>"; };
-		D8DF16E6218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNProductCouponCollectionViewCell.m; sourceTree = "<group>"; };
-		D8DF16E8218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNStoreCouponCollectionViewCell.h; sourceTree = "<group>"; };
-		D8DF16E9218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNStoreCouponCollectionViewCell.m; sourceTree = "<group>"; };
-		D8DF16EB218C71E8006AAB9E /* THNCouponGoodsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCouponGoodsView.h; sourceTree = "<group>"; };
-		D8DF16EC218C71E8006AAB9E /* THNCouponGoodsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponGoodsView.m; sourceTree = "<group>"; };
 		D8DF16EE218DADDA006AAB9E /* THNShareImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShareImageViewController.h; sourceTree = "<group>"; };
 		D8DF16EF218DADDA006AAB9E /* THNShareImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShareImageViewController.m; sourceTree = "<group>"; };
 		D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Helper.h"; sourceTree = "<group>"; };
@@ -3139,24 +3139,24 @@
 		D8BEB42B2189587000DF3212 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D8BEB434218996D200DF3212 /* THNCouponCenterSectionView.h */,
-				D8BEB432218996CF00DF3212 /* THNCouponCenterSectionView.m */,
-				D8BEB433218996D100DF3212 /* THNCouponsCenterHeaderView.h */,
-				D8BEB435218996D200DF3212 /* THNCouponsCenterHeaderView.m */,
-				D8DF16CA218B02A3006AAB9E /* THNOfficialCollectionViewCell.h */,
-				D8DF16CB218B02A3006AAB9E /* THNOfficialCollectionViewCell.m */,
-				D8DF16CD218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.h */,
-				D8DF16CE218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m */,
-				D8DF16DF218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.h */,
-				D8DF16E0218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.m */,
-				D8DF16E8218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.h */,
-				D8DF16E9218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.m */,
-				D8DF16E5218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.h */,
-				D8DF16E6218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m */,
-				D8DF16EB218C71E8006AAB9E /* THNCouponGoodsView.h */,
-				D8DF16EC218C71E8006AAB9E /* THNCouponGoodsView.m */,
-				D8D1C6092190214200D2C523 /* THNNoneCouponView.h */,
-				D8D1C60A2190214200D2C523 /* THNNoneCouponView.m */,
+				D8D7CFE7219437D800948247 /* THNBrandCouponCollectionViewCell.h */,
+				D8D7CFEF219437D900948247 /* THNBrandCouponCollectionViewCell.m */,
+				D8D7CFF0219437D900948247 /* THNCouponCenterSectionView.h */,
+				D8D7CFF9219437DA00948247 /* THNCouponCenterSectionView.m */,
+				D8D7CFF2219437D900948247 /* THNCouponGoodsView.h */,
+				D8D7CFEA219437D800948247 /* THNCouponGoodsView.m */,
+				D8D7CFF6219437DA00948247 /* THNCouponsCenterHeaderView.h */,
+				D8D7CFFC219437DA00948247 /* THNCouponsCenterHeaderView.m */,
+				D8D7CFE5219437D800948247 /* THNNoneCouponView.h */,
+				D8D7CFF3219437D900948247 /* THNNoneCouponView.m */,
+				D8D7CFEB219437D800948247 /* THNOfficialCollectionViewCell.h */,
+				D8D7CFED219437D900948247 /* THNOfficialCollectionViewCell.m */,
+				D8D7CFFB219437DA00948247 /* THNOfficialCouponCollectionViewCell.h */,
+				D8D7CFF5219437DA00948247 /* THNOfficialCouponCollectionViewCell.m */,
+				D8D7CFE8219437D800948247 /* THNProductCouponCollectionViewCell.h */,
+				D8D7CFE9219437D800948247 /* THNProductCouponCollectionViewCell.m */,
+				D8D7CFF1219437D900948247 /* THNStoreCouponCollectionViewCell.h */,
+				D8D7CFE6219437D800948247 /* THNStoreCouponCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3480,7 +3480,6 @@
 				4B27B37F218717D1004AF42F /* THNTableViewCells.m in Sources */,
 				4B27B380218717D1004AF42F /* THNTableViewSections.m in Sources */,
 				4B27B381218717D1004AF42F /* THNNavigationBarView.m in Sources */,
-				D8BEB436218996D200DF3212 /* THNCouponCenterSectionView.m in Sources */,
 				4B27B382218717D1004AF42F /* THNTableViewFooterView.m in Sources */,
 				4B27B383218717D1004AF42F /* THNTableViewSectionHeaderView.m in Sources */,
 				D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */,
@@ -3530,6 +3529,7 @@
 				4B27B3AA218717D1004AF42F /* THNFeaturedBrandModel.m in Sources */,
 				4B27B3AB218717D1004AF42F /* THNSetModel.m in Sources */,
 				4B27B3AC218717D1004AF42F /* THNBannerView.m in Sources */,
+				D8D7D004219437DB00948247 /* THNBrandCouponCollectionViewCell.m in Sources */,
 				4B27B3AD218717D1004AF42F /* THNBannnerCollectionViewCell.m in Sources */,
 				4B27B3AE218717D1004AF42F /* THNBrandCollectionViewCell.m in Sources */,
 				4B27B3AF218717D1004AF42F /* THNCategoriesCollectionView.m in Sources */,
@@ -3551,7 +3551,6 @@
 				4B27B3BF218717D1004AF42F /* THNFeatureTableViewCell.m in Sources */,
 				4B27B3C0218717D1004AF42F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */,
-				D8DF16CF218B0757006AAB9E /* THNOfficialCouponCollectionViewCell.m in Sources */,
 				4B27B3C1218717D1004AF42F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
 				4B27B3C2218717D1004AF42F /* THNPoupalRecommendCollectionViewCell.m in Sources */,
 				4B27B3C3218717D1004AF42F /* THNGoodsDescribeViewController.m in Sources */,
@@ -3628,17 +3627,16 @@
 				4B27B406218717D1004AF42F /* THNLoginManager.m in Sources */,
 				4B27B407218717D1004AF42F /* THNPhotoManager.m in Sources */,
 				D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */,
-				D8DF16EA218C5D08006AAB9E /* THNStoreCouponCollectionViewCell.m in Sources */,
 				4B27B408218717D1004AF42F /* THNAuthCodeButton.m in Sources */,
 				4B27B409218717D1004AF42F /* THNDoneButton.m in Sources */,
 				4B27B40A218717D1004AF42F /* THNFindPassword.m in Sources */,
-				D8BEB437218996D200DF3212 /* THNCouponsCenterHeaderView.m in Sources */,
 				4B27B40B218717D1004AF42F /* THNLoginBaseView.m in Sources */,
 				4B27B40C218717D1004AF42F /* THNLoginView.m in Sources */,
+				D8D7CFFF219437DB00948247 /* THNStoreCouponCollectionViewCell.m in Sources */,
 				4B27B40D218717D1004AF42F /* THNNewUserInfoView.m in Sources */,
 				4B27B40E218717D1004AF42F /* THNPasswordTextField.m in Sources */,
+				D8D7D003219437DB00948247 /* THNOfficialCollectionViewCell.m in Sources */,
 				4B27B40F218717D1004AF42F /* THNSetPasswordView.m in Sources */,
-				D8DF16E7218C3E7B006AAB9E /* THNProductCouponCollectionViewCell.m in Sources */,
 				4B27B410218717D1004AF42F /* THNSignInView.m in Sources */,
 				4B27B411218717D1004AF42F /* THNSignUpView.m in Sources */,
 				4B27B412218717D1004AF42F /* THNZipCodeTableViewCell.m in Sources */,
@@ -3675,7 +3673,6 @@
 				4B27B437218717D1004AF42F /* THNSelectLogisticsViewController.m in Sources */,
 				4B27B439218717D1004AF42F /* THNOrderDetailModel.m in Sources */,
 				4B27B43A218717D1004AF42F /* THNOrdersItemsModel.m in Sources */,
-				D8DF16E1218C3E60006AAB9E /* THNBrandCouponCollectionViewCell.m in Sources */,
 				D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */,
 				4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */,
 				4B27B43C218717D1004AF42F /* THNOrderStoreModel.m in Sources */,
@@ -3703,7 +3700,6 @@
 				4B27B44F218717D2004AF42F /* THNPreViewTableViewCell.m in Sources */,
 				4B27B450218717D2004AF42F /* THNSelectCouponTableViewCell.m in Sources */,
 				4B27B451218717D2004AF42F /* THNSelectCouponView.m in Sources */,
-				D8DF16CC218B02A3006AAB9E /* THNOfficialCollectionViewCell.m in Sources */,
 				4B27B452218717D2004AF42F /* THNSelectLogisticsTableViewCell.m in Sources */,
 				4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */,
 				4B27B453218717D2004AF42F /* THNSelectOfficalCouponView.m in Sources */,
@@ -3718,7 +3714,9 @@
 				4B27B45C218717D2004AF42F /* THNHeaderTitleView.m in Sources */,
 				4B27B45D218717D2004AF42F /* THNLoadView.m in Sources */,
 				4B27B45E218717D2004AF42F /* THNPriceSliderView.m in Sources */,
+				D8D7D000219437DB00948247 /* THNProductCouponCollectionViewCell.m in Sources */,
 				4B27B45F218717D2004AF42F /* THNTextCollectionView.m in Sources */,
+				D8D7D009219437DB00948247 /* THNCouponsCenterHeaderView.m in Sources */,
 				4B27B460218717D2004AF42F /* THNAlertViewController.m in Sources */,
 				4B27B461218717D2004AF42F /* THNWebKitViewViewController.m in Sources */,
 				4B27B462218717D2004AF42F /* THNProductAllViewController.m in Sources */,
@@ -3740,6 +3738,7 @@
 				4B27B472218717D2004AF42F /* THNSearchDetailViewController.m in Sources */,
 				4B27B473218717D2004AF42F /* THNSearchIndexTableViewController.m in Sources */,
 				4B27B474218717D2004AF42F /* THNSearchProductViewController.m in Sources */,
+				D8D7D008219437DB00948247 /* THNCouponCenterSectionView.m in Sources */,
 				4B27B475218717D2004AF42F /* THNSearchStoreTableViewController.m in Sources */,
 				4B27B476218717D2004AF42F /* THNSearchUserTableViewController.m in Sources */,
 				4B27B477218717D2004AF42F /* THNSearchViewController.m in Sources */,
@@ -3777,6 +3776,7 @@
 				4B27B496218717D2004AF42F /* THNLifeOrderUserModel.m in Sources */,
 				4B27B497218717D2004AF42F /* THNTransactionsDataModel.m in Sources */,
 				4B27B498218717D2004AF42F /* THNTransactionsModel.m in Sources */,
+				D8D7D007219437DB00948247 /* THNOfficialCouponCollectionViewCell.m in Sources */,
 				4B27B499218717D2004AF42F /* THNStoreModel.m in Sources */,
 				4B27B49A218717D2004AF42F /* THNStoreModelProduct.m in Sources */,
 				4B27B49B218717D2004AF42F /* THNCountdown.m in Sources */,
@@ -3788,6 +3788,7 @@
 				4B27B4A0218717D2004AF42F /* THNLifeCashBillTableViewCell.m in Sources */,
 				4B27B4A1218717D2004AF42F /* THNLifeCashBillView.m in Sources */,
 				4B27B4A2218717D2004AF42F /* THNLifeOrderActionTableViewCell.m in Sources */,
+				D8D7D005219437DB00948247 /* THNNoneCouponView.m in Sources */,
 				4B27B4A3218717D2004AF42F /* THNLifeOrderInfoTableViewCell.m in Sources */,
 				4B27B4A4218717D2004AF42F /* THNLifeOrderProductTableViewCell.m in Sources */,
 				4B27B4A5218717D2004AF42F /* THNLifeOrderStoreTableViewCell.m in Sources */,
@@ -3833,7 +3834,7 @@
 				D8DF16F0218DADDA006AAB9E /* THNShareImageViewController.m in Sources */,
 				4B27B4CA218717D2004AF42F /* NSObject+EnumManagement.m in Sources */,
 				4B27B4CB218717D2004AF42F /* THNNotification.m in Sources */,
-				D8DF16ED218C71E8006AAB9E /* THNCouponGoodsView.m in Sources */,
+				D8D7D001219437DB00948247 /* THNCouponGoodsView.m in Sources */,
 				4B27B4CC218717D2004AF42F /* THNSaveTool.m in Sources */,
 				4B27B4CD218717D2004AF42F /* THNTextTool.m in Sources */,
 				4B27B4CE218717D2004AF42F /* THNAPI.m in Sources */,
@@ -3855,7 +3856,6 @@
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,
 				4B27B4E0218717D2004AF42F /* YYLabel+Helper.m in Sources */,
-				D8D1C60B2190214200D2C523 /* THNNoneCouponView.m in Sources */,
 				4B27B4E1218717D2004AF42F /* UITableView+Helper.m in Sources */,
 				4B27B4E2218717D2004AF42F /* UIViewController+THNHud.m in Sources */,
 				4B27B4E3218717D2004AF42F /* SVProgressHUD+Helper.m in Sources */,
