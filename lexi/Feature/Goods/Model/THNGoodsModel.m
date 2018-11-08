@@ -138,7 +138,7 @@ NSString *const kTHNGoodsModelTown = @"town";
 		NSArray * dealContentDictionaries = dictionary[kTHNGoodsModelDealContent];
 		NSMutableArray * dealContentItems = [NSMutableArray array];
 		for(NSDictionary * dealContentDictionary in dealContentDictionaries){
-			THNGoodsModelDealContent * dealContentItem = [[THNGoodsModelDealContent alloc] initWithDictionary:dealContentDictionary];
+			THNDealContentModel * dealContentItem = [[THNDealContentModel alloc] initWithDictionary:dealContentDictionary];
 			[dealContentItems addObject:dealContentItem];
 		}
 		self.dealContent = dealContentItems;

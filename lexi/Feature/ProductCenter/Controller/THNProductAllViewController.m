@@ -201,7 +201,7 @@ static CGFloat interitemSpacing = 10;
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
         [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeProductCenter];
-        [_popupView thn_setCategoryId:0];
+        [_popupView thn_setCategoryId:@"0"];
         _popupView.delegate = self;
     }
     return _popupView;

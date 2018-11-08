@@ -33,7 +33,7 @@
 #import "THNLikedGoodsTableViewCell.h"
 #import "THNGoodsHeaderTableViewCell.h"
 #import "THNGoodsContactTableViewCell.h"
-#import "THNGoodsContentTableViewCell.h"
+#import "THNDealContentTableViewCell.h"
 #import "THNGoodsCouponTableViewCell.h"
 #import "THNCartViewController.h"
 #import "THNBrandHallViewController.h"
@@ -643,7 +643,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
     CGFloat contentH = 0.0;
     
-    for (THNGoodsModelDealContent *model in content) {
+    for (THNDealContentModel *model in content) {
         if ([model.type isEqualToString:@"text"]) {
             CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
@@ -977,10 +977,10 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                 return headerCell;
                 
             } else if (indexPath.row == 1) {
-                THNGoodsContentTableViewCell *contentCell = [THNGoodsContentTableViewCell initGoodsCellWithTableView:tableView];
+                THNDealContentTableViewCell *contentCell = [THNDealContentTableViewCell initGoodsCellWithTableView:tableView];
                 goodsCells.contentCell = contentCell;
                 contentCell.baseCell = goodsCells;
-                [contentCell thn_setContentWithGoodsModel:goodsCells.goodsModel];
+                [contentCell thn_setDealContentData:goodsCells.goodsModel.dealContent];
                 
                 return contentCell;
             }

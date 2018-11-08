@@ -41,6 +41,7 @@ static CGFloat const kPopularFooterViewHeight = 180;
 static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
 // 顶部banner
+//hotpick_app
 static NSString *const kUrlBannersHandpickTop = @"/banners/handpick";
 // 今日推荐
 static NSString *const kUrlDailyRecommends = @"/column/daily_recommends";

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "THNGoodsModelAsset.h"
-#import "THNGoodsModelDealContent.h"
+#import "THNDealContentModel.h"
 #import "THNGoodsModelLabel.h"
 #import "THNGoodsModelProductLikeUser.h"
 #import "THNGoodsModelSku.h"

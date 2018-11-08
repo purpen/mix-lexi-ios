@@ -11,18 +11,20 @@
 #import <SDWebImage/SDWebImageManager.h>
 #import "UIImage+Helper.h"
 
+static NSString *const kDefaultImageName = @"default_image_place";
+
 @implementation UIImageView (SDWedImage)
 
-- (UIImage *)downloadImageWithUrl:(NSString *)url {
-    __block UIImage *downloadImage = [UIImage new];
-
-    
-    return downloadImage;
+#pragma mark SDWebImage缓存图片
+- (void)downloadImage:(NSString *)url {
+    [self sd_setImageWithURL:[NSURL URLWithString:url]
+            placeholderImage:[UIImage imageNamed:kDefaultImageName]
+                     options:SDWebImageLowPriority | SDWebImageRetryFailed];
 }
 
-#pragma mark SDWebImage缓存图片
 - (void)downloadImage:(NSString *)url place:(UIImage *)place {
-    [self sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:place
+    [self sd_setImageWithURL:[NSURL URLWithString:url]
+            placeholderImage:place
                      options:SDWebImageLowPriority | SDWebImageRetryFailed];
 }
 

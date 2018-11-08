@@ -10,7 +10,7 @@
 #import "THNAPI.h"
 #import "THNBrandHallInfoTableViewCell.h"
 #import "THNBrandHallUserInfoTableViewCell.h"
-#import "THNGoodsContentTableViewCell.h"
+#import "THNDealContentTableViewCell.h"
 #import <MJExtension/MJExtension.h>
 #import "THNStoreModel.h"
 #import "THNShopWindowModel.h"
@@ -81,7 +81,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     self.navigationBarView.title = @"关于设计馆";
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView registerClass:[THNGoodsContentTableViewCell class] forCellReuseIdentifier:KStoreContentCellIdentifier];
+    [self.tableView registerClass:[THNDealContentTableViewCell class] forCellReuseIdentifier:KStoreContentCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNBrandHallUserInfoTableViewCell" bundle:nil] forCellReuseIdentifier:KStoreUserInfoCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNBrandHallInfoTableViewCell" bundle:nil] forCellReuseIdentifier:KStoreInfoCellIdentifier];
 }
@@ -98,7 +98,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
             return;
         }
         for (NSDictionary *dict in result.data[@"split_content"]) {
-            THNGoodsModelDealContent *contenModel = [THNGoodsModelDealContent mj_objectWithKeyValues:dict];
+            THNDealContentModel *contenModel = [[THNDealContentModel alloc] initWithDictionary:dict];
             [self.contentModels addObject:contenModel];
         }
         
@@ -149,7 +149,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
 - (CGFloat)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
     CGFloat contentH = 0.0;
     
-    for (THNGoodsModelDealContent *model in content) {
+    for (THNDealContentModel *model in content) {
         if ([model.type isEqualToString:@"text"]) {
             CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:model.content
                                                                  fontSize:14
@@ -202,9 +202,9 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
        
         return cell;
     } else {
-        THNGoodsContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KStoreContentCellIdentifier forIndexPath:indexPath];
+        THNDealContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KStoreContentCellIdentifier forIndexPath:indexPath];
         if (self.contentModels.count > 0) {
-             [cell thn_setContentData:self.contentModels];
+             [cell thn_setDealContentData:self.contentModels];
         }
        
         return cell;

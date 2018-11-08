@@ -146,6 +146,7 @@ static NSString *const kTextSkip            = @"跳过";
     if (!_signUpView) {
         _signUpView = [[THNSignUpView alloc] init];
         _signUpView.delegate = self;
+        _signUpView.currentVC = self;
     }
     return _signUpView;
 }

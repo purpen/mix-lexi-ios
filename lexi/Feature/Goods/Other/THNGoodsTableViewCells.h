@@ -22,7 +22,7 @@
 @class THNLikedGoodsTableViewCell;
 @class THNGoodsHeaderTableViewCell;
 @class THNGoodsContactTableViewCell;
-@class THNGoodsContentTableViewCell;
+@class THNDealContentTableViewCell;
 @class THNGoodsCouponTableViewCell;
 @class UITableViewCell;
 
@@ -68,7 +68,7 @@ typedef void(^GoodsInfoSelectedCellBlock)(NSString *rid);
 @property (nonatomic, weak) THNLikedGoodsTableViewCell      *similarGoodsCell;
 /// 详情内容
 @property (nonatomic, weak) THNGoodsHeaderTableViewCell     *infoHeaderCell;
-@property (nonatomic, weak) THNGoodsContentTableViewCell    *contentCell;
+@property (nonatomic, weak) THNDealContentTableViewCell    *contentCell;
 /// 优惠券
 @property (nonatomic, weak) THNGoodsCouponTableViewCell     *couponCell;
 
