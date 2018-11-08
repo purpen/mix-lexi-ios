@@ -86,7 +86,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
         }
         
         [self.commentTableView setComments:self.comments initWithSubComments:self.subComments initWithRid:self.rid];
-//        [self.commentTableView reloadData];
+        [self.commentTableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
