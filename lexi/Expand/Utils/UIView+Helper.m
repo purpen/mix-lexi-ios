@@ -244,7 +244,6 @@
     return [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class])owner:nil options:nil]firstObject];
 }
 
-
 - (void)setViewHeight:(CGFloat)viewHeight {
     CGRect frame = self.frame;
     frame.size.height = viewHeight;

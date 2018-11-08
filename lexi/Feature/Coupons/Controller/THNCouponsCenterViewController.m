@@ -155,7 +155,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 - (void)thn_getCategoryData {
     WEAKSELF;
     
-    [THNGoodsManager getCategoryDataWithPid:0 completion:^(NSArray *categoryData, NSError *error) {
+    [THNGoodsManager getCategoryDataWithPid:@"0" completion:^(NSArray *categoryData, NSError *error) {
         [weakSelf.headerView thn_setCategoryData:categoryData];
     }];
 }

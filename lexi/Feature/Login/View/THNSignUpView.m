@@ -11,6 +11,7 @@
 #import "SVProgressHUD+Helper.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
+#import "THNWebKitViewViewController.h"
 
 static NSString *const kTitleLabelText      = @"注册";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -19,6 +20,9 @@ static NSString *const kAuthPlaceholder     = @"请输入手机动态码";
 static NSString *const kDoneButtonTitle     = @"下一步设置密码";
 static NSString *const kSignInText          = @"已有账号？点击登录";
 static NSString *const kProtocolText        = @"注册代表同意乐喜《服务条款》和《隐私条款》";
+///
+static NSString *const kUrlService = @"https://h5.lexivip.com/site/service_agreement";
+static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 @interface THNSignUpView () {
     NSString *_verifyCode;
@@ -144,6 +148,12 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
     if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
         [self.delegate thn_showZipCodeList];
     }
+}
+
+- (void)thn_openWebViewControllerWithUrl:(NSString *)url {
+    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc] init];
+    webVC.url = url;
+    [self.currentVC.navigationController pushViewController:webVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -318,6 +328,8 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
 
 - (YYLabel *)protocolLabel {
     if (!_protocolLabel) {
+        WEAKSELF;
+        
         _protocolLabel = [[YYLabel alloc] init];
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kProtocolText];
         attText.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
@@ -327,14 +339,14 @@ static NSString *const kProtocolText        = @"注册代表同意乐喜《服�
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [SVProgressHUD thn_showInfoWithStatus:@"打开《服务条款》"];
+                                    [weakSelf thn_openWebViewControllerWithUrl:kUrlService];
                                 }];
         
         [attText setTextHighlightRange:NSMakeRange(15, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [SVProgressHUD thn_showInfoWithStatus:@"打开《隐私条款》"];
+                                    [weakSelf thn_openWebViewControllerWithUrl:kUrlPrivacy];
                                 }];
         
         _protocolLabel.attributedText = attText;

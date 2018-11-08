@@ -285,7 +285,8 @@ static NSInteger const kSelectedButtonTag = 452;
     
     [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
-        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
+//        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
+        make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
     self.orderButton.layer.cornerRadius = 30/2;
@@ -301,7 +302,8 @@ static NSInteger const kSelectedButtonTag = 452;
     
     [self.couponButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
-        make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
+//        make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
+        make.right.equalTo(self.mas_right).with.offset(-20);
         make.bottom.mas_equalTo(-20);
     }];
     self.couponButton.layer.cornerRadius = 30/2;
@@ -332,12 +334,12 @@ static NSInteger const kSelectedButtonTag = 452;
         make.top.mas_equalTo(0);
     }];
     
-    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.dataContainer);
-        make.left.right.bottom.mas_equalTo(0);
-    }];
-    self.dynamicButton.layer.cornerRadius = 4;
-    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
+//    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(self.dataContainer);
+//        make.left.right.bottom.mas_equalTo(0);
+//    }];
+//    self.dynamicButton.layer.cornerRadius = 4;
+//    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
 
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
@@ -418,6 +420,7 @@ static NSInteger const kSelectedButtonTag = 452;
         _activityButton.backgroundColor = [UIColor colorWithHexString:@"#FF6666"];
         _activityButton.tag = kSelectedButtonTag + 4;
         [_activityButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _activityButton.hidden = YES;
     }
     return _activityButton;
 }
@@ -459,6 +462,7 @@ static NSInteger const kSelectedButtonTag = 452;
         [_serviceButton setImage:[UIImage imageNamed:@"icon_service_gray"] forState:(UIControlStateNormal)];
         _serviceButton.tag = kSelectedButtonTag + 7;
         [_serviceButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _serviceButton.hidden = YES;
     }
     return _serviceButton;
 }
@@ -495,6 +499,7 @@ static NSInteger const kSelectedButtonTag = 452;
         [_dynamicButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _dynamicButton.tag = kSelectedButtonTag + 3;
         [_dynamicButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _dynamicButton.hidden = YES;
     }
     return _dynamicButton;
 }

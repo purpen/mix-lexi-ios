@@ -28,6 +28,19 @@
     [self.view addSubview:self.webView];
 }
 
+#pragma mark - webView delegate
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    [SVProgressHUD thn_show];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [SVProgressHUD dismiss];
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+}
+
 #pragma mark - getters and setters
 - (WKWebView *)webView {
     if (!_webView) {

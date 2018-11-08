@@ -391,10 +391,10 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  绘制分割线
  */
 - (void)drawRect:(CGRect)rect {
-    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 85))
-                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 85))
-                        width:0.5
-                        color:[UIColor colorWithHexString:@"#E9E9E9" alpha:1]];
+//    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 85))
+//                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 85))
+//                        width:0.5
+//                        color:[UIColor colorWithHexString:@"#E9E9E9" alpha:1]];
     
     [UIView drawRectLineStart:(CGPointMake(100, CGRectGetMinY(self.loginSegmented.frame) + 10))
                           end:(CGPointMake(100, CGRectGetMaxY(self.loginSegmented.frame) - 10))
@@ -550,6 +550,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         _thirdLoginLabel.text = kThirdLoginText;
         _thirdLoginLabel.textAlignment = NSTextAlignmentCenter;
         _thirdLoginLabel.backgroundColor = [UIColor whiteColor];
+        _thirdLoginLabel.hidden = YES;
     }
     return _thirdLoginLabel;
 }
@@ -560,6 +561,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         [_wechatButton setImage:[UIImage imageNamed:@"icon_wechat_white"] forState:(UIControlStateNormal)];
         [_wechatButton addTarget:self action:@selector(wechatButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         _wechatButton.backgroundColor = [UIColor colorWithHexString:@"#3DBD7D"];
+        _wechatButton.hidden = YES;
     }
     return _wechatButton;
 }

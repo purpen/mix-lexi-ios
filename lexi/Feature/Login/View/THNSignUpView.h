@@ -47,6 +47,8 @@
 
 @property (nonatomic, weak) id <THNSignUpViewDelegate> delegate;
 
+@property (nonatomic, weak) UIViewController *currentVC;
+
 /**
  设置验证码
 

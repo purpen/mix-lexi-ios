@@ -155,7 +155,7 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     if (!_popupView) {
         _popupView = [[THNFunctionPopupView alloc] init];
         [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeSearch];
-        [_popupView thn_setCategoryId:0];
+        [_popupView thn_setCategoryId:@"0"];
         [_popupView thn_setKeyword:[THNSaveTool objectForKey:kSearchKeyword]];
         _popupView.delegate = self;
     }

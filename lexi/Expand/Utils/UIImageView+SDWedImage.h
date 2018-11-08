@@ -15,7 +15,12 @@ typedef void (^DownloadProgressBlock) (NSInteger received, NSInteger expected);
 
 @interface UIImageView (SDWedImage)
 
-- (UIImage *)downloadImageWithUrl:(NSString *)url;
+/**
+ SDWebImage 下载并缓存图片
+
+ @param url 图片的url(默认有缺省图)
+ */
+- (void)downloadImage:(NSString *)url;
 
 /**
  SDWebImage 下载并缓存图片

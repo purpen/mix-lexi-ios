@@ -112,7 +112,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return section + 1;
+    return section == 0 ? 1 : 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -145,7 +145,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        [SVProgressHUD thn_showSuccessWithStatus:@"绑定微信"];
+//        [SVProgressHUD thn_showSuccessWithStatus:@"绑定微信"];
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -241,7 +241,7 @@ static NSString *const kTextLoginOut = @"退出登录";
     if (!_mainTexts) {
         _mainTexts = @[@[@"微信绑定"],
                        @[@"我的订单", @"收货地址"],
-                       @[@"申请开馆", @"关于乐喜", @"客服电话 400-2345-0000"]];
+                       @[@"申请开馆", @"关于乐喜"]];
     }
     return _mainTexts;
 }

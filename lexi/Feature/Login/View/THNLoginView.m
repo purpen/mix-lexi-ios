@@ -137,7 +137,8 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
     
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(250, 45));
-        make.bottom.equalTo(self.wechatButton.mas_top).with.offset(-20);
+//        make.bottom.equalTo(self.wechatButton.mas_top).with.offset(-20);
+        make.bottom.mas_equalTo(-70);
         make.centerX.equalTo(self);
     }];
     [self.signUpButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
@@ -225,6 +226,7 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
         _wechatButton.layer.borderWidth = 1.0;
         _wechatButton.layer.borderColor = [UIColor whiteColor].CGColor;
         [_wechatButton addTarget:self action:@selector(wechatButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _wechatButton.hidden = YES;
     }
     return _wechatButton;
 }

@@ -595,7 +595,7 @@ THNMJRefreshDelegate
         _popupView = [[THNFunctionPopupView alloc] init];
         _popupView.sid = self.rid;
         [_popupView thn_setViewStyleWithGoodsListType:THNGoodsListViewTypeStore];
-        [_popupView thn_setCategoryId:0];
+        [_popupView thn_setCategoryId:@"0"];
         _popupView.delegate = self;
     }
     return _popupView;

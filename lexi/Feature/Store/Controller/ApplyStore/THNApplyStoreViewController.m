@@ -17,6 +17,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
 
 /// 开馆指引
 @property (nonatomic, strong) WKWebView *applyWebView;
+@property (nonatomic, strong) UIButton *applyButton;
 
 @end
 
@@ -26,6 +27,10 @@ static NSString *const kTitleLeXi     = @"乐喜";
     [super viewDidLoad];
     
     [self setupUI];
+}
+
+- (void)applyButtonAction:(UIButton *)button {
+    [self thn_openUserApplyController];
 }
 
 #pragma mark - private methods
@@ -40,7 +45,6 @@ static NSString *const kTitleLeXi     = @"乐喜";
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [self thn_openUserApplyController];
     [SVProgressHUD dismiss];
 }
 
@@ -69,6 +73,7 @@ static NSString *const kTitleLeXi     = @"乐喜";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.view addSubview:self.applyWebView];
+    [self.view addSubview:self.applyButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,7 +96,8 @@ static NSString *const kTitleLeXi     = @"乐喜";
         preferences.javaScriptCanOpenWindowsAutomatically = NO;
         webConfig.preferences = preferences;
         
-        _applyWebView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:webConfig];
+        CGFloat originBottom = kDeviceiPhoneX ? 84 : 64;
+        _applyWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - originBottom) configuration:webConfig];
         _applyWebView.navigationDelegate = self;
         _applyWebView.UIDelegate = self;
         _applyWebView.backgroundColor = [UIColor whiteColor];
@@ -102,6 +108,20 @@ static NSString *const kTitleLeXi     = @"乐喜";
         [_applyWebView loadRequest:urlRequest];
     }
     return _applyWebView;
+}
+
+- (UIButton *)applyButton {
+    if (!_applyButton) {
+        CGFloat originBottom = kDeviceiPhoneX ? 74 : 54;
+        _applyButton = [[UIButton alloc] initWithFrame:CGRectMake(20, SCREEN_HEIGHT - originBottom, SCREEN_WIDTH - 40, 44)];
+        [_applyButton setTitle:@"申请开通生活馆" forState:(UIControlStateNormal)];
+        _applyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [_applyButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        _applyButton.layer.cornerRadius = 4;
+        _applyButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
+        [_applyButton addTarget:self action:@selector(applyButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _applyButton;
 }
 
 @end
