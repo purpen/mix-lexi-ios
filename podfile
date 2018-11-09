@@ -1,0 +1,26 @@
+platform :ios, '9.0'
+inhibit_all_warnings!
+
+target "lexi" do
+ use_frameworks!
+ pod "AFNetworking", "~> 3.1.0"
+ pod 'SDWebImage', '~> 4.4.1'
+ pod 'MJRefresh', '~> 3.1.15.3'
+ pod 'Masonry', '~> 1.1.0'
+ pod 'MJExtension', '~> 3.0.15'
+ pod 'IQKeyboardManager', '~> 4.0.10'
+ pod 'SVProgressHUD', '~> 2.2.5'
+ pod 'TYAlertController', '~> 1.2.0'
+ pod 'YYKit'
+ pod "Qiniu", "~> 7.1"
+ pod 'DateTools'
+ pod 'HMSegmentedControl'
+ pod 'UMCCommon'
+ pod 'UMCSecurityPlugins'
+ pod 'UMCShare/Social/ReducedWeChat'
+ pod 'UMCShare/Social/ReducedQQ'
+ pod 'UMCShare/Social/ReducedSina'
+ pod 'WechatOpenSDK'
+ pod 'MLeaksFinder'
+
+end

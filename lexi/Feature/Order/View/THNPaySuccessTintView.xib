@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qI8-6k-BDr" customClass="THNPaySuccessTintView">
+            <rect key="frame" x="0.0" y="0.0" width="311" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pay_success" translatesAutoresizingMaskIntoConstraints="NO" id="rZq-4X-D1C">
+                    <rect key="frame" x="127.5" y="52" width="56" height="56"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付成功" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2i-iG-B9i">
+                    <rect key="frame" x="123.5" y="118" width="64" height="17"/>
+                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-Gr-UDr">
+                    <rect key="frame" x="20" y="37" width="100" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="UYb-29-GS5"/>
+                        <constraint firstAttribute="width" constant="100" id="uwD-gH-O96"/>
+                    </constraints>
+                    <state key="normal" image="icon_pay_close"/>
+                    <connections>
+                        <action selector="closeButton:" destination="qI8-6k-BDr" eventType="touchUpInside" id="Yjx-cW-CAZ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-EP-sKJ">
+                    <rect key="frame" x="103" y="145" width="105" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="3Wv-VQ-xUm"/>
+                        <constraint firstAttribute="width" constant="105" id="qmn-kn-g50"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                    <state key="normal" title="查看我的订单">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="lookOrder:" destination="qI8-6k-BDr" eventType="touchUpInside" id="nab-we-cqJ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="fJY-Gr-UDr" firstAttribute="top" secondItem="GBN-hu-McN" secondAttribute="top" constant="37" id="Ani-nm-u3B"/>
+                <constraint firstItem="a2i-iG-B9i" firstAttribute="centerX" secondItem="rZq-4X-D1C" secondAttribute="centerX" id="J7S-jz-sfY"/>
+                <constraint firstItem="a2i-iG-B9i" firstAttribute="top" secondItem="rZq-4X-D1C" secondAttribute="bottom" constant="10" id="JWN-cv-PVH"/>
+                <constraint firstItem="2XG-EP-sKJ" firstAttribute="top" secondItem="a2i-iG-B9i" secondAttribute="bottom" constant="10" id="M0x-VY-mnb"/>
+                <constraint firstItem="GBN-hu-McN" firstAttribute="bottom" secondItem="2XG-EP-sKJ" secondAttribute="bottom" constant="25" id="QcG-6f-nRA"/>
+                <constraint firstItem="rZq-4X-D1C" firstAttribute="centerX" secondItem="GBN-hu-McN" secondAttribute="centerX" id="TsE-Hl-bas"/>
+                <constraint firstItem="2XG-EP-sKJ" firstAttribute="centerX" secondItem="a2i-iG-B9i" secondAttribute="centerX" id="YfQ-mj-9OL"/>
+                <constraint firstItem="rZq-4X-D1C" firstAttribute="centerY" secondItem="GBN-hu-McN" secondAttribute="centerY" constant="-20" id="dRd-EH-QTb"/>
+                <constraint firstItem="fJY-Gr-UDr" firstAttribute="leading" secondItem="GBN-hu-McN" secondAttribute="leading" constant="20" id="vpI-h3-bhk"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="GBN-hu-McN"/>
+            <connections>
+                <outlet property="closeButtonTopConstraint" destination="Ani-nm-u3B" id="s3f-lw-EAu"/>
+                <outlet property="lookOrderButton" destination="2XG-EP-sKJ" id="pSB-OK-dCt"/>
+            </connections>
+            <point key="canvasLocation" x="7.5" y="-139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_pay_close" width="16" height="16"/>
+        <image name="icon_pay_success" width="56" height="56"/>
+    </resources>
+</document>
