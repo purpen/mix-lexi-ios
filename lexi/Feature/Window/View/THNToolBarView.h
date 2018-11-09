@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol THNToolBarViewDelegate <NSObject>
+
+@optional
+- (void)addComment:(NSString *)text;
+
+@end
+
 @interface THNToolBarView : UIView
 
+@property (nonatomic, weak) id <THNToolBarViewDelegate> delegate;
 
 @end

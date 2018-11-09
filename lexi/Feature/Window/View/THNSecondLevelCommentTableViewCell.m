@@ -15,6 +15,10 @@
 #import "THNAPI.h"
 #import "THNCommentSectionHeaderView.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNMarco.h"
+
+CGFloat const loadViewHeight = 30;
+CGFloat const allSubCommentHeight = 66;
 
 @interface THNSecondLevelCommentTableViewCell ()
 
@@ -23,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *praisesButton;
+@property (nonatomic, strong) UIView *loadMoreView;
 
 @end
 
@@ -57,6 +62,15 @@
         } else {
             self.timeLabel.text = [NSString stringWithFormat:@"%ld分钟前",min];
         }
+    }
+    
+    if (self.isHiddenLoadMoreDataView) {
+        self.loadMoreView.hidden = YES;
+    } else {
+        self.loadMoreView.hidden = NO;
+        self.loadMoreView.frame = CGRectMake(0, subCommentModel.height + allSubCommentHeight, SCREEN_WIDTH - 82, loadViewHeight);
+        [self addSubview:self.loadMoreView];
+      
     }
 }
 
@@ -95,6 +109,10 @@
     }];
 }
 
+- (void)loadMoreSubCommentData {
+    self.secondLevelBlock(self);
+}
+
 - (void)deletePraises {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"comment_id"] = @(self.subCommentModel.comment_id);
@@ -123,5 +141,24 @@
     }
 }
 
+#pragma mark - lazy
+- (UIView *)loadMoreView {
+    if (!_loadMoreView) {
+        _loadMoreView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH - 82, loadViewHeight)];
+        UIButton *loadMoreButton = [[UIButton alloc]initWithFrame:_loadMoreView.bounds];
+        [loadMoreButton setTitle:[NSString stringWithFormat:@"查看%ld条回复",self.commentModel.sub_comment_count] forState:UIControlStateNormal];
+        loadMoreButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
+        [loadMoreButton setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
+        loadMoreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 125, 0, 0);
+        loadMoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 50);
+        [loadMoreButton setImage:[UIImage imageNamed:@"icon_arrow_down"] forState:UIControlStateNormal];
+        [loadMoreButton addTarget:self action:@selector(loadMoreSubCommentData) forControlEvents:UIControlEventTouchUpInside];
+        loadMoreButton.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
+        [_loadMoreView drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
+        [_loadMoreView addSubview:loadMoreButton];
+    }
+    
+    return _loadMoreView;
+}
 
 @end

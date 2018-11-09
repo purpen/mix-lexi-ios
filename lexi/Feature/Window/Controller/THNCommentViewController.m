@@ -18,8 +18,9 @@
 #import "UIViewController+THNHud.h"
 
 static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
+static NSString *const kUrlAddComment = @"/shop_windows/comments";
 
-@interface THNCommentViewController ()<YYTextKeyboardObserver, UITextFieldDelegate>
+@interface THNCommentViewController ()<YYTextKeyboardObserver, UITextFieldDelegate, THNToolBarViewDelegate, THNMJRefreshDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *fieldBackgroundView;
 @property (nonatomic, strong) THNCommentTableView *commentTableView;
@@ -30,8 +31,8 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 @property (nonatomic, strong) NSMutableArray *comments;
 // 组合 lessThanSubComments 和 moreThanSubComments
 @property (nonatomic, strong) NSMutableArray *subComments;
-
-
+/// 当前页码
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -53,12 +54,21 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", self.commentCount];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     [self.view addSubview:self.commentTableView];
+    self.toolbar.delegate = self;
+    [self.view addSubview:self.toolbar];
+    [self.commentTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.commentTableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 // 橱窗评论
 - (void)loadCommentData {
-    [self showHud];
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
     params[@"rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowsComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -68,6 +78,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
             return;
         }
         
+        [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         for (THNCommentModel *commentModel in self.comments) {
@@ -86,7 +97,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
         }
         
         [self.commentTableView setComments:self.comments initWithSubComments:self.subComments initWithRid:self.rid];
-//        [self.commentTableView reloadData];
+        [self.commentTableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -105,6 +116,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     if (transition.animationDuration == 0) {
         self.toolbar.bottom = CGRectGetMinY(toFrame);
     } else {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.toolbar.bottom = CGRectGetMinY(toFrame);
         } completion:NULL];
@@ -115,13 +127,37 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
+#pragma mark - THNToolBarViewDelegate
+- (void)addComment:(NSString *)text {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.rid;
+    params[@"content"] = text;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlAddComment requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [self.comments removeAllObjects];
+        [self loadCommentData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+#pragma mark - THNMJRefreshDelegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadCommentData];
+}
+
 #pragma mark - lazy
 - (THNToolBarView *)toolbar {
     if (!_toolbar) {
         _toolbar = [THNToolBarView viewFromXib];
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _toolbar.frame = CGRectMake(0, 1000, self.view.width, 50);
-        [self.view addSubview:_toolbar];
     }
     return _toolbar;
 }

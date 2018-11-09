@@ -36,6 +36,9 @@
                     <state key="normal" title="发布">
                         <color key="titleColor" red="0.37254901960784315" green="0.89411764705882346" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="release:" destination="iN0-l3-epB" eventType="touchUpInside" id="N5e-F9-SOO"/>
+                    </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EiN-Up-U1H">
                     <rect key="frame" x="0.0" y="0.0" width="502" height="0.5"/>

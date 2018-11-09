@@ -23,5 +23,7 @@
 @property (nonatomic, strong) NSString *user_avatar;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, assign) CGFloat height;
+// 剩余子评论数量
+@property (nonatomic, assign) NSInteger remain_count;
 
 @end

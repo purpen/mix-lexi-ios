@@ -17,12 +17,14 @@
 #import <MJExtension/MJExtension.h>
 #import "THNSaveTool.h"
 #import "THNConst.h"
+#import "THNAPI.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
+static NSString *const kUrlShopWindowChildComments = @"/shop_windows/child_comments";
 static NSString *const kCommentSectionHeaderViewidentifier = @"kCommentSectionHeaderViewidentifier";
 static NSString *const kCommentSecondCellIdentifier = @"kCommentSecondCellIdentifier";
 static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSecondCellIdentifier";
-static CGFloat const loadViewHeight = 30;
-static CGFloat allSubCommentHeight = 66;
+
 NSInteger const maxShowSubComment = 2;
 
 @interface THNCommentTableView () <UITableViewDelegate, UITableViewDataSource>
@@ -32,12 +34,20 @@ NSInteger const maxShowSubComment = 2;
 @property (nonatomic, strong) UIView *footView;
 @property (nonatomic, strong) THNCommentSectionHeaderView *sectionHeaderView;
 @property (nonatomic, strong) NSArray *comments;
+// 子评论数组的集合
 @property (nonatomic, strong) NSMutableArray *subComments;
+// 单节子评论数组
 @property (nonatomic, strong) NSArray *sectionSubComments;
+// 组合每次分页的可变数组
+@property (nonatomic, strong) NSMutableArray *allSubComments;
 @property (nonatomic, strong) NSString *shopWindowRid;
 @property (nonatomic, assign) NSInteger allCommentCount;
-@property (nonatomic, strong) UIView *loadMoreView;
 @property (nonatomic, strong) THNCommentModel *commentModel;
+@property (nonatomic, assign) NSInteger currentPage;
+// 剩余评论数量
+@property (nonatomic, assign) NSInteger remainCount;
+@property (nonatomic, strong) UIButton *loadMoreButton;
+@property (nonatomic, strong) NSIndexPath *lastIndexPath;
 
 @end
 
@@ -45,7 +55,8 @@ NSInteger const maxShowSubComment = 2;
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType {
     self.commentType = commentType;
-   self.allCommentCount = [[THNSaveTool objectForKey:@"kCommentCount"] integerValue];
+    // 所有评论数量
+    self.allCommentCount = [[THNSaveTool objectForKey:@"kCommentCount"] integerValue];
     return [self initWithFrame:frame style:UITableViewStyleGrouped];
 }
 
@@ -90,8 +101,42 @@ NSInteger const maxShowSubComment = 2;
     self.shopWindowRid = rid;
 }
 
-- (void)loadMoreSubCommentData {
-    
+// 分页未实现
+- (void)loadMoreSubCommentData:(NSIndexPath *)indexPath {
+  
+    THNCommentModel *commentModel = self.comments[indexPath.section];
+    self.currentPage = 1;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"pid"] = @(commentModel.comment_id);
+    params[@"page"] = @(self.currentPage);
+    params[@"per_page"] = @(20);
+    THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowChildComments requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            return;
+        }
+        
+        self.currentPage = [result.data[@"current_page"] integerValue];
+        self.remainCount = [result.data[@"remain_count"] integerValue];
+        NSArray *array = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
+//        [self.allSubComments addObjectsFromArray:array];
+        
+        for (THNCommentModel *subCommentModel in array) {
+            subCommentModel.height = [self getHeightByString:subCommentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+        }
+        [self.subComments replaceObjectAtIndex:indexPath.section withObject:array];
+        [self reloadData];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+//获取字符串高度的方法
+- (CGFloat)getHeightByString:(NSString*)string AndFontSize:(UIFont *)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    return size.height;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -130,22 +175,38 @@ NSInteger const maxShowSubComment = 2;
     } else {
         THNSecondLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentSecondCellIdentifier forIndexPath:indexPath];
         
+        WEAKSELF;
+        cell.secondLevelBlock = ^(THNSecondLevelCommentTableViewCell *cell) {
+            NSIndexPath *indexPath = [weakSelf indexPathForCell:cell];
+            [weakSelf loadMoreSubCommentData:indexPath];
+        };
+        
         if (indexPath.row == 0) {
             if (self.sectionSubComments.count == 1) {
                 [cell drawCornerWithType:UILayoutCornerRadiusAll radius:4];
             } else {
                 [cell drawCornerWithType:UILayoutCornerRadiusTop radius:4];
             }
+            cell.isHiddenLoadMoreDataView = YES;
         } else if (indexPath.row == self.sectionSubComments.count - 1) {
             if (self.commentModel.sub_comment_count > maxShowSubComment) {
-                self.loadMoreView.frame = CGRectMake(0, subCommentModel.height + allSubCommentHeight, SCREEN_WIDTH - 82, loadViewHeight);
-                [cell.contentView addSubview:self.loadMoreView];
                 [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
+                
+                if (self.remainCount != 0 || self.sectionSubComments.count == maxShowSubComment) {
+                    cell.isHiddenLoadMoreDataView = NO;
+                } else {
+                    cell.isHiddenLoadMoreDataView = YES;
+                }
+                
             } else {
+                
                 [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
             }
+        } else {
+            cell.isHiddenLoadMoreDataView = YES;
         }
         
+        cell.commentModel = self.commentModel;
         [cell setSubCommentModel:subCommentModel];
         return cell;
     }
@@ -156,11 +217,21 @@ NSInteger const maxShowSubComment = 2;
     if (subCommentModel.height) {
         CGFloat allSubcommentHeight = 0;
         if (self.commentModel.sub_comment_count > maxShowSubComment && indexPath.row == self.sectionSubComments.count - 1) {
-            allSubcommentHeight = subCommentModel.height + allSubCommentHeight + loadViewHeight;
+            
+            if (self.remainCount != 0 || self.sectionSubComments.count == maxShowSubComment) {
+               allSubcommentHeight = subCommentModel.height + allSubCommentHeight + loadViewHeight;
+            } else {
+               allSubcommentHeight = subCommentModel.height + allSubCommentHeight + 10;
+            }
+            
         } else if (indexPath.row == self.sectionSubComments.count - 1) {
+            
             allSubcommentHeight = subCommentModel.height + allSubCommentHeight + 10;
+            
         } else {
+            
             allSubcommentHeight = subCommentModel.height + allSubCommentHeight;
+            
         }
         
         return self.commentType == CommentTypeSection ? subCommentModel.height + 18 : allSubcommentHeight;
@@ -209,6 +280,7 @@ NSInteger const maxShowSubComment = 2;
     }
 }
 
+
 #pragma makr - lazy
 - (UIView *)headerView {
     if (!_headerView) {
@@ -224,10 +296,12 @@ NSInteger const maxShowSubComment = 2;
 
 - (UIView *)footView {
     if (!_footView) {
-        _footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40.5)];
-        UIView *lineView = [UIView initLineView:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+        _footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 41)];
+        UIView *lineView = [UIView initLineView:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+        UIView *secondLineView = [UIView initLineView:CGRectMake(0, 38, SCREEN_WIDTH, 0.5)];
         [_footView addSubview:lineView];
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 40.5)];
+        [_footView addSubview:secondLineView];
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0.5, SCREEN_WIDTH, 40)];
         NSString *btnTitle = [NSString stringWithFormat:@"查看全部%ld条评论",self.allCommentCount];
         [button setTitle:btnTitle forState:UIControlStateNormal];
         [button addTarget:self action:@selector(lookAllCommentData) forControlEvents:UIControlEventTouchUpInside];
@@ -238,29 +312,18 @@ NSInteger const maxShowSubComment = 2;
     return _footView;
 }
 
-- (UIView *)loadMoreView {
-    if (!_loadMoreView) {
-        _loadMoreView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 82, loadViewHeight)];
-        UIButton *loadMoreButton = [[UIButton alloc]initWithFrame:_loadMoreView.bounds];
-        [loadMoreButton setTitle:[NSString stringWithFormat:@"查看%ld条回复",self.commentModel.sub_comment_count] forState:UIControlStateNormal];
-        loadMoreButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
-        [loadMoreButton setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
-        loadMoreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 125, 0, 0);
-        loadMoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 50);
-        [loadMoreButton setImage:[UIImage imageNamed:@"icon_arrow_down"] forState:UIControlStateNormal];
-        [loadMoreButton addTarget:self action:@selector(loadMoreSubCommentData) forControlEvents:UIControlEventTouchUpInside];
-        loadMoreButton.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
-        [_loadMoreView drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
-        [_loadMoreView addSubview:loadMoreButton];
-    }
-    return _loadMoreView;
-}
-
 - (THNCommentSectionHeaderView *)sectionHeaderView {
     if (!_sectionHeaderView) {
         _sectionHeaderView = [THNCommentSectionHeaderView viewFromXib];
     }
     return _sectionHeaderView;
+}
+
+- (NSMutableArray *)allSubComments {
+    if (!_allSubComments) {
+        _allSubComments = [NSMutableArray array];
+    }
+    return _allSubComments;
 }
 
 @end
