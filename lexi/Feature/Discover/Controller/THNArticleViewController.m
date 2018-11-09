@@ -24,6 +24,9 @@
 #import <SDWebImage/SDWebImageManager.h>
 #import "THNBrandHallViewController.h"
 #import "THNCommentTableViewCell.h"
+#import "THNCommentModel.h"
+#import "THNSaveTool.h"
+
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -38,9 +41,11 @@ static NSString *const KArticleCellTypeArticle = @"article";
 static NSString *const kArticleCellTypeStore = @"store";
 static NSString *const kArticleCellTypeProduct = @"product";
 static NSString *const kArticleCellTypeStory = @"story";
+static NSString *const KArticleCellTypeComment = @"comment";
 
 typedef NS_ENUM(NSUInteger, ArticleCellType) {
     ArticleCellTypeArticle,
+    ArticleCellTypeComment,
     ArticleCellTypeStore,
     ArticleCellTypeProduct,
     ArticleCellTypeStory
@@ -59,6 +64,17 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
 @property (nonatomic, assign) ArticleCellType articleCellType;
 @property (nonatomic, assign) CGFloat lifeRecordsDetailCellHeight;
 @property (nonatomic, assign) CGFloat storyCellHeight;
+@property (nonatomic, assign) NSInteger allCommentCount;
+// 所有一级
+@property (nonatomic, strong) NSMutableArray *comments;
+// 组合 lessThanSubComments 和 moreThanSubComments
+@property (nonatomic, strong) NSMutableArray *subComments;
+// 小于最大显示行数的所有子评论数组
+@property (nonatomic, strong) NSMutableArray *lessThanSubComments;
+// 大于最大显示行数的所有子评论数组
+@property (nonatomic, strong) NSMutableArray *moreThanSubComments;
+@property (nonatomic, assign) CGFloat commentHeight;
+@property (nonatomic, assign) CGFloat subCommentHeight;
 
 @end
 
@@ -90,6 +106,11 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
         self.grassListModel = [THNGrassListModel mj_objectWithKeyValues:result.data];
         self.featuredBrandModel = [THNFeaturedBrandModel mj_objectWithKeyValues:self.grassListModel.recommend_store];
         for (NSDictionary *dict in self.grassListModel.deal_content) {
@@ -101,8 +122,8 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         if (self.grassListModel.recommend_store.count > 0) {
             [self.dataArray addObject:kArticleCellTypeStore];
         }
-        
-        [self loadRecommendProductData];
+
+        [self loadLifeRecordsCommentData];
         
     } failure:^(THNRequest *request, NSError *error) {
 
@@ -114,7 +135,46 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        self.allCommentCount = [result.data[@"comment_count"] integerValue];
+        [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
+        [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
+
+        for (THNCommentModel *commentModel in self.comments) {
+            commentModel.height = [self getHeightByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+            self.commentHeight += commentModel.height;
+            // 记录单个评论下的子评论
+            NSMutableArray *moreThanSubComments = [NSMutableArray array];
+            NSMutableArray *lessThanSubComments = [NSMutableArray array];
+            if (commentModel.sub_comment_count > 2) {
+                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:commentModel.sub_comments[0]];
+                [moreThanSubComments addObject:subCommentModel];
+                [self.moreThanSubComments addObject:subCommentModel];
+                [self.subComments addObject:moreThanSubComments];
+                self.subCommentHeight += subCommentModel.height;
+            } else {
+
+                for (NSDictionary *dict in commentModel.sub_comments) {
+
+                    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
+                    NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
+                    subCommentModel.height = [self getHeightByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                    [lessThanSubComments addObject:subCommentModel];
+                    [self.lessThanSubComments addObject:subCommentModel];
+                    self.subCommentHeight += subCommentModel.height;
+                }
+
+                [self.subComments addObject:lessThanSubComments];
+            }
+        }
+
+        if (self.comments.count > 0) {
+            [self.dataArray addObject:KArticleCellTypeComment];
+        }
+        [self loadRecommendProductData];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -185,6 +245,13 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
     return 175 * showRow + 85 + totalTitleHeight;
 }
 
+//获取字符串高度的方法
+- (CGFloat)getHeightByString:(NSString*)string AndFontSize:(UIFont *)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    return size.height;
+}
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
@@ -200,6 +267,11 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         [cell thn_setDealContentData:self.contentModels];
         return cell;
 
+    } else if ([articleStr isEqualToString:KArticleCellTypeComment]) {
+        self.articleCellType = ArticleCellTypeComment;
+        THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
+        [cell setComments:self.comments initWithSubComments:self.subComments initWithRid:[NSString stringWithFormat:@"%ld",self.rid]];
+        return cell;
     } else if ([articleStr isEqualToString:kArticleCellTypeStore]) {
         self.articleCellType = ArticleCellTypeStore;
         THNArticleStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleStoreCellIdentifier forIndexPath:indexPath];
@@ -255,6 +327,13 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
                self.lifeRecordsDetailCellHeight = [UITableViewCell heightWithDaelContentData:self.contentModels];
             }
             return self.lifeRecordsDetailCellHeight;
+        case ArticleCellTypeComment:{
+            CGFloat commentHeight = 45 * self.comments.count + self.commentHeight;
+            CGFloat subCommentHeight = 32 * self.moreThanSubComments.count + 18 * self.lessThanSubComments.count + self.subCommentHeight;
+            // 间距 + 头部视图和尾部视图 + 一级评论 + 二级评论
+            CGFloat headerWithFooterViewHeight = self.allCommentCount > 3 ? 89.5 : 49;
+            return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
+        }
         case ArticleCellTypeStore:
             return 110;
         case ArticleCellTypeProduct:
@@ -332,6 +411,20 @@ typedef NS_ENUM(NSUInteger, ArticleCellType) {
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
+}
+
+- (NSMutableArray *)comments {
+    if (!_comments) {
+        _comments = [NSMutableArray array];
+    }
+    return _comments;
+}
+
+- (NSMutableArray *)subComments {
+    if (!_subComments) {
+        _subComments = [NSMutableArray array];
+    }
+    return _subComments;
 }
 
 @end

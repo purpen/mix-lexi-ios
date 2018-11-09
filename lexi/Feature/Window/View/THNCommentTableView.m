@@ -55,8 +55,7 @@ NSInteger const maxShowSubComment = 2;
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType {
     self.commentType = commentType;
-    // 所有评论数量
-    self.allCommentCount = [[THNSaveTool objectForKey:@"kCommentCount"] integerValue];
+    self.allCommentCount = [[THNSaveTool objectForKey:kCommentCount] integerValue];
     return [self initWithFrame:frame style:UITableViewStyleGrouped];
 }
 

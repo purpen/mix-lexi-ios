@@ -86,6 +86,7 @@ NSString *const kIsCloseLivingHallView      = @"kIsCloseLivingHallView";
 NSString *const kIsCloseOpenedPromptView    = @"kIsCloseOpenedPromptView";
 NSString *const kSearchKeyword              = @"kSearchKeyword";
 NSString *const kBrandHallRid               = @"kBrandHallRid"; // 进入他人品牌馆的ID
+NSString *const kCommentCount               = @"kCommentCount";
 
 #pragma mark - NSNotification
 NSString *const kOrderLogisticsTracking         = @"OrderLogisticsTracking";

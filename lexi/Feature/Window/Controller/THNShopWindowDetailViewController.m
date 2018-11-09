@@ -135,7 +135,7 @@ THNFeatureTableViewCellDelegate
         }
         
         self.allCommentCount = [result.data[@"comment_count"] integerValue];
-        [THNSaveTool setObject:@(self.allCommentCount) forKey:@"kCommentCount"];
+        [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         for (THNCommentModel *commentModel in self.comments) {

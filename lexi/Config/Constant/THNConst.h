@@ -70,6 +70,7 @@ UIKIT_EXTERN NSString *const kColorBackground;
 UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
 UIKIT_EXTERN NSString *const kBrandHallRid;
 UIKIT_EXTERN NSString *const kSearchKeyword;
+UIKIT_EXTERN NSString *const kCommentCount;
 
 
 #pragma mark - NSNotification
