@@ -77,13 +77,11 @@ static NSString *const kTitleUserFollow     = @"关注";
 
 #pragma mark - network
 - (void)thn_requestUserListDataWithRefresh:(BOOL)refresh {
-    NSLog(@"请求参数：%@", [self thn_requestParams]);
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_requestParams]
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"============ 用户列表：%@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
             if (refresh) {
                 [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];

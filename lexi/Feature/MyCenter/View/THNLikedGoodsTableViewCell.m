@@ -94,7 +94,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     }
     
     self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
-    self.goodsCollectionView.contentInset = UIEdgeInsetsMake(0, originX, 0, originX);
+    self.flowLayout.sectionInset = UIEdgeInsetsMake(0, originX, 0, originX);
     self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
 }
 

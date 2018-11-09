@@ -8,7 +8,6 @@
 
 #import "THNGoodsFunctionView.h"
 #import "THNGoodsButton.h"
-#import "THNGoodsButton+SelfManager.h"
 #import "THNCartButton.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
@@ -21,7 +20,7 @@ static NSString *const kTextNone = @"已售罄";
 
 /// 左侧主按钮：加入购物车、购买
 @property (nonatomic, strong) THNGoodsButton *mainButton;
-/// 左侧副按钮：购买、定制、卖
+/// 左侧副按钮：购买、订制、卖
 @property (nonatomic, strong) THNGoodsButton *subButton;
 /// 购物车
 @property (nonatomic, strong) THNCartButton *cartButton;

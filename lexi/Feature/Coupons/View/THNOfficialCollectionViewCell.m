@@ -69,6 +69,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         flowLayout.minimumLineSpacing = 10;
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.itemSize = CGSizeMake(100, 128);
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
         _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-15, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame))
@@ -77,7 +78,6 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         _couponCollectionView.dataSource = self;
         _couponCollectionView.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
         _couponCollectionView.showsVerticalScrollIndicator = NO;
-        _couponCollectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 15);
         _couponCollectionView.showsHorizontalScrollIndicator = NO;
         
         [_couponCollectionView registerClass:[THNOfficialCouponCollectionViewCell class]

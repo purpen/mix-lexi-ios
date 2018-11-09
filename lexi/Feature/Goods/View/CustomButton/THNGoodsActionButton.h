@@ -48,6 +48,12 @@ typedef void (^WishGoodsCompleted)(BOOL isWish);
  */
 - (void)setBuyGoodsButton;
 
+/**
+ 加载动画
+ */
+- (void)startLoading;
+- (void)endLoading;
+
 - (instancetype)initWithType:(THNGoodsActionButtonType)type;
 
 @end

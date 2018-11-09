@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, THNGoodsListViewType) {
     THNGoodsListViewTypeOptimal,        //  乐喜优选
     THNGoodsListViewTypeRecommend,      //  人气推荐
     THNGoodsListViewTypeSearch,         //  商品搜索
-    THNGoodsListViewTypeCustomization,  //  接单定制
+    THNGoodsListViewTypeCustomization,  //  接单订制
     THNGoodsListViewTypeFreeShipping    //  包邮专区
 };
 
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, THNUserCenterGoodsType) {
 
 typedef NS_ENUM(NSUInteger, THNGoodsFunctionViewType) {
     THNGoodsFunctionViewTypeDefault = 0,  // 默认
-    THNGoodsFunctionViewTypeCustom,       // 可定制
+    THNGoodsFunctionViewTypeCustom,       // 可订制
     THNGoodsFunctionViewTypeSell,         // 可卖
 };
 

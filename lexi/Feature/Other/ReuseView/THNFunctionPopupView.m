@@ -26,7 +26,7 @@ static NSString *const kTitlePrice          = @"价格";
 /// 推荐标签
 static NSString *const kRecommandExpress    = @"包邮";
 static NSString *const kRecommandSale       = @"特惠";
-static NSString *const kRecommandCustomize  = @"可定制";
+static NSString *const kRecommandCustomize  = @"可订制";
 /// 请求参数字段
 static NSString *const kKeyExpress          = @"is_free_postage";
 static NSString *const kKeySale             = @"is_preferential";

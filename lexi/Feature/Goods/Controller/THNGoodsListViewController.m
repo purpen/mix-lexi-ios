@@ -106,7 +106,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             [self.paramDict setDictionary:params];
             
             self.popupView.userGoodsType = self.userGoodsType;
-            [self thn_getUserCenterProductsWithType:self.userGoodsType params:params];
+            [self thn_getUserCenterProductsWithType:self.userGoodsType params:params loadMore:NO];
         }
             break;
             
@@ -118,7 +118,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             [self.paramDict setDictionary:params];
             
             [self.popupView thn_setCategoryId:self.categoryId];
-            [self thn_getCategoryProductsWithParams:params];
+            [self thn_getCategoryProductsWithParams:params loadMore:NO];
         }
             break;
     
@@ -138,13 +138,13 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
             }
             
             [self.popupView thn_setCategoryId:self.categoryId];
-            [self thn_getColumnProductsWithType:type params:params];
+            [self thn_getColumnProductsWithType:type params:params loadMore:NO];
         }
             break;
             
         case THNGoodsListViewTypeCustomization: {
             [self thn_showFunctionView:NO];
-            [self thn_getCustomizationProductsWithParams:[self thn_requestCustomizationParams]];
+            [self thn_getCustomizationProductsWithParams:[self thn_requestCustomizationParams] loadMore:NO];
         }
             
         default:
@@ -153,92 +153,100 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 }
 
 // 获取个人中心商品数据
-- (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+- (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params loadMore:(BOOL)loadMore {
+    if (!loadMore) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD thn_show];
+        });
+    }
     
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:type
                                             params:params
                                         completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-                                            if (error || !goodsData.count) {
+                                            if (error) {
                                                 [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
                                                 return;
                                             };
         
-                                            [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-                                            [weakSelf.modelArray addObjectsFromArray:goodsData];
-                                            [weakSelf.goodsCollectionView reloadData];
                                             [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
+                                            [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
+                                            [weakSelf thn_addModelFromGoodsDataArray:goodsData];
+                                            [weakSelf.goodsCollectionView reloadData];
                                             [SVProgressHUD dismiss];
                                         }];
 }
 
 // 获取分类商品数据
-- (void)thn_getCategoryProductsWithParams:(NSDictionary *)params {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+- (void)thn_getCategoryProductsWithParams:(NSDictionary *)params loadMore:(BOOL)loadMore {
+    if (!loadMore) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD thn_show];
+        });
+    }
     
     WEAKSELF;
     
     [THNGoodsManager getCategoryProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) {
+        if (error) {
             [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
             return;
         };
         
         [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-        [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
-        [weakSelf.goodsCollectionView reloadData];
         [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
+        [weakSelf thn_addModelFromGoodsDataArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
+        [weakSelf.goodsCollectionView reloadData];
         [SVProgressHUD dismiss];
     }];
 }
 
 // 获取接单订制商品
-- (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+- (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params loadMore:(BOOL)loadMore {
+    if (!loadMore) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD thn_show];
+        });
+    }
     
     WEAKSELF;
 
     [THNGoodsManager getCustomizationProductsWithParams:params completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-        if (error || !goodsData.count) {
+        if (error) {
             [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
             return;
         };
         
-        [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
-        [weakSelf.goodsCollectionView reloadData];
         [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
+        [weakSelf thn_addModelFromGoodsDataArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
+        [weakSelf.goodsCollectionView reloadData];
         [SVProgressHUD dismiss];
     }];
 }
 
 // 获取栏目商品
-- (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+- (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params loadMore:(BOOL)loadMore {
+    if (!loadMore) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD thn_show];
+        });
+    }
     
     WEAKSELF;
     
     [THNGoodsManager getColumnProductsWithListType:type
                                             params:params
                                         completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
-                                            if (error || !goodsData.count) {
+                                            if (error) {
                                                 [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:NO];
                                                 return;
                                             };
         
                                             [weakSelf.popupView thn_setDoneButtonTitleWithGoodsCount:count show:YES];
-                                            [weakSelf.modelArray addObjectsFromArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
-                                            [weakSelf.goodsCollectionView reloadData];
                                             [weakSelf.goodsCollectionView endFooterRefreshAndCurrentPageChange:YES];
+                                            [weakSelf thn_addModelFromGoodsDataArray:[weakSelf thn_getRequestResultGoodsModel:goodsData]];
+                                            [weakSelf.goodsCollectionView reloadData];
                                             [SVProgressHUD dismiss];
                                         }];
 }
@@ -329,12 +337,12 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     
     switch (self.goodsListType) {
         case THNGoodsListViewTypeUser: {
-            [self thn_getUserCenterProductsWithType:self.userGoodsType params:self.paramDict];
+            [self thn_getUserCenterProductsWithType:self.userGoodsType params:self.paramDict loadMore:loadMore];
         }
             break;
             
         case THNGoodsListViewTypeCategory: {
-            [self thn_getCategoryProductsWithParams:self.paramDict];
+            [self thn_getCategoryProductsWithParams:self.paramDict loadMore:loadMore];
         }
             break;
             
@@ -344,12 +352,12 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         case THNGoodsListViewTypeDesign:
         case THNGoodsListViewTypeGoodThing:
         case THNGoodsListViewTypeFreeShipping: {
-            [self thn_getColumnProductsWithType:self.goodsListType params:self.paramDict];
+            [self thn_getColumnProductsWithType:self.goodsListType params:self.paramDict loadMore:loadMore];
         }
             break;
             
         case THNGoodsListViewTypeCustomization: {
-            [self thn_getCustomizationProductsWithParams:self.paramDict];
+            [self thn_getCustomizationProductsWithParams:self.paramDict loadMore:loadMore];
         }
             
         default:
@@ -415,6 +423,18 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 }
 
 /**
+ 添加商品模型
+ */
+- (void)thn_addModelFromGoodsDataArray:(NSArray *)goodsDataArr {
+    if (goodsDataArr.count) {
+        [self.modelArray addObjectsFromArray:goodsDataArr];
+        
+    } else {
+        [self.goodsCollectionView noMoreData];
+    }
+}
+
+/**
  不显示筛选&排序功能栏
  */
 - (void)thn_showFunctionView:(BOOL)show {
@@ -429,7 +449,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
  设置视图的偏移量
  */
 - (void)thn_setCollectionViewContentInsetTop:(CGFloat)top {
-    self.goodsCollectionView.contentInset = UIEdgeInsetsMake(top, 20, 20, 20);
+    self.goodsCollectionView.contentInset = UIEdgeInsetsMake(top, 0, 20, 0);
 }
 
 /**
@@ -463,8 +483,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     
     if (self.modelArray.count) {
         [cell thn_setGoodsCellViewType:(THNGoodsListCellViewTypeGoodsList)
-                            goodsModel:self.modelArray[indexPath.row]
-                          showInfoView:YES];
+                            goodsModel:(THNGoodsModel *)self.modelArray[indexPath.row]
+                          showInfoView:YES
+                                 index:indexPath.row];
     }
     
     return cell;
@@ -522,6 +543,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumLineSpacing = 10;
         flowLayout.minimumInteritemSpacing = 10;
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _goodsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)

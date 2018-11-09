@@ -65,7 +65,7 @@ static NSString *const kTextFooterNoData = @"没有更多数据了";
     
     if (!className.length) {
         if (automaticallyRefresh) {
-            MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            MJRefreshAutoGifFooter *footer = [MJRefreshAutoGifFooter footerWithRefreshingBlock:^{
                 __strong typeof(self) strongSelf = weakSelf;
                 
                 if ([strongSelf.refreshDelegate respondsToSelector:@selector(beginLoadingMoreDataWithCurrentPage:)]) {
@@ -73,13 +73,15 @@ static NSString *const kTextFooterNoData = @"没有更多数据了";
                                                      withObject:strongSelf.currentPage];
                 }
             }];
-            
+
             footer.automaticallyRefresh = automaticallyRefresh;
-//            footer.stateLabel.font = [UIFont systemFontOfSize:13.0];
-//            footer.stateLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-//            [footer setTitle:kTextFooterTitle forState:MJRefreshStateRefreshing];
-//            [footer setTitle:kTextFooterNoData forState:MJRefreshStateNoMoreData];
-            footer.stateLabel.hidden = YES;
+            [footer setImages:[UIImage imagesWithGifNamed:@"loading"] forState:MJRefreshStateIdle];
+            [footer setImages:[UIImage imagesWithGifNamed:@"loading"] forState:MJRefreshStatePulling];
+            [footer setImages:[UIImage imagesWithGifNamed:@"loading"] forState:MJRefreshStateRefreshing];
+            footer.stateLabel.font = [UIFont systemFontOfSize:13.0];
+            footer.stateLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+            [footer setTitle:@"" forState:MJRefreshStateIdle];
+            [footer setTitle:kTextFooterNoData forState:MJRefreshStateNoMoreData];
             footer.refreshingTitleHidden = YES;
             
             self.mj_footer = footer;

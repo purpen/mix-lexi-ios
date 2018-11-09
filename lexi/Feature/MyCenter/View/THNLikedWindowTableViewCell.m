@@ -83,9 +83,9 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.cell.selectedCellBlock) {
+    if (self.cell.selectedWindowBlock) {
         THNWindowModelShopWindows *model = self.modelArray[indexPath.row];
-        self.cell.selectedCellBlock([NSString stringWithFormat:@"%zi", model.rid]);
+        self.cell.selectedWindowBlock(model);
     }
 }
 
@@ -96,12 +96,12 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
         flowLayout.minimumLineSpacing = 10;
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
         self.flowLayout = flowLayout;
         
         _windowCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
         _windowCollectionView.showsHorizontalScrollIndicator = NO;
         _windowCollectionView.backgroundColor = [UIColor whiteColor];
-        _windowCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 20);
         _windowCollectionView.delegate = self;
         _windowCollectionView.dataSource = self;
         [_windowCollectionView registerClass:[THNLikedWindowCollectionViewCell class] forCellWithReuseIdentifier:kCollectionViewCellId];

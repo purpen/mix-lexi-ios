@@ -8,13 +8,16 @@
 
 #import "THNWindowListViewController.h"
 #import "THNLikedWindowCollectionViewCell.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNShopWindowModel.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 static NSString *const kCollectionViewCellId = @"THNLikedWindowCollectionViewCellId";
 ///
 static NSString *const kURLLikedWindow      = @"/shop_windows/user_likes";
 static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
 
-@interface THNWindowListViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface THNWindowListViewController () <UICollectionViewDelegate, UICollectionViewDataSource, THNMJRefreshDelegate>
 
 /// 橱窗列表
 @property (nonatomic, strong) UICollectionView *windowCollectionView;
@@ -41,14 +44,22 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
     [super viewDidLoad];
     
     [self setupUI];
-    [self thn_requestWindowListData];
+    [self thn_requestWindowListDataOfLoading:NO];
+}
+
+#pragma mark - custom delegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self thn_requestWindowListDataOfLoading:YES];
 }
 
 #pragma mark - network
-- (void)thn_requestWindowListData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+- (void)thn_requestWindowListDataOfLoading:(BOOL)loading {
+    if (!loading) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD thn_show];
+        });
+    }
     
     NSString *urlStr = self.userId.length ? kURLOtherLikedWindow : kURLLikedWindow;
     
@@ -58,11 +69,21 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            [weakSelf.windowCollectionView endFooterRefreshAndCurrentPageChange:NO];
             return ;
         };
         
+        [weakSelf.windowCollectionView endFooterRefreshAndCurrentPageChange:YES];
+        
         THNWindowModel *model = [[THNWindowModel alloc] initWithDictionary:result.data];
-        [weakSelf.windowArray addObjectsFromArray:model.shopWindows];
+        
+        if (model.shopWindows.count) {
+            [weakSelf.windowArray addObjectsFromArray:model.shopWindows];
+            
+        } else {
+            [weakSelf.windowCollectionView noMoreData];
+        }
+        
         [weakSelf.windowCollectionView reloadData];
         [SVProgressHUD dismiss];
         
@@ -73,7 +94,7 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
 
 // 橱窗列表默认的请求参数
 - (NSDictionary *)thn_requestParams {
-    NSDictionary *params = @{@"page": @(self.currentPage += 1),
+    NSDictionary *params = @{@"page": @(self.currentPage),
                              @"per_page": @(10)};
     
     if (self.userId.length) {
@@ -84,6 +105,18 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
     }
     
     return params;
+}
+
+#pragma mark - open other controller
+// 橱窗主页
+- (void)thn_openWindowDetailContollerWithModel:(THNWindowModelShopWindows *)model {
+    if (!model.rid) return;
+    
+    THNShopWindowModel *shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:[model toDictionary]];
+    
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc] init];
+    shopWindowDetail.shopWindowModel = shopWindowModel;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 #pragma mark - collectionView delegate & dataSource
@@ -102,13 +135,15 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNWindowModelShopWindows *model = self.windowArray[indexPath.row];
-    [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗 == %zi", model.rid]];
+    [self thn_openWindowDetailContollerWithModel:(THNWindowModelShopWindows *)self.windowArray[indexPath.row]];
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.windowCollectionView];
+    
+    [self.windowCollectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    self.currentPage = 1;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -980,7 +980,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                 THNDealContentTableViewCell *contentCell = [THNDealContentTableViewCell initGoodsCellWithTableView:tableView];
                 goodsCells.contentCell = contentCell;
                 contentCell.baseCell = goodsCells;
-                [contentCell thn_setDealContentData:goodsCells.goodsModel.dealContent];
+                [contentCell thn_setDealContentData:goodsCells.goodsModel.dealContent type:(THNDealContentTypeGoodsInfo)];
                 
                 return contentCell;
             }

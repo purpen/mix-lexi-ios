@@ -44,9 +44,14 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 
 #pragma mark - public methods
 - (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show {
+    [self thn_setGoodsCellViewType:cellViewType goodsModel:goodsModel showInfoView:show index:0];
+}
+
+- (void)thn_setGoodsCellViewType:(THNGoodsListCellViewType)cellViewType goodsModel:(THNGoodsModel *)goodsModel showInfoView:(BOOL)show index:(NSInteger)index {
     self.viewType = cellViewType;
-    [self.goodsImageView downloadImage:[goodsModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]
-                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    
+    THNLoadImageUrlType urlType = (index + 1) % 5 ? THNLoadImageUrlTypeGoodsList : THNLoadImageUrlTypeWindowP500;
+    [self.goodsImageView downloadImage:[goodsModel.cover loadImageUrlWithType:urlType]];
     
     if (show) {
         self.infoView.hidden = NO;

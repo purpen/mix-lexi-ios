@@ -33,6 +33,8 @@
 #import "THNShareViewController.h"
 #import "THNMyCouponViewController.h"
 #import "THNUserListViewController.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNShopWindowModel.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -428,9 +430,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     WEAKSELF;
     
-    THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow) didSelectedItem:^(NSString *ids) {
-        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"打开橱窗：%@", ids]];
-    }];
+    THNTableViewCells *cells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeLikedWindow)
+                                                 didSelectedWindow:^(THNWindowModelShopWindows *model) {
+                                                     [weakSelf thn_openWindowDetailContollerWithModel:model];
+                                                 }];
     cells.height = kCellHeightWindow;
     cells.windowDataArr = self.windowArr;
     
@@ -622,6 +625,19 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_openUserListControllerWithType:(THNUserListType)type {
     THNUserListViewController *userListVC = [[THNUserListViewController alloc] initWithType:type requestId:@""];
     [self.navigationController pushViewController:userListVC animated:YES];
+}
+
+/**
+ 橱窗主页
+ */
+- (void)thn_openWindowDetailContollerWithModel:(THNWindowModelShopWindows *)model {
+    if (!model.rid) return;
+    
+    THNShopWindowModel *shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:[model toDictionary]];
+    
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc] init];
+    shopWindowDetail.shopWindowModel = shopWindowModel;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 #pragma mark - tableView dataSource
