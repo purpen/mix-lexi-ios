@@ -14,13 +14,17 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNSearchUserTableViewCell.h"
+#import "UIScrollView+THNMJRefresh.h"
+#import "SVProgressHUD+Helper.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrlSearchUser = @"/core_platforms/search/users";
 static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
 
-@interface THNSearchUserTableViewController ()
+@interface THNSearchUserTableViewController () <THNMJRefreshDelegate>
 
-@property (nonatomic, strong) NSArray *users;
+@property (nonatomic, strong) NSMutableArray *users;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -29,8 +33,8 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadSearchUserData];
     [self setupUI];
+    [self loadSearchUserData];
 }
 
 - (void)setupUI {
@@ -40,20 +44,47 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSearchUserTableViewCell" bundle:nil] forCellReuseIdentifier:kSearchUserCellIdentifier];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadSearchUserData {
+
+    if (self.currentPage == 1) {
+        self.isTransparent = YES;
+        [self showHud];
+    }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @1;
-    params[@"per_page"] = @10;
+    params[@"page"] = @(self.currentPage);
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchUser requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.users = [THNUserModel mj_objectArrayWithKeyValuesArray:result.data[@"users"]];
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        NSArray *users = result.data[@"users"];
+        if (users.count > 0) {
+            [self.users addObjectsFromArray:[THNUserModel mj_objectArrayWithKeyValuesArray:users]];
+        } else {
+            [self.tableView noMoreData];
+        }
+
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
+}
+
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadSearchUserData];
 }
 
 #pragma mark - Table view data source
@@ -68,6 +99,13 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
     THNUserModel *userModel = self.users[indexPath.row];
     [cell setUserModel:userModel];
     return cell;
+}
+
+- (NSMutableArray *)users {
+    if (!_users) {
+        _users = [NSMutableArray array];
+    }
+    return _users;
 }
 
 @end

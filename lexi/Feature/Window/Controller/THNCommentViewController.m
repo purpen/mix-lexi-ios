@@ -79,6 +79,13 @@ static NSString *const kUrlAddComment = @"/shop_windows/comments";
         }
         
         [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
+        NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
+        if (comments.count > 0) {
+            [self.comments addObjectsFromArray:comments];
+        } else {
+            [self.commentTableView noMoreData];
+        }
+
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         for (THNCommentModel *commentModel in self.comments) {

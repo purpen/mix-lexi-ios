@@ -56,7 +56,7 @@
                         <rect key="frame" x="448" y="32" width="4" height="9"/>
                     </imageView>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="YJt-Mo-Cyc">
-                        <rect key="frame" x="389" y="18" width="39" height="37"/>
+                        <rect key="frame" x="408" y="18" width="39" height="37"/>
                         <color key="pageIndicatorTintColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="currentPageIndicatorTintColor" red="0.77647058820000003" green="0.81960784310000001" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                     </pageControl>
@@ -66,7 +66,6 @@
                     <constraint firstItem="vCq-2U-Ad6" firstAttribute="top" secondItem="zIa-fe-r3h" secondAttribute="top" constant="25" id="3eo-2j-Ctx"/>
                     <constraint firstItem="ZmH-ps-M0q" firstAttribute="leading" secondItem="vCq-2U-Ad6" secondAttribute="trailing" constant="10" id="5Ar-9f-lm3"/>
                     <constraint firstItem="vCq-2U-Ad6" firstAttribute="leading" secondItem="zIa-fe-r3h" secondAttribute="leading" constant="15" id="5Tj-eV-u6q"/>
-                    <constraint firstItem="nRx-ht-5fh" firstAttribute="leading" secondItem="YJt-Mo-Cyc" secondAttribute="trailing" constant="20" id="7aj-11-gv0"/>
                     <constraint firstAttribute="trailing" secondItem="2CI-qc-qCo" secondAttribute="trailing" id="7sT-zf-fx9"/>
                     <constraint firstItem="A8s-Tc-jQf" firstAttribute="top" secondItem="ZmH-ps-M0q" secondAttribute="bottom" constant="15" id="I8r-UN-PmG"/>
                     <constraint firstItem="nRx-ht-5fh" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="PIa-Od-zDa"/>
@@ -77,6 +76,7 @@
                     <constraint firstAttribute="trailing" secondItem="nRx-ht-5fh" secondAttribute="trailing" constant="15" id="oHq-Lb-DfG"/>
                     <constraint firstItem="ZmH-ps-M0q" firstAttribute="centerY" secondItem="vCq-2U-Ad6" secondAttribute="centerY" id="owT-Sy-1Wl"/>
                     <constraint firstAttribute="trailing" secondItem="A8s-Tc-jQf" secondAttribute="trailing" id="pE6-22-MQk"/>
+                    <constraint firstAttribute="trailing" secondItem="YJt-Mo-Cyc" secondAttribute="trailing" constant="20" id="xkB-wn-VxR"/>
                     <constraint firstAttribute="bottom" secondItem="A8s-Tc-jQf" secondAttribute="bottom" constant="20" id="xvC-8V-WhE"/>
                 </constraints>
             </tableViewCellContentView>

@@ -205,11 +205,11 @@ CGFloat const kCellGrassListHeight = 158;
             break;
         case FearuredOptimal:
             itemWidth = (SCREEN_WIDTH - 49) / 2;
-            itemHeight = kCellOptimalHeight;
+            itemHeight = (SCREEN_WIDTH - 49) / 2 + 46;
             break;
         case FeaturedNo:
             itemWidth = (SCREEN_WIDTH - 49) / 2;
-            itemHeight = kCellOptimalHeight;
+            itemHeight = (SCREEN_WIDTH - 49) / 2 + 46;
             break;
     }
     
@@ -302,6 +302,10 @@ CGFloat const kCellGrassListHeight = 158;
             } else if (dailyRecommendModel.target_type == RecommendTypeSet) {
                 if (self.delagate && [self.delagate respondsToSelector:@selector(pushSetDetail:)]) {
                     [self.delagate pushSetDetail:dailyRecommendModel.recommend_id];
+                }
+            } else if (dailyRecommendModel.target_type == RecommendTypeProduct) {
+                if (self.delagate && [self.delagate respondsToSelector:@selector(pushGoodInfo:)]) {
+                    [self.delagate pushGoodInfo:[NSString stringWithFormat:@"%ld",dailyRecommendModel.recommend_id]];
                 }
             }
             break;

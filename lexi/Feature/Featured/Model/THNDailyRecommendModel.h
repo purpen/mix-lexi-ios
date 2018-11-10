@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSUInteger, RecommendType) {
     RecommendTypeArticle = 1,
     RecommendTypeGrassList,
-    RecommendTypeSet
+    RecommendTypeSet,
+    RecommendTypeProduct
 };
 
 @interface THNDailyRecommendModel : NSObject

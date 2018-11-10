@@ -176,12 +176,13 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.userPartieArray = result.data[@"users"];
-        NSInteger baroseCount = [result.data[@"browse_number"]integerValue];
+        NSInteger baroseCount = [result.data[@"browse_number"] integerValue];
+        NSInteger count = [result.data[@"count"] integerValue];
         
-        if (baroseCount > 999) {
+        if (count > 999) {
             self.browseMaxShowLabel.text = @"999+";
         } else {
-            self.browseMaxShowLabel.text = [NSString stringWithFormat:@"%ld",baroseCount];
+            self.browseMaxShowLabel.text = [NSString stringWithFormat:@"%ld",count];
         }
         
         NSString *browseCountText = [NSString stringWithFormat:@"生活馆被浏览过%ld次",baroseCount];

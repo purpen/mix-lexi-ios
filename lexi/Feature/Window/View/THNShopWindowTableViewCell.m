@@ -87,9 +87,16 @@ static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     }
     
     if (shopWindowModel.is_official) {
+        self.flowButton.hidden = YES;
+         self.identityImageView.hidden = NO;
         self.identityImageView.image = [UIImage imageNamed:@"icon_official"];
-    } else {
+    } else if (shopWindowModel.is_expert) {
+        self.flowButton.hidden = NO;
+         self.identityImageView.hidden = NO;
         self.identityImageView.image = [UIImage imageNamed:@"icon_talent"];
+    } else {
+        self.flowButton.hidden = NO;
+        self.identityImageView.hidden = YES;
     }
     
     WEAKSELF;
