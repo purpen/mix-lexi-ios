@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -35,13 +35,23 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flc-Wb-7Op">
+                                    <rect key="frame" x="0.0" y="0.0" width="298" height="33"/>
+                                    <connections>
+                                        <action selector="showToolView:" destination="-1" eventType="touchUpInside" id="xtr-n4-ySd"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.96078431372549022" green="0.96862745098039216" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="flc-Wb-7Op" secondAttribute="bottom" id="2SM-XU-8a7"/>
+                                <constraint firstAttribute="trailing" secondItem="flc-Wb-7Op" secondAttribute="trailing" id="9Ku-gk-VY9"/>
                                 <constraint firstAttribute="bottom" secondItem="1LL-tQ-hUQ" secondAttribute="bottom" id="9v8-MB-qMN"/>
+                                <constraint firstItem="flc-Wb-7Op" firstAttribute="top" secondItem="1d7-8I-5h1" secondAttribute="top" id="DmN-5L-jZC"/>
                                 <constraint firstItem="1LL-tQ-hUQ" firstAttribute="top" secondItem="1d7-8I-5h1" secondAttribute="top" id="TJp-QR-sdq"/>
                                 <constraint firstAttribute="trailing" secondItem="1LL-tQ-hUQ" secondAttribute="trailing" constant="8" id="VIK-E0-FG8"/>
                                 <constraint firstItem="1LL-tQ-hUQ" firstAttribute="leading" secondItem="1d7-8I-5h1" secondAttribute="leading" constant="15" id="YAb-dh-0Bc"/>
+                                <constraint firstItem="flc-Wb-7Op" firstAttribute="leading" secondItem="1d7-8I-5h1" secondAttribute="leading" id="YSk-s1-J22"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pc-Pr-6Ml">

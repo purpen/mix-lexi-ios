@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class YYTextView;
+
 @protocol THNToolBarViewDelegate <NSObject>
 
 @optional
@@ -18,5 +20,6 @@
 @interface THNToolBarView : UIView
 
 @property (nonatomic, weak) id <THNToolBarViewDelegate> delegate;
+@property (nonatomic, strong) YYTextView *textView;
 
 @end

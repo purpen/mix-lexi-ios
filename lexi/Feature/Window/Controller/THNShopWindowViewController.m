@@ -53,6 +53,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
 
+
 @end
 
 @implementation THNShopWindowViewController
@@ -153,6 +154,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         THNCommentViewController *comment = [[THNCommentViewController alloc]init];
         comment.rid = shopWindowModel.rid;
         comment.commentCount = shopWindowModel.comment_count;
+        comment.isFromShopWindow = YES;
         [weakSelf.navigationController pushViewController:comment animated:YES];
     };
     

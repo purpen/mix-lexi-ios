@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "THNBaseViewController.h"
 
+UIKIT_EXTERN NSString *const kUrlAddComment;
+
 @interface THNCommentViewController : THNBaseViewController
 
 @property (nonatomic, strong) NSString *rid;
 // 评论数
 @property (nonatomic, assign) NSInteger commentCount;
+@property (nonatomic, assign) BOOL isFromShopWindow;
 
 
 @end

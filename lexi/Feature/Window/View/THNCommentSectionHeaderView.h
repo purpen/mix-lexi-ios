@@ -10,11 +10,14 @@
 
 extern NSString *const kUrlCommentsPraises;
 
+typedef void(^CommentReplyBlock)(NSInteger pid);
+
 @class THNCommentModel;
 
 @interface THNCommentSectionHeaderView : UITableViewHeaderFooterView
 
 @property (nonatomic, strong) THNCommentModel *commentModel;
-@property (nonatomic, strong) NSString *shopWindowRid;
+@property (nonatomic, assign) BOOL isShopWindow;
+@property (nonatomic, copy) CommentReplyBlock replyBlcok;
 
 @end

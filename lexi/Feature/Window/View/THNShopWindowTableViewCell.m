@@ -26,7 +26,7 @@ CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
 CGFloat sevenToGrowImageHeight = 90;
 
-static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
+NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
 @interface THNShopWindowTableViewCell()
 

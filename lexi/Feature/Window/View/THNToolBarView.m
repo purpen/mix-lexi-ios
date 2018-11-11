@@ -13,7 +13,6 @@
 
 @interface THNToolBarView() <YYTextViewDelegate, WBStatusComposeEmoticonViewDelegate>
 
-@property (nonatomic, strong) YYTextView *textView;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIButton *emoticoonButton;
 
@@ -42,8 +41,9 @@
 - (IBAction)release:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(addComment:)]) {
         [self.delegate addComment:self.textView.text];
-        self.textView.text = @"";
         [self.textView resignFirstResponder];
+        self.textView.text = @"";
+        self.hidden = YES;
     }
 }
 

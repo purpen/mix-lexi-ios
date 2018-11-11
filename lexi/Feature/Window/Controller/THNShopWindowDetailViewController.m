@@ -21,6 +21,8 @@
 #import "THNCommentModel.h"
 #import "THNSaveTool.h"
 #import "THNCommentViewController.h"
+#import "THNToolBarView.h"
+#import "THNCommentTableView.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -33,11 +35,14 @@ static CGFloat const shopWindowCellHiddenHeight = 50;
 UITableViewDelegate,
 UITableViewDataSource,
 THNExploreTableViewCellDelegate,
-THNFeatureTableViewCellDelegate
+THNFeatureTableViewCellDelegate,
+YYTextKeyboardObserver,
+THNToolBarViewDelegate,
+THNCommentTableViewDelegate
 >
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UITableView *commentTableView;
+@property (nonatomic, strong) THNCommentTableViewCell *cell;
 @property (nonatomic, assign) ShopWindowDetailCellType cellType;
 @property (nonatomic, assign) NSInteger allCellCount;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopConstraint;
@@ -60,6 +65,16 @@ THNFeatureTableViewCellDelegate
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentViewheightConstraint;
 @property (nonatomic, assign) NSInteger allCommentCount;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (nonatomic, strong) THNToolBarView *toolbar;
+// 评论的父级ID
+@property (nonatomic, assign) NSInteger pid;
+// 点击回复的节头位置
+@property (nonatomic, assign) NSInteger section;
+@property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
+@property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
+@property (nonatomic, assign) BOOL isNeedLocalHud;
+
 
 @end
 
@@ -75,6 +90,76 @@ THNFeatureTableViewCellDelegate
 - (void)loadData {
     [self.dataArray addObject:@(ShopWindowDetailCellTypeMain)];
      [self loadShopWindowDetailData];
+}
+
+- (IBAction)like:(id)sender {
+    if (self.likeCountButton.selected) {
+        [self deleteUserLikes];
+    } else {
+        [self addUserLikes];
+    }
+}
+
+- (void)addUserLikes {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.shopWindowModel.rid;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        self.shopWindowModel.is_like = YES;
+        self.likeCountButton.selected = YES;
+        self.shopWindowModel.like_count += 1;
+        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+    } failure:^(THNRequest *request, NSError *error) {
+
+    }];
+}
+
+- (void)deleteUserLikes {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.shopWindowModel.rid;
+    THNRequest *request = [THNAPI deleteWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        self.shopWindowModel.is_like = NO;
+        self.likeCountButton.selected = NO;
+        self.shopWindowModel.like_count -= 1;
+        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+    } failure:^(THNRequest *request, NSError *error) {
+
+    }];
+}
+
+- (IBAction)showToolView:(id)sender {
+    [self layoutToolView];
+}
+
+- (void)layoutToolView {
+    if (self.toolbar) {
+        self.toolbar.hidden = NO;
+        [self.toolbar.textView becomeFirstResponder];
+    }
+    // 监听键盘
+    [[YYTextKeyboardManager defaultManager] addObserver:self];
+    self.toolbar.delegate = self;
+    [self.view addSubview:self.toolbar];
+}
+
+
+- (IBAction)comment:(id)sender {
+
+}
+
+- (IBAction)share:(id)sender {
+    
 }
 
 //猜你喜欢
@@ -105,7 +190,7 @@ THNFeatureTableViewCellDelegate
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -118,22 +203,34 @@ THNFeatureTableViewCellDelegate
         
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+
     }];
 }
 
 // 评论列表
 - (void)loadShopWindowDetailData {
-    [self showHud];
+    if (self.isNeedLocalHud) {
+        [SVProgressHUD thn_show];
+    } else {
+        [self showHud];
+    }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD dismiss];
+        } else {
+            [self hiddenHud];
+        }
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
+
+        self.shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:result.data];
+        [self layoutCommentView];
         self.allCommentCount = [result.data[@"comment_count"] integerValue];
         [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
@@ -165,15 +262,27 @@ THNFeatureTableViewCellDelegate
                 [self.subComments addObject:lessThanSubComments];
             }
         }
-        
+
+        if (self.isNeedLocalHud) {
+            [self.tableView reloadData];
+            return;
+        }
+
         if (self.comments.count > 0) {
             [self.dataArray addObject:@(ShopWindowDetailCellTypeComment)];
         }
         
         [self loadShowWindowGuessLikeData];
-        
+
     } failure:^(THNRequest *request, NSError *error) {
+        [self hiddenHud];
     }];
+}
+
+- (void)layoutCommentView {
+    [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+    self.likeCountButton.selected = self.shopWindowModel.is_like;
+    [self.commentCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.comment_count] forState:UIControlStateNormal];
 }
 
 //获取字符串长度的方法
@@ -190,12 +299,23 @@ THNFeatureTableViewCellDelegate
     self.navigationBarView.title = @"橱窗";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
+    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
+    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
+    [self.tableView addGestureRecognizer:tableViewGesture];
+}
+
+- (void)tableViewTouchInSide{
+    // ------结束编辑，隐藏键盘
+    self.toolbar.hidden = YES;
+    [self.view endEditing:YES];
 }
 
 - (void)pushCommentVC {
     THNCommentViewController *commentVC = [[THNCommentViewController alloc]init];
     commentVC.rid = self.shopWindowModel.rid;
     commentVC.commentCount = self.allCommentCount;
+    commentVC.isFromShopWindow = YES;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
@@ -232,7 +352,9 @@ THNFeatureTableViewCellDelegate
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeComment) {
         self.cellType = ShopWindowDetailCellTypeComment;
         THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
-        [cell setComments:self.comments initWithSubComments:self.subComments initWithRid:self.shopWindowModel.rid];
+        cell.isShopWindow = YES;
+        cell.commentTableView.commentDelegate = self;
+        [cell setComments:self.comments initWithSubComments:self.subComments];
         return cell;
         
     } else if ([self.dataArray[indexPath.row] integerValue] == ShopWindowDetailCellTypeExplore) {
@@ -287,6 +409,23 @@ THNFeatureTableViewCellDelegate
     }
 }
 
+
+- (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
+    CGRect toFrame = [[YYTextKeyboardManager defaultManager] convertRect:transition.toFrame toView:self.view];
+    if (transition.animationDuration == 0) {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
+    } else {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
+        [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.toolbar.bottom = CGRectGetMinY(toFrame);
+        } completion:NULL];
+    }
+}
+
+- (void)dealloc {
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
+}
+
 //获取字符串高度的方法
 - (CGFloat)getSizeByString:(NSString*)string AndFontSize:(UIFont *)font
 {
@@ -306,6 +445,42 @@ THNFeatureTableViewCellDelegate
     THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
     shopWindowDetail.shopWindowModel = shopWindowModel;
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
+}
+
+#pragma mark - THNToolBarViewDelegate
+- (void)addComment:(NSString *)text {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.shopWindowModel.rid;
+    if (self.pid) {
+        params[@"pid"] = @(self.pid);
+    }
+    params[@"content"] = text;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlAddComment requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        self.subCommentHeight = 0;
+        self.commentHeight = 0;
+        [self.comments removeAllObjects];
+        [self.subComments removeAllObjects];
+        [self.lessThanSubComments removeAllObjects];
+        [self.moreThanSubComments removeAllObjects];
+        self.isNeedLocalHud = YES;
+        [self loadShopWindowDetailData];
+
+    } failure:^(THNRequest *request, NSError *error) {
+
+    }];
+}
+
+#pragma mark - THNCommentTableViewDelegate
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+    self.pid = pid;
+    self.section = section;
+    [self layoutToolView];
 }
 
 #pragma mark - lazy
@@ -343,5 +518,15 @@ THNFeatureTableViewCellDelegate
     }
     return _moreThanSubComments;
 }
+
+- (THNToolBarView *)toolbar {
+    if (!_toolbar) {
+        _toolbar = [THNToolBarView viewFromXib];
+        _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _toolbar.frame = CGRectMake(0, 1000, self.view.width, 50);
+    }
+    return _toolbar;
+}
+
 
 @end
