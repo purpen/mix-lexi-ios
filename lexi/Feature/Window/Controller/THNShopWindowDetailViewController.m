@@ -155,7 +155,7 @@ THNCommentTableViewDelegate
 
 
 - (IBAction)comment:(id)sender {
-
+    [self pushCommentVC];
 }
 
 - (IBAction)share:(id)sender {
@@ -190,6 +190,12 @@ THNCommentTableViewDelegate
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD dismiss];
+        } else {
+            [self hiddenHud];
+        }
 
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -219,11 +225,7 @@ THNCommentTableViewDelegate
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (self.isNeedLocalHud) {
-            [SVProgressHUD dismiss];
-        } else {
-            [self hiddenHud];
-        }
+        
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -303,11 +305,16 @@ THNCommentTableViewDelegate
     tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
     tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
     [self.tableView addGestureRecognizer:tableViewGesture];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+    self.toolbar.hidden = YES;
 }
 
 - (void)tableViewTouchInSide{
     // ------结束编辑，隐藏键盘
-    self.toolbar.hidden = YES;
     [self.view endEditing:YES];
 }
 
@@ -423,6 +430,7 @@ THNCommentTableViewDelegate
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
@@ -481,6 +489,10 @@ THNCommentTableViewDelegate
     self.pid = pid;
     self.section = section;
     [self layoutToolView];
+}
+
+- (void)lookAllSubComment {
+    [self pushCommentVC];
 }
 
 #pragma mark - lazy

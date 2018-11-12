@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNGrassListModel;
+
 @protocol THNCommentViewDelegate <NSObject>
 
 @optional
@@ -19,6 +21,7 @@
 @interface THNCommentView : UIView
 
 @property (nonatomic, weak) id <THNCommentViewDelegate> delegate;
-@property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
+
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 @end

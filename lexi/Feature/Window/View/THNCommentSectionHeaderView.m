@@ -11,7 +11,7 @@
 #import "UIImageView+SDWedImage.h"
 #import "THNAPI.h"
 #import "NSString+Helper.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 #import "UIColor+Extension.h"
 
 NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
@@ -73,7 +73,7 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
     THNRequest *request = [THNAPI postWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -92,7 +92,7 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
     THNRequest *request = [THNAPI deleteWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         

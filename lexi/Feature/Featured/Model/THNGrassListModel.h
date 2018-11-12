@@ -37,5 +37,10 @@ UIKIT_EXTERN NSString *const grassNote;
 @property (nonatomic, assign) BOOL is_follow;
 // 用户ID
 @property (nonatomic, strong) NSString *uid;
+// 点赞人数
+@property (nonatomic, assign) NSInteger praise_count;
+@property (nonatomic, assign) BOOL is_praise;
+@property (nonatomic, assign) NSInteger comment_count;
+
 
 @end

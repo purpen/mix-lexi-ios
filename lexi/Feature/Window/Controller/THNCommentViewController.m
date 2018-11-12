@@ -62,12 +62,11 @@ THNCommentTableViewDelegate
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
-    CGFloat topHeight = kDeviceiPhoneX ? 88 : 64;
-    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topHeight) initWithCommentType:CommentTypeAll];
+    CGFloat topWithBottomHeight = kDeviceiPhoneX ? 88 + 34 : 64;
+    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topWithBottomHeight) initWithCommentType:CommentTypeAll];
     self.commentTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.commentTableView.commentDelegate = self;
-    self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", self.commentCount];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.commentTableView];
     [self.commentTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.commentTableView resetCurrentPageNumber];
@@ -77,6 +76,11 @@ THNCommentTableViewDelegate
     tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
     [self.commentTableView addGestureRecognizer:tableViewGesture];
     self.commentTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+      self.toolbar.hidden = YES;
 }
 
 - (void)tableViewTouchInSide{
@@ -111,11 +115,12 @@ THNCommentTableViewDelegate
             return;
         }
         
+        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", result.data[@"total_count"]];
         [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.subComments removeAllObjects];
         NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
-        if (comments.count > 0) {
-            [self.comments addObjectsFromArray:comments];
-        } else {
+        [self.comments addObjectsFromArray:comments];
+        if ([result.data[@"remain_count"] integerValue] == 0) {
             [self.commentTableView noMoreData];
         }
         
@@ -126,15 +131,14 @@ THNCommentTableViewDelegate
             for (NSDictionary *dict in commentModel.sub_comments) {
                 
                 THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
-                NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                subCommentModel.height = [self getSizeByString:subCommentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
                 [lessThanSubComments addObject:subCommentModel];
             }
             
             [self.subComments addObject:lessThanSubComments];
         }
 
-        self.commentTableView.isShopWindow = YES;
+        self.commentTableView.isShopWindow = self.isFromShopWindow;
         [self.commentTableView setComments:self.comments initWithSubComments:self.subComments];
 
 
@@ -187,9 +191,11 @@ THNCommentTableViewDelegate
 
 - (void)dealloc {
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - THNToolBarViewDelegate
+// 添加评论
 - (void)addComment:(NSString *)text {
     [self layoutToolView];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -212,6 +218,7 @@ THNCommentTableViewDelegate
             self.currentPage = 1;
             [self.commentTableView resetCurrentPageNumber];
             [self.comments removeAllObjects];
+            [self.subComments removeAllObjects];
             self.isNeedLocalHud = YES;
             [self loadCommentData];
         }
@@ -228,6 +235,7 @@ THNCommentTableViewDelegate
 }
 
 #pragma mark - THNCommentTableViewDelegate
+// 回复评论
 - (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
     self.isSecondComment = YES;
     [self layoutToolView];

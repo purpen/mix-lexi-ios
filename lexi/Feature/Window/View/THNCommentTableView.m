@@ -18,9 +18,10 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNAPI.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-
+#import "SVProgressHUD+Helper.h"
 static NSString *const kUrlShopWindowChildComments = @"/shop_windows/child_comments";
+static NSString *const kUrlShopLiferecordsChildComments = @"/life_records/child_comments";
+
 static NSString *const kCommentSectionHeaderViewidentifier = @"kCommentSectionHeaderViewidentifier";
 static NSString *const kCommentSecondCellIdentifier = @"kCommentSecondCellIdentifier";
 static NSString *const kCommentSectionSecondCellIdentifier = @"kCommentSectionSecondCellIdentifier";
@@ -36,13 +37,11 @@ NSInteger const maxShowSubComment = 2;
 @property (nonatomic, strong) NSArray *comments;
 // 子评论数组的集合
 @property (nonatomic, strong) NSMutableArray *subComments;
-// 单节子评论数组
-@property (nonatomic, strong) NSArray *sectionSubComments;
 // 组合每次分页的可变数组
 @property (nonatomic, strong) NSMutableArray *allSubComments;
 @property (nonatomic, assign) NSInteger allCommentCount;
 @property (nonatomic, strong) THNCommentModel *commentModel;
-@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) NSInteger page;
 // 剩余评论数量
 @property (nonatomic, assign) NSInteger remainCount;
 @property (nonatomic, strong) UIButton *loadMoreButton;
@@ -100,21 +99,21 @@ NSInteger const maxShowSubComment = 2;
 
 // 分页未实现
 - (void)loadMoreSubCommentData:(NSInteger)section {
-  
+    NSString *requestUrl = self.isShopWindow ? kUrlShopWindowChildComments : kUrlShopLiferecordsChildComments;
     THNCommentModel *commentModel = self.comments[section];
-    self.currentPage = 1;
+    self.page = 1;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"pid"] = @(commentModel.comment_id);
-    params[@"page"] = @(self.currentPage);
+    params[@"page"] = @(self.page);
     params[@"per_page"] = @(20);
-    THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowChildComments requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
-        self.currentPage = [result.data[@"current_page"] integerValue];
+        self.page = [result.data[@"current_page"] integerValue];
         self.remainCount = [result.data[@"remain_count"] integerValue];
         NSArray *array = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
 //        [self.allSubComments addObjectsFromArray:array];
@@ -122,8 +121,12 @@ NSInteger const maxShowSubComment = 2;
         for (THNCommentModel *subCommentModel in array) {
             subCommentModel.height = [self getHeightByString:subCommentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
         }
+        
         [self.subComments replaceObjectAtIndex:section withObject:array];
-        [self reloadData];
+        [UIView performWithoutAnimation:^{
+            [self reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+       
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -132,7 +135,7 @@ NSInteger const maxShowSubComment = 2;
 //获取字符串高度的方法
 - (CGFloat)getHeightByString:(NSString*)string AndFontSize:(UIFont *)font
 {
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 112, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     return size.height;
 }
 
@@ -149,28 +152,30 @@ NSInteger const maxShowSubComment = 2;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     self.commentModel = self.comments[indexPath.section];
-    self.sectionSubComments = self.subComments[indexPath.section];
-    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:self.sectionSubComments[indexPath.row]];
+    NSArray *sectionSubComments = self.subComments[indexPath.section];
+    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:sectionSubComments[indexPath.row]];
 
     if (self.commentType == CommentTypeSection) {
         THNSectionSecondLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentSectionSecondCellIdentifier forIndexPath:indexPath];
         cell.subCommentCount = self.commentModel.sub_comment_count;
         
         if (indexPath.row == 0) {
-            if (self.sectionSubComments.count == 1) {
+            if (sectionSubComments.count == 1) {
                 [cell drawCornerWithType:UILayoutCornerRadiusAll radius:4];
             } else {
                 [cell drawCornerWithType:UILayoutCornerRadiusTop radius:4];
             }
             
-        } else if (indexPath.row == self.sectionSubComments.count - 1) {
-            [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
+        } else if (indexPath.row == sectionSubComments.count - 1) {
+                [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
         }
         
         [cell setSubCommentModel:subCommentModel];
         return cell;
     } else {
         THNSecondLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentSecondCellIdentifier forIndexPath:indexPath];
+        
+        cell.isShopWindow = self.isShopWindow;
         
         WEAKSELF;
         cell.secondLevelBlock = ^(THNSecondLevelCommentTableViewCell *cell) {
@@ -179,24 +184,24 @@ NSInteger const maxShowSubComment = 2;
         };
         
         if (indexPath.row == 0) {
-            if (self.sectionSubComments.count == 1) {
+            if (sectionSubComments.count == 1) {
                 [cell drawCornerWithType:UILayoutCornerRadiusAll radius:4];
             } else {
                 [cell drawCornerWithType:UILayoutCornerRadiusTop radius:4];
             }
             cell.isHiddenLoadMoreDataView = YES;
-        } else if (indexPath.row == self.sectionSubComments.count - 1) {
+        } else if (indexPath.row == sectionSubComments.count - 1) {
             if (self.commentModel.sub_comment_count > maxShowSubComment) {
                 [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
                 
-                if (self.remainCount != 0 || self.sectionSubComments.count == maxShowSubComment) {
+                if (self.remainCount != 0 || sectionSubComments.count == maxShowSubComment) {
                     cell.isHiddenLoadMoreDataView = NO;
                 } else {
                     cell.isHiddenLoadMoreDataView = YES;
                 }
                 
             } else {
-                
+                cell.isHiddenLoadMoreDataView = YES;
                 [cell drawCornerWithType:UILayoutCornerRadiusBottom radius:4];
             }
         } else {
@@ -209,19 +214,31 @@ NSInteger const maxShowSubComment = 2;
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *sectionSubComments = self.subComments[indexPath.section];
+    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:sectionSubComments[indexPath.row]];
+
+    if (!subCommentModel.height) {
+        if (self.commentDelegate && [self.commentDelegate respondsToSelector:@selector(lookAllSubComment)]) {
+            [self.commentDelegate lookAllSubComment];
+        }
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:self.subComments[indexPath.section][indexPath.row]];
+    NSArray *sectionSubComments = self.subComments[indexPath.section];
     if (subCommentModel.height) {
         CGFloat allSubcommentHeight = 0;
-        if (self.commentModel.sub_comment_count > maxShowSubComment && indexPath.row == self.sectionSubComments.count - 1) {
+        if (self.commentModel.sub_comment_count > maxShowSubComment && indexPath.row == sectionSubComments.count - 1) {
             
-            if (self.remainCount != 0 || self.sectionSubComments.count == maxShowSubComment) {
+            if (self.remainCount != 0 || sectionSubComments.count == maxShowSubComment) {
                allSubcommentHeight = subCommentModel.height + allSubCommentHeight + loadViewHeight;
             } else {
                allSubcommentHeight = subCommentModel.height + allSubCommentHeight + 10;
             }
             
-        } else if (indexPath.row == self.sectionSubComments.count - 1) {
+        } else if (indexPath.row == sectionSubComments.count - 1) {
             
             allSubcommentHeight = subCommentModel.height + allSubCommentHeight + 10;
             

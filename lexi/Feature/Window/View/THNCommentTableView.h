@@ -21,8 +21,9 @@ typedef NS_ENUM(NSUInteger, CommentType) {
 
 @protocol THNCommentTableViewDelegate <NSObject>
 
-@required
+@optional
 - (void)replyComment:(NSInteger)pid withSection:(NSInteger)section;
+- (void)lookAllSubComment;
 
 @end
 
