@@ -115,7 +115,7 @@ THNCommentTableViewDelegate
             return;
         }
         
-        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", result.data[@"total_count"]];
+        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", [result.data[@"total_count"]integerValue]];
         [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
         [self.subComments removeAllObjects];
         NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
