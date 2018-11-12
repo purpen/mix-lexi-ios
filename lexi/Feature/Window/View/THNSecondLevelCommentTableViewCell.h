@@ -23,6 +23,7 @@ typedef void(^SecondLevelBlock)(THNSecondLevelCommentTableViewCell *cell);
 @property (nonatomic, assign) BOOL isHiddenLoadMoreDataView;
 @property (nonatomic, strong) THNCommentModel *commentModel;
 @property (nonatomic, copy) SecondLevelBlock secondLevelBlock;
+@property (nonatomic, assign) BOOL isShopWindow;
 @property (nonatomic, assign) NSInteger page;
 
 @end

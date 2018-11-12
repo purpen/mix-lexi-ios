@@ -16,6 +16,7 @@
 #import "THNCommentSectionHeaderView.h"
 #import "SVProgressHUD+Helper.h"
 #import "THNMarco.h"
+#import "THNCommentSectionHeaderView.h"
 
 CGFloat const loadViewHeight = 30;
 CGFloat const allSubCommentHeight = 66;
@@ -28,6 +29,7 @@ CGFloat const allSubCommentHeight = 66;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *praisesButton;
 @property (nonatomic, strong) UIView *loadMoreView;
+@property (nonatomic, strong) UIButton *loadMoreButton;
 
 @end
 
@@ -69,6 +71,7 @@ CGFloat const allSubCommentHeight = 66;
     } else {
         self.loadMoreView.hidden = NO;
         self.loadMoreView.frame = CGRectMake(0, subCommentModel.height + allSubCommentHeight, SCREEN_WIDTH - 82, loadViewHeight);
+        [self.loadMoreButton setTitle:[NSString stringWithFormat:@"查看%ld条回复",self.commentModel.sub_comment_count] forState:UIControlStateNormal];
         [self addSubview:self.loadMoreView];
       
     }
@@ -92,8 +95,9 @@ CGFloat const allSubCommentHeight = 66;
 
 - (void)addPraises {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *requestUrl = self.isShopWindow ? kUrlCommentsPraises : kLifeRecordsCommentsPraises;
     params[@"comment_id"] = @(self.subCommentModel.comment_id);
-    THNRequest *request = [THNAPI postWithUrlString:kUrlCommentsPraises requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -114,9 +118,10 @@ CGFloat const allSubCommentHeight = 66;
 }
 
 - (void)deletePraises {
+    NSString *requestUrl = self.isShopWindow ? kUrlCommentsPraises : kLifeRecordsCommentsPraises;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"comment_id"] = @(self.subCommentModel.comment_id);
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlCommentsPraises requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI deleteWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -146,7 +151,7 @@ CGFloat const allSubCommentHeight = 66;
     if (!_loadMoreView) {
         _loadMoreView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH - 82, loadViewHeight)];
         UIButton *loadMoreButton = [[UIButton alloc]initWithFrame:_loadMoreView.bounds];
-        [loadMoreButton setTitle:[NSString stringWithFormat:@"查看%ld条回复",self.commentModel.sub_comment_count] forState:UIControlStateNormal];
+        _loadMoreButton = loadMoreButton;
         loadMoreButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         [loadMoreButton setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
         loadMoreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 125, 0, 0);

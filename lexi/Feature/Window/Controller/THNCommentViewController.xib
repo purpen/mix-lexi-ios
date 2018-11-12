@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -27,16 +27,16 @@
                     <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1d7-8I-5h1">
-                            <rect key="frame" x="20" y="9" width="298" height="33"/>
+                            <rect key="frame" x="20" y="9" width="335" height="33"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="添加评论" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1LL-tQ-hUQ">
-                                    <rect key="frame" x="15" y="0.0" width="275" height="33"/>
+                                    <rect key="frame" x="15" y="0.0" width="312" height="33"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flc-Wb-7Op">
-                                    <rect key="frame" x="0.0" y="0.0" width="298" height="33"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="335" height="33"/>
                                     <connections>
                                         <action selector="showToolView:" destination="-1" eventType="touchUpInside" id="xtr-n4-ySd"/>
                                     </connections>
@@ -54,33 +54,19 @@
                                 <constraint firstItem="flc-Wb-7Op" firstAttribute="leading" secondItem="1d7-8I-5h1" secondAttribute="leading" id="YSk-s1-J22"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pc-Pr-6Ml">
-                            <rect key="frame" x="328" y="0.0" width="27" height="50"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="27" id="ajf-W7-qpH"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="11"/>
-                            <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" title="1" image="icon_unflow">
-                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="1d7-8I-5h1" firstAttribute="leading" secondItem="TdY-AL-Gj2" secondAttribute="leading" constant="20" id="FDF-fU-6mp"/>
+                        <constraint firstItem="TdY-AL-Gj2" firstAttribute="trailing" secondItem="1d7-8I-5h1" secondAttribute="trailing" constant="20" id="P3e-kY-tHq"/>
                         <constraint firstItem="1d7-8I-5h1" firstAttribute="top" secondItem="TdY-AL-Gj2" secondAttribute="top" constant="9" id="aMa-Y7-g8R"/>
-                        <constraint firstItem="TdY-AL-Gj2" firstAttribute="trailing" secondItem="8Pc-Pr-6Ml" secondAttribute="trailing" constant="20" id="dLZ-kx-TxP"/>
                         <constraint firstAttribute="height" constant="50" id="hgn-aT-U80"/>
-                        <constraint firstItem="8Pc-Pr-6Ml" firstAttribute="top" secondItem="TdY-AL-Gj2" secondAttribute="top" id="k3A-90-9j7"/>
                         <constraint firstItem="TdY-AL-Gj2" firstAttribute="bottom" secondItem="1d7-8I-5h1" secondAttribute="bottom" constant="8" id="mRG-JY-yag"/>
-                        <constraint firstItem="8Pc-Pr-6Ml" firstAttribute="leading" secondItem="1d7-8I-5h1" secondAttribute="trailing" constant="10" id="rcc-PR-qjB"/>
-                        <constraint firstItem="TdY-AL-Gj2" firstAttribute="bottom" secondItem="8Pc-Pr-6Ml" secondAttribute="bottom" id="sub-bU-9nm"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="TdY-AL-Gj2"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="MAO-gC-Eyf" secondAttribute="trailing" id="XMh-8P-tFZ"/>
                 <constraint firstItem="MAO-gC-Eyf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="x1O-Z4-Knm"/>
@@ -89,6 +75,18 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="5.5" y="17.5"/>
         </view>
+        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pc-Pr-6Ml">
+            <rect key="frame" x="0.0" y="0.0" width="56" height="42"/>
+            <constraints>
+                <constraint firstAttribute="width" constant="27" id="ajf-W7-qpH"/>
+            </constraints>
+            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="11"/>
+            <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <state key="normal" title="1" image="icon_unflow">
+                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+            </state>
+            <point key="canvasLocation" x="-341" y="146"/>
+        </button>
     </objects>
     <resources>
         <image name="icon_unflow" width="22" height="22"/>

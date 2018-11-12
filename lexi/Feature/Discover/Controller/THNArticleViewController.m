@@ -47,6 +47,7 @@ static NSString *const kArticleCellTypeProduct = @"product";
 static NSString *const kArticleCellTypeStory = @"story";
 static NSString *const KArticleCellTypeComment = @"comment";
 static CGFloat const commentViewHeight = 50;
+static NSInteger maxShowComment = 3;
 
 typedef NS_ENUM(NSUInteger, ArticleCellType) {
     ArticleCellTypeArticle,
@@ -123,11 +124,16 @@ THNCommentTableViewDelegate
     tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
     tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
     [self.tableView addGestureRecognizer:tableViewGesture];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+    self.toolbar.hidden = YES;
 }
 
 - (void)tableViewTouchInSide{
     // ------结束编辑，隐藏键盘
-    self.toolbar.hidden = YES;
     [self.view endEditing:YES];
 }
 
@@ -162,7 +168,8 @@ THNCommentTableViewDelegate
         if (self.grassListModel.recommend_store.count > 0) {
             [self.dataArray addObject:kArticleCellTypeStore];
         }
-
+        
+        [self.commentView setGrassListModel:self.grassListModel];
         [self loadLifeRecordsCommentData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -186,14 +193,15 @@ THNCommentTableViewDelegate
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-
-        self.allCommentCount = [result.data[@"count"] integerValue];
-        [self.commentView.commentCountButton setTitle:[NSString stringWithFormat:@"%ld",self.allCommentCount] forState:UIControlStateNormal];
-
+        
+        self.allCommentCount = [result.data[@"total_count"] integerValue];
         [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
-        [self.comments removeObjectsInRange:NSMakeRange(3, self.comments.count - 3)];
-
+        
+        if (self.comments.count > maxShowComment) {
+             [self.comments removeObjectsInRange:NSMakeRange(maxShowComment, self.comments.count - maxShowComment)];
+        }
+        
         for (THNCommentModel *commentModel in self.comments) {
             commentModel.height = [self getHeightByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
             self.commentHeight += commentModel.height;
@@ -223,7 +231,9 @@ THNCommentTableViewDelegate
         }
         
         if (self.isNeedLocalHud) {
-            [self.tableView reloadData];
+            [UIView performWithoutAnimation:^{
+                 [self.tableView reloadData];
+            }];
             return;
         }
 
@@ -454,6 +464,7 @@ THNCommentTableViewDelegate
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
@@ -469,7 +480,7 @@ THNCommentTableViewDelegate
     THNRequest *request = [THNAPI postWithUrlString:kUrlLifeRecordsComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
 
@@ -494,16 +505,25 @@ THNCommentTableViewDelegate
     [self layoutToolView];
 }
 
+- (void)lookAllSubComment {
+    [self pushCommentVC];
+}
+
 #pragma mark - THNCommentViewDelegate
 - (void)showKeyboard {
     self.isSecondComment = NO;
     [self layoutToolView];
 }
 
+- (void)lookComment {
+    [self pushCommentVC];
+}
+
 #pragma mark - lazy
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - tableViewY - commentViewHeight) style:UITableViewStyleGrouped];
+        CGFloat bottomHeight = kDeviceiPhoneX ? 34 : 0;
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - tableViewY - commentViewHeight - bottomHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc]init];
@@ -571,7 +591,8 @@ THNCommentTableViewDelegate
 - (THNCommentView *)commentView {
     if (!_commentView) {
         _commentView = [THNCommentView viewFromXib];
-        _commentView.frame = CGRectMake(0, SCREEN_HEIGHT - commentViewHeight, SCREEN_WIDTH, commentViewHeight);
+        CGFloat bottomHeight = kDeviceiPhoneX ? 34 : 0;
+        _commentView.frame = CGRectMake(0, SCREEN_HEIGHT - commentViewHeight - bottomHeight, SCREEN_WIDTH, commentViewHeight);
     }
     return _commentView;
 }

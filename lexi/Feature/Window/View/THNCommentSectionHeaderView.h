@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 extern NSString *const kUrlCommentsPraises;
+extern NSString *const kLifeRecordsCommentsPraises;
 
 typedef void(^CommentReplyBlock)(NSInteger pid);
 

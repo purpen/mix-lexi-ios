@@ -11,8 +11,8 @@
 #import "UIImageView+SDWedImage.h"
 #import "THNAPI.h"
 #import "NSString+Helper.h"
-#import "UIColor+Extension.h"
 #import "SVProgressHUD+Helper.h"
+#import "UIColor+Extension.h"
 
 NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
