@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSString *bgcover;
 // 上架商品数量
 @property (nonatomic, assign) NSInteger store_products_counts;
+// 首页页面商品数量字段
+@property (nonatomic, assign) NSInteger product_count;
  // 店铺logo
 @property (nonatomic, strong) NSString *logo;
 // 店铺名
@@ -39,5 +41,6 @@
 @property (nonatomic, strong) NSString *store_rid;
 @property (nonatomic, assign) NSInteger product_counts;
 @property (nonatomic, assign) BOOL is_follow_store;
+
 
 @end

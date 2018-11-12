@@ -304,7 +304,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     NSInteger showCellRow = self.weekPopularArray.count / 2;
-    self.featureCellHeight = (kCellOptimalHeight + 10) * showCellRow + 90;
+    self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * showCellRow + 90;
     self.footerViewHeight = self.recommendedArray.count == self.curatorPerPageCount ? self.featureCellHeight + expandViewHeight : self.featureCellHeight;
 
     return self.footerViewHeight;

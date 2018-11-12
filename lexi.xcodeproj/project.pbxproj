@@ -459,6 +459,8 @@
 		D82C015A21956207009F905F /* THNMyCouponDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015721956207009F905F /* THNMyCouponDefaultView.m */; };
 		D82C015D21956232009F905F /* THNMyCenterMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015C21956232009F905F /* THNMyCenterMenuView.m */; };
 		D82C015F2195623C009F905F /* THNMyCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015E2195623C009F905F /* THNMyCouponTableViewCell.m */; };
+		D82C016321991669009F905F /* THNCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C016021991665009F905F /* THNCommentView.m */; };
+		D82C016421991669009F905F /* THNCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D82C016221991669009F905F /* THNCommentView.xib */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
@@ -1257,6 +1259,9 @@
 		D82C015821956207009F905F /* THNMyCouponTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCouponTableViewCell.h; sourceTree = "<group>"; };
 		D82C015C21956232009F905F /* THNMyCenterMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMyCenterMenuView.m; sourceTree = "<group>"; };
 		D82C015E2195623C009F905F /* THNMyCouponTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMyCouponTableViewCell.m; sourceTree = "<group>"; };
+		D82C016021991665009F905F /* THNCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentView.m; sourceTree = "<group>"; };
+		D82C016121991668009F905F /* THNCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentView.h; sourceTree = "<group>"; };
+		D82C016221991669009F905F /* THNCommentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNCommentView.xib; sourceTree = "<group>"; };
 		D82FA78321256B8000E14A22 /* YYLabel+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YYLabel+Helper.h"; sourceTree = "<group>"; };
 		D82FA78421256B8000E14A22 /* YYLabel+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYLabel+Helper.m"; sourceTree = "<group>"; };
 		D85DA7AB2106030100A36A71 /* THNResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNResponse.m; sourceTree = "<group>"; };
@@ -2400,6 +2405,9 @@
 		4BECF02F217F1401008E5E28 /* ReuseView */ = {
 			isa = PBXGroup;
 			children = (
+				D82C016121991668009F905F /* THNCommentView.h */,
+				D82C016021991665009F905F /* THNCommentView.m */,
+				D82C016221991669009F905F /* THNCommentView.xib */,
 				D8D7CFB5219423AB00948247 /* THNFollowUserButton.h */,
 				D8D7CFB6219423AC00948247 /* THNFollowUserButton.m */,
 				D8D7CFB02194234E00948247 /* THNFollowStoreButton.h */,
@@ -3358,6 +3366,7 @@
 				4BECF167217F1401008E5E28 /* THNBrandHallFeaturedCollectionViewCell.xib in Resources */,
 				4BECF253217F1401008E5E28 /* THNSelectCouponTableViewCell.xib in Resources */,
 				4BECF1B2217F1401008E5E28 /* THNLifeAestheticsCollectionViewCell.xib in Resources */,
+				D82C016421991669009F905F /* THNCommentView.xib in Resources */,
 				4BECF23F217F1401008E5E28 /* THNOrderDetailLogisticsView.xib in Resources */,
 				4BECF1AE217F1401008E5E28 /* THNFeatureTableViewCell.xib in Resources */,
 				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
@@ -3626,6 +3635,7 @@
 				4B27B402218717D1004AF42F /* THNSignUpViewController.m in Sources */,
 				4B27B403218717D1004AF42F /* THNZipCodeViewController.m in Sources */,
 				4B27B404218717D1004AF42F /* THNAreaCodeModel.m in Sources */,
+				D82C016321991669009F905F /* THNCommentView.m in Sources */,
 				4B27B405218717D1004AF42F /* THNAreaModel.m in Sources */,
 				4B27B406218717D1004AF42F /* THNLoginManager.m in Sources */,
 				4B27B407218717D1004AF42F /* THNPhotoManager.m in Sources */,

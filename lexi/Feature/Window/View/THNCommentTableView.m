@@ -40,7 +40,6 @@ NSInteger const maxShowSubComment = 2;
 @property (nonatomic, strong) NSArray *sectionSubComments;
 // 组合每次分页的可变数组
 @property (nonatomic, strong) NSMutableArray *allSubComments;
-@property (nonatomic, strong) NSString *shopWindowRid;
 @property (nonatomic, assign) NSInteger allCommentCount;
 @property (nonatomic, strong) THNCommentModel *commentModel;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -94,16 +93,15 @@ NSInteger const maxShowSubComment = 2;
     [[NSNotificationCenter defaultCenter]postNotificationName:kLookAllCommentData object:nil];
 }
 
-- (void)setComments:(NSArray *)comments initWithSubComments:(NSMutableArray *)subComments initWithRid:(NSString *)rid {
+- (void)setComments:(NSArray *)comments initWithSubComments:(NSMutableArray *)subComments {
     self.comments = comments;
     self.subComments = subComments;
-    self.shopWindowRid = rid;
 }
 
 // 分页未实现
-- (void)loadMoreSubCommentData:(NSIndexPath *)indexPath {
+- (void)loadMoreSubCommentData:(NSInteger)section {
   
-    THNCommentModel *commentModel = self.comments[indexPath.section];
+    THNCommentModel *commentModel = self.comments[section];
     self.currentPage = 1;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"pid"] = @(commentModel.comment_id);
@@ -124,7 +122,7 @@ NSInteger const maxShowSubComment = 2;
         for (THNCommentModel *subCommentModel in array) {
             subCommentModel.height = [self getHeightByString:subCommentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
         }
-        [self.subComments replaceObjectAtIndex:indexPath.section withObject:array];
+        [self.subComments replaceObjectAtIndex:section withObject:array];
         [self reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         
@@ -177,7 +175,7 @@ NSInteger const maxShowSubComment = 2;
         WEAKSELF;
         cell.secondLevelBlock = ^(THNSecondLevelCommentTableViewCell *cell) {
             NSIndexPath *indexPath = [weakSelf indexPathForCell:cell];
-            [weakSelf loadMoreSubCommentData:indexPath];
+            [weakSelf loadMoreSubCommentData:indexPath.section];
         };
         
         if (indexPath.row == 0) {
@@ -241,7 +239,16 @@ NSInteger const maxShowSubComment = 2;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     THNCommentSectionHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kCommentSectionHeaderViewidentifier];
-    headerView.shopWindowRid = self.shopWindowRid;
+
+    WEAKSELF;
+    headerView.replyBlcok = ^(NSInteger pid) {
+        
+        if (weakSelf.commentDelegate && [weakSelf.commentDelegate respondsToSelector:@selector(replyComment: withSection:)]) {
+            [weakSelf.commentDelegate replyComment:pid withSection:section];
+        }
+    };
+
+    headerView.isShopWindow = self.isShopWindow;
     [headerView setCommentModel:self.comments[section]];
     return headerView;
 }

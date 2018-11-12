@@ -11,8 +11,6 @@
 
 @interface THNCommentTableViewCell ()
 
-@property (nonatomic, strong) THNCommentTableView *commentTableView;
-
 @end
 
 @implementation THNCommentTableViewCell
@@ -28,8 +26,9 @@
     self.commentTableView.frame = self.bounds;
 }
 
-- (void)setComments:(NSArray *)comments initWithSubComments:(NSMutableArray *)subComments initWithRid:(NSString *)rid {
-    [self.commentTableView setComments:comments initWithSubComments:subComments initWithRid:rid];
+- (void)setComments:(NSArray *)comments initWithSubComments:(NSMutableArray *)subComments{
+    self.commentTableView.isShopWindow = self.isShopWindow;
+    [self.commentTableView setComments:comments initWithSubComments:subComments];
 }
 
 @end

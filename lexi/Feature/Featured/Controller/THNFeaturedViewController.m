@@ -457,7 +457,7 @@ THNActivityViewDelegate
             break;
         case 3:
             self.cellType = FearuredOptimal;
-            return kCellOptimalHeight * 2 + 20 + kFeaturedCellTopBottomHeight;
+            return ((SCREEN_WIDTH - 49) / 2 + 46 ) * 2 + 9 + kFeaturedCellTopBottomHeight;
             break;
         case 4:
             self.cellType = FearuredGrassList;

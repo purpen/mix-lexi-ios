@@ -14,8 +14,8 @@
 #import "UIColor+Extension.h"
 #import "SVProgressHUD+Helper.h"
 
-static NSString *const kUrlAddSubComment = @"/shop_windows/comments";
 NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
+NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
 
 @interface THNCommentSectionHeaderView ()
 
@@ -24,6 +24,7 @@ NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentlabel;
 @property (weak, nonatomic) IBOutlet UIButton *praisesButton;
+@property (nonatomic, strong) NSString *requestUrl;
 
 @end
 
@@ -69,7 +70,7 @@ NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 - (void)addPraises {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"comment_id"] = @(self.commentModel.comment_id);
-    THNRequest *request = [THNAPI postWithUrlString:kUrlCommentsPraises requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -88,7 +89,7 @@ NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 - (void)deletePraises {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"comment_id"] = @(self.commentModel.comment_id);
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlCommentsPraises requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI deleteWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -106,6 +107,7 @@ NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 
 // 赞
 - (IBAction)reply:(UIButton *)sender {
+    self.requestUrl = self.isShopWindow ? kUrlCommentsPraises : kLifeRecordsCommentsPraises;
     if (self.praisesButton.selected) {
         [self deletePraises];
     } else {
@@ -115,16 +117,9 @@ NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 
 // 回复
 - (IBAction)awesome:(id)sender {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowRid;
-    params[@"pid"] = @(self.commentModel.comment_id);
-    params[@"content"] = @"登记上了飞机撒垃圾分类三等奖法拉盛结束啦根据阿里宫颈癌钢结构";
-    THNRequest *request = [THNAPI postWithUrlString:kUrlAddSubComment requestDictionary:params delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-
-    } failure:^(THNRequest *request, NSError *error) {
-
-    }];
+    if (self.replyBlcok) {
+        self.replyBlcok(self.commentModel.comment_id);
+    }
 }
 
 

@@ -27,7 +27,7 @@ CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
 CGFloat sevenToGrowImageHeight = 90;
 
-static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
+NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
 @interface THNShopWindowTableViewCell()
 
@@ -88,9 +88,16 @@ static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     }
     
     if (shopWindowModel.is_official) {
+        self.flowButton.hidden = YES;
+         self.identityImageView.hidden = NO;
         self.identityImageView.image = [UIImage imageNamed:@"icon_official"];
-    } else {
+    } else if (shopWindowModel.is_expert) {
+        self.flowButton.hidden = NO;
+         self.identityImageView.hidden = NO;
         self.identityImageView.image = [UIImage imageNamed:@"icon_talent"];
+    } else {
+        self.flowButton.hidden = NO;
+        self.identityImageView.hidden = YES;
     }
     
     WEAKSELF;

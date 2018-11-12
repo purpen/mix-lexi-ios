@@ -48,7 +48,7 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
     _brandModel = brandModel;
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     self.storeNameLabel.text = brandModel.name;
-    self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.store_products_counts];
+    self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.product_count];
     [self.followButton selfManagerFollowBrandStatus:brandModel.is_followed brandModel:brandModel];
 }
 

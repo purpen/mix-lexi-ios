@@ -53,6 +53,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
 
+
 @end
 
 @implementation THNShopWindowViewController
@@ -107,13 +108,26 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
         }
+
+         NSArray *showWindowFollows = [THNShopWindowModel mj_objectArrayWithKeyValuesArray:result.data[@"shop_windows"]];
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+
         if (self.showWindowType == ShowWindowTypeFollow) {
-            [self.showWindowFollows addObjectsFromArray:[THNShopWindowModel mj_objectArrayWithKeyValuesArray:result.data[@"shop_windows"]]];
-             self.showWindows = self.showWindowFollows;
+            if (showWindowFollows.count > 0) {
+                [self.showWindowFollows addObjectsFromArray:showWindowFollows];
+            } else {
+                [self.tableView noMoreData];
+            }
+
+            self.showWindows = self.showWindowFollows;
         } else {
-            [self.showWindowRecommends addObjectsFromArray:[THNShopWindowModel mj_objectArrayWithKeyValuesArray:result.data[@"shop_windows"]]];
+            if (showWindowFollows.count > 0) {
+                [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
+            } else {
+                [self.tableView noMoreData];
+            }
+
             self.showWindows = self.showWindowRecommends;
         }
         
@@ -140,6 +154,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         THNCommentViewController *comment = [[THNCommentViewController alloc]init];
         comment.rid = shopWindowModel.rid;
         comment.commentCount = shopWindowModel.comment_count;
+        comment.isFromShopWindow = YES; 
         [weakSelf.navigationController pushViewController:comment animated:YES];
     };
     

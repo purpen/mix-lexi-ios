@@ -151,7 +151,13 @@ THNMJRefreshDelegate
         }
         
         [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
-        [self.products addObjectsFromArray:result.data[@"products"]];
+        NSArray *products = result.data[@"products"];
+        if (products.count > 0) {
+            [self.products addObjectsFromArray:products];
+        } else {
+            [self.collectionView noMoreData];
+        }
+
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         if (signalQuantity == 0) {
             [self.collectionView reloadData];
