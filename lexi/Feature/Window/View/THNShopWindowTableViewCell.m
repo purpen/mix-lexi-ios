@@ -21,6 +21,7 @@
 #import "THNFollowUserButton+SelfManager.h"
 #import "THNAPI.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
@@ -68,7 +69,7 @@ static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
-    self.keywordViewHeightConstraint.constant = CGRectGetMaxY(self.keywordLabel.frame);
+    self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
     self.likeLabel.hidden = shopWindowModel.like_count == 0 ?: NO;
     self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",shopWindowModel.like_count];
     self.likeButton.selected = shopWindowModel.is_like;
@@ -198,7 +199,7 @@ static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -217,7 +218,7 @@ static NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         

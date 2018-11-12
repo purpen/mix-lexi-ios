@@ -365,6 +365,8 @@
 		4B27B4E3218717D2004AF42F /* SVProgressHUD+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */; };
 		4B27B4E4218717D2004AF42F /* UIScrollView+THNMJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */; };
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
+		4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */; };
+		4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */; };
 		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
 		4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */; };
 		4BC70ACF218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */; };
@@ -503,6 +505,8 @@
 		4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPoupalRecommendCollectionViewCell.xib; sourceTree = "<group>"; };
 		4B27B4E721872229004AF42F /* THNUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserManager.h; sourceTree = "<group>"; };
 		4B27B4ED21872229004AF42F /* THNUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserManager.m; sourceTree = "<group>"; };
+		4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
+		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B36A225218C9771007F670E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
@@ -3049,6 +3053,8 @@
 		D85DA7D02106030100A36A71 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */,
+				4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */,
 				D8B36C5F2174916000A6009F /* image_life_wechat.png */,
 				D8F998862137D6440012AED3 /* loading.gif */,
 				D81A7235211967400056D8B8 /* apply_header_image@2x.png */,
@@ -3345,6 +3351,7 @@
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
 				4BECF274217F1402008E5E28 /* THNSearchHeaderView.xib in Resources */,
 				4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */,
+				4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */,
 				4BECF23D217F1401008E5E28 /* THNNoLogisticsView.xib in Resources */,
 				4BECF186217F1401008E5E28 /* THNArticleStoryTableViewCell.xib in Resources */,
 				4BECF221217F1401008E5E28 /* THNNewShippingAddressTableViewCell.xib in Resources */,
@@ -3371,6 +3378,7 @@
 				4BECF27D217F1402008E5E28 /* THNSearchStoreTableViewCell.xib in Resources */,
 				D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */,
 				4BECF196217F1401008E5E28 /* THNBrandCollectionViewCell.xib in Resources */,
+				4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */,
 				4BC70AD9218C05A00073A9F0 /* THNPaySuccessTintView.xib in Resources */,
 				4BECF241217F1401008E5E28 /* THNOrderDetailPayView.xib in Resources */,
 				D8F998872137D6440012AED3 /* loading.gif in Resources */,

@@ -39,6 +39,13 @@
     
 }
 
+- (IBAction)release:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(addComment:)]) {
+        [self.delegate addComment:self.textView.text];
+        self.textView.text = @"";
+        [self.textView resignFirstResponder];
+    }
+}
 
 - (void)toolbarButtonWithImage:(NSString *)imageName highlight:(NSString *)highlightImageName {
     

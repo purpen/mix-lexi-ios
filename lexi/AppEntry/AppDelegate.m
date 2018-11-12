@@ -114,10 +114,10 @@
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"paySuccess" object:nil];
                 break;
             case WXErrCodeUserCancel:
-                [SVProgressHUD showInfoWithStatus:@"您已取消支付"];
+                [SVProgressHUD thn_showInfoWithStatus:@"您已取消支付"];
                 break;
             default:
-                [SVProgressHUD showInfoWithStatus:@"支付失败"];
+                [SVProgressHUD thn_showInfoWithStatus:@"支付失败"];
         }
     }
 }
