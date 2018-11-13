@@ -56,9 +56,7 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
 #pragma mark - network
 - (void)thn_requestWindowListDataOfLoading:(BOOL)loading {
     if (!loading) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD thn_show];
-        });
+        [SVProgressHUD thn_show];
     }
     
     NSString *urlStr = self.userId.length ? kURLOtherLikedWindow : kURLLikedWindow;

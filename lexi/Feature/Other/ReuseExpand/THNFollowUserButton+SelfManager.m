@@ -41,6 +41,13 @@ static NSString *const kKeyStatus   = @"followed_status";
     [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status dynamicModel:(THNDynamicModel *)model {
+    self.dynamicModel = model;
+    self.userId = model.uid;
+    [self setFollowUserStatus:status];
+    [self addTarget:self action:@selector(followButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
@@ -62,6 +69,7 @@ static NSString *const kKeyStatus   = @"followed_status";
                              self.userModel.followed_status = status;
                              self.grassListModel.is_follow = status;
                              self.shopWindowModel.is_follow = status;
+                             self.dynamicModel.followedStatus = status;
                          }];
 }
 

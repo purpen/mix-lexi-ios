@@ -92,7 +92,10 @@ static NSInteger const kSelectedButtonTag = 452;
     [self thn_setSignatureLabelTextWith:model.about_me];
     [self thn_showCouponDot:NO];
     [self thn_showOrderButton:model.has_order];
-    [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status userModel:model];
+
+    if (self.viewType == THNMyCenterHeaderViewTypeOther) {
+        [self.followButton selfManagerFollowUserStatus:(THNUserFollowStatus)model.followed_status userModel:model];
+    }
     
     NSArray *valueArr = @[[NSString stringWithFormat:@"%zi", model.user_like_counts],
                           [NSString stringWithFormat:@"%zi", model.wish_list_counts],
@@ -334,12 +337,12 @@ static NSInteger const kSelectedButtonTag = 452;
         make.top.mas_equalTo(0);
     }];
     
-//    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(self.dataContainer);
-//        make.left.right.bottom.mas_equalTo(0);
-//    }];
-//    self.dynamicButton.layer.cornerRadius = 4;
-//    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    [self.dynamicButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.dataContainer);
+        make.left.right.bottom.mas_equalTo(0);
+    }];
+    self.dynamicButton.layer.cornerRadius = 4;
+    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
 
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
@@ -499,7 +502,6 @@ static NSInteger const kSelectedButtonTag = 452;
         [_dynamicButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _dynamicButton.tag = kSelectedButtonTag + 3;
         [_dynamicButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
-        _dynamicButton.hidden = YES;
     }
     return _dynamicButton;
 }

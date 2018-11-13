@@ -10,4 +10,12 @@
 
 @interface THNDynamicViewController : THNBaseViewController
 
+/**
+ 用户的动态
+
+ @param uid 用户id （查看自己的动态时，id = “”）
+ @return self
+ */
+- (instancetype)initWithUserId:(NSString *)uid;
+
 @end

@@ -155,9 +155,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 // 获取个人中心商品数据
 - (void)thn_getUserCenterProductsWithType:(THNUserCenterGoodsType)type params:(NSDictionary *)params loadMore:(BOOL)loadMore {
     if (!loadMore) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD thn_show];
-        });
+        [SVProgressHUD thn_show];
     }
     
     WEAKSELF;
@@ -181,9 +179,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 // 获取分类商品数据
 - (void)thn_getCategoryProductsWithParams:(NSDictionary *)params loadMore:(BOOL)loadMore {
     if (!loadMore) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD thn_show];
-        });
+        [SVProgressHUD thn_show];
     }
     
     WEAKSELF;
@@ -205,9 +201,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 // 获取接单订制商品
 - (void)thn_getCustomizationProductsWithParams:(NSDictionary *)params loadMore:(BOOL)loadMore {
     if (!loadMore) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD thn_show];
-        });
+        [SVProgressHUD thn_show];
     }
     
     WEAKSELF;
@@ -228,9 +222,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 // 获取栏目商品
 - (void)thn_getColumnProductsWithType:(THNGoodsListViewType)type params:(NSDictionary *)params loadMore:(BOOL)loadMore {
     if (!loadMore) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD thn_show];
-        });
+        [SVProgressHUD thn_show];
     }
     
     WEAKSELF;

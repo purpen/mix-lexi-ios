@@ -69,9 +69,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 
 #pragma mark - get data
 - (void)thn_setCouponsCenterData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+    [SVProgressHUD thn_show];
     
     [self thn_getCategoryData];
     
@@ -164,9 +162,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
  根据分类 id 获取优惠券
  */
 - (void)thn_getCouponeDataWithCategoryId:(NSString *)categoryId {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+    [SVProgressHUD thn_show];
     
     dispatch_group_t group = dispatch_group_create();
     

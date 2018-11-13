@@ -16,6 +16,7 @@ static NSString *const kHintTextLiked    = @"还未喜欢过任何东西";
 static NSString *const kSubHintTextLiked = @"点击商品和橱窗上的  即可添加到喜欢列表中";
 static NSString *const kHintTextCollect  = @"当前还没有浏览和添加心愿单商品";
 static NSString *const kHintTextStore    = @"当前还未关注任何原创品牌设计馆";
+static NSString *const kHintTextDynamic  = @"还没有任何动态信息";
 
 @interface THNTableViewFooterView ()
 
@@ -102,6 +103,11 @@ static NSString *const kHintTextStore    = @"当前还未关注任何原创品�
             
         case THNHeaderViewSelectedTypeStore: {
             [self setHintLabelText:kHintTextStore iconImageName:@"icon_store_default"];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeDynamic: {
+            [self setHintLabelText:kHintTextStore iconImageName:@"icon_dynamic_default"];
         }
             break;
             
