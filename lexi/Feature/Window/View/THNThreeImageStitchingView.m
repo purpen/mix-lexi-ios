@@ -19,6 +19,15 @@
 
 @implementation THNThreeImageStitchingView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self.imageViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = self.imageViews[idx];
+        imageView.layer.masksToBounds = YES;
+        self.moreImageCountLabel.hidden = YES;
+    }];
+}
+
 - (void)setThreeImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 2) {
@@ -31,6 +40,7 @@
         [imageView addGestureRecognizer:singleTap];
         singleTap.view.tag = idx;
         imageView.userInteractionEnabled = self.isHaveUserInteractionEnabled;
+        imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
     }];
     
     if (images.count > 3) {

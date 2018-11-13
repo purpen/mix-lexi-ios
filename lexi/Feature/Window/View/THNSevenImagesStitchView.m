@@ -19,6 +19,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self.imageViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = self.imageViews[idx];
+        imageView.layer.masksToBounds = YES;
+    }];
 }
 
 - (void)setSevenImageStitchingView:(NSArray *)images {
@@ -30,6 +34,7 @@
         [imageView addGestureRecognizer:singleTap];
         singleTap.view.tag = idx;
         imageView.userInteractionEnabled = YES;
+        imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
     }];
 }
 

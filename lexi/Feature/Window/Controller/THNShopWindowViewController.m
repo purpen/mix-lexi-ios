@@ -23,6 +23,8 @@
 #import "THNLoginManager.h"
 #import "THNLoginViewController.h"
 #import "THNBaseNavigationController.h"
+#import "UIImageView+WebCache.h"
+#import "THNReleaseWindowViewController.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -68,7 +70,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     self.showWindowType = ShowWindowTypeRecommend;
     self.navigationBarView.hidden = YES;
     [self.view addSubview:self.tableView];
-    [self.view addSubview:self.stitchingButton];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.stitchingButton];
     [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.tableView resetCurrentPageNumber];
     self.currentPage = 1;
@@ -80,6 +82,16 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.stitchingButton.hidden = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.stitchingButton.hidden = YES;
 }
 
 - (void)loadShopWindowData {
@@ -136,6 +148,11 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         [self.tableView endFooterRefreshAndCurrentPageChange:NO];
         [self hiddenHud];
     }];
+}
+
+- (void)pushReleaseWindowVC {
+    THNReleaseWindowViewController *releaseWindowVC = [[THNReleaseWindowViewController alloc]init];
+    [self.navigationController pushViewController:releaseWindowVC animated:YES];
 }
 
 #pragma UITableViewDataSource method 实现
@@ -273,7 +290,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        _showImageView.image = [UIImage imageNamed:@"icon_showWindow_bg"];
+        [_showImageView sd_setImageWithURL:[NSURL URLWithString:@"https://static.moebeast.com/image/static/shop_window_head.jpg"] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     }
     return _showImageView;
 }
@@ -293,24 +310,24 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
     return _tableView;
 }
 
-// 业务隐藏
-//- (UIButton *)stitchingButton {
-//    if (!_stitchingButton) {
-//        _stitchingButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 60, SCREEN_HEIGHT - 100, 120, 40)];
-//        [_stitchingButton setTitle:@"拼贴我的橱窗" forState:UIControlStateNormal];
-//        [_stitchingButton setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
-//        [_stitchingButton setImage:[UIImage imageNamed:@"icon_addShopWindow"] forState:UIControlStateNormal];
-//        _stitchingButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
-//        _stitchingButton.backgroundColor = [UIColor whiteColor];
-//        _stitchingButton.layer.cornerRadius = 20;
-//        _stitchingButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000"].CGColor;
-//        _stitchingButton.layer.shadowOffset = CGSizeMake(0, 2);
-//        _stitchingButton.imageEdgeInsets = UIEdgeInsetsMake(-2, 95, 0, 0);
-//        _stitchingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 30);
-//        _stitchingButton.layer.shadowOpacity = 0.15;
-//    }
-//    return _stitchingButton;
-//}
+- (UIButton *)stitchingButton {
+    if (!_stitchingButton) {
+        _stitchingButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 60, SCREEN_HEIGHT - 100, 120, 40)];
+        [_stitchingButton setTitle:@"拼贴我的橱窗" forState:UIControlStateNormal];
+        [_stitchingButton setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
+        [_stitchingButton setImage:[UIImage imageNamed:@"icon_addShopWindow"] forState:UIControlStateNormal];
+        _stitchingButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
+        _stitchingButton.backgroundColor = [UIColor whiteColor];
+        _stitchingButton.layer.cornerRadius = 20;
+        _stitchingButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000"].CGColor;
+        _stitchingButton.layer.shadowOffset = CGSizeMake(0, 2);
+        _stitchingButton.imageEdgeInsets = UIEdgeInsetsMake(-2, 95, 0, 0);
+        _stitchingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 30);
+        _stitchingButton.layer.shadowOpacity = 0.15;
+        [_stitchingButton addTarget:self action:@selector(pushReleaseWindowVC) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _stitchingButton;
+}
 
 - (NSMutableArray *)showWindowFollows {
     if (!_showWindowFollows) {
