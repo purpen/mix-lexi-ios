@@ -15,5 +15,6 @@ typedef void(^FiveImageBlock)(NSInteger index);
 - (void)setFiveImageStitchingView:(NSArray *)images;
 
 @property (nonatomic, copy) FiveImageBlock fiveImageBlock;
+@property (nonatomic, assign) BOOL isContentModeCenter;
 
 @end

@@ -406,11 +406,11 @@ UITextFieldDelegate
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textView.returnKeyType = UIReturnKeyDone;
     if (indexPath.row == 1) {
-        if (self.addressModel.mobile) {
+        if (self.mobile) {
+            cell.textView.text = self.mobile;
+        } else {
             cell.textView.text = self.addressModel.mobile;
             self.mobile = self.addressModel.mobile;
-        } else {
-            cell.textView.text = self.mobile;
         }
 
         [cell addSubview:cell.areaCodeTextView];
@@ -424,11 +424,11 @@ UITextFieldDelegate
         cell.rightImageView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2) {
-        if (self.addressModel.mobile) {
+        if (self.countryName) {
+            cell.textView.text = self.countryName;
+        } else {
             cell.textView.text = self.addressModel.countryName;
             self.countryName = self.addressModel.countryName;
-        } else {
-            cell.textView.text = self.countryName;
         }
         self.countryID = self.addressModel.countryId;
         cell.rightImageView.hidden = NO;
@@ -450,31 +450,31 @@ UITextFieldDelegate
         cell.textView.inputView = self.addressPickerView;
         cell.textView.tintColor = [UIColor clearColor];
     }else if (indexPath.row == 4) {
-        if (self.addressModel.mobile) {
+        if (self.streetAddress) {
+            cell.textView.text = self.streetAddress;
+        } else {
             cell.textView.text = self.addressModel.streetAddress;
             self.streetAddress = self.addressModel.streetAddress;
-        } else {
-            cell.textView.text = self.streetAddress;
         }
 
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
     }else if (indexPath.row == 5) {
-        if (self.addressModel.mobile) {
+        if (self.zipcode) {
+            cell.textView.text = self.zipcode;
+        } else {
             cell.textView.text = self.addressModel.zipcode;
             self.zipcode = self.addressModel.zipcode;
-        } else {
-            cell.textView.text = self.zipcode;
         }
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 0) {
-        if (self.addressModel.mobile) {
+        if (self.name) {
+            cell.textView.text = self.name;
+        } else {
             cell.textView.text = self.addressModel.firstName;
             self.name = self.addressModel.firstName;
-        } else {
-            cell.textView.text = self.name;
         }
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;

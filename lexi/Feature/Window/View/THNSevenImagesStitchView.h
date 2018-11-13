@@ -14,5 +14,6 @@ typedef void(^SevenImageBlock)(NSInteger index);
 
 - (void)setSevenImageStitchingView:(NSArray *)images;
 @property (nonatomic, copy) SevenImageBlock sevenImageBlock;
+@property (nonatomic, assign) BOOL isContentModeCenter;
 
 @end

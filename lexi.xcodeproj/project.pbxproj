@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2850BAEE13FA120677ABF61B /* Pods_lexi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 782B24B2E24BC229D0FEEFF8 /* Pods_lexi.framework */; };
+		4B24D3A4219A677500525A05 /* THNReleaseWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24D3A2219A677500525A05 /* THNReleaseWindowViewController.m */; };
+		4B24D3A5219A677500525A05 /* THNReleaseWindowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */; };
 		4B25F210211EA79F00115E57 /* searchHis.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B25F20F211EA79F00115E57 /* searchHis.json */; };
 		4B2644EF2125590700665A6D /* showWindow.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B2644EE2125590700665A6D /* showWindow.json */; };
 		4B2755092182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2755072182F41000DEA316 /* THNPoupalRecommendCollectionViewCell.xib */; };
@@ -504,6 +506,9 @@
 
 /* Begin PBXFileReference section */
 		384B27D6790EA371FD2231A9 /* Pods-lexi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lexi.release.xcconfig"; path = "Pods/Target Support Files/Pods-lexi/Pods-lexi.release.xcconfig"; sourceTree = "<group>"; };
+		4B24D3A1219A677500525A05 /* THNReleaseWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNReleaseWindowViewController.h; sourceTree = "<group>"; };
+		4B24D3A2219A677500525A05 /* THNReleaseWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNReleaseWindowViewController.m; sourceTree = "<group>"; };
+		4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNReleaseWindowViewController.xib; sourceTree = "<group>"; };
 		4B25F20F211EA79F00115E57 /* searchHis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchHis.json; sourceTree = "<group>"; };
 		4B2644EE2125590700665A6D /* showWindow.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = showWindow.json; sourceTree = "<group>"; };
 		4B2656CF211D30D2001CA9DD /* THNSaveTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSaveTool.h; sourceTree = "<group>"; };
@@ -1426,6 +1431,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4B24D39D219A673900525A05 /* ReleaseWindow */ = {
+			isa = PBXGroup;
+			children = (
+				4B24D39E219A673900525A05 /* Model */,
+				4B24D39F219A673900525A05 /* View */,
+				4B24D3A0219A673900525A05 /* ViewController */,
+			);
+			path = ReleaseWindow;
+			sourceTree = "<group>";
+		};
+		4B24D39E219A673900525A05 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B24D39F219A673900525A05 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B24D3A0219A673900525A05 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4B24D3A1219A677500525A05 /* THNReleaseWindowViewController.h */,
+				4B24D3A2219A677500525A05 /* THNReleaseWindowViewController.m */,
+				4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		4B2656CE211D3074001CA9DD /* ThnTools */ = {
 			isa = PBXGroup;
 			children = (
@@ -1462,6 +1501,7 @@
 				4BECF08D217F1401008E5E28 /* Setting */,
 				4BECF09C217F1401008E5E28 /* Share */,
 				4BECF0A3217F1401008E5E28 /* Store */,
+				4B24D39D219A673900525A05 /* ReleaseWindow */,
 				4BECF11D217F1401008E5E28 /* Window */,
 			);
 			path = Feature;
@@ -3462,6 +3502,7 @@
 				D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */,
 				4BECF249217F1401008E5E28 /* THNOrderProductTableViewCell.xib in Resources */,
 				4BECF182217F1401008E5E28 /* THNArticleProductTableViewCell.xib in Resources */,
+				4B24D3A5219A677500525A05 /* THNReleaseWindowViewController.xib in Resources */,
 				D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */,
 				4BECF274217F1402008E5E28 /* THNSearchHeaderView.xib in Resources */,
 				4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */,
@@ -3752,6 +3793,7 @@
 				4B27B407218717D1004AF42F /* THNPhotoManager.m in Sources */,
 				D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */,
 				4B27B408218717D1004AF42F /* THNAuthCodeButton.m in Sources */,
+				4B24D3A4219A677500525A05 /* THNReleaseWindowViewController.m in Sources */,
 				4B27B409218717D1004AF42F /* THNDoneButton.m in Sources */,
 				4B27B40A218717D1004AF42F /* THNFindPassword.m in Sources */,
 				4B27B40B218717D1004AF42F /* THNLoginBaseView.m in Sources */,
