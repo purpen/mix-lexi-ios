@@ -14,8 +14,18 @@
 #import "THNThreeImageStitchingView.h"
 #import "THNFiveImagesStitchView.h"
 #import "THNSevenImagesStitchView.h"
+#import "IQKeyboardManager.h"
+#import "THNToolBarView.h"
+#import "WBStatusHelper.h"
+#import "WBEmoticonInputView.h"
 
-@interface THNReleaseWindowViewController () <YYTextViewDelegate>
+@interface THNReleaseWindowViewController () <
+YYTextViewDelegate,
+YYTextKeyboardObserver,
+THNToolBarViewDelegate,
+WBStatusComposeEmoticonViewDelegate,
+UITextFieldDelegate
+>
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *collageButtons;
 @property (weak, nonatomic) IBOutlet UIView *postContentView;
@@ -25,12 +35,13 @@
 @property (weak, nonatomic) IBOutlet UIView *keywordView;
 @property (weak, nonatomic) IBOutlet UIButton *addTagButton;
 @property (nonatomic, strong) YYTextView *textView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottomConstraint;
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) THNThreeImageStitchingView *threeImageStitchingView;
 @property (nonatomic, strong) THNFiveImagesStitchView *fiveImagesStitchingView;
 @property (nonatomic, strong) THNSevenImagesStitchView *sevenImagesStitchingView;
+@property (nonatomic, strong) THNToolBarView *toolbar;
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 
 @end
 
@@ -42,11 +53,17 @@
 }
 
 - (void)setupUI {
+    // 监听键盘
+    [[YYTextKeyboardManager defaultManager] addObserver:self];
+    [self.view addSubview:self.toolbar];
+    self.titleTextField.delegate = self;
+    self.toolbar.delegate = self;
+    
     self.navigationBarView.title = @"发布橱窗";
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share"];
+    self.navigationBarView.rightButtonTrailing = -20;
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_gray"];
     [self.addTagButton drawCornerWithType:0 radius:13];
-    self.scrollViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
-    self.scrollViewContentHeightConstraint.constant = SCREEN_HEIGHT;
+    self.scrollViewBottomConstraint.constant = kDeviceiPhoneX ? 34 : 0;
     
     [self.collageButtons enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton *btn = obj;
@@ -63,30 +80,39 @@
     [self.postContentView addSubview:self.textView];
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.trailing.equalTo(self.postContentView);
-        make.top.equalTo(self.postContentView).with.offset(40);
+        make.left.trailing.equalTo(self.postContentView).with.offset(-5);
+        make.top.equalTo(self.postContentView).with.offset(30);
         make.height.equalTo(@(100));
     }];
+    
     self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
     
-    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
-    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
-    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
-    [self.view addGestureRecognizer:tableViewGesture];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    
+    // 设置键盘距textView的间距
+    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.keyboardDistanceFromTextField = 50;
 }
 
-- (void)tableViewTouchInSide{
-    // ------结束编辑，隐藏键盘
-    [self.view endEditing:YES];
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+    self.toolbar.hidden = YES;
+}
+
+- (void)layoutInputView {
+    WBEmoticonInputView *inputView = [WBEmoticonInputView sharedView];
+    inputView.delegate = self;
+    _textView.inputView = inputView;
+    [_textView reloadInputViews];
+    [_textView becomeFirstResponder];
 }
 
 - (IBAction)collage:(UIButton *)button {
+    
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
     }
-    
     
     self.imageType = [self.collageButtons indexOfObject:button];
     button.backgroundColor = [UIColor colorWithHexString:@"5FE4B1"];
@@ -117,29 +143,87 @@
 //            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
             break;
     }
+    
 }
 
 - (IBAction)addTag:(id)sender {
     
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.view endEditing:YES];
+#pragma mark - YYTextViewDelegate
+- (void)textViewDidBeginEditing:(YYTextView *)textView {
+    self.toolbar.hidden = NO;
+    [self.textView reloadInputViews];
+    [self.textView becomeFirstResponder];
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.toolbar.hidden = NO;
+    [textField reloadInputViews];
+    [textField becomeFirstResponder];
+}
+
+// 动态改变TextView的高度
 - (void)textViewDidChange:(YYTextView *)textView {
     CGFloat fltTextHeight = textView.textLayout.textBoundingSize.height;
     textView.scrollEnabled = NO; //必须设置为NO
     
     [UIView performWithoutAnimation:^{
         textView.height = fltTextHeight;
-        self.postContenViewHeightConstraint.constant = textView.height + 56;
-        self.scrollViewContentHeightConstraint.constant = SCREEN_HEIGHT + textView.height;
+        self.postContenViewHeightConstraint.constant = textView.height + 24;
     }];
 }
 
-#pragma mark - lazy
+#pragma mark @protocol YYTextKeyboardObserver
+- (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
+    CGRect toFrame = [[YYTextKeyboardManager defaultManager] convertRect:transition.toFrame toView:self.view];
+    if (transition.animationDuration == 0) {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
+    } else {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
+        [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.toolbar.bottom = CGRectGetMinY(toFrame);
+        } completion:NULL];
+    }
+}
 
+- (void)dealloc {
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - THNToolBarViewDelegate
+- (void)changeKeyboardType:(UIButton *)button {
+    if (self.textView.inputView) {
+        self.textView.inputView = nil;
+        [self.textView reloadInputViews];
+        [self.textView becomeFirstResponder];
+        
+        [button setImage:[WBStatusHelper imageNamed:@"compose_emoticonbutton_background"] forState:UIControlStateNormal];
+        [button setImage:[WBStatusHelper imageNamed:@"compose_emoticonbutton_background_highlighted"] forState:UIControlStateHighlighted];
+    } else {
+        [self layoutInputView];
+        [button setImage:[WBStatusHelper imageNamed:@"compose_keyboardbutton_background"] forState:UIControlStateNormal];
+        [button setImage:[WBStatusHelper imageNamed:@"compose_keyboardbutton_background_highlighted"] forState:UIControlStateHighlighted];
+    }
+}
+
+- (void)addComment:(NSString *)text {
+    [self.view endEditing:YES];
+}
+
+#pragma mark @protocol WBStatusComposeEmoticonView
+- (void)emoticonInputDidTapText:(NSString *)text {
+    if (text.length) {
+        [self.textView replaceRange:self.textView.selectedTextRange withText:text];
+    }
+}
+
+- (void)emoticonInputDidTapBackspace {
+    [self.textView deleteBackward];
+}
+
+#pragma mark - lazy
 - (YYTextView *)textView {
     if (!_textView) {
         _textView = [[YYTextView alloc]init];
@@ -151,6 +235,7 @@
     }
     return _textView;
 }
+
 
 #pragma mark - lazy
 - (THNThreeImageStitchingView *)threeImageStitchingView {
@@ -179,6 +264,16 @@
         _sevenImagesStitchingView.isContentModeCenter = YES;
     }
     return _sevenImagesStitchingView;
+}
+
+- (THNToolBarView *)toolbar {
+    if (!_toolbar) {
+        _toolbar = [THNToolBarView viewFromXib];
+        _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _toolbar.frame = CGRectMake(0, 1000, self.view.width, 50);
+        _toolbar.isNoNeedAddTextView = YES;
+    }
+    return _toolbar;
 }
 
 @end

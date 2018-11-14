@@ -23,7 +23,6 @@ NSString *const kUrlAddComment = @"/shop_windows/comments";
 
 @interface THNCommentViewController () <
 YYTextKeyboardObserver,
-UITextFieldDelegate,
 THNToolBarViewDelegate,
 THNMJRefreshDelegate,
 THNCommentTableViewDelegate
@@ -59,8 +58,6 @@ THNCommentTableViewDelegate
 }
 
 - (void)setupUI {
-    // 监听键盘
-    [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     CGFloat topWithBottomHeight = kDeviceiPhoneX ? 88 + 34 : 64;
     self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topWithBottomHeight) initWithCommentType:CommentTypeAll];
@@ -163,9 +160,10 @@ THNCommentTableViewDelegate
         self.toolbar.hidden = NO;
         [self.toolbar.textView becomeFirstResponder];
     }
+   
+    self.toolbar.delegate = self;
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
-    self.toolbar.delegate = self;
     [self.view addSubview:self.toolbar];
 }
 
@@ -241,7 +239,6 @@ THNCommentTableViewDelegate
     [self layoutToolView];
     self.pid = pid;
     self.section = section;
-    [self.toolbar.textView becomeFirstResponder];
 }
 
 #pragma mark - lazy

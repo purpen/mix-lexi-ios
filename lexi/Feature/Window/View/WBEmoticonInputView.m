@@ -246,12 +246,6 @@
 @end
 
 
-
-
-
-
-
-
 @interface WBEmoticonInputView () <UICollectionViewDelegate, UICollectionViewDataSource, UIInputViewAudioFeedback,WBEmoticonScrollViewDelegate>
 @property (nonatomic, strong) NSArray<UIButton *> *toolbarButtons;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -278,12 +272,12 @@
 
 - (instancetype)init {
     self = [super init];
-    self.frame = CGRectMake(0, 0, kScreenWidth, kViewHeight);
+    self.frame = CGRectMake(0, 0, kScreenWidth, kViewHeight - kToolbarHeight);
     self.backgroundColor = UIColorHex(f9f9f9);
     [self _initGroups];
     [self _initTopLine];
     [self _initCollectionView];
-    [self _initToolbar];
+//    [self _initToolbar];
     
     _currentPageIndex = NSNotFound;
     [self _toolbarBtnDidTapped:_toolbarButtons.firstObject];

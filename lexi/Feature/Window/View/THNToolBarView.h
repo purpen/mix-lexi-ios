@@ -14,6 +14,7 @@
 
 @optional
 - (void)addComment:(NSString *)text;
+- (void)changeKeyboardType:(UIButton *)button;
 
 @end
 
@@ -21,5 +22,6 @@
 
 @property (nonatomic, weak) id <THNToolBarViewDelegate> delegate;
 @property (nonatomic, strong) YYTextView *textView;
+@property (nonatomic, assign) BOOL isNoNeedAddTextView;
 
 @end

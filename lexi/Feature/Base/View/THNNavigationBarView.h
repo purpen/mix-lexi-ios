@@ -46,6 +46,11 @@ typedef void (^THNNavigationBarRightButtonCompletion)(void);
  */
 @property (nonatomic, weak) id <THNNavigationBarViewDelegate> delegate;
 
+/**
+ 右边按钮距右的间距
+ */
+@property (nonatomic, assign) CGFloat rightButtonTrailing;
+
 #pragma mark - Set Methods
 /// 设置导航栏透明，显示阴影遮罩
 - (void)setNavigationTransparent:(BOOL)transparent showShadow:(BOOL)show;

@@ -289,7 +289,8 @@ static const NSInteger kRightButtonTag = 123;
     
     [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake([self getButtonTextWidth:self.rightButton], 44));
-        make.bottom.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(0);
+        make.right.mas_equalTo(self.rightButtonTrailing);
     }];
     
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {

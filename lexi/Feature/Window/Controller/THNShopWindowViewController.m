@@ -312,7 +312,8 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 
 - (UIButton *)stitchingButton {
     if (!_stitchingButton) {
-        _stitchingButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 60, SCREEN_HEIGHT - 100, 120, 40)];
+        CGFloat spacing= kDeviceiPhoneX ? 134 : 100;
+        _stitchingButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 60, SCREEN_HEIGHT - spacing, 120, 40)];
         [_stitchingButton setTitle:@"拼贴我的橱窗" forState:UIControlStateNormal];
         [_stitchingButton setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
         [_stitchingButton setImage:[UIImage imageNamed:@"icon_addShopWindow"] forState:UIControlStateNormal];

@@ -39,6 +39,7 @@
 - (void)setRootViewController {
     THNBaseTabBarController *tabBarC = [[THNBaseTabBarController alloc] init];
     self.window.rootViewController = tabBarC;
+    [[IQKeyboardManager sharedManager]registerTextFieldViewClass:[YYTextView class] didBeginEditingNotificationName:YYTextViewTextDidBeginEditingNotification didEndEditingNotificationName:YYTextViewTextDidEndEditingNotification];
    // [self thn_loadLoginController];
 }
 
