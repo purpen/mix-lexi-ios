@@ -31,6 +31,7 @@
 #import "YYKit.h"
 #import "THNCommentTableView.h"
 #import "THNCommentViewController.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -126,6 +127,8 @@ THNCommentTableViewDelegate
     [self.tableView addGestureRecognizer:tableViewGesture];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.enable = NO;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {

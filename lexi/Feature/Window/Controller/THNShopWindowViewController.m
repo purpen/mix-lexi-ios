@@ -215,7 +215,8 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
-            self.stitchingButton.viewY = SCREEN_HEIGHT - 100;
+            CGFloat spacing= kDeviceiPhoneX ? 134 : 100;
+            self.stitchingButton.viewY = SCREEN_HEIGHT - spacing;
         }];
     }
 }

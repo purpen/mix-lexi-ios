@@ -23,6 +23,7 @@
 #import "THNCommentViewController.h"
 #import "THNToolBarView.h"
 #import "THNCommentTableView.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -308,6 +309,8 @@ THNCommentTableViewDelegate
     [self.tableView addGestureRecognizer:tableViewGesture];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.enable = NO;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {

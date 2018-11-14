@@ -39,7 +39,6 @@
 - (void)setRootViewController {
     THNBaseTabBarController *tabBarC = [[THNBaseTabBarController alloc] init];
     self.window.rootViewController = tabBarC;
-    [[IQKeyboardManager sharedManager]registerTextFieldViewClass:[YYTextView class] didBeginEditingNotificationName:YYTextViewTextDidBeginEditingNotification didEndEditingNotificationName:YYTextViewTextDidEndEditingNotification];
    // [self thn_loadLoginController];
 }
 
@@ -69,6 +68,9 @@
     manager.enable = YES;
     manager.shouldResignOnTouchOutside = YES;
     manager.enableAutoToolbar = NO;
+    [[IQKeyboardManager sharedManager] registerTextFieldViewClass:[YYTextView class]
+                                  didBeginEditingNotificationName:YYTextViewTextDidBeginEditingNotification
+                                    didEndEditingNotificationName:YYTextViewTextDidEndEditingNotification];
 }
 
 #pragma mark - 友盟设置
