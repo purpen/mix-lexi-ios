@@ -20,7 +20,7 @@ PODS:
   - HMSegmentedControl (1.5.5)
   - IQKeyboardManager (4.0.13)
   - Masonry (1.1.0)
-  - MJExtension (3.0.15.1)
+  - MJExtension (3.0.15)
   - MJRefresh (3.1.15.3)
   - MLeaksFinder (1.0.0):
     - FBRetainCycleDetector
@@ -31,7 +31,7 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
-  - UMCCommon (1.5.2)
+  - UMCCommon (1.5.1)
   - UMCSecurityPlugins (1.0.6)
   - UMCShare/Core (6.9.3):
     - UMCCommon
@@ -100,14 +100,14 @@ SPEC CHECKSUMS:
   HMSegmentedControl: f514c6dad47aa3065e0ed2e8046b73efc71221b9
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
+  MJExtension: 3f039575db1b135a20699ad298713b26acec1528
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
   Qiniu: 65384bca1cdb0480a68d9b9b8f54db53418c0355
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
-  UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
+  UMCCommon: 16b674e9de0616d3a6128c551348a686d869c3c7
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
@@ -115,4 +115,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ccb1eb291cd43c63eafdebcbec266fb91909e00f
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3
