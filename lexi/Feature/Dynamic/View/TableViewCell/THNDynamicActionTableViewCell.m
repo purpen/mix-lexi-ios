@@ -11,13 +11,11 @@
 #import <Masonry/Masonry.h>
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
+#import "THNDynamicActionTableViewCell+Action.h"
 
 static NSString *const kDynamicActionCellId = @"THNDynamicActionTableViewCellId";
 
 @interface THNDynamicActionTableViewCell ()
-
-@property (nonatomic, strong) UIButton *likeButton;
-@property (nonatomic, strong) UIButton *commentButton;
 
 @end
 
@@ -43,7 +41,12 @@ static NSString *const kDynamicActionCellId = @"THNDynamicActionTableViewCellId"
 }
 
 - (void)thn_setDynamicAcitonWithModel:(THNDynamicModelLines *)model {
+    self.dynamicModel = model;
+    self.dynamicRid = [NSString stringWithFormat:@"%zi", model.rid];
+    
     [self thn_setDynamicActionButtonText:model.likeCount commentCount:model.commentCount];
+    [self thn_likeDynamicWithStatusWithModel:model];
+    [self thn_checkDynamicComment];
 }
 
 #pragma mark - private methods

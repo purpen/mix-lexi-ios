@@ -11,7 +11,12 @@
 
 @interface THNDynamicActionTableViewCell : UITableViewCell
 
+@property (nonatomic, weak) UIViewController *currentVC;
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UIButton *commentButton;
+@property (nonatomic, strong) THNDynamicModelLines *dynamicModel;
+@property (nonatomic, copy) NSString *dynamicRid;
 
 - (void)thn_setDynamicAcitonWithModel:(THNDynamicModelLines *)model;
 
