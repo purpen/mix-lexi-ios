@@ -16,6 +16,7 @@
 #import "THNCommentTableView.h"
 #import "THNCommentModel.h"
 #import "UIViewController+THNHud.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 static NSString *const KUrlLifeRecordsComments  = @"/life_records/comments";
@@ -74,6 +75,8 @@ THNCommentTableViewDelegate
     [self.commentTableView addGestureRecognizer:tableViewGesture];
     self.commentTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.enable = NO;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {

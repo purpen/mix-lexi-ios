@@ -90,6 +90,7 @@ UITextFieldDelegate
     
     // 设置键盘距textView的间距
     IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.enable = YES;
     keyboardManager.keyboardDistanceFromTextField = 50;
 }
 
