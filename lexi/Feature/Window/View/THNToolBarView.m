@@ -47,21 +47,11 @@
     }
 }
 
-<<<<<<< HEAD
 - (void)setIsNoNeedAddTextView:(BOOL)isNoNeedAddTextView {
     _isNoNeedAddTextView = isNoNeedAddTextView;
     self.backgroundView.backgroundColor = [UIColor clearColor];
     self.textView.editable = NO;
     [self.toolBarRightBtn setTitle:@"完成" forState:UIControlStateNormal];
-=======
-- (IBAction)release:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(addComment:)]) {
-        [self.delegate addComment:self.textView.text];
-        [self.textView resignFirstResponder];
-        self.textView.text = @"";
-        self.hidden = YES;
-    }
->>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 }
 
 - (void)toolbarButtonWithImage:(NSString *)imageName highlight:(NSString *)highlightImageName {

@@ -23,10 +23,6 @@ NSString *const kUrlAddComment = @"/shop_windows/comments";
 
 @interface THNCommentViewController () <
 YYTextKeyboardObserver,
-<<<<<<< HEAD
-=======
-UITextFieldDelegate,
->>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 THNToolBarViewDelegate,
 THNMJRefreshDelegate,
 THNCommentTableViewDelegate
@@ -164,16 +160,9 @@ THNCommentTableViewDelegate
         self.toolbar.hidden = NO;
         [self.toolbar.textView becomeFirstResponder];
     }
-<<<<<<< HEAD
-   
     self.toolbar.delegate = self;
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
-=======
-    // 监听键盘
-    [[YYTextKeyboardManager defaultManager] addObserver:self];
-    self.toolbar.delegate = self;
->>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
     [self.view addSubview:self.toolbar];
 }
 
@@ -249,10 +238,6 @@ THNCommentTableViewDelegate
     [self layoutToolView];
     self.pid = pid;
     self.section = section;
-<<<<<<< HEAD
-=======
-    [self.toolbar.textView becomeFirstResponder];
->>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 }
 
 #pragma mark - lazy

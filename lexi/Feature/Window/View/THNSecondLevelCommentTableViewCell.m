@@ -14,11 +14,7 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "THNCommentSectionHeaderView.h"
-<<<<<<< HEAD
-#import <SVProgressHUD/SVProgressHUD.h>
-=======
 #import "SVProgressHUD+Helper.h"
->>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 #import "THNMarco.h"
 #import "THNCommentSectionHeaderView.h"
 
