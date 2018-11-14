@@ -156,8 +156,6 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.frame = CGRectMake(-20, 0, kScreenWidth, 225);
-    
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-65);

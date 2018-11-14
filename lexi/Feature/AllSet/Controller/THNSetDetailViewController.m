@@ -18,15 +18,21 @@ static NSString *const kSetDetailProductCellIdentifier = @"kSetDetailProductCell
 static NSString *const kSetDetailHeaderViewIdentifier = @"kSetDetailHeaderViewIdentifier";
 static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
 
-@interface THNSetDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, THNNavigationBarViewDelegate>
+@interface THNSetDetailViewController () <
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+THNNavigationBarViewDelegate,
+THNMJRefreshDelegate
+>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *products;
+@property (nonatomic, strong) NSMutableArray *products;
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *setTitle;
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *productCountLabel;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -46,16 +52,34 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetDetailProductCellIdentifier];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier];
     self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadCollectionsDetailData {
-    [self showHud];
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"id"] = @(self.collectionID);
+    params[@"page"] = @(self.currentPage);
     THNRequest *request = [THNAPI getWithUrlString:kUrlCollectionsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
-        self.products = result.data[@"products"];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
+        NSArray *products = result.data[@"products"];
+        if (products.count > 0) {
+            [self.products addObjectsFromArray:products];
+        } else {
+            [self.collectionView noMoreData];
+        }
+
         self.cover = result.data[@"cover"];
         self.setTitle = result.data[@"name"];
         [self.collectionView reloadData];
@@ -108,6 +132,12 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
     [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadCollectionsDetailData];
+}
+
 #pragma mark - lazy
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -147,6 +177,13 @@ static NSString *const kUrlCollectionsDetail = @"/column/collections/detail";
         _productCountLabel.textColor = [UIColor whiteColor];
     }
     return _productCountLabel;
+}
+
+- (NSMutableArray *)products {
+    if (!_products) {
+        _products = [NSMutableArray array];
+    }
+    return _products;
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "THNLoginManager.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kUrlEditStore = @"/store/edit_store";
 
@@ -55,7 +55,7 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     THNRequest *request = [THNAPI postWithUrlString:kUrlEditStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
          self.reloadLivingHallBlock();
@@ -92,7 +92,7 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
             label.text = [NSString stringWithFormat:@"%ld",textView.text.length];
             if (toBeString.length > lenth) {
                 textView.text = [toBeString substringToIndex:lenth];
-                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多输入%ld个字符",lenth]];
+                [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"最多输入%ld个字符",lenth]];
                 label.text = [NSString stringWithFormat:@"%ld",lenth];
             }
         }

@@ -8,10 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNSecondLevelCommentTableViewCell;
+
 @class THNCommentModel;
+
+extern CGFloat const loadViewHeight;
+extern CGFloat const allSubCommentHeight;
+
+typedef void(^SecondLevelBlock)(THNSecondLevelCommentTableViewCell *cell);
 
 @interface THNSecondLevelCommentTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNCommentModel *subCommentModel;
+@property (nonatomic, assign) BOOL isHiddenLoadMoreDataView;
+@property (nonatomic, strong) THNCommentModel *commentModel;
+@property (nonatomic, copy) SecondLevelBlock secondLevelBlock;
+@property (nonatomic, assign) BOOL isShopWindow;
+@property (nonatomic, assign) NSInteger page;
 
 @end

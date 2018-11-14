@@ -107,29 +107,58 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         }
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+
         [self.orders removeAllObjects];
+        NSArray *orders = result.data[@"orders"];
+
         switch (self.orderType) {
             
-            case OrderTypeAll:
-                [self.allOrders addObjectsFromArray:result.data[@"orders"]];
+            case OrderTypeAll:{
+                if (orders.count > 0) {
+                    [self.allOrders addObjectsFromArray:orders];
+                } else {
+                    [self.tableView noMoreData];
+                }
                 [self.orders setArray:self.allOrders];
                 break;
-            case OrderTypeWaitDelivery:
-                [self.waitDeliveryOrders addObjectsFromArray:result.data[@"orders"]];
+            }
+
+            case OrderTypeWaitDelivery:{
+                if (orders.count > 0) {
+                    [self.waitDeliveryOrders addObjectsFromArray:orders];
+                } else {
+                    [self.tableView noMoreData];
+                }
                 [self.orders setArray:self.waitDeliveryOrders];
                 break;
-            case OrderTypWaiteReceipt:
-                [self.waiteReceiptOrders addObjectsFromArray:result.data[@"orders"]];
-                 [self.orders setArray:self.waiteReceiptOrders];
+            }
+            case OrderTypWaiteReceipt:{
+                if (orders.count > 0) {
+                    [self.waiteReceiptOrders addObjectsFromArray:orders];
+                } else {
+                    [self.tableView noMoreData];
+                }
+                [self.orders setArray:self.waiteReceiptOrders];
                 break;
-            case OrderTypeEvaluation:
-                [self.evaluationOrders addObjectsFromArray:result.data[@"orders"]];
-                 [self.orders setArray:self.evaluationOrders];
+            }
+            case OrderTypeEvaluation:{
+                if (orders.count > 0) {
+                    [self.evaluationOrders addObjectsFromArray:orders];
+                } else {
+                    [self.tableView noMoreData];
+                }
+                [self.orders setArray:self.evaluationOrders];
                 break;
-            case OrderTypePayment:
-                [self.paymentOrders addObjectsFromArray:result.data[@"orders"]];
-                 [self.orders setArray:self.paymentOrders];
+            }
+            case OrderTypePayment:{
+                if (orders.count > 0) {
+                    [self.paymentOrders addObjectsFromArray:orders];
+                } else {
+                    [self.tableView noMoreData];
+                }
+                [self.orders setArray:self.paymentOrders];
                 break;
+            }
         }
 
         [self.tableView reloadData];

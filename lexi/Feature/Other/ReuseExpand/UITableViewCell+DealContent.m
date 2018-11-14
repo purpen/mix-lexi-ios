@@ -20,6 +20,14 @@
 
 @implementation UITableViewCell (DealContent)
 
++ (CGFloat)heightWithText:(NSString *)text fontSize:(CGFloat)fontSize spacing:(CGFloat)spacing width:(CGFloat)width {
+    CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:text
+                                                         fontSize:fontSize
+                                                      lineSpacing:spacing
+                                                          fixSize:CGSizeMake(width, MAXFLOAT)].height;
+    return textH;
+}
+
 + (CGFloat)heightWithDaelContentData:(NSArray *)dealContent {
     return [self heightWithDaelContentData:dealContent type:(THNDealContentTypeArticle)];
 }

@@ -21,12 +21,10 @@ static CGFloat const deleteAdderssViewHeight = 64;
 static CGFloat const cardViewHeight = 257;
 static CGFloat const defaultAdderssViewHeight = 64;
 static CGFloat const lineHeight = 16;
-
 static NSString *const kUrlPlaces = @"/places/provinces_cities";
 static NSString *const kUrlAreaCode = @"/auth/area_code";
 static NSString *const kUrlAddress = @"/address";
 static NSString *const kUrlGetaddressCustoms = @"/address/custom";
-
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
 
@@ -89,6 +87,7 @@ UITextFieldDelegate
 @property (nonatomic, assign) NSInteger townID;
 // 是否隐藏身份证所在的View
 @property (nonatomic, assign) BOOL isShowCardView;
+@property (nonatomic, strong) UIButton *saveButton;
 
 @end
 
@@ -127,6 +126,17 @@ UITextFieldDelegate
     //跳转动画效果
     self.imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     self.imagePickerController.allowsEditing = YES;
+    self.saveButton.enabled = NO;
+    self.saveButton.alpha = 0.5;
+    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
+    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
+    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
+    [self.tableView addGestureRecognizer:tableViewGesture];
+}
+
+- (void)tableViewTouchInSide{
+    // ------结束编辑，隐藏键盘
+    [self.view endEditing:YES];
 }
 
 - (void)initData {
@@ -350,6 +360,7 @@ UITextFieldDelegate
     }
 }
 
+
 #pragma mark - UIImagePickerControllerDelegate
 // 照片完成回调
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -395,8 +406,13 @@ UITextFieldDelegate
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textView.returnKeyType = UIReturnKeyDone;
     if (indexPath.row == 1) {
-        cell.textView.text = self.addressModel.mobile;
-        self.mobile = self.addressModel.mobile;
+        if (self.mobile) {
+            cell.textView.text = self.mobile;
+        } else {
+            cell.textView.text = self.addressModel.mobile;
+            self.mobile = self.addressModel.mobile;
+        }
+
         [cell addSubview:cell.areaCodeTextView];
         cell.areaCodeTextView.inputView = self.addressPickerView;
         cell.areaCodeTextView.text = self.areaCodes[0][@"areacode"];
@@ -408,8 +424,12 @@ UITextFieldDelegate
         cell.rightImageView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 2) {
-        cell.textView.text = self.addressModel.countryName;
-        self.countryName = self.addressModel.countryName;
+        if (self.countryName) {
+            cell.textView.text = self.countryName;
+        } else {
+            cell.textView.text = self.addressModel.countryName;
+            self.countryName = self.addressModel.countryName;
+        }
         self.countryID = self.addressModel.countryId;
         cell.rightImageView.hidden = NO;
         cell.areaCodeTextView.viewWidth = 0;
@@ -418,6 +438,7 @@ UITextFieldDelegate
     }else if (indexPath.row == 3) {
         
         if (self.addressModel.province.length > 0) {
+
             cell.textView.text = [NSString stringWithFormat:@"%@ %@ %@",self.addressModel.province ?: @"", self.addressModel.city ?: @"", self.addressModel.town ?: @""];
             self.provinceID = self.addressModel.provinceId;
             self.cityID = self.addressModel.cityId;
@@ -429,19 +450,32 @@ UITextFieldDelegate
         cell.textView.inputView = self.addressPickerView;
         cell.textView.tintColor = [UIColor clearColor];
     }else if (indexPath.row == 4) {
-        cell.textView.text = self.addressModel.streetAddress;
-        self.streetAddress = self.addressModel.streetAddress;
+        if (self.streetAddress) {
+            cell.textView.text = self.streetAddress;
+        } else {
+            cell.textView.text = self.addressModel.streetAddress;
+            self.streetAddress = self.addressModel.streetAddress;
+        }
+
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
     }else if (indexPath.row == 5) {
-        cell.textView.text = self.addressModel.zipcode;
-        self.zipcode = self.addressModel.zipcode;
+        if (self.zipcode) {
+            cell.textView.text = self.zipcode;
+        } else {
+            cell.textView.text = self.addressModel.zipcode;
+            self.zipcode = self.addressModel.zipcode;
+        }
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
     } else if (indexPath.row == 0) {
-        cell.textView.text = self.addressModel.firstName;
-        self.name = self.addressModel.firstName;
+        if (self.name) {
+            cell.textView.text = self.name;
+        } else {
+            cell.textView.text = self.addressModel.firstName;
+            self.name = self.addressModel.firstName;
+        }
         cell.areaCodeTextView.viewWidth = 0;
         cell.rightImageView.hidden = YES;
     }
@@ -449,6 +483,15 @@ UITextFieldDelegate
     cell.textView.delegate = self;
     cell.textView.tag = indexPath.row;
     [cell setPlaceholderText:self.placeholders[indexPath.row]];
+
+    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0 && self.zipcode.length > 0) {
+        self.saveButton.enabled = YES;
+        self.saveButton.alpha = 1;
+    } else {
+        self.saveButton.enabled = NO;
+        self.saveButton.alpha = 0.5;
+    }
+
     return cell;
 }
 
@@ -543,6 +586,14 @@ UITextFieldDelegate
             break;
         default:
             break;
+    }
+    
+    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0 && self.zipcode.length > 0 ) {
+        self.saveButton.enabled = YES;
+        self.saveButton.alpha = 1;
+    } else {
+        self.saveButton.enabled = NO;
+        self.saveButton.alpha = 0.5;
     }
 }
 
@@ -834,6 +885,7 @@ UITextFieldDelegate
         _saveView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50, SCREEN_HEIGHT, 50)];
         _saveView.backgroundColor = [UIColor whiteColor];
         UIButton *saveButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 5, SCREEN_WIDTH - 30, 40)];
+        self.saveButton = saveButton;
         [saveButton setTitle:@"保存" forState:UIControlStateNormal];
         saveButton.backgroundColor = [UIColor colorWithHexString:@"5FE4B1"];
         [saveButton drawCornerWithType:0 radius:4];

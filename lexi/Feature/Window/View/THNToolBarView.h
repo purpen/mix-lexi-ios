@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class YYTextView;
+
+@protocol THNToolBarViewDelegate <NSObject>
+
+@optional
+- (void)addComment:(NSString *)text;
+
+@end
+
 @interface THNToolBarView : UIView
 
+@property (nonatomic, weak) id <THNToolBarViewDelegate> delegate;
+@property (nonatomic, strong) YYTextView *textView;
 
 @end

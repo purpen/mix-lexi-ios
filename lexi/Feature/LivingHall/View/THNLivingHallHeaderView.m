@@ -24,7 +24,7 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNLifeStoreModel.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kAvatarCellIdentifier = @"kAvatarCellIdentifier";
 // 商家生活馆的信息
@@ -104,7 +104,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -176,12 +176,13 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         self.userPartieArray = result.data[@"users"];
-        NSInteger baroseCount = [result.data[@"browse_number"]integerValue];
+        NSInteger baroseCount = [result.data[@"browse_number"] integerValue];
+        NSInteger count = [result.data[@"count"] integerValue];
         
-        if (baroseCount > 999) {
+        if (count > 999) {
             self.browseMaxShowLabel.text = @"999+";
         } else {
-            self.browseMaxShowLabel.text = [NSString stringWithFormat:@"%ld",baroseCount];
+            self.browseMaxShowLabel.text = [NSString stringWithFormat:@"%ld",count];
         }
         
         NSString *browseCountText = [NSString stringWithFormat:@"生活馆被浏览过%ld次",baroseCount];
@@ -279,7 +280,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     UIPasteboard *pab = [UIPasteboard generalPasteboard];
     [pab setString:@"lexixiaoduo"];
     if (pab == nil) {
-        [SVProgressHUD showInfoWithStatus:@"复制失败"];
+        [SVProgressHUD thn_showInfoWithStatus:@"复制失败"];
         
     } else {
         [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"复制成功,去微信搜索添加"];

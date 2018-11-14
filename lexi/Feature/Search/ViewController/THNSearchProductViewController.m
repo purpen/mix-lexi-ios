@@ -16,6 +16,7 @@
 #import "THNProductModel.h"
 #import "THNSaveTool.h"
 #import "THNGoodsInfoViewController.h"
+#import "UIViewController+THNHud.h"
 
 static CGFloat interitemSpacing = 10;
 static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdentifier";
@@ -25,7 +26,8 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     THNFunctionButtonViewDelegate,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
-    THNFunctionPopupViewDelegate
+    THNFunctionPopupViewDelegate,
+    THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -33,9 +35,10 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 @property (nonatomic, strong) THNFunctionPopupView *popupView;
 // 设置商品的buttonView
 @property (nonatomic, strong) THNFunctionButtonView *functionView;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 // 商品筛选的参数
 @property (nonatomic, strong) NSDictionary *producrConditionParams;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -43,8 +46,8 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadSearchProductData];
     [self setupUI];
+    [self loadSearchProductData];
 }
 
 - (void)setupUI {
@@ -57,21 +60,40 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     [self.view addSubview:lineView];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
+    [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadSearchProductData {
+    if (self.currentPage == 1) {
+        self.isTransparent = YES;
+        [self showHud];
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @1;
-    params[@"per_page"] = @10;
+    params[@"page"] = @(self.currentPage);
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.dataArray = result.data[@"products"];
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
+        NSArray *products = result.data[@"products"];
+        if (products.count > 0) {
+            [self.dataArray addObjectsFromArray:products];
+        } else {
+            [self.collectionView noMoreData];
+        }
+        
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -102,6 +124,9 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     [screenStr appendString:count > 0 ? [NSString stringWithFormat:@" %zi", count] : @""];
     [self.functionView thn_setSelectedButtonTitle:screenStr];
     self.producrConditionParams = screenParams;
+    [self.dataArray removeAllObjects];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
     [self loadSearchProductData];
 }
 
@@ -133,6 +158,12 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
     THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productModel.rid];
     [self.navigationController pushViewController:goodInfoVC animated:YES];
+}
+
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadSearchProductData];
 }
 
 #pragma mark - lazy
@@ -168,6 +199,13 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
         _functionView.delegate = self;
     }
     return _functionView;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end

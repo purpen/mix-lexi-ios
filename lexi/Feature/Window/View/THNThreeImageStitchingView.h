@@ -16,5 +16,6 @@ typedef void(^ThreeImageBlock)(NSInteger index);
 @property (nonatomic, copy) ThreeImageBlock threeImageBlock;
 
 @property (nonatomic, assign) BOOL isHaveUserInteractionEnabled;
+@property (nonatomic, assign) BOOL isContentModeCenter;
 
 @end

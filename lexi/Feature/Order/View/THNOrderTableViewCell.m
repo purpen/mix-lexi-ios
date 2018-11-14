@@ -112,7 +112,7 @@ CGFloat orderCellLineSpacing = 10;
     THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersWechatPay requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         

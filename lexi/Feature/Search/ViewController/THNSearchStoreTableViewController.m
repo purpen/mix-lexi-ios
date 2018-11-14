@@ -17,13 +17,15 @@
 #import "UIColor+Extension.h"
 #import "THNBrandHallViewController.h"
 #import "THNGoodsInfoViewController.h"
+#import "UIViewController+THNHud.h"
 
 static NSString *const kUrlSearchStore = @"/core_platforms/search/stores";
 static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier";
 
-@interface THNSearchStoreTableViewController ()
+@interface THNSearchStoreTableViewController () <THNMJRefreshDelegate>
 
-@property (nonatomic, strong) NSArray *stores;
+@property (nonatomic, strong) NSMutableArray *stores;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -31,8 +33,8 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadSearchStoreData];
     [self setupUI];
+    [self loadSearchStoreData];
 }
 
 - (void)setupUI {
@@ -42,19 +44,39 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSearchStoreTableViewCell" bundle:nil] forCellReuseIdentifier:kSearchStoreCellIdentifier];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadSearchStoreData {
+
+    if (self.currentPage == 1) {
+        self.isTransparent = YES;
+        [self showHud];
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @1;
-    params[@"per_page"] = @10;
+    params[@"page"] = @(self.currentPage);
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        self.stores =  [THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:result.data[@"stores"]];
+        [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        NSArray *stores = result.data[@"stores"];
+        if (stores.count > 0) {
+            [self.stores addObjectsFromArray:[THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:stores]];
+        } else {
+            [self.tableView noMoreData];
+        }
+
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        [self hiddenHud];
     }];
 }
 
@@ -65,7 +87,10 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNSearchStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchStoreCellIdentifier forIndexPath:indexPath];
+    THNSearchStoreTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [THNSearchStoreTableViewCell viewFromXib];
+    }
     WEAKSELF;
     cell.searchStoreBlcok = ^(NSString *productRid) {
         THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productRid];
@@ -83,6 +108,19 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
     THNFeaturedBrandModel *brandModel = self.stores[indexPath.row];
     brandHallVC.rid = brandModel.rid;
     [self.navigationController pushViewController:brandHallVC animated:YES];
+}
+
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadSearchStoreData];
+}
+
+- (NSMutableArray *)stores {
+    if (!_stores) {
+        _stores = [NSMutableArray array];
+    }
+    return _stores;
 }
 
 @end

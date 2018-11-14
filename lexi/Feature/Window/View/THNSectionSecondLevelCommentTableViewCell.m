@@ -9,6 +9,7 @@
 #import "THNSectionSecondLevelCommentTableViewCell.h"
 #import "THNCommentModel.h"
 #import "THNTextTool.h"
+
 @interface THNSectionSecondLevelCommentTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;

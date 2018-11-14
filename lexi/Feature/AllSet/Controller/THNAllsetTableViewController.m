@@ -63,7 +63,13 @@ static CGFloat const kCellRowHeight = 382;
         }
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
-        [self.collections addObjectsFromArray:result.data[@"collections"]];
+        NSArray *collections = result.data[@"collections"];
+        if (collections.count > 0) {
+            [self.collections addObjectsFromArray:collections];
+        } else {
+            [self.tableView noMoreData];
+        }
+
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

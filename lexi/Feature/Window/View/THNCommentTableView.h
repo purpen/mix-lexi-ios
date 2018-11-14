@@ -19,11 +19,23 @@ typedef NS_ENUM(NSUInteger, CommentType) {
     CommentTypeAll
 };
 
+@protocol THNCommentTableViewDelegate <NSObject>
+
+@optional
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section;
+- (void)lookAllSubComment;
+
+@end
+
+extern NSInteger const maxShowSubComment;
+
 @interface THNCommentTableView : UITableView
 
 - (instancetype)initWithFrame:(CGRect)frame initWithCommentType:(CommentType)commentType;
 - (void)setComments:(NSArray *)comments
-initWithSubComments:(NSMutableArray *)subComments
-        initWithRid:(NSString *)rid;
+initWithSubComments:(NSMutableArray *)subComments;
+@property (nonatomic, weak) id <THNCommentTableViewDelegate> commentDelegate;
+- (void)loadMoreSubCommentData:(NSInteger)section;
+@property (nonatomic, assign) BOOL isShopWindow;
 
 @end

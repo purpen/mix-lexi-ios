@@ -18,8 +18,16 @@
 #import "UIViewController+THNHud.h"
 
 static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
+static NSString *const KUrlLifeRecordsComments  = @"/life_records/comments";
+NSString *const kUrlAddComment = @"/shop_windows/comments";
 
-@interface THNCommentViewController ()<YYTextKeyboardObserver, UITextFieldDelegate>
+@interface THNCommentViewController () <
+YYTextKeyboardObserver,
+UITextFieldDelegate,
+THNToolBarViewDelegate,
+THNMJRefreshDelegate,
+THNCommentTableViewDelegate
+>
 
 @property (weak, nonatomic) IBOutlet UIView *fieldBackgroundView;
 @property (nonatomic, strong) THNCommentTableView *commentTableView;
@@ -30,9 +38,15 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 @property (nonatomic, strong) NSMutableArray *comments;
 // 组合 lessThanSubComments 和 moreThanSubComments
 @property (nonatomic, strong) NSMutableArray *subComments;
-@property (nonatomic, assign) CGFloat commentHeight;
-@property (nonatomic, assign) CGFloat subCommentHeight;
-
+/// 当前页码
+@property (nonatomic, assign) NSInteger currentPage;
+// 评论的父级ID
+@property (nonatomic, assign) NSInteger pid;
+// 点击回复的节头位置
+@property (nonatomic, assign) NSInteger section;
+@property (nonatomic, assign) BOOL isNeedLocalHud;
+@property (nonatomic, strong) NSString *requestUrl;
+@property (nonatomic, assign) BOOL isSecondComment;
 
 @end
 
@@ -48,58 +62,111 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
-    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50) initWithCommentType:CommentTypeAll];
+    CGFloat topWithBottomHeight = kDeviceiPhoneX ? 88 + 34 : 64;
+    self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topWithBottomHeight) initWithCommentType:CommentTypeAll];
     self.commentTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
-    self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评价", self.commentCount];
+    self.commentTableView.commentDelegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.commentTableView];
+    [self.commentTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.commentTableView resetCurrentPageNumber];
+    self.currentPage = 1;
+    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
+    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
+    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
+    [self.commentTableView addGestureRecognizer:tableViewGesture];
+    self.commentTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+      self.toolbar.hidden = YES;
+}
+
+- (void)tableViewTouchInSide{
+    // ------结束编辑，隐藏键盘
+    [self.view endEditing:YES];
 }
 
 // 橱窗评论
 - (void)loadCommentData {
-    [self showHud];
+
+    if (self.currentPage == 1) {
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD thn_show];
+        } else {
+            [self showHud];
+        }
+    }
+    self.requestUrl = self.isFromShopWindow ? kUrlShopWindowsComments : KUrlLifeRecordsComments;
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
     params[@"rid"] = self.rid;
-    THNRequest *request = [THNAPI getWithUrlString:kUrlShopWindowsComments requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD dismiss];
+        } else {
+            [self hiddenHud];
+        }
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
-        [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
+        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", [result.data[@"total_count"]integerValue]];
+        [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
+        [self.subComments removeAllObjects];
+        NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
+        [self.comments addObjectsFromArray:comments];
+        if ([result.data[@"remain_count"] integerValue] == 0) {
+            [self.commentTableView noMoreData];
+        }
         
         for (THNCommentModel *commentModel in self.comments) {
             commentModel.height = [self getSizeByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
-            self.commentHeight += commentModel.height;
-            // 记录单个评论下的子评论
-            NSMutableArray *moreThanSubComments = [NSMutableArray array];
             NSMutableArray *lessThanSubComments = [NSMutableArray array];
-            if (commentModel.sub_comment_count > 2) {
-                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:commentModel.sub_comments[0]];
-                [moreThanSubComments addObject:subCommentModel];
-                [self.subComments addObject:moreThanSubComments];
-                self.subCommentHeight += subCommentModel.height;
-            } else {
+            
+            for (NSDictionary *dict in commentModel.sub_comments) {
                 
-                for (NSDictionary *dict in commentModel.sub_comments) {
-                    
-                    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
-                    NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                    subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
-                    [lessThanSubComments addObject:subCommentModel];
-                    self.subCommentHeight += subCommentModel.height;
-                }
-                
-                [self.subComments addObject:lessThanSubComments];
+                THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
+                subCommentModel.height = [self getSizeByString:subCommentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                [lessThanSubComments addObject:subCommentModel];
             }
+            
+            [self.subComments addObject:lessThanSubComments];
         }
-        
-        [self.commentTableView setComments:self.comments initWithSubComments:self.subComments initWithRid:self.rid];
-//        [self.commentTableView reloadData];
+
+        self.commentTableView.isShopWindow = self.isFromShopWindow;
+        [self.commentTableView setComments:self.comments initWithSubComments:self.subComments];
+
+
+        [self.commentTableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
-        
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD dismiss];
+        } else {
+            [self hiddenHud];
+        }
     }];
+}
+
+- (IBAction)showToolView:(id)sender {
+    self.isSecondComment = NO;
+    [self layoutToolView];
+}
+
+
+- (void)layoutToolView {
+    if (self.toolbar) {
+        self.toolbar.hidden = NO;
+        [self.toolbar.textView becomeFirstResponder];
+    }
+    // 监听键盘
+    [[YYTextKeyboardManager defaultManager] addObserver:self];
+    self.toolbar.delegate = self;
+    [self.view addSubview:self.toolbar];
 }
 
 //获取字符串高度的方法
@@ -115,6 +182,7 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
     if (transition.animationDuration == 0) {
         self.toolbar.bottom = CGRectGetMinY(toFrame);
     } else {
+        self.toolbar.bottom = CGRectGetMinY(toFrame);
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.toolbar.bottom = CGRectGetMinY(toFrame);
         } completion:NULL];
@@ -123,6 +191,57 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 
 - (void)dealloc {
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - THNToolBarViewDelegate
+// 添加评论
+- (void)addComment:(NSString *)text {
+    [self layoutToolView];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.rid;
+    if (self.isSecondComment) {
+        params[@"pid"] = @(self.pid);
+    }
+    params[@"content"] = text;
+
+    THNRequest *request = [THNAPI postWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+
+        if (self.isSecondComment) {
+            [self.commentTableView loadMoreSubCommentData:self.section];
+        } else {
+            self.currentPage = 1;
+            [self.commentTableView resetCurrentPageNumber];
+            [self.comments removeAllObjects];
+            [self.subComments removeAllObjects];
+            self.isNeedLocalHud = YES;
+            [self loadCommentData];
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+#pragma mark - THNMJRefreshDelegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadCommentData];
+}
+
+#pragma mark - THNCommentTableViewDelegate
+// 回复评论
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+    self.isSecondComment = YES;
+    [self layoutToolView];
+    self.pid = pid;
+    self.section = section;
+    [self.toolbar.textView becomeFirstResponder];
 }
 
 #pragma mark - lazy
@@ -131,7 +250,6 @@ static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
         _toolbar = [THNToolBarView viewFromXib];
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _toolbar.frame = CGRectMake(0, 1000, self.view.width, 50);
-        [self.view addSubview:_toolbar];
     }
     return _toolbar;
 }

@@ -255,10 +255,10 @@ UICollectionViewDelegateFlowLayout
         [THNSaveTool setObject:self.historyWords[indexPath.row] forKey:kSearchKeyword];
         [self pushSearchDetailVC];
     } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
-        // 接单定制
+        // 接单订制
         if (indexPath.row == 0) {
             // FYNN 实现 目前假的跳转
-            THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单定制"];
+            THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单订制"];
             [self.navigationController pushViewController:goodListVC animated:YES];
         } else {
             THNSearchHotRecommendModel *hotRecommendModel = [THNSearchHotRecommendModel mj_objectWithKeyValues:self.popularRecommends[indexPath.row]];
@@ -464,7 +464,7 @@ UICollectionViewDelegateFlowLayout
 - (NSMutableArray *)popularRecommends {
     if (!_popularRecommends) {
         _popularRecommends = [NSMutableArray arrayWithObject:@{
-                                                               @"recommend_title":@"接单定制"
+                                                               @"recommend_title":@"接单订制"
                                                                }];
     }
     return _popularRecommends;

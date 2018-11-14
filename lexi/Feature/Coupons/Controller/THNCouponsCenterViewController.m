@@ -69,9 +69,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 
 #pragma mark - get data
 - (void)thn_setCouponsCenterData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+    [SVProgressHUD thn_show];
     
     [self thn_getCategoryData];
     
@@ -164,9 +162,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
  根据分类 id 获取优惠券
  */
 - (void)thn_getCouponeDataWithCategoryId:(NSString *)categoryId {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD thn_show];
-    });
+    [SVProgressHUD thn_show];
     
     dispatch_group_t group = dispatch_group_create();
     
@@ -536,6 +532,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumLineSpacing = 15;
         flowLayout.minimumInteritemSpacing = 9;
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _recommendCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -544,7 +541,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         _recommendCollectionView.dataSource = self;
         _recommendCollectionView.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
         _recommendCollectionView.showsVerticalScrollIndicator = NO;
-        _recommendCollectionView.contentInset = UIEdgeInsetsMake(240, 15, 15, 15);
+        _recommendCollectionView.contentInset = UIEdgeInsetsMake(240, 0, 15, 0);
         
         [_recommendCollectionView registerClass:[UICollectionViewCell class]
                      forCellWithReuseIdentifier:kRecommendCollectionCellId];
@@ -573,6 +570,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumLineSpacing = 15;
         flowLayout.minimumInteritemSpacing = 9;
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _couponsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -581,7 +579,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         _couponsCollectionView.dataSource = self;
         _couponsCollectionView.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
         _couponsCollectionView.showsVerticalScrollIndicator = NO;
-        _couponsCollectionView.contentInset = UIEdgeInsetsMake(240 + 44 + 15, 15, 15, 15);
+        _couponsCollectionView.contentInset = UIEdgeInsetsMake(240 + 44 + 15, 0, 15, 0);
         
         [_couponsCollectionView registerClass:[THNBrandCouponCollectionViewCell class]
                    forCellWithReuseIdentifier:kBrandCollectionViewCellId];

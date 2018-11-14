@@ -12,6 +12,7 @@
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 #import "YYLabel+Helper.h"
+#import "UIView+Helper.h"
 
 static NSString *const kTextLike    = @"喜欢";
 static NSString *const kTextLiked   = @"已喜欢";
@@ -22,10 +23,14 @@ static NSString *const kTextPutaway = @"上架";
 
 @interface THNGoodsActionButton ()
 
+/// 视图容器
+@property (nonatomic, strong) UIView *containerView;
 /// icon
 @property (nonatomic, strong) UIImageView *iconImageView;
 /// 标题
 @property (nonatomic, strong) YYLabel *textLabel;
+/// 加载动画
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 @end
 
@@ -102,7 +107,7 @@ static NSString *const kTextPutaway = @"上架";
 }
 
 - (void)thn_setBackgroundColorHex:(NSString *)hex {
-    self.backgroundColor = [UIColor colorWithHexString:hex];
+    self.containerView.backgroundColor = [UIColor colorWithHexString:hex];
 }
 
 - (void)thn_showIcon:(BOOL)show {
@@ -112,14 +117,42 @@ static NSString *const kTextPutaway = @"上架";
 }
 
 - (void)thn_showBorder:(BOOL)show borderColor:(NSString *)color {
-    self.layer.borderWidth = show ? 1 : 0;
-    self.layer.borderColor = [UIColor colorWithHexString:color].CGColor;
+    self.containerView.layer.borderWidth = show ? 1 : 0;
+    self.containerView.layer.borderColor = [UIColor colorWithHexString:color].CGColor;
+}
+
+#pragma mark 显示加载动画
+- (void)startLoading {
+    [self thn_showLoadingView:YES];
+    [self.loadingView startAnimating];
+}
+
+- (void)endLoading {
+    [self thn_showLoadingView:NO];
+    [self.loadingView stopAnimating];
+}
+
+- (void)thn_showLoadingView:(BOOL)show {
+    self.userInteractionEnabled = !show;
+    
+    self.iconImageView.hidden = show;
+    self.textLabel.hidden = show;
+    
+    BOOL isLike = self.type == THNGoodsActionButtonTypeLike || self.type == THNGoodsActionButtonTypeLikeCount;
+    NSString *hexColor = isLike ? kColorMain : @"#FFFFFF";
+    self.containerView.backgroundColor = [UIColor colorWithHexString:hexColor];
+    
+    [self thn_showBorder:!isLike borderColor:isLike ? kColorMain : @"#EDEDEF"];
+    
+    self.loadingView.activityIndicatorViewStyle = isLike ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleGray;
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    [self addSubview:self.iconImageView];
-    [self addSubview:self.textLabel];
+    [self.containerView addSubview:self.iconImageView];
+    [self.containerView addSubview:self.textLabel];
+    [self addSubview:self.containerView];
+    [self addSubview:self.loadingView];
 }
 
 - (void)layoutSubviews {
@@ -127,7 +160,10 @@ static NSString *const kTextPutaway = @"上架";
     
     if (CGRectGetWidth(self.bounds) <= 0 ) return;
     
-    self.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
+    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.mas_equalTo(0);
+    }];
+    self.containerView.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
     
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
@@ -141,9 +177,21 @@ static NSString *const kTextPutaway = @"上架";
         make.left.mas_equalTo(self.iconImageView.hidden ? 10 : 28);
         make.right.mas_equalTo(-10);
     }];
+    
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.centerY.equalTo(self);
+    }];
 }
 
 #pragma mark - setup UI
+- (UIView *)containerView {
+    if (!_containerView) {
+        _containerView = [[UIView alloc] init];
+        _containerView.userInteractionEnabled = NO;
+    }
+    return _containerView;
+}
+
 - (UIImageView *)iconImageView {
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc] init];
@@ -160,6 +208,14 @@ static NSString *const kTextPutaway = @"上架";
         _textLabel.userInteractionEnabled = NO;
     }
     return _textLabel;
+}
+
+- (UIActivityIndicatorView *)loadingView {
+    if (!_loadingView) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+        _loadingView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    }
+    return _loadingView;
 }
 
 @end

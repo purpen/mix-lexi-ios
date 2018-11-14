@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class THNCommentTableView;
+
 typedef void(^LookCommentBlock)(void);
 
 @interface THNCommentTableViewCell : UITableViewCell
 
 - (void)setComments:(NSArray *)comments
-initWithSubComments:(NSMutableArray *)subComments
-        initWithRid:(NSString *)rid;
+initWithSubComments:(NSMutableArray *)subComments;
+@property (nonatomic, strong) THNCommentTableView *commentTableView;
+@property (nonatomic, assign) BOOL isShopWindow;
 
 @end

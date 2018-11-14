@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+UIKIT_EXTERN NSString *const kUrlShopWindowsUserLikes;
+
 @class THNShopWindowModel;
 
 typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
