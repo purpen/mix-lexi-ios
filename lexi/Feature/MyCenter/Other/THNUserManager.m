@@ -81,7 +81,7 @@ static NSString *const kKeyUid          = @"uid";
     
     THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"======= 个人中心：%@", result.responseDict);
+//        THNLog(@"======= 个人中心：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -105,7 +105,6 @@ static NSString *const kKeyUid          = @"uid";
     
     THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"======== 喜欢的橱窗列表：%@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -129,7 +128,7 @@ static NSString *const kKeyUid          = @"uid";
     
     THNRequest *request = [THNAPI getWithUrlString:urlStr requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"===== 关注的店铺：%@", result.responseDict);
+//        THNLog(@"===== 关注的店铺：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;

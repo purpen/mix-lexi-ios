@@ -107,7 +107,7 @@ static NSString *const kHintTextDynamic  = @"还没有任何动态信息";
             break;
             
         case THNHeaderViewSelectedTypeDynamic: {
-            [self setHintLabelText:kHintTextStore iconImageName:@"icon_dynamic_default"];
+            [self setHintLabelText:kHintTextDynamic iconImageName:@"icon_dynamic_default"];
         }
             break;
             

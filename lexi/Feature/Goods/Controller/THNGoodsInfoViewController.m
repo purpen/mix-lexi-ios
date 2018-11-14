@@ -307,7 +307,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                 return ;
             }
             
-//            NSArray *allCoupons = [NSArray arrayWithArray:result.data[@"coupons"]];
             weakSelf.allCouponsArr = [NSArray arrayWithArray:result.data[@"coupons"]];
             
             // type = 3  满减   type = 1 或者 2  为优惠券

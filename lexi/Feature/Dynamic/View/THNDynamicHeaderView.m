@@ -50,6 +50,13 @@ static NSString *const kTextCreate = @"拼贴橱窗";
     [self thn_changeShowView];
 }
 
+#pragma mark - event response
+- (void)createButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_createWindow)]) {
+        [self.delegate thn_createWindow];
+    }
+}
+
 #pragma mark - private methods
 - (void)thn_changeShowView {
     BOOL isMine = self.viewType == THNDynamicHeaderViewTypeDefault;
@@ -154,6 +161,7 @@ static NSString *const kTextCreate = @"拼贴橱窗";
         [_createButton setImage:[UIImage imageNamed:@"icon_add_white"] forState:(UIControlStateNormal)];
         [_createButton setImageEdgeInsets:(UIEdgeInsetsMake(0, 66, 0, 0))];
         _createButton.layer.cornerRadius = 17;
+        [_createButton addTarget:self action:@selector(createButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _createButton;
 }

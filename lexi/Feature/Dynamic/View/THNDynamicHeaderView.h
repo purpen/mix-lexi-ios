@@ -14,9 +14,17 @@ typedef NS_ENUM(NSUInteger, THNDynamicHeaderViewType) {
     THNDynamicHeaderViewTypeOther,         // 别人的动态
 };
 
+@protocol THNDynamicHeaderViewDelegate <NSObject>
+
+@required
+- (void)thn_createWindow;
+
+@end
+
 @interface THNDynamicHeaderView : UIView
 
 @property (nonatomic, assign) THNDynamicHeaderViewType viewType;
+@property (nonatomic, weak) id <THNDynamicHeaderViewDelegate> delegate;
 
 - (void)thn_setDynamicUserModel:(THNDynamicModel *)model;
 

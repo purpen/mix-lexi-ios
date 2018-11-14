@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "THNDynamicModelLines.h"
 
+typedef void(^UserDynamicActionBlock)(NSString *dynamicRid);
+
 @interface THNDynamicUserInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, copy) NSString *dynamicRid;
+@property (nonatomic, copy) UserDynamicActionBlock userDynamicActionBlock;
 
 - (void)thn_setDynamicUserInfoWithModel:(THNDynamicModelLines *)model;
 

@@ -12,6 +12,7 @@
 #import "UIImageView+SDWedImage.h"
 #import "UIView+Helper.h"
 #import <DateTools/DateTools.h>
+#import "THNLoginManager.h"
 
 static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCellId";
 
@@ -46,12 +47,23 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
 }
 
 - (void)thn_setDynamicUserInfoWithModel:(THNDynamicModelLines *)model {
+    self.dynamicRid = [NSString stringWithFormat:@"%zi", model.rid];
+
     [self.headImageView downloadImage:[model.userAvatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]];
     self.nameLabel.text = model.userName;
     
     NSString *timeAt = [NSString stringWithFormat:@"%zi", model.createdAt];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeAt doubleValue]];
     self.timeLabel.text = [date formattedDateWithFormat:@"MM月dd日"];
+
+    self.actionButton.hidden = ![model.uid isEqualToString:[THNLoginManager sharedManager].userId];
+}
+
+#pragma mark - event response
+- (void)actionButtonAction:(UIButton *)button {
+    if (self.userDynamicActionBlock && self.dynamicRid.length) {
+        self.userDynamicActionBlock(self.dynamicRid);
+    }
 }
 
 #pragma mark - setup UI
@@ -67,27 +79,27 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.headImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.left.mas_equalTo(20);
         make.centerY.equalTo(self);
     }];
     
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(13);
         make.top.equalTo(self.headImageView.mas_top).with.offset(0);
         make.left.equalTo(self.headImageView.mas_right).with.offset(5);
         make.right.mas_equalTo(-100);
     }];
     
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.timeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(13);
         make.bottom.equalTo(self.headImageView.mas_bottom).with.offset(0);
         make.left.equalTo(self.headImageView.mas_right).with.offset(5);
         make.right.mas_equalTo(-100);
     }];
     
-    [self.actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.actionButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(44, 44));
         make.right.mas_equalTo(-7);
         make.centerY.equalTo(self);
@@ -128,6 +140,7 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
         _actionButton = [[UIButton alloc] init];
         _actionButton.backgroundColor = [UIColor whiteColor];
         [_actionButton setImage:[UIImage imageNamed:@"icon_more_gray"] forState:(UIControlStateNormal)];
+        [_actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _actionButton;
 }
