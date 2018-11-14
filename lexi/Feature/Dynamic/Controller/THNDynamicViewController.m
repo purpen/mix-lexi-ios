@@ -16,16 +16,26 @@
 #import "THNTableViewFooterView.h"
 #import "THNShopWindowDetailViewController.h"
 #import "THNShopWindowModel.h"
+#import "UIScrollView+THNMJRefresh.h"
+#import "THNReleaseWindowViewController.h"
+#import <TYAlertController/UIView+TYAlertView.h>
 
 static NSString *const kTitleDynamic    = @"动态";
 /// url
 static NSString *const kURLMyDynamic    = @"/users/user_dynamic";
 static NSString *const kURLUserDynamic  = @"/users/other_user_dynamic";
+static NSString *const kURLShopWindows  = @"/shop_windows";
 /// key
 static NSString *const kKeyUid  = @"uid";
 static NSString *const kKeyPage = @"page";
+static NSString *const kKeyRid  = @"rid";
 
-@interface THNDynamicViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNDynamicViewController () <
+    UITableViewDelegate,
+    UITableViewDataSource,
+    THNMJRefreshDelegate,
+    THNDynamicHeaderViewDelegate
+>
 
 @property (nonatomic, strong) UITableView *dynamicTableView;
 @property (nonatomic, strong) THNDynamicHeaderView *headerView;
@@ -51,12 +61,14 @@ static NSString *const kKeyPage = @"page";
     [super viewDidLoad];
     
     [self setupUI];
-    [self requestUserDynamicData];
+    [self requestUserDynamicDataWithLoadingMoreData:NO];
 }
 
 #pragma mark - network
-- (void)requestUserDynamicData {
-    [SVProgressHUD thn_show];
+- (void)requestUserDynamicDataWithLoadingMoreData:(BOOL)loading {
+    if (!loading) {
+        [SVProgressHUD thn_show];
+    }
     
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_getRequestParams]
@@ -65,11 +77,34 @@ static NSString *const kKeyPage = @"page";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
             return ;
         }
         
+        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
         [self thn_setRequestResultData:result.data];
         [self.dynamicTableView reloadData];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+    }];
+}
+
+- (void)requestDeleteDynamicWithRid:(NSString *)dynamicId {
+    if (!dynamicId.length) return;
+    
+    [SVProgressHUD thn_show];
+    
+    THNRequest *request = [THNAPI deleteWithUrlString:kURLShopWindows requestDictionary:@{kKeyRid: dynamicId} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [self thn_removeDynamicFormDataWithRid:dynamicId];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -77,38 +112,87 @@ static NSString *const kKeyPage = @"page";
     }];
 }
 
+#pragma mark - custom delegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self requestUserDynamicDataWithLoadingMoreData:YES];
+}
+
+- (void)thn_createWindow {
+    THNReleaseWindowViewController *releaseWindowVC = [[THNReleaseWindowViewController alloc]init];
+    [self.navigationController pushViewController:releaseWindowVC animated:YES];
+}
+
 #pragma mark - private methods
+/**
+ 获取动态数据
+ */
 - (void)thn_setRequestResultData:(NSDictionary *)data {
     THNDynamicModel *model = [[THNDynamicModel alloc] initWithDictionary:data];
     
     [self.headerView thn_setDynamicUserModel:model];
-    [self.dynamicArr addObjectsFromArray:model.lines];
+    
+    if (model.lines.count) {
+        [self.dynamicArr addObjectsFromArray:model.lines];
+        
+    } else {
+        [self.dynamicTableView noMoreData];
+    }
+    
     [self thn_showTableViewDefaultView];
 }
 
+/**
+ 删除动态
+ */
+- (void)thn_deleteDynamicWithRid:(NSString *)rid {
+    WEAKSELF;
+    
+    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"是否确认要删除？" message:@""];
+    alertView.layer.cornerRadius = 8;
+    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
+    
+    [alertView addAction:[TYAlertAction actionWithTitle:@"取消"
+                                                  style:TYAlertActionStyleCancel
+                                                handler:nil]];
+    
+    [alertView addAction:[TYAlertAction actionWithTitle:@"删除"
+                                                  style:TYAlertActionStyleDefault
+                                                handler:^(TYAlertAction *action) {
+                                                    [weakSelf requestDeleteDynamicWithRid:rid];
+                                                }]];
+    
+    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:alertView
+                                                                          preferredStyle:TYAlertControllerStyleAlert];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+/**
+ 从动态列表中移除
+ */
+- (void)thn_removeDynamicFormDataWithRid:(NSString *)rid {
+    NSInteger index = [self thn_selectedDynamicIndexWithRid:rid];
+    
+    if (index < 0) return;
+    
+    [self.dynamicArr removeObjectAtIndex:index];
+    [self.dynamicTableView deleteSection:index withRowAnimation:(UITableViewRowAnimationFade)];
+    
+    [self thn_showTableViewDefaultView];
+}
+
+/**
+ 显示没有动态的默认视图
+ */
 - (void)thn_showTableViewDefaultView {
     BOOL isShow = self.dynamicArr.count == 0;
     
     self.dynamicTableView.tableFooterView = isShow? self.footerView : [UIView new];
-}
-
-- (NSString *)thn_getRequestUrl {
-    return self.userId.length ? kURLUserDynamic : kURLMyDynamic;
-}
-
-- (NSDictionary *)thn_getRequestParams {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@(self.currentPage) forKey:kKeyPage];
+    self.dynamicTableView.backgroundColor = [UIColor colorWithHexString:isShow ? @"#FFFFFF" : @"#F7F9FB"];
     
-    if (self.userId.length) {
-        [params setObject:self.userId forKey:kKeyUid];
+    if (isShow) {
+        [self.dynamicTableView removeFooterRefresh];
     }
-    
-    return [params copy];
-}
-
-- (THNDynamicHeaderViewType)thn_getHeaderViewType {
-    return self.userId.length ? THNDynamicHeaderViewTypeOther : THNDynamicHeaderViewTypeDefault;
 }
 
 /**
@@ -127,6 +211,9 @@ static NSString *const kKeyPage = @"page";
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.dynamicTableView];
+
+    [self.dynamicTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.dynamicTableView resetCurrentPageNumber];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -161,7 +248,7 @@ static NSString *const kKeyPage = @"page";
             return [UITableViewCell heightWithText:model.descriptionField fontSize:13 spacing:7 width:SCREEN_WIDTH - 40] + 55;
         }
         
-        return 44.0f;
+        return 55.0f;
     }
     
     return 44.0f;
@@ -180,12 +267,15 @@ static NSString *const kKeyPage = @"page";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNDynamicModelLines *model = (THNDynamicModelLines *)self.dynamicArr[indexPath.section];
-    
     if (indexPath.row == 0) {
         THNDynamicUserInfoTableViewCell *userInfoCell = [THNDynamicUserInfoTableViewCell initDynamicUserInfoCellWithTableView:tableView];
         if (self.dynamicArr.count) {
-            [userInfoCell thn_setDynamicUserInfoWithModel:model];
+            [userInfoCell thn_setDynamicUserInfoWithModel:(THNDynamicModelLines *)self.dynamicArr[indexPath.section]];
+            
+            WEAKSELF;
+            userInfoCell.userDynamicActionBlock = ^(NSString *dynamicRid) {
+                [weakSelf thn_deleteDynamicWithRid:dynamicRid];
+            };
         }
         
         return userInfoCell;
@@ -193,7 +283,7 @@ static NSString *const kKeyPage = @"page";
     } else if (indexPath.row == 1) {
         THNDynamicImagesTableViewCell *imagesCell = [THNDynamicImagesTableViewCell initDynamicImagesCellWithTableView:tableView];
         if (self.dynamicArr.count) {
-            [imagesCell thn_setDynamicImagesWithModel:model];
+            [imagesCell thn_setDynamicImagesWithModel:(THNDynamicModelLines *)self.dynamicArr[indexPath.section]];
         }
         
         return imagesCell;
@@ -201,15 +291,16 @@ static NSString *const kKeyPage = @"page";
     } else if (indexPath.row == 2) {
         THNDynamicContentTableViewCell *contentCell = [THNDynamicContentTableViewCell initDynamicContentCellWithTableView:tableView];
         if (self.dynamicArr.count) {
-            [contentCell thn_setDynamicContentWithModel:model];
+            [contentCell thn_setDynamicContentWithModel:(THNDynamicModelLines *)self.dynamicArr[indexPath.section]];
         }
         
         return contentCell;
         
     } else if (indexPath.row == 3) {
         THNDynamicActionTableViewCell *actionCell = [THNDynamicActionTableViewCell initDynamicActionCellWithTableView:tableView];
+        actionCell.currentVC = self;
         if (self.dynamicArr.count) {
-            [actionCell thn_setDynamicAcitonWithModel:model];
+            [actionCell thn_setDynamicAcitonWithModel:(THNDynamicModelLines *)self.dynamicArr[indexPath.section]];
         }
         
         return actionCell;
@@ -225,6 +316,35 @@ static NSString *const kKeyPage = @"page";
 }
 
 #pragma mark - getters and setters
+- (NSString *)thn_getRequestUrl {
+    return self.userId.length ? kURLUserDynamic : kURLMyDynamic;
+}
+
+- (NSDictionary *)thn_getRequestParams {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@(self.currentPage) forKey:kKeyPage];
+    
+    if (self.userId.length) {
+        [params setObject:self.userId forKey:kKeyUid];
+    }
+    
+    return [params copy];
+}
+
+- (NSInteger)thn_selectedDynamicIndexWithRid:(NSString *)rid {
+    for (THNDynamicModelLines *model in self.dynamicArr) {
+        if (model.rid == [rid integerValue]) {
+            return [self.dynamicArr indexOfObject:model];
+        }
+    }
+    
+    return -1;
+}
+
+- (THNDynamicHeaderViewType)thn_getHeaderViewType {
+    return self.userId.length ? THNDynamicHeaderViewTypeOther : THNDynamicHeaderViewTypeDefault;
+}
+
 - (UITableView *)dynamicTableView {
     if (!_dynamicTableView) {
         _dynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -244,6 +364,7 @@ static NSString *const kKeyPage = @"page";
 - (THNDynamicHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[THNDynamicHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 206)];
+        _headerView.delegate = self;
     }
     return _headerView;
 }

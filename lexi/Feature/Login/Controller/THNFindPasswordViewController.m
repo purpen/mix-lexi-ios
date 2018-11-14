@@ -50,7 +50,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
     
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSLog(@"获取验证码 ======== %@", result.responseDict);
+//        NSLog(@"获取验证码 ======== %@", result.responseDict);
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
