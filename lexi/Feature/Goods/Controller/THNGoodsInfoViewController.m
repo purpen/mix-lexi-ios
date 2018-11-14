@@ -113,7 +113,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_getGoodsInfoDataWithGoodsId:(NSString *)goodsId {
     if (!goodsId.length) return;
     
-    [SVProgressHUD thn_showWithStatus:nil maskType:(SVProgressHUDMaskTypeClear)];
+    [SVProgressHUD thn_show];
     
     WEAKSELF;
     
