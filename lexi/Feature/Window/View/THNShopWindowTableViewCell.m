@@ -21,6 +21,7 @@
 #import "THNFollowUserButton+SelfManager.h"
 #import "THNAPI.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD+Helper.h"
 
 CGFloat threeImageHeight = 250;
 CGFloat fiveToGrowImageHeight = 140;
@@ -205,7 +206,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -224,7 +225,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         

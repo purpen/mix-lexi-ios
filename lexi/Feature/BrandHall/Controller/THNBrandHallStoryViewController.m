@@ -204,7 +204,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     } else {
         THNDealContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:KStoreContentCellIdentifier forIndexPath:indexPath];
         if (self.contentModels.count > 0) {
-             [cell thn_setDealContentData:self.contentModels];
+             [cell thn_setDealContentData:self.contentModels type:(THNDealContentTypeBrandHall)];
         }
        
         return cell;

@@ -17,9 +17,9 @@
  @param model 用户数据
  */
 - (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status userModel:(THNUserModel *)model;
-
 - (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status grassListModel:(THNGrassListModel *)model;
-
 - (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status shopWindowModel:(THNShopWindowModel *)model;
+- (void)selfManagerFollowUserStatus:(THNUserFollowStatus)status dynamicModel:(THNDynamicModel *)model;
+
 
 @end

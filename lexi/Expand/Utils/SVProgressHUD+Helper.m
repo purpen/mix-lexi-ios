@@ -21,9 +21,11 @@
 
 + (void)thn_showWithStatus:(NSString *)status maskType:(SVProgressHUDMaskType)maskType {
     NSData *gifData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"loading" ofType:@".gif"]];
-    [SVProgressHUD showImage:[UIImage imageWithGifData:gifData] status:status];
-    [SVProgressHUD setDefaultMaskType:maskType];
-    [SVProgressHUD setImageViewSize:CGSizeMake(60, 60)];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD showImage:[UIImage imageWithGifData:gifData] status:status];
+        [SVProgressHUD setDefaultMaskType:maskType];
+        [SVProgressHUD setImageViewSize:CGSizeMake(60, 60)];
+    });
 }
 
 + (void)thn_showInfoWithStatus:(NSString *)status {

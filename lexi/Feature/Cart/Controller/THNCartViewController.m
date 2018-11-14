@@ -37,7 +37,8 @@ static NSString *const kKeyQuantity = @"quantity";
     UITableViewDelegate,
     UITableViewDataSource,
     THNGoodsInfoTableViewCellDelegate,
-    THNCartFunctionViewDelegate>
+    THNCartFunctionViewDelegate
+>
 
 /// 购物车商品列表
 @property (nonatomic, strong) UITableView *cartTableView;

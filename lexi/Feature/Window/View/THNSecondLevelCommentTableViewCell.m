@@ -14,7 +14,11 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "THNCommentSectionHeaderView.h"
+<<<<<<< HEAD
 #import <SVProgressHUD/SVProgressHUD.h>
+=======
+#import "SVProgressHUD+Helper.h"
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 #import "THNMarco.h"
 #import "THNCommentSectionHeaderView.h"
 
@@ -100,7 +104,7 @@ CGFloat const allSubCommentHeight = 66;
     THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -124,7 +128,7 @@ CGFloat const allSubCommentHeight = 66;
     THNRequest *request = [THNAPI deleteWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         

@@ -18,7 +18,7 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
 
 /// 直接选择尺码、尺寸按钮
 @property (nonatomic, strong) UIButton *directButton;
-/// 定制商品提示说明
+/// 订制商品提示说明
 @property (nonatomic, strong) UILabel *hintLabel;
 
 @end

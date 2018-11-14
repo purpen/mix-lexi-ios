@@ -17,7 +17,7 @@
 #import "THNLikedWindowTableViewCell.h"
 #import "THNFollowStoreTableViewCell.h"
 #import "THNWindowListViewController.h"
-#import "THNDynamicTableViewController.h"
+#import "THNDynamicViewController.h"
 #import "THNGoodsListViewController.h"
 #import "THNUserManager.h"
 #import "THNGoodsManager.h"
@@ -490,7 +490,7 @@ static NSString *const kKeyUid = @"uid";
  打开动态视图
  */
 - (void)thn_openDynamicController {
-    THNDynamicTableViewController *dynamicVC = [[THNDynamicTableViewController alloc] init];
+    THNDynamicViewController *dynamicVC = [[THNDynamicViewController alloc] initWithUserId:self.userId];
     [self.navigationController pushViewController:dynamicVC animated:YES];
 }
 

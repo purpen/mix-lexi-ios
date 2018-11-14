@@ -55,7 +55,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     switch ([self thn_getPaymentType]) {
         case THNPaymentTypeWechat: {
             if (![WXApi isWXAppInstalled]) {
-                [SVProgressHUD showInfoWithStatus:@"暂无微信客户端"];
+                [SVProgressHUD thn_showInfoWithStatus:@"暂无微信客户端"];
                 return;
             }
         }
@@ -93,7 +93,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -103,7 +103,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
             successVC.orders = result.data[@"orders"];
             [self.navigationController pushViewController:successVC animated:YES];
         } else {
-            [SVProgressHUD showInfoWithStatus:@"支付失败"];
+            [SVProgressHUD thn_showInfoWithStatus:@"支付失败"];
         }
         
     } failure:^(THNRequest *request, NSError *error) {

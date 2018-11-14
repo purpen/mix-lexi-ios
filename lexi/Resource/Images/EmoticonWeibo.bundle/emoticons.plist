@@ -8,12 +8,34 @@
 	<array>
 		<dict>
 			<key>id</key>
+<<<<<<< HEAD
+=======
+			<string>com.sina.default</string>
+			<key>version</key>
+			<integer>0</integer>
+			<key>display_only</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>id</key>
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 			<string>com.apple.emoji</string>
 			<key>version</key>
 			<integer>0</integer>
 			<key>display_only</key>
 			<integer>0</integer>
 		</dict>
+<<<<<<< HEAD
+=======
+		<dict>
+			<key>id</key>
+			<string>com.sina.lxh</string>
+			<key>version</key>
+			<integer>0</integer>
+			<key>display_only</key>
+			<integer>0</integer>
+		</dict>
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 	</array>
 </dict>
 </plist>

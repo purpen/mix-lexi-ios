@@ -18,6 +18,14 @@
     return cells;
 }
 
++ (instancetype)initWithCellType:(THNTableViewCellType)type didSelectedWindow:(THNSelectedWindowBlock)completion {
+    THNTableViewCells *cells = [[THNTableViewCells alloc] init];
+    cells.cellType = type;
+    cells.selectedWindowBlock = completion;
+    
+    return cells;
+}
+
 + (instancetype)initWithCellType:(THNTableViewCellType)type cellHeight:(CGFloat)height didSelectedItem:(THNSelectedCellBlock)completion {
     THNTableViewCells *cells = [[THNTableViewCells alloc] init];
     cells.cellType = type;

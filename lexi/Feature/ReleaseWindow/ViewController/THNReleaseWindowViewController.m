@@ -14,6 +14,7 @@
 #import "THNThreeImageStitchingView.h"
 #import "THNFiveImagesStitchView.h"
 #import "THNSevenImagesStitchView.h"
+<<<<<<< HEAD
 #import "IQKeyboardManager.h"
 #import "THNToolBarView.h"
 #import "WBStatusHelper.h"
@@ -26,6 +27,10 @@ THNToolBarViewDelegate,
 WBStatusComposeEmoticonViewDelegate,
 UITextFieldDelegate
 >
+=======
+
+@interface THNReleaseWindowViewController () <YYTextViewDelegate>
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *collageButtons;
 @property (weak, nonatomic) IBOutlet UIView *postContentView;
@@ -35,13 +40,21 @@ UITextFieldDelegate
 @property (weak, nonatomic) IBOutlet UIView *keywordView;
 @property (weak, nonatomic) IBOutlet UIButton *addTagButton;
 @property (nonatomic, strong) YYTextView *textView;
+<<<<<<< HEAD
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottomConstraint;
+=======
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentHeightConstraint;
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) THNThreeImageStitchingView *threeImageStitchingView;
 @property (nonatomic, strong) THNFiveImagesStitchView *fiveImagesStitchingView;
 @property (nonatomic, strong) THNSevenImagesStitchView *sevenImagesStitchingView;
+<<<<<<< HEAD
 @property (nonatomic, strong) THNToolBarView *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+=======
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 
 @end
 
@@ -53,6 +66,7 @@ UITextFieldDelegate
 }
 
 - (void)setupUI {
+<<<<<<< HEAD
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.view addSubview:self.toolbar];
@@ -64,6 +78,13 @@ UITextFieldDelegate
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_gray"];
     [self.addTagButton drawCornerWithType:0 radius:13];
     self.scrollViewBottomConstraint.constant = kDeviceiPhoneX ? 34 : 0;
+=======
+    self.navigationBarView.title = @"发布橱窗";
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share"];
+    [self.addTagButton drawCornerWithType:0 radius:13];
+    self.scrollViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
+    self.scrollViewContentHeightConstraint.constant = SCREEN_HEIGHT;
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
     
     [self.collageButtons enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton *btn = obj;
@@ -80,6 +101,7 @@ UITextFieldDelegate
     [self.postContentView addSubview:self.textView];
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
+<<<<<<< HEAD
         make.left.trailing.equalTo(self.postContentView).with.offset(-5);
         make.top.equalTo(self.postContentView).with.offset(30);
         make.height.equalTo(@(100));
@@ -109,11 +131,36 @@ UITextFieldDelegate
 
 - (IBAction)collage:(UIButton *)button {
     
+=======
+        make.left.trailing.equalTo(self.postContentView);
+        make.top.equalTo(self.postContentView).with.offset(40);
+        make.height.equalTo(@(100));
+    }];
+    self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
+    [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
+    
+    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
+    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
+    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
+    [self.view addGestureRecognizer:tableViewGesture];
+}
+
+- (void)tableViewTouchInSide{
+    // ------结束编辑，隐藏键盘
+    [self.view endEditing:YES];
+}
+
+- (IBAction)collage:(UIButton *)button {
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
     }
     
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
     self.imageType = [self.collageButtons indexOfObject:button];
     button.backgroundColor = [UIColor colorWithHexString:@"5FE4B1"];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -143,13 +190,17 @@ UITextFieldDelegate
 //            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
             break;
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 }
 
 - (IBAction)addTag:(id)sender {
     
 }
 
+<<<<<<< HEAD
 #pragma mark - YYTextViewDelegate
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
     self.toolbar.hidden = NO;
@@ -164,12 +215,19 @@ UITextFieldDelegate
 }
 
 // 动态改变TextView的高度
+=======
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 - (void)textViewDidChange:(YYTextView *)textView {
     CGFloat fltTextHeight = textView.textLayout.textBoundingSize.height;
     textView.scrollEnabled = NO; //必须设置为NO
     
     [UIView performWithoutAnimation:^{
         textView.height = fltTextHeight;
+<<<<<<< HEAD
         self.postContenViewHeightConstraint.constant = textView.height + 24;
     }];
 }
@@ -224,6 +282,15 @@ UITextFieldDelegate
 }
 
 #pragma mark - lazy
+=======
+        self.postContenViewHeightConstraint.constant = textView.height + 56;
+        self.scrollViewContentHeightConstraint.constant = SCREEN_HEIGHT + textView.height;
+    }];
+}
+
+#pragma mark - lazy
+
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 - (YYTextView *)textView {
     if (!_textView) {
         _textView = [[YYTextView alloc]init];
@@ -236,7 +303,10 @@ UITextFieldDelegate
     return _textView;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 #pragma mark - lazy
 - (THNThreeImageStitchingView *)threeImageStitchingView {
     if (!_threeImageStitchingView) {
@@ -266,6 +336,7 @@ UITextFieldDelegate
     return _sevenImagesStitchingView;
 }
 
+<<<<<<< HEAD
 - (THNToolBarView *)toolbar {
     if (!_toolbar) {
         _toolbar = [THNToolBarView viewFromXib];
@@ -276,4 +347,6 @@ UITextFieldDelegate
     return _toolbar;
 }
 
+=======
+>>>>>>> 311e1e0782b8d9763ef81cae11296f7da4953d5e
 @end

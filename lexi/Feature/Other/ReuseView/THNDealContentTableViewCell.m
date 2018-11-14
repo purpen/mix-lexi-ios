@@ -131,6 +131,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     self.originY += (contentImageSize.height + 10);
     
     [imageView downloadImage:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDealContent)]];
+    [imageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:0];
 }
 
 /**

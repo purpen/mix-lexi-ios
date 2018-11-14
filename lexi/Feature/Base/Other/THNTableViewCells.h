@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "THNStoreModel.h"
+#import "THNWindowModelShopWindows.h"
+
 @class THNLikedGoodsTableViewCell;
 @class THNLikedWindowTableViewCell;
 @class THNFollowStoreTableViewCell;
@@ -23,6 +25,7 @@ typedef NS_ENUM(NSUInteger, THNTableViewCellType) {
 };
 
 typedef void(^THNSelectedCellBlock)(NSString *ids);
+typedef void(^THNSelectedWindowBlock)(THNWindowModelShopWindows *model);
 
 @interface THNTableViewCells : NSObject
 
@@ -37,6 +40,7 @@ typedef void(^THNSelectedCellBlock)(NSString *ids);
  */
 @property (nonatomic, weak) THNLikedWindowTableViewCell *likedWindowCell;
 @property (nonatomic, strong) NSArray *windowDataArr;
+@property (nonatomic, copy) THNSelectedWindowBlock selectedWindowBlock;
 
 /**
  关注的店铺
@@ -73,6 +77,7 @@ typedef void(^THNSelectedCellBlock)(NSString *ids);
 @property (nonatomic, assign) UITableViewCellSelectionStyle selectionStyle;
 
 + (instancetype)initWithCellType:(THNTableViewCellType)type didSelectedItem:(THNSelectedCellBlock)completion;
++ (instancetype)initWithCellType:(THNTableViewCellType)type didSelectedWindow:(THNSelectedWindowBlock)completion;
 + (instancetype)initWithCellType:(THNTableViewCellType)type cellHeight:(CGFloat)height didSelectedItem:(THNSelectedCellBlock)completion;
 
 @end

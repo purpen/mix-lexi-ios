@@ -138,9 +138,9 @@ static NSString *const kTextCancel = @"取消";
     [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
         [self thn_showAnimation:NO];
         if (error) {
-            [SVProgressHUD showInfoWithStatus:@"分享失败"];
+            [SVProgressHUD thn_showInfoWithStatus:@"分享失败"];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"分享成功"];
+            [SVProgressHUD thn_showInfoWithStatus:@"分享成功"];
             
         }
     }];

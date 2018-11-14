@@ -19,7 +19,7 @@
 static NSString *const kURLLike       = @"/userlike";
 static NSString *const kURLWishlist   = @"/wishlist";
 /// key
-static NSString *const kKeyRid = @"rid";
+static NSString *const kKeyRid  = @"rid";
 static NSString *const kKeyRids = @"rids";
 
 @implementation THNGoodsActionButton (SelfManager)
@@ -50,8 +50,11 @@ static NSString *const kKeyRids = @"rids";
         return;
     }
     
+    [self startLoading];
+    
     if (self.selected) {
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -60,6 +63,7 @@ static NSString *const kKeyRids = @"rids";
         
     } else {
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -74,8 +78,11 @@ static NSString *const kKeyRids = @"rids";
         return;
     }
     
+    [self startLoading];
+    
     if (self.selected) {
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -86,6 +93,7 @@ static NSString *const kKeyRids = @"rids";
         
     } else {
         [self thn_requestLikeGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -102,8 +110,11 @@ static NSString *const kKeyRids = @"rids";
         return;
     }
     
+    [self startLoading];
+    
     if (self.selected) {
         [self thn_requestCancelWishGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -113,6 +124,7 @@ static NSString *const kKeyRids = @"rids";
         
     } else {
         [self thn_requestWishGoodsCompleted:^(NSError *error) {
+            [self endLoading];
             if (error) return;
             
             self.selected = !self.selected;
@@ -148,8 +160,7 @@ static NSString *const kKeyRids = @"rids";
 }
 
 - (void)thn_requestWishGoodsCompleted:(void (^)(NSError *error))completed {
-    NSArray *rids = @[self.goodsId];
-    THNRequest *request = [THNAPI postWithUrlString:kURLWishlist requestDictionary:@{kKeyRids: rids} delegate:nil];
+    THNRequest *request = [THNAPI postWithUrlString:kURLWishlist requestDictionary:@{kKeyRids: @[self.goodsId]} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.success) {
             completed(nil);
@@ -161,8 +172,7 @@ static NSString *const kKeyRids = @"rids";
 }
 
 - (void)thn_requestCancelWishGoodsCompleted:(void (^)(NSError *error))completed {
-    NSArray *rids = @[self.goodsId];
-    THNRequest *reuqest = [THNAPI deleteWithUrlString:kURLWishlist requestDictionary:@{kKeyRids: rids} delegate:nil];
+    THNRequest *reuqest = [THNAPI deleteWithUrlString:kURLWishlist requestDictionary:@{kKeyRids: @[self.goodsId]} delegate:nil];
     [reuqest startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (result.success) {
             completed(nil);

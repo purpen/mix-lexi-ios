@@ -61,7 +61,7 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
