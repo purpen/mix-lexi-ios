@@ -95,18 +95,17 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 - (NSDictionary *)thn_getRequestParams {
     if (self.requestId.length) {
         NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
-                                       kKeyPath: kWxaPath,
                                        kKeyScene: [self thn_paramsScene],
                                        kKeyRid: self.requestId};
         
-        NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+        NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:defaultParam];
         
         if (self.posterType == THNSharePosterTypeGoods) {
-            [paramDict setValuesForKeysWithDictionary:defaultParam];
             [paramDict setObject:@(4) forKey:kKeyType];
+            [paramDict setObject:kWxaProductPath forKey:kKeyPath];
             
         } else if (self.posterType == THNSharePosterTypeWindow) {
-            [paramDict setValuesForKeysWithDictionary:defaultParam];
+            [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
         }
         
         return [paramDict copy];
@@ -226,7 +225,7 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 
 - (void)thn_setSubviewFrame {
     CGFloat originBottom = kDeviceiPhoneX ? 78 : 60;
-    CGRect imageFrame = CGRectMake(20, 69, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 170);
+    CGRect imageFrame = CGRectMake(20, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 180);
     CGRect buttonFrame = CGRectMake(20, SCREEN_HEIGHT - originBottom, SCREEN_WIDTH - 40, 40);
     
     [UIView animateWithDuration:0.4
