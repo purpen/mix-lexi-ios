@@ -44,7 +44,7 @@
             CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
                                                               lineSpacing:7
-                                                                  fixSize:CGSizeMake(imageW, MAXFLOAT)].height;
+                                                                  fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
