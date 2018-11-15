@@ -64,6 +64,8 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 - (void)thn_networkPosterImageData {
     [SVProgressHUD thn_show];
     
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI postWithUrlString:[self thn_getRequestUrl]
                                   requestDictionary:[self thn_getRequestParams]
                                            delegate:nil];
@@ -74,8 +76,8 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
             return ;
         }
         
-        [self.showImageView downloadImage:result.data[@"image_url"]];
-        [self thn_setSaveButtonStatus:YES];
+        [weakSelf.showImageView downloadImage:result.data[@"image_url"]];
+        [weakSelf thn_setSaveButtonStatus:YES];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -137,8 +139,9 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
         [SVProgressHUD thn_showErrorWithStatus:@"保存失败"];
         
     } else {
-        [SVProgressHUD thn_showSuccessWithStatus:@"已保存到相册"];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            [SVProgressHUD thn_showSuccessWithStatus:@"已保存到相册"];
+        }];
     }
 }
 
@@ -195,7 +198,7 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 
 #pragma mark - setup UI
 - (void)setupUI {
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:1];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB" alpha:1];
     
     [self.view addSubview:self.showImageView];
     [self.view addSubview:self.saveImageButton];
