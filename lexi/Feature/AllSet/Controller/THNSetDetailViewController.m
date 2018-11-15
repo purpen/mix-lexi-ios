@@ -109,9 +109,9 @@ THNMJRefreshDelegate
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",self.products.count];
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
     [headerView addSubview:self.coverImageView];
+    [headerView addSubview:self.maskImageView];
     [headerView addSubview:self.titleLabel];
     [headerView addSubview:self.productCountLabel];
-    [headerView addSubview:self.maskImageView];
     return headerView;
 }
 
