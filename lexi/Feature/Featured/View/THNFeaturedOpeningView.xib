@@ -20,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="885" height="62.666666666666664"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享好物赚钱，为自己购买省钱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4aP-fo-0eO">
-                            <rect key="frame" x="15" y="15" width="196" height="15"/>
+                            <rect key="frame" x="15" y="15" width="775" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="lah-BG-mLO"/>
                             </constraints>
@@ -56,6 +56,7 @@
                         </view>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="k0T-XK-9st" firstAttribute="leading" secondItem="4aP-fo-0eO" secondAttribute="trailing" constant="5" id="0Gt-Qc-lu9"/>
                         <constraint firstItem="4aP-fo-0eO" firstAttribute="top" secondItem="bk3-1x-cQg" secondAttribute="top" constant="15" id="4ou-tg-dpE"/>
                         <constraint firstItem="k0T-XK-9st" firstAttribute="top" secondItem="bk3-1x-cQg" secondAttribute="top" constant="18" id="Dd1-Lh-HSO"/>
                         <constraint firstItem="s1V-9O-fMh" firstAttribute="top" secondItem="4aP-fo-0eO" secondAttribute="bottom" constant="6" id="IeA-j3-sGM"/>
@@ -116,6 +117,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="bottomCarouselView" destination="her-c4-GsN" id="WVF-Nt-8io"/>
+                <outlet property="desTitleLabel" destination="4aP-fo-0eO" id="VFK-UO-qej"/>
                 <outlet property="openingButton" destination="k0T-XK-9st" id="ioU-ng-8sB"/>
                 <outlet property="topTintView" destination="bk3-1x-cQg" id="zTi-7U-yro"/>
             </connections>

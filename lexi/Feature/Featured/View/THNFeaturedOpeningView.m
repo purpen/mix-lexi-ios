@@ -14,6 +14,7 @@
 #import "THNLivingHallHeadLineModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNFeaturedOpenCarouselScrollView.h"
+#import "THNMarco.h"
 
 // 开馆指引
 static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
@@ -22,6 +23,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 
 @property (weak, nonatomic) IBOutlet UIView *bottomCarouselView;
 @property (weak, nonatomic) IBOutlet UIButton *openingButton;
+@property (weak, nonatomic) IBOutlet UILabel *desTitleLabel;
 
 @end
 
@@ -30,6 +32,9 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.openingButton drawCornerWithType:0 radius:4];
+    if (SCREEN_WIDTH == 320) {
+        self.desTitleLabel.text = @"分享好物赚钱, 购物省钱";
+    }
     [self drwaShadow];
 }
 

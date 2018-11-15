@@ -90,7 +90,6 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
 - (void)loadOrdersData {
     self.loadViewY = CGRectGetMaxY(self.selectButtonView.frame);
-    
     if (self.currentPage == 1) {
         [self showHud];
     }
@@ -107,7 +106,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         }
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
-
+        
         [self.orders removeAllObjects];
         NSArray *orders = result.data[@"orders"];
 
@@ -229,6 +228,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         [self.tableView reloadData];
     }
     
+    // 回滚到顶部
     [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 

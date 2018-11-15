@@ -360,7 +360,9 @@
 		4B282A16219C325D00E1436B /* THNCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B282A13219C325C00E1436B /* THNCommentView.xib */; };
 		4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */; };
 		4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */; };
+		4B309376219D1471009D42A8 /* THNSelectProducCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B309375219D1471009D42A8 /* THNSelectProducCollectionView.m */; };
 		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
+		4B9D891C219C423800B4AB3D /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B9D891B219C423800B4AB3D /* THNSelectWindowProductViewController.m */; };
 		4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */; };
 		4BC70ACF218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */; };
 		4BC70AD7218C05880073A9F0 /* THNPaySuccessTintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */; };
@@ -526,11 +528,15 @@
 		4B282A14219C325C00E1436B /* THNCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentView.h; sourceTree = "<group>"; };
 		4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
 		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
+		4B309374219D1471009D42A8 /* THNSelectProducCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectProducCollectionView.h; sourceTree = "<group>"; };
+		4B309375219D1471009D42A8 /* THNSelectProducCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectProducCollectionView.m; sourceTree = "<group>"; };
 		4B36A225218C9771007F670E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
 		4B720622212EB281002606EE /* UITableView+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helper.h"; sourceTree = "<group>"; };
 		4B720623212EB281002606EE /* UITableView+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helper.m"; sourceTree = "<group>"; };
+		4B9D891A219C423800B4AB3D /* THNSelectWindowProductViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectWindowProductViewController.h; sourceTree = "<group>"; };
+		4B9D891B219C423800B4AB3D /* THNSelectWindowProductViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectWindowProductViewController.m; sourceTree = "<group>"; };
 		4BC70ACB218BD7F40073A9F0 /* THNPaySuccessTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPaySuccessTableViewCell.h; sourceTree = "<group>"; };
 		4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPaySuccessTableViewCell.m; sourceTree = "<group>"; };
 		4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNPaySuccessTableViewCell.xib; sourceTree = "<group>"; };
@@ -1454,6 +1460,8 @@
 		4B24D39F219A673900525A05 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B309374219D1471009D42A8 /* THNSelectProducCollectionView.h */,
+				4B309375219D1471009D42A8 /* THNSelectProducCollectionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1464,6 +1472,8 @@
 				4B24D3A1219A677500525A05 /* THNReleaseWindowViewController.h */,
 				4B24D3A2219A677500525A05 /* THNReleaseWindowViewController.m */,
 				4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */,
+				4B9D891A219C423800B4AB3D /* THNSelectWindowProductViewController.h */,
+				4B9D891B219C423800B4AB3D /* THNSelectWindowProductViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -3675,6 +3685,7 @@
 				4B27B399218717D1004AF42F /* THNCartModelItem.m in Sources */,
 				4B27B39A218717D1004AF42F /* THNCartModelProduct.m in Sources */,
 				4B27B39B218717D1004AF42F /* THNCartDefaultView.m in Sources */,
+				4B9D891C219C423800B4AB3D /* THNSelectWindowProductViewController.m in Sources */,
 				4B27B39C218717D1004AF42F /* THNCartFunctionView.m in Sources */,
 				4B27B39D218717D1004AF42F /* THNArticleViewController.m in Sources */,
 				4B27B39E218717D1004AF42F /* THNDiscoverThemeViewController.m in Sources */,
@@ -3753,6 +3764,7 @@
 				4B27B3E3218717D1004AF42F /* THNGoodsHeaderTableViewCell.m in Sources */,
 				4B27B3E4218717D1004AF42F /* THNGoodsInfoTableViewCell.m in Sources */,
 				4B27B3E5218717D1004AF42F /* THNGoodsStoreTableViewCell.m in Sources */,
+				4B309376219D1471009D42A8 /* THNSelectProducCollectionView.m in Sources */,
 				4B27B3E6218717D1004AF42F /* THNGoodsTagTableViewCell.m in Sources */,
 				4B27B3E7218717D1004AF42F /* THNGoodsTitleTableViewCell.m in Sources */,
 				4B27B3E8218717D1004AF42F /* THNGoodsUserTableViewCell.m in Sources */,

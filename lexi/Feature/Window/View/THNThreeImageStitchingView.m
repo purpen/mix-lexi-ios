@@ -25,6 +25,10 @@
         UIImageView *imageView = self.imageViews[idx];
         imageView.layer.masksToBounds = YES;
         self.moreImageCountLabel.hidden = YES;
+        imageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickEvent:)];
+        [imageView addGestureRecognizer:singleTap];
+        singleTap.view.tag = idx;
     }];
 }
 
@@ -34,13 +38,10 @@
             return;
         }
         UIImageView *imageView = self.imageViews[idx];
-        imageView.layer.masksToBounds = YES;
         [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickEvent:)];
-        [imageView addGestureRecognizer:singleTap];
-        singleTap.view.tag = idx;
         imageView.userInteractionEnabled = self.isHaveUserInteractionEnabled;
         imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
+        
     }];
     
     if (images.count > 3) {

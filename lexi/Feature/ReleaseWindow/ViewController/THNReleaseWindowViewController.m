@@ -18,6 +18,7 @@
 #import "THNToolBarView.h"
 #import "WBStatusHelper.h"
 #import "WBEmoticonInputView.h"
+#import "THNSelectWindowProductViewController.h"
 
 @interface THNReleaseWindowViewController () <
 YYTextViewDelegate,
@@ -85,6 +86,10 @@ UITextFieldDelegate
     
     self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
+    WEAKSELF;
+    self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
+        [weakSelf pushSelectWindowProductVC];
+    };
     
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -106,8 +111,15 @@ UITextFieldDelegate
     [_textView becomeFirstResponder];
 }
 
+- (void)pushSelectWindowProductVC {
+    WEAKSELF;
+    THNSelectWindowProductViewController *selectProductVC = [[THNSelectWindowProductViewController alloc]init];
+    [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
+}
+
 - (IBAction)collage:(UIButton *)button {
-    
+     WEAKSELF;
+   
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
@@ -126,26 +138,39 @@ UITextFieldDelegate
 //            [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
-        case ShopWindowImageTypeFive:
+        case ShopWindowImageTypeFive:{
             self.threeImageStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
+            self.fiveImagesStitchingView.fiveImageBlock = ^(NSInteger index) {
+                [weakSelf pushSelectWindowProductVC];
+            };
+            
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
-//            [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
+            //            [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
             break;
-        case ShopWindowImageTypeSeven:
+        }
+        case ShopWindowImageTypeSeven:{
             self.sevenImagesStitchingView.hidden = NO;
             self.threeImageStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = YES;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
+            
+            self.sevenImagesStitchingView.sevenImageBlock = ^(NSInteger index) {
+                
+                [weakSelf pushSelectWindowProductVC];
+            };
+            
             [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
-//            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
+            //            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
             break;
+        }
+            
     }
 }
 
 - (IBAction)addTag:(id)sender {
-    
+
 }
 
 #pragma mark - YYTextViewDelegate
@@ -240,7 +265,6 @@ UITextFieldDelegate
         _threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
         _threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
         _threeImageStitchingView.isContentModeCenter = YES;
-        
     }
     return _threeImageStitchingView;
 }

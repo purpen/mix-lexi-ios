@@ -61,4 +61,10 @@
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
+- (void)setProductModel:(NSString *)cover withNeedRadian:(BOOL)isNeedRadian {
+    self.layer.cornerRadius = isNeedRadian ? 4 : 0;
+    self.setLabelsView.hidden = YES;
+    [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+}
+
 @end

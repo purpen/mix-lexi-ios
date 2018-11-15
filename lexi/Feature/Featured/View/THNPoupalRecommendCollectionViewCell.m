@@ -50,7 +50,7 @@ static NSString *const kPopularProductCellIdentifier = @"kPopularProductCellIden
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat itemWidth = 0;
     CGFloat itemHeight = 0;
-    itemWidth = indexPath.row  <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2) / 3;
+    itemWidth = indexPath.row  <= 1 ? (self.viewWidth - 10 - 20 * 2) / 2  : (self.viewWidth - 20 - 20 * 2 - 1) / 3;
     itemHeight = indexPath.row <= 1 ? 170 : 155;
     return CGSizeMake(itemWidth, itemHeight);
 }

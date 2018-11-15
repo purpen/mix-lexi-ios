@@ -21,6 +21,10 @@
     [super awakeFromNib];
     [self.imageViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIImageView *imageView = self.imageViews[idx];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickEvent:)];
+        [imageView addGestureRecognizer:singleTap];
+        singleTap.view.tag = idx;
+        imageView.userInteractionEnabled = YES;
         imageView.layer.masksToBounds = YES;
     }];
 }
@@ -28,12 +32,7 @@
 - (void)setSevenImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIImageView *imageView = self.imageViews[idx];
-        imageView.layer.masksToBounds = YES;
         [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickEvent:)];
-        [imageView addGestureRecognizer:singleTap];
-        singleTap.view.tag = idx;
-        imageView.userInteractionEnabled = YES;
         imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
     }];
 }

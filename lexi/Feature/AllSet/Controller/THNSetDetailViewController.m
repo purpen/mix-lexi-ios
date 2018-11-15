@@ -33,6 +33,7 @@ THNMJRefreshDelegate
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *productCountLabel;
 @property(nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong) UIImageView *maskImageView;
 
 @end
 
@@ -47,7 +48,7 @@ THNMJRefreshDelegate
 - (void)setupUI {
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
-    self.navigationBarView.title = @"集合详情";
+    self.navigationBarView.title = @"集合";
     [self.view addSubview:self.collectionView];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetDetailProductCellIdentifier];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier];
@@ -110,6 +111,7 @@ THNMJRefreshDelegate
     [headerView addSubview:self.coverImageView];
     [headerView addSubview:self.titleLabel];
     [headerView addSubview:self.productCountLabel];
+    [headerView addSubview:self.maskImageView];
     return headerView;
 }
 
@@ -158,8 +160,18 @@ THNMJRefreshDelegate
 - (UIImageView *)coverImageView {
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _coverImageView.layer.masksToBounds = YES;
     }
     return _coverImageView;
+}
+
+- (UIImageView *)maskImageView {
+    if (!_maskImageView) {
+        _maskImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 130, SCREEN_WIDTH, 70)];
+        _maskImageView.image = [UIImage imageNamed:@"icon_setDetail_mask"];
+    }
+    return _maskImageView;
 }
 
 - (UILabel *)titleLabel {
