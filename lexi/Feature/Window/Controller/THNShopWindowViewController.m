@@ -25,6 +25,7 @@
 #import "THNBaseNavigationController.h"
 #import "UIImageView+WebCache.h"
 #import "THNReleaseWindowViewController.h"
+#import "THNShareImageViewController.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -173,6 +174,14 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         comment.commentCount = shopWindowModel.comment_count;
         comment.isFromShopWindow = YES; 
         [weakSelf.navigationController pushViewController:comment animated:YES];
+    };
+    
+    cell.shareBlock = ^(NSString *rid) {
+        if (!rid.length) return;
+        
+        THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                                            requestId:rid];
+        [weakSelf presentViewController:shareImageVC animated:NO completion:nil];
     };
     
     return cell;

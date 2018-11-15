@@ -24,6 +24,5 @@
 @property (nonatomic, strong) THNProductModel *productModel;
 @property (nonatomic, strong) THNCollectionModel *collectionModel;
 - (void)setProductModel:(NSString *)cover withNeedRadian:(BOOL)isNeedRadian;
-@property (weak, nonatomic) IBOutlet UIButton *selectButton;
 
 @end

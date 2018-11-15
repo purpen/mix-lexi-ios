@@ -10,9 +10,10 @@
 #import "THNSelectButtonView.h"
 #import "THNSelectProducCollectionView.h"
 #import "THNAPI.h"
-#import "THNBannnerCollectionViewCell.h"
+#import "THNSelectPruductCoverCollectionViewCell.h"
 #import "UIViewController+THNHud.h"
 #import "SVProgressHUD+Helper.h"
+#import "UIImageView+WebCache.h"
 
 typedef NS_ENUM(NSUInteger, SelectProductType) {
     SelectProductLike,
@@ -49,7 +50,9 @@ THNMJRefreshDelegate
 @property (nonatomic, assign) NSInteger currentPage;
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
-
+// 之前选择的Cell
+@property (nonatomic, strong) NSIndexPath *selectIndex;
+@property (nonatomic, strong) UIButton *sureButton;
 
 @end
 
@@ -157,7 +160,7 @@ THNMJRefreshDelegate
 }
 
 - (void)selectPhotoFinish {
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -166,14 +169,22 @@ THNMJRefreshDelegate
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCoverCellIdentifier forIndexPath:indexPath];
-    [cell setProductModel:self.productCovers[indexPath.row][@"view_url"] withNeedRadian:NO];
+    THNSelectPruductCoverCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCoverCellIdentifier forIndexPath:indexPath];
+    cell.selectButton.selected = NO;
+    [cell.photoImageView sd_setImageWithURL:[NSURL URLWithString:self.productCovers[indexPath.row][@"view_url"]]];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCoverCellIdentifier forIndexPath:indexPath];
+    // 设置选中状态
+    THNSelectPruductCoverCollectionViewCell *selectCell = [collectionView cellForItemAtIndexPath:self.selectIndex];
+    selectCell.selectButton.selected = NO;
+    THNSelectPruductCoverCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    self.selectIndex = indexPath;
     cell.selectButton.selected = YES;
+    self.sureButton.backgroundColor = [UIColor colorWithHexString:@"#5FE4B1"];
+    self.sureButton.enabled = YES;
+    [self.sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 #pragma mark - THNMJRefreshDelegate
@@ -262,6 +273,8 @@ THNMJRefreshDelegate
         sureButton.layer.cornerRadius = 15;
         sureButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
         [sureButton addTarget:self action:@selector(selectPhotoFinish) forControlEvents:UIControlEventTouchUpInside];
+        _sureButton = sureButton;
+        _sureButton.enabled = NO;
         [_selectProductCoverView addSubview:sureButton];
     }
     return _selectProductCoverView;
@@ -270,12 +283,11 @@ THNMJRefreshDelegate
 - (UICollectionView *)productCoverCollectionView {
     if (!_productCoverCollectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(90, 90);
-        flowLayout.minimumLineSpacing = 10;
+        flowLayout.itemSize = CGSizeMake(100, 100);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         flowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
-        _productCoverCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.selectProductCoverView.frame), SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
-        [_productCoverCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCoverCellIdentifier];
+        _productCoverCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.selectProductCoverView.frame), SCREEN_WIDTH, 100) collectionViewLayout:flowLayout];
+        [_productCoverCollectionView registerNib:[UINib nibWithNibName:@"THNSelectPruductCoverCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kProductCoverCellIdentifier];
         _productCoverCollectionView.delegate = self;
         _productCoverCollectionView.dataSource = self;
         _productCoverCollectionView.backgroundColor = [UIColor whiteColor];

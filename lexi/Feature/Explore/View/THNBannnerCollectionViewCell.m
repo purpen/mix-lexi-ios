@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *backGroundView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *selectButton;
 
 @end
 
@@ -60,6 +61,7 @@
     self.setLabelsView.hidden = YES;
     [self.cellImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
+
 
 - (void)setProductModel:(NSString *)cover withNeedRadian:(BOOL)isNeedRadian {
     self.layer.cornerRadius = isNeedRadian ? 4 : 0;

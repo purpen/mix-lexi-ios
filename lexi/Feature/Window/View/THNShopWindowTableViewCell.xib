@@ -88,8 +88,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRz-Dj-fu9">
-                                <rect key="frame" x="505" y="0.0" width="22" height="22"/>
+                                <rect key="frame" x="509" y="0.0" width="18" height="22"/>
                                 <state key="normal" image="icon_share"/>
+                                <connections>
+                                    <action selector="share:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WYd-JD-23n"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -191,7 +194,7 @@
     <resources>
         <image name="icon_comment" width="22" height="22"/>
         <image name="icon_flow" width="22" height="22"/>
-        <image name="icon_share" width="22" height="22"/>
+        <image name="icon_share" width="18" height="18"/>
         <image name="icon_talent" width="13" height="13"/>
         <image name="icon_unflow" width="22" height="22"/>
         <image name="icon_wechat_circle" width="40" height="40"/>

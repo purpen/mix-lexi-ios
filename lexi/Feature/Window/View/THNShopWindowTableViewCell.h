@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
 
 typedef void(^ContentBlock)(void);
 typedef void(^ShopWindowCellBlock)(NSString *rid);
+typedef void(^ShopWindowShareBlock)(NSString *rid);
 
 UIKIT_EXTERN CGFloat threeImageHeight;
 UIKIT_EXTERN CGFloat fiveToGrowImageHeight;
@@ -31,6 +32,7 @@ UIKIT_EXTERN CGFloat sevenToGrowImageHeight;
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
 @property (nonatomic, copy) ContentBlock contentBlock;
 @property (nonatomic, copy) ShopWindowCellBlock shopWindowCellBlock;
+@property (nonatomic, copy) ShopWindowShareBlock shareBlock;
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) NSString *flag;
 
