@@ -58,10 +58,6 @@
                                     <constraint firstItem="hNY-yw-kWy" firstAttribute="centerX" secondItem="7L1-sD-1Tj" secondAttribute="centerX" id="oLt-jO-tMi"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hI-ia-Eox">
-                                <rect key="frame" x="207" y="0.0" width="30" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -77,6 +73,11 @@
                             <constraint firstItem="7L1-sD-1Tj" firstAttribute="leading" secondItem="Imn-qQ-5LP" secondAttribute="leading" id="zfh-pm-aRk"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hI-ia-Eox">
+                        <rect key="frame" x="111" y="70" width="22" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" image="icon_selected_main"/>
+                    </button>
                 </subviews>
             </view>
             <constraints>
@@ -103,6 +104,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="icon_selected_main" width="22" height="22"/>
         <image name="icon_set_mask" width="316" height="106"/>
     </resources>
 </document>
