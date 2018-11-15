@@ -9,7 +9,7 @@
 #import "THNSettingAboutViewController.h"
 #import <WebKit/WebKit.h>
 
-static NSString *const kURLAbout    = @"https://lite.lexivip.com/";
+static NSString *const kURLAbout    = @"https://h5.lexivip.com/site/service_agreement";
 static NSString *const kTitleAbout  = @"关于乐喜";
 
 @interface THNSettingAboutViewController () <WKNavigationDelegate, WKUIDelegate>

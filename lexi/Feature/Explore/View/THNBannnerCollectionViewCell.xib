@@ -74,9 +74,8 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hI-ia-Eox">
-                        <rect key="frame" x="111" y="70" width="22" height="22"/>
+                        <rect key="frame" x="107" y="64" width="30" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" image="icon_selected_main"/>
                     </button>
                 </subviews>
             </view>
@@ -104,7 +103,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="icon_selected_main" width="22" height="22"/>
         <image name="icon_set_mask" width="316" height="106"/>
     </resources>
 </document>

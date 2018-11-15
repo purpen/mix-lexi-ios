@@ -159,6 +159,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
                 break;
             }
         }
+        
 
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {

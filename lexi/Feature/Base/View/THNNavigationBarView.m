@@ -192,8 +192,12 @@ static const NSInteger kRightButtonTag = 123;
  设置关闭按钮
  */
 - (void)setNavigationCloseButton {
+    [self setNavigationCloseButtonOfImageNamed:@"icon_close_white"];
+}
+
+- (void)setNavigationCloseButtonOfImageNamed:(NSString *)imageName {
     self.closeButton.hidden = NO;
-    [self setNavigationButton:self.closeButton imageName:@"icon_close_white"];
+    [self setNavigationButton:self.closeButton imageName:imageName];
 }
 
 - (void)setNavigationCloseButtonHidden:(BOOL)hidden {

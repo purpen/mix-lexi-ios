@@ -9,6 +9,7 @@
 #import "THNGoodsTitleTableViewCell.h"
 #import "YYLabel+Helper.h"
 #import "NSString+Helper.h"
+#import "THNLoginManager.h"
 
 static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId";
 
@@ -18,6 +19,8 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 @property (nonatomic, strong) YYLabel *priceLabel;
 /// 原价价格
 @property (nonatomic, strong) YYLabel *originalPriceLabel;
+/// 佣金
+@property (nonatomic, strong) YYLabel *makeMoneyLabel;
 
 @end
 
@@ -36,6 +39,10 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     [self thn_setTitleText:model];
     [self thn_setPriceTextWithValue:model.minSalePrice ? model.minSalePrice : model.minPrice];
     [self thn_setOriginalPriceTextWithValue:model.minSalePrice == 0 ? 0 : model.minPrice];
+    
+    if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
+        [self thn_showMakeMoneyWithValue:model.commissionPrice];
+    }
 }
 
 #pragma mark - private methods
@@ -64,8 +71,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
 }
 
 - (void)thn_setPriceTextWithValue:(CGFloat)value {
-    NSString *salePriceStr = [NSString stringWithFormat:@"￥%.2f", value];
-    NSMutableAttributedString *salePriceAtt = [[NSMutableAttributedString alloc] initWithString:salePriceStr];
+    NSMutableAttributedString *salePriceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString formatFloat:value]];
     salePriceAtt.color = [UIColor colorWithHexString:@"#333333"];
     salePriceAtt.font = [UIFont systemFontOfSize:17 weight:(UIFontWeightBold)];
     
@@ -78,8 +84,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
         return;
     }
     
-    NSString *originalPriceStr = [NSString formatFloat:value];
-    NSMutableAttributedString *originalPriceAtt = [[NSMutableAttributedString alloc] initWithString:originalPriceStr];
+    NSMutableAttributedString *originalPriceAtt = [[NSMutableAttributedString alloc] initWithString:[NSString formatFloat:value]];
     originalPriceAtt.color = [UIColor colorWithHexString:@"#949EA6"];
     originalPriceAtt.font = [UIFont systemFontOfSize:14];
     originalPriceAtt.textStrikethrough = [YYTextDecoration decorationWithStyle:(YYTextLineStyleSingle)];
@@ -88,11 +93,24 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     self.originalPriceLabel.attributedText = originalPriceAtt;
 }
 
+/**
+ 可卖时的佣金
+ */
+- (void)thn_showMakeMoneyWithValue:(CGFloat)value {
+    NSString *makeMoneyStr = [NSString stringWithFormat:@"赚%@", [NSString formatFloat:value]];
+    NSMutableAttributedString *makeMoneyAtt = [[NSMutableAttributedString alloc] initWithString:makeMoneyStr];
+    makeMoneyAtt.color = [UIColor colorWithHexString:@"#FF6666"];
+    makeMoneyAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightBold)];
+    
+    self.makeMoneyLabel.attributedText = makeMoneyAtt;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.titleLabel];
     [self addSubview:self.priceLabel];
     [self addSubview:self.originalPriceLabel];
+    [self addSubview:self.makeMoneyLabel];
 }
 
 - (void)layoutSubviews {
@@ -117,9 +135,16 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     
     [self.originalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.priceLabel.mas_right).with.offset(5);
-        make.right.mas_equalTo(-15);
         make.centerY.mas_equalTo(self.priceLabel);
         make.height.mas_equalTo(20);
+        make.width.mas_equalTo([self.originalPriceLabel thn_getLabelWidthWithMaxHeight:20]);
+    }];
+    
+    [self.makeMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.originalPriceLabel.mas_right).with.offset(10);
+        make.centerY.mas_equalTo(self.priceLabel);
+        make.height.mas_equalTo(20);
+        make.width.mas_equalTo([self.makeMoneyLabel thn_getLabelWidthWithMaxHeight:20]);
     }];
 }
 
@@ -144,6 +169,13 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
         _originalPriceLabel = [[YYLabel alloc] init];
     }
     return _originalPriceLabel;
+}
+
+- (YYLabel *)makeMoneyLabel {
+    if (!_makeMoneyLabel) {
+        _makeMoneyLabel = [[YYLabel alloc] init];
+    }
+    return _makeMoneyLabel;
 }
 
 @end

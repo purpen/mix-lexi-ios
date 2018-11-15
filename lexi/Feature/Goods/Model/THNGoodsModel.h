@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString * bgcover;
 @property (nonatomic, assign) NSInteger categoryId;
 @property (nonatomic, strong) NSString * city;
-@property (nonatomic, assign) NSInteger commissionPrice;
+@property (nonatomic, assign) CGFloat commissionPrice;
 @property (nonatomic, assign) NSInteger commissionRate;
 @property (nonatomic, strong) NSString * content;
 @property (nonatomic, strong) NSString * country;

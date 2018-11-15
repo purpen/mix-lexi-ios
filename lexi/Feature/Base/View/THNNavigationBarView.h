@@ -85,6 +85,7 @@ typedef void (^THNNavigationBarRightButtonCompletion)(void);
 
 /// 设置关闭按钮
 - (void)setNavigationCloseButton;
+- (void)setNavigationCloseButtonOfImageNamed:(NSString *)imageName;
 - (void)setNavigationCloseButtonHidden:(BOOL)hidden;
 
 @end

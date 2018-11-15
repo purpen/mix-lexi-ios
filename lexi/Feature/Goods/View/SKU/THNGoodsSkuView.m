@@ -311,13 +311,13 @@ static CGFloat const kMaxHeight = 337.0;
     
     [self.colorLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(19);
+        make.top.mas_equalTo(18);
         make.size.mas_equalTo(CGSizeMake(40, 15));
     }];
     
     [self.sizeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(self.colorHeight + 10);
+        make.top.mas_equalTo(self.colorHeight > 0 ? (self.colorHeight + 10) : 18);
         make.size.mas_equalTo(CGSizeMake(40, 15));
     }];
     

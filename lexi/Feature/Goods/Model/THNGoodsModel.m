@@ -111,7 +111,7 @@ NSString *const kTHNGoodsModelTown = @"town";
 		self.city = dictionary[kTHNGoodsModelCity];
 	}	
 	if(![dictionary[kTHNGoodsModelCommissionPrice] isKindOfClass:[NSNull class]]){
-		self.commissionPrice = [dictionary[kTHNGoodsModelCommissionPrice] integerValue];
+		self.commissionPrice = [dictionary[kTHNGoodsModelCommissionPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelCommissionRate] isKindOfClass:[NSNull class]]){

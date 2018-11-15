@@ -361,6 +361,7 @@
 		4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */; };
 		4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */; };
 		4B309376219D1471009D42A8 /* THNSelectProducCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B309375219D1471009D42A8 /* THNSelectProducCollectionView.m */; };
+		4B309379219D815F009D42A8 /* THNShareImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B309378219D815F009D42A8 /* THNShareImageViewController.m */; };
 		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
 		4B9D891C219C423800B4AB3D /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B9D891B219C423800B4AB3D /* THNSelectWindowProductViewController.m */; };
 		4BC70ACE218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */; };
@@ -500,7 +501,6 @@
 		D8DF16D8218BECC1006AAB9E /* THNCouponSingleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16D5218BECC1006AAB9E /* THNCouponSingleModel.m */; };
 		D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */; };
 		D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */; };
-		D8DF16F0218DADDA006AAB9E /* THNShareImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16EF218DADDA006AAB9E /* THNShareImageViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
@@ -530,6 +530,8 @@
 		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B309374219D1471009D42A8 /* THNSelectProducCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNSelectProducCollectionView.h; sourceTree = "<group>"; };
 		4B309375219D1471009D42A8 /* THNSelectProducCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNSelectProducCollectionView.m; sourceTree = "<group>"; };
+		4B309377219D815D009D42A8 /* THNShareImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShareImageViewController.h; sourceTree = "<group>"; };
+		4B309378219D815F009D42A8 /* THNShareImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShareImageViewController.m; sourceTree = "<group>"; };
 		4B36A225218C9771007F670E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewFlowLayout+THN_flowLayout.h"; sourceTree = "<group>"; };
 		4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewFlowLayout+THN_flowLayout.m"; sourceTree = "<group>"; };
@@ -1407,8 +1409,6 @@
 		D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponOfficialModel.m; sourceTree = "<group>"; };
 		D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMyCouponViewController.m; sourceTree = "<group>"; };
 		D8DF16DD218C3DE9006AAB9E /* THNMyCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCouponViewController.h; sourceTree = "<group>"; };
-		D8DF16EE218DADDA006AAB9E /* THNShareImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShareImageViewController.h; sourceTree = "<group>"; };
-		D8DF16EF218DADDA006AAB9E /* THNShareImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShareImageViewController.m; sourceTree = "<group>"; };
 		D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Helper.h"; sourceTree = "<group>"; };
 		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2505,8 +2505,6 @@
 				4BECF04F217F1401008E5E28 /* THNAlertViewController.m */,
 				4BECF050217F1401008E5E28 /* THNWebKitViewViewController.h */,
 				4BECF051217F1401008E5E28 /* THNWebKitViewViewController.m */,
-				D8DF16EE218DADDA006AAB9E /* THNShareImageViewController.h */,
-				D8DF16EF218DADDA006AAB9E /* THNShareImageViewController.m */,
 			);
 			path = ReuseViewController;
 			sourceTree = "<group>";
@@ -2663,6 +2661,8 @@
 		4BECF09D217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B309377219D815D009D42A8 /* THNShareImageViewController.h */,
+				4B309378219D815F009D42A8 /* THNShareImageViewController.m */,
 				4BECF09E217F1401008E5E28 /* THNShareViewController.h */,
 				4BECF09F217F1401008E5E28 /* THNShareViewController.m */,
 			);
@@ -3776,6 +3776,7 @@
 				4B27B3ED218717D1004AF42F /* THNImageCollectionViewCell.m in Sources */,
 				4B27B3EE218717D1004AF42F /* THNImagesView.m in Sources */,
 				4B27B3EF218717D1004AF42F /* THNCouponsCenterViewController.m in Sources */,
+				4B309379219D815F009D42A8 /* THNShareImageViewController.m in Sources */,
 				4B27B3F0218717D1004AF42F /* THNStoreCouponViewController.m in Sources */,
 				4B27B3F1218717D1004AF42F /* THNHomeViewController.m in Sources */,
 				D8D7CFB7219423AC00948247 /* THNFollowUserButton.m in Sources */,
@@ -4014,7 +4015,6 @@
 				4B27B4C7218717D2004AF42F /* WBEmoticonInputView.m in Sources */,
 				4B27B4C8218717D2004AF42F /* THNConst.m in Sources */,
 				4B27B4C9218717D2004AF42F /* THNTextConst.m in Sources */,
-				D8DF16F0218DADDA006AAB9E /* THNShareImageViewController.m in Sources */,
 				4B27B4CA218717D2004AF42F /* NSObject+EnumManagement.m in Sources */,
 				4B27B4CB218717D2004AF42F /* THNNotification.m in Sources */,
 				D82C018A219AB0E0009F905F /* THNLikedWindowTableViewCell.m in Sources */,

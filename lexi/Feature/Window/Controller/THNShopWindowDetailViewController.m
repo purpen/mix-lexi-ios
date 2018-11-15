@@ -24,6 +24,7 @@
 #import "THNToolBarView.h"
 #import "THNCommentTableView.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "THNShareImageViewController.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -160,7 +161,11 @@ THNCommentTableViewDelegate
 }
 
 - (IBAction)share:(id)sender {
+    if (!self.shopWindowModel.rid.length) return;
     
+    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                                        requestId:self.shopWindowModel.rid];
+    [self presentViewController:shareImageVC animated:NO completion:nil];
 }
 
 //猜你喜欢

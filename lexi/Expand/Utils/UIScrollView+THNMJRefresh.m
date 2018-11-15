@@ -83,6 +83,7 @@ static NSString *const kTextFooterNoData = @"没有更多数据了";
             [footer setTitle:@"" forState:MJRefreshStateIdle];
             [footer setTitle:kTextFooterNoData forState:MJRefreshStateNoMoreData];
             footer.refreshingTitleHidden = YES;
+            footer.stateLabel.hidden = YES;
             
             self.mj_footer = footer;
             

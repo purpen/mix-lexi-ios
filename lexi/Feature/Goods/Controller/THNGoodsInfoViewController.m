@@ -9,11 +9,8 @@
 #import "THNGoodsInfoViewController.h"
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
-#import "UIImage+Helper.h"
 #import "UIImageView+SDWedImage.h"
 #import <TYAlertController/UIView+TYAlertView.h>
-#import <SDWebImage/NSData+ImageContentType.h>
-#import <SDWebImage/SDWebImageManager.h>
 #import "THNGoodsManager.h"
 #import "THNLoginManager.h"
 #import "THNImagesView.h"
@@ -43,6 +40,7 @@
 #import "THNUserCenterViewController.h"
 #import "THNShareImageViewController.h"
 #import "THNCouponDetailView.h"
+#import "UITableViewCell+DealContent.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -72,8 +70,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 @property (nonatomic, strong) NSArray *allCouponsArr;
 @property (nonatomic, strong) NSArray *loginCoupons;
 @property (nonatomic, strong) NSArray *noLoginCoupons;
-/// 详情的高度
-@property (nonatomic, assign) CGFloat dealContentH;
 /// 图片列表
 @property (nonatomic, strong) THNImagesView *imagesView;
 /// 底部功能视图
@@ -124,7 +120,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         [weakSelf.functionView thn_setGoodsModel:model];
         [weakSelf thn_setGoodsInfoIsSoldOut:model.status != 1];
         [weakSelf thn_setGoodsInfoImageAssets:model.assets];
-        [weakSelf thn_getGoodsInfoDealContentHeightWithData:model.dealContent];
         
         dispatch_group_t group = dispatch_group_create();
         
@@ -549,7 +544,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     headerCells.height = 56;
     
     THNGoodsTableViewCells *contentCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeContent)];
-    contentCells.height = self.dealContentH;
+    contentCells.height = [UITableViewCell heightWithDaelContentData:self.goodsModel.dealContent type:(THNDealContentTypeGoodsInfo)];
     contentCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[headerCells, contentCells] mutableCopy]];
@@ -569,7 +564,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     if (!self.goodsModel && !self.skuModel) return;
     
     if (type == THNGoodsButtonTypeSell) {
-//        [self thn_openGoodsSellShareController];
+        [self thn_openGoodsShareImageController];
         
     } else {
         [self thn_openGoodsSkuControllerWithType:type];
@@ -635,40 +630,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 /**
- 获取图文详情的高度
- */
-- (void)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
-    CGFloat contentH = 0.0;
-    
-    for (THNDealContentModel *model in content) {
-        if ([model.type isEqualToString:@"text"]) {
-            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
-                                                                 fontSize:14
-                                                              lineSpacing:7
-                                                                  fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
-            contentH += (textH + 10);
-            
-        } else if ([model.type isEqualToString:@"image"]) {
-            UIImage *contentImage = [UIImage getImageFormDiskCacheForKey:model.content];
-            
-            if (![UIImage isCacheImageOfImageUrl:model.content]) {
-                [[SDWebImageManager sharedManager].imageCache storeImage:contentImage
-                                                                  forKey:model.content
-                                                                  toDisk:YES
-                                                              completion:nil];
-            }
-            
-            CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
-            CGFloat imageH = contentImage.size.height * imageScale;
-            
-            contentH += (imageH + 10);
-        }
-    }
-
-    self.dealContentH = contentH;
-}
-
-/**
  获取商品描述的高度
  */
 - (CGFloat)thn_getGoodsInfoFeaturesHeight {
@@ -705,10 +666,21 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 /**
  打开卖货分享图片视图
  */
-- (void)thn_openGoodsSellShareController {
-    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] init];
-    shareImageVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+- (void)thn_openGoodsShareImageController {
+    if (!self.goodsId.length) return;
+    
+    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeGoods)
+                                                                                        requestId:self.goodsId];
     [self presentViewController:shareImageVC animated:NO completion:nil];
+}
+
+/**
+ 打开分享视图
+ */
+- (void)thn_openShareController {
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 /**
@@ -1044,9 +1016,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     WEAKSELF;
     
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [weakSelf presentViewController:shareVC animated:NO completion:nil];
+        [weakSelf thn_openGoodsShareImageController];
     }];
 }
 
@@ -1069,12 +1039,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         _functionView.delegate = self;
     }
     return _functionView;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [[SDWebImageManager sharedManager].imageCache clearMemory];
 }
 
 - (THNCouponDetailView *)couponDetailView {

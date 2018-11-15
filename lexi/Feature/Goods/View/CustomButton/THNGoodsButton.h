@@ -16,7 +16,15 @@
  */
 @property (nonatomic, strong) NSString *title;
 
+/**
+ 商品Id
+ */
 @property (nonatomic, strong) NSString *productId;
+
+/**
+ 可赚多少钱
+ */
+@property (nonatomic, assign) CGFloat makeMoney;
 
 /**
  操作类型
