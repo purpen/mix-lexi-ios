@@ -118,10 +118,14 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
  场景编号
  */
 - (NSString *)thn_paramsScene {
-    NSString *storeId = [THNLoginManager sharedManager].storeRid.length ? [THNLoginManager sharedManager].storeRid : @"";
-    NSString *scene = [NSString stringWithFormat:@"%@-%@", self.requestId, storeId];
+    if (self.posterType == THNSharePosterTypeGoods) {
+        NSString *storeId = [THNLoginManager sharedManager].storeRid.length ? [THNLoginManager sharedManager].storeRid : @"";
+        NSString *scene = [NSString stringWithFormat:@"%@-%@", self.requestId, storeId];
+        
+        return scene;
+    }
     
-    return scene;
+    return self.requestId;
 }
 
 #pragma mark - event response
