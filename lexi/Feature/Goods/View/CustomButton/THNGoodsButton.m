@@ -10,6 +10,7 @@
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
 #import "THNConst.h"
+#import "NSString+Helper.h"
 
 static NSString *const kTitleBuy        = @"购买";
 static NSString *const kTitleAddCart    = @"加入购物车";
@@ -55,14 +56,44 @@ static NSString *const kTitleSell       = @"卖";
     NSArray *colorArr = @[kColorMain, @"#2D343A", kColorMain, @"#FF6666"];
     self.backgroundColor = [UIColor colorWithHexString:colorArr[(NSUInteger)type]];
     
-    NSArray *titleArr = @[kTitleBuy, kTitleAddCart, kTitleCustom, kTitleSell];
-    [self thn_setTitleLableText:titleArr[(NSUInteger)type]];
+    if (type == THNGoodsButtonTypeSell) {
+        [self thn_setSellTitleLableTextWithMoney:self.makeMoney];
+        
+    } else {
+        NSArray *titleArr = @[kTitleBuy, kTitleAddCart, kTitleCustom];
+        [self thn_setTitleLableText:titleArr[(NSUInteger)type]];
+    }
 }
 
+/**
+ 正常功能按钮
+ */
 - (void)thn_setTitleLableText:(NSString *)text {
     NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:text];
     titleAtt.font = [UIFont systemFontOfSize:16];
     titleAtt.color = [UIColor whiteColor];
+    titleAtt.alignment = NSTextAlignmentCenter;
+    
+    self.textLabel.attributedText = titleAtt;
+}
+
+/**
+ 分销商品，卖货的按钮
+ */
+- (void)thn_setSellTitleLableTextWithMoney:(CGFloat)money {
+    NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:kTitleSell];
+    titleAtt.font = [UIFont systemFontOfSize:16];
+    titleAtt.color = [UIColor whiteColor];
+    
+    if (money > 0) {
+        NSString *makeMoneyStr = [NSString stringWithFormat:@" 赚%@", [NSString formatFloat:money]];
+        NSMutableAttributedString *moneyAtt = [[NSMutableAttributedString alloc] initWithString:makeMoneyStr];
+        moneyAtt.font = [UIFont systemFontOfSize:12];
+        moneyAtt.color = [UIColor whiteColor];
+        
+        [titleAtt appendAttributedString:moneyAtt];
+    }
+    
     titleAtt.alignment = NSTextAlignmentCenter;
     
     self.textLabel.attributedText = titleAtt;
@@ -83,6 +114,12 @@ static NSString *const kTitleSell       = @"卖";
 }
 
 #pragma mark - getters and setters
+//- (void)setMakeMoney:(CGFloat)makeMoney {
+//    _makeMoney = makeMoney;
+//
+//    [self thn_setSellTitleLableTextWithMoney:makeMoney];
+//}
+
 - (void)setType:(THNGoodsButtonType)type {
     _type = type;
     

@@ -10,6 +10,9 @@
 #import "YYLabel+Helper.h"
 #import "THNDealContentModel.h"
 #import "NSString+Helper.h"
+#import <SDWebImage/NSData+ImageContentType.h>
+#import <SDWebImage/SDWebImageManager.h>
+#import "UIImage+Helper.h"
 
 @interface UITableViewCell ()
 
@@ -41,14 +44,31 @@
             CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
                                                               lineSpacing:7
-                                                                  fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
+                                                                  fixSize:CGSizeMake(imageW, MAXFLOAT)].height;
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
-            CGFloat imageScale = imageW / model.width;
-            CGFloat imageH = model.height * imageScale;
+            if (model.width > 0 && model.height > 0) {
+                CGFloat imageScale = imageW / model.width;
+                CGFloat imageH = model.height * imageScale;
+                
+                contentH += (imageH + 10);
             
-            contentH += (imageH + 10);
+            } else {
+                UIImage *contentImage = [UIImage getImageFormDiskCacheForKey:model.content];
+                
+                if (![UIImage isCacheImageOfImageUrl:model.content]) {
+                    [[SDWebImageManager sharedManager].imageCache storeImage:contentImage
+                                                                      forKey:model.content
+                                                                      toDisk:YES
+                                                                  completion:nil];
+                }
+                
+                CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
+                CGFloat imageH = contentImage.size.height * imageScale;
+                
+                contentH += (imageH + 10);
+            }
         }
     }
     

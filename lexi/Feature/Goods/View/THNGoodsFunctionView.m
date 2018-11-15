@@ -69,9 +69,10 @@ static NSString *const kTextNone = @"已售罄";
         self.type = THNGoodsFunctionViewTypeDefault;
     }
     
-//    if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
-//        self.type = THNGoodsFunctionViewTypeSell;
-//    }
+    if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
+        self.subButton.makeMoney = model.commissionPrice;
+        self.type = THNGoodsFunctionViewTypeSell;
+    }
 }
 
 - (void)thn_showGoodsCart:(BOOL)show {

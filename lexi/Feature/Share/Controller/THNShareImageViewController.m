@@ -7,28 +7,48 @@
 //
 
 #import "THNShareImageViewController.h"
-#import "UIView+Helper.h"
-#import "UIImageView+SDWedImage.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "THNLoginManager.h"
+#import "UIView+Helper.h"
+#import "UIImageView+SDWedImage.h"
 
-static NSString *const kTextSaveImage = @"保存图片";
+/// url
+static NSString *const kURLProductCard = @"/market/wxa_poster";
+static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
 
-@interface THNShareImageViewController ()
+/// key
+static NSString *const kKeyRid       = @"rid";
+// 平台类型 1=品牌馆, 2=生活馆, 3=独立小程序分享商品, 4=核心平台分享商品
+static NSString *const kKeyType      = @"type";
+// 场景参数： 商品编号-生活馆编号 例：8945120367-94395210
+static NSString *const kKeyScene     = @"scene";
+// 访问路径
+static NSString *const kKeyPath      = @"path";
+// 小程序id
+static NSString *const kKeyAuthAppId = @"auth_app_id";
+
+/// text
+static NSString *const kTextSaveImage = @"保存到本地相册";
+
+@interface THNShareImageViewController () <THNNavigationBarViewDelegate>
 
 @property (nonatomic, strong) UIImageView *showImageView;
 @property (nonatomic, strong) UIButton *saveImageButton;
+@property (nonatomic, assign) THNSharePosterType posterType;
+@property (nonatomic, strong) NSString *requestId;
 
 @end
 
 @implementation THNShareImageViewController
 
-- (instancetype)initWithType:(NSUInteger)type {
+- (instancetype)initWithType:(THNSharePosterType)type requestId:(NSString *)requestId {
     self = [super init];
     if (self) {
-        
+        self.posterType = type;
+        self.requestId = requestId;
     }
     return self;
 }
@@ -43,10 +63,64 @@ static NSString *const kTextSaveImage = @"保存图片";
 #pragma mark - network
 - (void)thn_networkPosterImageData {
     [SVProgressHUD thn_show];
-    [self.showImageView downloadImage:@"https://kg.erp.taihuoniao.com/lexi/20181026/qKWEskxhCPyLoSrFYwdX.png"
-                                place:[UIImage imageNamed:@"default_image_place"]];
     
-    [SVProgressHUD dismissWithDelay:(NSTimeInterval)2];
+    THNRequest *request = [THNAPI postWithUrlString:[self thn_getRequestUrl]
+                                  requestDictionary:[self thn_getRequestParams]
+                                           delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [self.showImageView downloadImage:result.data[@"image_url"]];
+        [self thn_setSaveButtonStatus:YES];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+- (NSString *)thn_getRequestUrl {
+    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods): kURLProductCard,
+                              @(THNSharePosterTypeWindow): kURLShopWindow};
+    
+    return urlDict[@(self.posterType)];
+}
+
+- (NSDictionary *)thn_getRequestParams {
+    if (self.requestId.length) {
+        NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
+                                       kKeyPath: kWxaPath,
+                                       kKeyScene: [self thn_paramsScene],
+                                       kKeyRid: self.requestId};
+        
+        NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+        
+        if (self.posterType == THNSharePosterTypeGoods) {
+            [paramDict setValuesForKeysWithDictionary:defaultParam];
+            [paramDict setObject:@(4) forKey:kKeyType];
+            
+        } else if (self.posterType == THNSharePosterTypeWindow) {
+            [paramDict setValuesForKeysWithDictionary:defaultParam];
+        }
+        
+        return [paramDict copy];
+    }
+    
+    return [NSDictionary dictionary];
+}
+
+/**
+ 场景编号
+ */
+- (NSString *)thn_paramsScene {
+    NSString *storeId = [THNLoginManager sharedManager].storeRid.length ? [THNLoginManager sharedManager].storeRid : @"";
+    NSString *scene = [NSString stringWithFormat:@"%@-%@", self.requestId, storeId];
+    
+    return scene;
 }
 
 #pragma mark - event response
@@ -64,8 +138,12 @@ static NSString *const kTextSaveImage = @"保存图片";
         
     } else {
         [SVProgressHUD thn_showSuccessWithStatus:@"已保存到相册"];
-        [self thn_setSubviewFrameShow:NO];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (void)closeButtonAction:(UIButton *)button {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - private methods
@@ -107,32 +185,46 @@ static NSString *const kTextSaveImage = @"保存图片";
     }
 }
 
+/**
+ 保存图片按钮的状态
+ */
+- (void)thn_setSaveButtonStatus:(BOOL)status {
+    self.saveImageButton.alpha = status ? 1 : 0.5;
+    self.saveImageButton.userInteractionEnabled = status;
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.5];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:1];
     
     [self.view addSubview:self.showImageView];
     [self.view addSubview:self.saveImageButton];
+    
+    [self thn_setSaveButtonStatus:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationBarView.hidden = YES;
+    self.navigationBarView.delegate = self;
+    [self.navigationBarView setNavigationTransparent:YES showShadow:NO];
+    [self.navigationBarView setNavigationCloseButtonOfImageNamed:@"icon_popup_close"];
+}
+
+- (void)didNavigationCloseButtonEvent {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    [self thn_setSubviewFrameShow:YES];
+    [self thn_setSubviewFrame];
 }
 
-- (void)thn_setSubviewFrameShow:(BOOL)show {
-    CGFloat imageOriginY = show ? 60 : -SCREEN_HEIGHT;
-    CGRect imageFrame = CGRectMake(20, imageOriginY, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 170);
-    
-    CGFloat buttonOriginY = show ? SCREEN_HEIGHT - 80 : SCREEN_HEIGHT;
-    CGRect buttonFrame = CGRectMake((SCREEN_WIDTH - 230) / 2, buttonOriginY, 230, 40);
+- (void)thn_setSubviewFrame {
+    CGFloat originBottom = kDeviceiPhoneX ? 78 : 60;
+    CGRect imageFrame = CGRectMake(20, 69, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 170);
+    CGRect buttonFrame = CGRectMake(20, SCREEN_HEIGHT - originBottom, SCREEN_WIDTH - 40, 40);
     
     [UIView animateWithDuration:0.4
                           delay:0
@@ -142,24 +234,14 @@ static NSString *const kTextSaveImage = @"保存图片";
                             self.showImageView.frame = imageFrame;
                             self.saveImageButton.frame = buttonFrame;
                             
-                        } completion:^(BOOL finished) {
-                            if (!show) {
-                                [self dismissViewControllerAnimated:NO completion:nil];
-                            }
-                        }];
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = touches.anyObject;
-    if (touch.view != self.showImageView) {
-        [self thn_setSubviewFrameShow:NO];
-    }
+                        } completion:nil];
 }
 
 #pragma mark - getters and setters
 - (UIImageView *)showImageView {
     if (!_showImageView) {
         _showImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, -SCREEN_HEIGHT, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 180)];
+        _showImageView.image = [UIImage imageNamed:@"default_image_place"];
         _showImageView.contentMode = UIViewContentModeScaleAspectFit;
         _showImageView.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
     }
@@ -168,7 +250,7 @@ static NSString *const kTextSaveImage = @"保存图片";
 
 - (UIButton *)saveImageButton {
     if (!_saveImageButton) {
-        _saveImageButton = [[UIButton alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 230) / 2, SCREEN_HEIGHT, 230, 40)];
+        _saveImageButton = [[UIButton alloc] initWithFrame:CGRectMake(20, SCREEN_HEIGHT, SCREEN_WIDTH - 40, 40)];
         _saveImageButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
         [_saveImageButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         [_saveImageButton setTitle:kTextSaveImage forState:(UIControlStateNormal)];

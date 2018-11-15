@@ -52,7 +52,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
             [self thn_creatAttributedStringWithText:[NSString filterHTML:model.content]];
             
         } else if ([model.type isEqualToString:@"image"]) {
-            if (type == THNDealContentTypeArticle) {
+            if (model.width > 0 && model.height > 0) {
                 [self thn_creatContentImageWithImageUrl:model.content width:model.width height:model.height];
                 
             } else {
@@ -118,6 +118,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.layer.masksToBounds = YES;
     [self addSubview:imageView];
     
     CGSize contentImageSize = [self thn_getContentImageSizeWithWidth:width height:height];
@@ -131,7 +132,6 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     self.originY += (contentImageSize.height + 10);
     
     [imageView downloadImage:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDealContent)]];
-    [imageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:0];
 }
 
 /**
@@ -146,11 +146,15 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
 }
 
 - (CGSize)thn_getContentImageSizeWithWidth:(CGFloat)width height:(CGFloat)height {
-    CGFloat image_w = [self thn_imageWidth];
-    CGFloat image_scale = image_w / width;
-    CGFloat image_h = height * image_scale;
+    if (width > 0 && height > 0) {
+        CGFloat image_w = [self thn_imageWidth];
+        CGFloat image_scale = image_w / width;
+        CGFloat image_h = height * image_scale;
+        
+        return CGSizeMake(image_w, image_h);
+    }
     
-    return CGSizeMake(image_w, image_h);
+    return CGSizeMake(0, 0);
 }
 
 #pragma mark - getters and setters

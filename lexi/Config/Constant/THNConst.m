@@ -19,6 +19,10 @@ NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a
 //NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
 //NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
+#pragma mark - 小程序参数
+NSString *const kWxaAuthAppId   = @"wx60ed17bfd850985d";
+NSString *const kWxaPath        = @"pages/index/index";
+
 #pragma mark - 测试账号
 /**
  (正式环境)小B账号：

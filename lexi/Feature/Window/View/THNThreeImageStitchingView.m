@@ -45,7 +45,7 @@
     
     if (images.count > 3) {
         self.moreImageCountLabel.hidden = NO;
-        self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%ld",images.count - 3];
+        self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%d",images.count - 3];
     } else {
         self.moreImageCountLabel.hidden = YES;
     }
