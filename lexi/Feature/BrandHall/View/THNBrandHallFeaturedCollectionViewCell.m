@@ -7,7 +7,7 @@
 //
 
 #import "THNBrandHallFeaturedCollectionViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNFeaturedBrandModel.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "UIView+Helper.h"
@@ -35,7 +35,8 @@
 
 - (void)setBrandModel:(THNFeaturedBrandModel *)brandModel {
     _brandModel = brandModel;
-    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+
+    [self.brandImageView loadImageWithUrl:[brandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.nameLabel.text = brandModel.name;
     self.productCountTextLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.store_products_counts];
 }

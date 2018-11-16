@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 @interface THNLoginManager : NSObject <NSCoding>
 
 /**
- 令牌(过期失效)
+ token (过期失效)
  */
 @property (nonatomic, copy) NSString *token;
 

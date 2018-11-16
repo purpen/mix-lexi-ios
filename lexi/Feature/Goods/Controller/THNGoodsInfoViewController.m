@@ -9,7 +9,6 @@
 #import "THNGoodsInfoViewController.h"
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
-#import "UIImageView+SDWedImage.h"
 #import <TYAlertController/UIView+TYAlertView.h>
 #import "THNGoodsManager.h"
 #import "THNLoginManager.h"

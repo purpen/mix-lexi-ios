@@ -8,7 +8,7 @@
 
 #import "THNBannerView.h"
 #import "THNMarco.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"

@@ -11,13 +11,12 @@
 #import "THNFiveImagesStitchView.h"
 #import "THNSevenImagesStitchView.h"
 #import "UIView+Helper.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNShopWindowModel.h"
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
-#import "UIImageView+SDWedImage.h"
 #import "THNFollowUserButton+SelfManager.h"
 #import "THNAPI.h"
 #import <SVProgressHUD/SVProgressHUD.h>
@@ -65,7 +64,9 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
     _shopWindowModel = shopWindowModel;
     self.nameLabel.text = shopWindowModel.user_name;
-    [self.avatarImageView thn_setCircleImageWithUrlString:shopWindowModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
+
+    [self.avatarImageView loadImageWithUrl:[shopWindowModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
     self.titleLabel.text = shopWindowModel.title;
     self.desLabel.text = shopWindowModel.des;
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];

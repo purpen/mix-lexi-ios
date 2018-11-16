@@ -13,7 +13,7 @@
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "YYLabel+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNLikedWindowCollectionViewCell ()
 
@@ -45,12 +45,9 @@
     [self thn_setTitleLabelText:model.title];
     
     if (model.productCovers.count >= 3) {
-        [self.mainImageView downloadImage:[model.productCovers[0] loadImageUrlWithType:(THNLoadImageUrlTypeWindowP500)]
-                                    place:[UIImage imageNamed:@"default_goods_place"]];
-        [self.secondImageView downloadImage:[model.productCovers[1] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
-                                      place:[UIImage imageNamed:@"default_goods_place"]];
-        [self.thirdImageView downloadImage:[model.productCovers[2] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
-                                     place:[UIImage imageNamed:@"default_goods_place"]];
+        [self.mainImageView loadImageWithUrl:[model.productCovers[0] loadImageUrlWithType:(THNLoadImageUrlTypeWindowP500)]];
+        [self.secondImageView loadImageWithUrl:[model.productCovers[1] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
+        [self.thirdImageView loadImageWithUrl:[model.productCovers[2] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
     }
 }
 
@@ -107,7 +104,7 @@
         make.top.equalTo(self.secondImageView.mas_bottom).with.offset(2);
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(cellWidth - 30, self.titleHeight > 40 ? 40 : self.titleHeight));
         make.left.mas_equalTo(15);
         make.bottom.mas_equalTo(-13);

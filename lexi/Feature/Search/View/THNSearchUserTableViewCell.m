@@ -7,7 +7,7 @@
 //
 
 #import "THNSearchUserTableViewCell.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNUserModel.h"
 #import "THNFollowUserButton+SelfManager.h"
@@ -32,7 +32,9 @@
 
 - (void)setUserModel:(THNUserModel *)userModel {
     _userModel = userModel;
-    [self.userImageView thn_setCircleImageWithUrlString:userModel.avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.userImageView loadImageWithUrl:[userModel.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                circular:YES];
     self.userNameLabel.text = userModel.username;
     self.likeCountLabel.text = [NSString stringWithFormat:@"喜欢%ld",userModel.user_like_counts];
     self.wishCountLabel.text = [NSString stringWithFormat:@"心愿单%ld",userModel.wish_list_counts];

@@ -8,7 +8,7 @@
 
 #import "THNCommentSectionHeaderView.h"
 #import "THNCommentModel.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNAPI.h"
 #import "NSString+Helper.h"
 #import "SVProgressHUD+Helper.h"
@@ -32,7 +32,9 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
 
 - (void)setCommentModel:(THNCommentModel *)commentModel {
     _commentModel = commentModel;
-    [self.avatarImageView thn_setCircleImageWithUrlString:commentModel.user_avatar placeholder:[UIImage imageNamed:@"default_user_place"]];
+
+    [self.avatarImageView loadImageWithUrl:[commentModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
     self.nameLabel.text = commentModel.user_name;
     self.contentlabel.text = commentModel.content;
     self.praisesButton.selected = commentModel.is_praise;

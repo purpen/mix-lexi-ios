@@ -7,12 +7,9 @@
 //
 
 #import "THNSearchHotRecommendCollectionViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNSearchHotRecommendModel.h"
 #import "UIView+Helper.h"
-#import "UIImageView+SDWedImage.h"
-
-
 
 @interface THNSearchHotRecommendCollectionViewCell()
 
@@ -33,8 +30,10 @@
     
     if (!hotRecommentModel.recommend_cover) {
         self.brandImageView.image = [UIImage imageNamed:@"icon_search_customization"];
+        
     } else {
-       [self.brandImageView thn_setCircleImageWithUrlString:hotRecommentModel.recommend_cover placeholder:[UIImage imageNamed:@"default_image_place"]];
+        [self.brandImageView loadImageWithUrl:[hotRecommentModel.recommend_cover loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                     circular:YES];
     }
     
     self.nameLabel.text = hotRecommentModel.recommend_title;

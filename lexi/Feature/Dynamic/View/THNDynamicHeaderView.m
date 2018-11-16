@@ -10,7 +10,7 @@
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
 #import "THNConst.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNFollowUserButton.h"
 #import "THNFollowUserButton+SelfManager.h"
@@ -39,8 +39,8 @@ static NSString *const kTextCreate = @"拼贴橱窗";
 }
 
 - (void)thn_setDynamicUserModel:(THNDynamicModel *)model {
-    [self.backgroundImageView downloadImage:model.bgCover];
-    [self.headImageView downloadImage:[model.userAvatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
+    [self.backgroundImageView loadImageWithUrl:model.bgCover];
+    [self.headImageView loadImageWithUrl:[model.userAvatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.nameLabel.text = model.username;
     
     if (self.viewType == THNDynamicHeaderViewTypeOther) {

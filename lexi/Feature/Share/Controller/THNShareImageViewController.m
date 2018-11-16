@@ -13,7 +13,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "THNLoginManager.h"
 #import "UIView+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 /// url
 static NSString *const kURLProductCard = @"/market/wxa_poster";
@@ -76,7 +76,7 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
             return ;
         }
         
-        [weakSelf.showImageView downloadImage:result.data[@"image_url"]];
+        [weakSelf.showImageView loadImageWithUrl:result.data[@"image_url"]];
         [weakSelf thn_setSaveButtonStatus:YES];
         [SVProgressHUD dismiss];
         

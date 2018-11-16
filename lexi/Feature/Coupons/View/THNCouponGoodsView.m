@@ -9,7 +9,7 @@
 #import "THNCouponGoodsView.h"
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIColor+Extension.h"
 #import "NSString+Helper.h"
 
@@ -34,8 +34,7 @@
 }
 
 - (void)thn_setStoreCouponGoodsSku:(THNCouponSharedModelProductSku *)sku {
-    [self.goodsImageView downloadImage:[sku.productCover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
-                                 place:[UIImage imageNamed:@"default_image_place"]];
+    [self.goodsImageView loadImageWithUrl:[sku.productCover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
     self.titleLabel.text = sku.productName;
     self.priceLabel.text = [NSString formatFloat:sku.productAmount];
     [self thn_setOriginalPriceWithValue:sku.productCouponAmount];

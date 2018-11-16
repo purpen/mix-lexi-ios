@@ -9,7 +9,7 @@
 #import "THNSecondLevelCommentTableViewCell.h"
 #import "UIView+Helper.h"
 #import "THNCommentModel.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "NSString+Helper.h"
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
@@ -42,7 +42,9 @@ CGFloat const allSubCommentHeight = 66;
 
 - (void)setSubCommentModel:(THNCommentModel *)subCommentModel {
     _subCommentModel = subCommentModel;
-    [self.avatarImageView thn_setCircleImageWithUrlString:subCommentModel.user_avatar placeholder:[UIImage imageNamed:@"default_user_place"]];
+
+    [self.avatarImageView loadImageWithUrl:[subCommentModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
     self.nameLabel.text = subCommentModel.user_name;
     self.contentLabel.text = subCommentModel.content;
     self.praisesButton.selected = subCommentModel.is_praise;

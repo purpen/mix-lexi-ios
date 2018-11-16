@@ -8,7 +8,7 @@
 
 #import "THNDealContentTableViewCell.h"
 #import "THNDealContentModel.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIImage+Helper.h"
 #import <YYKit/YYKit.h>
 #import <SDWebImage/SDWebImageManager.h>
@@ -69,26 +69,34 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
 - (void)thn_creatAttributedStringWithText:(NSString *)text {
     [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
-    textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
-    textAtt.color = [UIColor colorWithHexString:@"#333333"];
-    textAtt.lineSpacing = 7;
-
-    YYTextContainer *container = [YYTextContainer new];
-    container.size = CGSizeMake(kScreenWidth - 30, CGFLOAT_MAX);
-    container.maximumNumberOfRows = 0;
-
-    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:textAtt];
-
-    YYLabel *textLabel = [[YYLabel alloc] initWithFrame:CGRectMake(15, self.originY, kScreenWidth - 30, layout.textBoundingSize.height)];
+    YYLabel *textLabel = [YYLabel new];
     textLabel.numberOfLines = 0;
-    textLabel.displaysAsynchronously = YES;
-    textLabel.size = layout.textBoundingSize;
-    textLabel.textLayout = layout;
-
+    textLabel.displaysAsynchronously = YES; // 开启异步绘制
+    textLabel.ignoreCommonProperties = YES; // 忽略除了 textLayout 之外的其他属性
+    
     [self addSubview:textLabel];
-
-    self.originY += (layout.textBoundingSize.height + 10);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
+        textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
+        textAtt.color = [UIColor colorWithHexString:@"#333333"];
+        textAtt.lineSpacing = 7;
+        
+        YYTextContainer *container = [YYTextContainer new];
+        container.size = CGSizeMake(kScreenWidth - 30, CGFLOAT_MAX);
+        container.maximumNumberOfRows = 0;
+        
+        // 生成排版结果
+        YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:textAtt];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            textLabel.size = layout.textBoundingSize;
+            textLabel.textLayout = layout;
+            
+            textLabel.frame = CGRectMake(15, self.originY, kScreenWidth - 30, layout.textBoundingSize.height);
+            self.originY += (layout.textBoundingSize.height + 10);
+        });
+    });
 }
 
 /**
@@ -131,7 +139,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     
     self.originY += (contentImageSize.height + 10);
     
-    [imageView downloadImage:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDealContent)]];
+    [imageView loadImageWithUrl:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDealContent)]];
 }
 
 /**

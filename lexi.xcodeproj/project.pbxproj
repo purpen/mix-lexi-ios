@@ -479,6 +479,7 @@
 		D8C2A057219D577E00886FB2 /* THNShareImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A055219D577E00886FB2 /* THNShareImageViewController.m */; };
 		D8C2A05A219D868600886FB2 /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A059219D868600886FB2 /* THNSelectWindowProductViewController.m */; };
 		D8C2A05E219D869E00886FB2 /* THNSelectProducCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */; };
+		D8C2A067219EA27400886FB2 /* UIImageView+WebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */; };
 		D8D7CFB22194234E00948247 /* THNFollowStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFAE2194234D00948247 /* THNFollowStoreButton.m */; };
 		D8D7CFB32194234E00948247 /* THNDealContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFB12194234E00948247 /* THNDealContentTableViewCell.m */; };
 		D8D7CFB7219423AC00948247 /* THNFollowUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFB6219423AC00948247 /* THNFollowUserButton.m */; };
@@ -1355,6 +1356,8 @@
 		D8C2A059219D868600886FB2 /* THNSelectWindowProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectWindowProductViewController.m; sourceTree = "<group>"; };
 		D8C2A05C219D869E00886FB2 /* THNSelectProducCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSelectProducCollectionView.h; sourceTree = "<group>"; };
 		D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectProducCollectionView.m; sourceTree = "<group>"; };
+		D8C2A065219EA27400886FB2 /* UIImageView+WebImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebImage.h"; sourceTree = "<group>"; };
+		D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebImage.m"; sourceTree = "<group>"; };
 		D8D7CFAC2193DF0500948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		D8D7CFAD2193DF0600948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		D8D7CFAE2194234D00948247 /* THNFollowStoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreButton.m; sourceTree = "<group>"; };
@@ -1476,19 +1479,19 @@
 			isa = PBXGroup;
 			children = (
 				4BECEE16217F1401008E5E28 /* Base */,
+				4BECEF3B217F1401008E5E28 /* Home */,
+				4BECEEB1217F1401008E5E28 /* Featured */,
+				4BECEE90217F1401008E5E28 /* Explore */,
+				4BECEF49217F1401008E5E28 /* LivingHall */,
+				4BECEE71217F1401008E5E28 /* Discover */,
+				4BECEE61217F1401008E5E28 /* Cart */,
+				4BECEF95217F1401008E5E28 /* MyCenter */,
 				4BECEE09217F1401008E5E28 /* AllSet */,
 				4BECEE2C217F1401008E5E28 /* BrandHall */,
-				4BECEE61217F1401008E5E28 /* Cart */,
-				4BECEE71217F1401008E5E28 /* Discover */,
-				4BECEE90217F1401008E5E28 /* Explore */,
-				4BECEEB1217F1401008E5E28 /* Featured */,
 				4BECEED9217F1401008E5E28 /* Goods */,
 				D8767246218700CF00EDD442 /* Coupons */,
-				4BECEF3B217F1401008E5E28 /* Home */,
 				4BECEF45217F1401008E5E28 /* Inbox */,
-				4BECEF49217F1401008E5E28 /* LivingHall */,
 				4BECEF60217F1401008E5E28 /* Login */,
-				4BECEF95217F1401008E5E28 /* MyCenter */,
 				D8B434AF219AC711009D2434 /* Dynamic */,
 				4BECEFCE217F1401008E5E28 /* Order */,
 				4BECF02E217F1401008E5E28 /* Other */,
@@ -3086,36 +3089,38 @@
 				D85DA7B22106030100A36A71 /* NSString+Helper.m */,
 				D85DA7B82106030100A36A71 /* NSTimer+Addition.h */,
 				D85DA7C02106030100A36A71 /* NSTimer+Addition.m */,
+				D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */,
+				D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */,
 				D85DA7B42106030100A36A71 /* UIBarButtonItem+Helper.h */,
 				D85DA7C22106030100A36A71 /* UIBarButtonItem+Helper.m */,
 				4B5FF5DA210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.h */,
 				4B5FF5DB210AB9A900DAB399 /* UICollectionViewFlowLayout+THN_flowLayout.m */,
 				D85DA7B72106030100A36A71 /* UIColor+Extension.h */,
 				D85DA7C42106030100A36A71 /* UIColor+Extension.m */,
-				D85DA7C82106030100A36A71 /* UIImage+Helper.h */,
-				D85DA7BC2106030100A36A71 /* UIImage+Helper.m */,
 				D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */,
 				D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */,
+				D85DA7C82106030100A36A71 /* UIImage+Helper.h */,
+				D85DA7BC2106030100A36A71 /* UIImage+Helper.m */,
 				D85DA7BD2106030100A36A71 /* UIImageView+SDWedImage.h */,
 				D85DA7B32106030100A36A71 /* UIImageView+SDWedImage.m */,
+				D8C2A065219EA27400886FB2 /* UIImageView+WebImage.h */,
+				D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */,
 				D85DA7B62106030100A36A71 /* UILable+Frame.h */,
 				D85DA7C32106030100A36A71 /* UILable+Frame.m */,
+				D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */,
+				D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */,
+				4B720622212EB281002606EE /* UITableView+Helper.h */,
+				4B720623212EB281002606EE /* UITableView+Helper.m */,
 				D85DA7C12106030100A36A71 /* UIView+HandyAutoLayout.h */,
 				D85DA7B52106030100A36A71 /* UIView+HandyAutoLayout.m */,
 				D85DA7BA2106030100A36A71 /* UIView+Helper.h */,
 				D85DA7C62106030100A36A71 /* UIView+Helper.m */,
 				D85DA7C72106030100A36A71 /* UIView+LayoutMethods.h */,
 				D85DA7B92106030100A36A71 /* UIView+LayoutMethods.m */,
-				D82FA78321256B8000E14A22 /* YYLabel+Helper.h */,
-				D82FA78421256B8000E14A22 /* YYLabel+Helper.m */,
-				4B720622212EB281002606EE /* UITableView+Helper.h */,
-				4B720623212EB281002606EE /* UITableView+Helper.m */,
 				CD3D01D121718D120030E3B0 /* UIViewController+THNHud.h */,
 				CD3D01D221718D130030E3B0 /* UIViewController+THNHud.m */,
-				D8EDD9B22178734600916506 /* SVProgressHUD+Helper.h */,
-				D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */,
-				D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */,
-				D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */,
+				D82FA78321256B8000E14A22 /* YYLabel+Helper.h */,
+				D82FA78421256B8000E14A22 /* YYLabel+Helper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3726,6 +3731,7 @@
 				4B27B3C2218717D1004AF42F /* THNPoupalRecommendCollectionViewCell.m in Sources */,
 				4B27B3C3218717D1004AF42F /* THNGoodsDescribeViewController.m in Sources */,
 				4B27B3C4218717D1004AF42F /* THNGoodsImagesViewController.m in Sources */,
+				D8C2A067219EA27400886FB2 /* UIImageView+WebImage.m in Sources */,
 				D8DF16D7218BECC1006AAB9E /* THNCouponSharedModelProductSku.m in Sources */,
 				4B27B3C5218717D1004AF42F /* THNGoodsInfoViewController.m in Sources */,
 				4B27B3C6218717D1004AF42F /* THNGoodsListViewController.m in Sources */,

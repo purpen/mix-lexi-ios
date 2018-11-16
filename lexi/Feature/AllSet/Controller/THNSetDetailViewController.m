@@ -10,7 +10,7 @@
 #import "THNProductCollectionViewCell.h"
 #import "THNProductModel.h"
 #import "THNAPI.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIViewController+THNHud.h"
 #import "THNGoodsInfoViewController.h"
 
@@ -107,7 +107,7 @@ THNMJRefreshDelegate
    
     self.titleLabel.text = self.setTitle;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",self.products.count];
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:self.cover] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.coverImageView loadImageWithUrl:[self.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
     [headerView addSubview:self.coverImageView];
     [headerView addSubview:self.titleLabel];
     [headerView addSubview:self.productCountLabel];

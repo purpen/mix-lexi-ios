@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, THNLoadImageUrlType) {
-    THNLoadImageUrlTypeBannerFeatured = 0,  // “精选” banner
+    THNLoadImageUrlTypeDefault = 0,         // 默认（不添加后缀，显示原图）
+    THNLoadImageUrlTypeBannerFeatured,      // “精选” banner
     THNLoadImageUrlTypeBannerDiscover,      // "发现" banner
     THNLoadImageUrlTypeBannerDefault,       // 默认 banner
     THNLoadImageUrlTypeArticleList,         // 文章列表

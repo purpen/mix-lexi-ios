@@ -42,8 +42,7 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
 }
 
 - (void)thn_setGoodsStoreInfoWithModel:(THNStoreModel *)model {
-    [self.headerImageView downloadImage:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                  place:[UIImage imageNamed:@"default_header_place"]];
+    [self.headerImageView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.typeLabel.text = kTextType;
     self.titleLabel.text = model.name;
     [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeModel:model];

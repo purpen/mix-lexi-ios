@@ -11,7 +11,7 @@
 #import "THNMarco.h"
 #import <Masonry/Masonry.h>
 #import "THNMarco.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNShopWindowTableViewCell.h"
 #import <MJExtension/MJExtension.h>
@@ -23,7 +23,6 @@
 #import "THNLoginManager.h"
 #import "THNLoginViewController.h"
 #import "THNBaseNavigationController.h"
-#import "UIImageView+WebCache.h"
 #import "THNReleaseWindowViewController.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
@@ -36,6 +35,8 @@ static CGFloat const showImageViewHeight = 256;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 static NSString *const kShopWindowsRecommend = @"/shop_windows/recommend";
 static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
+///
+static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image/static/shop_window_head.jpg";
 
 @interface THNShopWindowViewController () <UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate, THNMJRefreshDelegate>
 
@@ -291,7 +292,7 @@ static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        [_showImageView sd_setImageWithURL:[NSURL URLWithString:@"https://static.moebeast.com/image/static/shop_window_head.jpg"] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        [_showImageView loadImageWithUrl:[kWindowHeadImageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
     }
     return _showImageView;
 }

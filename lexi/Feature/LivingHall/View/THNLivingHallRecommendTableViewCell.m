@@ -14,7 +14,7 @@
 #import "THNMarco.h"
 #import "THNUserPartieModel.h"
 #import "THNProductModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import <MJExtension/MJExtension.h>
 #import "THNAPI.h"
 #import "THNObtainedView.h"
@@ -145,7 +145,8 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 - (void)setProductModel:(THNProductModel *)productModel {
     _productModel = productModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.productImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
     self.productNameLabel.text = productModel.name;
     
     if (productModel.is_free_postage) {
@@ -200,7 +201,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 // 馆长信息头像
 - (void)setCurtorAvatar:(NSString *)storeAvatarUrl {
-    [self.curatorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeAvatarUrl] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.curatorAvatarImageView loadImageWithUrl:[storeAvatarUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

@@ -9,7 +9,7 @@
 #import "THNBrandHallUserInfoTableViewCell.h"
 #import "UIView+Helper.h"
 #import "THNShopWindowModel.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNBrandHallUserInfoTableViewCell()
 
@@ -34,7 +34,8 @@
 - (void)setShowWindowModel:(THNShopWindowModel *)showWindowModel {
     _showWindowModel = showWindowModel;
     self.userNameLabel.text = showWindowModel.user_name;
-    [self.avatarImageView thn_setCircleImageWithUrlString:showWindowModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
+    [self.avatarImageView loadImageWithUrl:[showWindowModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
 }
 
 @end

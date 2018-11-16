@@ -141,6 +141,7 @@ static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
     [self.view addSubview:self.windowCollectionView];
     
     [self.windowCollectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.windowCollectionView resetCurrentPageNumber];
     self.currentPage = 1;
 }
 

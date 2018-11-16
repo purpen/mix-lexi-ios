@@ -9,7 +9,7 @@
 #import "THNDynamicImagesTableViewCell.h"
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNMarco.h"
 
@@ -47,7 +47,7 @@ static NSString *const kDynamicImagesCellId = @"THNDynamicImagesTableViewCellId"
     for (NSInteger idx = 0; idx < self.imageViewArr.count; idx ++) {
         UIImageView *imageView = (UIImageView *)self.imageViewArr[idx];
         if (idx <= model.productCovers.count) {
-            [imageView downloadImage:[model.productCovers[idx] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
+            [imageView loadImageWithUrl:[model.productCovers[idx] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
         }
     }
     

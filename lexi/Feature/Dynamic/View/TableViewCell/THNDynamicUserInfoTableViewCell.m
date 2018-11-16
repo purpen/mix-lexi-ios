@@ -9,7 +9,7 @@
 #import "THNDynamicUserInfoTableViewCell.h"
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import <DateTools/DateTools.h>
 #import "THNLoginManager.h"
@@ -49,7 +49,7 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
 - (void)thn_setDynamicUserInfoWithModel:(THNDynamicModelLines *)model {
     self.dynamicRid = [NSString stringWithFormat:@"%zi", model.rid];
 
-    [self.headImageView downloadImage:[model.userAvatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]];
+    [self.headImageView loadImageWithUrl:[model.userAvatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]];
     self.nameLabel.text = model.userName;
     
     NSString *timeAt = [NSString stringWithFormat:@"%zi", model.createdAt];

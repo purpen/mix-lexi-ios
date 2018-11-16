@@ -8,7 +8,7 @@
 
 #import "THNBrandHallHeaderView.h"
 #import "UIView+Helper.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNOffcialStoreModel.h"
 #import "UIColor+Extension.h"
 #import "THNFollowStoreButton+SelfManager.h"
@@ -42,7 +42,8 @@
 
 - (void)setOffcialStoreModel:(THNOffcialStoreModel *)offcialStoreModel {
     _offcialStoreModel = offcialStoreModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:offcialStoreModel.logo] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.productImageView loadImageWithUrl:[offcialStoreModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.productLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.product_count];
     self.articleLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.life_record_count];
     self.fanLabel.text = [NSString stringWithFormat:@"%ld",offcialStoreModel.fans_count];

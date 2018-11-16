@@ -13,7 +13,7 @@
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "YYLabel+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNMyCenterDataButton.h"
 #import "THNMarco.h"
 #import "THNFollowUserButton.h"
@@ -84,8 +84,8 @@ static NSInteger const kSelectedButtonTag = 452;
 
 - (void)thn_setUserInfoModel:(THNUserModel *)model {
     self.nameLabel.text = model.username;
-    [self.headerImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                  place:[UIImage imageNamed:@"default_user_place"]];
+//    [self.headerImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
+    [self.headerImageView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     
     [self thn_setFollowLabelTextWithValue:model.followed_users_counts];
     [self thn_setFansLabelTextWithValue:model.fans_counts];

@@ -9,7 +9,7 @@
 #import "THNSettingHeaderView.h"
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 static NSString *const kTextHint = @"查看并编辑个人资料";
 
@@ -33,8 +33,7 @@ static NSString *const kTextHint = @"查看并编辑个人资料";
 
 - (void)thn_setNickname:(NSString *)name headImageUrl:(NSString *)imageUrl {
     self.nameLabel.text = name;
-    [self.headImageView downloadImage:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                place:[UIImage imageNamed:@"default_user_place"]];
+    [self.headImageView loadImageWithUrl:[imageUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
 }
 
 #pragma mark - setup UI

@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNConst.h"
 
 @interface THNGoodsBaseTableViewCell : UITableViewCell

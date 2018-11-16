@@ -9,7 +9,7 @@
 #import "THNExploreTableViewCell.h"
 #import "THNBannnerCollectionViewCell.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNSetModel.h"
 #import "THNProductModel.h"

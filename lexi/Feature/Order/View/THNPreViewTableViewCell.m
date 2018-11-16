@@ -8,7 +8,7 @@
 
 #import "THNPreViewTableViewCell.h"
 #import "THNSkuModelItem.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import <MJExtension/MJExtension.h>
 #import "THNOrderDetailTableViewCell.h"
 #import "THNCouponModel.h"

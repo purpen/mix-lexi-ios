@@ -7,7 +7,7 @@
 //
 
 #import "THNFiveImagesStitchView.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNFiveImagesStitchView()
 
@@ -32,7 +32,7 @@
 - (void)setFiveImageStitchingView:(NSArray *)images {
     [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIImageView *imageView = self.imageViews[idx];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        [imageView loadImageWithUrl:[obj loadImageUrlWithType:(THNLoadImageUrlTypeWindowP500)]];
         imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
     }];
 }

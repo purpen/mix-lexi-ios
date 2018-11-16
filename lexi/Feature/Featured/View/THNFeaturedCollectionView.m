@@ -8,7 +8,7 @@
 
 #import "THNFeaturedCollectionView.h"
 #import "THNBannnerCollectionViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNBannerModel.h"
 #import <MJExtension/MJExtension.h>

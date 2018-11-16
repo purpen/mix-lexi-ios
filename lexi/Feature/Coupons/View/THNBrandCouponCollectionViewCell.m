@@ -9,7 +9,7 @@
 #import "THNBrandCouponCollectionViewCell.h"
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIColor+Extension.h"
 #import "THNBrandHallViewController.h"
 
@@ -41,11 +41,8 @@
 - (void)thn_setBrandCouponModel:(THNCouponSharedModel *)model {
     self.couponModel = model;
     
-    [self.storeImageView downloadImage:[model.storeBgcover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
-                                 place:[UIImage imageNamed:@"default_image_place"]];
-    
-    [self.storeLogoImageView downloadImage:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                     place:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeImageView loadImageWithUrl:[model.storeBgcover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
+    [self.storeLogoImageView loadImageWithUrl:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount];

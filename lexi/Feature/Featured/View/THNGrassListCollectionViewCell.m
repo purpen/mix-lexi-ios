@@ -8,7 +8,7 @@
 
 #import "THNGrassListCollectionViewCell.h"
 #import "THNGrassListModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNGrassListModel.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
@@ -60,8 +60,8 @@
     }
     
     self.nameLabel.text = grassListModel.user_name;
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.user_avator]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
+    [self.productImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
 }
 
 

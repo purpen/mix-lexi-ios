@@ -9,7 +9,7 @@
 #import "THNBrandHallInfoTableViewCell.h"
 #import "UIView+Helper.h"
 #import "THNStoreModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "NSString+Helper.h"
 
 @interface THNBrandHallInfoTableViewCell()
@@ -33,12 +33,13 @@
 
 - (void)setStoreModel:(THNStoreModel *)storeModel {
     _storeModel = storeModel;
+    
     self.storeNameLabel.text = storeModel.name;
     self.cityLabel.text = storeModel.city;
     self.countryLabel.text = [NSString stringWithFormat:@"%@ .",storeModel.country];
     self.storeDesLabel.text = storeModel.tagLine;
     self.openStoreDateLabel.text = [NSString timeConversion:[NSString stringWithFormat:@"%ld",storeModel.createdAt ]initWithFormatterType:FormatterDay];
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.logo]];
+    [self.storeImageView loadImageWithUrl:[storeModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
 }
 
 @end
