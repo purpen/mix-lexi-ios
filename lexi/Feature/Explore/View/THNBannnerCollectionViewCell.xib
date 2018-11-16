@@ -73,10 +73,6 @@
                             <constraint firstItem="7L1-sD-1Tj" firstAttribute="leading" secondItem="Imn-qQ-5LP" secondAttribute="leading" id="zfh-pm-aRk"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hI-ia-Eox">
-                        <rect key="frame" x="107" y="64" width="30" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </button>
                 </subviews>
             </view>
             <constraints>
@@ -94,7 +90,6 @@
             <connections>
                 <outlet property="backGroundView" destination="7L1-sD-1Tj" id="7bJ-kd-Ak2"/>
                 <outlet property="cellImageView" destination="bGo-oP-4rg" id="kVm-Qf-z10"/>
-                <outlet property="selectButton" destination="8hI-ia-Eox" id="W9V-6l-GfS"/>
                 <outlet property="setLabelsView" destination="7LB-Jd-XEq" id="gcg-RO-IOu"/>
                 <outlet property="subTitleLabel" destination="Imn-qQ-5LP" id="2V1-hE-uY4"/>
                 <outlet property="titleLabel" destination="4IB-SX-ziq" id="ckJ-s3-yA5"/>

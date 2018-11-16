@@ -19,4 +19,5 @@ typedef void(^DeletePhotoBlock)(NSInteger tag);
 @property (nonatomic, copy) PhotoBlock photoBlock;
 @property (nonatomic, copy) DeletePhotoBlock deletePhotoBlock;
 
+
 @end

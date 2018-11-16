@@ -7,6 +7,7 @@
 //
 
 #import "THNPhotoCollectionViewCell.h"
+#import "UIColor+Extension.h"
 
 @interface THNPhotoCollectionViewCell()
 
@@ -16,7 +17,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self.photoButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+    self.layer.borderColor = [UIColor colorWithHexString:@"#999999"].CGColor;
+    self.layer.borderWidth = 0.5;
 }
 
 - (IBAction)addPhoto:(id)sender {

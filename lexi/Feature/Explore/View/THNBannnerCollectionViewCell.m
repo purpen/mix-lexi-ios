@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *backGroundView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *selectButton;
 
 @end
 
@@ -65,6 +66,7 @@
     
     [self.cellImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
 }
+
 
 - (void)setProductModel:(NSString *)cover withNeedRadian:(BOOL)isNeedRadian {
     self.layer.cornerRadius = isNeedRadian ? 4 : 0;

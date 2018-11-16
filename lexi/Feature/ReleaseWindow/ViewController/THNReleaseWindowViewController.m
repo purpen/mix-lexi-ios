@@ -19,6 +19,7 @@
 #import "WBStatusHelper.h"
 #import "WBEmoticonInputView.h"
 #import "THNSelectWindowProductViewController.h"
+#import "THNAddShowWindowViewController.h"
 
 @interface THNReleaseWindowViewController () <
 YYTextViewDelegate,
@@ -43,6 +44,11 @@ UITextFieldDelegate
 @property (nonatomic, strong) THNSevenImagesStitchView *sevenImagesStitchingView;
 @property (nonatomic, strong) THNToolBarView *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+// 点击选择添加照片的位置
+@property (nonatomic, assign) NSInteger selectIndex;
+// 点击输入框类型
+@property (nonatomic, assign) BOOL isClickTextField;
+
 @end
 
 @implementation THNReleaseWindowViewController
@@ -88,6 +94,7 @@ UITextFieldDelegate
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
     WEAKSELF;
     self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
+        weakSelf.selectIndex = index;
         [weakSelf pushSelectWindowProductVC];
     };
     
@@ -106,14 +113,44 @@ UITextFieldDelegate
 - (void)layoutInputView {
     WBEmoticonInputView *inputView = [WBEmoticonInputView sharedView];
     inputView.delegate = self;
-    _textView.inputView = inputView;
-    [_textView reloadInputViews];
-    [_textView becomeFirstResponder];
+    if (self.isClickTextField) {
+        self.titleTextField.inputView = inputView;
+        [self layoutTextField];
+    } else {
+        _textView.inputView = inputView;
+        [self layoutTextView];
+    }
+}
+
+- (void)layoutTextView {
+    [self.textView reloadInputViews];
+    [self.textView becomeFirstResponder];
+}
+
+- (void)layoutTextField {
+    [self.titleTextField reloadInputViews];
+    [self.titleTextField becomeFirstResponder];
 }
 
 - (void)pushSelectWindowProductVC {
     WEAKSELF;
     THNSelectWindowProductViewController *selectProductVC = [[THNSelectWindowProductViewController alloc]init];
+    
+    selectProductVC.selectWindowBlock = ^(NSString *cover) {
+        switch (self.imageType) {
+            case ShopWindowImageTypeThree:
+                [weakSelf.threeImageStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
+                break;
+            case ShopWindowImageTypeFive:
+                [weakSelf.fiveImagesStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
+                break;
+            case ShopWindowImageTypeSeven:
+                [weakSelf.sevenImagesStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
+                break;
+        }
+        
+    };
+    
     [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
 }
 
@@ -143,6 +180,7 @@ UITextFieldDelegate
             self.fiveImagesStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
             self.fiveImagesStitchingView.fiveImageBlock = ^(NSInteger index) {
+                weakSelf.selectIndex = index;
                 [weakSelf pushSelectWindowProductVC];
             };
             
@@ -157,7 +195,7 @@ UITextFieldDelegate
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
             
             self.sevenImagesStitchingView.sevenImageBlock = ^(NSInteger index) {
-                
+                weakSelf.selectIndex = index;
                 [weakSelf pushSelectWindowProductVC];
             };
             
@@ -170,20 +208,21 @@ UITextFieldDelegate
 }
 
 - (IBAction)addTag:(id)sender {
-
+    THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
+    [self.navigationController pushViewController:addShowWindowVC animated:YES];
 }
 
 #pragma mark - YYTextViewDelegate
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
+    self.isClickTextField = NO;
     self.toolbar.hidden = NO;
-    [self.textView reloadInputViews];
-    [self.textView becomeFirstResponder];
+    [self layoutTextView];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.isClickTextField = YES;
     self.toolbar.hidden = NO;
-    [textField reloadInputViews];
-    [textField becomeFirstResponder];
+    [self layoutTextField];
 }
 
 // 动态改变TextView的高度
@@ -217,10 +256,22 @@ UITextFieldDelegate
 
 #pragma mark - THNToolBarViewDelegate
 - (void)changeKeyboardType:(UIButton *)button {
-    if (self.textView.inputView) {
-        self.textView.inputView = nil;
-        [self.textView reloadInputViews];
-        [self.textView becomeFirstResponder];
+    BOOL isRemoveEmoticonInputView;
+    if (self.isClickTextField) {
+        isRemoveEmoticonInputView = self.titleTextField.inputView;
+    } else {
+        isRemoveEmoticonInputView = self.textView.inputView;
+    }
+    
+    if (isRemoveEmoticonInputView) {
+        if (self.isClickTextField) {
+            self.titleTextField.inputView = nil;
+            [self layoutTextField];
+            
+        } else {
+            self.textView.inputView = nil;
+            [self layoutTextView];
+        }
         
         [button setImage:[WBStatusHelper imageNamed:@"compose_emoticonbutton_background"] forState:UIControlStateNormal];
         [button setImage:[WBStatusHelper imageNamed:@"compose_emoticonbutton_background_highlighted"] forState:UIControlStateHighlighted];
@@ -238,12 +289,21 @@ UITextFieldDelegate
 #pragma mark @protocol WBStatusComposeEmoticonView
 - (void)emoticonInputDidTapText:(NSString *)text {
     if (text.length) {
-        [self.textView replaceRange:self.textView.selectedTextRange withText:text];
+        if (self.isClickTextField) {
+            [self.titleTextField replaceRange:self.titleTextField.selectedTextRange withText:text];
+        } else {
+            [self.textView replaceRange:self.textView.selectedTextRange withText:text];
+        }
+        
     }
 }
 
 - (void)emoticonInputDidTapBackspace {
-    [self.textView deleteBackward];
+    if (self.isClickTextField) {
+        [self.titleTextField deleteBackward];
+    } else {
+        [self.textView deleteBackward];
+    }
 }
 
 #pragma mark - lazy

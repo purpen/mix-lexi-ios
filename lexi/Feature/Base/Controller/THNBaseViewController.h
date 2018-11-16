@@ -22,6 +22,7 @@
 #import <Masonry/Masonry.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "UIScrollView+THNMJRefresh.h"
+#import "UIViewController+THNHud.h"
 
 @interface THNBaseViewController : UIViewController
 

@@ -14,8 +14,8 @@ typedef void(^ThreeImageBlock)(NSInteger index);
 
 - (void)setThreeImageStitchingView:(NSArray *)images;
 @property (nonatomic, copy) ThreeImageBlock threeImageBlock;
-
 @property (nonatomic, assign) BOOL isHaveUserInteractionEnabled;
 @property (nonatomic, assign) BOOL isContentModeCenter;
+- (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index;
 
 @end

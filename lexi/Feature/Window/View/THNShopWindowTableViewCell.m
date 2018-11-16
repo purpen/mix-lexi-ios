@@ -240,7 +240,9 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 }
 
 - (IBAction)content:(id)sender {
-    self.contentBlock();
+    if (self.contentBlock) {
+        self.contentBlock();
+    }
 }
 
 - (IBAction)like:(UIButton *)sender {
@@ -248,6 +250,12 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
         [self deleteUserLikes];
     } else {
         [self addUserLikes];
+    }
+}
+
+- (IBAction)share:(id)sender {
+    if (self.shareBlock) {
+        self.shareBlock(self.shopWindowModel.rid);
     }
 }
 

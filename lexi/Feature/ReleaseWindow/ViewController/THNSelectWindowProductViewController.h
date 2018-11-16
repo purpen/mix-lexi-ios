@@ -8,6 +8,10 @@
 
 #import "THNBaseViewController.h"
 
+typedef void(^SelectWindowBlcok)(NSString *cover);
+
 @interface THNSelectWindowProductViewController : THNBaseViewController
+
+@property (nonatomic, copy) SelectWindowBlcok selectWindowBlock;
 
 @end
