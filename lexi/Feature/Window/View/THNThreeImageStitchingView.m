@@ -46,10 +46,16 @@
     
     if (images.count > 3) {
         self.moreImageCountLabel.hidden = NO;
-        self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%d",images.count - 3];
+        self.moreImageCountLabel.text = [NSString stringWithFormat:@"+%lu",images.count - 3];
     } else {
         self.moreImageCountLabel.hidden = YES;
     }
+}
+
+- (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index {
+    UIImageView *imageView = self.imageViews[index];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:url]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
 - (void)clickEvent:(id)sender {

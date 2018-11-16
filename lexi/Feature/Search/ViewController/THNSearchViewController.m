@@ -50,7 +50,6 @@ static NSString *const KSearchHotRecommendTitle = @"热门推荐";
 static NSString *const kSearchHotSearchTitle = @"热门搜索";
 
 static NSString *const kSearchHeaderViewIdentifier = @"kSearchHeaderViewIdentifier";
-static NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
 static NSString *const kSearchHotRecommendCellIdentifier = @"kSearc hHotRecommendCellIdentifier";
 static NSString *const kSearchHotSearchCellIdentifier = @"kSearchHotSearchCellIdentifier";
 static NSString *const KSearchDefaultCellIdentifier = @"KSearchDefaultCellIdentifier";
@@ -108,6 +107,7 @@ UICollectionViewDelegateFlowLayout
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        // 读取历史记录
         [self.searchView readHistorySearch];
         self.recentlyViewedProducts = result.data[@"products"];
         if (self.recentlyViewedProducts.count > 0) {
@@ -190,7 +190,7 @@ UICollectionViewDelegateFlowLayout
     [self.sectionTitles removeObjectAtIndex:0];
     [self.searchView.historySearchArr removeAllObjects];
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
+    NSString *filePath = [Path stringByAppendingPathComponent:shopWindowTypePathComponent];
     [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     [self.collectionView reloadData];
 }
@@ -257,7 +257,6 @@ UICollectionViewDelegateFlowLayout
     } else if ([sectionTitle isEqualToString:KSearchHotRecommendTitle]) {
         // 接单订制
         if (indexPath.row == 0) {
-            // FYNN 实现 目前假的跳转
             THNGoodsListViewController *goodListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单订制"];
             [self.navigationController pushViewController:goodListVC animated:YES];
         } else {
@@ -403,6 +402,7 @@ UICollectionViewDelegateFlowLayout
 - (THNSearchView *)searchView {
     if (!_searchView) {
         _searchView = [[THNSearchView alloc]initWithFrame:CGRectMake(20, STATUS_BAR_HEIGHT + 7, SCREEN_WIDTH, 30)];
+        _searchView.historyWordSourceType = HistoryWordSourceTypeMain;
         _searchView.delegate = self;
     }
     return _searchView;

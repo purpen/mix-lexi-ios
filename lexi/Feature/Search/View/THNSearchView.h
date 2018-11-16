@@ -20,6 +20,21 @@ typedef NS_ENUM(NSUInteger, SearchViewType) {
     SearchViewTypeNoCancel
 };
 
+
+/**
+ 搜索关键词来源类型
+
+ - HistoryWordTypeMain: 首页
+ - HistoryWordTypeShopWindowLabel: 橱窗标签
+ */
+typedef NS_ENUM(NSUInteger, HistoryWordSourceType) {
+    HistoryWordSourceTypeMain,
+    HistoryWordSourceTypeShopWindowLabel
+};
+
+UIKIT_EXTERN NSString *const mainTypePathComponent;
+UIKIT_EXTERN NSString *const shopWindowTypePathComponent;
+
 @protocol THNSearchViewDelegate<NSObject>
 
 @optional
@@ -53,5 +68,6 @@ typedef NS_ENUM(NSUInteger, SearchViewType) {
 //一个用来归档，一个用来显示
 @property (strong,nonatomic) NSMutableArray *historySearchArr;
 @property (strong,nonatomic) NSMutableArray *historyShowSearchArr;
+@property (nonatomic, assign) HistoryWordSourceType historyWordSourceType;
 
 @end

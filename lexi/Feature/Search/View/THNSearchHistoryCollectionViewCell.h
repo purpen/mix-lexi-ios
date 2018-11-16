@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+UIKIT_EXTERN NSString *const kSearchHistoryCellIdentifier;
+
 @interface THNSearchHistoryCollectionViewCell : UICollectionViewCell
 
 // 历史记录

@@ -11,6 +11,8 @@
 #import "UIView+Helper.h"
 #import "THNMarco.h"
 
+NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
+
 @interface THNSearchHistoryCollectionViewCell()
 
 @property (nonatomic, strong) UILabel *titleLabel;

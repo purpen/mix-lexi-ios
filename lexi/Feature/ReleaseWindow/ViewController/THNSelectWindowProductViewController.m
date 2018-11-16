@@ -53,6 +53,7 @@ THNMJRefreshDelegate
 // 之前选择的Cell
 @property (nonatomic, strong) NSIndexPath *selectIndex;
 @property (nonatomic, strong) UIButton *sureButton;
+@property (nonatomic, strong) NSString *selectCover;
 
 @end
 
@@ -160,6 +161,10 @@ THNMJRefreshDelegate
 }
 
 - (void)selectPhotoFinish {
+    if (self.selectWindowBlock) {
+        self.selectWindowBlock(self.selectCover);
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -185,6 +190,7 @@ THNMJRefreshDelegate
     self.sureButton.backgroundColor = [UIColor colorWithHexString:@"#5FE4B1"];
     self.sureButton.enabled = YES;
     [self.sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.selectCover = self.productCovers[indexPath.row][@"view_url"];
 }
 
 #pragma mark - THNMJRefreshDelegate

@@ -15,6 +15,9 @@
 #import "THNMarco.h"
 #import "SVProgressHUD+Helper.h"
 
+NSString *const mainTypePathComponent = @"historySearch.data";
+NSString *const shopWindowTypePathComponent = @"showWindowHistorySearch.data";
+
 @interface THNSearchView() <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *cancelBtn;
@@ -68,7 +71,6 @@
     }
 }
 
-
 // 搜索取消,刷新首页
 - (void)backHomeController {
     [self.searchTextField resignFirstResponder];
@@ -98,18 +100,32 @@
 
 //归档方法
 - (void)saveHistorySearch {
+    NSString *pathComponent;
+    if (self.historyWordSourceType == HistoryWordSourceTypeMain) {
+        pathComponent = mainTypePathComponent;
+    } else {
+        pathComponent = shopWindowTypePathComponent;
+    }
+    
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     //注：保存文件的扩展名可以任意取，不影响。
-    NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
+    NSString *filePath = [Path stringByAppendingPathComponent:pathComponent];
     //归档
     [NSKeyedArchiver archiveRootObject:self.historySearchArr toFile:filePath];
 }
 
 //历史搜索解档
 - (void)readHistorySearch {
+    NSString *pathComponent;
+    if (self.historyWordSourceType == HistoryWordSourceTypeMain) {
+        pathComponent = mainTypePathComponent;
+    } else {
+        pathComponent = shopWindowTypePathComponent;
+    }
+    
     NSMutableArray *filterMutableAtt = [NSMutableArray array];
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *filePath = [Path stringByAppendingPathComponent:@"historySearch.data"];
+    NSString *filePath = [Path stringByAppendingPathComponent:pathComponent];
     //解档
     NSMutableArray *personArr = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     self.historySearchArr = [NSMutableArray arrayWithArray:personArr];
@@ -141,6 +157,7 @@
         return NO;
     }
     
+    // 去掉空格
     [self addHistoryModelWithText:[textField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
     
     [THNSaveTool setObject:textField.text forKey:kSearchKeyword];
