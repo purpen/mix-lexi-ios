@@ -13,7 +13,7 @@
 #import "THNSelectPruductCoverCollectionViewCell.h"
 #import "UIViewController+THNHud.h"
 #import "SVProgressHUD+Helper.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 
 typedef NS_ENUM(NSUInteger, SelectProductType) {
     SelectProductLike,
@@ -56,6 +56,7 @@ THNMJRefreshDelegate
 @property (nonatomic, strong) NSString *selectCover;
 @property (nonatomic, assign) NSInteger coverID;
 @property (nonatomic, strong) NSString *productRid;
+@property (nonatomic, strong) NSString *storeRid;
 
 @end
 
@@ -75,8 +76,9 @@ THNMJRefreshDelegate
     [self.scrollView addSubview:self.selectButtonView];
     
     WEAKSELF;
-    self.productCollectionView.selectProductBlcok = ^(NSString *rid) {
+    self.productCollectionView.selectProductBlcok = ^(NSString *rid, NSString *storeRid) {
         [weakSelf loadProductCover:rid];
+        weakSelf.storeRid = storeRid;
     };
     
     [self.scrollView addSubview:self.productCollectionView];
@@ -165,7 +167,26 @@ THNMJRefreshDelegate
 
 - (void)selectPhotoFinish {
     if (self.selectWindowBlock) {
-        self.selectWindowBlock(self.selectCover, self.coverID, self.productRid);
+        int i = 0;
+        for (NSString *storeRid in self.storeRids) {
+            if ([self.storeRid isEqualToString:storeRid]) {
+                i++;
+            }
+        }
+
+        if (i == 2) {
+            [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
+            [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+            [SVProgressHUD setFont:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+            [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"一个橱窗最多可添加同一个设计馆2件商品"];
+            [SVProgressHUD dismissWithDelay:2.0 completion:^{
+                [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
+            }];
+
+            return;
+        }
+
+        self.selectWindowBlock(self.selectCover, self.coverID, self.productRid, self.storeRid);
     }
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -179,7 +200,8 @@ THNMJRefreshDelegate
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectPruductCoverCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCoverCellIdentifier forIndexPath:indexPath];
     cell.selectButton.selected = NO;
-    [cell.photoImageView sd_setImageWithURL:[NSURL URLWithString:self.productCovers[indexPath.row][@"view_url"]]];
+    NSString *imageCell = self.productCovers[indexPath.row][@"view_url"];
+    [cell.photoImageView loadImageWithUrl:[imageCell loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
     return cell;
 }
 
@@ -326,5 +348,6 @@ THNMJRefreshDelegate
     }
     return _recentlyViewedProducts;
 }
+
 
 @end

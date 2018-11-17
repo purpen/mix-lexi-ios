@@ -52,7 +52,7 @@ static NSString *const kLikeProductCellIdentifier = @"kLikeProductCellIdentifier
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.products[indexPath.row]];
     if (self.selectProductBlcok) {
-        self.selectProductBlcok(productModel.rid);
+        self.selectProductBlcok(productModel.rid, productModel.store_rid);
     }
 }
 

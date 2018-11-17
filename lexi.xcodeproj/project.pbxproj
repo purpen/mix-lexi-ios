@@ -473,6 +473,7 @@
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */; };
 		D8AA52A021A00AA2003F2111 /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529F21A00AA2003F2111 /* THNSelectWindowProductViewController.m */; };
+		D8AA52A821A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8AA52A721A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
 		D8B434AE219AC66D009D2434 /* THNCouponDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B434AC219AC66D009D2434 /* THNCouponDataModel.m */; };
 		D8B434C6219AC711009D2434 /* THNDynamicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B434B1219AC711009D2434 /* THNDynamicViewController.m */; };
@@ -1296,7 +1297,6 @@
 		D82FA78321256B8000E14A22 /* YYLabel+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YYLabel+Helper.h"; sourceTree = "<group>"; };
 		D82FA78421256B8000E14A22 /* YYLabel+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYLabel+Helper.m"; sourceTree = "<group>"; };
 		D8409306219ECD6900EF1F70 /* THNSelectWindowProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectWindowProductViewController.m; sourceTree = "<group>"; };
-		D8409308219ECD7200EF1F70 /* THNSelectPruductCoverCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNSelectPruductCoverCollectionViewCell.xib; sourceTree = "<group>"; };
 		D8409309219ECD7200EF1F70 /* THNSelectPruductCoverCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSelectPruductCoverCollectionViewCell.h; sourceTree = "<group>"; };
 		D840930A219ECD7200EF1F70 /* THNShopWindowHotLabelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShopWindowHotLabelTableViewCell.h; sourceTree = "<group>"; };
 		D840930B219ECD7200EF1F70 /* THNShopWindowHotLabelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShopWindowHotLabelTableViewCell.m; sourceTree = "<group>"; };
@@ -1362,6 +1362,7 @@
 		D8AA529B21A00679003F2111 /* THNShopWindowResultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNShopWindowResultHeaderView.xib; sourceTree = "<group>"; };
 		D8AA529E21A00AA2003F2111 /* THNSelectWindowProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSelectWindowProductViewController.h; sourceTree = "<group>"; };
 		D8AA529F21A00AA2003F2111 /* THNSelectWindowProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectWindowProductViewController.m; sourceTree = "<group>"; };
+		D8AA52A721A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNSelectPruductCoverCollectionViewCell.xib; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
 		D8B434AC219AC66D009D2434 /* THNCouponDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponDataModel.m; sourceTree = "<group>"; };
 		D8B434AD219AC66D009D2434 /* THNCouponDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponDataModel.h; sourceTree = "<group>"; };
@@ -3388,7 +3389,7 @@
 				D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */,
 				D8409309219ECD7200EF1F70 /* THNSelectPruductCoverCollectionViewCell.h */,
 				D840930C219ECD7300EF1F70 /* THNSelectPruductCoverCollectionViewCell.m */,
-				D8409308219ECD7200EF1F70 /* THNSelectPruductCoverCollectionViewCell.xib */,
+				D8AA52A721A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib */,
 				D840930A219ECD7200EF1F70 /* THNShopWindowHotLabelTableViewCell.h */,
 				D840930B219ECD7200EF1F70 /* THNShopWindowHotLabelTableViewCell.m */,
 				D840930D219ECD7300EF1F70 /* THNShopWindowHotLabelTableViewCell.xib */,
@@ -3607,6 +3608,7 @@
 				4BECF173217F1401008E5E28 /* THNCouponTableViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				4BECF184217F1401008E5E28 /* THNArticleStoreTableViewCell.xib in Resources */,
+				D8AA52A821A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				4BECF16D217F1401008E5E28 /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF169217F1401008E5E28 /* THNBrandHallFeaturesTableViewCell.xib in Resources */,

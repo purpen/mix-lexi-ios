@@ -8,13 +8,15 @@
 
 #import "THNSelectPruductCoverCollectionViewCell.h"
 #import "UIView+Helper.h"
+#import "UIColor+Extension.h"
 
 @implementation THNSelectPruductCoverCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.photoImageView.layer.masksToBounds = YES;
-    [self drwaShadow];
+    self.photoImageView.layer.borderColor = [[UIColor colorWithHexString:@"e9e9e9"] CGColor];
+    self.photoImageView.layer.borderWidth = 0.5;
 }
 
 

@@ -86,6 +86,14 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)pushLoginVC {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController animated:YES completion:nil];
+    });
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.stitchingButton.hidden = NO;
@@ -153,6 +161,10 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 }
 
 - (void)pushReleaseWindowVC {
+    if (![THNLoginManager isLogin]) {
+        [self pushLoginVC];
+        return;
+    }
     THNReleaseWindowViewController *releaseWindowVC = [[THNReleaseWindowViewController alloc]init];
     [self.navigationController pushViewController:releaseWindowVC animated:YES];
 }
@@ -241,11 +253,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         self.showWindowType = ShowWindowTypeFollow;
         if (![THNLoginManager isLogin]) {
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
-                THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
-                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController animated:YES completion:nil];
-            });
+            [self pushLoginVC];
             self.showWindows = self.showWindowFollows;
             [self.tableView reloadData];
             return;

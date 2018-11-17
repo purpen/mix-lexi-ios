@@ -30,10 +30,8 @@ static NSString *const kUrlAddShopWindowKeyWords = @"/shop_windows/keywords";
             return;
         }
 
-        [SVProgressHUD thn_showInfoWithStatus:@"添加成功"];
-        [SVProgressHUD dismissWithDelay:2.0 completion:^{
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"addLabelSuccess" object:nil userInfo:@{@"name":self.name}];
-        }];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"addLabelSuccess" object:nil userInfo:@{@"name":self.name}];
+
     } failure:^(THNRequest *request, NSError *error) {
 
     }];

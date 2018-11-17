@@ -55,7 +55,17 @@
 - (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index {
     UIImageView *imageView = self.imageViews[index];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [imageView loadImageWithUrl:url];
+}
+
+- (void)setThreeImages:(NSArray *)coverWithSelectIndexs {
+    for (NSDictionary *dict in coverWithSelectIndexs) {
+        NSInteger selectIndex = [dict[@"selectIndex"] integerValue];
+        if (selectIndex > 2) {
+            return;
+        }
+        [self setCLickImageView:dict[@"cover"] withSelectIndex:selectIndex];
+    }
 }
 
 - (void)clickEvent:(id)sender {

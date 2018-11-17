@@ -16,5 +16,6 @@ typedef void(^SevenImageBlock)(NSInteger index);
 @property (nonatomic, copy) SevenImageBlock sevenImageBlock;
 @property (nonatomic, assign) BOOL isContentModeCenter;
 - (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index;
+- (void)setSevenImages:(NSArray *)coverWithSelectIndexs;
 
 @end
