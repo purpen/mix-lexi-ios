@@ -80,7 +80,7 @@ THNNavigationBarViewDelegate
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         [weakSelf releaseWindow];
     }];
-    
+
     [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_green"];
     [self.addTagButton drawCornerWithType:0 radius:13];
     self.scrollViewBottomConstraint.constant = kDeviceiPhoneX ? 34 : 0;
@@ -133,14 +133,14 @@ THNNavigationBarViewDelegate
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
+
         [SVProgressHUD thn_showInfoWithStatus:@"发布成功"];
         [SVProgressHUD dismissWithDelay:2.0 completion:^{
             [self.navigationController popViewControllerAnimated:YES];
         }];
         
     } failure:^(THNRequest *request, NSError *error) {
-        
+
     }];
 }
 
@@ -186,12 +186,11 @@ THNNavigationBarViewDelegate
                 [weakSelf.sevenImagesStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
                 break;
         }
-        
+
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"rid"] = productRid;
         params[@"cover_id"] = @(coverID);
         [self.productItems addObject:params];
-        
     };
     
     [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
@@ -252,13 +251,12 @@ THNNavigationBarViewDelegate
 
 - (IBAction)addTag:(id)sender {
     THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
-    
     addShowWindowVC.addShowWindowBlock = ^(NSString *name) {
         [self.keywords addObject:name];
         [self createLabelWithArray:self.keywords FontSize:12 SpcX:5 SpcY:20];
-        //        self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
+//        self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
     };
-    
+
     [self.navigationController pushViewController:addShowWindowVC animated:YES];
 }
 
@@ -275,13 +273,11 @@ THNNavigationBarViewDelegate
     //创建标签位置变量
     CGFloat positionX = spcX;
     CGFloat positionY = spcY;
-    
     //创建label
     for(int i = 0; i < titleArr.count; i++)
     {
         CGSize labelSize = [self getSizeByString:titleArr[i] AndFontSize:fontSize];
         CGFloat labelWidth = labelSize.width + 45;
-        
         if (i == 0) {
             positionX = 0;
             positionY = 0;
@@ -291,7 +287,6 @@ THNNavigationBarViewDelegate
                 positionY += 35;
             }
         }
-        
         UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(positionX, positionY, labelWidth, 24)];
         backgroundView.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         backgroundView.layer.cornerRadius = backgroundView.viewHeight / 2;
@@ -311,8 +306,8 @@ THNNavigationBarViewDelegate
         self.backgroundView = backgroundView;
         [self.keywordView addSubview:backgroundView];
     }
-    
-    self.keywordViewHeightConstraint.constant =  titleArr.count > 0 ? CGRectGetMaxY(self.backgroundView.frame) : 0;
+
+     self.keywordViewHeightConstraint.constant =  titleArr.count > 0 ? CGRectGetMaxY(self.backgroundView.frame) : 0;
 }
 
 //获取字符串长度的方法

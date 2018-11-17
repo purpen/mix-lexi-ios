@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -16,6 +16,7 @@
                 <outlet property="addTagButton" destination="FAA-aY-b17" id="gJX-RM-GSB"/>
                 <outlet property="imageViewStitchViewHeightConstraint" destination="ZZp-xl-KgY" id="3hb-mD-pWb"/>
                 <outlet property="keywordView" destination="IU8-qT-ECx" id="R1D-vu-TZx"/>
+                <outlet property="keywordViewHeightConstraint" destination="FPq-b1-I7O" id="WPV-6R-TKV"/>
                 <outlet property="postContenViewHeightConstraint" destination="w2p-c2-bKb" id="Jkd-Ef-ec6"/>
                 <outlet property="postContentView" destination="8mj-xS-CCZ" id="9xK-0y-UXn"/>
                 <outlet property="scrollViewBottomConstraint" destination="2PH-44-uND" id="3rD-Wg-A6Y"/>

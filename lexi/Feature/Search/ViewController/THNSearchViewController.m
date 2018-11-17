@@ -195,6 +195,7 @@ UICollectionViewDelegateFlowLayout
     [self.collectionView reloadData];
 }
 
+
 #pragma mark - UICollectionViewDelegate && UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 

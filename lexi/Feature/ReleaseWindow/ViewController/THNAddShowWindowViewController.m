@@ -73,7 +73,7 @@ UICollectionViewDelegateFlowLayout
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
+
         self.hotKeyWords = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
         
         if (self.hotKeyWords.count > 0) {
@@ -105,22 +105,22 @@ UICollectionViewDelegateFlowLayout
         [self removeSearchIndexView];
         return;
     }
-    
+
     [SVProgressHUD thn_show];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"qk"] = mutableStr;
-    
+
     THNRequest *request = [THNAPI getWithUrlString:kShopWindowsSearchKeywords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
-        
+
         self.searchIndexVC.searchIndexs = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
         self.searchIndexVC.textFieldText = mutableStr;
         [self.view addSubview:self.searchIndexVC.view];
         [self.searchIndexVC didMoveToParentViewController:self];
         [self.searchIndexVC.tableView reloadData];
         [self addChildViewController:self.searchIndexVC];
-        
+
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
     }];
@@ -130,7 +130,7 @@ UICollectionViewDelegateFlowLayout
     if (self.childViewControllers.count == 0) {
         return;
     }
-    
+
     UIViewController *vc = [self.childViewControllers lastObject];
     [vc.view removeFromSuperview];
     [vc removeFromParentViewController];
@@ -185,16 +185,16 @@ UICollectionViewDelegateFlowLayout
             
         case AddShowWindowCellTypeHistory:{
             labelName = self.historyWords[indexPath.row];
-            [self.navigationController popViewControllerAnimated:YES];
+           [self.navigationController popViewControllerAnimated:YES];
             break;
         }
         case AddShowWindowCellTypePopular:{
             labelName = hotKeywordModel.name;
-            [self.navigationController popViewControllerAnimated:YES];
+           [self.navigationController popViewControllerAnimated:YES];
             break;
         }
     }
-    
+
     if (self.addShowWindowBlock) {
         self.addShowWindowBlock(labelName);
     }
