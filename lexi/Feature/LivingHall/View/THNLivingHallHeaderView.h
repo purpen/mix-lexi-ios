@@ -11,6 +11,7 @@
 typedef void(^ChangeHeaderViewBlock)(void);
 typedef void(^PushProductCenterBlock)(void);
 typedef void(^EditStoreLogoBlock)(void);
+typedef void(^LivingHallShareBlock)(void);
 
 @interface THNLivingHallHeaderView : UIView
 
@@ -21,6 +22,7 @@ typedef void(^EditStoreLogoBlock)(void);
 @property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
 @property (nonatomic, copy) PushProductCenterBlock pushProductCenterBlock;
 @property (nonatomic, copy) EditStoreLogoBlock storeLogoBlock;
+@property (nonatomic, copy) LivingHallShareBlock livingHallShareBlock;
 @property (weak, nonatomic) IBOutlet UIView *promptView;
 - (void)setHeaderImageWithData:(NSData *)imageData;
 - (void)setHeaderAvatarId:(NSInteger)idx;

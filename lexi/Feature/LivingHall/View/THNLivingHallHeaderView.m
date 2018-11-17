@@ -141,6 +141,12 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     }];
 }
 
+- (IBAction)share:(id)sender {
+    if (self.livingHallShareBlock) {
+        self.livingHallShareBlock();
+    }
+}
+
 // 实习状态生活馆提示样式
 - (void)layoutPracticePromptView:(THNLifeStoreModel *)storeModel {
     self.promptView.hidden = NO;

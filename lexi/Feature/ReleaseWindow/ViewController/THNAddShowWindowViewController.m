@@ -255,6 +255,15 @@ UICollectionViewDelegateFlowLayout
     }
 }
 
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    switch (self.showWindowCellType) {
+        case AddShowWindowCellTypePopular:
+            return 0;
+        default:
+            return 10;
+    }
+}
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     switch (self.showWindowCellType) {
         case AddShowWindowCellTypeHistory:

@@ -76,11 +76,12 @@ THNNavigationBarViewDelegate
     self.navigationBarView.title = @"发布橱窗";
     self.navigationBarView.rightButtonTrailing = -20;
 
+    WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [self releaseWindow];
+        [weakSelf releaseWindow];
     }];
 
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_gray"];
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_green"];
     [self.addTagButton drawCornerWithType:0 radius:13];
     self.scrollViewBottomConstraint.constant = kDeviceiPhoneX ? 34 : 0;
     [self.collageButtons enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -105,7 +106,7 @@ THNNavigationBarViewDelegate
     
     self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
-    WEAKSELF;
+    
     self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
         weakSelf.selectIndex = index;
         [weakSelf pushSelectWindowProductVC];
@@ -129,7 +130,7 @@ THNNavigationBarViewDelegate
     THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindows requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showInfoWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
 
