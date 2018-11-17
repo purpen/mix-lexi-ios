@@ -9,7 +9,7 @@
 #import "THNSearchStoreTableViewCell.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNFeaturedBrandModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNBannnerCollectionViewCell.h"
 #import <MJExtension/MJExtension.h>
@@ -46,7 +46,8 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
 
 - (void)setBrandModel:(THNFeaturedBrandModel *)brandModel {
     _brandModel = brandModel;
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.storeImageView loadImageWithUrl:[brandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = brandModel.name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.product_count];
     [self.followButton selfManagerFollowBrandStatus:brandModel.is_followed brandModel:brandModel];

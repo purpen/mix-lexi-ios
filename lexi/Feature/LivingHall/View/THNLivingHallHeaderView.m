@@ -13,7 +13,7 @@
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNSetModel.h"
 #import "THNMarco.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNLoginManager.h"
 #import "THNAPI.h"
 #import <MJExtension/MJExtension.h>
@@ -113,7 +113,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         NSString *storeName = storeModel.name;
         self.storeAvatarUrl = storeModel.logo;
         self.desLabel.text = storeModel.des;
-        [self.storeAvatarImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        [self.storeAvatarImageView loadImageWithUrl:[storeModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
         self.storeNameLabel.text = storeName;
         // 生活馆阶段: 1、实习馆主  2、达人馆主
         if (storeModel.phases == 1) {
@@ -216,12 +216,13 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:obj];
             switch (idx) {
                 case 0:
-                    [weakSelf.outsideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                    [weakSelf.outsideImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
                     break;
                 case 1:
-                    [weakSelf.middleImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                    [weakSelf.middleImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
+                    break;
                 default:
-                    [weakSelf.insideImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                    [weakSelf.insideImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
                     break;
             }
         }];
@@ -289,7 +290,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         [SVProgressHUD thn_showInfoWithStatus:@"复制失败"];
         
     } else {
-        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"复制成功,去微信搜索添加"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"复制成功,去微信搜索添加"];
     }
 
     [SVProgressHUD dismissWithDelay:2.0 completion:^{

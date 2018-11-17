@@ -11,7 +11,7 @@
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
 #import <DateTools/DateTools.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 
 static NSString *const kTextUse     = @"去\n使\n用";
@@ -125,8 +125,7 @@ static NSString *const kTextUseType = @" 全场通用";
 
 // 品牌信息
 - (void)thn_setStoreLabelTextWithName:(NSString *)name logoUrl:(NSString *)logoUrl {
-    [self.storeIconImageView downloadImage:[logoUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                     place:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeIconImageView loadImageWithUrl:[logoUrl loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeIconImageView.hidden = NO;
     
     self.storeLabel.text = name;

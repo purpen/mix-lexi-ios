@@ -12,7 +12,7 @@
 #import "UIView+Helper.h"
 #import "YYLabel+Helper.h"
 #import "UIColor+Extension.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNLifeManagementUserView ()
 
@@ -43,10 +43,8 @@
 }
 
 - (void)thn_setLifeStoreInfo:(THNLifeStoreModel *)model {
-    [self.headerBackgroundView downloadImage:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                       place:[UIImage imageNamed:@"default_header_place"]];
-    [self.headImageView downloadImage:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                place:[UIImage imageNamed:@"default_user_place"]];
+    [self.headerBackgroundView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
+    [self.headImageView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     [self thn_setNickname:model.name];
     self.userIdLabel.text = [NSString stringWithFormat:@"ID:%zi", model.lifeStoreId];
     [self thn_setUserStatus:model.phases];

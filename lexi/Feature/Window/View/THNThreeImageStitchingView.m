@@ -7,7 +7,7 @@
 //
 
 #import "THNThreeImageStitchingView.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNProductModel.h"
 
 @interface THNThreeImageStitchingView()
@@ -38,7 +38,7 @@
             return;
         }
         UIImageView *imageView = self.imageViews[idx];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+        [imageView loadImageWithUrl:[obj loadImageUrlWithType:(THNLoadImageUrlTypeWindowP500)]];
         imageView.userInteractionEnabled = self.isHaveUserInteractionEnabled;
         imageView.contentMode = self.isContentModeCenter ? UIViewContentModeCenter : UIViewContentModeScaleAspectFill;
         

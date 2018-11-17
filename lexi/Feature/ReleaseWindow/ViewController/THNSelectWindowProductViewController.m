@@ -14,6 +14,7 @@
 #import "UIViewController+THNHud.h"
 #import "SVProgressHUD+Helper.h"
 #import "UIImageView+WebCache.h"
+#import "THNTableViewFooterView.h"
 
 typedef NS_ENUM(NSUInteger, SelectProductType) {
     SelectProductLike,
@@ -57,6 +58,7 @@ THNMJRefreshDelegate
 @property (nonatomic, assign) NSInteger coverID;
 @property (nonatomic, strong) NSString *productRid;
 @property (nonatomic, strong) NSString *storeRid;
+@property (nonatomic, strong) THNTableViewFooterView *footerView;
 
 @end
 
@@ -122,7 +124,7 @@ THNMJRefreshDelegate
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
-        
+
         [self.productCollectionView endFooterRefreshAndCurrentPageChange:YES];
         
         NSArray *products = result.data[@"products"];
@@ -140,6 +142,26 @@ THNMJRefreshDelegate
                 [self.recentlyViewedProducts addObjectsFromArray:products];
                 [self.productCollectionView setProducts:self.recentlyViewedProducts];
                 break;
+        }
+
+        if (self.productCollectionView.products.count == 0) {
+            self.footerView.hidden = NO;
+            switch (self.selectProductType) {
+                case SelectProductLike:
+                    [self.footerView setHintLabelText:@"你当前还没有喜欢的商品" iconImageName:@"icon_liked_default"];
+                    break;
+                case SelectProductTypeWish:
+                    [self.footerView setHintLabelText:@"你当前还没有心愿单商品" iconImageName:@"icon_collect_default"];
+                    break;
+                case SelectProductTypeRecentlyViewed:
+                    [self.footerView setHintLabelText:@"你当前还没有查看的商品" iconImageName:@"icon_liked_default"];
+                    break;
+            }
+
+            [self.scrollView addSubview:self.footerView];
+            return;
+        } else {
+            self.footerView.hidden = YES;
         }
         
         if (![result.data[@"next"] boolValue]) {
@@ -254,6 +276,7 @@ THNMJRefreshDelegate
         [self.productCollectionView resetCurrentPageNumber];
         [self loadUserLikeProductData];
     } else {
+        self.footerView.hidden = YES;
         [self.productCollectionView reloadData];
     }
 }
@@ -284,9 +307,17 @@ THNMJRefreshDelegate
         flowLayout.minimumInteritemSpacing = 2;
         flowLayout.minimumLineSpacing = 2;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _productCollectionView = [[THNSelectProducCollectionView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(self.selectButtonView.frame) , SCREEN_WIDTH, 390) collectionViewLayout:flowLayout];
+        _productCollectionView = [[THNSelectProducCollectionView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 390) collectionViewLayout:flowLayout];
     }
     return _productCollectionView;
+}
+
+- (THNTableViewFooterView *)footerView {
+    if (!_footerView) {
+        _footerView = [[THNTableViewFooterView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 390)];
+        _footerView.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
+    }
+    return _footerView;
 }
 
 - (UIView *)selectProductCoverView {

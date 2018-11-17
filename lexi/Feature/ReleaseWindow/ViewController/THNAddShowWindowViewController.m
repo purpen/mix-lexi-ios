@@ -78,7 +78,7 @@ UICollectionViewDelegateFlowLayout
         
         if (self.hotKeyWords.count > 0) {
             [self.searchTypes addObject:@(AddShowWindowCellTypePopular)];
-             [self.sections addObject:self.hotKeyWords];
+            [self.sections addObject:self.hotKeyWords];
         }
         
         [self.collectionView reloadData];
@@ -160,7 +160,7 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-   AddShowWindowCellType showWindowCellType = [self.searchTypes[indexPath.section] integerValue];
+    AddShowWindowCellType showWindowCellType = [self.searchTypes[indexPath.section] integerValue];
     switch (showWindowCellType) {
             
         case AddShowWindowCellTypeHistory:{

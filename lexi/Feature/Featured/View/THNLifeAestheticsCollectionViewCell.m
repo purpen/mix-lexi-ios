@@ -8,11 +8,10 @@
 
 #import "THNLifeAestheticsCollectionViewCell.h"
 #import "UIView+Helper.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNShopWindowModel.h"
 #import "THNProductModel.h"
 #import <MJExtension/MJExtension.h>
-#import "UIImageView+SDWedImage.h"
 #import "UIColor+Extension.h"
 
 @interface THNLifeAestheticsCollectionViewCell()
@@ -42,17 +41,19 @@
     self.nameLabel.text = lifeRecordModel.user_name;
     self.contentLabel.text = lifeRecordModel.des;
     self.titleLabel.text = lifeRecordModel.title;
-    [self.avatarImageView thn_setCircleImageWithUrlString:lifeRecordModel.user_avatar placeholder:[UIImage imageNamed:@"default_image_place"]];
+    [self.avatarImageView loadImageWithUrl:[lifeRecordModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
     [lifeRecordModel.products enumerateObjectsUsingBlock:^(THNProductModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:obj];
         switch (idx) {
             case 0:
-                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                [self.leftImageView loadImageWithUrl:productModel.cover];
                 break;
             case 1:
-                [self.rightTopImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                [self.rightTopImageView loadImageWithUrl:productModel.cover];
+                break;
             default:
-                [self.rightBottomImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+                [self.rightBottomImageView loadImageWithUrl:productModel.cover];
                 break;
         }
         

@@ -51,7 +51,7 @@ static NSString *const kTextSkip            = @"跳过";
     
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSLog(@"登录验证码 ==== %@", result.responseDict);
+//        NSLog(@"登录验证码 ==== %@", result.responseDict);
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;
@@ -86,6 +86,8 @@ static NSString *const kTextSkip            = @"跳过";
 }
 
 - (void)thn_loginSuccessBack {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
     
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
@@ -99,6 +101,7 @@ static NSString *const kTextSkip            = @"跳过";
             return;
         }
         
+        [SVProgressHUD dismiss];
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -132,7 +135,6 @@ static NSString *const kTextSkip            = @"跳过";
         }
         
         [weakSelf thn_loginSuccessWithModeType:type];
-        [SVProgressHUD dismiss];
     }];
 }
 

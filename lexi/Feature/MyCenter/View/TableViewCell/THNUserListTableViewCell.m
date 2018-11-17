@@ -10,7 +10,7 @@
 #import "THNFollowUserButton.h"
 #import "THNFollowUserButton+SelfManager.h"
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 #import "THNLoginManager.h"
@@ -40,8 +40,7 @@
 }
 
 - (void)thn_setUserListCellModel:(THNUserModel *)model {
-    [self.headerImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                  place:[UIImage imageNamed:@"default_user_place"]];
+    [self.headerImageView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.nameLabel.text = model.username;
     
     if ([model.uid isEqualToString:[THNLoginManager sharedManager].userId]) {

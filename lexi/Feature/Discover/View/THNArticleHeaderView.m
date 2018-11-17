@@ -8,8 +8,7 @@
 
 #import "THNArticleHeaderView.h"
 #import "THNGrassListModel.h"
-#import "UIImageView+WebCache.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
 #import "UIColor+Extension.h"
@@ -42,8 +41,10 @@
 - (void)setGrassListModel:(THNGrassListModel *)grassListModel {
     _grassListModel = grassListModel;
     self.userNameLabel.text = grassListModel.user_name;
-    [self.avatarImageView thn_setCircleImageWithUrlString:grassListModel.user_avator placeholder:[UIImage imageNamed:@"default_image_place"]];
-    [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:grassListModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+                                  circular:YES];
+    
+    [self.backgroundImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
     if ([grassListModel.channel_name isEqualToString:grassNote]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"75AB9A"];
     } else if ([grassListModel.channel_name isEqualToString:creatorStoryTitle]) {

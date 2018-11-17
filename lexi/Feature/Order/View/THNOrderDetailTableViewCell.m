@@ -9,7 +9,7 @@
 #import "THNOrderDetailTableViewCell.h"
 #import "UIView+Helper.h"
 #import "THNOrdersItemsModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNSkuModelItem.h"
 #import "THNFreightModelItem.h"
 #import "THNTextTool.h"
@@ -43,7 +43,8 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
 // 订单详情
 - (void)setItemsModel:(THNOrdersItemsModel *)itemsModel {
     _itemsModel = itemsModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.productImageView loadImageWithUrl:[itemsModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     self.productNameLabel.text = itemsModel.product_name;
     self.productCountLabel.text = [NSString stringWithFormat:@"x%ld", itemsModel.quantity];
     
@@ -62,7 +63,7 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
 }
 
 - (void)setPaySuccessProductView:(THNOrdersItemsModel *)itemsModel {
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.productImageView loadImageWithUrl:[itemsModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     self.productNameLabel.text = itemsModel.product_name;
     self.productCountLabel.text = [NSString stringWithFormat:@"x%ld", itemsModel.quantity];
     
@@ -85,7 +86,8 @@ NSString *const kSelectDelivery = @"kSelectDelivery";
 // 提交订单界面
 - (void)setSkuItemModel:(THNSkuModelItem *)skuItemModel {
     _skuItemModel = skuItemModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:skuItemModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.productImageView loadImageWithUrl:[skuItemModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     self.productNameLabel.text = skuItemModel.productName;
     if (skuItemModel.salePrice == 0) {
         self.saleMoneyLabel.text = [NSString formatFloat:skuItemModel.price];

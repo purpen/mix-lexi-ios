@@ -9,7 +9,7 @@
 #import "THNLifeOrderProductTableViewCell.h"
 #import <Masonry/Masonry.h>
 #import <YYKit/YYKit.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNLifeOrderItemModel.h"
 
 static NSString *const kTextEarnings = @"预计收益：";
@@ -39,8 +39,7 @@ static NSString *const kTextEarnings = @"预计收益：";
 - (void)thn_setLifeOrderProductData:(NSDictionary *)data {
     THNLifeOrderItemModel *model = [THNLifeOrderItemModel mj_objectWithKeyValues:data];
     
-    [self.goodsImageView downloadImage:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
-                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView loadImageWithUrl:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     self.nameLabel.text = model.product_name;
     self.countLabel.text = [NSString stringWithFormat:@"x%zi", model.quantity];
     self.moneyLabel.text = [NSString stringWithFormat:@"￥%.2f", model.sale_price];

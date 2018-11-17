@@ -9,7 +9,7 @@
 #import "THNStoreCouponCollectionViewCell.h"
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIColor+Extension.h"
 #import "THNCouponGoodsView.h"
 #import "THNMarco.h"
@@ -45,8 +45,7 @@ static NSInteger const kGoodsViewTag = 1625;
 - (void)thn_setStoreCouponModel:(THNCouponSharedModel *)model {
     self.couponModel = model;
     
-    [self.storeLogoImageView downloadImage:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
-                                     place:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeLogoImageView loadImageWithUrl:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount minAmout:model.minAmount];
     [self thn_createGoodsViewWithSkus:model.productSku];

@@ -60,18 +60,29 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
     WEAKSELF;
     
-    if (!weakSelf.email.length || !password.length || !affirmPassword.length) {
+    if (!self.email.length || !password.length || !affirmPassword.length) {
         [SVProgressHUD thn_showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
-    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,
+    NSDictionary *paramDict = @{kParamEmail: self.email,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [weakSelf networdPostNewPasswordWithParam:paramDict completion:^{
-        [SVProgressHUD thn_showSuccessWithStatus:@"修改成功"];
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    [self networdPostNewPasswordWithParam:paramDict completion:^{
+        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+    }];
+}
+
+- (void)thn_signInWithParam:(NSDictionary *)param {
+    [SVProgressHUD thn_show];
+    
+    [THNLoginManager userLoginWithParams:param modeType:THNLoginModeTypePassword completion:^(THNResponse *result, NSError *error) {
+        if (error && ![result isSuccess]) {
+            [SVProgressHUD thn_showErrorWithStatus:@"登录失败"];
+            return ;
+        }
+    
     }];
 }
 

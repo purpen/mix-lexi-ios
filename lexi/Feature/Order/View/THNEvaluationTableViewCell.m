@@ -11,7 +11,7 @@
 #import "THNMarco.h"
 #import <MJExtension/MJExtension.h>
 #import "THNOrdersItemsModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNTextTool.h"
 #import "THNPhotoCollectionViewCell.h"
 #import "NSString+Helper.h"
@@ -54,7 +54,8 @@ static NSInteger maxShowPhotoCount = 9;
 
 - (void)setItemsModel:(THNOrdersItemsModel *)itemsModel {
     _itemsModel = itemsModel;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:itemsModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.productImageView loadImageWithUrl:[itemsModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
     self.productNameLabel.text = itemsModel.product_name;
 
     if (itemsModel.sale_price == 0) {

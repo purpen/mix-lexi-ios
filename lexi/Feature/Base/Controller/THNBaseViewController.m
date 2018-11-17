@@ -8,6 +8,8 @@
 
 #import "THNBaseViewController.h"
 #import "UIViewController+THNHud.h"
+#import <SDWebImage/SDImageCache.h>
+#import <SDWebImage/SDWebImageDownloader.h>
 
 @interface THNBaseViewController () <THNNavigationBarViewDelegate>
 
@@ -16,6 +18,7 @@
 @implementation THNBaseViewController
 
 #pragma mark - life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupBaseUI];

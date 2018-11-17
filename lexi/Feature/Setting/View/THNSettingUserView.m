@@ -9,7 +9,7 @@
 #import "THNSettingUserView.h"
 #import <DateTools/DateTools.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIColor+Extension.h"
 
 static NSString *const kTextTime = @"注册时间：";
@@ -35,8 +35,7 @@ static NSString *const kTextTime = @"注册时间：";
 
 - (void)thn_setUserInfoData:(THNUserDataModel *)model {
     self.headId = model.avatar_id.length ? model.avatar_id : @"0";
-    [self.headImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarBg)]
-                                place:[UIImage imageNamed:@"default_image_place"]];
+    [self.headImageView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarBg)]];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
     self.timeLabel.text = [NSString stringWithFormat:@"%@%@", kTextTime, [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"]];
 }

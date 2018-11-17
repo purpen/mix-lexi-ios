@@ -8,7 +8,7 @@
 
 #import "THNCenterProductTableViewCell.h"
 #import "THNProductModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "YYLabel+Helper.h"
 #import "THNTextTool.h"
@@ -44,7 +44,7 @@
 - (void)setProductModel:(THNProductModel *)productModel {
     
     self.sallOutImageView.hidden = !productModel.is_sold_out;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.productImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
 
     if (productModel.is_free_postage) {
         self.nameLabelLeftConstraint.constant = 5;

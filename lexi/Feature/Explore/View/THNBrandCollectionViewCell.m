@@ -7,7 +7,7 @@
 //
 
 #import "THNBrandCollectionViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNFeaturedBrandModel.h"
 #import "THNBannnerCollectionViewCell.h"
 #import "THNBannerModel.h"
@@ -56,8 +56,9 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
 
 - (void)setFeatureBrandModel:(THNFeaturedBrandModel *)featureBrandModel {
     _featureBrandModel = featureBrandModel;
-    [self.backGroundImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.bgcover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featureBrandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.backGroundImageView loadImageWithUrl:[featureBrandModel.bgcover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.storeImageView loadImageWithUrl:[featureBrandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = featureBrandModel.name;
     self.storePruductCountLabel.text = [NSString stringWithFormat:@"%ld 件",featureBrandModel.store_products_counts];
     [self.flowButton selfManagerFollowBrandStatus:featureBrandModel.is_followed brandModel:featureBrandModel];
@@ -70,7 +71,8 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNBannnerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandProductCellIdentifier forIndexPath:indexPath];
     cell.setLabelsView.hidden = YES;
-    [cell.cellImageView sd_setImageWithURL:[NSURL URLWithString:self.featureBrandModel.products_cover[indexPath.row]]];
+    [cell.cellImageView loadImageWithUrl:[(NSString *)self.featureBrandModel.products_cover[indexPath.row] loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
+
     return cell;
 }
 

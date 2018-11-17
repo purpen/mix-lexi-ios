@@ -67,7 +67,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  忘记密码
  */
 - (void)networkPostFindPasswordWith:(NSDictionary *)param completion:(void (^)(NSString *email))completion {
-    [SVProgressHUD thn_showWithStatus:@"正在验证..."];
+    [SVProgressHUD thn_show];
     
     WEAKSELF;
     
@@ -78,10 +78,11 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
             return;
         }
         
-        [SVProgressHUD dismiss];
         if (completion) {
             completion(result.data[kParamEmail]);
         }
+        
+        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -94,11 +95,13 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
                                 kParamAreaCode1: zipCode,
                                 kParamVerifyCode: code};
     
+    WEAKSELF;
+    
     [self networkPostFindPasswordWith:paramDict completion:^(NSString *email) {
         [SVProgressHUD dismiss];
         
-        self.newPasswordVC.email = email;
-        [self.navigationController pushViewController:self.newPasswordVC animated:YES];
+        weakSelf.newPasswordVC.email = email;
+        [weakSelf.navigationController pushViewController:weakSelf.newPasswordVC animated:YES];
     }];
 }
 

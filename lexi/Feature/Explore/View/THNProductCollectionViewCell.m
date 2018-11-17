@@ -7,7 +7,7 @@
 //
 
 #import "THNProductCollectionViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 #import "THNProductModel.h"
 #import "THNTextTool.h"
@@ -102,7 +102,7 @@
     }
 
     self.sallOutImageView.hidden = !productModel.is_sold_out;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:productModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.productImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
     self.productNameLabel.text = productModel.name;
 }
 

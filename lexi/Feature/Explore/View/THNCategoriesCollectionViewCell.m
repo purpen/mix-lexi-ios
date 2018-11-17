@@ -8,7 +8,7 @@
 
 #import "THNCategoriesCollectionViewCell.h"
 #import "THNCategoriesModel.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
 
 @interface THNCategoriesCollectionViewCell()
@@ -32,7 +32,7 @@
     _categoriesModel = categoriesModel;
     self.desLabel.text = categoriesModel.name;
     self.peopleNumberLabel.text = [NSString stringWithFormat:@"%ld 人",categoriesModel.browse_count];
-    [self.categoriesImageView sd_setImageWithURL:[NSURL URLWithString:categoriesModel.cover]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.categoriesImageView loadImageWithUrl:[categoriesModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     
 }
 

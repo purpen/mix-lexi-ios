@@ -78,7 +78,7 @@ THNNavigationBarViewDelegate
     self.toolbar.delegate = self;
     self.navigationBarView.title = @"发布橱窗";
     self.navigationBarView.rightButtonTrailing = -20;
-
+    
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         [weakSelf releaseWindow];
@@ -115,7 +115,7 @@ THNNavigationBarViewDelegate
         [weakSelf pushSelectWindowProductVC];
     };
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
     
     // 设置键盘距textView的间距
     IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
@@ -249,9 +249,7 @@ THNNavigationBarViewDelegate
 }
 
 - (IBAction)collage:(UIButton *)button {
-     WEAKSELF;
-
-   
+    WEAKSELF;
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
@@ -306,7 +304,6 @@ THNNavigationBarViewDelegate
 
 - (IBAction)addTag:(id)sender {
     THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
-
     addShowWindowVC.addShowWindowBlock = ^(NSString *name) {
         if ([self.keywords containsObject:name]) {
             [SVProgressHUD thn_showInfoWithStatus:@"请勿添加重复的标签"];
@@ -352,13 +349,11 @@ THNNavigationBarViewDelegate
     //创建标签位置变量
     CGFloat positionX = spcX;
     CGFloat positionY = spcY;
-
     //创建label
     for(int i = 0; i < titleArr.count; i++)
     {
         CGSize labelSize = [self getSizeByString:titleArr[i] AndFontSize:fontSize];
         CGFloat labelWidth = labelSize.width + 45;
-
         if (i == 0) {
             positionX = 0;
             positionY = 0;
@@ -368,7 +363,6 @@ THNNavigationBarViewDelegate
                 positionY += 35;
             }
         }
-
         UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(positionX, positionY, labelWidth, 24)];
         backgroundView.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         backgroundView.layer.cornerRadius = backgroundView.viewHeight / 2;

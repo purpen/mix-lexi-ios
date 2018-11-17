@@ -7,7 +7,7 @@
 //
 
 #import "THNBrandHallFeaturesTableViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNFeaturedBrandModel.h"
 #import "UICollectionViewFlowLayout+THN_flowLayout.h"
 #import "THNProductCollectionViewCell.h"
@@ -43,7 +43,8 @@ static NSString * const kBrandHallCollectionCellIdentifier = @"kBrandHallCollect
 
 - (void)setBrandModel:(THNFeaturedBrandModel *)brandModel {
     _brandModel = brandModel;
-    [self.brandImageView sd_setImageWithURL:[NSURL URLWithString:brandModel.logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    
+    [self.brandImageView loadImageWithUrl:[brandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.nameLabel.text = brandModel.name;
     self.addressLabel.text = [NSString stringWithFormat:@"%@,%@",brandModel.delivery_country,brandModel.delivery_city];
     self.desLabel.text = brandModel.tag_line;

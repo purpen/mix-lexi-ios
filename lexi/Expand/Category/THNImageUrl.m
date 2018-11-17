@@ -27,6 +27,7 @@
 - (id)urlSuffixDict {
     return objc_getAssociatedObject(self, _cmd) ? : ({
         NSDictionary *suffixDic = @{
+                                    @(THNLoadImageUrlTypeDefault)       : @"",
                                     @(THNLoadImageUrlTypeBannerFeatured): @"",
                                     @(THNLoadImageUrlTypeBannerDiscover): @"",
                                     @(THNLoadImageUrlTypeBannerDefault) : @"",

@@ -7,7 +7,7 @@
 //
 
 #import "THNArticleStoreTableViewCell.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNLifeOrderStoreModel.h"
 #import "UIView+Helper.h"
 #import "THNFollowStoreButton+SelfManager.h"
@@ -36,7 +36,7 @@
     _featuredBrandModel = featuredBrandModel;
     self.storeNameLabel.text = featuredBrandModel.store_name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",featuredBrandModel.product_counts];
-    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:featuredBrandModel.store_logo]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [self.storeImageView loadImageWithUrl:[featuredBrandModel.store_logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     [self.followButton selfManagerFollowBrandStatus:featuredBrandModel.is_follow_store brandModel:featuredBrandModel];
 }
 

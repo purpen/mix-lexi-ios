@@ -13,11 +13,12 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "THNLoginManager.h"
 #import "UIView+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 /// url
-static NSString *const kURLProductCard = @"/market/wxa_poster";
+static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
 static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
+static NSString *const kURLInvite      = @"/market/share/invite_poster";
 
 /// key
 static NSString *const kKeyRid       = @"rid";
@@ -76,7 +77,7 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
             return ;
         }
         
-        [weakSelf.showImageView downloadImage:result.data[@"image_url"]];
+        [weakSelf.showImageView loadImageWithUrl:result.data[@"image_url"]];
         [weakSelf thn_setSaveButtonStatus:YES];
         [SVProgressHUD dismiss];
         
@@ -86,8 +87,10 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 }
 
 - (NSString *)thn_getRequestUrl {
-    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods): kURLProductCard,
-                              @(THNSharePosterTypeWindow): kURLShopWindow};
+    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods)     : kURLWxaPoster,
+                              @(THNSharePosterTypeWindow)    : kURLShopWindow,
+                              @(THNSharePosterTypeInvitation): kURLInvite,
+                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster};
     
     return urlDict[@(self.posterType)];
 }
@@ -95,18 +98,33 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 - (NSDictionary *)thn_getRequestParams {
     if (self.requestId.length) {
         NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
-                                       kKeyPath: kWxaPath,
                                        kKeyScene: [self thn_paramsScene],
                                        kKeyRid: self.requestId};
         
-        NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+        NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:defaultParam];
         
-        if (self.posterType == THNSharePosterTypeGoods) {
-            [paramDict setValuesForKeysWithDictionary:defaultParam];
-            [paramDict setObject:@(4) forKey:kKeyType];
-            
-        } else if (self.posterType == THNSharePosterTypeWindow) {
-            [paramDict setValuesForKeysWithDictionary:defaultParam];
+        switch (self.posterType) {
+            case THNSharePosterTypeGoods: {
+                [paramDict setObject:@(4) forKey:kKeyType];
+                [paramDict setObject:kWxaProductPath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeWindow: {
+                 [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeInvitation: {
+                 [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeLifeStore: {
+                [paramDict setObject:@(2) forKey:kKeyType];
+                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+            }
+                break;
         }
         
         return [paramDict copy];
@@ -119,10 +137,14 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
  场景编号
  */
 - (NSString *)thn_paramsScene {
-    NSString *storeId = [THNLoginManager sharedManager].storeRid.length ? [THNLoginManager sharedManager].storeRid : @"";
-    NSString *scene = [NSString stringWithFormat:@"%@-%@", self.requestId, storeId];
+    if (self.posterType == THNSharePosterTypeGoods) {
+        NSString *storeId = [THNLoginManager sharedManager].storeRid.length ? [THNLoginManager sharedManager].storeRid : @"";
+        NSString *scene = [NSString stringWithFormat:@"%@-%@", self.requestId, storeId];
+        
+        return scene;
+    }
     
-    return scene;
+    return self.requestId;
 }
 
 #pragma mark - event response
@@ -226,7 +248,7 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 
 - (void)thn_setSubviewFrame {
     CGFloat originBottom = kDeviceiPhoneX ? 78 : 60;
-    CGRect imageFrame = CGRectMake(20, 69, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 170);
+    CGRect imageFrame = CGRectMake(20, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 180);
     CGRect buttonFrame = CGRectMake(20, SCREEN_HEIGHT - originBottom, SCREEN_WIDTH - 40, 40);
     
     [UIView animateWithDuration:0.4

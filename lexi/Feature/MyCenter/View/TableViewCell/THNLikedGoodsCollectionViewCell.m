@@ -12,7 +12,7 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 #import "YYLabel+Helper.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 static NSString *const kTextLikePrefix = @"喜欢 +";
 
@@ -51,7 +51,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     self.viewType = cellViewType;
     
     THNLoadImageUrlType urlType = (index + 1) % 5 ? THNLoadImageUrlTypeGoodsList : THNLoadImageUrlTypeWindowP500;
-    [self.goodsImageView downloadImage:[goodsModel.cover loadImageUrlWithType:urlType]];
+    [self.goodsImageView loadImageWithUrl:[goodsModel.cover loadImageUrlWithType:urlType]];
     
     if (show) {
         self.infoView.hidden = NO;

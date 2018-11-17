@@ -82,6 +82,19 @@
     NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_discover_default", @"tabbar_cart_default", @"tabbar_myCenter_default"];
     NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_discover_selected", @"tabbar_cart_selected", @"tabbar_myCenter_selected"];
     
+    /* -------- */
+//    NSArray *controllerArr = @[_cartVC, _myCenterVC];
+//    NSArray *titleArr = @[@"购物车", @"我的"];
+//    NSArray *defaultimageArr = @[@"tabbar_cart_default", @"tabbar_myCenter_default"];
+//    NSArray *selectedImageArr = @[@"tabbar_cart_selected", @"tabbar_myCenter_selected"];
+    
+    /* -------- */
+//    NSArray *controllerArr = @[_homeVC, _discoverVC];
+//    NSArray *titleArr = @[@"首页", @"发现"];
+//    NSArray *defaultimageArr = @[@"tabbar_home_default", @"tabbar_discover_default"];
+//    NSArray *selectedImageArr = @[@"tabbar_home_selected", @"tabbar_discover_selected"];
+    
+    
     [self setChildViewController:controllerArr
                    defaultImages:defaultimageArr
                   selectedImages:selectedImageArr

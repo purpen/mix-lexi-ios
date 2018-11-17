@@ -9,7 +9,7 @@
 #import "THNGoodsInfoTableViewCell.h"
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "YYLabel+Helper.h"
 #import "UIView+Helper.h"
 #import "NSString+Helper.h"
@@ -112,8 +112,7 @@ static NSString *const kTextResetSku        = @"重选规格";
 
 #pragma mark - set model
 - (void)thn_setGoodsInfoWithModel:(THNGoodsModel *)model {
-    [self.goodsImageView downloadImage:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
-                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView loadImageWithUrl:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     
     switch (self.cellType) {
         case THNGoodsInfoCellTypeSelectLogistics: {
@@ -137,8 +136,7 @@ static NSString *const kTextResetSku        = @"重选规格";
 }
 
 - (void)thn_setSkuGoodsInfoWithModel:(THNSkuModelItem *)model {
-    [self.goodsImageView downloadImage:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
-                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView loadImageWithUrl:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     
     [self thn_setGoodsTitleWithText:model.productName font:[UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)]];
 }
@@ -146,8 +144,7 @@ static NSString *const kTextResetSku        = @"重选规格";
 - (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model {
     if (!model.product.rid) return;
     
-    [self.goodsImageView downloadImage:[model.product.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]
-                                 place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.goodsImageView loadImageWithUrl:[model.product.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
     
     [self thn_setGoodsTitleWithText:model.product.productName font:[UIFont systemFontOfSize:13 weight:(UIFontWeightMedium)]];
     [self thn_setStoreNameWithText:model.product.storeName];

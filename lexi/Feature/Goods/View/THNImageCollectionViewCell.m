@@ -7,7 +7,7 @@
 //
 
 #import "THNImageCollectionViewCell.h"
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNImageCollectionViewCell ()
 
@@ -28,8 +28,7 @@
 - (void)thn_setImageUrl:(NSString *)url {
     if (!url.length) return;
     
-    [self.imageView downloadImage:[url loadImageUrlWithType:(THNLoadImageUrlTypeGoodsInfo)]
-                            place:[UIImage imageNamed:@"default_goods_place"]];
+    [self.imageView loadImageWithUrl:[url loadImageUrlWithType:(THNLoadImageUrlTypeGoodsInfo)]];
 }
 
 #pragma mark - setup UI

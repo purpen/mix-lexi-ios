@@ -9,7 +9,7 @@
 #import "THNProductCouponCollectionViewCell.h"
 #import <YYKit/YYKit.h>
 #import <Masonry/Masonry.h>
-#import "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "UIColor+Extension.h"
 #import "NSString+Helper.h"
 #import "THNCouponManager.h"
@@ -48,8 +48,7 @@
 - (void)thn_setProductCouponModel:(THNCouponSingleModel *)model {
     self.couponModel = model;
     
-    [self.goodsImageView downloadImage:[model.productCover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]
-                                 place:[UIImage imageNamed:@"default_image_place"]];
+    [self.goodsImageView loadImageWithUrl:[model.productCover loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
     self.titleLabel.text = model.productName;
     self.priceLabel.text = [NSString formatFloat:model.productAmount];
     [self thn_setCouponAmoutTextWithValue:model.amount];
