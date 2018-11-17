@@ -34,6 +34,6 @@
     self.titleLabel.text = dailyRecommendModel.recommend_label;
     self.subTitleLabel.text = dailyRecommendModel.recommend_title;
     self.contentLabel.text = dailyRecommendModel.recommend_description;
-    [self.backImageView loadImageWithUrl:[dailyRecommendModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
+    [self.backImageView loadImageWithUrl:[dailyRecommendModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeArticleList)]];
 }
 @end

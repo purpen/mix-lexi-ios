@@ -2195,20 +2195,20 @@
 		4BECEF61217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEF62217F1401008E5E28 /* THNFindPasswordViewController.h */,
-				4BECEF63217F1401008E5E28 /* THNFindPasswordViewController.m */,
 				4BECEF64217F1401008E5E28 /* THNLoginViewController.h */,
 				4BECEF65217F1401008E5E28 /* THNLoginViewController.m */,
-				4BECEF66217F1401008E5E28 /* THNNewPasswordViewController.h */,
-				4BECEF67217F1401008E5E28 /* THNNewPasswordViewController.m */,
-				4BECEF68217F1401008E5E28 /* THNNewUserInfoViewController.h */,
-				4BECEF69217F1401008E5E28 /* THNNewUserInfoViewController.m */,
-				4BECEF6A217F1401008E5E28 /* THNSetPasswordViewController.h */,
-				4BECEF6B217F1401008E5E28 /* THNSetPasswordViewController.m */,
 				4BECEF6C217F1401008E5E28 /* THNSignInViewController.h */,
 				4BECEF6D217F1401008E5E28 /* THNSignInViewController.m */,
 				4BECEF6E217F1401008E5E28 /* THNSignUpViewController.h */,
 				4BECEF6F217F1401008E5E28 /* THNSignUpViewController.m */,
+				4BECEF6A217F1401008E5E28 /* THNSetPasswordViewController.h */,
+				4BECEF6B217F1401008E5E28 /* THNSetPasswordViewController.m */,
+				4BECEF68217F1401008E5E28 /* THNNewUserInfoViewController.h */,
+				4BECEF69217F1401008E5E28 /* THNNewUserInfoViewController.m */,
+				4BECEF62217F1401008E5E28 /* THNFindPasswordViewController.h */,
+				4BECEF63217F1401008E5E28 /* THNFindPasswordViewController.m */,
+				4BECEF66217F1401008E5E28 /* THNNewPasswordViewController.h */,
+				4BECEF67217F1401008E5E28 /* THNNewPasswordViewController.m */,
 				4BECEF70217F1401008E5E28 /* THNZipCodeViewController.h */,
 				4BECEF71217F1401008E5E28 /* THNZipCodeViewController.m */,
 			);

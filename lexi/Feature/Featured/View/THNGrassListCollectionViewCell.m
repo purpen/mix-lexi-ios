@@ -61,7 +61,7 @@
     
     self.nameLabel.text = grassListModel.user_name;
     [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
-    [self.productImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
+    [self.productImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeArticleList)]];
 }
 
 
