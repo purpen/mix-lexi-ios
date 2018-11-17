@@ -232,7 +232,6 @@ THNNavigationBarViewDelegate
         NSMutableDictionary *releaseParams = [NSMutableDictionary dictionary];
         releaseParams[@"rid"] = productRid;
         releaseParams[@"cover_id"] = @(coverID);
-
         [self.productItems addObject:releaseParams];
 
 //        // 替换之前选择的封面信息
