@@ -43,6 +43,16 @@
     [imageView sd_setImageWithURL:[NSURL URLWithString:url]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
 }
 
+- (void)setFiveImages:(NSArray *)coverWithSelectIndexs {
+    for (NSDictionary *dict in coverWithSelectIndexs) {
+        NSInteger selectIndex = [dict[@"selectIndex"] integerValue];
+        if (selectIndex > 4) {
+            return;
+        }
+        [self setCLickImageView:dict[@"cover"] withSelectIndex:selectIndex];
+    }
+}
+
 - (void)clickEvent:(id)sender {
     UITapGestureRecognizer *tap = (UITapGestureRecognizer *)sender;
     UIView *views = (UIView*) tap.view;

@@ -18,4 +18,7 @@ typedef void(^ThreeImageBlock)(NSInteger index);
 @property (nonatomic, assign) BOOL isContentModeCenter;
 - (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index;
 
+// 为已选择的商品设置样式
+- (void)setThreeImages:(NSArray *)coverWithSelectIndexs;
+
 @end

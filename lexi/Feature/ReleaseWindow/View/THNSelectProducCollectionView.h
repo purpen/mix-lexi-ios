@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^SelectProductBlock)(NSString *rid);
+typedef void(^SelectProductBlock)(NSString *rid, NSString *storeRid);
 
 @interface THNSelectProducCollectionView : UICollectionView
 

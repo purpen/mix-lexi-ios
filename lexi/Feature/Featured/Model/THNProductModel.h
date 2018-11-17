@@ -33,6 +33,7 @@
 // 店铺是否分销过该商品
 @property (nonatomic, assign) NSInteger have_distributed;
 @property (nonatomic, assign) CGFloat real_price;
-@property (nonatomic, assign) CGFloat real_sale_price; 
+@property (nonatomic, assign) CGFloat real_sale_price;
+@property (nonatomic, strong) NSString *store_rid;
 
 @end

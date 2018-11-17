@@ -47,7 +47,7 @@
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="展示你的品位与搭配风格，拼揍一个设计主题橱窗" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t0m-Bp-Ykg">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="展示你的品位与搭配风格，拼凑一个设计主题橱窗" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t0m-Bp-Ykg">
                                     <rect key="frame" x="20" y="30" width="308" height="14"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="14" id="98b-wp-tlo"/>
@@ -150,7 +150,7 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IU8-qT-ECx">
-                                    <rect key="frame" x="119" y="511" width="236" height="60"/>
+                                    <rect key="frame" x="119" y="513" width="236" height="60"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="FPq-b1-I7O"/>
@@ -177,7 +177,7 @@
                                 <constraint firstItem="44p-U5-nMP" firstAttribute="leading" secondItem="bwV-zy-6Tf" secondAttribute="leading" id="fLA-XO-gk4"/>
                                 <constraint firstItem="pMz-oi-aEy" firstAttribute="leading" secondItem="44p-U5-nMP" secondAttribute="leading" id="gPc-46-6q3"/>
                                 <constraint firstItem="IU8-qT-ECx" firstAttribute="leading" secondItem="FAA-aY-b17" secondAttribute="trailing" constant="10" id="q2s-17-gwa"/>
-                                <constraint firstItem="IU8-qT-ECx" firstAttribute="top" secondItem="FAA-aY-b17" secondAttribute="top" id="rgw-HY-Qff"/>
+                                <constraint firstItem="IU8-qT-ECx" firstAttribute="top" secondItem="FAA-aY-b17" secondAttribute="top" constant="2" id="rgw-HY-Qff"/>
                                 <constraint firstItem="FAA-aY-b17" firstAttribute="top" secondItem="8mj-xS-CCZ" secondAttribute="bottom" constant="35" id="xsa-XC-oim"/>
                             </constraints>
                         </view>

@@ -57,6 +57,9 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSString *windowTitle;
 @property (nonatomic, strong) NSString *windowContent;
 @property (nonatomic, strong) NSMutableArray *productItems;
+@property (nonatomic, strong) NSMutableArray *storeRids;
+@property (nonatomic, strong) NSMutableArray *coverWithSelectIndexs;
+@property (nonatomic, strong) NSMutableArray *sortMutable;
 
 @end
 
@@ -122,6 +125,35 @@ THNNavigationBarViewDelegate
 
 - (void)releaseWindow {
     [SVProgressHUD thn_show];
+    switch (self.imageType) {
+        case ShopWindowImageTypeThree:
+            if (self.productItems.count > 3) {
+                [self.productItems removeObjectsInRange:NSMakeRange(2, self.productItems.count - 3)];
+            } else if (self.productItems.count < 3) {
+                [SVProgressHUD thn_showInfoWithStatus:@"选择数量有误"];
+                return;
+            }
+            break;
+        case ShopWindowImageTypeFive:
+            if (self.productItems.count > 5) {
+                [self.productItems removeObjectsInRange:NSMakeRange(4, self.productItems.count - 5)];
+            }else if (self.productItems.count < 5) {
+                [SVProgressHUD thn_showInfoWithStatus:@"选择数量有误"];
+                return;
+            }
+            
+            break;
+
+        case ShopWindowImageTypeSeven:
+            if (self.productItems.count > 7) {
+                [self.productItems removeObjectsInRange:NSMakeRange(6, self.productItems.count - 7)];
+            } else if (self.productItems.count < 7) {
+                [SVProgressHUD thn_showInfoWithStatus:@"选择数量有误"];
+                return;
+            }
+            break;
+    }
+
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"title"] = self.windowTitle;
     params[@"description"] = self.windowContent;
@@ -134,10 +166,8 @@ THNNavigationBarViewDelegate
             return;
         }
 
-        [SVProgressHUD thn_showInfoWithStatus:@"发布成功"];
-        [SVProgressHUD dismissWithDelay:2.0 completion:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        }];
+
+        [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(THNRequest *request, NSError *error) {
 
@@ -174,7 +204,7 @@ THNNavigationBarViewDelegate
     WEAKSELF;
     THNSelectWindowProductViewController *selectProductVC = [[THNSelectWindowProductViewController alloc]init];
     
-    selectProductVC.selectWindowBlock = ^(NSString *cover, NSInteger coverID, NSString *productRid) {
+    selectProductVC.selectWindowBlock = ^(NSString *cover, NSInteger coverID, NSString *productRid, NSString *storeRid) {
         switch (self.imageType) {
             case ShopWindowImageTypeThree:
                 [weakSelf.threeImageStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
@@ -187,18 +217,41 @@ THNNavigationBarViewDelegate
                 break;
         }
 
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"rid"] = productRid;
-        params[@"cover_id"] = @(coverID);
-        [self.productItems addObject:params];
+        // 保存选择商品封面的店铺ID
+        [self.storeRids addObject:storeRid];
+
+        // 保存已选择商品的封面和位置
+        NSMutableDictionary *coverWithIndexParams = [NSMutableDictionary dictionary];
+        coverWithIndexParams[@"cover"] = cover;
+        coverWithIndexParams[@"selectIndex"] = @(self.selectIndex);
+        NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"selectIndex" ascending:YES]];
+        [self.sortMutable addObject:coverWithIndexParams];
+        self.coverWithSelectIndexs = [self.sortMutable sortedArrayUsingDescriptors:sortArr];
+        
+        // 设置发布橱窗后台需要的信息
+        NSMutableDictionary *releaseParams = [NSMutableDictionary dictionary];
+        releaseParams[@"rid"] = productRid;
+        releaseParams[@"cover_id"] = @(coverID);
+
+        [self.productItems addObject:releaseParams];
+
+//        // 替换之前选择的封面信息
+//        NSMutableDictionary *lastSelectParams = self.productItems[self.selectIndex];
+//        if (lastSelectParams.count > 0) {
+//            lastSelectParams[@"rid"] = productRid;
+//            lastSelectParams[@"cover_id"] = @(coverID);
+//
+//        }
 
     };
-    
+
+    selectProductVC.storeRids = self.storeRids;
     [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
 }
 
 - (IBAction)collage:(UIButton *)button {
      WEAKSELF;
+
    
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
@@ -215,7 +268,7 @@ THNNavigationBarViewDelegate
             self.sevenImagesStitchingView.hidden = YES;
             self.threeImageStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
-//            [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
+           [self.threeImageStitchingView setThreeImages:self.coverWithSelectIndexs];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
         case ShopWindowImageTypeFive:{
@@ -228,38 +281,63 @@ THNNavigationBarViewDelegate
             };
             
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
-            //            [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
+            [self.fiveImagesStitchingView setFiveImages:self.coverWithSelectIndexs];
             break;
         }
         case ShopWindowImageTypeSeven:{
-            self.sevenImagesStitchingView.hidden = NO;
             self.threeImageStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = YES;
+            self.sevenImagesStitchingView.hidden = NO;
+            [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
+
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
             
             self.sevenImagesStitchingView.sevenImageBlock = ^(NSInteger index) {
                 weakSelf.selectIndex = index;
                 [weakSelf pushSelectWindowProductVC];
             };
-            
-            [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
-            //            [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
+
+            [self.sevenImagesStitchingView setSevenImages:self.coverWithSelectIndexs];
             break;
         }
             
     }
 }
 
+
 - (IBAction)addTag:(id)sender {
     THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
 
     addShowWindowVC.addShowWindowBlock = ^(NSString *name) {
+        if ([self.keywords containsObject:name]) {
+            [SVProgressHUD thn_showInfoWithStatus:@"请勿添加重复的标签"];
+            return;
+        }
         [self.keywords addObject:name];
         [self createLabelWithArray:self.keywords FontSize:12 SpcX:5 SpcY:20];
-//        self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
     };
 
     [self.navigationController pushViewController:addShowWindowVC animated:YES];
+}
+
+- (BOOL)isEnbleReleaseButton {
+    BOOL isHaveImage;
+    switch (self.imageType) {
+        case ShopWindowImageTypeThree:
+            isHaveImage = self.productItems.count == 3 ?: NO;
+            break;
+        case ShopWindowImageTypeFive:
+            isHaveImage = self.productItems.count == 5 ?: NO;
+            break;
+        case ShopWindowImageTypeSeven:
+            isHaveImage = self.productItems.count == 7 ?: NO;
+            break;
+    }
+    if (self.windowTitle.length >0  && self.windowContent > 0 && isHaveImage ) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)deleteKeyword:(UIButton *)button {
@@ -490,6 +568,27 @@ THNNavigationBarViewDelegate
         _productItems = [NSMutableArray array];
     }
     return _productItems;
+}
+
+- (NSMutableArray *)storeRids {
+    if (!_storeRids) {
+        _storeRids = [NSMutableArray array];
+    }
+    return _storeRids;
+}
+
+- (NSMutableArray *)coverWithSelectIndexs {
+    if (!_coverWithSelectIndexs) {
+        _coverWithSelectIndexs = [NSMutableArray array];
+    }
+    return _coverWithSelectIndexs;
+}
+
+- (NSMutableArray *)sortMutable {
+    if (!_sortMutable) {
+        _sortMutable = [NSMutableArray array];
+    }
+    return _sortMutable;
 }
 
 @end
