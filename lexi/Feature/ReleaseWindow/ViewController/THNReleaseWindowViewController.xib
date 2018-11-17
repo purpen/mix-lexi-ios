@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +18,7 @@
                 <outlet property="keywordView" destination="IU8-qT-ECx" id="R1D-vu-TZx"/>
                 <outlet property="keywordViewHeightConstraint" destination="FPq-b1-I7O" id="WPV-6R-TKV"/>
                 <outlet property="postContenViewHeightConstraint" destination="w2p-c2-bKb" id="Jkd-Ef-ec6"/>
-                <outlet property="postContentView" destination="8mj-xS-CCZ" id="9xK-0y-UXn"/>
+                <outlet property="postContentView" destination="8mj-xS-CCZ" id="aMQ-8E-q48"/>
                 <outlet property="scrollViewBottomConstraint" destination="2PH-44-uND" id="3rD-Wg-A6Y"/>
                 <outlet property="titleTextField" destination="UQy-bF-Hj7" id="xqg-mG-us0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -127,7 +127,6 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="UQy-bF-Hj7" firstAttribute="top" secondItem="8mj-xS-CCZ" secondAttribute="top" id="0be-K2-IA6"/>
                                         <constraint firstAttribute="trailing" secondItem="iRd-23-TNk" secondAttribute="trailing" constant="-20" id="3ws-tj-hbJ"/>
