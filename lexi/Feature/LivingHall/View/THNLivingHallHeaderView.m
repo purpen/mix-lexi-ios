@@ -284,7 +284,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         [SVProgressHUD thn_showInfoWithStatus:@"复制失败"];
         
     } else {
-        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"复制成功,去微信搜索添加"];
+        [SVProgressHUD thn_showSuccessWithStatus:@"复制成功,去微信搜索添加"];
     }
 
     [SVProgressHUD dismissWithDelay:2.0 completion:^{

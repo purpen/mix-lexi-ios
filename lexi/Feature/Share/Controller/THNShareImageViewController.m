@@ -16,8 +16,9 @@
 #import "UIImageView+WebImage.h"
 
 /// url
-static NSString *const kURLProductCard = @"/market/wxa_poster";
+static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
 static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
+static NSString *const kURLInvite      = @"/market/share/invite_poster";
 
 /// key
 static NSString *const kKeyRid       = @"rid";
@@ -86,8 +87,10 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 }
 
 - (NSString *)thn_getRequestUrl {
-    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods): kURLProductCard,
-                              @(THNSharePosterTypeWindow): kURLShopWindow};
+    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods)     : kURLWxaPoster,
+                              @(THNSharePosterTypeWindow)    : kURLShopWindow,
+                              @(THNSharePosterTypeInvitation): kURLInvite,
+                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster};
     
     return urlDict[@(self.posterType)];
 }
@@ -100,12 +103,28 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
         
         NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:defaultParam];
         
-        if (self.posterType == THNSharePosterTypeGoods) {
-            [paramDict setObject:@(4) forKey:kKeyType];
-            [paramDict setObject:kWxaProductPath forKey:kKeyPath];
-            
-        } else if (self.posterType == THNSharePosterTypeWindow) {
-            [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
+        switch (self.posterType) {
+            case THNSharePosterTypeGoods: {
+                [paramDict setObject:@(4) forKey:kKeyType];
+                [paramDict setObject:kWxaProductPath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeWindow: {
+                 [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeInvitation: {
+                 [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+            }
+                break;
+                
+            case THNSharePosterTypeLifeStore: {
+                [paramDict setObject:@(2) forKey:kKeyType];
+                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+            }
+                break;
         }
         
         return [paramDict copy];

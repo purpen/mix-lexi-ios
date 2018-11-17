@@ -19,6 +19,7 @@
 #import "THNLifeOrderRecordViewController.h"
 #import "THNLifeCashViewController.h"
 #import "THNLifeActionViewController.h"
+#import "THNShareImageViewController.h"
 
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
 ///
@@ -153,6 +154,30 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     self.countdownView.hidden = phases != 1;
 }
 
+// 邀请好友开馆海报
+- (void)thn_openShareImageController {
+    NSString *lifeStoreId = [THNLoginManager sharedManager].storeRid;
+    
+    if (!lifeStoreId.length) return;
+    
+    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeInvitation)
+                                                                                        requestId:lifeStoreId];
+    [self presentViewController:shareImageVC animated:NO completion:nil];
+}
+
+// 复制微信号
+- (void)thn_copyWechat {
+    UIPasteboard *pab = [UIPasteboard generalPasteboard];
+    [pab setString:@"lexixiaoduo"];
+    
+    if (!pab) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请在微信添加朋友「lexixiaoduo」"];
+        
+    } else {
+        [SVProgressHUD thn_showSuccessWithStatus:@"复制成功，去微信添加朋友「lexixiaoduo」"];
+    }
+}
+
 #pragma mark - tableView datasource & delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -188,10 +213,10 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        [SVProgressHUD thn_showInfoWithStatus:@"邀请好友"];
+        [self thn_openShareImageController];
         
     } else {
-        [SVProgressHUD thn_showInfoWithStatus:@"加入馆主群"];
+        [self thn_copyWechat];
     }
 }
 
@@ -203,7 +228,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     [self.headerView addSubview:self.dataView];
     [self.headerView addSubview:self.hintView];
     self.lifeInfoTable.tableHeaderView = self.headerView;
-    [self.footerView addSubview:self.phoneButton];
+//    [self.footerView addSubview:self.phoneButton];
     self.lifeInfoTable.tableFooterView = self.footerView;
     [self.view addSubview:self.lifeInfoTable];
 }
