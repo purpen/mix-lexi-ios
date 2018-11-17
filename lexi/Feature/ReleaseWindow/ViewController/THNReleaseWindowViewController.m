@@ -21,12 +21,15 @@
 #import "THNSelectWindowProductViewController.h"
 #import "THNAddShowWindowViewController.h"
 
+static NSString *const kUrlShopWindows = @"/shop_windows";
+
 @interface THNReleaseWindowViewController () <
 YYTextViewDelegate,
 YYTextKeyboardObserver,
 THNToolBarViewDelegate,
 WBStatusComposeEmoticonViewDelegate,
-UITextFieldDelegate
+UITextFieldDelegate,
+THNNavigationBarViewDelegate
 >
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *collageButtons;
@@ -48,6 +51,12 @@ UITextFieldDelegate
 @property (nonatomic, assign) NSInteger selectIndex;
 // 点击输入框类型
 @property (nonatomic, assign) BOOL isClickTextField;
+@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) NSMutableArray *keywords;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *keywordViewHeightConstraint;
+@property (nonatomic, strong) NSString *windowTitle;
+@property (nonatomic, strong) NSString *windowContent;
+@property (nonatomic, strong) NSMutableArray *productItems;
 
 @end
 
@@ -64,10 +73,15 @@ UITextFieldDelegate
     [self.view addSubview:self.toolbar];
     self.titleTextField.delegate = self;
     self.toolbar.delegate = self;
-    
     self.navigationBarView.title = @"发布橱窗";
     self.navigationBarView.rightButtonTrailing = -20;
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_gray"];
+    
+    WEAKSELF;
+    [self.navigationBarView didNavigationRightButtonCompletion:^{
+        [weakSelf releaseWindow];
+    }];
+    
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_release_green"];
     [self.addTagButton drawCornerWithType:0 radius:13];
     self.scrollViewBottomConstraint.constant = kDeviceiPhoneX ? 34 : 0;
     [self.collageButtons enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -92,18 +106,42 @@ UITextFieldDelegate
     
     self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
-    WEAKSELF;
+    
     self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
         weakSelf.selectIndex = index;
         [weakSelf pushSelectWindowProductVC];
     };
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
     
     // 设置键盘距textView的间距
     IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
     keyboardManager.enable = YES;
     keyboardManager.keyboardDistanceFromTextField = 50;
+}
+
+- (void)releaseWindow {
+    [SVProgressHUD thn_show];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"title"] = self.windowTitle;
+    params[@"description"] = self.windowContent;
+    params[@"product_items"] = self.productItems;
+    params[@"keywords"] = self.keywords;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindows requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [SVProgressHUD thn_showInfoWithStatus:@"发布成功"];
+        [SVProgressHUD dismissWithDelay:2.0 completion:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
@@ -136,7 +174,7 @@ UITextFieldDelegate
     WEAKSELF;
     THNSelectWindowProductViewController *selectProductVC = [[THNSelectWindowProductViewController alloc]init];
     
-    selectProductVC.selectWindowBlock = ^(NSString *cover) {
+    selectProductVC.selectWindowBlock = ^(NSString *cover, NSInteger coverID, NSString *productRid) {
         switch (self.imageType) {
             case ShopWindowImageTypeThree:
                 [weakSelf.threeImageStitchingView setCLickImageView:cover withSelectIndex:weakSelf.selectIndex];
@@ -149,14 +187,19 @@ UITextFieldDelegate
                 break;
         }
         
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"rid"] = productRid;
+        params[@"cover_id"] = @(coverID);
+        [self.productItems addObject:params];
+        
     };
     
     [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
 }
 
 - (IBAction)collage:(UIButton *)button {
-     WEAKSELF;
-   
+    WEAKSELF;
+    
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
@@ -172,7 +215,7 @@ UITextFieldDelegate
             self.sevenImagesStitchingView.hidden = YES;
             self.threeImageStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
-//            [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
+            //            [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
         case ShopWindowImageTypeFive:{
@@ -209,7 +252,75 @@ UITextFieldDelegate
 
 - (IBAction)addTag:(id)sender {
     THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
+    
+    addShowWindowVC.addShowWindowBlock = ^(NSString *name) {
+        [self.keywords addObject:name];
+        [self createLabelWithArray:self.keywords FontSize:12 SpcX:5 SpcY:20];
+        //        self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
+    };
+    
     [self.navigationController pushViewController:addShowWindowVC animated:YES];
+}
+
+- (void)deleteKeyword:(UIButton *)button {
+    [self.keywords removeObjectAtIndex:button.tag];
+    [self createLabelWithArray:self.keywords FontSize:12 SpcX:5 SpcY:20];
+}
+
+//动态添加label方法
+- (void)createLabelWithArray:(NSMutableArray *)titleArr FontSize:(CGFloat)fontSize SpcX:(CGFloat)spcX SpcY:(CGFloat)spcY
+{
+    // 清空子视图
+    [self.keywordView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    //创建标签位置变量
+    CGFloat positionX = spcX;
+    CGFloat positionY = spcY;
+    
+    //创建label
+    for(int i = 0; i < titleArr.count; i++)
+    {
+        CGSize labelSize = [self getSizeByString:titleArr[i] AndFontSize:fontSize];
+        CGFloat labelWidth = labelSize.width + 45;
+        
+        if (i == 0) {
+            positionX = 0;
+            positionY = 0;
+        } else {
+            if (positionX + labelWidth > SCREEN_WIDTH - 140) {
+                positionX = 0;
+                positionY += 35;
+            }
+        }
+        
+        UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(positionX, positionY, labelWidth, 24)];
+        backgroundView.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
+        backgroundView.layer.cornerRadius = backgroundView.viewHeight / 2;
+        UIButton *deleteButton = [[UIButton alloc]initWithFrame:CGRectMake(backgroundView.viewWidth - 25, 5, 13, 13)];
+        deleteButton.tag = i;
+        [deleteButton setImage:[UIImage imageNamed:@"icon_search_delete"] forState:UIControlStateNormal];
+        [deleteButton addTarget:self action:@selector(deleteKeyword:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroundView addSubview:deleteButton];
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont systemFontOfSize:fontSize];
+        label.text = [NSString stringWithFormat:@"#%@",titleArr[i]];
+        label.textAlignment = NSTextAlignmentLeft;
+        label.textColor = [UIColor colorWithHexString:@"#333333"];
+        label.frame = CGRectMake(10, 5, labelWidth, labelSize.height);
+        positionX += (labelWidth + 5);
+        [backgroundView addSubview:label];
+        self.backgroundView = backgroundView;
+        [self.keywordView addSubview:backgroundView];
+    }
+    
+    self.keywordViewHeightConstraint.constant =  titleArr.count > 0 ? CGRectGetMaxY(self.backgroundView.frame) : 0;
+}
+
+//获取字符串长度的方法
+- (CGSize)getSizeByString:(NSString*)string AndFontSize:(CGFloat)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(999, 25) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size;
+    size.width += 5;
+    return size;
 }
 
 #pragma mark - YYTextViewDelegate
@@ -224,6 +335,15 @@ UITextFieldDelegate
     self.toolbar.hidden = NO;
     [self layoutTextField];
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.windowTitle = textField.text;
+}
+
+- (void)textViewDidEndEditing:(YYTextView *)textView {
+    self.windowContent = textView.text;
+}
+
 
 // 动态改变TextView的高度
 - (void)textViewDidChange:(YYTextView *)textView {
@@ -253,6 +373,7 @@ UITextFieldDelegate
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 
 #pragma mark - THNToolBarViewDelegate
 - (void)changeKeyboardType:(UIButton *)button {
@@ -357,5 +478,18 @@ UITextFieldDelegate
     return _toolbar;
 }
 
+- (NSMutableArray *)keywords {
+    if (!_keywords) {
+        _keywords = [NSMutableArray array];
+    }
+    return _keywords;
+}
+
+- (NSMutableArray *)productItems {
+    if (!_productItems) {
+        _productItems = [NSMutableArray array];
+    }
+    return _productItems;
+}
 
 @end

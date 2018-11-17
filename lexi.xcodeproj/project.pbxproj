@@ -472,6 +472,9 @@
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
+		D8AA529821A0065A003F2111 /* THNSearchWindowLabelResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529621A00659003F2111 /* THNSearchWindowLabelResultViewController.m */; };
+		D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */; };
+		D8AA529D21A00679003F2111 /* THNShopWindowResultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8AA529B21A00679003F2111 /* THNShopWindowResultHeaderView.xib */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
 		D8B434AE219AC66D009D2434 /* THNCouponDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B434AC219AC66D009D2434 /* THNCouponDataModel.m */; };
 		D8B434C6219AC711009D2434 /* THNDynamicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B434B1219AC711009D2434 /* THNDynamicViewController.m */; };
@@ -1352,6 +1355,11 @@
 		D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNDynamicActionTableViewCell+Action.m"; sourceTree = "<group>"; };
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
+		D8AA529621A00659003F2111 /* THNSearchWindowLabelResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSearchWindowLabelResultViewController.m; sourceTree = "<group>"; };
+		D8AA529721A00659003F2111 /* THNSearchWindowLabelResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSearchWindowLabelResultViewController.h; sourceTree = "<group>"; };
+		D8AA529921A00678003F2111 /* THNShopWindowResultHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShopWindowResultHeaderView.h; sourceTree = "<group>"; };
+		D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShopWindowResultHeaderView.m; sourceTree = "<group>"; };
+		D8AA529B21A00679003F2111 /* THNShopWindowResultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNShopWindowResultHeaderView.xib; sourceTree = "<group>"; };
 		D8B36C5F2174916000A6009F /* image_life_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_life_wechat.png; sourceTree = "<group>"; };
 		D8B434AC219AC66D009D2434 /* THNCouponDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCouponDataModel.m; sourceTree = "<group>"; };
 		D8B434AD219AC66D009D2434 /* THNCouponDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCouponDataModel.h; sourceTree = "<group>"; };
@@ -1485,6 +1493,8 @@
 				4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */,
 				D8409305219ECD6900EF1F70 /* THNSelectWindowProductViewController.h */,
 				D8409306219ECD6900EF1F70 /* THNSelectWindowProductViewController.m */,
+				D8AA529721A00659003F2111 /* THNSearchWindowLabelResultViewController.h */,
+				D8AA529621A00659003F2111 /* THNSearchWindowLabelResultViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -3365,6 +3375,9 @@
 		D8C2A05B219D869E00886FB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D8AA529921A00678003F2111 /* THNShopWindowResultHeaderView.h */,
+				D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */,
+				D8AA529B21A00679003F2111 /* THNShopWindowResultHeaderView.xib */,
 				D8C2A05C219D869E00886FB2 /* THNSelectProducCollectionView.h */,
 				D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */,
 				D8409309219ECD7200EF1F70 /* THNSelectPruductCoverCollectionViewCell.h */,
@@ -3540,6 +3553,7 @@
 				4B2644EF2125590700665A6D /* showWindow.json in Resources */,
 				4BECF1E9217F1401008E5E28 /* THNLivingHallHeaderView.xib in Resources */,
 				4BECF180217F1401008E5E28 /* THNArticleHeaderView.xib in Resources */,
+				D8AA529D21A00679003F2111 /* THNShopWindowResultHeaderView.xib in Resources */,
 				D840930E219ECD7300EF1F70 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
@@ -3876,6 +3890,7 @@
 				D8D7D003219437DB00948247 /* THNOfficialCollectionViewCell.m in Sources */,
 				4B27B40F218717D1004AF42F /* THNSetPasswordView.m in Sources */,
 				4B27B410218717D1004AF42F /* THNSignInView.m in Sources */,
+				D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */,
 				4B27B411218717D1004AF42F /* THNSignUpView.m in Sources */,
 				4B27B412218717D1004AF42F /* THNZipCodeTableViewCell.m in Sources */,
 				4B27B413218717D1004AF42F /* THNZipCodeView.m in Sources */,
@@ -3932,6 +3947,7 @@
 				4B27B452218717D2004AF42F /* THNSelectLogisticsTableViewCell.m in Sources */,
 				4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */,
 				4B27B453218717D2004AF42F /* THNSelectOfficalCouponView.m in Sources */,
+				D8AA529821A0065A003F2111 /* THNSearchWindowLabelResultViewController.m in Sources */,
 				4B27B454218717D2004AF42F /* THNAlertView.m in Sources */,
 				4B27B455218717D2004AF42F /* THNCustomTextTableViewCell.m in Sources */,
 				4B27B456218717D2004AF42F /* THNFunctionButton.m in Sources */,

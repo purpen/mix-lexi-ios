@@ -29,14 +29,15 @@ NSString *const shopWindowHotLabelCellIdentifier = @"shopWindowHotLabelCellIdent
 
 - (void)setHotKeywordModel:(THNHotKeywordModel *)hotKeywordModel {
     _hotKeywordModel = hotKeywordModel;
-    self.nameLabel.text = hotKeywordModel.name;
+    self.nameLabel.text = [NSString stringWithFormat:@"# %@",hotKeywordModel.name];
     self.desLabel.hidden = hotKeywordModel.type == 0 ?: NO;
     
     NSString *numberStr;
     
     if (hotKeywordModel.numbers > 10000) {
-        CGFloat number = hotKeywordModel.numbers / 10000;
-        numberStr = [NSString stringWithFormat:@"%.2fw", number];
+
+        NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f", floor(hotKeywordModel.numbers)/ 10000]];
+        numberStr = [NSString stringWithFormat:@"%@w", number];
     } else {
         numberStr = [NSString stringWithFormat:@"%ld", hotKeywordModel.numbers];
     }
