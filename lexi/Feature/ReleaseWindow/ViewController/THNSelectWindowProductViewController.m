@@ -54,6 +54,8 @@ THNMJRefreshDelegate
 @property (nonatomic, strong) NSIndexPath *selectIndex;
 @property (nonatomic, strong) UIButton *sureButton;
 @property (nonatomic, strong) NSString *selectCover;
+@property (nonatomic, assign) NSInteger coverID;
+@property (nonatomic, strong) NSString *productRid;
 
 @end
 
@@ -149,6 +151,7 @@ THNMJRefreshDelegate
 }
 
 - (void)loadProductCover:(NSString *)rid {
+    self.productRid = rid;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductImages requestDictionary:params delegate:nil];
@@ -162,7 +165,7 @@ THNMJRefreshDelegate
 
 - (void)selectPhotoFinish {
     if (self.selectWindowBlock) {
-        self.selectWindowBlock(self.selectCover);
+        self.selectWindowBlock(self.selectCover, self.coverID, self.productRid);
     }
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -191,6 +194,7 @@ THNMJRefreshDelegate
     self.sureButton.enabled = YES;
     [self.sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.selectCover = self.productCovers[indexPath.row][@"view_url"];
+    self.coverID = [self.productCovers[indexPath.row][@"id"] integerValue];
 }
 
 #pragma mark - THNMJRefreshDelegate

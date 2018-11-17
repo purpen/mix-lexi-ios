@@ -13,6 +13,7 @@
 #import "THNSearchHeaderView.h"
 #import "THNShopWindowHotLabelTableViewCell.h"
 #import "THNHotKeywordModel.h"
+#import "THNSearchWindowLabelResultViewController.h"
 
 typedef NS_ENUM(NSUInteger, AddShowWindowCellType) {
     AddShowWindowCellTypeHistory,
@@ -38,6 +39,7 @@ UICollectionViewDelegateFlowLayout
 @property (nonatomic, assign) AddShowWindowCellType showWindowCellType;
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSArray *hotKeyWords;
+@property (nonatomic, strong) THNSearchWindowLabelResultViewController *searchIndexVC;
 
 @end
 
@@ -45,6 +47,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(addShowWindowLabel:) name:@"addLabelSuccess" object:nil];
     [self setupUI];
     [self loadData];
     [self.searchView readHistorySearch];
@@ -70,7 +73,7 @@ UICollectionViewDelegateFlowLayout
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
+
         self.hotKeyWords = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
         
         if (self.hotKeyWords.count > 0) {
@@ -82,6 +85,55 @@ UICollectionViewDelegateFlowLayout
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
     }];
+}
+
+- (void)addShowWindowLabel:(NSNotification *)notification {
+    NSString *name = notification.userInfo[@"name"];
+    [self.searchView addHistoryModelWithText:name];
+    if (self.addShowWindowBlock) {
+        self.addShowWindowBlock(name);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// 关键字索引数据
+- (void)loadSearchIndexData:(NSString *)textFieldText {
+    // 过滤空格
+    NSMutableString *mutableStr = [[textFieldText stringByReplacingOccurrencesOfString:@" " withString:@""] mutableCopy];
+    // 搜索关键词为nil ，清除视图
+    if (mutableStr.length == 0) {
+        [self removeSearchIndexView];
+        return;
+    }
+
+    [SVProgressHUD thn_show];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"qk"] = mutableStr;
+
+    THNRequest *request = [THNAPI getWithUrlString:kShopWindowsSearchKeywords requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+
+        self.searchIndexVC.searchIndexs = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
+        self.searchIndexVC.textFieldText = mutableStr;
+        [self.view addSubview:self.searchIndexVC.view];
+        [self.searchIndexVC didMoveToParentViewController:self];
+        [self.searchIndexVC.tableView reloadData];
+        [self addChildViewController:self.searchIndexVC];
+
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
+}
+
+- (void)removeSearchIndexView {
+    if (self.childViewControllers.count == 0) {
+        return;
+    }
+
+    UIViewController *vc = [self.childViewControllers lastObject];
+    [vc.view removeFromSuperview];
+    [vc removeFromParentViewController];
 }
 
 - (void)clearSearchHistoryData {
@@ -127,16 +179,24 @@ UICollectionViewDelegateFlowLayout
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     AddShowWindowCellType showWindowCellType = [self.searchTypes[indexPath.section] integerValue];
+    THNHotKeywordModel * hotKeywordModel = self.hotKeyWords[indexPath.row];
+    NSString *labelName;
     switch (showWindowCellType) {
             
         case AddShowWindowCellTypeHistory:{
+            labelName = self.historyWords[indexPath.row];
            [self.navigationController popViewControllerAnimated:YES];
             break;
         }
         case AddShowWindowCellTypePopular:{
+            labelName = hotKeywordModel.name;
            [self.navigationController popViewControllerAnimated:YES];
             break;
         }
+    }
+
+    if (self.addShowWindowBlock) {
+        self.addShowWindowBlock(labelName);
     }
 }
 
@@ -169,9 +229,11 @@ UICollectionViewDelegateFlowLayout
     switch (showWindowCellType) {
         case AddShowWindowCellTypeHistory:
             searchHeaderView.sectionTitle = @"历史添加";
+            break;
         case AddShowWindowCellTypePopular:{
             self.showWindowCellType = AddShowWindowCellTypePopular;
             searchHeaderView.sectionTitle = @"热门标签";
+            break;
         }
     }
     
@@ -209,6 +271,10 @@ UICollectionViewDelegateFlowLayout
         [self.searchTypes addObject:@(AddShowWindowCellTypeHistory)];
         [self.sections addObject:self.historyWords];
     }
+}
+
+- (void)loadSearchIndex:(NSString *)textFieldText {
+    [self loadSearchIndexData:textFieldText];
 }
 
 #pragma mark - lazy
@@ -250,6 +316,14 @@ UICollectionViewDelegateFlowLayout
         _searchTypes = [NSMutableArray array];
     }
     return _searchTypes;
+}
+
+- (THNSearchWindowLabelResultViewController *)searchIndexVC {
+    if (!_searchIndexVC) {
+        _searchIndexVC = [[THNSearchWindowLabelResultViewController alloc]init];
+        _searchIndexVC.view.frame = CGRectMake(0, CGRectGetMaxY(self.searchView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    return _searchIndexVC;
 }
 
 @end

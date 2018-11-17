@@ -8,7 +8,7 @@
 
 #import "THNBaseViewController.h"
 
-typedef void(^SelectWindowBlcok)(NSString *cover);
+typedef void(^SelectWindowBlcok)(NSString *cover, NSInteger coverID, NSString *productRid);
 
 @interface THNSelectWindowProductViewController : THNBaseViewController
 

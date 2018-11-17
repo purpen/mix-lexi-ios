@@ -8,6 +8,10 @@
 
 #import "THNBaseViewController.h"
 
+typedef void(^AddShowWindowBlock)(NSString *name);
+
 @interface THNAddShowWindowViewController : THNBaseViewController
+
+@property (nonatomic, copy) AddShowWindowBlock addShowWindowBlock;
 
 @end
