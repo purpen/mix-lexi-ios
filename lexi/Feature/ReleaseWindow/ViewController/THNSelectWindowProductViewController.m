@@ -156,7 +156,7 @@ THNMJRefreshDelegate
                 case SelectProductTypeRecentlyViewed:
                     [self.footerView setHintLabelText:@"你当前还没有查看的商品" iconImageName:@"icon_liked_default"];
                     break;
-            }
+        }
 
             [self.scrollView addSubview:self.footerView];
             return;
@@ -180,6 +180,11 @@ THNMJRefreshDelegate
     params[@"rid"] = rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductImages requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.productCovers = result.data[@"images"];
         [self.productCoverCollectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -228,9 +233,9 @@ THNMJRefreshDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // 设置选中状态
-    THNSelectPruductCoverCollectionViewCell *selectCell = [collectionView cellForItemAtIndexPath:self.selectIndex];
+    THNSelectPruductCoverCollectionViewCell *selectCell = (THNSelectPruductCoverCollectionViewCell *)[collectionView cellForItemAtIndexPath:self.selectIndex];
     selectCell.selectButton.selected = NO;
-    THNSelectPruductCoverCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    THNSelectPruductCoverCollectionViewCell *cell = (THNSelectPruductCoverCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     self.selectIndex = indexPath;
     cell.selectButton.selected = YES;
     self.sureButton.backgroundColor = [UIColor colorWithHexString:@"#5FE4B1"];
@@ -276,8 +281,13 @@ THNMJRefreshDelegate
         [self.productCollectionView resetCurrentPageNumber];
         [self loadUserLikeProductData];
     } else {
+        // 解决其他列表成为NoMoreData的状态时,该列表也不可下拉的问题
+        [self.productCollectionView resetNoMoreData];
+        // 隐藏缺省图
         self.footerView.hidden = YES;
         [self.productCollectionView reloadData];
+        // 回滚到顶部
+        [self.productCollectionView setContentOffset:CGPointMake(0, 0) animated:NO];
     }
 }
 

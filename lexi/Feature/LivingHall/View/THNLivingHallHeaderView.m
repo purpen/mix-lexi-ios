@@ -181,6 +181,11 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     NSString *requestUrl = [NSString stringWithFormat:@"/store/%@/app_visitor",self.loginManger.storeRid];
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.userPartieArray = result.data[@"users"];
         NSInteger baroseCount = [result.data[@"browse_number"] integerValue];
         NSInteger count = [result.data[@"count"] integerValue];
@@ -209,6 +214,12 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     params[@"per_page"] = @3;
     THNRequest *request = [THNAPI getWithUrlString:kUrlSelectProductCenter requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.selectProductArray = result.data[@"products"];
         __weak typeof(self)weakSelf = self;
         
@@ -245,6 +256,10 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     params[@"rid"] = self.loginManger.storeRid;
     THNRequest *request = [THNAPI putWithUrlString:kUrlEditLifeStoreLogo requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
         
     } failure:^(THNRequest *request, NSError *error) {
         

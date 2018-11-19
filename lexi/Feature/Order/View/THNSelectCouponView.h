@@ -9,15 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "THNSelectCouponTableViewCell.h"
 
+@class THNCouponModel;
 
-typedef void(^SelectCouponBlock)(NSString *text, CGFloat couponAcount, NSString *code);
+UIKIT_EXTERN NSString *const kNotSelectDesTitle;
+
+typedef void(^SelectCouponBlock)(NSString *text, THNCouponModel *couponModel);
+typedef void(^DoNotUseCouponBlock)(NSString *text);
 
 @interface THNSelectCouponView : UIView
 
 @property (nonatomic, strong) NSArray *coupons;
 @property (nonatomic, assign) CouponType couponType;
-
 @property (nonatomic, copy) SelectCouponBlock selectCouponBlock;
-
+@property (nonatomic, copy) DoNotUseCouponBlock notUseCounponBlock;
 
 @end

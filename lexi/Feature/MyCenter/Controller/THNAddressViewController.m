@@ -56,6 +56,11 @@ static NSString *const kKeyData     = @"data";
     THNRequest *request = [THNAPI getWithUrlString:kURLAddress requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         if (![result hasData] || !result.isSuccess) return ;
         
         for (NSDictionary *dict in result.responseDict[kKeyData]) {

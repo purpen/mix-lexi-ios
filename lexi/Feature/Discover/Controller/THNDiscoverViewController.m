@@ -83,6 +83,11 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlDiscoverBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         [self.bannerView setBannerView:result.data[@"banner_images"]];
     } failure:^(THNRequest *request, NSError *error) {
         

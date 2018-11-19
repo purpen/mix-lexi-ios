@@ -93,6 +93,7 @@
 }
 
 - (void)setTotalCouponAmount:(CGFloat)totalCouponAmount {
+    
     self.couponLabel.text = [NSString formatFloat:totalCouponAmount];
 }
 

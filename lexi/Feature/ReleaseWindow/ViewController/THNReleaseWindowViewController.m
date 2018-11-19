@@ -58,7 +58,7 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSString *windowContent;
 @property (nonatomic, strong) NSMutableArray *productItems;
 @property (nonatomic, strong) NSMutableArray *storeRids;
-@property (nonatomic, strong) NSMutableArray *coverWithSelectIndexs;
+@property (nonatomic, strong) NSArray *coverWithSelectIndexs;
 @property (nonatomic, strong) NSMutableArray *sortMutable;
 
 @end
@@ -137,7 +137,7 @@ THNNavigationBarViewDelegate
         case ShopWindowImageTypeFive:
             if (self.productItems.count > 5) {
                 [self.productItems removeObjectsInRange:NSMakeRange(4, self.productItems.count - 5)];
-            }else if (self.productItems.count < 5) {
+            } else if (self.productItems.count < 5) {
                 [SVProgressHUD thn_showInfoWithStatus:@"选择数量有误"];
                 return;
             }
@@ -165,7 +165,6 @@ THNNavigationBarViewDelegate
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-
 
         [self.navigationController popViewControllerAnimated:YES];
         
@@ -228,19 +227,21 @@ THNNavigationBarViewDelegate
         [self.sortMutable addObject:coverWithIndexParams];
         self.coverWithSelectIndexs = [self.sortMutable sortedArrayUsingDescriptors:sortArr];
         
+        // 替换之前选择的封面信息
+        for (NSMutableDictionary *mutableDict in self.productItems) {
+            if ([mutableDict[@"selectIndex"] integerValue] == self.selectIndex) {
+                mutableDict[@"rid"] = productRid;
+                mutableDict[@"cover_id"] = @(coverID);
+                return;
+            }
+        }
+        
         // 设置发布橱窗后台需要的信息
         NSMutableDictionary *releaseParams = [NSMutableDictionary dictionary];
         releaseParams[@"rid"] = productRid;
         releaseParams[@"cover_id"] = @(coverID);
+        releaseParams[@"selectIndex"] = @(self.selectIndex);
         [self.productItems addObject:releaseParams];
-
-//        // 替换之前选择的封面信息
-//        NSMutableDictionary *lastSelectParams = self.productItems[self.selectIndex];
-//        if (lastSelectParams.count > 0) {
-//            lastSelectParams[@"rid"] = productRid;
-//            lastSelectParams[@"cover_id"] = @(coverID);
-//
-//        }
 
     };
 
@@ -265,18 +266,21 @@ THNNavigationBarViewDelegate
             self.sevenImagesStitchingView.hidden = YES;
             self.threeImageStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
-           [self.threeImageStitchingView setThreeImages:self.coverWithSelectIndexs];
+            [self.threeImageStitchingView setThreeImages:self.coverWithSelectIndexs];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
         case ShopWindowImageTypeFive:{
             self.threeImageStitchingView.hidden = YES;
+            self.sevenImagesStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = NO;
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
+            
             self.fiveImagesStitchingView.fiveImageBlock = ^(NSInteger index) {
                 weakSelf.selectIndex = index;
                 [weakSelf pushSelectWindowProductVC];
             };
             
+            self.fiveImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
             [self.fiveImagesStitchingView setFiveImages:self.coverWithSelectIndexs];
             break;
@@ -285,16 +289,17 @@ THNNavigationBarViewDelegate
             self.threeImageStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = YES;
             self.sevenImagesStitchingView.hidden = NO;
-            [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
 
             self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
+            self.sevenImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
+            [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
+            [self.sevenImagesStitchingView setSevenImages:self.coverWithSelectIndexs];
             
             self.sevenImagesStitchingView.sevenImageBlock = ^(NSInteger index) {
                 weakSelf.selectIndex = index;
                 [weakSelf pushSelectWindowProductVC];
             };
-
-            [self.sevenImagesStitchingView setSevenImages:self.coverWithSelectIndexs];
+            
             break;
         }
             
@@ -524,7 +529,6 @@ THNNavigationBarViewDelegate
 - (THNFiveImagesStitchView *)fiveImagesStitchingView {
     if (!_fiveImagesStitchingView) {
         _fiveImagesStitchingView = [THNFiveImagesStitchView viewFromXib];
-        _fiveImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
         _fiveImagesStitchingView.isContentModeCenter = YES;
     }
     return _fiveImagesStitchingView;
@@ -533,7 +537,6 @@ THNNavigationBarViewDelegate
 - (THNSevenImagesStitchView *)sevenImagesStitchingView {
     if (!_sevenImagesStitchingView) {
         _sevenImagesStitchingView = [THNSevenImagesStitchView viewFromXib];
-        _sevenImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
         _sevenImagesStitchingView.isContentModeCenter = YES;
     }
     return _sevenImagesStitchingView;
@@ -568,13 +571,6 @@ THNNavigationBarViewDelegate
         _storeRids = [NSMutableArray array];
     }
     return _storeRids;
-}
-
-- (NSMutableArray *)coverWithSelectIndexs {
-    if (!_coverWithSelectIndexs) {
-        _coverWithSelectIndexs = [NSMutableArray array];
-    }
-    return _coverWithSelectIndexs;
 }
 
 - (NSMutableArray *)sortMutable {

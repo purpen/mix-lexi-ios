@@ -107,6 +107,11 @@ UICollectionViewDelegateFlowLayout
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         // 读取历史记录
         [self.searchView readHistorySearch];
         self.recentlyViewedProducts = result.data[@"products"];
@@ -126,6 +131,11 @@ UICollectionViewDelegateFlowLayout
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlHotRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         [self.popularRecommends addObjectsFromArray:result.data[@"hot_recommends"]];
         if (self.popularRecommends.count > 0) {
             [self.sectionTitles addObject:KSearchHotRecommendTitle];
@@ -143,6 +153,11 @@ UICollectionViewDelegateFlowLayout
     THNRequest *request = [THNAPI getWithUrlString:kUrlHotSearch requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.popularSearchs = result.data[@"search_items"];
         if (self.popularSearchs.count > 0) {
             [self.sectionTitles addObject:kSearchHotSearchTitle];

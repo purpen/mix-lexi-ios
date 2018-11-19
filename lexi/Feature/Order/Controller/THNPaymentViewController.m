@@ -118,6 +118,11 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     NSString *requestUrl = self.fromPaymentType == FromPaymentTypePreViewVC ?  kUrlCreateOrderWXPay : kUrlOrderWXPay;
     THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
         [self tuneUpWechatPay:payModel];
     } failure:^(THNRequest *request, NSError *error) {

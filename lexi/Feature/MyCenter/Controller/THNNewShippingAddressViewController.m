@@ -147,6 +147,11 @@ UITextFieldDelegate
 - (void)loadAreaCodeData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlAreaCode requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.areaCodes = result.data[@"area_codes"];
         [self.tableView reloadData];
         
@@ -205,6 +210,11 @@ UITextFieldDelegate
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         if (result.data.count == 0 && !self.isSaveCustom) {
             self.isShowCardView = NO;
             

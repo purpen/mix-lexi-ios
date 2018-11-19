@@ -12,8 +12,10 @@
 #import <MJExtension/MJExtension.h>
 #import "THNCouponModel.h"
 #import "NSString+Helper.h"
+#import "UIColor+Extension.h"
 
 static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifier";
+NSString *const kNotSelectDesTitle = @"不使用优惠";
 
 @interface THNSelectCouponView()<UITableViewDelegate, UITableViewDataSource>
 
@@ -23,6 +25,10 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 @property (nonatomic, strong) NSIndexPath *selectIndex;
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) THNCouponModel *couponModel;
+@property (weak, nonatomic) IBOutlet UIButton *noUseCouponButton;
+@property (weak, nonatomic) IBOutlet UIView *selectCouponInformationView;
+@property (weak, nonatomic) IBOutlet UIButton *noUserSureButton;
+@property (nonatomic, assign) CGFloat couponSpread;
 
 @end
 
@@ -31,25 +37,42 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.sureButton drawCornerWithType:0 radius:4];
+    [self.noUserSureButton drawCornerWithType:0 radius:4];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = 95;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSelectCouponTableViewCell" bundle:nil] forCellReuseIdentifier:kSelectCouponCellIdentifier];
     self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    self.noUserSureButton.hidden = YES;
 }
 
 - (IBAction)cancel:(id)sender {
     [self remove];
 }
 
-- (void)remove {
-    if (self.selectCouponBlock) {
-        self.selectCouponBlock(self.couponMoneyLabel.text, self.couponModel.amount, self.couponModel.code);
-    }
-    [self removeFromSuperview];
+- (IBAction)doNotUseCoupons:(UIButton *)button {
+    THNSelectCouponTableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.selectIndex];
+    cell.isSelect = NO;
+    button.selected = YES;
+    self.selectCouponInformationView.hidden = YES;
+    self.noUserSureButton.hidden = NO;
+    self.couponMoneyLabel.text = kNotSelectDesTitle;
 }
 
+- (void)remove {
+    [self removeFromSuperview];
+    
+    if ([self.couponMoneyLabel.text isEqualToString:kNotSelectDesTitle]) {
+        if (self.notUseCounponBlock) {
+            self.notUseCounponBlock(kNotSelectDesTitle);
+        }
+    } else {
+        if (self.selectCouponBlock) {
+            self.selectCouponBlock(self.couponMoneyLabel.text, self.couponModel);
+        }
+    }
+}
 
 - (IBAction)sure:(id)sender {
     [self remove];
@@ -77,12 +100,12 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
     }
     
-    cell.couponType = self.couponType;
     
+    cell.couponType = self.couponType;
     [cell setCouponModel:couponModel];
     
     if (indexPath == self.selectIndex) {
-        self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
+        self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵%.2f",couponModel.amount];
         cell.isSelect = YES;
         self.selectIndex = indexPath;
     }
@@ -93,13 +116,15 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectCouponTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
     selectedCell.isSelect = NO;
+    self.noUseCouponButton.selected = NO;
+    self.selectCouponInformationView.hidden = NO;
+    self.noUserSureButton.hidden = YES;
     
     THNSelectCouponTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.isSelect = YES;
     self.selectIndex = indexPath;
     THNCouponModel *couponModel;
 
-    
     if (self.couponType == CouponTypeStore) {
         couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
     } else {
@@ -108,10 +133,8 @@ static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifi
 
     if (couponModel) {
         self.couponModel = couponModel;
-
-        self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",couponModel.amount];
+        self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵%.2f",couponModel.amount];
     }
-
 }
 
 @end

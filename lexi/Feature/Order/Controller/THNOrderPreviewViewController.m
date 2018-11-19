@@ -129,8 +129,6 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         [self loadLogisticsProductExpressData];
     });
     
-    
-    
     dispatch_group_notify(group, queue, ^{
         
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
@@ -453,8 +451,8 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     self.skus = skus;
     // 每个店铺的满减
     NSDictionary *fullReductionDict = self.fullReductionDict[storekey];
-   
     THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
+    
     // 每个店铺优惠券数组
     NSArray *coupons = self.couponDict[storekey];
 
@@ -507,21 +505,25 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
                                 };
     
     self.detailModel = [THNOrderDetailModel mj_objectWithKeyValues:payParams];
-    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
-    
-    return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
+    // 业务隐藏
+//    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
+//    return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
+    return CGRectGetMaxY(self.logisticsView.frame);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame))];
+//    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight)];
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
-    [headerView addSubview:self.payDetailView];
-    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH,  self.payDetailViewHeight);
+    // 业务隐藏支付明细
+//    [headerView addSubview:self.payDetailView];
+//    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH,  self.payDetailViewHeight);
     return headerView;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
     self.selectOfficalCouponView.officalCoupons = self.officalCoupons;
     __weak typeof(self)weakSelf = self;
 
@@ -620,7 +622,7 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     // 优惠券码插入到对应的店铺
     NSMutableDictionary *skuItemDict = self.skuItems[tag];
     skuItemDict[@"coupon_codes"] = code;
-    self.totalCouponAmount += couponSpread;
+    self.totalCouponAmount = couponSpread;
     [self.payDetailView setTotalCouponAmount:self.totalCouponAmount];
 }
 
@@ -629,6 +631,11 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSMutableDictionary *skuItemDict = self.skuItems[tag];
     skuItemDict[@"buyer_remark"] = remarkStr;
     skuItemDict[@"blessing_utterance"] = giftStr;
+}
+
+- (void)changeTotalCouponAmount {
+    self.totalCouponAmount = 0;
+    [self.payDetailView setTotalCouponAmount:self.totalCouponAmount];
 }
 
 #pragma mark - getters and setters

@@ -124,9 +124,11 @@ UITextFieldDelegate
     }
 
     if (newCoupons.count > 0) {
-        self.couponLabel.text = [NSString stringWithFormat:@"已抵扣%.2f",[newCoupons[0][@"amount"] floatValue]];
+       self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f",[newCoupons[0][@"amount"] floatValue]];
+       self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
     } else {
-        self.couponLabel.text = @"当前没有优惠券";
+        self.couponLabel.text = @"无可用优惠券";
+        self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
     }
     
     
@@ -144,13 +146,21 @@ UITextFieldDelegate
     self.selectCouponView.coupons = self.coupons;
     __weak typeof(self)weakSelf = self;
     
-    self.selectCouponView.selectCouponBlock = ^(NSString *text, CGFloat couponAcount, NSString *code) {
+    self.selectCouponView.selectCouponBlock = ^(NSString *text, THNCouponModel *couponModel) {
 
-        CGFloat couponSpread = couponAcount - [[weakSelf.couponLabel.text substringFromIndex:3] floatValue];
         weakSelf.couponLabel.text = text;
+        weakSelf.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
 
         if (weakSelf.delagate && [self.delagate respondsToSelector:@selector(updateTotalCouponAcount:withCode:withTag:)]) {
-            [weakSelf.delagate updateTotalCouponAcount:couponSpread withCode:code withTag:weakSelf.tag];
+            [weakSelf.delagate updateTotalCouponAcount:couponModel.amount withCode:couponModel.code withTag:weakSelf.tag];
+        }
+    };
+    
+    self.selectCouponView.notUseCounponBlock = ^(NSString *text) {
+        weakSelf.couponLabel.text = text;
+        weakSelf.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
+        if (weakSelf.delagate && [self.delagate respondsToSelector:@selector(changeTotalCouponAmount)]) {
+            [weakSelf.delagate changeTotalCouponAmount];
         }
     };
     
