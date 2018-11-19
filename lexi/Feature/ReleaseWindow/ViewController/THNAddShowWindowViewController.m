@@ -113,6 +113,10 @@ UICollectionViewDelegateFlowLayout
     THNRequest *request = [THNAPI getWithUrlString:kShopWindowsSearchKeywords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
 
         self.searchIndexVC.searchIndexs = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
         self.searchIndexVC.textFieldText = mutableStr;

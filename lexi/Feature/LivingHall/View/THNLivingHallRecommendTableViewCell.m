@@ -66,6 +66,11 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
     params[@"rid"] = rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlProductUserLike requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.likeProductUserArray = result.data[@"product_like_users"];
         
         [self.recommendCollectionView reloadData];

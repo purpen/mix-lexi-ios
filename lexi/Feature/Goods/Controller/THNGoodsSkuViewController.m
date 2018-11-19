@@ -17,6 +17,7 @@
 
 static NSString *const kTitleSure   = @"确定";
 static NSString *const kTextNone    = @"已下架";
+static NSString *const kTextSell    = @"卖货";
 /// 自定义的 key
 static NSString *const kKeyItems    = @"items";
 static NSString *const kKeyRid      = @"rid";
@@ -123,7 +124,7 @@ static NSString *const kKeyQuantity = @"quantity";
 - (void)thn_getGoodsButtonType:(THNGoodsButtonType)type {
     switch (type) {
         case THNGoodsButtonTypeSell: {
-            [SVProgressHUD thn_showInfoWithStatus:@"卖货"];
+            [SVProgressHUD thn_showInfoWithStatus:kTextSell];
         }
             break;
 
@@ -169,8 +170,6 @@ static NSString *const kKeyQuantity = @"quantity";
     
     NSDictionary *skuParam = @{kKeyRid: self.skuView.selectSkuItem.rid,
                                kKeyQuantity: @(1)};
-    
-//    [SVProgressHUD thn_show];
     
     WEAKSELF;
     

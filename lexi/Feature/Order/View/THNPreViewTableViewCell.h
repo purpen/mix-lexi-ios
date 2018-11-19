@@ -22,6 +22,7 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
         withStoreIndex:(NSInteger)storeIndex;
 - (void)updateTotalCouponAcount:(CGFloat)couponSpread withCode:(NSString *)code withTag:(NSInteger)tag;
 - (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag;
+- (void)changeTotalCouponAmount;
 
 @end
 

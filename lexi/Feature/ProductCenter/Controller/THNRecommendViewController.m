@@ -108,6 +108,11 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 - (void)loadTopBannerData {
     THNRequest *request = [THNAPI getWithUrlString:@"/banners/center_ad" requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.featuredCollectionView.banners = result.data[@"banner_images"];
         self.featuredCollectionView.bannerType = BannerTypeCenter;
         [self.featuredCollectionView reloadData];

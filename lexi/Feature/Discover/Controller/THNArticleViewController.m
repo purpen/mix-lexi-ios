@@ -259,6 +259,11 @@ THNCommentTableViewDelegate
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendProducts requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.products = result.data[@"products"];
         [self.dataArray addObject:kArticleCellTypeProduct];
         [self loadRecommendStoryData];
@@ -274,6 +279,11 @@ THNCommentTableViewDelegate
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendStory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
+        if (!result.success) {
+            [SVProgressHUD showWithStatus:result.statusMessage];
+            return;
+        }
+        
         self.lifeRecords = result.data[@"life_records"];
         [self.dataArray addObject:kArticleCellTypeStory];
         [self.tableView reloadData];
