@@ -8,7 +8,7 @@
 
 #import "THNGoodsUserTableViewCell.h"
 #import "THNGoodsModelProductLikeUser.h"
-#include "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNUserModel.h"
 
 static NSInteger const kHeaderButtonTag = 235;
@@ -49,8 +49,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         headerView.layer.borderColor = [UIColor whiteColor].CGColor;
         headerView.layer.cornerRadius = 30/2;
         headerView.layer.masksToBounds = YES;
-        [headerView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]
-                            place:[UIImage imageNamed:@"default_user_place"]];
+        [headerView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]];
         
         [self addSubview:headerView];
         [self sendSubviewToBack:headerView];

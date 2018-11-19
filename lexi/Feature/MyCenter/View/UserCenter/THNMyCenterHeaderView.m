@@ -84,7 +84,6 @@ static NSInteger const kSelectedButtonTag = 452;
 
 - (void)thn_setUserInfoModel:(THNUserModel *)model {
     self.nameLabel.text = model.username;
-//    [self.headerImageView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     [self.headerImageView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     
     [self thn_setFollowLabelTextWithValue:model.followed_users_counts];

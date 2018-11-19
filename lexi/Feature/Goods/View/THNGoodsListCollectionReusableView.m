@@ -12,7 +12,7 @@
 #import "UIView+Helper.h"
 #import <YYKit/YYKit.h>
 #import "THNUserModel.h"
-#include "UIImageView+SDWedImage.h"
+#import "UIImageView+WebImage.h"
 #import "THNMarco.h"
 
 static NSString *const kTitleEditors        = @"编辑推荐";
@@ -118,8 +118,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
         headerView.layer.borderColor = [UIColor whiteColor].CGColor;
         headerView.layer.cornerRadius = 30 / 2;
         headerView.layer.masksToBounds = YES;
-        [headerView downloadImage:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]
-                            place:[UIImage imageNamed:@"default_user_place"]];
+        [headerView loadImageWithUrl:[model.avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]];
         
         [self.userView addSubview:headerView];
     }

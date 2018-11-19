@@ -227,7 +227,7 @@
         group = [WBEmoticonGroup modelWithJSON:json];
     }
     if (!group) {
-        NSString *plistPath = [path stringByAppendingPathComponent:@"info.plist"];
+        NSString *plistPath = [path stringByAppendingPathComponent:@"weibo.plist"];
         NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
         if (plist.count) {
             group = [WBEmoticonGroup modelWithJSON:plist];
@@ -271,7 +271,7 @@
                 continue;
             }
             NSString *path = [emoticonBundlePath stringByAppendingPathComponent:group.groupID];
-            NSString *infoPlistPath = [path stringByAppendingPathComponent:@"info.plist"];
+            NSString *infoPlistPath = [path stringByAppendingPathComponent:@"weibo.plist"];
             NSDictionary *info = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
             [group modelSetWithDictionary:info];
             if (group.emoticons.count == 0) {
