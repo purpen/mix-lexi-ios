@@ -242,7 +242,6 @@ THNNavigationBarViewDelegate
         releaseParams[@"cover_id"] = @(coverID);
         releaseParams[@"selectIndex"] = @(self.selectIndex);
         [self.productItems addObject:releaseParams];
-
     };
 
     selectProductVC.storeRids = self.storeRids;
@@ -251,6 +250,7 @@ THNNavigationBarViewDelegate
 
 - (IBAction)collage:(UIButton *)button {
     WEAKSELF;
+
     for (UIButton *btn in self.collageButtons) {
         btn.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
         [btn setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];

@@ -51,7 +51,7 @@ static NSString *const kDynamicActionCellId = @"THNDynamicActionTableViewCellId"
 
 #pragma mark - private methods
 - (void)thn_setDynamicActionButtonText:(NSInteger)likeCount commentCount:(NSInteger)commentCount {
-    NSString *likeStr = [[NSString alloc] initWithFormat:@"%zi", likeCount];
+    NSString *likeStr = likeCount == 0 ? @"" : [[NSString alloc] initWithFormat:@"%zi", likeCount];
     [self.likeButton setTitle:likeStr forState:(UIControlStateNormal)];
     CGFloat likeCountW = [likeStr boundingSizeWidthWithFontSize:11] + 35;
     [self.likeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -61,7 +61,7 @@ static NSString *const kDynamicActionCellId = @"THNDynamicActionTableViewCellId"
     }];
     
     
-    NSString *commentStr = [[NSString alloc] initWithFormat:@"%zi", commentCount];
+    NSString *commentStr = commentCount == 0 ? @"" : [[NSString alloc] initWithFormat:@"%zi", commentCount];
     [self.commentButton setTitle:commentStr forState:(UIControlStateNormal)];
     CGFloat commentCountW = [commentStr boundingSizeWidthWithFontSize:11] + 35;
     [self.commentButton mas_remakeConstraints:^(MASConstraintMaker *make) {

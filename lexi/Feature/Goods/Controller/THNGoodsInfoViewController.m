@@ -294,7 +294,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                                      requestDictionary:@{kKeyStoreRid: self.goodsModel.storeRid}
                                               delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-            
             dispatch_group_leave(group);
             if (!result.isSuccess) {
                 [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
@@ -395,17 +394,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     WEAKSELF;
     
     THNGoodsTableViewCells *couponCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeCoupon) didSelectedItem:^(NSString *rid) {
-        
-        weakSelf.mutableString = nil;
-        for (NSDictionary *dict in weakSelf.fullReductions) {
-            NSString *fullReductionStr = [NSString stringWithFormat:@"  %@",dict[@"type_text"]];
-            [weakSelf.mutableString appendString:fullReductionStr];
-        }
-        
-        [weakSelf.couponDetailView layoutCouponDetailView:weakSelf.mutableString withLoginCoupons:weakSelf.loginCoupons withNologinCoupos:weakSelf.noLoginCoupons];
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        weakSelf.couponDetailView.frame = window.bounds;
-        [window addSubview:weakSelf.couponDetailView];
+        [weakSelf thn_openCouponView];
     }];
     couponCells.height = self.allCouponsArr.count ? [self thn_getGoodsInfoCouponHeight] : 0.01;
     couponCells.couponData = self.allCouponsArr;
@@ -655,8 +644,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     cellHeight -= !self.fullReductions.count ? 19 : 0;
     
     // 可领取红包
-  
-    cellHeight -= !self.loginCoupons.count ? 26 : 0;
+    cellHeight -= !self.allCouponsArr.count ? 26 : 0;
     
     return cellHeight;
 }
@@ -785,6 +773,30 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
     THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
     [self presentViewController:loginNavController animated:YES completion:nil];
+}
+
+/**
+ 优惠券视图
+ */
+- (void)thn_openCouponView {
+    if (![THNLoginManager isLogin]) {
+        [self thn_openUserLoginController];
+        return;
+    }
+    
+    self.mutableString = nil;
+    for (NSDictionary *dict in self.fullReductions) {
+        NSString *fullReductionStr = [NSString stringWithFormat:@"  %@",dict[@"type_text"]];
+        [self.mutableString appendString:fullReductionStr];
+    }
+    
+    [self.couponDetailView layoutCouponDetailView:self.mutableString
+                                 withLoginCoupons:self.loginCoupons
+                                withNologinCoupos:self.noLoginCoupons];
+    
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    self.couponDetailView.frame = window.bounds;
+    [window addSubview:self.couponDetailView];
 }
 
 #pragma mark - tableView datasource

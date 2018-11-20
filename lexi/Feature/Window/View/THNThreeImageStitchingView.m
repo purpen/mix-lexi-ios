@@ -55,7 +55,7 @@
 - (void)setCLickImageView:(NSString *)url withSelectIndex:(NSInteger)index {
     UIImageView *imageView = self.imageViews[index];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url]placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    [imageView loadImageWithUrl:url];
 }
 
 - (void)setThreeImages:(NSArray *)coverWithSelectIndexs {

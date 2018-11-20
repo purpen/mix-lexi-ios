@@ -13,7 +13,7 @@
 #import "THNSelectPruductCoverCollectionViewCell.h"
 #import "UIViewController+THNHud.h"
 #import "SVProgressHUD+Helper.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+WebImage.h"
 #import "THNTableViewFooterView.h"
 
 typedef NS_ENUM(NSUInteger, SelectProductType) {
@@ -227,7 +227,8 @@ THNMJRefreshDelegate
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNSelectPruductCoverCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCoverCellIdentifier forIndexPath:indexPath];
     cell.selectButton.selected = NO;
-    [cell.photoImageView sd_setImageWithURL:[NSURL URLWithString:self.productCovers[indexPath.row][@"view_url"]] placeholderImage:[UIImage imageNamed:@"default_image_place"]];
+    NSString *imageCell = self.productCovers[indexPath.row][@"view_url"];
+    [cell.photoImageView loadImageWithUrl:[imageCell loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
     return cell;
 }
 

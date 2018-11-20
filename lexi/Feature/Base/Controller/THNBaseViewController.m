@@ -18,7 +18,6 @@
 @implementation THNBaseViewController
 
 #pragma mark - life cycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupBaseUI];
