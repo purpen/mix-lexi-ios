@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNCouponModel.h"
 
-@class THNCouponModel;
 @class THNFreightModelItem;
 
 UIKIT_EXTERN const CGFloat kProductViewHeight;
@@ -20,9 +20,8 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
 - (void)selectLogistic:(NSMutableArray *)skuIds
                WithFid:(NSString *)fid
         withStoreIndex:(NSInteger)storeIndex;
-- (void)updateTotalCouponAcount:(CGFloat)couponSpread withCode:(NSString *)code withTag:(NSInteger)tag;
+- (void)updateTotalCouponAcount:(CGFloat)amount withCode:(NSString *)code withTag:(NSInteger)tag;
 - (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag;
-- (void)changeTotalCouponAmount;
 
 @end
 
@@ -31,9 +30,9 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
 
 - (CGFloat)setPreViewCell:(NSArray *)skus
       initWithItmeSkus:(NSArray *)itemSkus
-   initWithCouponModel:(THNCouponModel *)couponModel
+   initWithCouponModel:(THNCouponModel *)fullReductionModel
           initWithFreight:(CGFloat)freight
-          initWithCoupons:(NSArray *)coupons
+          initWithStoreInformations:(NSArray *)storeInformations
         initWithproducts:(NSArray *)products
            initWithRemark:(NSString *)remarkStr
              initWithGift:(NSString *)giftStr;
@@ -42,6 +41,6 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
 
 // 运费
 @property (weak, nonatomic) IBOutlet UILabel *freightLabel;
-
+@property (nonatomic, assign) ShowCouponStyleType couponStyleType;
 
 @end

@@ -19,6 +19,8 @@
 #import "THNFreightModelItem.h"
 #import "NSString+Helper.h"
 
+NSString *const kNotSelectDesTitle = @"不可使用";
+
 static NSString *const kPreViewOrderDetailCellIdentifier = @"kPreViewOrderDetailCellIdentifier";
 const CGFloat kProductViewHeight = 90;
 const CGFloat kLogisticsViewHeight = 83;
@@ -46,10 +48,11 @@ UITextFieldDelegate
 @property (weak, nonatomic) IBOutlet UIView *fullReductionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fullReductionViewHeightConstraint;
 @property (nonatomic, strong) THNSelectCouponView *selectCouponView;
+@property (weak, nonatomic) IBOutlet UIButton *selectCouponButton;
 @property (nonatomic, strong) NSArray *skus;
 @property (nonatomic, strong) NSArray *itemSkus;
 // 优惠卷
-@property (nonatomic, strong) NSArray *coupons;
+@property (nonatomic, strong) NSArray *storeInformations;
 // 物流公司名字
 @property (nonatomic, strong) NSString *logisticsName;
 // 默认物流
@@ -78,10 +81,10 @@ UITextFieldDelegate
 
 - (CGFloat)setPreViewCell:(NSArray *)skus
          initWithItmeSkus:(NSArray *)itemSkus
-      initWithCouponModel:(THNCouponModel *)couponModel
+      initWithCouponModel:(THNCouponModel *)fullReductionModel
           initWithFreight:(CGFloat)freight
-          initWithCoupons:(NSArray *)coupons
-        initWithproducts:(NSArray *)products
+initWithStoreInformations:(NSArray *)storeInformations
+         initWithproducts:(NSArray *)products
            initWithRemark:(NSString *)remarkStr
              initWithGift:(NSString *)giftStr {
 
@@ -90,7 +93,7 @@ UITextFieldDelegate
     NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"fid" ascending:YES]];
     self.skus = [skus sortedArrayUsingDescriptors:sortArr];
     self.itemSkus = itemSkus;
-    self.coupons = coupons;
+    self.storeInformations = storeInformations;
     self.products = products;
     
     THNSkuModelItem *itemModel = [[THNSkuModelItem alloc]initWithDictionary:skus[0]];
@@ -109,41 +112,52 @@ UITextFieldDelegate
     }
 
     // 满减
-    if (couponModel.type_text.length == 0) {
+    if (fullReductionModel.type_text.length == 0) {
         self.fullReductionViewHeightConstraint.constant = 0;
         self.fullReductionView.hidden = YES;
     } else {
         self.fullReductionView.hidden = NO;
         self.fullReductionViewHeightConstraint.constant = 40;
-        self.fullReductionLabel.text = couponModel.type_text;
+        self.fullReductionLabel.text = fullReductionModel.type_text;
     }
 
-    NSMutableArray *newCoupons = [NSMutableArray array];
-    for (NSDictionary *storeDict in self.coupons) {
-        [newCoupons addObject:storeDict[@"coupon"]];
-    }
-
-    if (newCoupons.count > 0) {
-       self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f",[newCoupons[0][@"amount"] floatValue]];
-       self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
-    } else {
-        self.couponLabel.text = @"无可用优惠券";
-        self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
+    NSMutableArray *coupons = [NSMutableArray array];
+    for (NSDictionary *storeDict in self.storeInformations) {
+        [coupons addObject:storeDict[@"coupon"]];
     }
     
+    switch (self.couponStyleType) {
+        case ShowCouponStyleTypeAmount:
+            if (coupons.count > 0) {
+                 self.couponLabel.text = [NSString stringWithFormat:@"已抵%@",[NSString formatFloat:[coupons[0][@"amount"] floatValue]]];
+            }
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
+            self.selectCouponButton.enabled = YES;
+            break;
+        case ShowCouponStyleTypeUnavailable:
+            self.couponLabel.text = @"不可使用";
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
+            self.selectCouponButton.enabled = NO;
+            break;
+        case ShowCouponStyleTypeNotavailable:
+            self.couponLabel.text = @"无可用优惠券";
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
+            self.selectCouponButton.enabled = NO;
+            break;
+        case ShowCouponStyleTypeQuantityAvailable:
+            self.couponLabel.text =  [NSString stringWithFormat:@"%ld个优惠券可用", coupons.count];
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
+            self.selectCouponButton.enabled = YES;
+            break;
+    }
     
     return self.fullReductionViewHeightConstraint.constant;
 }
 
 - (IBAction)selectCouponButton:(id)sender {
-    
-    if (self.coupons.count == 0) {
-        return;
-    }
-    
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.selectCouponView.frame = window.bounds;
-    self.selectCouponView.coupons = self.coupons;
+    self.selectCouponView.coupons = self.storeInformations;
     __weak typeof(self)weakSelf = self;
     
     self.selectCouponView.selectCouponBlock = ^(NSString *text, THNCouponModel *couponModel) {
@@ -151,19 +165,12 @@ UITextFieldDelegate
         weakSelf.couponLabel.text = text;
         weakSelf.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
 
-        if (weakSelf.delagate && [self.delagate respondsToSelector:@selector(updateTotalCouponAcount:withCode:withTag:)]) {
+        if (weakSelf.delagate && [weakSelf.delagate respondsToSelector:@selector(updateTotalCouponAcount:withCode:withTag:)]) {
             [weakSelf.delagate updateTotalCouponAcount:couponModel.amount withCode:couponModel.code withTag:weakSelf.tag];
         }
     };
     
-    self.selectCouponView.notUseCounponBlock = ^(NSString *text) {
-        weakSelf.couponLabel.text = text;
-        weakSelf.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
-        if (weakSelf.delagate && [self.delagate respondsToSelector:@selector(changeTotalCouponAmount)]) {
-            [weakSelf.delagate changeTotalCouponAmount];
-        }
-    };
-    
+
     [window addSubview:self.selectCouponView];
 }
 

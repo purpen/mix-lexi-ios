@@ -309,7 +309,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        [_showImageView loadImageWithUrl:[kWindowHeadImageUrl loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+        _showImageView.image = kDeviceiPhoneX ?  [UIImage imageNamed:@"icon_showWindow_bg_X"] : [UIImage imageNamed:@"icon_showWindow_bg"];
     }
     return _showImageView;
 }

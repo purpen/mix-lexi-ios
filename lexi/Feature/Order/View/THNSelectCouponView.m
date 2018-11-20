@@ -15,7 +15,7 @@
 #import "UIColor+Extension.h"
 
 static NSString *const kSelectCouponCellIdentifier = @"kSelectCouponCellIdentifier";
-NSString *const kNotSelectDesTitle = @"不使用优惠";
+
 
 @interface THNSelectCouponView()<UITableViewDelegate, UITableViewDataSource>
 
@@ -28,7 +28,7 @@ NSString *const kNotSelectDesTitle = @"不使用优惠";
 @property (weak, nonatomic) IBOutlet UIButton *noUseCouponButton;
 @property (weak, nonatomic) IBOutlet UIView *selectCouponInformationView;
 @property (weak, nonatomic) IBOutlet UIButton *noUserSureButton;
-@property (nonatomic, assign) CGFloat couponSpread;
+@property (nonatomic, assign) BOOL isNotUseCoupon;
 
 @end
 
@@ -52,23 +52,21 @@ NSString *const kNotSelectDesTitle = @"不使用优惠";
 }
 
 - (IBAction)doNotUseCoupons:(UIButton *)button {
+    self.isNotUseCoupon = YES;
     THNSelectCouponTableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.selectIndex];
     cell.isSelect = NO;
     button.selected = YES;
     self.selectCouponInformationView.hidden = YES;
     self.noUserSureButton.hidden = NO;
-    self.couponMoneyLabel.text = kNotSelectDesTitle;
+    self.couponMoneyLabel.text = [NSString stringWithFormat:@"%ld个优惠券可用", self.coupons.count];
 }
 
 - (void)remove {
     [self removeFromSuperview];
-    
-    if ([self.couponMoneyLabel.text isEqualToString:kNotSelectDesTitle]) {
-        if (self.notUseCounponBlock) {
-            self.notUseCounponBlock(kNotSelectDesTitle);
-        }
-    } else {
-        if (self.selectCouponBlock) {
+    if (self.selectCouponBlock) {
+        if (self.isNotUseCoupon) {
+            self.selectCouponBlock(self.couponMoneyLabel.text, nil);
+        } else {
             self.selectCouponBlock(self.couponMoneyLabel.text, self.couponModel);
         }
     }
@@ -108,14 +106,28 @@ NSString *const kNotSelectDesTitle = @"不使用优惠";
         self.couponMoneyLabel.text = [NSString stringWithFormat:@"已抵%.2f",couponModel.amount];
         cell.isSelect = YES;
         self.selectIndex = indexPath;
+        if (self.couponType == CouponTypeStore) {
+            self.couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+        } else {
+            self.couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
+        }
     }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNCouponModel *couponModel;
+    
+    if (self.couponType == CouponTypeStore) {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
+    } else {
+        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
+    }
+    
     THNSelectCouponTableViewCell *selectedCell = [tableView cellForRowAtIndexPath:self.selectIndex];
     selectedCell.isSelect = NO;
+    self.isNotUseCoupon = NO;
     self.noUseCouponButton.selected = NO;
     self.selectCouponInformationView.hidden = NO;
     self.noUserSureButton.hidden = YES;
@@ -123,13 +135,6 @@ NSString *const kNotSelectDesTitle = @"不使用优惠";
     THNSelectCouponTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.isSelect = YES;
     self.selectIndex = indexPath;
-    THNCouponModel *couponModel;
-
-    if (self.couponType == CouponTypeStore) {
-        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row][@"coupon"]];
-    } else {
-        couponModel = [THNCouponModel mj_objectWithKeyValues:self.coupons[indexPath.row]];
-    }
 
     if (couponModel) {
         self.couponModel = couponModel;
