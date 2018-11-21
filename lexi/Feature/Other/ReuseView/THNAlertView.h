@@ -24,10 +24,18 @@ typedef void (^ActionButtonHandler)(UIButton *actionButton, NSInteger index);
 @property (nonatomic, strong) UIColor *mainTitleColor;
 
 /**
+ 点击背景视图，使视图消失(默认为 No)
+ */
+@property (nonatomic, assign) BOOL canClickBackgroundDismiss;
+
+/**
  弹出视图的样式
  */
 @property (nonatomic, assign) THNAlertViewStyle alertViewStyle;
 
+/**
+ 操作按钮点击
+ */
 @property (nonatomic, copy) ActionButtonHandler actionButtonHandler;
 
 /**
