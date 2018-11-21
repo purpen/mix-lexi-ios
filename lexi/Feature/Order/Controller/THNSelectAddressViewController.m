@@ -228,8 +228,12 @@ static NSString *const kKeyMobile   = @"mobile";
 //
     THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"完善收货地址" message:@"发货地与收货地为跨境交易，需补充地址身份信息才可下单"];
     [alertView addActionButtonWithTitles:@[@"取消", @"确定"] handler:^(NSInteger index) {
-    
+
     }];
+    
+//    [alertView addActionButtonWithTitles:@[@"取消", @"确定"] style:(THNAlertViewStyleActionSheet) handler:^(NSInteger index) {
+//
+//    }];
 
     [alertView show];
 }

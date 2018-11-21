@@ -31,7 +31,13 @@ PODS:
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
   - TYAlertController (1.2.0)
+  - UMCAnalytics (5.5.2):
+    - UMCCommon
   - UMCCommon (1.5.1)
+  - UMCErrorCatch (1.0.0):
+    - UMCCommon
+  - UMCPush (3.2.3):
+    - UMCCommon
   - UMCSecurityPlugins (1.0.6)
   - UMCShare/Core (6.9.3):
     - UMCCommon
@@ -62,7 +68,10 @@ DEPENDENCIES:
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
   - TYAlertController (~> 1.2.0)
+  - UMCAnalytics
   - UMCCommon
+  - UMCErrorCatch
+  - UMCPush
   - UMCSecurityPlugins
   - UMCShare/Social/ReducedQQ
   - UMCShare/Social/ReducedSina
@@ -86,7 +95,10 @@ SPEC REPOS:
     - SDWebImage
     - SVProgressHUD
     - TYAlertController
+    - UMCAnalytics
     - UMCCommon
+    - UMCErrorCatch
+    - UMCPush
     - UMCSecurityPlugins
     - UMCShare
     - WechatOpenSDK
@@ -107,12 +119,15 @@ SPEC CHECKSUMS:
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
+  UMCAnalytics: 6654fd3c8201ff6da5c86a3ae29cd5c8436d3b7b
   UMCCommon: 16b674e9de0616d3a6128c551348a686d869c3c7
+  UMCErrorCatch: 51f1b68f920233e90a3fa6d51f0456174507ec78
+  UMCPush: 628b5c61be5a5036cb31eb9b3a3ab8dce7521691
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: ccb1eb291cd43c63eafdebcbec266fb91909e00f
+PODFILE CHECKSUM: 058374cb7f617315c023de1952764729554e1cbf
 
 COCOAPODS: 1.5.3

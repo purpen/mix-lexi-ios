@@ -156,7 +156,7 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
             }];
             
         } else if (self.alertViewStyle == THNAlertViewStyleActionSheet) {
-            [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:0 leadSpacing:CGRectGetMaxY(self.messageLabel.frame) + 17 tailSpacing:0];
+            [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:0 leadSpacing:90 tailSpacing:0];
             [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.mas_equalTo(0);
                 make.height.mas_equalTo(ACTION_BUTTON_HEIGHT);
