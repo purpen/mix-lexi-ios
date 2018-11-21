@@ -8,10 +8,47 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+typedef NS_ENUM(NSUInteger, THNAlertViewStyle) {
+    THNAlertViewStyleAlert = 0,     // 默认弹出样式
+    THNAlertViewStyleActionSheet
+};
 
 @interface THNAlertView : UIView
 
-@end
+/**
+ 默认高亮操作按钮的颜色
+ */
+@property (nonatomic, strong) UIColor *mainActionColor;
+@property (nonatomic, strong) UIColor *mainTitleColor;
 
-NS_ASSUME_NONNULL_END
+/**
+ 弹出视图的样式
+ */
+@property (nonatomic, assign) THNAlertViewStyle alertViewStyle;
+
+/**
+ 创建按钮
+
+ @param title 按钮标题
+ @param handler 点击操作
+ */
+- (void)addActionButtonWithTitle:(NSString *)title handler:(void (^)(void))handler;
+
+/**
+ 创建多个按钮
+
+ @param titles 按钮标题
+ @param handler 点击操作
+ */
+- (void)addActionButtonWithTitles:(NSArray *)titles handler:(void (^)(NSInteger index))handler;
+- (void)addActionButtonWithTitles:(NSArray *)titles style:(THNAlertViewStyle)style handler:(void (^)(NSInteger index))handler;
+
+/**
+ 展示/消失视图
+ */
+- (void)show;
+- (void)dismiss;
+
++ (instancetype)initAlertViewTitle:(NSString *)title message:(NSString *)message;
+
+@end

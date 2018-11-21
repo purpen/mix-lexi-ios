@@ -70,6 +70,8 @@ static NSString *const kKeyRid  = @"rid";
         [SVProgressHUD thn_show];
     }
     
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_getRequestParams]
                                           delegate:nil];
@@ -77,25 +79,30 @@ static NSString *const kKeyRid  = @"rid";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
-            [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+            [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
             return ;
         }
         
-        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
-        [self thn_setRequestResultData:result.data];
-        [self.dynamicTableView reloadData];
+        [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
+        [weakSelf thn_setRequestResultData:result.data];
+        [weakSelf.dynamicTableView reloadData];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
-        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+        [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
     }];
 }
 
+/**
+ 请求删除动态
+ */
 - (void)requestDeleteDynamicWithRid:(NSString *)dynamicId {
     if (!dynamicId.length) return;
     
     [SVProgressHUD thn_show];
+    
+    WEAKSELF;
     
     THNRequest *request = [THNAPI deleteWithUrlString:kURLShopWindows requestDictionary:@{kKeyRid: dynamicId} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -104,7 +111,7 @@ static NSString *const kKeyRid  = @"rid";
             return ;
         }
         
-        [self thn_removeDynamicFormDataWithRid:dynamicId];
+        [weakSelf thn_removeDynamicFormDataWithRid:dynamicId];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
