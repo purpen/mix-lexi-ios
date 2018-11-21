@@ -17,7 +17,7 @@
 #import "THNLoginManager.h"
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
-#import <AlipaySDK/AlipaySDK.h>
+//#import <AlipaySDK/AlipaySDK.h>
 #import "THNPaymentViewController.h"
 
 @interface AppDelegate ()<WXApiDelegate>
@@ -103,9 +103,9 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([url.host isEqualToString:@"safepay"]) {
         //跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            
-        }];
+//        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+//
+//        }];
     } else {
         BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
         if (!result) {
