@@ -42,5 +42,6 @@ UIKIT_EXTERN const CGFloat kLogisticsViewHeight;
 // 运费
 @property (weak, nonatomic) IBOutlet UILabel *freightLabel;
 @property (nonatomic, assign) ShowCouponStyleType couponStyleType;
+@property (nonatomic, assign) CGFloat selectStoreAmount;
 
 @end

@@ -29,7 +29,7 @@
     switch (self.couponStyleType) {
         case ShowCouponStyleTypeAmount:
             if (self.officalCoupons.count > 0) {
-                self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f",[self.officalCoupons[0][@"amount"] floatValue]];
+                self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f", self.selectOfficalAmount];
             }
             self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
             self.selectCouponButton.enabled = YES;

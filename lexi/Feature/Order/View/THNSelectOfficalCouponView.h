@@ -16,5 +16,6 @@ typedef void(^UpdateCouponAmountBlcok)(CGFloat couponSpread, NSString*code);
 @property (nonatomic, strong) NSArray *officalCoupons;
 @property (nonatomic, copy) UpdateCouponAmountBlcok updateCouponAcountBlcok;
 @property (nonatomic, assign) ShowCouponStyleType couponStyleType;
+@property (nonatomic, assign) CGFloat selectOfficalAmount;
 
 @end

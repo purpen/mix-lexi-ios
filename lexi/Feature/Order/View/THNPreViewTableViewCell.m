@@ -129,7 +129,7 @@ initWithStoreInformations:(NSArray *)storeInformations
     switch (self.couponStyleType) {
         case ShowCouponStyleTypeAmount:
             if (coupons.count > 0) {
-                 self.couponLabel.text = [NSString stringWithFormat:@"已抵%@",[NSString formatFloat:[coupons[0][@"amount"] floatValue]]];
+                 self.couponLabel.text = [NSString stringWithFormat:@"已抵%@",[NSString formatFloat:self.selectStoreAmount]];
             }
             self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
             self.selectCouponButton.enabled = YES;
@@ -153,6 +153,7 @@ initWithStoreInformations:(NSArray *)storeInformations
     
     return self.fullReductionViewHeightConstraint.constant;
 }
+
 
 - (IBAction)selectCouponButton:(id)sender {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
