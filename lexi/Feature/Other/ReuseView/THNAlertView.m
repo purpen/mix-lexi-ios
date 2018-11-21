@@ -239,11 +239,11 @@ static NSInteger const kActionButtonTag     = 1951;
     [super updateConstraints];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if ([touches anyObject].view != self.containerView) {
-        [self dismiss];
-    }
-}
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    if ([touches anyObject].view != self.containerView) {
+//        [self dismiss];
+//    }
+//}
 
 #pragma mark - getters and setters
 - (CGFloat)getContainerHeight {
