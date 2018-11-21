@@ -10,14 +10,14 @@
 
 #pragma mark - API 地址
 ////  正式环境
-//NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
-//NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
-//NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
+NSString *const kDomainBaseUrl      = @"https://wxapi.lexivip.com/v1.0";
+NSString *const kTestAppKey         = @"PmVOkj4Un6dfKCqQryMR";
+NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a";
 
 //  测试环境
-NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
-NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
-NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
+//NSString *const kDomainBaseUrl      = @"https://wx.taihuoniao.com/v1.0";
+//NSString *const kTestAppKey         = @"zXIPN0ftRj6dlrKFOZpH";
+//NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark - 小程序参数
 NSString *const kWxaAuthAppId   = @"wx60ed17bfd850985d";
@@ -52,15 +52,18 @@ NSString *const kFontFamily         = @"PingFang";
 NSString *const kAppStoreId         = @"com.taihuoniao.lexi";
 NSString *const kAppName            = @"lexi";
 
-#pragma mark - Third
+#pragma mark - 第三方平台应用信息
 // 友盟
-NSString *const kUMAppleKey         = @"5bc5c570b465f5c5b2000086";
+NSString *const kUMAppKey           = @"5bc5c570b465f5c5b2000086";
 // 微信
-NSString *const kWXAppKey        = @"wx456e2f0cb22db269";
-NSString *const kWXAppSecret     = @"8eddb55d39cbfdb9fee1afa93a495db1";
+NSString *const kWXAppKey           = @"wx456e2f0cb22db269";
+NSString *const kWXAppSecret        = @"8eddb55d39cbfdb9fee1afa93a495db1";
 // 微博
 NSString *const kWBAppKey           = @"146542115";
 NSString *const kWBAppSecret        = @"3d2cff91e7e95529e97aa6a2320c940e";
+// QQ
+NSString *const kQQAppId            = @"1106125719";
+NSString *const kQQAppKey           = @"Vx7fjdJy7i1As15N";
 
 #pragma mark - Error Domain
 NSString *const kDomain             = @"TaiHuoNiao";

@@ -40,16 +40,18 @@ UIKIT_EXTERN NSString *const kFontFamily;
 UIKIT_EXTERN NSString *const kAppStoreId;
 UIKIT_EXTERN NSString *const kAppName;
 
-#pragma mark - UM
-UIKIT_EXTERN NSString *const kUMAppleKey;
-
-#pragma mark - WX
+#pragma mark - 第三方平台应用信息
+#pragma mark UM
+UIKIT_EXTERN NSString *const kUMAppKey;
+#pragma mark WX
 UIKIT_EXTERN NSString *const kWXAppKey;
 UIKIT_EXTERN NSString *const kWXAppSecret;
-
-#pragma mark - WB
+#pragma mark WB
 UIKIT_EXTERN NSString *const kWBAppKey;
 UIKIT_EXTERN NSString *const kWBAppSecret;
+#pragma mark QQ
+UIKIT_EXTERN NSString *const kQQAppId;
+UIKIT_EXTERN NSString *const kQQAppKey;
 
 #pragma mark - Error Domain
 UIKIT_EXTERN NSString *const kDomain;
@@ -77,7 +79,6 @@ UIKIT_EXTERN NSString *const kIsCloseLivingHallView;
 UIKIT_EXTERN NSString *const kBrandHallRid;
 UIKIT_EXTERN NSString *const kSearchKeyword;
 UIKIT_EXTERN NSString *const kCommentCount;
-
 
 #pragma mark - NSNotification
 UIKIT_EXTERN NSString *const kOrderLogisticsTracking;

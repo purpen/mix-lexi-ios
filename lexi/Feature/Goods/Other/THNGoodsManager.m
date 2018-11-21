@@ -173,7 +173,7 @@ static NSString *const kKeyUid              = @"uid";
 - (void)requestProductInfoWithUrl:(NSString *)url completion:(void (^)(THNGoodsModel *model, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:@{kKeyUserRecord: @(1)} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"===== 商品全部信息：%@", result.responseDict);
+//        THNLog(@"===== 商品全部信息：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -194,6 +194,7 @@ static NSString *const kKeyUid              = @"uid";
 - (void)requestProductSkusInfoWithParams:(NSDictionary *)params completion:(void (^)(THNSkuModel *model, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsSku requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+//        THNLog(@"========== SKU： %@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;

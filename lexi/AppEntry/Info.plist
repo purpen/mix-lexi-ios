@@ -70,7 +70,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -128,11 +128,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>请允许访问您的相机</string>
+	<string>请允许访问您的相机，拍照上传当前的景象</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>请允许访问您的相册，保存图片</string>
+	<string>请允许访问您的相册，保存图片方便分享</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>请允许访问您的相册</string>
+	<string>请允许访问您的相册，上传选择的图片</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -142,8 +142,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

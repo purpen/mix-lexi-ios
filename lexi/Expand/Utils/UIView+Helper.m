@@ -197,12 +197,12 @@
         }
             break;
         
-        case UIViewBorderLineTypeBottom:{
+        case UIViewBorderLineTypeBottom: {
             boderLineLayer.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, width);
         }
             break;
        
-        case UIViewBorderLineTypeLeft:{
+        case UIViewBorderLineTypeLeft: {
             boderLineLayer.frame = CGRectMake(0, 0, width, self.frame.size.height);
         }
             break;

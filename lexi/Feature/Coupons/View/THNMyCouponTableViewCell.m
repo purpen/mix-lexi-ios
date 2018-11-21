@@ -234,18 +234,19 @@ static NSString *const kTextUseType = @" 全场通用";
     
     [self.amountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(110, 32));
-        make.left.mas_equalTo(30);
+        make.left.mas_equalTo(25);
         make.top.mas_equalTo(19);
     }];
     
     [self.conditionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(110, 15));
-        make.left.mas_equalTo(30);
+        make.left.mas_equalTo(25);
         make.top.equalTo(self.amountLabel.mas_bottom).with.offset(5);
     }];
     
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(160, 12));
+        make.height.mas_equalTo(12);
+        make.right.mas_equalTo(-60);
         make.left.mas_equalTo(158);
         make.top.mas_equalTo(21);
     }];

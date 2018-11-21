@@ -166,6 +166,10 @@ static CGFloat const kMaxHeight = 337.0;
  设置 SKU
  */
 - (void)thn_setGoodsSkuModel:(THNSkuModel *)model {
+    if (!model.items.count) {
+        return;
+    }
+    
     THNSkuModelItem *itemModel = model.items[0];
     [self thn_setPriceTextWithValue:itemModel.salePrice > 0 ? itemModel.salePrice : itemModel.price];
     [self thn_getSkuWithModelData:model.items];
@@ -181,6 +185,12 @@ static CGFloat const kMaxHeight = 337.0;
         self.sizeLabel.hidden = NO;
         [self thn_getModeContentTextWithModelData:model.modes];
         self.sizeHeight = [self thn_getModeContentHeightWithModelData:model.modes];
+    }
+    
+    // 没有颜色、尺寸，不选择SKU，可直接购买
+    if (model.colors.count == 0 && model.modes.count == 0) {
+        self.selectSkuItem = itemModel;
+        return;
     }
     
     // 默认选中

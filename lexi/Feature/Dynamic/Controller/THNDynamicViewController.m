@@ -18,7 +18,7 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 #import "THNReleaseWindowViewController.h"
-#import <TYAlertController/UIView+TYAlertView.h>
+#import "THNAlertView.h"
 
 static NSString *const kTitleDynamic    = @"动态";
 /// url
@@ -70,6 +70,8 @@ static NSString *const kKeyRid  = @"rid";
         [SVProgressHUD thn_show];
     }
     
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_getRequestParams]
                                           delegate:nil];
@@ -77,25 +79,30 @@ static NSString *const kKeyRid  = @"rid";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
-            [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+            [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
             return ;
         }
         
-        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
-        [self thn_setRequestResultData:result.data];
-        [self.dynamicTableView reloadData];
+        [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
+        [weakSelf thn_setRequestResultData:result.data];
+        [weakSelf.dynamicTableView reloadData];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
-        [self.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+        [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
     }];
 }
 
+/**
+ 请求删除动态
+ */
 - (void)requestDeleteDynamicWithRid:(NSString *)dynamicId {
     if (!dynamicId.length) return;
     
     [SVProgressHUD thn_show];
+    
+    WEAKSELF;
     
     THNRequest *request = [THNAPI deleteWithUrlString:kURLShopWindows requestDictionary:@{kKeyRid: dynamicId} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -104,7 +111,7 @@ static NSString *const kKeyRid  = @"rid";
             return ;
         }
         
-        [self thn_removeDynamicFormDataWithRid:dynamicId];
+        [weakSelf thn_removeDynamicFormDataWithRid:dynamicId];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -146,25 +153,14 @@ static NSString *const kKeyRid  = @"rid";
  删除动态
  */
 - (void)thn_deleteDynamicWithRid:(NSString *)rid {
-    WEAKSELF;
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"删除动态" message:@"是否确认要删除此条动态？"];
+    [alertView addActionButtonWithTitles:@[@"取消", @"删除"] handler:^(UIButton *actionButton, NSInteger index) {
+        if (index == 1) {
+            [self requestDeleteDynamicWithRid:rid];
+        }
+    }];
     
-    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"是否确认要删除？" message:@""];
-    alertView.layer.cornerRadius = 8;
-    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
-    
-    [alertView addAction:[TYAlertAction actionWithTitle:@"取消"
-                                                  style:TYAlertActionStyleCancel
-                                                handler:nil]];
-    
-    [alertView addAction:[TYAlertAction actionWithTitle:@"删除"
-                                                  style:TYAlertActionStyleDefault
-                                                handler:^(TYAlertAction *action) {
-                                                    [weakSelf requestDeleteDynamicWithRid:rid];
-                                                }]];
-    
-    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:alertView
-                                                                          preferredStyle:TYAlertControllerStyleAlert];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [alertView show];
 }
 
 /**

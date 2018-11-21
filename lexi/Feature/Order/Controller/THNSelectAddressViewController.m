@@ -13,11 +13,16 @@
 #import "THNNewlyAddressTableViewCell.h"
 #import "NSString+Helper.h"
 #import "THNNewShippingAddressViewController.h"
+#import "THNAlertView.h"
 
 static NSString *const kTitleDone  = @"继续以确认订单";
-///
-static NSString *const kURLAddress = @"/address";
-static NSString *const kKeyData    = @"data";
+/// url
+static NSString *const kURLAddress       = @"/address";
+static NSString *const kURLAddressCustom = @"/address/custom";
+/// key
+static NSString *const kKeyData     = @"data";
+static NSString *const kKeyName     = @"user_name";
+static NSString *const kKeyMobile   = @"mobile";
 
 @interface THNSelectAddressViewController () <
     THNNavigationBarViewDelegate,
@@ -36,6 +41,8 @@ static NSString *const kKeyData    = @"data";
 @property (nonatomic, strong) NSMutableArray *addressArr;
 /// 选中的单元格
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
+/// 是否上传海关身份证照片
+@property (nonatomic, assign) BOOL haveIdCard;
 
 @end
 
@@ -48,7 +55,7 @@ static NSString *const kKeyData    = @"data";
 }
 
 #pragma mark - network
-- (void)thn_requestAddressData {
+- (void)requestAddressData {
     if (self.addressArr.count) {
         [self.addressArr removeAllObjects];
     }
@@ -59,7 +66,6 @@ static NSString *const kKeyData    = @"data";
     
     THNRequest *request = [THNAPI getWithUrlString:kURLAddress requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
@@ -71,14 +77,43 @@ static NSString *const kKeyData    = @"data";
         }
         [weakSelf thn_setDefaultAddress];
         [weakSelf.addressTable reloadData];
+        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
+/**
+ 获取用户收货地址海关信息
+
+ @param params 请求参数（user_name，mobile）
+ */
+- (void)requestHadAddressCustomDataWithParams:(NSDictionary *)params {
+    WEAKSELF;
+    
+    THNRequest *request = [THNAPI getWithUrlString:kURLAddressCustom requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success || ![result hasData]) {
+            weakSelf.haveIdCard = NO;
+            return;
+        }
+        
+        weakSelf.haveIdCard = YES;
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        weakSelf.haveIdCard = NO;
+    }];
+}
+
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
+    if ([self thn_isOverseasLogistics] && !self.haveIdCard) {
+        [self thn_showSelectedAddressAlertView];
+        return;
+    }
+    
     THNOrderPreviewViewController *orderPreviewVC = [[THNOrderPreviewViewController alloc] init];
     orderPreviewVC.addressModel = [self thn_getSelectedAddress];
     orderPreviewVC.skuItems = self.selectedSkuItems;
@@ -94,6 +129,8 @@ static NSString *const kKeyData    = @"data";
     
     self.selectedIndex = [self.addressTable indexPathForCell:cell];
     [self.addressTable reloadData];
+    
+    [self thn_checkSelectedAddress];
 }
 
 #pragma mark - private methods
@@ -133,7 +170,7 @@ static NSString *const kKeyData    = @"data";
         return nil;
     }
     
-    return self.addressArr[self.selectedIndex.row];
+    return (THNAddressModel *)self.addressArr[self.selectedIndex.row];
 }
 
 /**
@@ -142,6 +179,51 @@ static NSString *const kKeyData    = @"data";
 - (void)thn_setDoneButtonStatus:(BOOL)status {
     self.doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:status ? 1 : 0.5];
     self.doneButton.userInteractionEnabled = status;
+}
+
+/**
+ 检查所选地址是否完善了信息（跨境物流时）
+ */
+- (void)thn_checkSelectedAddress {
+    if (![self thn_isOverseasLogistics]) {
+        return;
+    }
+    
+    THNAddressModel *selectedAddress = [self thn_getSelectedAddress];
+    
+    if (selectedAddress) {
+        NSDictionary *paramDict = @{kKeyName: selectedAddress.fullName,
+                                    kKeyMobile: selectedAddress.mobile};
+        
+        [self requestHadAddressCustomDataWithParams:paramDict];
+        
+    } else {
+        [SVProgressHUD thn_showInfoWithStatus:@"选择地址有误，请重试"];
+    }
+}
+
+/**
+ 完善地址信息弹窗
+ */
+- (void)thn_showSelectedAddressAlertView {
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"完善收货地址" message:@"发货地与收货地为跨境交易，需补充地址身份信息才可下单"];
+    [alertView addActionButtonWithTitles:@[@"取消", @"去补充"] handler:^(UIButton *actionButton, NSInteger index) {
+        if (index == 1) {
+            [self thn_openEditAddressControllerWithModel:self.addressArr[self.selectedIndex.row]];
+        }
+    }];
+    
+    [alertView show];
+}
+
+/**
+ 打开编辑收货地址
+ */
+- (void)thn_openEditAddressControllerWithModel:(THNAddressModel *)addressModel {
+    THNNewShippingAddressViewController *newAddressVC = [[THNNewShippingAddressViewController alloc] init];
+    newAddressVC.addressModel = addressModel;
+    newAddressVC.isSaveCustom = [self thn_isOverseasLogistics];
+    [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -195,12 +277,9 @@ static NSString *const kKeyData    = @"data";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNNewShippingAddressViewController *newAddressVC = [[THNNewShippingAddressViewController alloc] init];
     if (indexPath.section == 0) {
-        newAddressVC.addressModel = self.addressArr[indexPath.row];
+        [self thn_openEditAddressControllerWithModel:self.addressArr[indexPath.row]];
     }
-    newAddressVC.isSaveCustom = [self thn_isOverseasLogistics];
-    [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -214,7 +293,7 @@ static NSString *const kKeyData    = @"data";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
-    [self thn_requestAddressData];
+    [self requestAddressData];
 }
 
 - (void)setNavigationBar {

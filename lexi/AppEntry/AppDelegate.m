@@ -7,18 +7,23 @@
 //
 
 #import "AppDelegate.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import <IQKeyboardManager/IQKeyboardManager.h>
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 #import "THNBaseNavigationController.h"
 #import "THNBaseTabBarController.h"
 #import "THNLoginViewController.h"
+#import "THNPaymentViewController.h"
 #import "THNLoginManager.h"
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import <UMAnalytics/MobClick.h>
+#import <UMAnalytics/DplusMobClick.h>
+#import <UMAnalytics/MobClickGameAnalytics.h>
+#import <UMCommon/UMCommon.h>
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
-#import <AlipaySDK/AlipaySDK.h>
-#import "THNPaymentViewController.h"
+//#import <AlipaySDK/AlipaySDK.h>
+
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -29,8 +34,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setRootViewController];
     [self setThirdExpandConfig];
-    // U-Share 平台设置
 //    [self configUSharePlatforms];
+    [self configUmengAnalytics];
     [self configWXPlatforms];
     
     return YES;
@@ -75,25 +80,62 @@
 }
 
 #pragma mark - 友盟设置
-//- (void)configUSharePlatforms
-//{
-//    /* 打开调试日志 */
-//    [[UMSocialManager defaultManager] openLog:YES];
-//    /* 设置友盟appkey */
-//    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppleKey];
-//    /* 设置微信的appKey和appSecret */
-//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kWXAppKey appSecret:kWXAppSecret redirectURL:@"http:mobile.umeng.com/social"];
-//    /*
-//     * 移除相应平台的分享，如微信收藏
-//     */
-//    //[[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
-//    /* 设置分享到QQ互联的appID
-//     * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
-//     */
-//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1105821097"/*设置QQ平台的appID*/  appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
-//    /* 设置新浪的appKey和appSecret */
-//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWBAppKey appSecret:kWBAppSecret redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
-//}
+- (void)configUSharePlatforms {
+    /* 打开调试日志 */
+    [[UMSocialManager defaultManager] openLog:YES];
+    
+    /* 设置友盟appkey */
+    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
+    
+    /* 设置微信的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession
+                                          appKey:kWXAppKey
+                                       appSecret:kWXAppSecret
+                                     redirectURL:@"http:mobile.umeng.com/social"];
+    /* 移除相应平台的分享，如微信收藏 */
+    [[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
+    
+    /* 设置分享到QQ互联的appID
+     * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
+     */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ
+                                          appKey:@"1105821097" /*设置QQ平台的appID*/
+                                       appSecret:nil
+                                     redirectURL:@"http://mobile.umeng.com/social"];
+    
+    /* 设置新浪的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina
+                                          appKey:kWBAppKey
+                                       appSecret:kWBAppSecret
+                                     redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
+}
+
+#pragma mark 友盟统计
+- (void)configUmengAnalytics {
+    /* 初始化友盟所有组件产品
+     * appKey 开发者在友盟官网申请的AppKey.
+     * channel 渠道标识，可设置nil表示"App Store".
+     */
+    [UMConfigure initWithAppkey:kUMAppKey channel:@"App Store"];
+    
+    /* 启用 DPlus 功能 */
+    [MobClick setScenarioType:E_UM_DPLUS];
+    
+    /* 设置是否对日志信息进行加密 */
+    [UMConfigure setEncryptEnabled:YES];
+    
+    /* 输出sdk的log信息 */
+    [UMConfigure setLogEnabled:YES];
+    
+    /* 需要统计应用自身的账号 */
+    if ([THNLoginManager isLogin]) {
+        [MobClick profileSignInWithPUID:[THNLoginManager sharedManager].userId provider:@"IOS"];
+    }
+    
+    /* 获取集成测试的 deviceID */
+    NSString *deviceID =  [UMConfigure deviceIDForIntegration];
+    NSLog(@"\n\n--- 集成测试的 deviceID:\n    %@\n", deviceID);
+}
 
 #pragma mark - 微信支付设置
 - (void)configWXPlatforms {
@@ -103,9 +145,10 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([url.host isEqualToString:@"safepay"]) {
         //跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            
-        }];
+//        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+//
+//        }];
+        
     } else {
         BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
         if (!result) {
@@ -116,10 +159,7 @@
     return YES;
 }
 
-
-#pragma mark
-
-#pragma mark - WXApiDelegate
+#pragma mark WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[PayResp class]]){
         PayResp *response = (PayResp *)resp;
