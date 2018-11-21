@@ -13,6 +13,8 @@ typedef NS_ENUM(NSUInteger, THNAlertViewStyle) {
     THNAlertViewStyleActionSheet
 };
 
+typedef void (^ActionButtonHandler)(UIButton *actionButton, NSInteger index);
+
 @interface THNAlertView : UIView
 
 /**
@@ -26,13 +28,15 @@ typedef NS_ENUM(NSUInteger, THNAlertViewStyle) {
  */
 @property (nonatomic, assign) THNAlertViewStyle alertViewStyle;
 
+@property (nonatomic, copy) ActionButtonHandler actionButtonHandler;
+
 /**
  创建按钮
 
  @param title 按钮标题
  @param handler 点击操作
  */
-- (void)addActionButtonWithTitle:(NSString *)title handler:(void (^)(void))handler;
+- (void)addActionButtonWithTitle:(NSString *)title handler:(ActionButtonHandler)handler;
 
 /**
  创建多个按钮
@@ -40,8 +44,8 @@ typedef NS_ENUM(NSUInteger, THNAlertViewStyle) {
  @param titles 按钮标题
  @param handler 点击操作
  */
-- (void)addActionButtonWithTitles:(NSArray *)titles handler:(void (^)(NSInteger index))handler;
-- (void)addActionButtonWithTitles:(NSArray *)titles style:(THNAlertViewStyle)style handler:(void (^)(NSInteger index))handler;
+- (void)addActionButtonWithTitles:(NSArray *)titles handler:(ActionButtonHandler)handler;
+- (void)addActionButtonWithTitles:(NSArray *)titles style:(THNAlertViewStyle)style handler:(ActionButtonHandler)handler;
 
 /**
  展示/消失视图

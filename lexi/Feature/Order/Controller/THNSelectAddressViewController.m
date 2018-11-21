@@ -13,7 +13,6 @@
 #import "THNNewlyAddressTableViewCell.h"
 #import "NSString+Helper.h"
 #import "THNNewShippingAddressViewController.h"
-#import <TYAlertController/UIView+TYAlertView.h>
 #import "THNAlertView.h"
 
 static NSString *const kTitleDone  = @"继续以确认订单";
@@ -207,35 +206,24 @@ static NSString *const kKeyMobile   = @"mobile";
  完善地址信息弹窗
  */
 - (void)thn_showSelectedAddressAlertView {
-//    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"" message:@""];
-//    alertView.titleLable.font = [UIFont systemFontOfSize:18 weight:(UIFontWeightMedium)];
-//    alertView.titleLable.textColor = [UIColor colorWithHexString:@"#333333"];
-//    alertView.messageLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
-//    alertView.messageLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-//    alertView.layer.cornerRadius = 4;
-//    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
-//
-//    [alertView addAction:[TYAlertAction actionWithTitle:@"重新选择"
-//                                                  style:TYAlertActionStyleCancel
-//                                                handler:nil]];
-//
-//    [alertView addAction:[TYAlertAction actionWithTitle:@"立即完善"
-//                                                  style:TYAlertActionStyleDefault
-//                                                handler:^(TYAlertAction *action) {
-//                                                    NSLog(@"完善信息");
-//                                                }]];
-//    [alertView showInWindow];
-//
     THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"完善收货地址" message:@"发货地与收货地为跨境交易，需补充地址身份信息才可下单"];
-    [alertView addActionButtonWithTitles:@[@"取消", @"确定"] handler:^(NSInteger index) {
-
+    [alertView addActionButtonWithTitles:@[@"取消", @"去补充"] handler:^(UIButton *actionButton, NSInteger index) {
+        if (index == 1) {
+            [self thn_openEditAddressControllerWithModel:self.addressArr[self.selectedIndex.row]];
+        }
     }];
     
-//    [alertView addActionButtonWithTitles:@[@"取消", @"确定"] style:(THNAlertViewStyleActionSheet) handler:^(NSInteger index) {
-//
-//    }];
-
     [alertView show];
+}
+
+/**
+ 打开编辑收货地址
+ */
+- (void)thn_openEditAddressControllerWithModel:(THNAddressModel *)addressModel {
+    THNNewShippingAddressViewController *newAddressVC = [[THNNewShippingAddressViewController alloc] init];
+    newAddressVC.addressModel = addressModel;
+    newAddressVC.isSaveCustom = [self thn_isOverseasLogistics];
+    [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -289,12 +277,9 @@ static NSString *const kKeyMobile   = @"mobile";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNNewShippingAddressViewController *newAddressVC = [[THNNewShippingAddressViewController alloc] init];
     if (indexPath.section == 0) {
-        newAddressVC.addressModel = self.addressArr[indexPath.row];
+        [self thn_openEditAddressControllerWithModel:self.addressArr[indexPath.row]];
     }
-    newAddressVC.isSaveCustom = [self thn_isOverseasLogistics];
-    [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
 #pragma mark - setup UI

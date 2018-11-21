@@ -11,12 +11,14 @@
 #import <YYKit/YYKit.h>
 #import "YYLabel+Helper.h"
 #import "UIColor+Extension.h"
+#import "UIView+Helper.h"
 #import "THNConst.h"
 
 #define CURRENT_WINDOW [[UIApplication sharedApplication].windows firstObject]
 
-static CGFloat const MAX_WIDTH = 315.0f;
-static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
+static CGFloat const MAX_WIDTH              = 315.0f;
+static CGFloat const ACTION_BUTTON_HEIGHT   = 50.0f;
+static NSInteger const kActionButtonTag     = 1951;
 
 @interface THNAlertView ()
 
@@ -27,7 +29,9 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
 @property (nonatomic, strong) YYLabel *messageLabel;
 
 /// 操作按钮
+@property (nonatomic, strong) UIView *buttonContainerView;
 @property (nonatomic, strong) NSMutableArray *buttonArr;
+@property (nonatomic, strong) NSMutableArray *buttonTitleArr;
 
 @end
 
@@ -49,18 +53,23 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
 }
 
 #pragma mark - public methods
-- (void)addActionButtonWithTitle:(NSString *)title handler:(void (^)(void))handler {
+- (void)addActionButtonWithTitle:(NSString *)title handler:(ActionButtonHandler)handler {
+    NSString *actionTitle = title.length ? title : @"确定";
     
+    [self addActionButtonWithTitles:@[actionTitle] style:(THNAlertViewStyleAlert) handler:handler];
 }
 
-- (void)addActionButtonWithTitles:(NSArray *)titles handler:(void (^)(NSInteger))handler {
-    [self addActionButtonWithTitles:titles style:(THNAlertViewStyleAlert) handler:handler];
+- (void)addActionButtonWithTitles:(NSArray *)titles handler:(ActionButtonHandler)handler {
+    [self addActionButtonWithTitles:titles style:self.alertViewStyle handler:handler];
 }
 
-- (void)addActionButtonWithTitles:(NSArray *)titles style:(THNAlertViewStyle)style handler:(void (^)(NSInteger))handler {
+- (void)addActionButtonWithTitles:(NSArray *)titles style:(THNAlertViewStyle)style handler:(ActionButtonHandler)handler {
     self.alertViewStyle = style;
+    [self.buttonTitleArr addObjectsFromArray:titles];
+    [self createActionButtonWithTitles:self.buttonTitleArr];
+    self.actionButtonHandler = handler;
     
-    [self creatActionButtonWithTitles:titles];
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)show {
@@ -84,6 +93,17 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
             [self removeFromSuperview];
         }];
     }
+}
+
+#pragma mark - event response
+- (void)thn_createButtonAction:(UIButton *)button {
+    NSInteger index = button.tag - kActionButtonTag;
+    
+    if (self.actionButtonHandler) {
+        self.actionButtonHandler(button, index);
+    }
+    
+    [self dismiss];
 }
 
 #pragma mark - private methods
@@ -113,41 +133,87 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
     self.messageLabel.attributedText = textAtt;
 }
 
+/**
+ 创建操作按钮
+ */
+- (void)createActionButtonWithTitles:(NSArray *)titles {
+    for (NSUInteger idx = 0; idx < titles.count; idx ++) {
+        UIButton *button = [[UIButton alloc] init];
+        [button setTitle:titles[idx] forState:(UIControlStateNormal)];
+        button.titleLabel.font = [UIFont systemFontOfSize:18 weight:(UIFontWeightRegular)];
+        
+        if (idx == [self getDefaultIndex]) {
+            button.backgroundColor = self.mainActionColor;
+            [button setTitleColor:self.mainTitleColor forState:(UIControlStateNormal)];
+            
+        } else {
+            button.backgroundColor = [UIColor whiteColor];
+            [button setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
+        }
+        
+        [self thn_addCuttingLineWithButton:button];
+        
+        button.tag = kActionButtonTag + idx;
+        [button addTarget:self action:@selector(thn_createButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        [self.buttonContainerView addSubview:button];
+        [self.buttonArr addObject:button];
+    }
+}
+
+// 按钮添加分割线
+- (UIButton *)thn_addCuttingLineWithButton:(UIButton *)button {
+    UILabel *lineLabel = [[UILabel alloc] init];
+    lineLabel.backgroundColor = [UIColor colorWithHexString:@"#E9E9E9"];
+    
+    [button addSubview:lineLabel];
+    [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.mas_equalTo(0);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    return button;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.3];
     
     [self.containerView addSubview:self.titleLable];
     [self.containerView addSubview:self.messageLabel];
+    [self.containerView addSubview:self.buttonContainerView];
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.right.mas_equalTo(0);
     }];
     
-    [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(MAX_WIDTH, [self getContainerHeight]));
         make.centerX.centerY.equalTo(self);
     }];
     
-    [self.titleLable mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo([self getTitleHeight]);
     }];
     
-    [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLable.mas_bottom).with.offset(10);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo([self getMessageHeight]);
     }];
     
-    if (self.buttonArr.count) {
+    [self.buttonContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.messageLabel.mas_bottom).with.offset(17);
+        make.left.right.bottom.mas_equalTo(0);
+    }];
+    
+    if (self.buttonArr.count > 1) {
         if (self.alertViewStyle == THNAlertViewStyleAlert) {
             [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal) withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
             [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -156,13 +222,21 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
             }];
             
         } else if (self.alertViewStyle == THNAlertViewStyleActionSheet) {
-            [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:0 leadSpacing:90 tailSpacing:0];
+            [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
             [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.mas_equalTo(0);
                 make.height.mas_equalTo(ACTION_BUTTON_HEIGHT);
             }];
         }
+        
+    } else if (self.buttonArr.count == 1) {
+        UIButton *actionButton = (UIButton *)self.buttonArr[0];
+        [actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.right.mas_equalTo(0);
+        }];
     }
+    
+    [super updateConstraints];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -176,7 +250,7 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
     CGFloat originH = 20 + 10 + 17;
     CGFloat titleH = [self getTitleHeight];
     CGFloat messageH = [self getMessageHeight];
-    CGFloat buttonH = ACTION_BUTTON_HEIGHT;
+    CGFloat buttonH = [self getButtonCaotainerViewHeight];
     
     return titleH + messageH + originH + buttonH;
 }
@@ -193,6 +267,22 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
     CGFloat textHeight = [self.messageLabel thn_getLabelHeightWithMaxWidth:MAX_WIDTH];
     
     return text.length ? textHeight : 0;
+}
+
+- (CGFloat)getButtonCaotainerViewHeight {
+    if (self.alertViewStyle == THNAlertViewStyleAlert) {
+        return ACTION_BUTTON_HEIGHT;
+    }
+    
+    return ACTION_BUTTON_HEIGHT * self.buttonTitleArr.count;
+}
+
+- (NSInteger)getDefaultIndex {
+    if (!self.buttonTitleArr.count) {
+        return 0;
+    }
+    
+    return self.alertViewStyle == THNAlertViewStyleActionSheet ? 0 : self.buttonTitleArr.count - 1;
 }
 
 - (UIColor *)mainActionColor {
@@ -241,6 +331,14 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
     return _messageLabel;
 }
 
+- (UIView *)buttonContainerView {
+    if (!_buttonContainerView) {
+        _buttonContainerView = [[UIView alloc] init];
+        _buttonContainerView.backgroundColor = [UIColor whiteColor];
+    }
+    return _buttonContainerView;
+}
+
 - (NSMutableArray *)buttonArr {
     if (!_buttonArr) {
         _buttonArr = [NSMutableArray array];
@@ -248,29 +346,11 @@ static CGFloat const ACTION_BUTTON_HEIGHT = 50.0f;
     return _buttonArr;
 }
 
-- (void)creatActionButtonWithTitles:(NSArray *)titles {
-    for (NSUInteger idx = 0; idx < titles.count; idx ++) {
-        UIButton *button = [[UIButton alloc] init];
-        [button setTitle:titles[idx] forState:(UIControlStateNormal)];
-        button.titleLabel.font = [UIFont systemFontOfSize:18 weight:(UIFontWeightRegular)];
-        
-        if (idx == titles.count - 1) {
-            button.backgroundColor = self.mainActionColor;
-            [button setTitleColor:self.mainTitleColor forState:(UIControlStateNormal)];
-            
-        } else {
-            button.backgroundColor = [UIColor whiteColor];
-            [button setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
-        }
-        
-        [self.containerView addSubview:button];
-        [self.buttonArr addObject:button];
+- (NSMutableArray *)buttonTitleArr {
+    if (!_buttonTitleArr) {
+        _buttonTitleArr = [NSMutableArray array];
     }
-    
-    // 样式为 sheet 时按钮倒序
-    if (self.alertViewStyle == THNAlertViewStyleActionSheet) {
-        self.buttonArr = (NSMutableArray *)[[self.buttonArr reverseObjectEnumerator] allObjects];
-    }
+    return _buttonTitleArr;
 }
 
 @end

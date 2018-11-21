@@ -9,7 +9,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
-#import <TYAlertController/UIView+TYAlertView.h>
+#import "THNAlertView.h"
 #import "THNGoodsManager.h"
 #import "THNLoginManager.h"
 #import "THNImagesView.h"
@@ -583,18 +583,12 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_setGoodsInfoIsSoldOut:(BOOL)soldOut {
     if (!soldOut) return;
     
-    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"很抱歉" message:@"该商品已下架"];
-    alertView.layer.cornerRadius = 8;
-    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
-    [alertView addAction:[TYAlertAction actionWithTitle:@"确认"
-                                                  style:TYAlertActionStyleDefault
-                                                handler:^(TYAlertAction *action) {
-                                                    [self.navigationController popViewControllerAnimated:YES];
-                                                }]];
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"很抱歉" message:@"该商品已下架"];
+    [alertView addActionButtonWithTitle:@"确定" handler:^(UIButton *actionButton, NSInteger index) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     
-    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:alertView
-                                                                          preferredStyle:TYAlertControllerStyleAlert];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [alertView show];
 }
 
 /**

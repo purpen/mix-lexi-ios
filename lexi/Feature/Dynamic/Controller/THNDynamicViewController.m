@@ -18,7 +18,7 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 #import "THNReleaseWindowViewController.h"
-#import <TYAlertController/UIView+TYAlertView.h>
+#import "THNAlertView.h"
 
 static NSString *const kTitleDynamic    = @"动态";
 /// url
@@ -153,25 +153,14 @@ static NSString *const kKeyRid  = @"rid";
  删除动态
  */
 - (void)thn_deleteDynamicWithRid:(NSString *)rid {
-    WEAKSELF;
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"删除动态" message:@"是否确认要删除此条动态？"];
+    [alertView addActionButtonWithTitles:@[@"取消", @"删除"] handler:^(UIButton *actionButton, NSInteger index) {
+        if (index == 1) {
+            [self requestDeleteDynamicWithRid:rid];
+        }
+    }];
     
-    TYAlertView *alertView = [TYAlertView alertViewWithTitle:@"是否确认要删除？" message:@""];
-    alertView.layer.cornerRadius = 8;
-    alertView.buttonDefaultBgColor = [UIColor colorWithHexString:kColorMain];
-    
-    [alertView addAction:[TYAlertAction actionWithTitle:@"取消"
-                                                  style:TYAlertActionStyleCancel
-                                                handler:nil]];
-    
-    [alertView addAction:[TYAlertAction actionWithTitle:@"删除"
-                                                  style:TYAlertActionStyleDefault
-                                                handler:^(TYAlertAction *action) {
-                                                    [weakSelf requestDeleteDynamicWithRid:rid];
-                                                }]];
-    
-    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:alertView
-                                                                          preferredStyle:TYAlertControllerStyleAlert];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [alertView show];
 }
 
 /**
