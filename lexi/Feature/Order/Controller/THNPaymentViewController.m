@@ -18,14 +18,19 @@
 #import "THNOrderDetailPayView.h"
 #import "UIView+Helper.h"
 #import "THNOrderDetailModel.h"
-
+#import "THNObtainedView.h"
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
 static NSString *kUrlCreateOrderWXPay = @"/orders/app_pay";
 static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 
-@interface THNPaymentViewController () <UITableViewDelegate, UITableViewDataSource, WXApiDelegate>
+@interface THNPaymentViewController ()<
+UITableViewDelegate,
+UITableViewDataSource,
+WXApiDelegate,
+THNNavigationBarViewDelegate
+>
 
 /// 进度条
 @property (nonatomic, strong) THNBuyProgressView *progressView;
@@ -144,6 +149,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     [self.view addSubview:self.paymentTable];
     [self.view addSubview:self.doneButton];
     self.paymentTable.tableHeaderView = self.payDetailView;
+    [self.navigationBarView setNavigationBackButton];
     self.selectIndex = [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
@@ -208,6 +214,16 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
     cell.isSelectedPayment = YES;
 
     self.selectIndex = indexPath;
+}
+
+#pragma mark - THNNavigationBarViewDelegate
+- (void)didNavigationBackButtonEvent {
+    THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
+    [obtainedMuseumView show:@"确认离开付款页面" withRightButtonTitle:@"继续支付" withLeftButtonTitle:@"确认离开"];
+    
+    obtainedMuseumView.obtainedleftBlock = ^{
+        
+    };
 }
 
 #pragma mark - getters and setters

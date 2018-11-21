@@ -380,6 +380,9 @@
 		4BC7D19B21A4FB4A00F22440 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC7D18B21A4FA7D00F22440 /* CFNetwork.framework */; };
 		4BC7D19C21A4FB5500F22440 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC7D18C21A4FA7D00F22440 /* CoreMotion.framework */; };
 		4BC7D19D21A52FBD00F22440 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8AA52A721A05436003F2111 /* THNSelectPruductCoverCollectionViewCell.xib */; };
+		4BC7D19E21A5681100F22440 /* THNOrderPayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF012217F1401008E5E28 /* THNOrderPayView.xib */; };
+		4BC7D1A221A568D300F22440 /* THNOrderPayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7D19F21A568D200F22440 /* THNOrderPayTableViewCell.m */; };
+		4BC7D1A321A568D300F22440 /* THNOrderPayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC7D1A121A568D300F22440 /* THNOrderPayTableViewCell.xib */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNWxPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNWxPayModel.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
@@ -427,7 +430,6 @@
 		4BECF241217F1401008E5E28 /* THNOrderDetailPayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF009217F1401008E5E28 /* THNOrderDetailPayView.xib */; };
 		4BECF243217F1401008E5E28 /* THNOrderDetailProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF00C217F1401008E5E28 /* THNOrderDetailProductView.xib */; };
 		4BECF245217F1401008E5E28 /* THNOrderDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF00F217F1401008E5E28 /* THNOrderDetailTableViewCell.xib */; };
-		4BECF247217F1401008E5E28 /* THNOrderPayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF012217F1401008E5E28 /* THNOrderPayView.xib */; };
 		4BECF249217F1401008E5E28 /* THNOrderProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF015217F1401008E5E28 /* THNOrderProductTableViewCell.xib */; };
 		4BECF24B217F1401008E5E28 /* THNOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF018217F1401008E5E28 /* THNOrderTableViewCell.xib */; };
 		4BECF24F217F1401008E5E28 /* THNPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECF01F217F1401008E5E28 /* THNPhotoCollectionViewCell.xib */; };
@@ -582,6 +584,9 @@
 		4BC7D18F21A4FA7E00F22440 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4BC7D19021A4FA7E00F22440 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4BC7D19121A4FA7E00F22440 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		4BC7D19F21A568D200F22440 /* THNOrderPayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNOrderPayTableViewCell.m; sourceTree = "<group>"; };
+		4BC7D1A021A568D200F22440 /* THNOrderPayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrderPayTableViewCell.h; sourceTree = "<group>"; };
+		4BC7D1A121A568D300F22440 /* THNOrderPayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNOrderPayTableViewCell.xib; sourceTree = "<group>"; };
 		4BCAF8DB218834C300EF9491 /* THNCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCommentModel.h; sourceTree = "<group>"; };
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNWxPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNWxPayModel.h; sourceTree = "<group>"; };
@@ -2526,6 +2531,9 @@
 				4BC70AD5218C05880073A9F0 /* THNPaySuccessTintView.h */,
 				4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */,
 				4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */,
+				4BC7D1A021A568D200F22440 /* THNOrderPayTableViewCell.h */,
+				4BC7D19F21A568D200F22440 /* THNOrderPayTableViewCell.m */,
+				4BC7D1A121A568D300F22440 /* THNOrderPayTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3606,7 +3614,6 @@
 				4BECF226217F1401008E5E28 /* THNLogisticsViewController.xib in Resources */,
 				4BECF1E7217F1401008E5E28 /* THNLivingHallExpandView.xib in Resources */,
 				D82C0189219AB0E0009F905F /* THNNewShippingAddressTableViewCell.xib in Resources */,
-				4BECF247217F1401008E5E28 /* THNOrderPayView.xib in Resources */,
 				4BECF165217F1401008E5E28 /* THNBrandHallDefaultView.xib in Resources */,
 				4BECF18A217F1401008E5E28 /* THNDiscoverSetCollectionViewCell.xib in Resources */,
 				4BECF1B0217F1401008E5E28 /* THNGrassListCollectionViewCell.xib in Resources */,
@@ -3616,6 +3623,7 @@
 				4BECF2D3217F1402008E5E28 /* THNSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF19B217F1401008E5E28 /* THNExploreTableViewCell.xib in Resources */,
 				4BECF1ED217F1401008E5E28 /* THNLivingHallRecommendTableViewCell.xib in Resources */,
+				4BC7D1A321A568D300F22440 /* THNOrderPayTableViewCell.xib in Resources */,
 				4BECF236217F1401008E5E28 /* THNEvaluationTableViewCell.xib in Resources */,
 				4B2644EF2125590700665A6D /* showWindow.json in Resources */,
 				4BECF1E9217F1401008E5E28 /* THNLivingHallHeaderView.xib in Resources */,
@@ -3623,6 +3631,7 @@
 				4BECF2DB217F1402008E5E28 /* THNToolBarView.xib in Resources */,
 				D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */,
 				4BECF2C7217F1402008E5E28 /* THNShopWindowDetailViewController.xib in Resources */,
+				4BC7D19E21A5681100F22440 /* THNOrderPayView.xib in Resources */,
 				4BC70ACF218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib in Resources */,
 				D8B36C602174916000A6009F /* image_life_wechat.png in Resources */,
 				4BECF171217F1401008E5E28 /* THNCouponDetailView.xib in Resources */,
@@ -3895,6 +3904,7 @@
 				4B27B3DB218717D1004AF42F /* THNGoodsSkuView.m in Sources */,
 				4B27B3DC218717D1004AF42F /* THNGoodsActionTableViewCell.m in Sources */,
 				4B27B3DD218717D1004AF42F /* THNGoodsBaseTableViewCell.m in Sources */,
+				4BC7D1A221A568D300F22440 /* THNOrderPayTableViewCell.m in Sources */,
 				4B27B3DE218717D1004AF42F /* THNGoodsCheckTableViewCell.m in Sources */,
 				4B27B3DF218717D1004AF42F /* THNGoodsContactTableViewCell.m in Sources */,
 				4B27B3E1218717D1004AF42F /* THNGoodsDescribeTableViewCell.m in Sources */,

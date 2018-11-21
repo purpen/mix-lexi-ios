@@ -113,9 +113,9 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 - (IBAction)delete:(id)sender {
     THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
-    [obtainedMuseumView show];
+    [obtainedMuseumView show:@"你确认要下架这件商品吗？" withRightButtonTitle:@"取消" withLeftButtonTitle:@"删除"];
     
-    obtainedMuseumView.obtainedBlock = ^{
+    obtainedMuseumView.obtainedleftBlock = ^{
         [self deleteProduct];
     };
 }

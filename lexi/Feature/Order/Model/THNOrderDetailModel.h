@@ -31,6 +31,8 @@
 @property (nonatomic, strong) THNOrderStoreModel *store;
 // 优惠券金额
 @property (nonatomic , assign) CGFloat coupon_amount;
+// 官方优惠券金额
+@property (nonatomic , assign) CGFloat bonus_amount;
 // 首单优惠
 @property (nonatomic , assign) CGFloat first_discount;
 // 满减金额

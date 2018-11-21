@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^ObtainedBlock)(void);
+typedef void(^ObtainedRightBlock)(void);
+typedef void(^ObtainedLeftBlock)(void);
 
 @interface THNObtainedView : UIView
 
 + (instancetype)sharedManager;
-- (instancetype)show;
-@property (nonatomic, copy) ObtainedBlock obtainedBlock;
+- (instancetype)show:(NSString *)title
+withRightButtonTitle:(NSString *)rightButtonTitle
+ withLeftButtonTitle:(NSString *)leftButtonTitle;
+
+@property (nonatomic, copy) ObtainedRightBlock obtainedRightBlock;
+@property (nonatomic, copy) ObtainedLeftBlock obtainedleftBlock;
 @property (nonatomic, strong) NSString *title;
 
 @end

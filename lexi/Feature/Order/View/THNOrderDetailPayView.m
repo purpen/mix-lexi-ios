@@ -71,13 +71,17 @@
         self.firstOfferLabel.text = [NSString formatFloat:detailModel.first_discount];
     }
     
-    if (detailModel.coupon_amount == 0) {
+    if (detailModel.bonus_amount == 0 && detailModel.coupon_amount == 0) {
         self.couponView.hidden = YES;
         self.couponViewHeightConstraint.constant = 0;
+    } else if (detailModel.bonus_amount > 0) {
+        self.couponView.hidden = NO;
+        self.couponViewHeightConstraint.constant = 30;
+        self.couponLabel.text = [NSString formatFloat:detailModel.bonus_amount];
     } else {
         self.couponView.hidden = NO;
         self.couponViewHeightConstraint.constant = 30;
-         self.couponLabel.text = [NSString formatFloat:detailModel.coupon_amount];
+        self.couponLabel.text = [NSString formatFloat:detailModel.coupon_amount];
     }
     
     if (detailModel.reach_minus == 0) {

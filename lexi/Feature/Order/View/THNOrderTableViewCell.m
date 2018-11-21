@@ -280,10 +280,9 @@ CGFloat orderCellLineSpacing = 10;
 
 - (void)showObtainedMuseumView {
     THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
-    obtainedMuseumView.title = @"确认删除该商品吗";
-    [obtainedMuseumView show];
+    [obtainedMuseumView show:@"确认删除该商品吗" withRightButtonTitle:@"取消" withLeftButtonTitle:@"删除"];
     
-    obtainedMuseumView.obtainedBlock = ^{
+    obtainedMuseumView.obtainedleftBlock  = ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(deleteOrder:initWithCell:)]) {
             [self.delegate deleteOrder:self.ordersModel.rid initWithCell:self];
         }

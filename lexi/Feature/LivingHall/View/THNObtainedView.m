@@ -12,8 +12,9 @@
 @interface THNObtainedView()
 
 @property (weak, nonatomic) IBOutlet UIView *backGroundView;
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+@property (weak, nonatomic) IBOutlet UIButton *leftButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *rightButton;
 
 @end
 
@@ -28,32 +29,36 @@
     [self removeFromSuperview];
 }
 
-- (instancetype)show {
+- (instancetype)show:(NSString *)title
+withRightButtonTitle:(NSString *)rightButtonTitle
+ withLeftButtonTitle:(NSString *)leftButtonTitle {
+    
     THNObtainedView *obtainedView = [THNObtainedView viewFromXib];
-    if (self.title.length > 0) {
-         self.titleLabel.text = self.title;
-    }
-   
+    self.titleLabel.text = title;
+    [self.leftButton setTitle:leftButtonTitle forState:UIControlStateNormal];
+    [self.rightButton setTitle:rightButtonTitle forState:UIControlStateNormal];
+    
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     obtainedView.frame = window.bounds;
     [window addSubview:obtainedView];
     return obtainedView;
 }
 
-- (IBAction)delete:(id)sender {
-    if (self.obtainedBlock) {
-        self.obtainedBlock();
+- (IBAction)clickLeftButton:(id)sender {
+    if (self.obtainedleftBlock) {
+        self.obtainedleftBlock();
     }
     [self removeFromSuperview];
 }
 
-- (IBAction)cancel:(id)sender {
+- (IBAction)clickRightButton:(id)sender {
+    if (self.obtainedRightBlock) {
+        self.obtainedRightBlock();
+    }
     [self removeFromSuperview];
 }
 
-- (IBAction)close:(id)sender {
-    [self removeFromSuperview];
-}
+
 
 #pragma mark - shared
 static id _instance = nil;

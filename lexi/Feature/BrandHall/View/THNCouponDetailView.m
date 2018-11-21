@@ -51,15 +51,15 @@ static NSString *const kCouponCellIdentifier = @"kCouponCellIdentifier";
     [self layoutTableView];
     self.loginCoupons = loginCoupons;
     self.noLoginCoupons = noLoginCoupons;
+   
     if (text.length == 0) {
         self.fullReductionView.hidden = YES;
         self.couponDetailViewHeightConstraint.constant = 336;
-        return;
+    } else {
+        self.fullReductionLabel.text = text;
     }
     
-    self.fullReductionLabel.text = text;
     [self.tableView reloadData];
-   
 }
 
 - (void)layoutFullReductionLabelText:(NSMutableString *)text {
