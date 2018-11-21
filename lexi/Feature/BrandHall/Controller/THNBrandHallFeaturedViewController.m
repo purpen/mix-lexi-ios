@@ -165,7 +165,7 @@ static CGFloat const kBrandHallHeight = 375;
 #pragma mark - lazy
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
-        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kBrandHallHeight)];
+        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 290)];
         _bannerView.delegate = self;
     }
     return _bannerView;

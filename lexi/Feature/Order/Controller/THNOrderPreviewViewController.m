@@ -78,6 +78,10 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 @property (nonatomic, assign) CGFloat totalFreight;
 // 总优惠券
 @property (nonatomic, assign) CGFloat totalCouponAmount;
+// 店铺优惠劵总价
+@property (nonatomic, assign) CGFloat storeCouponAmount;
+// 最大的官方优惠劵
+@property (nonatomic, assign) CGFloat maxOfficalCouponAmount;
 // 总满减金额
 @property (nonatomic, assign) CGFloat totalReductionAmount;
 // 首单优惠折扣
@@ -91,6 +95,11 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, assign) CGFloat payDetailViewHeight;
 @property (nonatomic, strong) THNOrderDetailModel *detailModel;
+@property (nonatomic, strong) NSMutableArray *maxStoreCoupons;
+// 店铺优惠劵展示类型
+@property (nonatomic, assign) ShowCouponStyleType storeCouponStyleType;
+@property (nonatomic, assign) ShowCouponStyleType officalCouponStyleType;
+
 
 @end
 
@@ -140,11 +149,51 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hiddenHud];
+            [self defaultSelectCouponType];
             [self.tableView reloadData];
         });
     });
 }
 
+// 选择默认展示优惠券类型
+- (void)defaultSelectCouponType {
+    // 官方优惠券大于店铺优惠劵使用官方劵(意味相等选择店铺优惠券)
+    if (self.maxOfficalCouponAmount > self.storeCouponAmount) {
+        self.officalCouponStyleType = ShowCouponStyleTypeAmount;
+        self.storeCouponStyleType = ShowCouponStyleTypeUnavailable;
+         self.officalCouponCode = self.officalCoupons[0][@"code"];
+    } else {
+        self.storeCouponStyleType = ShowCouponStyleTypeAmount;
+        self.officalCouponStyleType = ShowCouponStyleTypeUnavailable;
+        [self.skuItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSMutableDictionary *skuItemDict = obj;
+            if (self.maxStoreCoupons.count > 0) {
+                 skuItemDict[@"coupon_codes"] = self.maxStoreCoupons[idx][@"code"];
+            }
+           
+        }];
+    }
+    
+    if (self.maxOfficalCouponAmount == 0) {
+        self.officalCouponStyleType = ShowCouponStyleTypeNotavailable;
+    }
+    
+    if (self.storeCouponAmount == 0) {
+        self.storeCouponStyleType = ShowCouponStyleTypeNotavailable;
+    }
+}
+
+/**
+ 是否还有选择的店铺优惠券
+ */
+- (BOOL)isHaveSelectStoreCoupon {
+    for (NSMutableDictionary *skuItemDict in self.skuItems) {
+        if ([skuItemDict.allKeys containsObject:@"coupon_codes"]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
@@ -245,16 +294,15 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         }
         
         self.couponDict = result.data;
-
         for (NSMutableDictionary *dict in self.skuItems) {
             NSMutableArray *coupons = [NSMutableArray array];
             for (NSDictionary *storeDict in self.couponDict[dict[@"rid"]]) {
                 [coupons addObject:storeDict[@"coupon"]];
             }
-
+            
             if (coupons.count > 0) {
-                dict[@"coupon_codes"] = coupons[0][@"code"];
-                self.totalCouponAmount += [coupons[0][@"amount"] floatValue];
+                [self.maxStoreCoupons addObject:coupons[0]];
+                self.storeCouponAmount += [coupons[0][@"amount"] floatValue];
             }
         }
 
@@ -287,14 +335,11 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
             return;
         }
         
-        NSArray *sortArr = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"amount" ascending:NO]];
-        self.officalCoupons = [result.data[@"coupons"] sortedArrayUsingDescriptors:sortArr];
-
+        self.officalCoupons = result.data[@"coupons"];
         if (self.officalCoupons.count > 0) {
-            self.totalCouponAmount += [self.officalCoupons[0][@"amount"] floatValue];
-            self.officalCouponCode = self.officalCoupons[0][@"code"];
+            self.maxOfficalCouponAmount = [self.officalCoupons[0][@"amount"] floatValue];
         }
-
+        
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];
@@ -451,11 +496,12 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     self.skus = skus;
     // 每个店铺的满减
     NSDictionary *fullReductionDict = self.fullReductionDict[storekey];
-    THNCouponModel *couponModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
+    THNCouponModel *fullReductionModel = [THNCouponModel mj_objectWithKeyValues:fullReductionDict];
     
-    // 每个店铺优惠券数组
-    NSArray *coupons = self.couponDict[storekey];
-
+   
+    // 每个店铺信息(优惠券的信息等等)
+    NSArray *storeInformations = self.couponDict[storekey];
+    
     // 运费
     CGFloat freight  = [self.freightDict[storekey] floatValue];
 
@@ -464,14 +510,15 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         [products addObject:self.logisticsDict[storekey]];
     }
 
+    cell.couponStyleType = self.storeCouponStyleType;
     self.fullReductionViewHeight = [cell setPreViewCell:skus
                                        initWithItmeSkus:skuItems
-                                     initWithCouponModel:couponModel
-                                         initWithFreight:freight
-                                         initWithCoupons:coupons
+                                    initWithCouponModel:fullReductionModel
+                                        initWithFreight:freight
+                              initWithStoreInformations:(NSArray *)storeInformations
                                        initWithproducts:products
-                                          initWithRemark:remarkStr
-                                            initWithGift:giftStr];
+                                         initWithRemark:remarkStr
+                                           initWithGift:giftStr];
     
     return cell;
 }
@@ -523,17 +570,20 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
+    self.selectOfficalCouponView.couponStyleType = self.officalCouponStyleType;
     self.selectOfficalCouponView.officalCoupons = self.officalCoupons;
     __weak typeof(self)weakSelf = self;
 
-    self.selectOfficalCouponView.updateCouponAcountBlcok = ^(CGFloat couponSpread, NSString *code) {
+    self.selectOfficalCouponView.updateCouponAcountBlcok = ^(CGFloat amount, NSString *code) {
         weakSelf.officalCouponCode = code;
-        weakSelf.totalCouponAmount += couponSpread;
+        weakSelf.totalCouponAmount = amount;
         [weakSelf.payDetailView setTotalCouponAmount:weakSelf.totalCouponAmount];
-
+        weakSelf.storeCouponStyleType = ShowCouponStyleTypeQuantityAvailable;
+        weakSelf.officalCouponStyleType = ShowCouponStyleTypeQuantityAvailable;
+        [weakSelf.tableView scrollToBottom];
+        [weakSelf.tableView reloadData];
     };
-
+    
     return self.selectOfficalCouponView;
 }
 
@@ -614,16 +664,25 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 /**
  更新优惠券的信息
 
- @param couponSpread 本次选择优惠券和上次选中优惠券的差价
+ @param amount 本次选择优惠券
  @param code 选中的优惠券码
  @param tag 选中cell的tag
  */
-- (void)updateTotalCouponAcount:(CGFloat)couponSpread withCode:(NSString *)code withTag:(NSInteger)tag {
+- (void)updateTotalCouponAcount:(CGFloat)amount withCode:(NSString *)code withTag:(NSInteger)tag {
     // 优惠券码插入到对应的店铺
     NSMutableDictionary *skuItemDict = self.skuItems[tag];
     skuItemDict[@"coupon_codes"] = code;
-    self.totalCouponAmount = couponSpread;
+    self.totalCouponAmount = amount;
     [self.payDetailView setTotalCouponAmount:self.totalCouponAmount];
+
+    if ([self isHaveSelectStoreCoupon]) {
+        self.officalCouponStyleType = ShowCouponStyleTypeUnavailable;
+    } else {
+        self.officalCouponStyleType = ShowCouponStyleTypeQuantityAvailable;
+    }
+    
+    self.selectOfficalCouponView.couponStyleType = self.officalCouponStyleType;
+    [self.selectOfficalCouponView setOfficalCoupons:self.officalCoupons];
 }
 
 - (void)setRemarkWithGift:(NSString *)remarkStr withGift:(NSString *)giftStr withTag:(NSInteger)tag {
@@ -631,11 +690,6 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
     NSMutableDictionary *skuItemDict = self.skuItems[tag];
     skuItemDict[@"buyer_remark"] = remarkStr;
     skuItemDict[@"blessing_utterance"] = giftStr;
-}
-
-- (void)changeTotalCouponAmount {
-    self.totalCouponAmount = 0;
-    [self.payDetailView setTotalCouponAmount:self.totalCouponAmount];
 }
 
 #pragma mark - getters and setters
@@ -706,6 +760,13 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
         _selectOfficalCouponView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
     }
     return _selectOfficalCouponView;
+}
+
+- (NSMutableArray *)maxStoreCoupons {
+    if (!_maxStoreCoupons) {
+        _maxStoreCoupons = [NSMutableArray array];
+    }
+    return _maxStoreCoupons;
 }
 
 @end

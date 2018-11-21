@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *couponLabel;
 @property (nonatomic, strong) THNSelectCouponView *selectCouponView;
 @property (nonatomic, strong) NSString *selectCouponText;
+@property (weak, nonatomic) IBOutlet UIButton *selectCouponButton;
 
 @end
 
@@ -25,27 +26,33 @@
 - (void)setOfficalCoupons:(NSArray *)officalCoupons {
     _officalCoupons = officalCoupons;
     
-    // 没有选择金额，展示最大金额
-    if (self.selectCouponText.length == 0) {
-        if (self.officalCoupons.count > 0) {
-            self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f",[self.officalCoupons[0][@"amount"] floatValue]];
+    switch (self.couponStyleType) {
+        case ShowCouponStyleTypeAmount:
+            if (self.officalCoupons.count > 0) {
+                self.couponLabel.text = [NSString stringWithFormat:@"已抵%.2f",[self.officalCoupons[0][@"amount"] floatValue]];
+            }
             self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
-        } else {
+            self.selectCouponButton.enabled = YES;
+            break;
+        case ShowCouponStyleTypeUnavailable:
+            self.couponLabel.text = @"不可使用";
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
+            self.selectCouponButton.enabled = NO;
+            break;
+        case ShowCouponStyleTypeNotavailable:
             self.couponLabel.text = @"无可用优惠券";
             self.couponLabel.textColor = [UIColor colorWithHexString:@"999999"];
-        }
-    } else {
-        self.couponLabel.text = self.selectCouponText;
+            self.selectCouponButton.enabled = NO;
+            break;
+        case ShowCouponStyleTypeQuantityAvailable:
+            self.couponLabel.text =  [NSString stringWithFormat:@"%ld个优惠券可用", officalCoupons.count];
+            self.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
+            self.selectCouponButton.enabled = YES;
+            break;
     }
-   
 }
 
 - (IBAction)selectCouponButton:(id)sender {
-    
-    if (self.officalCoupons.count == 0) {
-        return;
-    }
-    
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.selectCouponView.frame = window.bounds;
     self.selectCouponView.couponType = CouponTypeOffical;
@@ -53,6 +60,7 @@
     __weak typeof(self)weakSelf = self;
     
     self.selectCouponView.selectCouponBlock = ^(NSString *text, THNCouponModel *couponModel) {
+        weakSelf.couponLabel.textColor = [UIColor colorWithHexString:@"FF6666"];
         weakSelf.selectCouponText = text;
         weakSelf.updateCouponAcountBlcok(couponModel.amount, couponModel.code);
         weakSelf.couponLabel.text = text;

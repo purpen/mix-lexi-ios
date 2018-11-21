@@ -25,7 +25,7 @@
                     <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="7LB-Jd-XEq">
                         <rect key="frame" x="0.0" y="0.0" width="245" height="163"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_set_mask" translatesAutoresizingMaskIntoConstraints="NO" id="pMM-Qr-UuC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_set_mask" translatesAutoresizingMaskIntoConstraints="NO" id="pMM-Qr-UuC">
                                 <rect key="frame" x="0.0" y="0.0" width="245" height="163"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="个性化礼物" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imn-qQ-5LP">

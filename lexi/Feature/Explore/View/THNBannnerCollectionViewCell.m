@@ -29,6 +29,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.layer.cornerRadius = 4;
+    self.cellImageView.layer.masksToBounds = YES;
 }
 
 - (void)setSetModel:(THNSetModel *)setModel {

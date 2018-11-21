@@ -159,6 +159,7 @@ THNCommentTableViewDelegate
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -177,6 +178,7 @@ THNCommentTableViewDelegate
         }
         
         [self.commentView setGrassListModel:self.grassListModel];
+        [self.tableView reloadData];
         [self loadLifeRecordsCommentData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -185,17 +187,10 @@ THNCommentTableViewDelegate
 }
 
 - (void)loadLifeRecordsCommentData {
-    if (self.isNeedLocalHud) {
-        [SVProgressHUD thn_show];
-    } else {
-        [self showHud];
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsComments requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -278,7 +273,6 @@ THNCommentTableViewDelegate
     params[@"rid"] = @(self.rid);
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsRecommendStory requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;

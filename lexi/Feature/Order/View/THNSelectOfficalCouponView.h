@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNCouponModel.h"
 
 typedef void(^UpdateCouponAmountBlcok)(CGFloat couponSpread, NSString*code);
 
@@ -14,5 +15,6 @@ typedef void(^UpdateCouponAmountBlcok)(CGFloat couponSpread, NSString*code);
 
 @property (nonatomic, strong) NSArray *officalCoupons;
 @property (nonatomic, copy) UpdateCouponAmountBlcok updateCouponAcountBlcok;
+@property (nonatomic, assign) ShowCouponStyleType couponStyleType;
 
 @end

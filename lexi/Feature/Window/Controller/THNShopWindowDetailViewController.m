@@ -196,12 +196,6 @@ THNCommentTableViewDelegate
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
-        if (self.isNeedLocalHud) {
-            [SVProgressHUD dismiss];
-        } else {
-            [self hiddenHud];
-        }
 
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -231,7 +225,11 @@ THNCommentTableViewDelegate
     params[@"rid"] = self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
+        if (self.isNeedLocalHud) {
+            [SVProgressHUD dismiss];
+        } else {
+            [self hiddenHud];
+        }
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;

@@ -10,6 +10,21 @@
 #import <UIKit/UIKit.h>
 #import <MJExtension/MJExtension.h>
 
+/**
+ 展示优惠券的样式
+ 
+ - ShowCouponStyleTypeAmount: 抵扣金额
+ - ShowCouponStyleTypeUnavailable: 不可使用
+ - ShowCouponStyleTypeNotavailable: 没有可用
+ - ShowCouponStyleTypeQuantityAvailable: 可用优惠券数量
+ */
+typedef NS_ENUM(NSUInteger, ShowCouponStyleType) {
+    ShowCouponStyleTypeAmount,
+    ShowCouponStyleTypeUnavailable,
+    ShowCouponStyleTypeNotavailable,
+    ShowCouponStyleTypeQuantityAvailable
+};
+
 @interface THNCouponModel : NSObject
 
 // 面值
