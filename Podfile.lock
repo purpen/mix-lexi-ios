@@ -30,7 +30,6 @@ PODS:
     - SDWebImage/Core (= 4.4.1)
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
-  - TYAlertController (1.2.0)
   - UMCAnalytics (5.5.0):
     - UMCCommon
   - UMCCommon (1.5.2)
@@ -67,7 +66,6 @@ DEPENDENCIES:
   - Qiniu (~> 7.1)
   - SDWebImage (~> 4.4.1)
   - SVProgressHUD (~> 2.2.5)
-  - TYAlertController (~> 1.2.0)
   - UMCAnalytics
   - UMCCommon
   - UMCErrorCatch
@@ -94,7 +92,6 @@ SPEC REPOS:
     - Qiniu
     - SDWebImage
     - SVProgressHUD
-    - TYAlertController
     - UMCAnalytics
     - UMCCommon
     - UMCErrorCatch
@@ -118,7 +115,6 @@ SPEC CHECKSUMS:
   Qiniu: 65384bca1cdb0480a68d9b9b8f54db53418c0355
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  TYAlertController: c121090edb0bea7426f987da94cdddd81eef4231
   UMCAnalytics: 4667788559a72f2fa5077117d1b8802a3b6eb6bb
   UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
   UMCErrorCatch: 51f1b68f920233e90a3fa6d51f0456174507ec78
@@ -128,6 +124,6 @@ SPEC CHECKSUMS:
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: b62b225adae02ebe78c3e3d7be16975e4f9d5086
+PODFILE CHECKSUM: 553f33ba91cb135ccc46e41dc6cc3771f36486a5
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3
