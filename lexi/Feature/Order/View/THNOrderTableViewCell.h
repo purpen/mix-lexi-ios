@@ -27,7 +27,7 @@ UIKIT_EXTERN CGFloat orderCellLineSpacing;
 - (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid;
 - (void)pushOrderDetail:(NSString *)orderRid;
 - (void)confirmReceipt;
-- (void)pushPayment:(THNOrderDetailModel *)detailModel initWithOrderRid:(NSString *)orderRid;
+- (void)callBackSelectPayOrderRid:(NSString *)orderRid;
 
 @end
 

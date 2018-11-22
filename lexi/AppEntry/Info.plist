@@ -24,8 +24,16 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx777520ec6a61fff5</string>
+				<string>1106125719</string>
 			</array>
 		</dict>
 		<dict>
@@ -33,23 +41,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ05fc5b14</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tencent100424</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wb3921700954</string>
+				<string>146542115</string>
 			</array>
 		</dict>
 		<dict>
@@ -66,6 +58,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>lexi</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>2018102761828848</string>
 			</array>
 		</dict>
 	</array>

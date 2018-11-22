@@ -28,6 +28,7 @@
 #import "THNBrandHallViewController.h"
 #import "UIViewController+THNHud.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "THNLoginManager.h"
 
 /**
  搜索提示内容
@@ -90,7 +91,12 @@ UICollectionViewDelegateFlowLayout
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self loadUserBrowseData];
+    [self showHud];
+    if ([THNLoginManager isLogin]) {
+        [self loadUserBrowseData];
+    } else {
+        [self loadHotRecommendData];
+    }
 }
 
 - (void)setupUI {
@@ -98,15 +104,23 @@ UICollectionViewDelegateFlowLayout
     [self.view addSubview:self.searchView];
     [self.searchView layoutSearchView:SearchViewTypeDefault withSearchKeyword:nil];
     [self.view addSubview:self.collectionView];
+    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
+    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
+    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
+}
+
+- (void)tableViewTouchInSide{
+    // ------结束编辑，隐藏键盘
+    [self.view endEditing:YES];
 }
 
 // 最近查看
 - (void)loadUserBrowseData {
     self.loadViewY = CGRectGetMaxY(self.searchView.frame);
-    [self showHud];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlUserBrowses requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
@@ -119,6 +133,7 @@ UICollectionViewDelegateFlowLayout
             [self.sectionTitles addObject:KSearchRecentlyViewedTitle];
             [self.sections addObject:self.recentlyViewedProducts];
         }
+        [self.collectionView reloadData];
         // 按展示顺序往下请求
         [self loadHotRecommendData];
     } failure:^(THNRequest *request, NSError *error) {
@@ -131,6 +146,7 @@ UICollectionViewDelegateFlowLayout
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     THNRequest *request = [THNAPI getWithUrlString:kUrlHotRecommend requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
@@ -141,7 +157,7 @@ UICollectionViewDelegateFlowLayout
             [self.sectionTitles addObject:KSearchHotRecommendTitle];
             [self.sections addObject:self.popularRecommends];
         }
-
+        [self.collectionView reloadData];
         [self loadHotSearchData];
     } failure:^(THNRequest *request, NSError *error) {
         

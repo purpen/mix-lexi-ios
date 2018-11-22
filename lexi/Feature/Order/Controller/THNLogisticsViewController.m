@@ -92,7 +92,7 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
            [self.tableView reloadData];
         } else {
             self.tableView.hidden = YES;
-            [self.view addSubview:self.noLogisticsView];
+            [self.view insertSubview:self.noLogisticsView belowSubview:self.logisticsStatusImageView];
         }
         
         

@@ -44,8 +44,8 @@ static NSString *const kOrderPayCellIdentifier = @"kOrderPayCellIdentifier";
 }
 
 - (IBAction)pay:(id)sender {
+    [self removeFromSuperview];
     if (self.payViewBlock) {
-        [self removeFromSuperview];
         self.payViewBlock();
     }
 }

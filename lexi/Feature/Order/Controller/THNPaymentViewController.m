@@ -11,24 +11,20 @@
 #import "THNPaymentTableViewCell.h"
 #import "THNHeaderTitleView.h"
 #import "THNPaymentPriceView.h"
-#import "THNWxPayModel.h"
-#import <WXApi.h>
+#import "THNObtainedView.h"
 #import "THNPaySuccessViewController.h"
-#import <SVProgressHUD/SVProgressHUD.h>
 #import "THNOrderDetailPayView.h"
 #import "UIView+Helper.h"
 #import "THNOrderDetailModel.h"
-#import "THNObtainedView.h"
+#import "THNPayManger.h"
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
-static NSString *kUrlCreateOrderWXPay = @"/orders/app_pay";
-static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
+static NSString *const kUrlRecordingPayType = @"/orders/pay_type";
 
 @interface THNPaymentViewController ()<
 UITableViewDelegate,
 UITableViewDataSource,
-WXApiDelegate,
 THNNavigationBarViewDelegate
 >
 
@@ -42,7 +38,6 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) THNOrderDetailPayView *payDetailView;
 ///
 @property (nonatomic, strong) NSIndexPath *selectIndex;
-@property (nonatomic, strong) THNWxPayModel *payModel;
 
 @end
 
@@ -50,8 +45,7 @@ THNNavigationBarViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadPaymentDetail) name:@"paySuccess" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadPaymentDetail) name:THNPayMentVCPayCallback object:nil];
     [self setupUI];
 }
 
@@ -59,15 +53,12 @@ THNNavigationBarViewDelegate
 - (void)doneButtonAction:(UIButton *)button {
     switch ([self thn_getPaymentType]) {
         case THNPaymentTypeWechat: {
-            if (![WXApi isWXAppInstalled]) {
-                [SVProgressHUD thn_showInfoWithStatus:@"暂无微信客户端"];
-                return;
-            }
+            
         }
             break;
             
         case THNPaymentTypeAlipay: {
-            [SVProgressHUD thn_showSuccessWithStatus:@"支付宝"];
+            
         }
             break;
             
@@ -77,22 +68,12 @@ THNNavigationBarViewDelegate
             break;
     }
     
-    [self pay];
+    [[THNPayManger sharedManager] loadThirdPayParamsWithRid:self.orderRid withFromPaymentType:FromPaymentTypePaymentVC withPaymentType:[self thn_getPaymentType]];
 }
 
-// 调起微信支付模板
-- (void)tuneUpWechatPay:(THNWxPayModel *)payModel {
-    PayReq *request = [[PayReq alloc]init];
-    request.partnerId = payModel.mch_id;
-    request.prepayId= payModel.prepay_id;
-    request.package = @"Sign=WXPay";
-    request.nonceStr = payModel.nonce_str;
-    request.timeStamp = payModel.timestamp;
-    request.sign = payModel.sign;
-    [WXApi sendReq:request];
-}
 
-// 支付详情
+
+// 后台返回支付结果和支付详情
 - (void)loadPaymentDetail {
     NSString *requestUrl = [NSString stringWithFormat:@"/orders/after_payment/%@",self.orderRid];
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
@@ -116,28 +97,11 @@ THNNavigationBarViewDelegate
     }];
 }
 
-- (void)pay {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.orderRid;
-    params[@"pay_type"] = @([self thn_getPaymentType] + 1);
-    NSString *requestUrl = self.fromPaymentType == FromPaymentTypePreViewVC ?  kUrlCreateOrderWXPay : kUrlOrderWXPay;
-    THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (!result.success) {
-            [SVProgressHUD showWithStatus:result.statusMessage];
-            return;
-        }
-        
-        THNWxPayModel *payModel = [THNWxPayModel mj_objectWithKeyValues:result.data];
-        [self tuneUpWechatPay:payModel];
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
-}
+
 
 #pragma mark - private methods
 - (THNPaymentType)thn_getPaymentType {
-    return (THNPaymentType)self.selectIndex.row;
+    return (THNPaymentType)self.selectIndex.row + 1;
 }
 
 #pragma mark - setup UI
@@ -161,6 +125,23 @@ THNNavigationBarViewDelegate
 
 - (void)setNavigationBar {
     self.navigationBarView.title = kTitlePayment;
+}
+
+- (void)recordingPayType {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.orderRid;
+    params[@"pay_type"] = @([self thn_getPaymentType]);
+    THNRequest *request = [THNAPI postWithUrlString:kUrlRecordingPayType requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -218,11 +199,12 @@ THNNavigationBarViewDelegate
 
 #pragma mark - THNNavigationBarViewDelegate
 - (void)didNavigationBackButtonEvent {
+    WEAKSELF;
     THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
     [obtainedMuseumView show:@"确认离开付款页面" withRightButtonTitle:@"继续支付" withLeftButtonTitle:@"确认离开"];
     
     obtainedMuseumView.obtainedleftBlock = ^{
-        
+        [weakSelf recordingPayType];
     };
 }
 

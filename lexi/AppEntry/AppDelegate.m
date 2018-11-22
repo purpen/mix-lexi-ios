@@ -22,8 +22,9 @@
 #import <UMCommon/UMCommon.h>
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
-//#import <AlipaySDK/AlipaySDK.h>
+#import <AlipaySDK/AlipaySDK.h>
 
+static NSString *const kCancelPayOrderTitle = @"取消支付";
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -34,7 +35,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setRootViewController];
     [self setThirdExpandConfig];
-//    [self configUSharePlatforms];
+    [self configUSharePlatforms];
     [self configUmengAnalytics];
     [self configWXPlatforms];
     
@@ -99,7 +100,7 @@
      * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
      */
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ
-                                          appKey:@"1105821097" /*设置QQ平台的appID*/
+                                          appKey:kQQAppId /*设置QQ平台的appID*/
                                        appSecret:nil
                                      redirectURL:@"http://mobile.umeng.com/social"];
     
@@ -144,10 +145,14 @@
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([url.host isEqualToString:@"safepay"]) {
-        //跳转支付宝钱包进行支付，处理支付结果
-//        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-//
-//        }];
+//        跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            if ([resultDic[@"resultStatus"] integerValue] == 6001) {
+                [SVProgressHUD thn_showInfoWithStatus:kCancelPayOrderTitle];
+            } else {
+                [[NSNotificationCenter defaultCenter]postNotificationName:THNPayMentVCPayCallback object:nil];
+            }
+        }];
         
     } else {
         BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
@@ -162,17 +167,10 @@
 #pragma mark WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[PayResp class]]){
-        PayResp *response = (PayResp *)resp;
-        // 0 成功 -1 错误 -2 取消
-        switch(response.errCode){
-            case WXSuccess:
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"paySuccess" object:nil];
-                break;
-            case WXErrCodeUserCancel:
-                [SVProgressHUD thn_showInfoWithStatus:@"您已取消支付"];
-                break;
-            default:
-                [SVProgressHUD thn_showInfoWithStatus:@"支付失败"];
+        if (resp.errCode == -2) {
+            [SVProgressHUD thn_showInfoWithStatus:kCancelPayOrderTitle];
+        } else {
+            [[NSNotificationCenter defaultCenter]postNotificationName:THNPayMentVCPayCallback object:nil];
         }
     }
 }

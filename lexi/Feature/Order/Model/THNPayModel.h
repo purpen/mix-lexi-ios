@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface THNWxPayModel : NSObject
+@interface THNPayModel : NSObject
 
 // 微信支付key
 @property (nonatomic, strong) NSString *appid;
@@ -18,5 +18,7 @@
 // 商户号
 @property (nonatomic, strong) NSString *mch_id;
 @property (nonatomic, assign) UInt32 timestamp;
+// 支付宝订单需要的订单参数
+@property (nonatomic, strong) NSString *order_string;
 
 @end

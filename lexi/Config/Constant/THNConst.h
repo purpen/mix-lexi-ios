@@ -46,6 +46,8 @@ UIKIT_EXTERN NSString *const kUMAppKey;
 #pragma mark WX
 UIKIT_EXTERN NSString *const kWXAppKey;
 UIKIT_EXTERN NSString *const kWXAppSecret;
+#pragma mark Alipay
+UIKIT_EXTERN NSString *const kAlipayKey;
 #pragma mark WB
 UIKIT_EXTERN NSString *const kWBAppKey;
 UIKIT_EXTERN NSString *const kWBAppSecret;
@@ -88,3 +90,4 @@ UIKIT_EXTERN NSString *const kShelfSuccess;
 UIKIT_EXTERN NSString *const kUpdateLivingHallStatus;
 UIKIT_EXTERN NSString *const kBrandHallReceiveCoupon;
 UIKIT_EXTERN NSString *const kLookAllCommentData;
+UIKIT_EXTERN NSString *const THNPayMentVCPayCallback;
