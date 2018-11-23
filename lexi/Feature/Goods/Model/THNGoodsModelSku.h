@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSString * bgcover;
 @property (nonatomic, strong) NSString * city;
-@property (nonatomic, assign) NSInteger commissionPrice;
+@property (nonatomic, assign) CGFloat commissionPrice;
 @property (nonatomic, assign) NSInteger commissionRate;
 @property (nonatomic, strong) NSString * country;
 @property (nonatomic, strong) NSString * cover;
@@ -24,7 +24,7 @@
 @property (nonatomic, assign) NSInteger distributionType;
 @property (nonatomic, assign) NSInteger fansCount;
 @property (nonatomic, strong) NSString * mode;
-@property (nonatomic, assign) NSInteger price;
+@property (nonatomic, assign) CGFloat price;
 @property (nonatomic, strong) NSString * productName;
 @property (nonatomic, strong) NSString * productRid;
 @property (nonatomic, strong) NSString * province;
