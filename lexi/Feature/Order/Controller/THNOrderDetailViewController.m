@@ -68,6 +68,7 @@
 - (void)logisticsTracking:(NSNotification *)notification {
     THNOrdersItemsModel *itemsModel = notification.userInfo[@"itemModel"];
     THNLogisticsViewController *logistics = [[THNLogisticsViewController alloc]init];
+    logistics.orderRid = self.rid;
     logistics.itemsModel = itemsModel;
     [self.navigationController pushViewController:logistics animated:YES];
 }

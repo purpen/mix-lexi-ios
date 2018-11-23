@@ -59,6 +59,7 @@ static NSString *const kLogisticsCellIdentifier = @"kLogisticsCellIdentifier";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"logistic_code"] = self.itemsModel.express_no;
     params[@"kdn_company_code"] = self.itemsModel.express_code;
+    params[@"order_rid"] = self.orderRid;
     THNRequest *request = [THNAPI postWithUrlString:kUrlLogisticsInformation requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
