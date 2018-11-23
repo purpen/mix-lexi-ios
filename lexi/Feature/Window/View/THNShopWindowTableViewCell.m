@@ -22,10 +22,6 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "SVProgressHUD+Helper.h"
 
-CGFloat threeImageHeight = 250;
-CGFloat fiveToGrowImageHeight = 140;
-CGFloat sevenToGrowImageHeight = 90;
-
 NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
 @interface THNShopWindowTableViewCell()
@@ -116,18 +112,17 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     
     switch (self.imageType) {
         case ShopWindowImageTypeThree:
-            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight;
             [self.threeImageStitchingView setThreeImageStitchingView:shopWindowModel.product_covers];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
         case ShopWindowImageTypeFive:
-            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
+            self.imageViewStitchingViewHeightConstraint.constant = (SCREEN_WIDTH - 2) * 230/(230 + 143) + (SCREEN_WIDTH - 2) * 158/(215 + 158) + 2;
             [self.ImageViewStitchingView addSubview:self.fiveImagesStitchingView];
             [self.fiveImagesStitchingView setFiveImageStitchingView:shopWindowModel.product_covers];
         
             break;
         case ShopWindowImageTypeSeven:
-            self.imageViewStitchingViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
+            self.imageViewStitchingViewHeightConstraint.constant = (SCREEN_WIDTH - 2) * 215/(215 + 158) + (SCREEN_WIDTH - 4) * 1/3 + 2;
             [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
             
             [self.sevenImagesStitchingView setSevenImageStitchingView:shopWindowModel.product_covers];
@@ -263,6 +258,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 - (THNThreeImageStitchingView *)threeImageStitchingView {
     if (!_threeImageStitchingView) {
         _threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
+        _imageViewStitchingViewHeightConstraint.constant = (SCREEN_WIDTH - 2) * 2/3;
         _threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
     }
     return _threeImageStitchingView;

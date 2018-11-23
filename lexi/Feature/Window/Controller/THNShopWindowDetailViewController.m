@@ -405,11 +405,11 @@ THNCommentTableViewDelegate
 
             switch (self.imageType) {
                 case ShopWindowImageTypeThree:
-                    return  180 + threeImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return  180 + (SCREEN_WIDTH - 2) * 2/3 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
                 case ShopWindowImageTypeFive:
-                    return  180 + threeImageHeight + fiveToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return  180 + (SCREEN_WIDTH - 2) * 230/(230 + 143) + (SCREEN_WIDTH - 2) * 158/(215 + 158) + 2 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
                 default:
-                    return  180 + threeImageHeight + sevenToGrowImageHeight + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return  180 + (SCREEN_WIDTH - 2) * 215/(215 + 158) + (SCREEN_WIDTH - 4) * 1/3 + 2 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
             }
         case ShopWindowDetailCellTypeComment: {
            

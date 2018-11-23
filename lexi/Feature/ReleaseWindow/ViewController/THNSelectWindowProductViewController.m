@@ -15,6 +15,7 @@
 #import "SVProgressHUD+Helper.h"
 #import "UIImageView+WebImage.h"
 #import "THNTableViewFooterView.h"
+#import "UIView+Helper.h"
 
 typedef NS_ENUM(NSUInteger, SelectProductType) {
     SelectProductLike,
@@ -38,7 +39,6 @@ THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
-@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) THNSelectProducCollectionView *productCollectionView;
 @property (nonatomic, strong) UICollectionView *productCoverCollectionView;
 @property (nonatomic, strong) UIView *selectProductCoverView;
@@ -73,9 +73,7 @@ THNMJRefreshDelegate
 
 - (void)setupUI {
     self.navigationBarView.title = @"选择商品";
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.scrollView];
-    [self.scrollView addSubview:self.selectButtonView];
+    [self.view addSubview:self.selectButtonView];
     
     WEAKSELF;
     self.productCollectionView.selectProductBlcok = ^(NSString *rid, NSString *storeRid) {
@@ -83,10 +81,9 @@ THNMJRefreshDelegate
         weakSelf.storeRid = storeRid;
     };
     
-    [self.scrollView addSubview:self.productCollectionView];
-    [self.scrollView addSubview:self.selectProductCoverView];
-    [self.scrollView addSubview:self.productCoverCollectionView];
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, CGRectGetMaxY(self.productCoverCollectionView.frame) + 100);
+    [self.view addSubview:self.productCollectionView];
+    [self.view addSubview:self.selectProductCoverView];
+    [self.view addSubview:self.productCoverCollectionView];
     [self.productCollectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.productCollectionView resetCurrentPageNumber];
     self.currentPage = 1;
@@ -158,7 +155,7 @@ THNMJRefreshDelegate
                     break;
         }
 
-            [self.scrollView addSubview:self.footerView];
+            [self.view addSubview:self.footerView];
             return;
         } else {
             self.footerView.hidden = YES;
@@ -296,18 +293,10 @@ THNMJRefreshDelegate
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray = @[@"喜欢", @"心愿单", @"最近查看"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, 0, SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.delegate = self;
     }
     return _selectButtonView;
-}
-
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
-        _scrollView.showsVerticalScrollIndicator = NO;
-    }
-    return _scrollView;
 }
 
 - (THNSelectProducCollectionView *)productCollectionView {
@@ -318,14 +307,15 @@ THNMJRefreshDelegate
         flowLayout.minimumInteritemSpacing = 2;
         flowLayout.minimumLineSpacing = 2;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _productCollectionView = [[THNSelectProducCollectionView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 390) collectionViewLayout:flowLayout];
+        CGFloat productCollectionViewY = CGRectGetMaxY(self.selectButtonView.frame) + 10;
+        _productCollectionView = [[THNSelectProducCollectionView alloc]initWithFrame:CGRectMake(0, productCollectionViewY, SCREEN_WIDTH, SCREEN_HEIGHT - productCollectionViewY - 156) collectionViewLayout:flowLayout];
     }
     return _productCollectionView;
 }
 
 - (THNTableViewFooterView *)footerView {
     if (!_footerView) {
-        _footerView = [[THNTableViewFooterView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 390)];
+        _footerView = [[THNTableViewFooterView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, _productCollectionView.viewHeight)];
         _footerView.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
     }
     return _footerView;
@@ -333,7 +323,7 @@ THNMJRefreshDelegate
 
 - (UIView *)selectProductCoverView {
     if (!_selectProductCoverView) {
-        _selectProductCoverView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productCollectionView.frame), SCREEN_WIDTH, 50)];
+        _selectProductCoverView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 156, SCREEN_WIDTH, 46)];
         UILabel *desLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, 180, 14)];
         desLabel.text = @"选择该商品一张图片做封面";
         desLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];

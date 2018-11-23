@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,6 +19,7 @@
                 <outlet property="keywordViewHeightConstraint" destination="FPq-b1-I7O" id="WPV-6R-TKV"/>
                 <outlet property="postContenViewHeightConstraint" destination="w2p-c2-bKb" id="Jkd-Ef-ec6"/>
                 <outlet property="postContentView" destination="8mj-xS-CCZ" id="aMQ-8E-q48"/>
+                <outlet property="scrollView" destination="N4a-2b-Cru" id="M9L-6R-jLN"/>
                 <outlet property="scrollViewBottomConstraint" destination="2PH-44-uND" id="3rD-Wg-A6Y"/>
                 <outlet property="titleTextField" destination="UQy-bF-Hj7" id="xqg-mG-us0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -111,16 +112,16 @@
                                     <rect key="frame" x="20" y="420" width="335" height="56"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="起一个吸引人的标题" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UQy-bF-Hj7">
-                                            <rect key="frame" x="0.0" y="0.0" width="315" height="15"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="315" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="15" id="NGI-NG-W0L"/>
+                                                <constraint firstAttribute="height" constant="20" id="NGI-NG-W0L"/>
                                             </constraints>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="15"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iRd-23-TNk">
-                                            <rect key="frame" x="-20" y="25" width="375" height="0.5"/>
+                                            <rect key="frame" x="-20" y="30" width="375" height="0.5"/>
                                             <color key="backgroundColor" red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="0.5" id="frI-W2-sbH"/>
