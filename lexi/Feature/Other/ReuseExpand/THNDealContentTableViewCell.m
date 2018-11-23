@@ -76,27 +76,23 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     
     [self addSubview:textLabel];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
-        textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
-        textAtt.color = [UIColor colorWithHexString:@"#333333"];
-        textAtt.lineSpacing = 7;
+    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
+    textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
+    textAtt.color = [UIColor colorWithHexString:@"#333333"];
+    textAtt.lineSpacing = 7;
+    
+    YYTextContainer *container = [YYTextContainer new];
+    container.size = CGSizeMake(kScreenWidth - 30, CGFLOAT_MAX);
+    container.maximumNumberOfRows = 0;
         
-        YYTextContainer *container = [YYTextContainer new];
-        container.size = CGSizeMake(kScreenWidth - 30, CGFLOAT_MAX);
-        container.maximumNumberOfRows = 0;
-        
-        // 生成排版结果
-        YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:textAtt];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            textLabel.size = layout.textBoundingSize;
-            textLabel.textLayout = layout;
-            
-            textLabel.frame = CGRectMake(15, self.originY, kScreenWidth - 30, layout.textBoundingSize.height);
-            self.originY += (layout.textBoundingSize.height + 10);
-        });
-    });
+    // 生成排版结果
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:textAtt];
+    
+    textLabel.size = layout.textBoundingSize;
+    textLabel.textLayout = layout;
+    
+    textLabel.frame = CGRectMake(15, self.originY, kScreenWidth - 30, layout.textBoundingSize.height);
+    self.originY += (layout.textBoundingSize.height + 10);
 }
 
 /**
