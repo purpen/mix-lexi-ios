@@ -282,7 +282,8 @@ static NSString *const kKeyQuantity = @"quantity";
 
 - (THNGoodsSkuView *)skuView {
     if (!_skuView) {
-        _skuView = [[THNGoodsSkuView alloc] initWithSkuModel:self.skuModel goodsModel:self.goodsModel];
+        _skuView = [[THNGoodsSkuView alloc] initWithSkuModel:self.skuModel
+                                                  goodsModel:self.goodsModel];
     }
     return _skuView;
 }

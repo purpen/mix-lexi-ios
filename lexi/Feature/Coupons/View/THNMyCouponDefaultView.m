@@ -35,11 +35,11 @@ static NSString *const kTextHint = @"当前没有任何优惠卷红包";
     
     [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(255, 123));
         make.bottom.equalTo(self.mas_centerY).with.offset(0);

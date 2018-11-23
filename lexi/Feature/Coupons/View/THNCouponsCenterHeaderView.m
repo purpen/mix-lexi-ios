@@ -12,6 +12,7 @@
 #import "THNMarco.h"
 #import "THNConst.h"
 #import "THNCategoriesModel.h"
+#import <Masonry/Masonry.h>
 
 static NSInteger const kMenuButtonTag = 1351;
 
@@ -102,12 +103,15 @@ static NSInteger const kMenuButtonTag = 1351;
     [self addSubview:self.segmentControl];
     [self thn_createMenuButtonWithTitles:@[@"同享券", @"单享券"]];
     [self addSubview:self.menuView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.headerImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 150);
+- (void)setMasonryLayout {
+    [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(150);
+        make.top.left.right.mas_equalTo(0);
+    }];
 }
 
 - (void)thn_setMenuButtonStyle:(UIButton *)button selected:(BOOL)selected {

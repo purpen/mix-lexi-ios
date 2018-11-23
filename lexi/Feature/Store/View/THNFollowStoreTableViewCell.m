@@ -65,11 +65,11 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self addSubview:self.titleLabel];
     [self addSubview:self.goodsCountLabel];
     [self addSubview:self.followButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.left.mas_equalTo(20);
@@ -95,7 +95,6 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
         make.right.mas_equalTo(-20);
         make.centerY.mas_equalTo(self);
     }];
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 #pragma mark - getters and setters
@@ -130,6 +129,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
 - (THNFollowStoreButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowButtonTypeStoreList)];
+        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }

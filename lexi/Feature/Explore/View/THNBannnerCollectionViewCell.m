@@ -38,20 +38,20 @@
     self.subTitleLabel.text = setModel.sub_name;
     [self.backGroundView drawCornerWithType:0 radius:2];
     
-    [self.cellImageView loadImageWithUrl:[setModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.cellImageView loadImageWithUrl:[setModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];
 }
 
 - (void)setCollectionModel:(THNCollectionModel *)collectionModel {
     _collectionModel = collectionModel;
     self.setLabelsView.hidden = YES;
     
-    [self.cellImageView loadImageWithUrl:[collectionModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.cellImageView loadImageWithUrl:[collectionModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];
 }
 
 - (void)setBannerModel:(THNBannerModel *)bannerModel {
     self.setLabelsView.hidden = YES;
     
-    [self.cellImageView loadImageWithUrl:[bannerModel.image loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.cellImageView loadImageWithUrl:[bannerModel.image loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];
 }
 
 - (void)setUserPartieModel:(THNUserPartieModel *)userPartieModel {

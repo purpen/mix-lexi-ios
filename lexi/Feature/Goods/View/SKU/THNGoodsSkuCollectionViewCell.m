@@ -10,6 +10,7 @@
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 #import "NSString+Helper.h"
+#import <Masonry/Masonry.h>
 
 @interface THNGoodsSkuCollectionViewCell ()
 
@@ -31,25 +32,28 @@
     _modeName = modeName;
     
     self.titleLabel.text = modeName;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setCellType:(THNGoodsSkuCellType)cellType {
-    switch (cellType) {
-        case THNGoodsSkuCellTypeNormal: {
-            [self thn_setCellStyleWithBackgroundColor:kColorWhite borderColor:@"#333333" textColor:@"#333333"];
-        }
-            break;
-            
-        case THNGoodsSkuCellTypeDisable: {
-            [self thn_setCellStyleWithBackgroundColor:kColorWhite borderColor:@"#B2B2B2" textColor:@"#B2B2B2"];
-        }
-            break;
-            
-        case THNGoodsSkuCellTypeSelected: {
-            [self thn_setCellStyleWithBackgroundColor:kColorMain borderColor:kColorMain textColor:kColorWhite];
-        }
-            break;
-    }
+    // 背景色
+    NSDictionary *bgColorDict = @{@(THNGoodsSkuCellTypeNormal)   : @"#FFFFFF",
+                                  @(THNGoodsSkuCellTypeDisable)  : @"#FFFFFF",
+                                  @(THNGoodsSkuCellTypeSelected) : kColorMain};
+    
+    // 边框色
+    NSDictionary *bdColorDict = @{@(THNGoodsSkuCellTypeNormal)   : @"#333333",
+                                  @(THNGoodsSkuCellTypeDisable)  : @"#B2B2B2",
+                                  @(THNGoodsSkuCellTypeSelected) : kColorMain};
+    
+    // 文字色
+    NSDictionary *textColorDict = @{@(THNGoodsSkuCellTypeNormal)   : @"#333333",
+                                    @(THNGoodsSkuCellTypeDisable)  : @"#B2B2B2",
+                                    @(THNGoodsSkuCellTypeSelected) : @"#FFFFFF"};
+    
+    [self thn_setCellStyleWithBackgroundColor:bgColorDict[@(cellType)]
+                                  borderColor:bdColorDict[@(cellType)]
+                                    textColor:textColorDict[@(cellType)]];
 }
 
 #pragma mark - private methods
@@ -66,10 +70,12 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
     
-    self.titleLabel.frame = self.bounds;
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

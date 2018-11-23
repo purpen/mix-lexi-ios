@@ -38,25 +38,26 @@ static NSInteger const kActionButtonTag = 525;
 }
 
 - (void)thn_setTransactionReadData:(THNTransactionsDataModel *)model {
-    self.countLabelFirst.hidden = model.not_settlement_not_read == 0;
-    self.countLabelFirst.text = [NSString stringWithFormat:@"%zi", model.not_settlement_not_read];
-    
-    self.countLabelSecond.hidden = model.success_not_read == 0;
-    self.countLabelSecond.text = [NSString stringWithFormat:@"%zi", model.success_not_read];
-    
-    self.countLabelThird.hidden = model.refund_not_read == 0;
-    self.countLabelThird.text = [NSString stringWithFormat:@"%zi", model.refund_not_read];
+    [self thn_setNotReadFirstCount:model.not_settlement_not_read
+                       secondCount:model.success_not_read
+                        thirdCount:model.refund_not_read];
 }
 
 - (void)thn_setLifeOrderReadData:(THNLifeOrderDataModel *)model {
-    self.countLabelFirst.hidden = model.pending_shipment_not_read == 0;
-    self.countLabelFirst.text = [NSString stringWithFormat:@"%zi", model.pending_shipment_not_read];
+    [self thn_setNotReadFirstCount:model.pending_shipment_not_read
+                       secondCount:model.shipment_not_read
+                        thirdCount:model.finish_not_read];
+}
+
+- (void)thn_setNotReadFirstCount:(NSInteger)firstCount secondCount:(NSInteger)secondCount thirdCount:(NSInteger)thirdCount {
+    self.countLabelFirst.hidden = !firstCount;
+    self.countLabelFirst.text = [NSString stringWithFormat:@"%zi", firstCount];
     
-    self.countLabelSecond.hidden = model.shipment_not_read == 0;
-    self.countLabelSecond.text = [NSString stringWithFormat:@"%zi", model.shipment_not_read];
+    self.countLabelSecond.hidden = !secondCount;
+    self.countLabelSecond.text = [NSString stringWithFormat:@"%zi", secondCount];
     
-    self.countLabelThird.hidden = model.finish_not_read == 0;
-    self.countLabelThird.text = [NSString stringWithFormat:@"%zi", model.finish_not_read];
+    self.countLabelThird.hidden = !thirdCount;
+    self.countLabelThird.text = [NSString stringWithFormat:@"%zi", thirdCount];
 }
 
 #pragma mark - event response
@@ -87,26 +88,16 @@ static NSInteger const kActionButtonTag = 525;
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.borderView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.borderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
         make.height.mas_equalTo(36);
-    }];
-    
-    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
-                                withFixedSpacing:10
-                                     leadSpacing:30
-                                     tailSpacing:30];
-    
-    [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(35);
-        make.centerY.equalTo(self);
     }];
 }
 
@@ -154,6 +145,15 @@ static NSInteger const kActionButtonTag = 525;
             [actionButton addSubview:self.countLabelThird];
         }
     }
+    
+    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
+                                withFixedSpacing:10
+                                     leadSpacing:30
+                                     tailSpacing:30];
+    [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(35);
+        make.centerY.equalTo(self);
+    }];
 }
 
 - (UIView *)borderView {

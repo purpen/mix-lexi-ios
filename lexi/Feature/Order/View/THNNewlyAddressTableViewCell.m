@@ -8,8 +8,10 @@
 
 #import "THNNewlyAddressTableViewCell.h"
 #import "UIColor+Extension.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kNewlyAddressTableViewCellId = @"kNewlyAddressTableViewCellId";
+/// text
 static NSString *const kTitleText = @"新的收货地址";
 
 @interface THNNewlyAddressTableViewCell ()
@@ -51,13 +53,22 @@ static NSString *const kTitleText = @"新的收货地址";
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.iconImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
-    self.titleLabel.frame = CGRectMake(15, 0, 200, CGRectGetHeight(self.bounds));
-    self.iconImageView.frame = CGRectMake(CGRectGetWidth(self.bounds) - 50, 0, 50, CGRectGetHeight(self.bounds));
+- (void)setMasonryLayout {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(200);
+        make.left.mas_equalTo(15);
+        make.top.bottom.mas_equalTo(0);
+    }];
+    
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(20, 20));
+        make.right.mas_equalTo(-10);
+        make.centerY.equalTo(self);
+    }];
 }
 
 #pragma mark - getters and setters

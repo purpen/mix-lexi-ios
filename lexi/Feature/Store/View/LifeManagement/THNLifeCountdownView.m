@@ -110,11 +110,11 @@ static NSString *const kTextCountdown = @"实习倒计时";
     [self addSubview:self.minuteLabel];
     [self addSubview:self.secondLabel];
     [self thn_creatTimeTextLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 20));
         make.left.mas_equalTo(0);

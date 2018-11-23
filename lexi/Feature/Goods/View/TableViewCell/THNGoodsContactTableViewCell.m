@@ -36,11 +36,11 @@ static NSString *const kTextContact = @"在线咨询";
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.contactButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)setMasonryLayout {
     [self.contactButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 14));
         make.bottom.mas_equalTo(-14);

@@ -33,11 +33,11 @@ static NSString *const kTextHint = @"该分类暂无优惠券";
 - (void)setupViewUI {
     [self addSubview:self.iconImageView];
     [self addSubview:self.titleLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.centerX.centerY.equalTo(self);

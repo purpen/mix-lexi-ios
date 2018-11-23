@@ -121,11 +121,11 @@ static NSString *const kTextTotal       = @"累计已提现：";
     [self addSubview:self.getMoneyButton];
     [self addSubview:self.totalMoneyLabel];
     [self addSubview:self.showButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.orderTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(15);

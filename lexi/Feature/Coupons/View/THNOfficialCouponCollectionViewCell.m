@@ -51,7 +51,7 @@
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -115,11 +115,11 @@
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
     [self addSubview:self.noneImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 128));
         make.left.top.mas_equalTo(0);

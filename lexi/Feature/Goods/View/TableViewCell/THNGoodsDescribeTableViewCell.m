@@ -21,7 +21,6 @@ static NSString *const kTitleSalesReturn = @"退货政策";
 
 /// 标题
 @property (nonatomic, strong) YYLabel *titleLabel;
-///
 @property (nonatomic, strong) NSArray *titleArr;
 /// 内容
 @property (nonatomic, strong) YYLabel *contentLabel;
@@ -48,25 +47,27 @@ static NSString *const kTitleSalesReturn = @"退货政策";
         [self thn_setTitleWithType:type];
         [self thn_setDescribeInfoWithGoodsModel:model showIcon:showIcon];
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type storeModel:(THNStoreModel *)model {
-    if (type == THNGoodsDescribeCellTypeDispatch) {
-        NSString *country = model.country ? model.country : @"";
-        NSString *city = model.city ? model.city : @"";
-        NSString *dispatch = [NSString stringWithFormat:@"%@.%@", country, city];
-        [self thn_setDescribeType:(THNGoodsDescribeCellTypeDispatch) content:dispatch];
-    }
+    if (type != THNGoodsDescribeCellTypeDispatch) return;
+    
+    NSString *country = model.country ? model.country : @"";
+    NSString *city = model.city ? model.city : @"";
+    NSString *dispatch = [NSString stringWithFormat:@"%@.%@", country, city];
+    [self thn_setDescribeType:(THNGoodsDescribeCellTypeDispatch) content:dispatch];
 }
 
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type freightModel:(THNFreightModel *)model {
-    if (type == THNGoodsDescribeCellTypeTime) {
-        THNFreightModelItem *item = model.items[0];
-        NSString *minDay = item.minDays ? [NSString stringWithFormat:@"%zi", item.minDays] : @"";
-        NSString *maxDay = item.maxDays ? [NSString stringWithFormat:@"%zi", item.maxDays] : @"";
-        NSString *time = [NSString stringWithFormat:@"预计%@-%@天到达", minDay, maxDay];
-        [self thn_setDescribeType:(THNGoodsDescribeCellTypeTime) content:time];
-    }
+    if (type != THNGoodsDescribeCellTypeTime) return;
+    
+    THNFreightModelItem *item = model.items[0];
+    NSString *minDay = item.minDays ? [NSString stringWithFormat:@"%zi", item.minDays] : @"";
+    NSString *maxDay = item.maxDays ? [NSString stringWithFormat:@"%zi", item.maxDays] : @"";
+    NSString *time = [NSString stringWithFormat:@"预计%@-%@天到达", minDay, maxDay];
+    [self thn_setDescribeType:(THNGoodsDescribeCellTypeTime) content:time];
 }
 
 - (void)thn_setDescribeType:(THNGoodsDescribeCellType)type content:(NSString *)content {
@@ -196,26 +197,24 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.contentLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setMasonryLayout {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(20);
+        make.height.mas_equalTo(15);
+    }];
     
-    if (CGRectGetHeight(self.bounds) > 1) {
-        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(15);
-            make.right.mas_equalTo(-15);
-            make.top.mas_equalTo(20);
-            make.height.mas_equalTo(15);
-        }];
-        
-        [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(15);
-            make.right.mas_equalTo(-15);
-            make.top.equalTo(self.titleLabel.mas_bottom).with.offset(9);
-            make.bottom.mas_equalTo(-20);
-        }];
-    }
+    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(9);
+        make.bottom.mas_equalTo(-20);
+    }];
 }
 
 - (void)drawRect:(CGRect)rect {

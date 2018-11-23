@@ -44,6 +44,8 @@ static NSString *const kDynamicContentCellId = @"THNDynamicContentTableViewCellI
 - (void)thn_setDynamicContentWithModel:(THNDynamicModelLines *)model {
     self.titleLabel.text = model.title;
     [self thn_setDynamicContentText:model.descriptionField];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -64,9 +66,7 @@ static NSString *const kDynamicContentCellId = @"THNDynamicContentTableViewCellI
     [self addSubview:self.contentLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(20);
@@ -80,6 +80,8 @@ static NSString *const kDynamicContentCellId = @"THNDynamicContentTableViewCellI
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-15);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

@@ -49,6 +49,8 @@
         [self.secondImageView loadImageWithUrl:[model.productCovers[1] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
         [self.thirdImageView loadImageWithUrl:[model.productCovers[2] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -80,25 +82,23 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     CGFloat cellHeight = CGRectGetHeight(self.bounds);
     CGFloat cellWidth = CGRectGetWidth(self.bounds);
     CGFloat imgHeight = (cellHeight - 2) / 2;
     
-    [self.mainImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(cellHeight, cellHeight));
         make.top.left.mas_equalTo(0);
     }];
     
-    [self.secondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(imgHeight, imgHeight));
         make.left.equalTo(self.mainImageView.mas_right).with.offset(2);
         make.top.equalTo(self.mainImageView.mas_top).with.offset(0);
     }];
     
-    [self.thirdImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.thirdImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(imgHeight, imgHeight));
         make.left.equalTo(self.mainImageView.mas_right).with.offset(2);
         make.top.equalTo(self.secondImageView.mas_bottom).with.offset(2);
@@ -109,6 +109,8 @@
         make.left.mas_equalTo(15);
         make.bottom.mas_equalTo(-13);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

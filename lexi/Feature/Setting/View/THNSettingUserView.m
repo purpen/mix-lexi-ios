@@ -51,13 +51,13 @@ static NSString *const kTextTime = @"注册时间：";
     [self addSubview:self.headImageView];
     [self addSubview:self.cameraButton];
     [self addSubview:self.timeLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.right.mas_equalTo(0);
+        make.edges.equalTo(self);
     }];
     
     [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -7,9 +7,10 @@
 //
 
 #import "THNGoodsUserTableViewCell.h"
-#import "THNGoodsModelProductLikeUser.h"
+#import "THNGoodsModelProductLikeUsers.h"
 #import "UIImageView+WebImage.h"
 #import "THNUserModel.h"
+#import <Masonry/Masonry.h>
 
 static NSInteger const kHeaderButtonTag = 235;
 static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
@@ -77,13 +78,16 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.moreButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.moreButton.frame = CGRectMake(CGRectGetWidth(self.bounds) - 45, 10, 30, 30);
-    self.moreButton.layer.cornerRadius = 30/2;
+- (void)setMasonryLayout {
+    [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.right.mas_equalTo(-15);
+        make.centerY.equalTo(self);
+    }];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -101,6 +105,7 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
         _moreButton.backgroundColor = [UIColor whiteColor];
         _moreButton.layer.borderWidth = 1;
         _moreButton.layer.borderColor = [UIColor colorWithHexString:@"#E9E9E9"].CGColor;
+        _moreButton.layer.cornerRadius = 30/2;
         [_moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _moreButton;

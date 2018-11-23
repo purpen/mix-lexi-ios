@@ -52,14 +52,14 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     return [self initAddressCellWithTableView:tableView cellStyle:(UITableViewCellStyleDefault) type:type];
 }
 
-- (void)setModel:(THNAddressModel *)model {
-    _model = model;
-    
+- (void)thn_setAddressModel:(THNAddressModel *)model {
     self.namelabel.text = model.fullName;
     self.addresslabel.text = model.fullAddress;
     NSString *province = model.province.length ? [NSString stringWithFormat:@"%@，", model.province] : @"";
     self.citylabel.text = [NSString stringWithFormat:@"%@%@  %@", province, model.city, model.zipcode];
     self.phonelabel.text = model.mobile;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -80,9 +80,7 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     [self addSubview:self.phonelabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.selectButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.bottom.mas_equalTo(0);
@@ -116,6 +114,8 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
         make.right.mas_equalTo(-44);
         make.height.mas_equalTo(15);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

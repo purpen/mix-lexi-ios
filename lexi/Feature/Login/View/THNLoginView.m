@@ -42,10 +42,6 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
 
 @implementation THNLoginView
 
-- (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -81,6 +77,8 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
 
 #pragma mark - setup UI
 - (void)setupViewUI {
+    self.backgroundColor = [UIColor whiteColor];
+    
     [self addSubview:self.backgroundImageView];
     [self addSubview:self.skipButton];
     [self addSubview:self.logoImageView];
@@ -89,13 +87,13 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
     [self addSubview:self.signInButton];
     [self addSubview:self.wechatButton];
     [self addSubview:self.signUpButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.equalTo(self);
+        make.edges.equalTo(self);
     }];
     
     [self.skipButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,7 +131,6 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
         make.bottom.equalTo(self.signInButton.mas_top).with.offset(-10);
         make.centerX.equalTo(self);
     }];
-    [self.wechatButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
     
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(250, 45));
@@ -141,6 +138,12 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
         make.bottom.equalTo(self.signInButton.mas_top).with.offset(-20);
         make.centerX.equalTo(self);
     }];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.wechatButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
     [self.signUpButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 

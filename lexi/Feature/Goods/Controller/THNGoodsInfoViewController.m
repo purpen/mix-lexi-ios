@@ -40,6 +40,8 @@
 #import "THNShareImageViewController.h"
 #import "THNCouponDetailView.h"
 #import "UITableViewCell+DealContent.h"
+#import "THNShelfViewController.h"
+#import "THNProductModel.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -47,7 +49,12 @@ static NSString *const kURLNotLoginCoupon   = @"/market/not_login_coupons";
 static NSString *const kURLLoginCoupon      = @"/market/user_master_coupons";
 static NSString *const kKeyStoreRid         = @"store_rid";
 
-@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate, THNGoodsUserTableViewCellDelegate> {
+@interface THNGoodsInfoViewController () <
+    THNGoodsFunctionViewDelegate,
+    THNImagesViewDelegate,
+    THNGoodsUserTableViewCellDelegate,
+    THNGoodsActionTableViewCellDelegate>
+{
     UIStatusBarStyle _statusBarStyle;
 }
 
@@ -414,7 +421,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^(NSString *rid) {
         [weakSelf thn_openGoodsSkuController];
     }];
-    directCells.height = self.goodsModel.isCustomMade ? 80 : 55;
+    directCells.height = self.goodsModel.isCustomService ? 80 : 55;
     directCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[directCells] mutableCopy]];
@@ -565,6 +572,16 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 - (void)thn_didSelectedGoodsLikedUser:(NSString *)userId {
     [self thn_openUserCenterControllerWithUserId:userId];
+}
+
+- (void)thn_putawayProduct {
+    if (!self.goodsModel) {
+        return;
+    }
+    
+    THNShelfViewController *shelfVC = [[THNShelfViewController alloc] init];
+    shelfVC.productModel = [THNProductModel mj_objectWithKeyValues:[self.goodsModel toDictionary]];
+    [self.navigationController pushViewController:shelfVC animated:YES];
 }
 
 #pragma mark - private methods
@@ -822,7 +839,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsActionTableViewCell *actionCell = [THNGoodsActionTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.actionCell = actionCell;
             actionCell.baseCell = goodsCells;
-            [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel canPutaway:NO];
+            actionCell.delegate = self;
+            [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel];
             
             return actionCell;
         }
@@ -840,7 +858,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsDirectTableViewCell *directCell = [THNGoodsDirectTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.directCell = directCell;
             directCell.baseCell = goodsCells;
-            [directCell thn_setCustomNumberOfDays:goodsCells.goodsModel.madeCycle isIncludeHolidays:goodsCells.goodsModel.isMadeHoliday];
+            [directCell thn_setCustomDaysWithGoodsModel:goodsCells.goodsModel];
             
             return directCell;
         }

@@ -55,11 +55,11 @@ static NSString *const kColorDefault = @"#96A0A8";
 - (void)setupViewUI {
     [self addSubview:self.dataLabel];
     [self addSubview:self.textLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.dataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(15);

@@ -44,7 +44,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 
 - (void)followStoreAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -53,9 +53,12 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
         return;
     }
     
+    [self startLoading];
+    
     [self requestFollowStoreWithURL:self.selected ? kURLFollowCancel : kURLFollow
                             storeId:self.storeId
                           completed:^(NSError *error) {
+                              [self endLoading];
                               if (error) {
                                   [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
                                   return;

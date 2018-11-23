@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import "NSString+Helper.h"
 
 @interface THNCustomTextTableViewCell ()
 
@@ -34,6 +35,8 @@
 - (void)thn_setIconImageName:(NSString *)imageName mainText:(NSString *)mainText {
     self.iconImageView.image = [UIImage imageNamed:imageName];
     self.mainTextLabel.text = mainText;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setSubText:(NSString *)subText textColor:(NSString *)colorHex {
@@ -51,32 +54,32 @@
     [self addSubview:self.subTextLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+- (void)updateConstraints {
+    [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(15);
         make.centerY.equalTo(self);
     }];
     
-    [self.nextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nextImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 13));
         make.right.mas_equalTo(-15);
         make.centerY.equalTo(self);
     }];
     
-    [self.mainTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(45);
-        make.right.mas_equalTo(-80);
+        make.width.mas_equalTo([self.mainTextLabel.text boundingSizeWidthWithFontSize:15]);
         make.top.bottom.mas_equalTo(0);
     }];
     
-    [self.subTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.subTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mainTextLabel.mas_right).with.offset(10);
         make.right.mas_equalTo(-30);
         make.top.bottom.mas_equalTo(0);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -137,7 +137,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
                 [self thn_getColumnRecordWithType:type params:@{@"per_page": @(12)}];
             }
             
-            [self.popupView thn_setCategoryId:self.categoryId];
+            [self.popupView thn_setCategoryId:@"0"];
             [self thn_getColumnProductsWithType:type params:params loadMore:NO];
         }
             break;

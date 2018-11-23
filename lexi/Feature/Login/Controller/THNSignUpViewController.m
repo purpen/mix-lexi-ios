@@ -52,7 +52,6 @@ static NSString *const kTextSkip            = @"跳过";
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
 //        NSLog(@"注册验证码 ==== %@", result.responseDict);
-        
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;

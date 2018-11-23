@@ -58,11 +58,11 @@ static NSString *const kTextNumber = @"订单编号：";
     [self addSubview:self.timeLabel];
     [self addSubview:self.moneyLabel];
     [self addSubview:self.statusLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(180, 12));
         make.left.mas_equalTo(20);

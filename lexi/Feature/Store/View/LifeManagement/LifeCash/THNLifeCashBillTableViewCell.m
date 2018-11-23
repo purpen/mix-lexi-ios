@@ -59,11 +59,11 @@ static NSString *const kTextError   = @"提现失败";
     [self addSubview:self.timeLabel];
     [self addSubview:self.moneyLabel];
     [self addSubview:self.statusLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 15));
         make.left.mas_equalTo(20);

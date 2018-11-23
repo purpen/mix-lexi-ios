@@ -59,11 +59,11 @@ static NSString *const kTextMoney  = @"收益：￥";
     [self addSubview:self.timeLabel];
     [self addSubview:self.moneyLabel];
     [self addSubview:self.detailButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-100);

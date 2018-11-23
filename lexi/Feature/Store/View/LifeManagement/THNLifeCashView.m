@@ -73,11 +73,11 @@ static NSString *const kTextCash        = @"提现";
     [self addSubview:self.totalLabel];
     [self addSubview:self.cashButton];
     [self addSubview:self.hintLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);

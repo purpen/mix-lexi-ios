@@ -43,9 +43,9 @@ static NSString *const kParamStatus = @"status";
             return ;
         }
         
-        [SVProgressHUD dismiss];
         THNAreaModel *areaModel = [THNAreaModel mj_objectWithKeyValues:result.data];
         [weakSelf.zipCodeView thn_setAreaCodes:areaModel.area_codes];
+        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -70,7 +70,7 @@ static NSString *const kParamStatus = @"status";
 #pragma mark - getters and setters
 - (THNZipCodeView *)zipCodeView {
     if (!_zipCodeView) {
-        _zipCodeView = [[THNZipCodeView alloc] init];
+        _zipCodeView = [[THNZipCodeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         
         WEAKSELF;
 

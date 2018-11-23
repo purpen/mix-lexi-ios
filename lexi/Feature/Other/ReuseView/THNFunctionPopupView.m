@@ -141,7 +141,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self thn_showView:YES];
     [self thn_reloadSortTable];
     
-    [self layoutIfNeeded];
+    [self setNeedsUpdateConstraints];
 }
 
 /**
@@ -152,10 +152,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_setCategoryId:(NSString *)cid {
     self.categoryId = cid;
     
+    WEAKSELF;
+    
     [THNGoodsManager getCategoryDataWithPid:cid completion:^(NSArray *categoryData, NSError *error) {
         if (error) return;
         
-        [self.categoryView thn_setCollecitonViewCellData:categoryData];
+        [weakSelf.categoryView thn_setCollecitonViewCellData:categoryData];
     }];
 }
 
@@ -193,10 +195,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
             self.categoryView.hidden = YES;
         }
             break;
+            
         case THNGoodsListViewTypeProductCenter:{
             self.recommendView.hidden = YES;
         }
             break;
+            
         default: {
             tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
             self.categoryView.hidden = NO;
@@ -544,78 +548,100 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self setMasonryLayout];
     
-    self.backgroudMaskView.frame = self.bounds;
-    
+    [super updateConstraints];
+}
+
+- (void)setMasonryLayout {
     CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser || self.goodsListType == THNGoodsListViewTypeProductCenter ? 370 : 460;
     CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeScreen ? screenViewH : 250;
     
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
-    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backgroudMaskView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [self.closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 40));
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(8);
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 40));
         make.centerX.mas_equalTo(self.containerView);
         make.top.mas_equalTo(0);
     }];
     
-    [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.resetButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 40));
         make.top.mas_equalTo(0);
         make.right.mas_equalTo(-15);
     }];
     
-    [self.sortTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.sortTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(40);
         make.bottom.mas_equalTo(0);
     }];
     
-    [self.screenView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.screenView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(55);
         make.bottom.mas_equalTo(-25);
     }];
     
-    [self.priceView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(0);
         make.height.mas_equalTo(100);
     }];
     
-    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.categoryView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
         make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
     }];
     
-    [self.recommendView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.recommendView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
         if (self.goodsListType == THNGoodsListViewTypeUser) {
             make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
+            
         } else {
             make.top.equalTo(self.categoryView.mas_bottom).with.offset(30);
         }
     }];
     
-    [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.doneButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(40);
         make.bottom.mas_equalTo(0);
     }];
     
-    [self.doneLoadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.mas_equalTo(self.doneButton);
+    [self.doneLoadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.doneButton);
     }];
+}
+
+- (CGFloat)getScreenViewHeight {
+    switch (self.goodsListType) {
+        case THNGoodsListViewTypeUser:
+        case THNGoodsListViewTypeProductCenter: {
+            return 370;
+        }
+            break;
+            
+        default: {
+            return 460;
+        }
+            break;
+    }
 }
 
 #pragma mark - getters and setters

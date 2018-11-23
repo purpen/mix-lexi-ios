@@ -107,11 +107,11 @@ static NSString *const kTextMoney  = @"订单总计";
     [self addSubview:self.nameLabel];
     [self addSubview:self.storeLabel];
     [self addSubview:self.moneyLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(24, 24));
         make.left.mas_equalTo(20);

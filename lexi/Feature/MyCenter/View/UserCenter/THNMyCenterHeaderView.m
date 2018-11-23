@@ -105,7 +105,7 @@ static NSInteger const kSelectedButtonTag = 452;
         [dataButton setDataValue:valueArr[idx]];
     }
     
-    [self layoutIfNeeded];
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -236,15 +236,18 @@ static NSInteger const kSelectedButtonTag = 452;
     [self addSubview:self.dataContainer];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    // 调整视图的高度
+    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 230 + self.signatureHeight));
+        make.top.left.mas_equalTo(0);
+    }];
     
     [self.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 70));
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(24);
     }];
-    [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:70/2];
     
     [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenWidth - 40, 20));
@@ -283,7 +286,6 @@ static NSInteger const kSelectedButtonTag = 452;
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
-    self.activityButton.layer.cornerRadius = 30/2;
     
     [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
@@ -291,16 +293,12 @@ static NSInteger const kSelectedButtonTag = 452;
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
-    self.orderButton.layer.cornerRadius = 30/2;
-    [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.serviceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-20);
     }];
-    self.serviceButton.layer.cornerRadius = 30/2;
-    [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.couponButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
@@ -308,15 +306,12 @@ static NSInteger const kSelectedButtonTag = 452;
         make.right.equalTo(self.mas_right).with.offset(-20);
         make.bottom.mas_equalTo(-20);
     }];
-    self.couponButton.layer.cornerRadius = 30/2;
-    [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.couponDotView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 7));
         make.right.equalTo(self.couponButton.mas_right).with.offset(-5);
         make.top.equalTo(self.couponButton.mas_top).with.offset(0);
     }];
-    [self.couponDotView drawCornerWithType:(UILayoutCornerRadiusAll) radius:7/2];
     
     [self.lineView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(0);
@@ -340,18 +335,34 @@ static NSInteger const kSelectedButtonTag = 452;
         make.centerX.mas_equalTo(self.dataContainer);
         make.left.right.bottom.mas_equalTo(0);
     }];
-    self.dynamicButton.layer.cornerRadius = 4;
-    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
-
+    
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:88 / 2];
+    
+    [super updateConstraints];
+}
 
-    // 调整视图的高度
-    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 230 + self.signatureHeight);
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                   width:1
+                                   color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                     width:1
+                                     color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                    width:1
+                                    color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                     width:1
+                                     color:[UIColor colorWithHexString:@"#EDEDEF"]];
 }
 
 #pragma mark - getters and setters
@@ -361,6 +372,8 @@ static NSInteger const kSelectedButtonTag = 452;
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
         _headerImageView.userInteractionEnabled = YES;
+        _headerImageView.layer.cornerRadius = 70 / 2;
+        _headerImageView.layer.masksToBounds = YES;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedHeadImage:)];
         [_headerImageView addGestureRecognizer:tap];
@@ -421,8 +434,11 @@ static NSInteger const kSelectedButtonTag = 452;
         [_activityButton setImage:[UIImage imageNamed:@"icon_activity_white"] forState:(UIControlStateNormal)];
         _activityButton.backgroundColor = [UIColor colorWithHexString:@"#FF6666"];
         _activityButton.tag = kSelectedButtonTag + 4;
-        [_activityButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        _activityButton.layer.cornerRadius = 30 / 2;
+        _activityButton.layer.masksToBounds = YES;
         _activityButton.hidden = YES;
+        
+        [_activityButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _activityButton;
 }
@@ -434,6 +450,8 @@ static NSInteger const kSelectedButtonTag = 452;
         _orderButton.titleLabel.font = [UIFont systemFontOfSize:14];
         [_orderButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _orderButton.tag = kSelectedButtonTag + 5;
+        _orderButton.layer.cornerRadius = 30 / 2;
+        
         [_orderButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _orderButton;
@@ -444,6 +462,8 @@ static NSInteger const kSelectedButtonTag = 452;
         _couponButton = [[UIButton alloc] init];
         [_couponButton setImage:[UIImage imageNamed:@"icon_coupon_gray"] forState:(UIControlStateNormal)];
         _couponButton.tag = kSelectedButtonTag + 6;
+        _couponButton.layer.cornerRadius = 30 / 2;
+        
         [_couponButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _couponButton;
@@ -453,6 +473,7 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_couponDotView) {
         _couponDotView = [[UIView alloc] init];
         _couponDotView.backgroundColor = [UIColor colorWithHexString:@"#FF6666"];
+        _couponDotView.layer.cornerRadius = 7 / 2;
         _couponDotView.hidden = YES;
     }
     return _couponDotView;
@@ -463,13 +484,14 @@ static NSInteger const kSelectedButtonTag = 452;
         _serviceButton = [[UIButton alloc] init];
         [_serviceButton setImage:[UIImage imageNamed:@"icon_service_gray"] forState:(UIControlStateNormal)];
         _serviceButton.tag = kSelectedButtonTag + 7;
-        [_serviceButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         _serviceButton.hidden = YES;
+        _serviceButton.layer.cornerRadius = 30 / 2;
+        
+        [_serviceButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _serviceButton;
 }
 
-#pragma mark -
 - (UIView *)dataContainer {
     if (!_dataContainer) {
         _dataContainer = [[UIView alloc] init];
@@ -500,6 +522,8 @@ static NSInteger const kSelectedButtonTag = 452;
         _dynamicButton.titleLabel.font = [UIFont systemFontOfSize:14];
         [_dynamicButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _dynamicButton.tag = kSelectedButtonTag + 3;
+        _dynamicButton.layer.cornerRadius = 4;
+        
         [_dynamicButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _dynamicButton;
@@ -523,6 +547,7 @@ static NSInteger const kSelectedButtonTag = 452;
 - (THNFollowUserButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowUserButton alloc] init];
+        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }

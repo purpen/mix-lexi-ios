@@ -38,6 +38,8 @@
     self.titleLabel.text = sku.productName;
     self.priceLabel.text = [NSString formatFloat:sku.productAmount];
     [self thn_setOriginalPriceWithValue:sku.productCouponAmount];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -64,11 +66,11 @@
     [self addSubview:self.titleLabel];
     [self addSubview:self.priceLabel];
     [self addSubview:self.oriPriceLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(CGRectGetWidth(self.bounds));

@@ -9,10 +9,13 @@
 #import "THNLogisticsPlaceTableViewCell.h"
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import <Masonry/Masonry.h>
 
 #define kTextPlace(place) [NSString stringWithFormat:@"从%@发货", place]
-///
+
+/// text
 static NSString *const kTextTitle = @"选择物流";
+///
 static NSString *const kLogisticsPlaceTableViewCellId = @"kLogisticsPlaceTableViewCellId";
 
 @interface THNLogisticsPlaceTableViewCell ()
@@ -56,13 +59,22 @@ static NSString *const kLogisticsPlaceTableViewCellId = @"kLogisticsPlaceTableVi
 - (void)setupCellViewUI {
     [self addSubview:self.titlelabel];
     [self addSubview:self.placeLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setMasonryLayout {
+    [self.titlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100, 15));
+        make.left.mas_equalTo(15);
+        make.centerY.equalTo(self);
+    }];
     
-    self.titlelabel.frame = CGRectMake(15, 0, 100, CGRectGetHeight(self.bounds));
-    self.placeLabel.frame = CGRectMake(130, 0, CGRectGetWidth(self.bounds) - 145, CGRectGetHeight(self.bounds));
+    [self.placeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100, 15));
+        make.right.mas_equalTo(-15);
+        make.centerY.equalTo(self);
+    }];
 }
 
 - (void)drawRect:(CGRect)rect {

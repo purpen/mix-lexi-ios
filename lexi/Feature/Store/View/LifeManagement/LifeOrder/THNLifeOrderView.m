@@ -70,11 +70,11 @@ static NSString *const kTextTotay       = @"今日成交：";
     [self addSubview:self.titleLabel];
     [self addSubview:self.totalLabel];
     [self addSubview:self.todayLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(35);
         make.left.mas_equalTo(20);

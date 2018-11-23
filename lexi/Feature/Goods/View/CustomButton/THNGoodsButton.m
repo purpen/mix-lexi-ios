@@ -102,11 +102,11 @@ static NSString *const kTitleSell       = @"卖";
 #pragma mark - setup UI
 - (void)setupViewUI {
     [self addSubview:self.textLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)setMasonryLayout {
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.mas_equalTo(0);
         make.top.mas_equalTo(2);
@@ -114,12 +114,6 @@ static NSString *const kTitleSell       = @"卖";
 }
 
 #pragma mark - getters and setters
-//- (void)setMakeMoney:(CGFloat)makeMoney {
-//    _makeMoney = makeMoney;
-//
-//    [self thn_setSellTitleLableTextWithMoney:makeMoney];
-//}
-
 - (void)setType:(THNGoodsButtonType)type {
     _type = type;
     

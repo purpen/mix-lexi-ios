@@ -9,7 +9,9 @@
 #import "THNCartDefaultView.h"
 #import <YYKit/YYKit.h>
 #import "THNConst.h"
+#import <Masonry/Masonry.h>
 
+/// text
 static NSString *kTextHint      = @"您的购物车还没有任何礼品";
 static NSString *kTextDiscover  = @"现在去逛逛";
 
@@ -48,15 +50,29 @@ static NSString *kTextDiscover  = @"现在去逛逛";
     [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
     [self addSubview:self.discoverButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setMasonryLayout {
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(95, 95));
+        make.top.mas_equalTo(40);
+        make.centerX.equalTo(self);
+    }];
     
-    self.iconImageView.frame = CGRectMake((kScreenWidth - 95) / 2, 40, 95, 95);
-    self.hintLabel.frame = CGRectMake(20, CGRectGetMaxY(self.iconImageView.frame) + 20, kScreenWidth - 40, 16);
-    self.discoverButton.frame = CGRectMake((kScreenWidth - 250) / 2, CGRectGetMaxY(self.hintLabel.frame) + 30, 250, 40);
-    self.discoverButton.layer.cornerRadius = 4;
+    [self.hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(16);
+        make.left.mas_equalTo(20);
+        make.right.mas_equalTo(-20);
+        make.top.equalTo(self.iconImageView.mas_bottom).with.offset(20);
+    }];
+    
+    [self.discoverButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(250, 40));
+        make.centerX.equalTo(self);
+        make.top.equalTo(self.hintLabel.mas_bottom).with.offset(30);
+    }];
 }
 
 #pragma mark - getters and setters
@@ -86,6 +102,7 @@ static NSString *kTextDiscover  = @"现在去逛逛";
         [_discoverButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         [_discoverButton setTitle:kTextDiscover forState:(UIControlStateNormal)];
         _discoverButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        _discoverButton.layer.cornerRadius = 4;
         [_discoverButton addTarget:self action:@selector(discoverButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _discoverButton;

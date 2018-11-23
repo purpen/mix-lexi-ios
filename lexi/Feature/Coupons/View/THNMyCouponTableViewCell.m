@@ -188,10 +188,10 @@ static NSString *const kTextUseType = @" 全场通用";
 }
 
 - (NSString *)thn_getCouponSourceTextType:(NSInteger)type {
-    NSDictionary *sourceTextData = @{@(1): @"分享领红包",
-                                     @(2): @"猜图赢现金",
-                                     @(3): @"赠送",
-                                     @(4): @"新人奖励",
+    NSDictionary *sourceTextData = @{@(1) : @"分享领红包",
+                                     @(2) : @"猜图赢现金",
+                                     @(3) : @"赠送",
+                                     @(4) : @"新人奖励",
                                      @(11): @"领券中心"};
     
     return sourceTextData[@(type)];
@@ -221,11 +221,11 @@ static NSString *const kTextUseType = @" 全场通用";
     [self addSubview:self.storeLabel];
     [self addSubview:self.typeLabel];
     [self addSubview:self.sourceLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.useLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(13, 48));
         make.right.mas_equalTo(-34);

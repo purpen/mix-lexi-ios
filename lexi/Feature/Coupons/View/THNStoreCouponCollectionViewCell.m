@@ -117,11 +117,11 @@ static NSInteger const kGoodsViewTag = 1625;
     [self.containerView addSubview:self.doneButton];
     [self.containerView addSubview:self.goodsView];
     [self addSubview:self.containerView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];

@@ -29,7 +29,6 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
         
         [self setupCellViewUI];
     }
@@ -53,18 +52,22 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     
     [self.modelArray addObjectsFromArray:data];
     [self.windowCollectionView reloadData];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    [self.contentView addSubview:self.windowCollectionView];
+    self.backgroundColor = [UIColor whiteColor];
+    
+    [self addSubview:self.windowCollectionView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     self.windowCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
     self.flowLayout.itemSize = CGSizeMake(244, CGRectGetHeight(self.bounds));
+    
+    [super updateConstraints];
 }
 
 #pragma mark - collectionView delegate & dataSource

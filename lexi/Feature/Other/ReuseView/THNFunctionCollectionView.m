@@ -16,7 +16,7 @@
 static NSString *const kTitleCategory   = @"分类";
 static NSString *const kTitleRecommend  = @"推荐";
 static NSString *const kTitleMore       = @" 可多选";
-/// CELL ID
+/// cell id
 static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
 
 @interface THNFunctionCollectionView () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -51,9 +51,9 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
 - (instancetype)initWithFrame:(CGRect)frame viewType:(THNFunctionCollectionViewType)type {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupViewUI];
-        [self thn_setTitleLabelText:type == THNFunctionCollectionViewTypeCategory ? kTitleCategory : kTitleRecommend];
         self.viewType = type;
+        [self setupViewUI];
+        [self thn_setTitleLabelText:@[kTitleCategory, kTitleRecommend][(NSUInteger)type]];
     }
     return self;
 }
@@ -191,19 +191,19 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
 - (void)setupViewUI {
     [self addSubview:self.titleLabel];
     [self addSubview:self.collectionView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+- (void)setMasonryLayout {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(20);
     }];
     
-    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.collectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(30);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(20);

@@ -99,11 +99,11 @@ static NSString *const kTextWait        = @"待结算：";
     [self addSubview:self.waitLabel];
     [self addSubview:self.waitHintButton];
     [self addSubview:self.lineView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20);
         make.size.mas_equalTo(CGSizeMake(150, 15));

@@ -44,9 +44,10 @@ static NSString *const kKeyRids = @"rids";
 }
 
 #pragma mark - event response
+// 喜欢按钮（不显示喜欢数量的）
 - (void)likeButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -56,9 +57,8 @@ static NSString *const kKeyRids = @"rids";
         [self thn_requestCancelLikeGoodsCompleted:^(NSError *error) {
             [self endLoading];
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected];
+        
+            [self setLikedGoodsStatus:NO];
         }];
         
     } else {
@@ -66,15 +66,15 @@ static NSString *const kKeyRids = @"rids";
             [self endLoading];
             if (error) return;
             
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected];
+            [self setLikedGoodsStatus:YES];
         }];
     }
 }
 
+// 喜欢按钮（显示喜欢数量）
 - (void)likeCountButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -85,10 +85,9 @@ static NSString *const kKeyRids = @"rids";
             [self endLoading];
             if (error) return;
             
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected count:self.likeCount - 1];
             self.likeCount -= 1;
             self.likeGoodsCompleted(self.likeCount);
+            [self setLikedGoodsStatus:NO count:self.likeCount];
         }];
         
     } else {
@@ -96,17 +95,17 @@ static NSString *const kKeyRids = @"rids";
             [self endLoading];
             if (error) return;
             
-            self.selected = !self.selected;
-            [self setLikedGoodsStatus:self.selected count:self.likeCount + 1];
             self.likeCount += 1;
             self.likeGoodsCompleted(self.likeCount);
+            [self setLikedGoodsStatus:YES count:self.likeCount];
         }];
     }
 }
 
+// 加入心愿单按钮
 - (void)wishButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -117,19 +116,17 @@ static NSString *const kKeyRids = @"rids";
             [self endLoading];
             if (error) return;
             
-            self.selected = !self.selected;
-            [self setWishGoodsStatus:self.selected];
-            self.wishGoodsCompleted(self.selected);
+            self.wishGoodsCompleted(NO);
+            [self setWishGoodsStatus:NO];
         }];
         
     } else {
         [self thn_requestWishGoodsCompleted:^(NSError *error) {
             [self endLoading];
             if (error) return;
-            
-            self.selected = !self.selected;
-            [self setWishGoodsStatus:self.selected];
-            self.wishGoodsCompleted(self.selected);
+        
+            self.wishGoodsCompleted(YES);
+            [self setWishGoodsStatus:YES];
         }];
     }
 }

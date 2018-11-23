@@ -9,9 +9,18 @@
 #import "THNFollowStoreButton.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kTitleNormal     = @"关注";
 static NSString *const kTitleSelected   = @"已关注";
+
+@interface THNFollowStoreButton ()
+
+/// 加载动画
+@property (nonatomic, strong) UIView *loadView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
+
+@end
 
 @implementation THNFollowStoreButton
 
@@ -38,9 +47,26 @@ static NSString *const kTitleSelected   = @"已关注";
     self.backgroundColor = [UIColor colorWithHexString:follow ? @"#EFF3F2" : kColorMain];
 }
 
+#pragma mark - 显示加载动画
+- (void)startLoading {
+    [self thn_showLoadingView:YES];
+    [self.loadingView startAnimating];
+}
+
+- (void)endLoading {
+    [self thn_showLoadingView:NO];
+    [self.loadingView stopAnimating];
+}
+
+- (void)thn_showLoadingView:(BOOL)show {
+    self.userInteractionEnabled = !show;
+    self.loadView.hidden = !show;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.selected = NO;
+    
     [self setTitle:kTitleNormal forState:(UIControlStateNormal)];
     [self setTitle:kTitleSelected forState:(UIControlStateSelected)];
     [self setTitleColor:[UIColor colorWithHexString:kColorWhite] forState:(UIControlStateNormal)];
@@ -49,6 +75,41 @@ static NSString *const kTitleSelected   = @"已关注";
     [self setImage:[UIImage imageNamed:@"icon_store_feature"] forState:(UIControlStateNormal)];
     [self setImage:[UIImage new] forState:(UIControlStateSelected)];
     [self setImageEdgeInsets:(UIEdgeInsetsMake(8, -1, 8, 0))];
+    self.layer.masksToBounds = YES;
+    
+    [self.loadView addSubview:self.loadingView];
+    [self addSubview:self.loadView];
+    
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
+    [self.loadView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.loadView);
+    }];
+}
+
+#pragma mark - getters and setters
+- (UIView *)loadView {
+    if (!_loadView) {
+        _loadView = [[UIView alloc] init];
+        _loadView.backgroundColor = [UIColor colorWithHexString:kColorMain];
+        _loadView.hidden = YES;
+    }
+    return _loadView;
+}
+
+- (UIActivityIndicatorView *)loadingView {
+    if (!_loadingView) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhite)];
+        _loadingView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+        _loadingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+    }
+    return _loadingView;
 }
 
 @end

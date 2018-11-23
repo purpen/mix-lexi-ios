@@ -52,56 +52,39 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
 }
 
 - (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType userData:(NSArray *)userData {
-    switch (listType) {
-        case THNGoodsListViewTypeEditors: {
-            [self thn_setTitleText:kTitleEditors
-                          iconName:@"icon_column_0"
-               backgroundImageName:@"column_header_0"
-                        sloganText:kSloganEditors];
-        }
-            break;
-            
-        case THNGoodsListViewTypeNewProduct: {
-            [self thn_setTitleText:kTitleNewProduct
-                          iconName:@"icon_column_0"
-               backgroundImageName:@"column_header_1"
-                        sloganText:kSloganNewProduct];
-        }
-            break;
-            
-        case THNGoodsListViewTypeDesign: {
-            [self thn_setTitleText:kTitleDesign
-                          iconName:@"icon_column_0"
-               backgroundImageName:@"column_header_2"
-                        sloganText:kSloganDesign];
-        }
-            break;
-            
-        case THNGoodsListViewTypeGoodThing: {
-            [self thn_setTitleText:kTitleGoodThing
-                          iconName:@"icon_column_0"
-               backgroundImageName:@"column_header_3"
-                        sloganText:kSloganGoodThing];
-        }
-            break;
-            
-        default:
-            break;
-    }
+    NSDictionary *titleDict = @{@(THNGoodsListViewTypeEditors)   : kTitleEditors,
+                                @(THNGoodsListViewTypeNewProduct): kTitleNewProduct,
+                                @(THNGoodsListViewTypeDesign)    : kTitleDesign,
+                                @(THNGoodsListViewTypeGoodThing) : kTitleGoodThing};
     
-    if (!userData.count) {
-        return;
+    NSDictionary *sloganDict = @{@(THNGoodsListViewTypeEditors)   : kSloganEditors,
+                                 @(THNGoodsListViewTypeNewProduct): kSloganNewProduct,
+                                 @(THNGoodsListViewTypeDesign)    : kSloganDesign,
+                                 @(THNGoodsListViewTypeGoodThing) : kSloganGoodThing};
+    
+    NSDictionary *bgImageIndex = @{@(THNGoodsListViewTypeEditors)   : @"column_header_0",
+                                   @(THNGoodsListViewTypeNewProduct): @"column_header_1",
+                                   @(THNGoodsListViewTypeDesign)    : @"column_header_2",
+                                   @(THNGoodsListViewTypeGoodThing) : @"column_header_3"};
+    
+    [self thn_setViewContentWithTitle:titleDict[@(listType)]
+                             iconName:@"icon_column_0"
+                          bgImageName:bgImageIndex[@(listType)]
+                           sloganText:sloganDict[@(listType)]];
+    
+    if (userData.count) {
+        [self thn_setRecordUserData:[self thn_getUserModelWithData:userData]];
+        [self thn_setUserCountWithValue:userData.count];
     }
-    [self thn_setRecordUserData:[self thn_getUserModelWithData:userData]];
-    [self thn_setUserCountWithValue:userData.count];
 }
 
 #pragma mark - private methods
-- (void)thn_setTitleText:(NSString *)text iconName:(NSString *)iconName backgroundImageName:(NSString *)imageName sloganText:(NSString *)sloganText {
-    self.titleLabel.text = text;
+- (void)thn_setViewContentWithTitle:(NSString *)title iconName:(NSString *)iconName bgImageName:(NSString *)bgImageName sloganText:(NSString *)sloganText {
+    
+    self.titleLabel.text = title;
     self.sloganLabel.text = sloganText;
     self.iconImageView.image = [UIImage imageNamed:iconName];
-    self.headerImageView.image = [UIImage imageNamed:imageName];
+    self.headerImageView.image = [UIImage imageNamed:bgImageName];
 }
 
 - (void)thn_setUserCountWithValue:(NSInteger)value {
@@ -150,11 +133,11 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
     [self.userView addSubview:self.sloganLabel];
     [self.userView addSubview:self.countButton];
     [self addSubview:self.userView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-65);
@@ -191,7 +174,6 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
         make.right.mas_equalTo(-20);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    self.countButton.layer.cornerRadius = 30 / 2;
 }
 
 #pragma mark - getters and setters
@@ -249,6 +231,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
         _countButton.backgroundColor = [UIColor blackColor];
         [_countButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _countButton.titleLabel.font = [UIFont systemFontOfSize:10];
+        _countButton.layer.cornerRadius = 30 / 2;
     }
     return _countButton;
 }

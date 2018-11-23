@@ -93,11 +93,11 @@
     [self.containerView addSubview:self.conditionLabel];
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];

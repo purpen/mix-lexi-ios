@@ -42,6 +42,8 @@ static NSString *const kTextHint    = @"  领取设计馆优惠红包";
     
     [self thn_setHintLabelAttributedStringWithData:data];
     [self thn_setCouponLabelAttributedStringWithData:data];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -127,9 +129,7 @@ static NSString *const kTextHint    = @"  领取设计馆优惠红包";
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
@@ -156,6 +156,8 @@ static NSString *const kTextHint    = @"  领取设计馆优惠红包";
         make.top.mas_equalTo(self.hintLabel.isHidden ? 12 : 40);
         make.height.mas_equalTo(16);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

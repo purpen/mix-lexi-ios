@@ -9,7 +9,7 @@
 #import "THNImagesView.h"
 #import "THNImageCollectionViewCell.h"
 #import "THNMarco.h"
-#import "THNGoodsModelAsset.h"
+#import "THNGoodsModelAssets.h"
 #import "UIColor+Extension.h"
 #import <YYKit/YYKit.h>
 
@@ -47,7 +47,7 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
         [self.imageUrlArr removeAllObjects];
     }
     
-    for (THNGoodsModelAsset *asset in assets) {
+    for (THNGoodsModelAssets *asset in assets) {
         [self.imageUrlArr addObject:asset.viewUrl];
     }
     

@@ -18,6 +18,7 @@
 #import "THNOrderDetailModel.h"
 #import "THNPayManger.h"
 
+
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
 static NSString *const kUrlRecordingPayType = @"/orders/pay_type";

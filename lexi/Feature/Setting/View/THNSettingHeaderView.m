@@ -43,11 +43,11 @@ static NSString *const kTextHint = @"查看并编辑个人资料";
     [self addSubview:self.nameLabel];
     [self addSubview:self.hintLabel];
     [self addSubview:self.headImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.right.mas_equalTo(-15);

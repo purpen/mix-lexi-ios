@@ -44,11 +44,11 @@
     [self addSubview:self.hintTextLabel];
     [self addSubview:self.iconImageView];
     [self addSubview:self.nextImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(20);

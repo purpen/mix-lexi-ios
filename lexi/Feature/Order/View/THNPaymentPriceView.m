@@ -97,11 +97,11 @@ static NSString *const kTextTotalPrice  = @"总计\n";
     [self.containerView addSubview:self.priceLabel];
     [self.containerView addSubview:self.freightLabel];
     [self.containerView addSubview:self.totalPriceLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(10);

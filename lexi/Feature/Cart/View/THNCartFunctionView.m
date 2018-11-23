@@ -50,6 +50,7 @@ static NSString *const kTextWishList    = @"放入心愿单";
 
 - (void)setStatus:(THNCartFunctionStatus)status {
     BOOL isEditStatus = status == THNCartFunctionStatusEdit;
+    
     [self thn_startEditStatus:isEditStatus];
 }
 
@@ -107,32 +108,34 @@ static NSString *const kTextWishList    = @"放入心愿单";
     [self addSubview:self.clearButton];
     [self addSubview:self.removeButton];
     [self addSubview:self.wishListButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setMasonryLayout {
+    CGSize clearButtonSize = CGSizeMake((kScreenWidth - 40) / 2, 40);
     
-    [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-220);
+    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-(clearButtonSize.width + 25));
         make.left.mas_equalTo(15);
         make.top.bottom.mas_equalTo(0);
     }];
     
-    [self.clearButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(180, 40));
+    [self.clearButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(clearButtonSize);
         make.centerY.mas_equalTo(self);
         make.right.mas_equalTo(-15);
     }];
     
     CGSize buttonSize = CGSizeMake((kScreenWidth - 45) / 2, 40);
     
-    [self.removeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.removeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(buttonSize);
         make.left.mas_equalTo(15);
         make.centerY.mas_equalTo(self);
     }];
     
-    [self.wishListButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.wishListButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(buttonSize);
         make.right.mas_equalTo(-15);
         make.centerY.mas_equalTo(self);

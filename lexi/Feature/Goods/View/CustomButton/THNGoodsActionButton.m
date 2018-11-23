@@ -55,6 +55,8 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_setTitleLabelText:liked ? kTextLiked : kTextLike textColor:kColorWhite];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:liked ? @"#2D343A" : kColorMain];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setLikedGoodsStatus:(BOOL)liked count:(NSInteger)count {
@@ -66,6 +68,8 @@ static NSString *const kTextPutaway = @"上架";
     NSString *countStr = count > 0 ? [NSString stringWithFormat:@"+%zi", count] : kTextLike;
     [self thn_setTitleLabelText:countStr textColor:liked ? kColorWhite : @"#949EA6"];
     [self thn_setBackgroundColorHex:liked ? kColorMain : kColorWhite];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setWishGoodsStatus:(BOOL)wish {
@@ -77,6 +81,8 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_setTitleLabelText:wish ? kTextAlready : kTextWish textColor:@"#949EA6"];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:kColorWhite];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setPutawayGoodsStauts:(BOOL)putaway {
@@ -87,6 +93,8 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_setIconImageName:@"icon_putaway_gray"];
     [self thn_setTitleLabelText:kTextPutaway textColor:@"#949EA6"];
     [self thn_setBackgroundColorHex:kColorWhite];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setBuyGoodsButton {
@@ -94,6 +102,8 @@ static NSString *const kTextPutaway = @"上架";
     [self thn_setTitleLabelText:kTextBuy textColor:@"#FFFFFF"];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:@"#2D343A"];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -112,8 +122,6 @@ static NSString *const kTextPutaway = @"上架";
 
 - (void)thn_showIcon:(BOOL)show {
     self.iconImageView.hidden = !show;
-    
-    [self layoutIfNeeded];
 }
 
 - (void)thn_showBorder:(BOOL)show borderColor:(NSString *)color {
@@ -155,32 +163,35 @@ static NSString *const kTextPutaway = @"上架";
     [self addSubview:self.loadingView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (CGRectGetWidth(self.bounds) <= 0 ) return;
-    
-    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.mas_equalTo(0);
+- (void)updateConstraints {
+    [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
     }];
-    self.containerView.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
     
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(10);
-        make.centerY.mas_equalTo(self);
-    }];
-
-    [self.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(15);
-        make.centerY.equalTo(self.mas_centerY).with.offset(1.5);
-        make.left.mas_equalTo(self.iconImageView.hidden ? 10 : 28);
-        make.right.mas_equalTo(-10);
+        make.centerY.equalTo(self.containerView);
     }];
     
-    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.equalTo(self);
+    [self.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(15);
+        make.left.mas_equalTo(self.iconImageView.hidden ? 10 : 28);
+        make.right.mas_equalTo(-10);
+        make.centerY.equalTo(self.containerView).centerOffset(CGPointMake(1.5, 0));
     }];
+    
+    [self.loadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.containerView.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
 }
 
 #pragma mark - setup UI
@@ -188,6 +199,7 @@ static NSString *const kTextPutaway = @"上架";
     if (!_containerView) {
         _containerView = [[UIView alloc] init];
         _containerView.userInteractionEnabled = NO;
+        _containerView.layer.masksToBounds = YES;
     }
     return _containerView;
 }
@@ -205,6 +217,7 @@ static NSString *const kTextPutaway = @"上架";
     if (!_textLabel) {
         _textLabel = [[YYLabel alloc] init];
         _textLabel.font = [UIFont systemFontOfSize:13];
+        _textLabel.textContainerInset = UIEdgeInsetsMake(3, 0, 0, 0);
         _textLabel.userInteractionEnabled = NO;
     }
     return _textLabel;

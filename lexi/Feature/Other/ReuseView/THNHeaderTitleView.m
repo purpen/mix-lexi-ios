@@ -9,6 +9,7 @@
 #import "THNHeaderTitleView.h"
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import <Masonry/Masonry.h>
 
 @interface THNHeaderTitleView ()
 
@@ -44,12 +45,16 @@
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.titleLabel.frame = CGRectMake(15, 0, CGRectGetWidth(self.bounds) - 30, CGRectGetHeight(self.bounds));
+- (void)setMasonryLayout {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.bottom.mas_equalTo(0);
+    }];
 }
 
 - (void)drawRect:(CGRect)rect {

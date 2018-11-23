@@ -87,11 +87,11 @@ static NSInteger const kDateButtonTag       = 4361;
     [self addSubview:self.titleLabel];
     [self addSubview:self.dateTextField];
     [self thn_creatDateButtonWithTitles:@[kTextWeek, kTextMonth]];
+    
+    [self setMasonryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 15));
         make.left.mas_equalTo(20);
