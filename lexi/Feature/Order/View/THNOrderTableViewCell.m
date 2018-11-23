@@ -188,7 +188,7 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (void)logisticsTracking {
-     [[NSNotificationCenter defaultCenter] postNotificationName:kOrderLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemModel}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOrderLogisticsTracking object:nil userInfo:@{@"itemModel":self.itemModel, @"orderRid":self.ordersModel.rid}];
 }
 
 - (void)addTimer {

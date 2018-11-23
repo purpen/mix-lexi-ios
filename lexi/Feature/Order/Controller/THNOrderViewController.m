@@ -224,7 +224,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 - (void)logisticsTracking:(NSNotification *)notification {
     THNOrdersItemsModel *itemsModel = notification.userInfo[@"itemModel"];
     THNLogisticsViewController *logistics = [[THNLogisticsViewController alloc]init];
-    logistics.orderRid = self.orderRid;
+    logistics.orderRid = notification.userInfo[@"orderRid"];
     logistics.itemsModel = itemsModel;
     [self.navigationController pushViewController:logistics animated:YES];
 }

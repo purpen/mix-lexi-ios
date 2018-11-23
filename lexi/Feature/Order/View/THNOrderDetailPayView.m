@@ -44,7 +44,7 @@
 - (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel {
     
     // 取消隐藏支付方式
-    if (detailModel.user_order_status == 6) {
+    if (detailModel.user_order_status == 6 || detailModel.outside_target_id.length == 0) {
         self.orderDetailTopView.hidden = YES;
         self.orderDetailTopViewHeightConstraint.constant = 0;
     } else {
