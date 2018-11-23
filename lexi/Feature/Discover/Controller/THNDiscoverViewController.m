@@ -55,9 +55,10 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
     self.isAddWindow = YES;
+    self.isFromMain = YES;
     self.loadViewY = kDeviceiPhoneX ? 88 : 64;
-    [self showHud];
     
+    [self showHud];
     dispatch_group_async(group, queue, ^{
         [self loadWonderfulStoriesData];
     });
@@ -71,7 +72,6 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self hiddenHud];
             [self.tableView reloadData];
         });
     });
@@ -99,6 +99,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     THNRequest *request = [THNAPI getWithUrlString:kUrGuessLikes requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -114,6 +115,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     THNRequest *request = [THNAPI getWithUrlString:kUrWonderfulStories requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
+        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;

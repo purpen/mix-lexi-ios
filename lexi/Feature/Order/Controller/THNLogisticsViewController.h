@@ -13,5 +13,6 @@
 @interface THNLogisticsViewController : THNBaseViewController
 
 @property (nonatomic, strong) THNOrdersItemsModel *itemsModel;
+@property (nonatomic, strong) NSString *orderRid;
 
 @end
