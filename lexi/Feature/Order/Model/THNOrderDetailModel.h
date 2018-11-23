@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "THNPayManger.h"
 
 @class THNOrdersItemsModel;
 @class THNOrderStoreModel;
@@ -37,7 +38,10 @@
 @property (nonatomic , assign) CGFloat first_discount;
 // 满减金额
 @property (nonatomic , assign) CGFloat reach_minus;
-// 订单状态
+// 订单状态  // 1、待发货 2、待收货 3、待评价 4、待付款 5、已完成 6、已取消
 @property (nonatomic, assign) NSInteger user_order_status;
+// 支付方式
+@property (nonatomic, assign) THNPaymentType pay_type;
+
 
 @end

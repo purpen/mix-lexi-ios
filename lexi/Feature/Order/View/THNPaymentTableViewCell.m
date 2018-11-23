@@ -56,7 +56,7 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
 - (void)thn_setPaymentTypeWithType:(THNPaymentType)type {
     NSArray *titleArr = @[kTextWechatPay, kTextAlipay, kTextHuabei];
     NSArray *hintArr = @[kTextWechatPayHint, kTextAlipayHint, kTextHuabeiHint];
-    NSArray *iconArr = @[@"icon_pay_wechat", @"icon_pay_alipay", @"icon_pay_huabei"];
+    NSArray *iconArr = @[@"icon_pay_wechat", @"icon_order_alipay", @"icon_pay_huabei"];
     NSInteger index = (NSInteger)type;
     
     [self thn_setNameLabelText:titleArr[index] hintText:hintArr[index] iconName:iconArr[index]];
