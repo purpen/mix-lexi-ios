@@ -59,9 +59,11 @@ static NSString *const kTextError   = @"提现失败";
     [self addSubview:self.timeLabel];
     [self addSubview:self.moneyLabel];
     [self addSubview:self.statusLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 15));
         make.left.mas_equalTo(20);
@@ -87,8 +89,6 @@ static NSString *const kTextError   = @"提现失败";
         make.top.equalTo(self.moneyLabel.mas_bottom).with.offset(5);
         make.height.mas_equalTo(13);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

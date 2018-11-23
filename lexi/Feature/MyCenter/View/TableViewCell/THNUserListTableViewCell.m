@@ -58,11 +58,16 @@
     [self addSubview:self.headerImageView];
     [self addSubview:self.nameLabel];
     [self addSubview:self.followButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
-    self.headerImageView.frame = CGRectMake(20, (CGRectGetHeight(self.bounds) - 40) / 2, 40, 40);
-    [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:40/2];
+- (void)setMasonryLayout {
+    [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(40, 40));
+        make.left.mas_equalTo(20);
+        make.centerY.equalTo(self);
+    }];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(15);
@@ -71,10 +76,18 @@
         make.centerY.mas_equalTo(self);
     }];
     
-    self.followButton.frame = CGRectMake(CGRectGetWidth(self.bounds) - 83, (CGRectGetHeight(self.bounds) - 29) / 2, 63, 29);
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(63, 29));
+        make.right.mas_equalTo(-20);
+        make.centerY.equalTo(self);
+    }];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    [super updateConstraints];
+    [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:40/2];
+    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 - (void)drawRect:(CGRect)rect {

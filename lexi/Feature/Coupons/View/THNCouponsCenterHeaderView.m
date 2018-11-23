@@ -103,15 +103,15 @@ static NSInteger const kMenuButtonTag = 1351;
     [self addSubview:self.segmentControl];
     [self thn_createMenuButtonWithTitles:@[@"同享券", @"单享券"]];
     [self addSubview:self.menuView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(150);
         make.top.left.right.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)thn_setMenuButtonStyle:(UIButton *)button selected:(BOOL)selected {

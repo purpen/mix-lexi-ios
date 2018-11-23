@@ -97,9 +97,11 @@ static NSString *const kTextTotalPrice  = @"总计\n";
     [self.containerView addSubview:self.priceLabel];
     [self.containerView addSubview:self.freightLabel];
     [self.containerView addSubview:self.totalPriceLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(10);
@@ -126,8 +128,6 @@ static NSString *const kTextTotalPrice  = @"总计\n";
         make.right.mas_equalTo(-15);
         make.bottom.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

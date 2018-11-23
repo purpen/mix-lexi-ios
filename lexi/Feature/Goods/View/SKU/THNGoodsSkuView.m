@@ -295,7 +295,7 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 - (void)updateConstraints {
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, [self thn_getSkuViewSizeHeight]));
         make.left.bottom.mas_equalTo(0);
     }];

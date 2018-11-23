@@ -100,9 +100,11 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
     [self addSubview:self.hintLabel];
     [self addSubview:self.zipCodeTable];
     [self addSubview:self.closeButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(kDeviceiPhoneX ? 60 : 30);
@@ -128,8 +130,6 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         make.top.equalTo(self.hintLabel.mas_bottom).with.offset(15);
         make.bottom.mas_equalTo(kDeviceiPhoneX ? -140 : -100);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

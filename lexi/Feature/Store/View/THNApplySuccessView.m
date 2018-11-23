@@ -62,9 +62,11 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
     [self addSubview:self.hintLabel];
     [self addSubview:self.wechatLabel];
     [self addSubview:self.doneButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(277, 45));
         make.top.mas_equalTo(kDeviceiPhoneX ? 140 : 120);
@@ -108,8 +110,6 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         make.top.equalTo(self.wechatLabel.mas_bottom).with.offset(90);
         make.height.mas_equalTo(40);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

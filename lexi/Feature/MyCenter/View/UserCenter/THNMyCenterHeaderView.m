@@ -238,14 +238,11 @@ static NSInteger const kSelectedButtonTag = 452;
 
 - (void)updateConstraints {
     // 调整视图的高度
-    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 230 + self.signatureHeight);
+    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 230 + self.signatureHeight));
+        make.top.left.mas_equalTo(0);
+    }];
     
-    [self setMasonryLayout];
-    
-    [super updateConstraints];
-}
-
-- (void)setMasonryLayout {
     [self.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 70));
         make.left.mas_equalTo(20);
@@ -292,26 +289,23 @@ static NSInteger const kSelectedButtonTag = 452;
     
     [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
-        //        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
+//        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
-    [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.serviceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-20);
     }];
-    [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.couponButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
-        //        make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
+//        make.right.equalTo(self.serviceButton.mas_left).with.offset(-15);
         make.right.equalTo(self.mas_right).with.offset(-20);
         make.bottom.mas_equalTo(-20);
     }];
-    [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.couponDotView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 7));
@@ -341,13 +335,34 @@ static NSInteger const kSelectedButtonTag = 452;
         make.centerX.mas_equalTo(self.dataContainer);
         make.left.right.bottom.mas_equalTo(0);
     }];
-    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll) width:1 color:[UIColor colorWithHexString:@"#EDEDEF"]];
     
     [self.followButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-20);
     }];
+    
+    [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.orderButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                   width:1
+                                   color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.serviceButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                     width:1
+                                     color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.couponButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                    width:1
+                                    color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll)
+                                     width:1
+                                     color:[UIColor colorWithHexString:@"#EDEDEF"]];
 }
 
 #pragma mark - getters and setters

@@ -88,10 +88,10 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
     [self addSubview:self.wechatButton];
     [self addSubview:self.signUpButton];
     
-    [self setNeedsUpdateConstraints];
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
@@ -138,8 +138,6 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
         make.bottom.equalTo(self.signInButton.mas_top).with.offset(-20);
         make.centerX.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)layoutSubviews {

@@ -55,25 +55,25 @@
 }
 
 - (void)updateConstraints {
-    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(15);
         make.centerY.equalTo(self);
     }];
     
-    [self.nextImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nextImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(7, 13));
         make.right.mas_equalTo(-15);
         make.centerY.equalTo(self);
     }];
     
-    [self.mainTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(45);
         make.width.mas_equalTo([self.mainTextLabel.text boundingSizeWidthWithFontSize:15]);
         make.top.bottom.mas_equalTo(0);
     }];
     
-    [self.subTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.subTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mainTextLabel.mas_right).with.offset(10);
         make.right.mas_equalTo(-30);
         make.top.bottom.mas_equalTo(0);

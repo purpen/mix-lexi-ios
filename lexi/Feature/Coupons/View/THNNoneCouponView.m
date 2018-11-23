@@ -33,9 +33,11 @@ static NSString *const kTextHint = @"该分类暂无优惠券";
 - (void)setupViewUI {
     [self addSubview:self.iconImageView];
     [self addSubview:self.titleLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.centerX.centerY.equalTo(self);
@@ -47,8 +49,6 @@ static NSString *const kTextHint = @"该分类暂无优惠券";
         make.right.mas_equalTo(-20);
         make.top.equalTo(self.iconImageView.mas_bottom).with.offset(10);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

@@ -59,9 +59,11 @@ static NSString *const kTextMoney  = @"收益：￥";
     [self addSubview:self.timeLabel];
     [self addSubview:self.moneyLabel];
     [self addSubview:self.detailButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-100);
@@ -88,8 +90,6 @@ static NSString *const kTextMoney  = @"收益：￥";
         make.top.mas_equalTo(15);
         make.size.mas_equalTo(CGSizeMake(35, 15));
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

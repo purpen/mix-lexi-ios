@@ -280,7 +280,7 @@ static const NSInteger kRightButtonTag = 123;
 }
 
 - (void)updateConstraints {
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 44));
         make.bottom.mas_equalTo(0);
         make.centerX.equalTo(self);
@@ -297,12 +297,12 @@ static const NSInteger kRightButtonTag = 123;
         make.right.mas_equalTo(self.rightButtonTrailing);
     }];
     
-    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(44, 44));
         make.bottom.left.mas_equalTo(0);
     }];
     
-    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(44, 44));
         make.bottom.right.mas_equalTo(0);
     }];

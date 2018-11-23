@@ -2802,6 +2802,8 @@
 		4BECF0AC217F1401008E5E28 /* LifeStore */ = {
 			isa = PBXGroup;
 			children = (
+				4BECF0B7217F1401008E5E28 /* THNLifeManagementViewController.h */,
+				4BECF0B8217F1401008E5E28 /* THNLifeManagementViewController.m */,
 				4BECF0AD217F1401008E5E28 /* THNLifeActionViewController.h */,
 				4BECF0AE217F1401008E5E28 /* THNLifeActionViewController.m */,
 				4BECF0AF217F1401008E5E28 /* THNLifeCashBillDetailViewController.h */,
@@ -2812,8 +2814,6 @@
 				4BECF0B4217F1401008E5E28 /* THNLifeCashBillViewController.m */,
 				4BECF0B5217F1401008E5E28 /* THNLifeCashViewController.h */,
 				4BECF0B6217F1401008E5E28 /* THNLifeCashViewController.m */,
-				4BECF0B7217F1401008E5E28 /* THNLifeManagementViewController.h */,
-				4BECF0B8217F1401008E5E28 /* THNLifeManagementViewController.m */,
 				4BECF0B9217F1401008E5E28 /* THNLifeOrderRecordViewController.h */,
 				4BECF0BA217F1401008E5E28 /* THNLifeOrderRecordViewController.m */,
 				4BECF0BB217F1401008E5E28 /* THNLifeTransactionRecordsViewController.h */,

@@ -141,7 +141,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self thn_showView:YES];
     [self thn_reloadSortTable];
     
-    [self layoutIfNeeded];
+    [self setNeedsUpdateConstraints];
 }
 
 /**
@@ -549,58 +549,64 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 }
 
 - (void)updateConstraints {
+    [self setMasonryLayout];
+    
+    [super updateConstraints];
+}
+
+- (void)setMasonryLayout {
     CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser || self.goodsListType == THNGoodsListViewTypeProductCenter ? 370 : 460;
     CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeScreen ? screenViewH : 250;
     
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
     
-    [self.backgroudMaskView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backgroudMaskView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
     
-    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 40));
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(8);
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 40));
         make.centerX.mas_equalTo(self.containerView);
         make.top.mas_equalTo(0);
     }];
     
-    [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.resetButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 40));
         make.top.mas_equalTo(0);
         make.right.mas_equalTo(-15);
     }];
     
-    [self.sortTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.sortTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(40);
         make.bottom.mas_equalTo(0);
     }];
     
-    [self.screenView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.screenView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(55);
         make.bottom.mas_equalTo(-25);
     }];
     
-    [self.priceView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(0);
         make.height.mas_equalTo(100);
     }];
     
-    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.categoryView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
         make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
     }];
     
-    [self.recommendView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.recommendView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(80);
         if (self.goodsListType == THNGoodsListViewTypeUser) {
@@ -611,18 +617,16 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         }
     }];
     
-    [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.doneButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(40);
         make.bottom.mas_equalTo(0);
     }];
     
-    [self.doneLoadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.doneLoadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.doneButton);
     }];
-    
-    [super updateConstraints];
 }
 
 - (CGFloat)getScreenViewHeight {

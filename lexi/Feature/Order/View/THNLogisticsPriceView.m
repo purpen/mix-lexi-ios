@@ -45,9 +45,11 @@ static NSString *const kTextHint  = @"注：采用不同的配送方式的到达
     [self addSubview:self.titelLabel];
     [self addSubview:self.priceLabel];
     [self addSubview:self.hintLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20);
         make.left.mas_equalTo(15);
@@ -66,8 +68,6 @@ static NSString *const kTextHint  = @"注：采用不同的配送方式的到达
         make.right.mas_equalTo(-15);
         make.height.mas_equalTo(35);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

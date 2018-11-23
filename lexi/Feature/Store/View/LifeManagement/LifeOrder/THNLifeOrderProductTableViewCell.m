@@ -46,6 +46,8 @@ static NSString *const kTextEarnings = @"预计收益：";
     NSString *modeStr = model.s_model.length > 0 ? [NSString stringWithFormat:@"/%@", model.s_model] : @"";
     self.modeLabel.text = [NSString stringWithFormat:@"%@%@", model.s_color, modeStr];
     [self thn_showEarningsPrice:model.order_sku_commission_price];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 // 显示商品预计收益
@@ -90,34 +92,34 @@ static NSString *const kTextEarnings = @"预计收益：";
         make.top.mas_equalTo(self.showEearnings ? 15 : 0);
     }];
     
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(17);
         make.left.mas_equalTo(90);
         make.right.mas_equalTo(-60);
         make.top.equalTo(self.goodsImageView.mas_top).with.offset(0);
     }];
     
-    [self.modeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.modeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(15);
         make.left.mas_equalTo(90);
         make.right.mas_equalTo(-60);
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(5);
     }];
     
-    [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.moneyLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(16);
         make.left.mas_equalTo(90);
         make.right.mas_equalTo(-60);
         make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
     }];
     
-    [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.countLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 15));
         make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
     }];
     
-    [self.earningsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.earningsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 16));
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-10);

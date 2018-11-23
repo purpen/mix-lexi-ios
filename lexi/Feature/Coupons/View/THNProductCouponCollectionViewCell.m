@@ -56,8 +56,6 @@
     [self thn_setOriginalPriceWithValue:model.productCouponAmount];
     [self thn_setNoneCouponStyleWithCount:model.surplusCount];
     [self thn_setDoneButtonStatus:self.couponModel.isGrant];
-    
-    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -166,9 +164,11 @@
     [self addSubview:self.containerView];
     [self addSubview:self.noneView];
     [self addSubview:self.noneImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];
@@ -241,8 +241,6 @@
         make.top.mas_equalTo(54);
         make.centerX.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

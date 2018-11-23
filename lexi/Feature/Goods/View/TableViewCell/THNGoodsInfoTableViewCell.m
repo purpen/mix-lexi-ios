@@ -466,7 +466,7 @@ static NSString *const kTextResetSku        = @"重选规格";
             make.centerY.mas_equalTo(self);
         }];
         
-        [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.selectButton mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(22, 22));
             make.left.mas_equalTo(15);
             make.centerY.mas_equalTo(self);
@@ -485,7 +485,6 @@ static NSString *const kTextResetSku        = @"重选规格";
         make.size.mas_equalTo(CGSizeMake(31, 18));
         make.top.left.equalTo(self.goodsImageView).with.offset(5);
     }];
-    [self.tagLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:2];
     
     // 价格
     if (self.cellType != THNGoodsInfoCellTypeCartWish) {
@@ -636,6 +635,12 @@ static NSString *const kTextResetSku        = @"重选规格";
     }];
     
     [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.tagLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:2];
 }
 
 - (void)drawRect:(CGRect)rect {

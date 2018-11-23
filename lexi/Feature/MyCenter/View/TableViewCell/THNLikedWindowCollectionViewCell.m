@@ -87,18 +87,18 @@
     CGFloat cellWidth = CGRectGetWidth(self.bounds);
     CGFloat imgHeight = (cellHeight - 2) / 2;
     
-    [self.mainImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(cellHeight, cellHeight));
         make.top.left.mas_equalTo(0);
     }];
     
-    [self.secondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(imgHeight, imgHeight));
         make.left.equalTo(self.mainImageView.mas_right).with.offset(2);
         make.top.equalTo(self.mainImageView.mas_top).with.offset(0);
     }];
     
-    [self.thirdImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.thirdImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(imgHeight, imgHeight));
         make.left.equalTo(self.mainImageView.mas_right).with.offset(2);
         make.top.equalTo(self.secondImageView.mas_bottom).with.offset(2);

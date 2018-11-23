@@ -188,9 +188,11 @@ static NSString *const kParamGender     = @"gender";
     [self thn_initMultipleOptionButtons:@[@"女生", @"男生"]];
     [self addSubview:self.sexView];
     [self addSubview:self.doneButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(90, 90));
         make.centerX.equalTo(self);
@@ -236,8 +238,6 @@ static NSString *const kParamGender     = @"gender";
         make.top.mas_equalTo(self.sexView.mas_bottom).with.offset(30);
         make.height.mas_equalTo(45);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)layoutSubviews {

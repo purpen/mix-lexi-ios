@@ -93,32 +93,35 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 }
 
 - (void)updateConstraints {
-    [self setMasonryLayout];
-
-    [super updateConstraints];
-}
-
-- (void)setMasonryLayout {
-    self.goodsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
-    [self thn_drawGoodsImageCorner];
+    [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
     
-    [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.infoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
         make.height.mas_equalTo(12);
     }];
     
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(11);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(6);
     }];
+
+    [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self thn_drawGoodsImageCorner];
 }
 
 - (void)thn_drawGoodsImageCorner {

@@ -168,9 +168,11 @@ static NSString *const kToolbarItemCancel   = @"取消";
     
     [self addSubview:self.titleLable];
     [self addSubview:self.infoTextField];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 15));
         make.left.mas_equalTo(15);
@@ -183,8 +185,6 @@ static NSString *const kToolbarItemCancel   = @"取消";
         make.bottom.mas_equalTo(-10);
         make.height.mas_equalTo(15);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

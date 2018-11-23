@@ -78,16 +78,16 @@ static NSString *const kGoodUserTableViewCellId = @"kGoodUserTableViewCellId";
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.moreButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.right.mas_equalTo(-15);
         make.centerY.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

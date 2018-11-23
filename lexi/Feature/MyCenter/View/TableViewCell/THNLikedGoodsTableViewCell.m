@@ -95,7 +95,7 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
     self.flowLayout.sectionInset = UIEdgeInsetsMake(0, originX, 0, originX);
     
-    [self.goodsCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.goodsCollectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
     

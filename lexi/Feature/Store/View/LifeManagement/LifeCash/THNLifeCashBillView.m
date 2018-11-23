@@ -56,9 +56,11 @@ static NSString *const kTextRecent  = @"最近一笔提现";
     [self addSubview:self.nextImageView];
     [self addSubview:self.textLabel];
     [self addSubview:self.subTextLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(20);
@@ -83,8 +85,6 @@ static NSString *const kTextRecent  = @"最近一笔提现";
         make.left.equalTo(self.textLabel.mas_right).with.offset(10);
         make.centerY.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

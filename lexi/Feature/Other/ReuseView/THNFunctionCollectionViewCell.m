@@ -29,6 +29,8 @@
 
 - (void)thn_setCellTitle:(NSString *)title {
     self.titleLabel.text = title;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_selectCell:(BOOL)select {
@@ -55,7 +57,7 @@
 }
 
 - (void)updateConstraints {
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
     

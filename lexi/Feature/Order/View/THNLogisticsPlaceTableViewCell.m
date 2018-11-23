@@ -59,9 +59,11 @@ static NSString *const kLogisticsPlaceTableViewCellId = @"kLogisticsPlaceTableVi
 - (void)setupCellViewUI {
     [self addSubview:self.titlelabel];
     [self addSubview:self.placeLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 15));
         make.left.mas_equalTo(15);
@@ -73,8 +75,6 @@ static NSString *const kLogisticsPlaceTableViewCellId = @"kLogisticsPlaceTableVi
         make.right.mas_equalTo(-15);
         make.centerY.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

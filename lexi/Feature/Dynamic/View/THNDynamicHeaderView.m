@@ -74,9 +74,11 @@ static NSString *const kTextCreate = @"拼贴橱窗";
     [self addSubview:self.nameLabel];
     [self addSubview:self.createButton];
     [self addSubview:self.followButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-53);
@@ -106,8 +108,6 @@ static NSString *const kTextCreate = @"拼贴橱窗";
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-12);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

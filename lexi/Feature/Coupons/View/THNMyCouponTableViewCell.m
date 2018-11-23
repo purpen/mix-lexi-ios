@@ -222,10 +222,10 @@ static NSString *const kTextUseType = @" 全场通用";
     [self addSubview:self.typeLabel];
     [self addSubview:self.sourceLabel];
     
-    [self setNeedsUpdateConstraints];
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.useLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(13, 48));
         make.right.mas_equalTo(-34);
@@ -277,8 +277,6 @@ static NSString *const kTextUseType = @" 全场通用";
         make.right.mas_equalTo(-90);
         make.top.equalTo(self.typeLabel.mas_bottom).with.offset(9);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

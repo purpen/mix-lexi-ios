@@ -56,14 +56,14 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
     [self addSubview:self.couponCollectionView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.couponCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

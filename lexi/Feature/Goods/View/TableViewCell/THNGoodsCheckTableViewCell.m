@@ -60,16 +60,16 @@ static NSString *const kTitleAll = @"查看全部";
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.checkButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.checkButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 40));
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

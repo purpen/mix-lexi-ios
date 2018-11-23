@@ -70,9 +70,11 @@ static NSString *const kTextTotay       = @"今日成交：";
     [self addSubview:self.titleLabel];
     [self addSubview:self.totalLabel];
     [self addSubview:self.todayLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(35);
         make.left.mas_equalTo(20);
@@ -93,8 +95,6 @@ static NSString *const kTextTotay       = @"今日成交：";
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(14);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

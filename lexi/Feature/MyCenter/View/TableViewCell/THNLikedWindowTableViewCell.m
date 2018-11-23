@@ -29,7 +29,6 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
         
         [self setupCellViewUI];
     }
@@ -53,11 +52,15 @@ static NSString *const kTableViewCellId = @"THNLikedWindowTableViewCellId";
     
     [self.modelArray addObjectsFromArray:data];
     [self.windowCollectionView reloadData];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    [self.contentView addSubview:self.windowCollectionView];
+    self.backgroundColor = [UIColor whiteColor];
+    
+    [self addSubview:self.windowCollectionView];
 }
 
 - (void)updateConstraints {

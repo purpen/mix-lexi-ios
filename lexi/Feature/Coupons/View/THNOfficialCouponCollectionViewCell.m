@@ -46,8 +46,6 @@
     self.conditionLabel.text = [NSString stringWithFormat:@"满%.0f元可用", model.minAmount];
     [self thn_setCouponStatusWithCount:model.count];
     [self thn_setDoneButtonStatus:self.couponModel.isGrant];
-    
-    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -117,9 +115,11 @@
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
     [self addSubview:self.noneImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 128));
         make.left.top.mas_equalTo(0);
@@ -159,8 +159,6 @@
         make.size.mas_equalTo(CGSizeMake(52, 52));
         make.top.right.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

@@ -66,9 +66,11 @@
     [self addSubview:self.titleLabel];
     [self addSubview:self.priceLabel];
     [self addSubview:self.oriPriceLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(CGRectGetWidth(self.bounds));
@@ -97,8 +99,6 @@
         make.top.equalTo(self.priceLabel.mas_bottom).with.offset(2);
         make.height.mas_equalTo(13);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

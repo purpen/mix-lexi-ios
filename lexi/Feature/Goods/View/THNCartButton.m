@@ -39,9 +39,11 @@ static NSString *const kTitleText = @"购物车";
     
     [self addSubview:self.iconImageView];
     [self addSubview:self.textLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 18));
         make.top.mas_equalTo(5);
@@ -53,8 +55,6 @@ static NSString *const kTitleText = @"购物车";
         make.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

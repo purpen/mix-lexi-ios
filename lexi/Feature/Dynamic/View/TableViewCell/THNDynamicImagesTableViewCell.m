@@ -68,16 +68,16 @@ static NSString *const kDynamicImagesCellId = @"THNDynamicImagesTableViewCellId"
     
     [self addSubview:self.imageCount];
     [self thn_createDynamicImageViewWithCount:3];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.imageCount mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(32, 16));
         make.right.mas_equalTo(-25);
         make.bottom.mas_equalTo(-5);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

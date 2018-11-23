@@ -186,29 +186,29 @@ static NSInteger const kActionButtonTag     = 1951;
 }
 
 - (void)updateConstraints {
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.left.right.mas_equalTo(0);
     }];
     
-    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(MAX_WIDTH, [self getContainerHeight]));
         make.centerX.centerY.equalTo(self);
     }];
     
-    [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLable mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo([self getTitleHeight]);
     }];
     
-    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLable.mas_bottom).with.offset(10);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo([self getMessageHeight]);
     }];
     
-    [self.buttonContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.buttonContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.messageLabel.mas_bottom).with.offset(17);
         make.left.right.bottom.mas_equalTo(0);
     }];
@@ -231,7 +231,7 @@ static NSInteger const kActionButtonTag     = 1951;
         
     } else if (self.buttonArr.count == 1) {
         UIButton *actionButton = (UIButton *)self.buttonArr[0];
-        [actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [actionButton mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.left.right.mas_equalTo(0);
         }];
     }

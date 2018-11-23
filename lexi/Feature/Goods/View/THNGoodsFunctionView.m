@@ -151,13 +151,13 @@ static NSString *const kTextNone = @"已售罄";
 }
 
 - (void)updateConstraints {
-    [self.cartButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.cartButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(59, 40));
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(10);
     }];
     
-    [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.countLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(12, 12));
         make.right.equalTo(self.cartButton.mas_right).with.offset(-12);
         make.top.equalTo(self.cartButton.mas_top).with.offset(2);
@@ -166,19 +166,19 @@ static NSString *const kTextNone = @"已售罄";
     CGFloat originWidth = self.cartButton.isHidden ? 30 : 94;
     CGFloat buttonWidth = (CGRectGetWidth(self.bounds) - originWidth) / 2;
     
-    [self.mainButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.mainButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
         make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
         make.top.mas_equalTo(10);
     }];
     
-    [self.subButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.subButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
         make.right.mas_equalTo(-15);
         make.top.mas_equalTo(10);
     }];
     
-    [self.noneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.noneLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(40);
         make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
         make.right.mas_equalTo(-15);

@@ -59,9 +59,11 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
     [self addSubview:self.directButton];
     [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.directButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(40);
         make.left.mas_equalTo(15);
@@ -81,8 +83,6 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
         make.top.equalTo(self.directButton.mas_bottom).with.offset(0);
         make.bottom.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

@@ -133,9 +133,11 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
     [self.userView addSubview:self.sloganLabel];
     [self.userView addSubview:self.countButton];
     [self addSubview:self.userView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-65);
@@ -172,8 +174,6 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
         make.right.mas_equalTo(-20);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

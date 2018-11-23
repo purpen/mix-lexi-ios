@@ -88,27 +88,17 @@ static NSInteger const kActionButtonTag = 525;
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.borderView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.borderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
         make.height.mas_equalTo(36);
     }];
-    
-    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
-                                withFixedSpacing:10
-                                     leadSpacing:30
-                                     tailSpacing:30];
-    
-    [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(35);
-        make.centerY.equalTo(self);
-    }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -155,6 +145,15 @@ static NSInteger const kActionButtonTag = 525;
             [actionButton addSubview:self.countLabelThird];
         }
     }
+    
+    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
+                                withFixedSpacing:10
+                                     leadSpacing:30
+                                     tailSpacing:30];
+    [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(35);
+        make.centerY.equalTo(self);
+    }];
 }
 
 - (UIView *)borderView {

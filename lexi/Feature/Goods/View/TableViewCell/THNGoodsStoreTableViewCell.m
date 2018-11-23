@@ -47,8 +47,6 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     self.typeLabel.text = kTextType;
     self.titleLabel.text = model.name;
     [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeModel:model];
-
-    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -63,9 +61,11 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     [self addSubview:self.typeLabel];
     [self addSubview:self.followButton];
     [self addSubview:self.checkButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.top.left.mas_equalTo(15);
@@ -96,8 +96,6 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(120);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

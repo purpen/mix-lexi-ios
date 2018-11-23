@@ -93,9 +93,11 @@ static NSString *const kTextDetail  = @"提现明细";
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame) - 54, CGRectGetWidth(self.frame), 10)];
     lineView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     [self addSubview:lineView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(75, 15));
         make.top.mas_equalTo(30);
@@ -124,8 +126,6 @@ static NSString *const kTextDetail  = @"提现明细";
         make.left.right.bottom.mas_equalTo(0);
         make.height.mas_equalTo(44);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

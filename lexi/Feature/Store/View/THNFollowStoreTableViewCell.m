@@ -57,8 +57,6 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
     [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeModel:model];
-    
-    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
@@ -67,9 +65,11 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self addSubview:self.titleLabel];
     [self addSubview:self.goodsCountLabel];
     [self addSubview:self.followButton];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.left.mas_equalTo(20);
@@ -95,8 +95,6 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
         make.right.mas_equalTo(-20);
         make.centerY.mas_equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

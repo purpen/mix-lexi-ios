@@ -44,9 +44,11 @@
     [self addSubview:self.hintTextLabel];
     [self addSubview:self.iconImageView];
     [self addSubview:self.nextImageView];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(20);
@@ -64,8 +66,6 @@
         make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

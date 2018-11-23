@@ -194,9 +194,11 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                                    kPlaceholderWork,
                                                    kPlaceholderPhone,
                                                    kPlaceholderVerify]];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(NAVIGATION_BAR_HEIGHT);
         make.left.right.mas_equalTo(0);
@@ -251,8 +253,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
     }];
-    
-    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

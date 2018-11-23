@@ -75,13 +75,13 @@ static NSString *const kTitlePay     = @"付款";
     }
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     CGFloat titleW = CGRectGetWidth(self.bounds) / 3;
     CGFloat originW = self.selectIndex == 2 ? 0 : titleW / 2;
     CGFloat selectW = (self.selectIndex + 1) * titleW - originW;
     self.selectedProgressView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - 8, selectW, 2);
+    
+    [super updateConstraints];
 }
 
 #pragma mark - setup UI

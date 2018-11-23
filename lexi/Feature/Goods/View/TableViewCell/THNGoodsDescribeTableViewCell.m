@@ -197,24 +197,24 @@ static NSString *const kTitleSalesReturn = @"退货政策";
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.contentLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+- (void)setMasonryLayout {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
         make.top.mas_equalTo(20);
         make.height.mas_equalTo(15);
     }];
     
-    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(9);
         make.bottom.mas_equalTo(-20);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -35,9 +35,11 @@
     [self addSubview:self.leftIconImageView];
     [self addSubview:self.rightIconImageView];
     [self addSubview:self.titleLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
@@ -53,8 +55,6 @@
         make.right.mas_equalTo(-55);
         make.centerY.equalTo(self);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)thn_hiddenView:(BOOL)hidden {

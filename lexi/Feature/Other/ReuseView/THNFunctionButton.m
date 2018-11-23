@@ -38,13 +38,13 @@
 }
 
 - (void)updateConstraints {
-    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.title.length * 15);
         make.top.bottom.mas_equalTo(0);
         make.centerX.equalTo(self);
     }];
     
-    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(10);
         make.top.bottom.mas_equalTo(0);
         make.left.equalTo(self.textLabel.mas_right).with.offset(5);
