@@ -17,7 +17,7 @@
 #import "UIView+Helper.h"
 #import "THNOrderDetailModel.h"
 #import "THNPayManger.h"
-
+#import "THNSelectAddressViewController.h"
 
 static NSString *kTitleDone     = @"确认下单";
 static NSString *kTextPayment   = @"选择支付方式";
@@ -139,7 +139,14 @@ THNNavigationBarViewDelegate
             return;
         }
         
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        // 从商品详情跳转中间Present出一个新的导航控制器过来的，直接diss
+        if ([self.navigationController.viewControllers[0] isKindOfClass:[THNSelectAddressViewController class]]) {
+             [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+
+       
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
