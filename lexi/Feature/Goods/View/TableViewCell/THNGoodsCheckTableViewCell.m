@@ -62,14 +62,14 @@ static NSString *const kTitleAll = @"查看全部";
     [self addSubview:self.checkButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.checkButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 40));
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(0);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

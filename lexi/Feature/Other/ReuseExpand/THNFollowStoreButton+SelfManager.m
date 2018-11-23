@@ -44,7 +44,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 
 - (void)followStoreAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     

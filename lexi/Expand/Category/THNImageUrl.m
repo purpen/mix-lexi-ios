@@ -27,7 +27,7 @@
 - (id)urlSuffixDict {
     return objc_getAssociatedObject(self, _cmd) ? : ({
         NSDictionary *suffixDic = @{
-                                    @(THNLoadImageUrlTypeDefault)       : @"",
+                                    @(THNLoadImageUrlTypeDefault)       : @"md",
                                     @(THNLoadImageUrlTypeBannerFeatured): @"",
                                     @(THNLoadImageUrlTypeBannerDiscover): @"",
                                     @(THNLoadImageUrlTypeBannerDefault) : @"",
@@ -35,7 +35,7 @@
                                     @(THNLoadImageUrlTypeArticleInfo)   : @"bg75x40",
                                     @(THNLoadImageUrlTypeDealContent)   : @"",
                                     @(THNLoadImageUrlTypeGoodsInfo)     : @"p50",
-                                    @(THNLoadImageUrlTypeGoodsList)     : @"md",
+                                    @(THNLoadImageUrlTypeGoodsList)     : @"p30x2",
                                     @(THNLoadImageUrlTypeGoodsCell)     : @"p16",
                                     @(THNLoadImageUrlTypeWindowP500)    : @"p500",
                                     @(THNLoadImageUrlTypeWindowMd)      : @"md",

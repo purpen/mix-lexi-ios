@@ -80,9 +80,7 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
     [self addSubview:self.pricelabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(22, 22));
         make.right.mas_equalTo(-15);
@@ -115,6 +113,8 @@ static NSString *const kSelectLogisticsTableViewCellId = @"kSelectLogisticsTable
         make.height.mas_equalTo(15);
         make.top.equalTo(self.timeLabel.mas_bottom).with.offset(7);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -73,6 +73,8 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
     self.nameLabel.text = name;
     self.hintLabel.text = hint;
     self.iconImageView.image = [UIImage imageNamed:iconName];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
@@ -83,9 +85,7 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
     [self addSubview:self.hintLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(22, 22));
         make.right.mas_equalTo(-15);
@@ -111,6 +111,8 @@ static NSString *const kTextHuabeiHint      = @"花呗支付轻松付款，推�
         make.height.mas_equalTo(15);
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(5);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

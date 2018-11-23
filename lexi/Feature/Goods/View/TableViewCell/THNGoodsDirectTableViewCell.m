@@ -7,17 +7,22 @@
 //
 
 #import "THNGoodsDirectTableViewCell.h"
+#import <Masonry/Masonry.h>
 
 #define kNeedDays(day) [NSString stringWithFormat:@"“接单订制”在付款后开始制作，需%zi个制作天", day]
 
-static NSString *const kTextDirect = @"请选择规格和尺码";
+/// text
+static NSString *const kTextDirect  = @"请选择规格和尺码";
 static NSString *const kTextInclude = @"（不包含节假日）";
+///
 static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCellId";
 
 @interface THNGoodsDirectTableViewCell ()
 
 /// 直接选择尺码、尺寸按钮
 @property (nonatomic, strong) UIButton *directButton;
+/// icon
+@property (nonatomic, strong) UIImageView *iconImageView;
 /// 订制商品提示说明
 @property (nonatomic, strong) UILabel *hintLabel;
 
@@ -34,6 +39,11 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
     return cell;
 }
 
+- (void)thn_setCustomDaysWithGoodsModel:(THNGoodsModel *)model {
+    self.hintLabel.text = model.isMadeHoliday ? [NSString stringWithFormat:@"%@%@", kNeedDays(model.madeCycle), kTextInclude] : kNeedDays(model.madeCycle);
+    self.hintLabel.hidden = !model.isCustomService;
+}
+
 - (void)thn_setCustomNumberOfDays:(NSInteger)days isIncludeHolidays:(BOOL)isInclude {
     self.hintLabel.text = isInclude ? [NSString stringWithFormat:@"%@%@", kNeedDays(days), kTextInclude]: kNeedDays(days);
     self.hintLabel.hidden = days == 0 ? YES : NO;
@@ -47,17 +57,32 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.directButton];
+    [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self.directButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(40);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(0);
+    }];
     
-    self.directButton.frame = CGRectMake(15, 0, CGRectGetWidth(self.bounds) - 30, 40);
-    [self.directButton setImageEdgeInsets:(UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds) - 58, 0, 0))];
-    [self.directButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(10, 10));
+        make.right.equalTo(self.directButton.mas_right).with.offset(-10);
+        make.centerY.equalTo(self.directButton);
+    }];
     
-    self.hintLabel.frame = CGRectMake(15, 40, CGRectGetWidth(self.bounds) - 30, 40);
+    [self.hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.equalTo(self.directButton.mas_bottom).with.offset(0);
+        make.bottom.mas_equalTo(0);
+    }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
@@ -68,10 +93,18 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
         [_directButton setTitle:kTextDirect forState:(UIControlStateNormal)];
         [_directButton setTitleColor:[UIColor colorWithHexString:@"#555555"] forState:(UIControlStateNormal)];
         _directButton.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_directButton setImage:[UIImage imageNamed:@"icon_down_direct"] forState:(UIControlStateNormal)];
+        _directButton.layer.cornerRadius = 4;
         [_directButton addTarget:self action:@selector(directButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _directButton;
+}
+
+- (UIImageView *)iconImageView {
+    if (!_iconImageView) {
+        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_down_direct"]];
+        _iconImageView.contentMode = UIViewContentModeCenter;
+    }
+    return _iconImageView;
 }
 
 - (UILabel *)hintLabel {

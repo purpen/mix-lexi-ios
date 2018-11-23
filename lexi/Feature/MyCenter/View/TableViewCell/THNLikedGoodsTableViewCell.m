@@ -10,6 +10,7 @@
 #import "THNLikedGoodsCollectionViewCell.h"
 #import "THNStoreModelProduct.h"
 #import "THNMarco.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kCollectionViewCellId = @"THNLikedGoodsCollectionViewCellId";
 static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
@@ -68,6 +69,8 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     }
 
     [self.goodsCollectionView reloadData];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
@@ -75,27 +78,28 @@ static NSString *const kTableViewCellId = @"THNLikedGoodsTableViewCellId";
     [self addSubview:self.goodsCollectionView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)updateConstraints {
     CGFloat originX = 0.0;
+    
     switch (self.goodsCellType) {
         case THNGoodsListCellViewTypeGoodsInfoStore:
         case THNGoodsListCellViewTypeSimilarGoods:
             originX = 15.0;
             break;
-        
+            
         case THNGoodsListCellViewTypeGoodsList:
         case THNGoodsListCellViewTypeUserCenter:
             originX = 20.0;
-            
-        default:
-            break;
     }
     
     self.flowLayout.itemSize = CGSizeMake(self.itemWidth, self.itemWidth);
     self.flowLayout.sectionInset = UIEdgeInsetsMake(0, originX, 0, originX);
-    self.goodsCollectionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    
+    [self.goodsCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - collectionView delegate & dataSource

@@ -51,18 +51,17 @@ static NSString *const kHintTextDynamic  = @"还没有任何动态信息";
 
 #pragma mark - public methods
 - (void)setHintLabelText:(NSString *)text iconImageName:(NSString *)iconName {
-    self.subHintLable.hidden = YES;
     self.hintLabel.text = text;
     self.iconImageView.image = [UIImage imageNamed:iconName];
+    self.subHintLable.hidden = YES;
     
-    [UIView animateWithDuration:(NSTimeInterval)0.8 animations:^{
+    [UIView animateWithDuration:0.4 animations:^{
         self.alpha = 1;
     }];
 }
 
 - (void)setSubHintLabelText:(NSString *)text {
-    self.subHintLable.hidden = YES;
-    return [self setSubHintLabelText:text iconImageName:nil iconLocation:0];
+    [self setSubHintLabelText:text iconImageName:nil iconLocation:0];
 }
 
 - (void)setSubHintLabelText:(NSString *)text iconImageName:(NSString *)iconName iconLocation:(NSInteger)location {
@@ -89,30 +88,22 @@ static NSString *const kHintTextDynamic  = @"还没有任何动态信息";
 - (void)setSubHintLabelTextWithType:(THNHeaderViewSelectedType)type {
     self.alpha = 0;
     
-    switch (type) {
-        case THNHeaderViewSelectedTypeLiked: {
-            [self setHintLabelText:kHintTextLiked iconImageName:@"icon_liked_default"];
-            [self setSubHintLabelText:kSubHintTextLiked iconImageName:@"icon_heart_default" iconLocation:10];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeCollect: {
-            [self setHintLabelText:kHintTextCollect iconImageName:@"icon_collect_default"];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeStore: {
-            [self setHintLabelText:kHintTextStore iconImageName:@"icon_store_default"];
-        }
-            break;
-            
-        case THNHeaderViewSelectedTypeDynamic: {
-            [self setHintLabelText:kHintTextDynamic iconImageName:@"icon_dynamic_default"];
-        }
-            break;
-            
-        default:
-            break;
+    NSDictionary *hintTextDict = @{@(THNHeaderViewSelectedTypeLiked)    : kHintTextLiked,
+                                   @(THNHeaderViewSelectedTypeCollect)  : kHintTextCollect,
+                                   @(THNHeaderViewSelectedTypeStore)    : kHintTextStore,
+                                   @(THNHeaderViewSelectedTypeDynamic)  : kHintTextDynamic};
+    
+    NSDictionary *iconNameDict = @{@(THNHeaderViewSelectedTypeLiked)    : @"icon_liked_default",
+                                   @(THNHeaderViewSelectedTypeCollect)  : @"icon_collect_default",
+                                   @(THNHeaderViewSelectedTypeStore)    : @"icon_store_default",
+                                   @(THNHeaderViewSelectedTypeDynamic)  : @"icon_dynamic_default"};
+    
+    [self setHintLabelText:hintTextDict[@(type)] iconImageName:iconNameDict[@(type)]];
+    
+    if (type == THNHeaderViewSelectedTypeLiked) {
+        [self setSubHintLabelText:kSubHintTextLiked
+                    iconImageName:@"icon_heart_default"
+                     iconLocation:10];
     }
 }
 
@@ -123,10 +114,6 @@ static NSString *const kHintTextDynamic  = @"还没有任何动态信息";
     [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
     [self addSubview:self.subHintLable];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
     
     [self.hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(16);

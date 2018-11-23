@@ -62,19 +62,22 @@ static CGFloat const kMaxHeight = 337.0;
         }
         
         [self thn_setTitleText:goodsModel];
+        [self setupViewUI];
     }
     return self;
 }
 
 - (instancetype)initWithSkuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
-    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300) skuModel:skuModel goodsModel:goodsModel];
+    return [self initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 300, SCREEN_WIDTH, 300)
+                      skuModel:skuModel
+                    goodsModel:goodsModel];
 }
 
 - (void)setSkuModel:(THNSkuModel *)skuModel {
     _skuModel = skuModel;
     
     [self thn_setGoodsSkuModel:skuModel];
-    [self setupViewUI];
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - sku filter datasource
@@ -291,12 +294,11 @@ static CGFloat const kMaxHeight = 337.0;
     [self.contentView addSubview:self.skuCollectionView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (!self.skuModel) return;
-    
-    self.frame = CGRectMake(0, SCREEN_HEIGHT - [self thn_getSkuViewSizeHeight], SCREEN_WIDTH, [self thn_getSkuViewSizeHeight]);
+- (void)updateConstraints {
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, [self thn_getSkuViewSizeHeight]));
+        make.left.bottom.mas_equalTo(0);
+    }];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
@@ -336,6 +338,8 @@ static CGFloat const kMaxHeight = 337.0;
         make.top.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 73, [self thn_getContentSizeHeight]));
     }];
+    
+    [super updateConstraints];
 }
 
 - (CGFloat)thn_getContentSizeHeight {

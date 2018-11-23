@@ -112,14 +112,14 @@ static NSString *const kTextCountdown = @"实习倒计时";
     [self thn_creatTimeTextLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 20));
         make.left.mas_equalTo(0);
         make.centerY.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

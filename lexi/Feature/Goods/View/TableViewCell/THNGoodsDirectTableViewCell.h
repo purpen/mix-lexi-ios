@@ -12,10 +12,7 @@
 
 /**
  设置“订制商品”的天数
- 
- @param days 所需天数
- @param isInclude 是否包含节假日
  */
-- (void)thn_setCustomNumberOfDays:(NSInteger)days isIncludeHolidays:(BOOL)isInclude;
+- (void)thn_setCustomDaysWithGoodsModel:(THNGoodsModel *)model;
 
 @end

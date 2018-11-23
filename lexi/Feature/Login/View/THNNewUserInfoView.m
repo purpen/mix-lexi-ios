@@ -190,15 +190,12 @@ static NSString *const kParamGender     = @"gender";
     [self addSubview:self.doneButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(90, 90));
         make.centerX.equalTo(self);
         make.top.mas_equalTo(kDeviceiPhoneX ? 174 : 154);
     }];
-    [self.headImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:90/2];
     
     [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(25, 25));
@@ -239,6 +236,14 @@ static NSString *const kParamGender     = @"gender";
         make.top.mas_equalTo(self.sexView.mas_bottom).with.offset(30);
         make.height.mas_equalTo(45);
     }];
+    
+    [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.headImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:90/2];
 }
 
 #pragma mark - getters and setters
@@ -405,10 +410,12 @@ static NSString *const kParamGender     = @"gender";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        WEAKSELF;
+        
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                                  withTitle:kDoneButtonTitle
                                                 completion:^{
-                                                    [self thn_doneButtonAction];
+                                                    [weakSelf thn_doneButtonAction];
                                                 }];
     }
     return _doneButton;

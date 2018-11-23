@@ -98,8 +98,8 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
     
-    if (![[self getPhoneNum] checkTel]) {
-        [self thn_setErrorHintText:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [self thn_setErrorHintText:@"请输入手机号"];
         return;
     }
     
@@ -125,8 +125,8 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
@@ -282,6 +282,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     self.backgroundColor = [UIColor whiteColor];
     self.title = kTitleLabelText;
     self.loginModeType = THNLoginModeTypePassword;
+    self.controlArray = @[self.phoneTextField, self.authCodeTextField];
     
     [self addSubview:self.loginSegmented];
     [self.containerView addSubview:self.phoneTextField];
@@ -294,8 +295,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self addSubview:self.errorHintLabel];
     [self addSubview:self.thirdLoginLabel];
     [self addSubview:self.wechatButton];
-    
-    self.controlArray = @[self.phoneTextField, self.authCodeTextField];
     
     [self thn_changeLoginPasswordMethod:YES];
 }
@@ -316,8 +315,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.height.mas_equalTo(122);
     }];
     
-    self.zipCodeButton.frame = CGRectMake(0, 0, 80, 46);
-    
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
                                         leadSpacing:0
@@ -333,18 +330,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.top.equalTo(self.phoneTextField.mas_bottom).with.offset(30);
         make.height.mas_equalTo(46);
     }];
-    
-    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                      width:0.5
-                                      color:[UIColor colorWithHexString:@"#DADADA"]];
-    
-    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                         width:0.5
-                                         color:[UIColor colorWithHexString:@"#DADADA"]];
-    
-    [self.pwdTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                    width:0.5
-                                    color:[UIColor colorWithHexString:@"#DADADA"]];
     
     [self.forgetButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 30));
@@ -383,8 +368,20 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.centerX.equalTo(self);
         make.top.equalTo(self.thirdLoginLabel.mas_bottom).with.offset(5);
     }];
-    [self.wechatButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:20];
     
+    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                      width:0.5
+                                      color:[UIColor colorWithHexString:@"#DADADA"]];
+    
+    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                         width:0.5
+                                         color:[UIColor colorWithHexString:@"#DADADA"]];
+    
+    [self.pwdTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                    width:0.5
+                                    color:[UIColor colorWithHexString:@"#DADADA"]];
+    
+    [self.wechatButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:20];
 }
 
 /**
@@ -431,7 +428,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 - (UIButton *)zipCodeButton {
     if (!_zipCodeButton) {
-        _zipCodeButton = [[UIButton alloc] init];
+        _zipCodeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 46)];
         [_zipCodeButton setTitle:kZipCodeDefault forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleEdgeInsets:(UIEdgeInsetsMake(0, -22, 0, 0))];
@@ -487,10 +484,12 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        WEAKSELF;
+        
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                                  withTitle:kDoneButtonTitle
                                                 completion:^{
-                                                    [self thn_doneButtonAction];
+                                                    [weakSelf thn_doneButtonAction];
                                                 }];
     }
     return _doneButton;

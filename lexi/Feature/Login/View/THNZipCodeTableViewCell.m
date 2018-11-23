@@ -24,6 +24,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setupCellViewUI];
     }
     return self;
@@ -36,16 +37,13 @@
 
 #pragma mark - setup UI
 - (void)setupCellViewUI {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.describeLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(150, 20));
         make.left.mas_equalTo(0);
@@ -57,6 +55,8 @@
         make.right.mas_equalTo(0);
         make.centerY.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

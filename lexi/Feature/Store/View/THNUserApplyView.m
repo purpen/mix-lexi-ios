@@ -92,32 +92,30 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 #pragma mark - event response
 - (void)thn_doneButtonAction:(UIButton *)button {
-    WEAKSELF;
+    [self endEditing:YES];
+    [self thn_showErrorHint:NO];
     
-    [weakSelf endEditing:YES];
-    [weakSelf thn_showErrorHint:NO];
-    
-    if (![weakSelf getName].length) {
-        [weakSelf thn_setErrorHintText:@"请输入您的真实姓名"];
+    if (![self getName].length) {
+        [self thn_setErrorHintText:@"请输入您的真实姓名"];
         return;
     }
     
-    if (![[weakSelf getPhoneNum] checkTel]) {
-        [weakSelf thn_setErrorHintText:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [self thn_setErrorHintText:@"请输入手机号"];
         return;
     }
     
-    if (![weakSelf getVerifyCode].length) {
-        [weakSelf thn_setErrorHintText:@"请输入验证码"];
+    if (![self getVerifyCode].length) {
+        [self thn_setErrorHintText:@"请输入验证码"];
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_applyLifeStoreWithParam:)]) {
-        [weakSelf.delegate thn_applyLifeStoreWithParam:@{kParamName: [weakSelf getName],
-                                                         kParamWork: [weakSelf getWork],
-                                                         kParamMobile: [weakSelf getPhoneNum],
-                                                         kParamAreaCode: [weakSelf getZipCode],
-                                                         kParamVerifyCode: [weakSelf getVerifyCode]}];
+    if ([self.delegate respondsToSelector:@selector(thn_applyLifeStoreWithParam:)]) {
+        [self.delegate thn_applyLifeStoreWithParam:@{kParamName: [self getName],
+                                                     kParamWork: [self getWork],
+                                                     kParamMobile: [self getPhoneNum],
+                                                     kParamAreaCode: [self getZipCode],
+                                                     kParamVerifyCode: [self getVerifyCode]}];
     }
 }
 
@@ -128,16 +126,14 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 }
 
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    WEAKSELF;
-    
-    if (![[weakSelf getPhoneNum] checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
-        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
-                                                zipCode:[weakSelf getZipCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
+        [self.delegate thn_sendAuthCodeWithPhoneNum:[self getPhoneNum]
+                                            zipCode:[self getZipCode]];
     }
     
     [button thn_countdownStartTime:60 completion:nil];
@@ -200,9 +196,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                                    kPlaceholderVerify]];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(NAVIGATION_BAR_HEIGHT);
         make.left.right.mas_equalTo(0);
@@ -247,9 +241,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.height.mas_equalTo(40);
         make.bottom.mas_equalTo(kDeviceiPhone5 ? -50 : -20);
     }];
-    [self.doneButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
-    
-    self.areaButton.frame = CGRectMake(0, 0, 70, 44);
     
     [self.textFieldArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                   withFixedItemLength:44
@@ -260,6 +251,8 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
@@ -310,6 +303,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         [_doneButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
         _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
+        _doneButton.layer.cornerRadius = 4;
         [_doneButton addTarget:self action:@selector(thn_doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
@@ -364,7 +358,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 - (UIButton *)areaButton {
     if (!_areaButton) {
-        _areaButton = [[UIButton alloc] init];
+        _areaButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 44)];
         [_areaButton setTitle:kDefaultArea forState:(UIControlStateNormal)];
         [_areaButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         [_areaButton setTitleEdgeInsets:(UIEdgeInsetsMake(0, -15, 0, 0))];

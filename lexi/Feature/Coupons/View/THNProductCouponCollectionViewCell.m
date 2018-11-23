@@ -56,12 +56,14 @@
     [self thn_setOriginalPriceWithValue:model.productCouponAmount];
     [self thn_setNoneCouponStyleWithCount:model.surplusCount];
     [self thn_setDoneButtonStatus:self.couponModel.isGrant];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     
@@ -166,9 +168,7 @@
     [self addSubview:self.noneImageView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];
@@ -241,6 +241,8 @@
         make.top.mas_equalTo(54);
         make.centerX.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

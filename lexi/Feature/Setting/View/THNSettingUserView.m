@@ -53,11 +53,9 @@ static NSString *const kTextTime = @"注册时间：";
     [self addSubview:self.timeLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.right.mas_equalTo(0);
+        make.edges.equalTo(self);
     }];
     
     [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,6 +68,8 @@ static NSString *const kTextTime = @"注册时间：";
         make.left.mas_equalTo(15);
         make.bottom.mas_offset(-12);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

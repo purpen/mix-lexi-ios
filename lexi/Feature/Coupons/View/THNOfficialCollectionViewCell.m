@@ -10,6 +10,7 @@
 #import "UIColor+Extension.h"
 #import "THNOfficialCouponCollectionViewCell.h"
 #import "THNMarco.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCouponCollectionViewCellId";
 
@@ -35,18 +36,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
     [self.couponCollectionView reloadData];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.couponCollectionView.frame = CGRectMake(-15, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame));
-}
-
-#pragma mark - setup UI
-- (void)setupCellViewUI {
-    self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
-    [self addSubview:self.couponCollectionView];
-}
-
+#pragma mark - colletionView datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.couponArr.count;
 }
@@ -62,6 +52,20 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
     return cell;
 }
 
+#pragma mark - setup UI
+- (void)setupCellViewUI {
+    self.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
+    [self addSubview:self.couponCollectionView];
+}
+
+- (void)updateConstraints {
+    [self.couponCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [super updateConstraints];
+}
+
 #pragma mark - getters and setters
 - (UICollectionView *)couponCollectionView {
     if (!_couponCollectionView) {
@@ -69,10 +73,10 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         flowLayout.minimumLineSpacing = 10;
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.itemSize = CGSizeMake(100, 128);
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-15, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame))
+        _couponCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                                    collectionViewLayout:flowLayout];
         _couponCollectionView.delegate = self;
         _couponCollectionView.dataSource = self;

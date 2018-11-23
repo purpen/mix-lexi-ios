@@ -152,10 +152,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
 - (void)thn_setCategoryId:(NSString *)cid {
     self.categoryId = cid;
     
+    WEAKSELF;
+    
     [THNGoodsManager getCategoryDataWithPid:cid completion:^(NSArray *categoryData, NSError *error) {
         if (error) return;
         
-        [self.categoryView thn_setCollecitonViewCellData:categoryData];
+        [weakSelf.categoryView thn_setCollecitonViewCellData:categoryData];
     }];
 }
 
@@ -193,10 +195,12 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
             self.categoryView.hidden = YES;
         }
             break;
+            
         case THNGoodsListViewTypeProductCenter:{
             self.recommendView.hidden = YES;
         }
             break;
+            
         default: {
             tags = @[kRecommandExpress, kRecommandSale, kRecommandCustomize];
             self.categoryView.hidden = NO;
@@ -544,15 +548,15 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.backgroudMaskView.frame = self.bounds;
-    
+- (void)updateConstraints {
     CGFloat screenViewH = self.goodsListType == THNGoodsListViewTypeUser || self.goodsListType == THNGoodsListViewTypeProductCenter ? 370 : 460;
     CGFloat containerViewH = _viewType == THNFunctionPopupViewTypeScreen ? screenViewH : 250;
     
     self.containerView.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - containerViewH, CGRectGetWidth(self.bounds), containerViewH);
+    
+    [self.backgroudMaskView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
     
     [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 40));
@@ -601,6 +605,7 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
         make.height.mas_equalTo(80);
         if (self.goodsListType == THNGoodsListViewTypeUser) {
             make.top.equalTo(self.priceView.mas_bottom).with.offset(30);
+            
         } else {
             make.top.equalTo(self.categoryView.mas_bottom).with.offset(30);
         }
@@ -614,8 +619,25 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
     }];
     
     [self.doneLoadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.mas_equalTo(self.doneButton);
+        make.edges.equalTo(self.doneButton);
     }];
+    
+    [super updateConstraints];
+}
+
+- (CGFloat)getScreenViewHeight {
+    switch (self.goodsListType) {
+        case THNGoodsListViewTypeUser:
+        case THNGoodsListViewTypeProductCenter: {
+            return 370;
+        }
+            break;
+            
+        default: {
+            return 460;
+        }
+            break;
+    }
 }
 
 #pragma mark - getters and setters

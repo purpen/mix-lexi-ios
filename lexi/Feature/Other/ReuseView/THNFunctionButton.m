@@ -9,11 +9,12 @@
 #import "THNFunctionButton.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import <Masonry/Masonry.h>
 
 @interface THNFunctionButton ()
 
 /// 标题
-@property (nonatomic, strong) UILabel *titleLable;
+@property (nonatomic, strong) UILabel *textLabel;
 /// 图标
 @property (nonatomic, strong) UIImageView *iconImageView;
 
@@ -24,34 +25,41 @@
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title {
     self = [super initWithFrame:frame];
     if (self) {
-        self.title = title;
         [self setupViewUI];
+        self.title = title;
     }
     return self;
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    [self addSubview:self.titleLabel];
+    [self addSubview:self.textLabel];
     [self addSubview:self.iconImageView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.title.length * 15);
+        make.top.bottom.mas_equalTo(0);
+        make.centerX.equalTo(self);
+    }];
     
-    CGFloat width = CGRectGetWidth(self.bounds);
-    CGFloat height = CGRectGetHeight(self.bounds);
-    CGFloat titleW = self.titleLabel.text.length * 15;
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(10);
+        make.top.bottom.mas_equalTo(0);
+        make.left.equalTo(self.textLabel.mas_right).with.offset(5);
+    }];
     
-    self.titleLabel.frame = CGRectMake((width - titleW) / 2, 0, titleW, height);
-    self.iconImageView.frame = CGRectMake((width - titleW) / 2 + titleW, 0, 10, height);
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
 - (void)setTitle:(NSString *)title {
     _title = title;
     
-    self.titleLabel.text = title;
+    self.textLabel.text = title;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setIconImage:(UIImage *)iconImage {
@@ -65,8 +73,8 @@
 - (void)setIsBold:(BOOL)isBold {
     _isBold = isBold;
     
-    self.titleLabel.font = [UIFont systemFontOfSize:14 weight:isBold ? UIFontWeightBold : UIFontWeightRegular];
-    self.titleLabel.textColor = [UIColor colorWithHexString:isBold ? kColorMain : @"#555555"];
+    self.textLabel.font = [UIFont systemFontOfSize:14 weight:isBold ? UIFontWeightBold : UIFontWeightRegular];
+    self.textLabel.textColor = [UIColor colorWithHexString:isBold ? kColorMain : @"#555555"];
 }
 
 - (void)setIsSelected:(BOOL)isSelected {
@@ -77,14 +85,14 @@
     }];
 }
 
-- (UILabel *)titleLabel {
-    if (!_titleLable) {
-        _titleLable = [[UILabel alloc] init];
-        _titleLable.font = [UIFont systemFontOfSize:14];
-        _titleLable.textAlignment = NSTextAlignmentCenter;
-        _titleLable.textColor = [UIColor colorWithHexString:@"#555555"];
+- (UILabel *)textLabel {
+    if (!_textLabel) {
+        _textLabel = [[UILabel alloc] init];
+        _textLabel.font = [UIFont systemFontOfSize:14];
+        _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.textColor = [UIColor colorWithHexString:@"#555555"];
     }
-    return _titleLable;
+    return _textLabel;
 }
 
 - (UIImageView *)iconImageView {

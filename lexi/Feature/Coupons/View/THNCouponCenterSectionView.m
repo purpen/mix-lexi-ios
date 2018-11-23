@@ -37,16 +37,10 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (self.bounds.size.height < 1) {
-        [self thn_hiddenView:YES];
-        return;
-    }
-    
-    [self thn_hiddenView:NO];
-    self.titleLabel.frame = self.bounds;
+- (void)updateConstraints {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
     
     [self.leftIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(53, 19));
@@ -59,6 +53,8 @@
         make.right.mas_equalTo(-55);
         make.centerY.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)thn_hiddenView:(BOOL)hidden {
@@ -70,6 +66,8 @@
 #pragma mark - getters and setters
 - (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
+    
+    [self thn_hiddenView:self.bounds.size.height < 1];
 }
 
 - (UIImageView *)leftIconImageView {

@@ -68,7 +68,7 @@
 #pragma mark - getters and setters
 - (THNLoginView *)loginView {
     if (!_loginView) {
-        _loginView = [[THNLoginView alloc] init];
+        _loginView = [[THNLoginView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _loginView.delegate = self;
     }
     return _loginView;

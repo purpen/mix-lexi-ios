@@ -123,9 +123,7 @@ static NSString *const kTextTotal       = @"累计已提现：";
     [self addSubview:self.showButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.orderTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(15);
@@ -173,6 +171,8 @@ static NSString *const kTextTotal       = @"累计已提现：";
         make.right.mas_equalTo(-20);
         make.top.mas_equalTo(15);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -80,8 +80,8 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
     
-    if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
@@ -127,8 +127,8 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
@@ -182,8 +182,6 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
         make.height.mas_equalTo(198);
     }];
     
-    self.zipCodeButton.frame = CGRectMake(0, 0, 80, 46);
-    
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
                                         leadSpacing:0
@@ -192,14 +190,6 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(0);
     }];
-
-    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                      width:0.5
-                                      color:[UIColor colorWithHexString:@"#DADADA"]];
-
-    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                         width:0.5
-                                         color:[UIColor colorWithHexString:@"#DADADA"]];
     
     [self.errorHintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 13));
@@ -221,6 +211,13 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
         make.height.mas_equalTo(40);
     }];
     
+    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                      width:0.5
+                                      color:[UIColor colorWithHexString:@"#DADADA"]];
+    
+    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                         width:0.5
+                                         color:[UIColor colorWithHexString:@"#DADADA"]];
 }
 
 #pragma mark - getters and setters
@@ -233,7 +230,7 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 - (UIButton *)zipCodeButton {
     if (!_zipCodeButton) {
-        _zipCodeButton = [[UIButton alloc] init];
+        _zipCodeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 46)];
         [_zipCodeButton setTitle:kZipCodeDefault forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleEdgeInsets:(UIEdgeInsetsMake(0, -22, 0, 0))];
@@ -282,10 +279,12 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        WEAKSELF;
+        
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                                  withTitle:kDoneButtonTitle
                                                 completion:^{
-                                                    [self thn_doneButtonAction];
+                                                    [weakSelf thn_doneButtonAction];
                                                 }];
     }
     return _doneButton;

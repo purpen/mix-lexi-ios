@@ -20,16 +20,17 @@
 #import "THNOrderDetailModel.h"
 #import "THNObtainedView.h"
 
-static NSString *kTitleDone     = @"确认下单";
-static NSString *kTextPayment   = @"选择支付方式";
-static NSString *kUrlCreateOrderWXPay = @"/orders/app_pay";
-static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
+static NSString *kTitleDone             = @"确认下单";
+static NSString *kTextPayment           = @"选择支付方式";
+/// url
+static NSString *kUrlCreateOrderWXPay   = @"/orders/app_pay";
+static NSString *kUrlOrderWXPay         = @"/orders/wx_pay/app";
 
 @interface THNPaymentViewController ()<
-UITableViewDelegate,
-UITableViewDataSource,
-WXApiDelegate,
-THNNavigationBarViewDelegate
+    UITableViewDelegate,
+    UITableViewDataSource,
+    WXApiDelegate,
+    THNNavigationBarViewDelegate
 >
 
 /// 进度条

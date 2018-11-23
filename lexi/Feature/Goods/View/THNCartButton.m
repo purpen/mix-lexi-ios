@@ -17,7 +17,7 @@ static NSString *const kTitleText = @"购物车";
 /// 图标
 @property (nonatomic, strong) UIImageView *iconImageView;
 /// 标题
-@property (nonatomic, strong) UILabel *textLable;
+@property (nonatomic, strong) UILabel *textLabel;
 /// 数量
 @property (nonatomic, strong) UILabel *countLabel;
 
@@ -38,23 +38,23 @@ static NSString *const kTitleText = @"购物车";
     self.backgroundColor = [UIColor clearColor];
     
     [self addSubview:self.iconImageView];
-    [self addSubview:self.textLable];
+    [self addSubview:self.textLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 18));
         make.top.mas_equalTo(5);
         make.centerX.mas_equalTo(self);
     }];
     
-    [self.textLable mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(12);
         make.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
@@ -66,15 +66,15 @@ static NSString *const kTitleText = @"购物车";
     return _iconImageView;
 }
 
-- (UILabel *)textLable {
-    if (!_textLable) {
-        _textLable = [[UILabel alloc] init];
-        _textLable.font = [UIFont systemFontOfSize:11];
-        _textLable.textColor = [UIColor colorWithHexString:@"#949EA6"];
-        _textLable.textAlignment = NSTextAlignmentCenter;
-        _textLable.text = kTitleText;
+- (UILabel *)textLabel {
+    if (!_textLabel) {
+        _textLabel = [[UILabel alloc] init];
+        _textLabel.font = [UIFont systemFontOfSize:11];
+        _textLabel.textColor = [UIColor colorWithHexString:@"#949EA6"];
+        _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.text = kTitleText;
     }
-    return _textLable;
+    return _textLabel;
 }
 
 @end

@@ -12,12 +12,11 @@
 #import "NSString+Helper.h"
 #import "YYLabel+Helper.h"
 #import "THNMarco.h"
+#import "THNLoginManager.h"
 
 static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCellId";
 
-@interface THNGoodsActionTableViewCell () {
-    BOOL _isStatus;
-}
+@interface THNGoodsActionTableViewCell ()
 
 /// 喜欢按钮
 @property (nonatomic, strong) THNGoodsActionButton *likeButton;
@@ -45,14 +44,15 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     return cell;
 }
 
-- (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model canPutaway:(BOOL)putaway {
-    if (_isStatus) return;
+- (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
+    if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
+        self.canPutaway = YES;
+    }
     
-    _isStatus = YES;
-    
-    self.canPutaway = putaway;
     self.isWish = model.isWish;
     self.likeCountW = [self thn_getLikeButtonWidthWithLikeCount:model.likeCount];
+    
+    [self setNeedsUpdateConstraints];
     
     WEAKSELF;
     
@@ -60,21 +60,25 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     self.likeButton.likeGoodsCompleted = ^(NSInteger count) {
         weakSelf.likeCountW = [weakSelf thn_getLikeButtonWidthWithLikeCount:count];
         weakSelf.baseCell.selectedCellBlock(@"");
+        
+        [weakSelf setNeedsUpdateConstraints];
     };
     
     [self.wishButton selfManagerWishGoodsStatus:model.isWish goodsId:model.rid];
     self.wishButton.wishGoodsCompleted = ^(BOOL isWish) {
         weakSelf.isWish = isWish;
+        
+        [weakSelf setNeedsUpdateConstraints];
     };
     
-    [self.putawayButton setPutawayGoodsStauts:putaway];
-    
-    [self layoutIfNeeded];
+    [self.putawayButton setPutawayGoodsStauts:self.canPutaway];
+    self.putawayButton.hidden = !self.canPutaway;
 }
 
 #pragma mark - private methods
 - (CGFloat)thn_getLikeButtonWidthWithLikeCount:(NSInteger)likeCount {
     NSString *countStr = likeCount > 0 ? [NSString stringWithFormat:@"+%zi", likeCount] : @"喜欢";
+    
     return [countStr boundingSizeWidthWithFontSize:13];
 }
 
@@ -85,29 +89,26 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     [self addSubview:self.putawayButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.likeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(self.likeCountW + 40, 29));
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(0);
     }];
-
+    
     [self.wishButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(self.isWish ? 63 : 79, 29));
         make.right.mas_equalTo(self.canPutaway ? -92 : -15);
-        make.centerY.mas_equalTo(self.likeButton);
+        make.centerY.equalTo(self.likeButton);
     }];
     
-    self.putawayButton.hidden = !self.canPutaway;
-    if (self.canPutaway) {
-        [self.putawayButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(self.canPutaway ? 67 : 0, 29));
-            make.right.mas_equalTo(-15);
-            make.centerY.mas_equalTo(self.likeButton);
-        }];
-    }
+    [self.putawayButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(67, 29));
+        make.right.mas_equalTo(-15);
+        make.centerY.equalTo(self.likeButton);
+    }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

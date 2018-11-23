@@ -288,7 +288,7 @@ MJCodingImplementation
 /**
  打开登录视图
  */
-- (void)thn_openUserLoginController {
+- (void)openUserLoginController {
     dispatch_async(dispatch_get_main_queue(), ^{
         THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
         THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];

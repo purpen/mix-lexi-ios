@@ -14,8 +14,9 @@
 #import "THNZipCodeTableViewCell.h"
 #import <MJExtension/MJExtension.h>
 
-static NSString *const kTitleText   = @"选择国家与地区";
-static NSString *const kHintText    = @"常用";
+/// text
+static NSString *const kTextTitle   = @"选择国家与地区";
+static NSString *const kTextHint    = @"常用";
 /// tableViewCell id
 static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 
@@ -35,10 +36,6 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 @end
 
 @implementation THNZipCodeView
-
-- (instancetype)init {
-    return [self initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -105,9 +102,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
     [self addSubview:self.closeButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(kDeviceiPhoneX ? 60 : 30);
@@ -121,6 +116,12 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         make.height.mas_equalTo(20);
     }];
     
+    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(40, 40));
+        make.centerX.equalTo(self);
+        make.bottom.mas_equalTo(kDeviceiPhoneX ? -60 : -30);
+    }];
+    
     [self.zipCodeTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
@@ -128,11 +129,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         make.bottom.mas_equalTo(kDeviceiPhoneX ? -140 : -100);
     }];
     
-    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(40, 40));
-        make.centerX.equalTo(self);
-        make.bottom.mas_equalTo(kDeviceiPhoneX ? -60 : -30);
-    }];
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -145,7 +142,7 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
 #pragma mark - getters and setters
 - (UITableView *)zipCodeTable {
     if (!_zipCodeTable) {
-        _zipCodeTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStylePlain)];
+        _zipCodeTable = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
         _zipCodeTable.delegate = self;
         _zipCodeTable.dataSource = self;
         _zipCodeTable.tableFooterView = [UIView new];
@@ -161,17 +158,17 @@ static NSString *const kTableViewCellIdentifier = @"THNZipCodeTableViewCellId";
         _titleLabel.font = [UIFont systemFontOfSize:17 weight:(UIFontWeightRegular)];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.text = kTitleText;
+        _titleLabel.text = kTextTitle;
     }
     return _titleLabel;
 }
 
 - (UILabel *)hintLabel {
     if (!_hintLabel) {
-        _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+        _hintLabel = [[UILabel alloc] init];
         _hintLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightMedium)];
         _hintLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-        _hintLabel.text = kHintText;
+        _hintLabel.text = kTextHint;
     }
     return _hintLabel;
 }

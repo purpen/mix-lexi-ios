@@ -95,9 +95,7 @@ static NSString *const kTextDetail  = @"提现明细";
     [self addSubview:lineView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(75, 15));
         make.top.mas_equalTo(30);
@@ -126,6 +124,8 @@ static NSString *const kTextDetail  = @"提现明细";
         make.left.right.bottom.mas_equalTo(0);
         make.height.mas_equalTo(44);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -42,12 +42,13 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
 }
 
 - (void)thn_setGoodsStoreInfoWithModel:(THNStoreModel *)model {
+    self.storeId = model.rid;
     [self.headerImageView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.typeLabel.text = kTextType;
     self.titleLabel.text = model.name;
     [self.followButton selfManagerFollowStoreStatus:model.isFollowed storeModel:model];
 
-    self.storeId = model.rid;
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -64,9 +65,7 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
     [self addSubview:self.checkButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.top.left.mas_equalTo(15);
@@ -91,13 +90,14 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
         make.right.mas_equalTo(-15);
         make.centerY.mas_equalTo(self.headerImageView);
     }];
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
     
     [self.checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(0);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(120);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -137,6 +137,7 @@ static NSString *const kGoodsStoreTableViewCellId = @"kGoodsStoreTableViewCellId
 - (THNFollowStoreButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowButtonTypeGoodsInfo)];
+        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }

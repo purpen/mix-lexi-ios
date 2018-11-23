@@ -261,7 +261,7 @@ static NSString *const kKeyMobile   = @"mobile";
                                                                                                 type:(THNAddressCellTypeSelect)];
         
         if (self.addressArr.count) {
-            addressCell.model = self.addressArr[indexPath.row];
+            [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
             addressCell.isSelected = indexPath == self.selectedIndex;
             addressCell.delegate = self;
         }

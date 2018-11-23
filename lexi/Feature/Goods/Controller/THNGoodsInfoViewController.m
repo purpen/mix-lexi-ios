@@ -414,7 +414,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^(NSString *rid) {
         [weakSelf thn_openGoodsSkuController];
     }];
-    directCells.height = self.goodsModel.isCustomMade ? 80 : 55;
+    directCells.height = self.goodsModel.isCustomService ? 80 : 55;
     directCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[directCells] mutableCopy]];
@@ -822,7 +822,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsActionTableViewCell *actionCell = [THNGoodsActionTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.actionCell = actionCell;
             actionCell.baseCell = goodsCells;
-            [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel canPutaway:NO];
+            [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel];
             
             return actionCell;
         }
@@ -840,7 +840,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsDirectTableViewCell *directCell = [THNGoodsDirectTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.directCell = directCell;
             directCell.baseCell = goodsCells;
-            [directCell thn_setCustomNumberOfDays:goodsCells.goodsModel.madeCycle isIncludeHolidays:goodsCells.goodsModel.isMadeHoliday];
+            [directCell thn_setCustomDaysWithGoodsModel:goodsCells.goodsModel];
             
             return directCell;
         }

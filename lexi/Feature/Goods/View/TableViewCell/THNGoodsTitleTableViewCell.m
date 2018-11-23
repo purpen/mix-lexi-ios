@@ -43,6 +43,8 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         [self thn_showMakeMoneyWithValue:model.commissionPrice];
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -113,17 +115,12 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
     [self addSubview:self.makeMoneyLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:self.titleLabel.attributedText.string fontSize:16 lineSpacing:6
-                                                          fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
-    
+- (void)updateConstraints {
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
         make.top.mas_equalTo(15);
-        make.height.mas_equalTo(textH);
+        make.height.mas_equalTo([self getTitleTextHeight]);
     }];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -146,6 +143,17 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
         make.height.mas_equalTo(20);
         make.width.mas_equalTo([self.makeMoneyLabel thn_getLabelWidthWithMaxHeight:20]);
     }];
+    
+    [super updateConstraints];
+}
+
+- (CGFloat)getTitleTextHeight {
+    CGSize titleSize = [YYLabel thn_getYYLabelTextLayoutSizeWithText:self.titleLabel.attributedText.string
+                                                            fontSize:16
+                                                         lineSpacing:6
+                                                             fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)];
+    
+    return titleSize.height > 0 ? titleSize.height : 0;
 }
 
 #pragma mark - getters and setters

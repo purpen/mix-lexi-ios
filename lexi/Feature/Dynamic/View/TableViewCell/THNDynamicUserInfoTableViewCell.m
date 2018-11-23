@@ -76,9 +76,7 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
     [self addSubview:self.actionButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.left.mas_equalTo(20);
@@ -104,6 +102,8 @@ static NSString *const kDynamicUserInfoCellId = @"THNDynamicUserInfoTableViewCel
         make.right.mas_equalTo(-7);
         make.centerY.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

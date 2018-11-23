@@ -50,12 +50,6 @@ static const NSInteger kRightButtonTag = 123;
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self setupViewLayout];
-}
-
 #pragma mark - set methods
 /**
  设置导航栏透明
@@ -81,7 +75,7 @@ static const NSInteger kRightButtonTag = 123;
 }
 
 - (void)setNavigationTitle:(NSString *)title textHexColor:(NSString *)hexColor {
-    [self setNavigationTitle:title textHexColor:hexColor];
+    [self setNavigationTitle:title textHexColor:hexColor fontSize:17];
 }
 
 - (void)setNavigationTitle:(NSString *)title textHexColor:(NSString *)hexColor fontSize:(CGFloat)size {
@@ -116,6 +110,8 @@ static const NSInteger kRightButtonTag = 123;
     [self.leftButton setTitle:text forState:(UIControlStateNormal)];
     [self.leftButton setTitleColor:[UIColor colorWithHexString:hexColor] forState:(UIControlStateNormal)];
     self.leftButton.titleLabel.font = [UIFont systemFontOfSize:size weight:(UIFontWeightRegular)];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)didNavigationLeftButtonCompletion:(THNNavigationBarLeftButtonCompletion)completion {
@@ -170,6 +166,8 @@ static const NSInteger kRightButtonTag = 123;
     [self.rightButton setTitle:text forState:(UIControlStateNormal)];
     [self.rightButton setTitleColor:[UIColor colorWithHexString:hexColor] forState:(UIControlStateNormal)];
     self.rightButton.titleLabel.font = [UIFont systemFontOfSize:size weight:(UIFontWeightRegular)];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)didNavigationRightButtonCompletion:(THNNavigationBarRightButtonCompletion)completion {
@@ -214,6 +212,8 @@ static const NSInteger kRightButtonTag = 123;
 - (void)setNavigationButton:(UIButton *)button imageName:(NSString *)imageName {
     [button setImage:[UIImage imageNamed:imageName] forState:(UIControlStateNormal)];
     [button setImage:[UIImage imageNamed:imageName] forState:(UIControlStateHighlighted)];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 /**
@@ -279,19 +279,19 @@ static const NSInteger kRightButtonTag = 123;
     [self addSubview:self.closeButton];
 }
 
-- (void)setupViewLayout {
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 44));
         make.bottom.mas_equalTo(0);
         make.centerX.equalTo(self);
     }];
     
-    [self.leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.leftButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake([self getButtonTextWidth:self.leftButton], 44));
         make.bottom.left.mas_equalTo(0);
     }];
     
-    [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.rightButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake([self getButtonTextWidth:self.rightButton], 44));
         make.bottom.mas_equalTo(0);
         make.right.mas_equalTo(self.rightButtonTrailing);
@@ -321,6 +321,8 @@ static const NSInteger kRightButtonTag = 123;
             make.bottom.mas_equalTo(0);
         }];
     }
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

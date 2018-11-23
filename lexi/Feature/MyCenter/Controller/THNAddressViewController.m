@@ -109,7 +109,7 @@ static NSString *const kKeyData     = @"data";
                                                                                                 type:(THNAddressCellTypeNormal)];
         
         if (self.addressArr.count) {
-            addressCell.model = self.addressArr[indexPath.row];
+            [addressCell thn_setAddressModel:self.addressArr[indexPath.row]];
             addressCell.delegate = self;
         }
         

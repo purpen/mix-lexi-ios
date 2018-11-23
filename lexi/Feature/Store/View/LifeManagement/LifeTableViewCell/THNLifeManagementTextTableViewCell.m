@@ -46,9 +46,7 @@
     [self addSubview:self.nextImageView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(20);
@@ -66,6 +64,8 @@
         make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

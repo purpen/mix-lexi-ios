@@ -9,6 +9,7 @@
 #import "THNFunctionCollectionViewCell.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import <Masonry/Masonry.h>
 
 @interface THNFunctionCollectionViewCell ()
 
@@ -53,10 +54,12 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
     
-    self.titleLabel.frame = self.bounds;
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

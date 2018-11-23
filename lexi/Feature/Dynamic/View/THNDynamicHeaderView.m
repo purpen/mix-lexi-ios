@@ -76,9 +76,7 @@ static NSString *const kTextCreate = @"拼贴橱窗";
     [self addSubview:self.followButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-53);
@@ -108,7 +106,8 @@ static NSString *const kTextCreate = @"拼贴橱窗";
         make.right.mas_equalTo(-20);
         make.bottom.mas_equalTo(-12);
     }];
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:70 / 2];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -169,6 +168,7 @@ static NSString *const kTextCreate = @"拼贴橱窗";
 - (THNFollowUserButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowUserButton alloc] init];
+        _followButton.layer.cornerRadius = 70 / 2;
         _followButton.hidden = YES;
     }
     return _followButton;

@@ -49,6 +49,8 @@
         [self.secondImageView loadImageWithUrl:[model.productCovers[1] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
         [self.thirdImageView loadImageWithUrl:[model.productCovers[2] loadImageUrlWithType:(THNLoadImageUrlTypeWindowMd)]];
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -80,9 +82,7 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     CGFloat cellHeight = CGRectGetHeight(self.bounds);
     CGFloat cellWidth = CGRectGetWidth(self.bounds);
     CGFloat imgHeight = (cellHeight - 2) / 2;
@@ -109,6 +109,8 @@
         make.left.mas_equalTo(15);
         make.bottom.mas_equalTo(-13);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

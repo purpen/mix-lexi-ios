@@ -12,10 +12,7 @@
 
 /**
  设置商品操作的状态
-
- @param model 商品数据
- @param putaway 是否可以上架
  */
-- (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model canPutaway:(BOOL)putaway;
+- (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model;
 
 @end

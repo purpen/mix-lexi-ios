@@ -41,11 +41,11 @@ static NSString *const kMoreButtonTitle = @"查看全部";
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.moreButton];
+    
+    [self setMasnoryLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)setMasnoryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(150);
         make.top.bottom.mas_equalTo(0);
@@ -62,6 +62,8 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 #pragma mark - getters and setters
 - (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (UILabel *)titleLabel {

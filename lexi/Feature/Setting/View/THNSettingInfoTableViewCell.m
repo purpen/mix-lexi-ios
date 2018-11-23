@@ -74,37 +74,14 @@ static NSString *const kToolbarItemCancel   = @"取消";
 
 #pragma mark - public methods
 - (void)thn_setUserInfoData:(THNUserDataModel *)model {
-    switch (self.type) {
-        case THNSettingInfoTypeName: {
-            [self thn_setUserInfoText:model.username];
-        }
-            break;
-            
-        case THNSettingInfoTypeSlogan: {
-            [self thn_setUserInfoText:model.about_me];
-        }
-            break;
-            
-        case THNSettingInfoTypeEmail: {
-            [self thn_setUserInfoText:model.mail];
-        }
-            break;
-            
-        case THNSettingInfoTypeLocation: {
-            [self thn_setUserInfoText:model.street_address];
-        }
-            break;
-            
-        case THNSettingInfoTypeDate: {
-            [self thn_setUserInfoText:model.date];
-        }
-            break;
-            
-        case THNSettingInfoTypeSex: {
-            [self thn_setUserInfoText:model.gender == 0 ? @"女" : @"男"];
-        }
-            break;
-    }
+    NSDictionary *infoDict = @{@(THNSettingInfoTypeName)    : model.username,
+                               @(THNSettingInfoTypeSlogan)  : model.about_me,
+                               @(THNSettingInfoTypeEmail)   : model.mail,
+                               @(THNSettingInfoTypeLocation): model.street_address,
+                               @(THNSettingInfoTypeDate)    : model.date,
+                               @(THNSettingInfoTypeSex)     : model.gender == 0 ? @"女" : @"男"};
+    
+    [self thn_setUserInfoText:infoDict[@(self.type)]];
 }
 
 - (void)setType:(THNSettingInfoType)type {
@@ -193,9 +170,7 @@ static NSString *const kToolbarItemCancel   = @"取消";
     [self addSubview:self.infoTextField];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 15));
         make.left.mas_equalTo(15);
@@ -208,6 +183,8 @@ static NSString *const kToolbarItemCancel   = @"取消";
         make.bottom.mas_equalTo(-10);
         make.height.mas_equalTo(15);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

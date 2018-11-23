@@ -75,9 +75,7 @@ static NSString *const kTextCash        = @"提现";
     [self addSubview:self.hintLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
@@ -111,6 +109,8 @@ static NSString *const kTextCash        = @"提现";
         make.top.equalTo(self.cashButton.mas_bottom).with.offset(15);
         make.height.mas_equalTo(13);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

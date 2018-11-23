@@ -67,12 +67,11 @@ static NSString *const kDoneButtonSure          = @"确认";
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
     self.subTitle = kSubTitleLabelText;
+    self.controlArray = @[self.pwdTextField, self.verifyPwdTextField, self.doneButton];
     
     [self addSubview:self.pwdTextField];
     [self addSubview:self.verifyPwdTextField];
     [self addSubview:self.doneButton];
-    
-    self.controlArray = @[self.pwdTextField, self.verifyPwdTextField, self.doneButton];
 }
 
 - (void)layoutSubviews {
@@ -119,10 +118,12 @@ static NSString *const kDoneButtonSure          = @"确认";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        WEAKSELF;
+        
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                                  withTitle:_setType == THNSetPasswordTypeNew ? kDoneButtonTitle : kDoneButtonSure
                                                 completion:^{
-                                                    [self thn_doneButtonAction];
+                                                    [weakSelf thn_doneButtonAction];
                                                 }];
     }
     return _doneButton;

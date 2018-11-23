@@ -58,6 +58,8 @@ static NSString *const kDynamicImagesCellId = @"THNDynamicImagesTableViewCellId"
 - (void)thn_setImageCountLabelWithCount:(NSInteger)count {
     self.imageCount.hidden = count <= 3;
     self.imageCount.text = [[NSString alloc] initWithFormat:@"%zi图", count];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
@@ -68,14 +70,14 @@ static NSString *const kDynamicImagesCellId = @"THNDynamicImagesTableViewCellId"
     [self thn_createDynamicImageViewWithCount:3];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.imageCount mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(32, 16));
         make.right.mas_equalTo(-25);
         make.bottom.mas_equalTo(-5);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

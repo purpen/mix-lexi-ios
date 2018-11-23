@@ -47,6 +47,8 @@
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount];
     self.conditionLabel.text = [NSString stringWithFormat:@"满%zi可用", model.minAmount];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -95,9 +97,7 @@
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];
@@ -151,6 +151,8 @@
         make.bottom.mas_equalTo(-15);
         make.centerX.equalTo(self);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

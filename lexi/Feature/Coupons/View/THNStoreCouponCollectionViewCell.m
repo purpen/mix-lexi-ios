@@ -49,6 +49,8 @@ static NSInteger const kGoodsViewTag = 1625;
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount minAmout:model.minAmount];
     [self thn_createGoodsViewWithSkus:model.productSku];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - event response
@@ -119,9 +121,7 @@ static NSInteger const kGoodsViewTag = 1625;
     [self addSubview:self.containerView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(0);
     }];
@@ -161,6 +161,8 @@ static NSInteger const kGoodsViewTag = 1625;
         make.top.mas_equalTo(75);
         make.left.right.bottom.mas_equalTo(0);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

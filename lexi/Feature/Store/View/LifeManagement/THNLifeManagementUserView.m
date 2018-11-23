@@ -43,13 +43,13 @@
 }
 
 - (void)thn_setLifeStoreInfo:(THNLifeStoreModel *)model {
-    [self.headerBackgroundView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
+    [self.headerBackgroundView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatarBg)]];
     [self.headImageView loadImageWithUrl:[model.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     [self thn_setNickname:model.name];
     self.userIdLabel.text = [NSString stringWithFormat:@"ID:%zi", model.lifeStoreId];
     [self thn_setUserStatus:model.phases];
     
-    [self layoutSubviews];
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -79,9 +79,7 @@
     [self addSubview:self.userIdLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.left.top.mas_equalTo(20);
@@ -111,13 +109,15 @@
         make.left.equalTo(self.headImageView.mas_right).with.offset(10);
         make.size.mas_equalTo(CGSizeMake(150, 13));
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
 - (UIImageView *)headerBackgroundView {
     if (!_headerBackgroundView) {
         _headerBackgroundView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _headerBackgroundView.contentMode = UIViewContentModeCenter;
+        _headerBackgroundView.contentMode = UIViewContentModeScaleAspectFill;
         _headerBackgroundView.layer.masksToBounds = YES;
         
         // 毛玻璃

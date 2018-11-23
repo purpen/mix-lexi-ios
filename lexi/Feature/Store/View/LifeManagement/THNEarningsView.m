@@ -101,9 +101,7 @@ static NSString *const kTextWait        = @"待结算：";
     [self addSubview:self.lineView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20);
         make.size.mas_equalTo(CGSizeMake(150, 15));
@@ -152,6 +150,8 @@ static NSString *const kTextWait        = @"待结算：";
         make.right.mas_equalTo(-15);
         make.bottom.mas_equalTo(-16);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

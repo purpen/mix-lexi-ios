@@ -51,7 +51,7 @@ static NSString *const kKeyStatus   = @"followed_status";
 #pragma mark - event response
 - (void)followButtonAction:(id)sender {
     if (![THNLoginManager isLogin]) {
-        [[THNLoginManager sharedManager] thn_openUserLoginController];
+        [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
     

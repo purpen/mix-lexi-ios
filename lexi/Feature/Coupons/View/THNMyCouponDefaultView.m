@@ -35,11 +35,11 @@ static NSString *const kTextHint = @"当前没有任何优惠卷红包";
     
     [self addSubview:self.iconImageView];
     [self addSubview:self.hintLabel];
+    
+    [self setNeedsUpdateConstraints];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(255, 123));
         make.bottom.equalTo(self.mas_centerY).with.offset(0);
@@ -52,6 +52,8 @@ static NSString *const kTextHint = @"当前没有任何优惠卷红包";
         make.right.mas_equalTo(-20);
         make.top.equalTo(self.iconImageView.mas_bottom).with.offset(30);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

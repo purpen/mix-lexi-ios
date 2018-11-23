@@ -65,10 +65,8 @@ static NSString *const kPlaceholderImageName = @"default_image_place";
 
 #pragma mark - YYWebImage 缓存图片
 - (void)loadImageWithUrl:(NSString *)url {
-    NSString *placeImageNamed = [url hasSuffix:@"ava"] ? kPlaceholderImageUser : kPlaceholderImageName;
-    
     [self setImageWithURL:[NSURL URLWithString:url]
-              placeholder:[UIImage imageNamed:placeImageNamed]
+              placeholder:[UIImage imageNamed:kPlaceholderImageName]
                   options:YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionIgnoreFailedURL
                completion:nil];
 }

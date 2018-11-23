@@ -12,7 +12,9 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 #import "THNConst.h"
+#import "THNMarco.h"
 #import "THNLoginManager.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kTextNone = @"已售罄";
 
@@ -63,16 +65,14 @@ static NSString *const kTextNone = @"已售罄";
     
     [self thn_hasStockCount:YES];
     
-    if (model.isCustomMade) {
-        self.type = THNGoodsFunctionViewTypeCustom;
-    } else {
-        self.type = THNGoodsFunctionViewTypeDefault;
-    }
+    self.type = model.isCustomService ? THNGoodsFunctionViewTypeCustom : THNGoodsFunctionViewTypeDefault;
     
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.subButton.makeMoney = model.commissionPrice;
         self.type = THNGoodsFunctionViewTypeSell;
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_showGoodsCart:(BOOL)show {
@@ -150,26 +150,50 @@ static NSString *const kTextNone = @"已售罄";
     [self addSubview:self.noneLabel];
 }
 
+- (void)updateConstraints {
+    [self.cartButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(59, 40));
+        make.left.mas_equalTo(15);
+        make.top.mas_equalTo(10);
+    }];
+    
+    [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(12, 12));
+        make.right.equalTo(self.cartButton.mas_right).with.offset(-12);
+        make.top.equalTo(self.cartButton.mas_top).with.offset(2);
+    }];
+    
+    CGFloat originWidth = self.cartButton.isHidden ? 30 : 94;
+    CGFloat buttonWidth = (CGRectGetWidth(self.bounds) - originWidth) / 2;
+    
+    [self.mainButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
+        make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
+        make.top.mas_equalTo(10);
+    }];
+    
+    [self.subButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
+        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(10);
+    }];
+    
+    [self.noneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(40);
+        make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
+        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(10);
+    }];
+    
+    [super updateConstraints];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat cartWidth = self.showGoodsCart ? 59 : 0;
-    CGFloat buttonWidth = (CGRectGetWidth(self.bounds) - 40 - cartWidth) / 2;
-    
-    self.mainButton.frame = CGRectMake(20 + cartWidth, 5, buttonWidth, 40);
     [self.mainButton drawCornerWithType:(UILayoutCornerRadiusLeft) radius:4];
-
-    self.subButton.frame = CGRectMake(CGRectGetMaxX(self.mainButton.frame), 5, buttonWidth, 40);
     [self.subButton drawCornerWithType:(UILayoutCornerRadiusRight) radius:4];
-    
-    self.noneLabel.frame = CGRectMake(20 + cartWidth, 5, buttonWidth * 2, 40);
-    [self.noneLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
-    
-    if (self.showGoodsCart) {
-        self.cartButton.frame = CGRectMake(0, 5, 79, 40);
-        self.countLabel.frame = CGRectMake(45, 6, 12, 12);
-        [self.countLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:6];
-    }
+    [self.countLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:12 / 2];
 }
 
 - (void)drawRect:(CGRect)rect {

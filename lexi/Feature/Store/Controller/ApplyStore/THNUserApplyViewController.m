@@ -50,8 +50,6 @@ static NSString *const kParamMobile         = @"mobile";
     
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        NSLog(@"申请开馆验证码 ==== %@", result.responseDict);
-        
         if (![result hasData] || ![result isSuccess]) {
             [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
             return ;
@@ -80,7 +78,10 @@ static NSString *const kParamMobile         = @"mobile";
             return;
         }
 
-        [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES initSupplier:NO initStoreId:result.data[@"store_rid"]];
+        [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES
+                                                       initSupplier:NO
+                                                        initStoreId:result.data[@"store_rid"]];
+        
         THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
         [weakSelf.navigationController pushViewController:successVC animated:YES];
         

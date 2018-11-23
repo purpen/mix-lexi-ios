@@ -11,6 +11,7 @@
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
 #import "SVProgressHUD+Helper.h"
+#import <Masonry/Masonry.h>
 
 static NSString *const kTitleLabelText      = @"找回密码";
 static NSString *const kZipCodeDefault      = @"+86";
@@ -43,8 +44,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 @implementation THNFindPassword
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
     }
@@ -70,8 +71,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
     
-    if (![self.phoneTextField.text checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (!self.phoneTextField.text.length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
@@ -117,8 +118,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
-    if (![[self getPhoneNum] checkTel]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入正确的手机号"];
+    if (![self getPhoneNum].length) {
+        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
         return;
     }
     
@@ -144,14 +145,13 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
     self.title = kTitleLabelText;
+    self.controlArray = @[self.phoneTextField, self.authCodeTextField, self.doneButton];
     
     [self.containerView addSubview:self.phoneTextField];
     [self.containerView addSubview:self.authCodeTextField];
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
     [self addSubview:self.errorHintLabel];
-    
-    self.controlArray = @[self.phoneTextField, self.authCodeTextField, self.doneButton];
 }
 
 - (void)layoutSubviews {
@@ -164,8 +164,6 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
         make.height.mas_equalTo(198);
     }];
     
-    self.zipCodeButton.frame = CGRectMake(0, 0, 80, 46);
-    
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
                                         leadSpacing:0
@@ -175,19 +173,19 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
         make.right.mas_equalTo(0);
     }];
     
-    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                      width:0.5
-                                      color:[UIColor colorWithHexString:@"#DADADA"]];
-    
-    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
-                                         width:0.5
-                                         color:[UIColor colorWithHexString:@"#DADADA"]];
-    
     [self.errorHintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 13));
         make.left.mas_equalTo(20);
         make.top.equalTo(self.authCodeTextField.mas_bottom).with.offset(5);
     }];
+    
+    [self.phoneTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                      width:0.5
+                                      color:[UIColor colorWithHexString:@"#DADADA"]];
+
+    [self.authCodeTextField drawViewBorderType:(UIViewBorderLineTypeBottom)
+                                         width:0.5
+                                         color:[UIColor colorWithHexString:@"#DADADA"]];
 }
 
 #pragma mark - getters and setters
@@ -200,7 +198,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 - (UIButton *)zipCodeButton {
     if (!_zipCodeButton) {
-        _zipCodeButton = [[UIButton alloc] init];
+        _zipCodeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 46)];
         [_zipCodeButton setTitle:kZipCodeDefault forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         [_zipCodeButton setTitleEdgeInsets:(UIEdgeInsetsMake(0, -22, 0, 0))];
@@ -260,10 +258,12 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
+        WEAKSELF;
+        
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
                                                  withTitle:kDoneButtonTitle
                                                 completion:^{
-                                                    [self thn_doneButtonAction];
+                                                    [weakSelf thn_doneButtonAction];
                                                 }];
     }
     return _doneButton;

@@ -24,10 +24,11 @@ typedef NS_ENUM(NSUInteger, THNAddressCellType) {
 
 @interface THNAddressTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) THNAddressModel *model;
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, assign) THNAddressCellType type;
 @property (nonatomic, weak) id <THNAddressTableViewCellDelegate> delegate;
+
+- (void)thn_setAddressModel:(THNAddressModel *)model;
 
 + (instancetype)initAddressCellWithTableView:(UITableView *)tableView type:(THNAddressCellType)type;
 

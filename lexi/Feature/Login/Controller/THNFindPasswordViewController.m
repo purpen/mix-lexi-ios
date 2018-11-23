@@ -124,7 +124,7 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 #pragma mark - getters and setters
 - (THNFindPassword *)findPasswordView {
     if (!_findPasswordView) {
-        _findPasswordView = [[THNFindPassword alloc] init];
+        _findPasswordView = [[THNFindPassword alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _findPasswordView.delegate = self;
     }
     return _findPasswordView;
@@ -148,13 +148,6 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
         _newPasswordVC = [[THNNewPasswordViewController alloc] init];
     }
     return _newPasswordVC;
-}
-
-#pragma mark - dealloc
-- (BOOL)willDealloc {
-    [self.findPasswordView removeFromSuperview];
-    
-    return YES;
 }
 
 @end

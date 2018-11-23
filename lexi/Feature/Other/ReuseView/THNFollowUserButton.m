@@ -61,7 +61,7 @@ static NSString *const kTitleMutually = @"互相关注";
             break;
     }
     
-    [self layoutSubviews];
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -77,9 +77,7 @@ static NSString *const kTitleMutually = @"互相关注";
     [self addSubview:self.textLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(self.showIcon ? CGSizeMake(10, 10) : CGSizeMake(0, 0));
         make.centerY.mas_equalTo(self);
@@ -91,6 +89,8 @@ static NSString *const kTitleMutually = @"互相关注";
         make.right.mas_equalTo(0);
         make.left.mas_equalTo(self.showIcon ? 16 : 0);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

@@ -89,9 +89,7 @@ static NSInteger const kDateButtonTag       = 4361;
     [self thn_creatDateButtonWithTitles:@[kTextWeek, kTextMonth]];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 15));
         make.left.mas_equalTo(20);
@@ -103,6 +101,8 @@ static NSInteger const kDateButtonTag       = 4361;
         make.left.mas_equalTo(20);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(15);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - textfieldDelegate

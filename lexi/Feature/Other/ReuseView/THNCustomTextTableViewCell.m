@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
+#import "NSString+Helper.h"
 
 @interface THNCustomTextTableViewCell ()
 
@@ -34,6 +35,8 @@
 - (void)thn_setIconImageName:(NSString *)imageName mainText:(NSString *)mainText {
     self.iconImageView.image = [UIImage imageNamed:imageName];
     self.mainTextLabel.text = mainText;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setSubText:(NSString *)subText textColor:(NSString *)colorHex {
@@ -51,9 +54,7 @@
     [self addSubview:self.subTextLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(15);
@@ -68,7 +69,7 @@
     
     [self.mainTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(45);
-        make.right.mas_equalTo(-80);
+        make.width.mas_equalTo([self.mainTextLabel.text boundingSizeWidthWithFontSize:15]);
         make.top.bottom.mas_equalTo(0);
     }];
     
@@ -77,6 +78,8 @@
         make.right.mas_equalTo(-30);
         make.top.bottom.mas_equalTo(0);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

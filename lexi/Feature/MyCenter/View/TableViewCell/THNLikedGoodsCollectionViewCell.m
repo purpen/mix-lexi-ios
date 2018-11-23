@@ -59,6 +59,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         [self thn_setPriceLabelTextWithPrice:goodsModel.minSalePrice ? goodsModel.minSalePrice : goodsModel.minPrice
                                    likeValue:goodsModel.likeCount];
     };
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -82,16 +84,6 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     self.priceLabel.attributedText = priceAtt;
 }
 
-// 图片加载渐变
-- (void)thn_showLoadImageAnimate:(BOOL)show {
-    if (!show) return;
-    
-    self.goodsImageView.alpha = 0.0f;
-    [UIView animateWithDuration:0.4 animations:^{
-        self.goodsImageView.alpha = 1.0f;
-    }];
-}
-
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.goodsImageView];
@@ -100,24 +92,28 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     [self addSubview:self.infoView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)updateConstraints {
+    [self setMasnoryLayout];
 
-    self.goodsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds));
-    [self thn_drawCorner];
+    [super updateConstraints];
+}
+
+- (void)setMasnoryLayout {
+    self.goodsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
+    [self thn_drawGoodsImageCorner];
     
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(40);
     }];
-
+    
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
         make.height.mas_equalTo(12);
     }];
-
+    
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(11);
@@ -125,16 +121,13 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     }];
 }
 
-- (void)thn_drawCorner {
+- (void)thn_drawGoodsImageCorner {
     switch (self.viewType) {
-        case THNGoodsListCellViewTypeGoodsInfoStore:
-        case THNGoodsListCellViewTypeSimilarGoods:
-            self.goodsImageView.layer.masksToBounds = YES;
-            break;
-            
         case THNGoodsListCellViewTypeGoodsList:
-        case THNGoodsListCellViewTypeUserCenter:
+        case THNGoodsListCellViewTypeUserCenter: {
             [self.goodsImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+        }
+            break;
             
         default:
             break;
@@ -147,6 +140,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
         _goodsImageView = [[UIImageView alloc] init];
         _goodsImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _goodsImageView.layer.masksToBounds = YES;
     }
     return _goodsImageView;
 }

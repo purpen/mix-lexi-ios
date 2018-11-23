@@ -110,6 +110,24 @@
     [self.view addSubview:self.likeButton];
     [self.view addSubview:self.buyButton];
     [self.view addSubview:self.shareButton];
+    
+    [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(66, 29));
+        make.left.mas_equalTo(15);
+        make.bottom.mas_equalTo(kDeviceiPhoneX ? -52 : -20);
+    }];
+    
+    [self.buyButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(66, 29));
+        make.left.equalTo(self.likeButton.mas_right).with.offset(15);
+        make.centerY.mas_equalTo(self.likeButton);
+    }];
+    
+    [self.shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(29, 29));
+        make.right.mas_equalTo(-15);
+        make.centerY.mas_equalTo(self.likeButton);
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -134,25 +152,6 @@
     [super viewDidLayoutSubviews];
     
     [self thn_changeImagesViewFrame:YES];
-    
-    [self.likeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(66, 29));
-        make.left.mas_equalTo(15);
-        make.bottom.mas_equalTo(kDeviceiPhoneX ? -52 : -20);
-    }];
-    
-    [self.buyButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(66, 29));
-        make.left.equalTo(self.likeButton.mas_right).with.offset(15);
-        make.centerY.mas_equalTo(self.likeButton);
-    }];
-    
-    [self.shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(29, 29));
-        make.right.mas_equalTo(-15);
-        make.centerY.mas_equalTo(self.likeButton);
-    }];
-    [self.shareButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:29/2];
 }
 
 #pragma mark - getters and setters
@@ -188,6 +187,7 @@
         _shareButton.backgroundColor = [UIColor colorWithHexString:@"#2D343A"];
         [_shareButton setImage:[UIImage imageNamed:@"icon_share_white"] forState:(UIControlStateNormal)];
         [_shareButton setImageEdgeInsets:(UIEdgeInsetsMake(8, 8, 8, 8))];
+        _shareButton.layer.cornerRadius = 29/2;
         [_shareButton addTarget:self action:@selector(shareButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _shareButton;

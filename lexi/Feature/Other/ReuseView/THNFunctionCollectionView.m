@@ -51,9 +51,10 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
 - (instancetype)initWithFrame:(CGRect)frame viewType:(THNFunctionCollectionViewType)type {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupViewUI];
-        [self thn_setTitleLabelText:type == THNFunctionCollectionViewTypeCategory ? kTitleCategory : kTitleRecommend];
         self.viewType = type;
+        [self thn_setTitleLabelText:@[kTitleCategory, kTitleRecommend][(NSUInteger)type]];
+        
+        [self setupViewUI];
     }
     return self;
 }
@@ -66,12 +67,14 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
     }
     
     [self.collectionView reloadData];
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setRecommandTag:(NSArray *)tags {
     self.tagsArr = [tags mutableCopy];
     
     [self.collectionView reloadData];
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_resetLoad {
@@ -84,6 +87,7 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
     if (self.indexArr.count) {
         [self.indexArr removeAllObjects];
     }
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -193,9 +197,7 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
     [self addSubview:self.collectionView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(20);
@@ -208,6 +210,8 @@ static NSString *const kCollectionViewCellId    = @"collectionViewCellId";
         make.height.mas_equalTo(30);
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(20);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

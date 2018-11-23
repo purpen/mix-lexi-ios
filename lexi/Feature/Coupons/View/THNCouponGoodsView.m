@@ -38,6 +38,8 @@
     self.titleLabel.text = sku.productName;
     self.priceLabel.text = [NSString formatFloat:sku.productAmount];
     [self thn_setOriginalPriceWithValue:sku.productCouponAmount];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - private methods
@@ -66,9 +68,7 @@
     [self addSubview:self.oriPriceLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.goodsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(CGRectGetWidth(self.bounds));
@@ -97,6 +97,8 @@
         make.top.equalTo(self.priceLabel.mas_bottom).with.offset(2);
         make.height.mas_equalTo(13);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

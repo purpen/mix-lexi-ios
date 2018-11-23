@@ -83,9 +83,7 @@ static NSString *const kTextEarnings = @"预计收益：";
     [self addSubview:self.earningsLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 60));
         make.left.mas_equalTo(20);
@@ -124,6 +122,8 @@ static NSString *const kTextEarnings = @"预计收益：";
         make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(-10);
     }];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters

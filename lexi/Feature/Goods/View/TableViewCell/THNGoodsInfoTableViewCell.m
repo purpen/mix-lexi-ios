@@ -92,6 +92,7 @@ static NSString *const kTextResetSku        = @"重选规格";
     if (!cell) {
         cell = [[THNGoodsInfoTableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
         cell.cellType = type;
+        [cell thn_setBackgroundColor];
     }
     return cell;
 }
@@ -133,12 +134,15 @@ static NSString *const kTextResetSku        = @"重选规格";
         default:
             break;
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setSkuGoodsInfoWithModel:(THNSkuModelItem *)model {
     [self.goodsImageView loadImageWithUrl:[model.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsCell)]];
-    
     [self thn_setGoodsTitleWithText:model.productName font:[UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)]];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setCartGoodsInfoWithModel:(THNCartModelItem *)model {
@@ -162,6 +166,8 @@ static NSString *const kTextResetSku        = @"重选规格";
         [self thn_setShowResetSkuButtonWithSkuStock:model.product.stockCount
                                          totalStock:model.product.productTotalCount];
     }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setIsSelected:(BOOL)isSelected {
@@ -451,11 +457,7 @@ static NSString *const kTextResetSku        = @"重选规格";
     [self addSubview:self.statusLabel];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self thn_setBackgroundColor];
-    
+- (void)updateConstraints {
     // 图片
     if (self.cellType == THNGoodsInfoCellTypeCartEdit) {
         [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -632,6 +634,8 @@ static NSString *const kTextResetSku        = @"重选规格";
         make.right.mas_equalTo(-15);
         make.bottom.equalTo(self.goodsImageView.mas_bottom).with.offset(0);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

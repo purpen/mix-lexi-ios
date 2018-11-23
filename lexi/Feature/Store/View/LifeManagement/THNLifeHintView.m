@@ -68,13 +68,11 @@ static NSString *const kTextHintWechat  = @"  关注“乐喜生活馆”公众�
     
     [self addSubview:self.borderView];
     [self addSubview:self.titleLabel];
-    [self thn_setHintContentWithTexts:@[kTextHintFirst, kTextHintSecond]];
     [self addSubview:self.hintWechatButton];
+    [self thn_setHintContentWithTexts:@[kTextHintFirst, kTextHintSecond]];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)updateConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(35);
         make.top.mas_equalTo(30);
@@ -88,6 +86,8 @@ static NSString *const kTextHintWechat  = @"  关注“乐喜生活馆”公众�
         make.right.mas_equalTo(-35);
         make.height.mas_equalTo(28);
     }];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

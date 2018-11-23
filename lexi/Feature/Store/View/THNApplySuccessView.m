@@ -64,9 +64,7 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
     [self addSubview:self.doneButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)updateConstraints {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(277, 45));
         make.top.mas_equalTo(kDeviceiPhoneX ? 140 : 120);
@@ -89,7 +87,6 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         make.top.equalTo(self.userLabel.mas_bottom).with.offset(10);
         make.centerX.equalTo(self.headerImageView);
     }];
-    [self.statusLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:14];
     
     [self.hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
@@ -111,7 +108,8 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         make.top.equalTo(self.wechatLabel.mas_bottom).with.offset(90);
         make.height.mas_equalTo(40);
     }];
-    [self.doneButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
@@ -153,6 +151,8 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         _statusLabel.textAlignment = NSTextAlignmentCenter;
         _statusLabel.backgroundColor = [UIColor colorWithHexString:@"#2785fa"];
         _statusLabel.text = kTextStatus;
+        _statusLabel.layer.cornerRadius = 14;
+        _statusLabel.layer.masksToBounds = YES;
     }
     return _statusLabel;
 }
@@ -198,6 +198,7 @@ static NSString *const kDoneButtonTitle     = @"进入生活馆";
         [_doneButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:(UIFontWeightRegular)];
         _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
+        _doneButton.layer.cornerRadius = 4;
         [_doneButton addTarget:self action:@selector(thn_doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;

@@ -65,13 +65,16 @@
     salesReturnCells.height = [self thn_getContentHeightWithText:salesReturnText] + 75;
     salesReturnCells.goodsModel = self.goodsModel;
     
+    WEAKSELF;
+    
     THNGoodsTableViewCells *timeCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeDescribe)];
     timeCells.height = 80;
+    
     if (!self.freightModel) {
         // 获取发货时间信息
         [THNGoodsManager getFreightTemplateDataWithRid:self.goodsModel.fid goodsId:self.goodsModel.rid storeId:self.goodsModel.storeRid completion:^(THNFreightModel *model, NSError *error) {
             timeCells.freightModel = model;
-            [self.tableView reloadData];
+            [weakSelf.tableView reloadData];
         }];
         
     } else {
@@ -85,7 +88,7 @@
         // 获取店铺信息
         [THNGoodsManager getOfficialStoreInfoWithId:self.goodsModel.storeRid completion:^(THNStoreModel *model, NSError *error) {
             dispatchCells.storeModel = model;
-            [self.tableView reloadData];
+            [weakSelf.tableView reloadData];
         }];
         
     } else {

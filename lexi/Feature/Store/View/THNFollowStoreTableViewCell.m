@@ -57,6 +57,8 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     self.titleLabel.text = model.name;
     self.goodsCountLabel.text = [NSString stringWithFormat:@"%zi 件商品", model.productCount];
     [self.followButton selfManagerFollowStoreStatus:model.followedStatus storeModel:model];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - setup UI
@@ -67,9 +69,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
     [self addSubview:self.followButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.left.mas_equalTo(20);
@@ -95,7 +95,8 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
         make.right.mas_equalTo(-20);
         make.centerY.mas_equalTo(self);
     }];
-    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    
+    [super updateConstraints];
 }
 
 #pragma mark - getters and setters
@@ -130,6 +131,7 @@ static NSString *const kTableViewCellId = @"THNFollowStoreTableViewCellId";
 - (THNFollowStoreButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowStoreButton alloc] initWithType:(THNFollowButtonTypeStoreList)];
+        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }

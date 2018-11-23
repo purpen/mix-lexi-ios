@@ -60,9 +60,7 @@
     [self addSubview:self.followButton];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
     self.headerImageView.frame = CGRectMake(20, (CGRectGetHeight(self.bounds) - 40) / 2, 40, 40);
     [self.headerImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:40/2];
     
@@ -75,6 +73,8 @@
     
     self.followButton.frame = CGRectMake(CGRectGetWidth(self.bounds) - 83, (CGRectGetHeight(self.bounds) - 29) / 2, 63, 29);
     [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
+    
+    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
