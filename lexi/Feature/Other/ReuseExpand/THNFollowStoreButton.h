@@ -51,6 +51,12 @@ typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
  */
 - (void)setFollowStoreStatus:(BOOL)follow;
 
+/**
+ 加载动画
+ */
+- (void)startLoading;
+- (void)endLoading;
+
 - (void)setupViewUI;
 
 @property (nonatomic, copy) FollowStoreButtonBlock followStoreBlock;

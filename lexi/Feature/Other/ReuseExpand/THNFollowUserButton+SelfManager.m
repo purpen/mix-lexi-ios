@@ -60,9 +60,12 @@ static NSString *const kKeyStatus   = @"followed_status";
         return;
     }
     
+    [self startLoading];
+    
     [self requestFollowUserWithURL:self.followStatus == THNUserFollowStatusNot ? kURLFollow : kURLUnFollow
                             userId:self.userId
                          completed:^(NSInteger status, NSError *error) {
+                             [self endLoading];
                              if (error) return;
                              
                              [self setFollowUserStatus:(THNUserFollowStatus)status];

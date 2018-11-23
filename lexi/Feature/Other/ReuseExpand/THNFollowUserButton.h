@@ -32,6 +32,12 @@ typedef NS_ENUM(NSUInteger, THNUserFollowStatus) {
  */
 - (void)setFollowUserStatus:(THNUserFollowStatus)status;
 
+/**
+ 加载动画
+ */
+- (void)startLoading;
+- (void)endLoading;
+
 - (void)setupViewUI;
 
 @end
