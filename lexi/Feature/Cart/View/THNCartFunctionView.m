@@ -109,10 +109,10 @@ static NSString *const kTextWishList    = @"放入心愿单";
     [self addSubview:self.removeButton];
     [self addSubview:self.wishListButton];
     
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     CGSize clearButtonSize = CGSizeMake((kScreenWidth - 40) / 2, 40);
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {

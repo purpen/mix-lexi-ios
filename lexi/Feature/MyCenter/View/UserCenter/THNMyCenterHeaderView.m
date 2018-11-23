@@ -240,12 +240,12 @@ static NSInteger const kSelectedButtonTag = 452;
     // 调整视图的高度
     self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 230 + self.signatureHeight);
     
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
     
     [super updateConstraints];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     [self.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(70, 70));
         make.left.mas_equalTo(20);

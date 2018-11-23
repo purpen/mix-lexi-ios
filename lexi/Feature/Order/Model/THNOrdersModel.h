@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 @property (nonatomic, strong) NSString *current_time;
 // 1、待发货 2、待收货 3、待评价 4、待付款 5、已完成 6、已取消
 @property (nonatomic, assign) OrderStatus user_order_status;
+@property (nonatomic, assign) NSInteger pay_type;
 
 
 @end

@@ -62,12 +62,12 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
         }
         
         [SVProgressHUD thn_showSuccessWithStatus:@"评价成功"];
-        [SVProgressHUD dismissWithCompletion:^{
-            
-            if (self.ealuationBlock) {
-                self.ealuationBlock();
-            }
-            
+        
+        if (self.ealuationBlock) {
+            self.ealuationBlock();
+        }
+        
+        [SVProgressHUD dismissWithDelay:2.0 completion:^{
             [self.navigationController popViewControllerAnimated:YES];
         }];
         

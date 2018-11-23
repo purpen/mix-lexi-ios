@@ -65,6 +65,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 @property (nonatomic, assign) NSInteger currentPage;
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
+// 去支付的订单ID
+@property (nonatomic, strong) NSString *orderRid;
 
 @end
 
@@ -74,6 +76,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [super viewDidLoad];
     self.orderType = OrderTypeAll;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logisticsTracking:) name:kOrderLogisticsTracking object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadPaymentDetail) name:THNPayMentVCPayCallback object:nil];
     [self setupUI];
     [self loadOrdersData];
 }
@@ -86,6 +89,33 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.tableView resetCurrentPageNumber];
     self.currentPage = 1;
+}
+
+- (void)updateData {
+    switch (self.orderType) {
+            
+        case OrderTypeAll:{
+           [self.allOrders removeAllObjects];
+            break;
+        }
+            
+        case OrderTypeWaitDelivery:{
+            [self.waitDeliveryOrders removeAllObjects];
+            break;
+        }
+        case OrderTypWaiteReceipt:{
+            [self.waiteReceiptOrders removeAllObjects];
+            break;
+        }
+        case OrderTypeEvaluation:{
+            [self.evaluationOrders removeAllObjects];
+            break;
+        }
+        case OrderTypePayment:{
+            [self.paymentOrders removeAllObjects];
+            break;
+        }
+    }
 }
 
 - (void)loadOrdersData {
@@ -118,6 +148,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
                 } else {
                     [self.tableView noMoreData];
                 }
+                
                 [self.orders setArray:self.allOrders];
                 break;
             }
@@ -167,6 +198,29 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     }];
 }
 
+// 后台返回支付结果和支付详情
+- (void)loadPaymentDetail {
+    NSString *requestUrl = [NSString stringWithFormat:@"/orders/after_payment/%@",self.orderRid];
+    THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        if ([result.data[@"pay_status"] isEqualToString:@"SUCCESS"]) {
+            // 支付成功更新状态
+            [self updateData];
+            [self loadOrdersData];
+        } else {
+            [SVProgressHUD thn_showInfoWithStatus:@"支付失败"];
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
 - (void)logisticsTracking:(NSNotification *)notification {
     THNOrdersItemsModel *itemsModel = notification.userInfo[@"itemModel"];
     THNLogisticsViewController *logistics = [[THNLogisticsViewController alloc]init];
@@ -195,6 +249,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 #pragma THNSelectButtonViewDelegate
 - (void)selectButtonsDidClickedAtIndex:(NSInteger)index {
     
+    // 解决其他列表成为NoMoreData的状态时,该列表也不可下拉的问题
+    [self.tableView resetNoMoreData];
     [self.orders removeAllObjects];
     
     switch (index) {
@@ -312,7 +368,9 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
 - (void)pushEvaluation:(NSArray *)products initWithRid:(NSString *)rid {
     THNEvaluationViewController *evaluationVC = [[THNEvaluationViewController alloc]init];
+    
     evaluationVC.ealuationBlock = ^{
+        [self updateData];
         [self loadOrdersData];
     };
     
@@ -323,16 +381,13 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 
 // 确认收货
 - (void)confirmReceipt {
+    [self updateData];
     [self loadOrdersData];
 }
 
-// 付款
-- (void)pushPayment:(THNOrderDetailModel *)detailModel initWithOrderRid:(NSString *)orderRid {
-    THNPaymentViewController *paymentVC = [[THNPaymentViewController alloc]init];
-    paymentVC.detailModel = detailModel;
-    paymentVC.orderRid = orderRid;
-    paymentVC.fromPaymentType = FromPaymentTypeOrderVC;
-    [self.navigationController pushViewController:paymentVC animated:YES];
+// 返回付款的订单ID
+- (void)callBackSelectPayOrderRid:(NSString *)orderRid {
+    self.orderRid = orderRid;
 }
 
 #pragma mark - THNNavigationBarViewDelegate

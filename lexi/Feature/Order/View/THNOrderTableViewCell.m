@@ -24,9 +24,10 @@
 #import <WXApi.h>
 #import "THNOrderPayView.h"
 #import "THNOrderDetailModel.h"
+#import "THNPayManger.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
-static NSString *const kUrlOrdersWechatPay= @"/orders/app_pay/is_merge";
+static NSString *const kUrlOrdersIsMergePay = @"/orders/app_pay/is_merge";
 static NSString *const kUrlOrdersSigned = @"/orders/signed";
 CGFloat kOrderProductViewHeight = 75;
 CGFloat kOrderLogisticsViewHeight = 49;
@@ -100,48 +101,6 @@ CGFloat orderCellLineSpacing = 10;
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
-}
-
-
-// 微信支付
-- (void)wechatPay {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.ordersModel.rid;
-    // 支付方式 1、微信 2、支付宝
-    params[@"pay_type"] = @(1);
-    THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersWechatPay requestDictionary:params delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (!result.success) {
-            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
-            return;
-        }
-        
-        THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:result.data];
-    
-        if ([result.data[@"is_merge"] boolValue]) {
-            UIWindow *window = [UIApplication sharedApplication].keyWindow;
-            self.orderPayView.orderLists = result.data[@"order_list"];
-            
-            WEAKSELF;
-            self.orderPayView.payViewBlock = ^{
-                [weakSelf againPay:detailModel];
-            };
-            
-            self.orderPayView.frame = window.bounds;
-            [window addSubview:self.orderPayView];
-        } else {
-            [self againPay:detailModel];
-        }
-    } failure:^(THNRequest *request, NSError *error) {
-        
-    }];
-}
-
-// 再次付款
-- (void)againPay:(THNOrderDetailModel *)detailModel {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pushPayment:initWithOrderRid:)]) {
-        [self.delegate pushPayment:detailModel initWithOrderRid:self.ordersModel.rid];
-    }
 }
 
 - (void)setOrdersModel:(THNOrdersModel *)ordersModel {
@@ -260,7 +219,42 @@ CGFloat orderCellLineSpacing = 10;
 }
 
 - (IBAction)pay:(id)sender {
-    [self wechatPay];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"rid"] = self.ordersModel.rid;
+    THNRequest *request = [THNAPI postWithUrlString:kUrlOrdersIsMergePay requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.success) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        THNOrderDetailModel *detailModel = [THNOrderDetailModel mj_objectWithKeyValues:result.data];
+        
+        if ([result.data[@"is_merge"] boolValue]) {
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            self.orderPayView.orderLists = result.data[@"order_list"];
+            
+            WEAKSELF;
+            self.orderPayView.payViewBlock = ^{
+                [weakSelf againPay:detailModel];
+            };
+            
+            self.orderPayView.frame = window.bounds;
+            [window addSubview:self.orderPayView];
+        } else {
+            [self againPay:detailModel];
+        }
+    } failure:^(THNRequest *request, NSError *error) {
+        
+    }];
+}
+
+// 再次付款
+- (void)againPay:(THNOrderDetailModel *)detailModel {
+    [[THNPayManger sharedManager] loadThirdPayParamsWithRid:self.ordersModel.rid withFromPaymentType:FromPaymentTypeOrderVC withPaymentType:self.ordersModel.pay_type];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(callBackSelectPayOrderRid:)]) {
+        [self.delegate callBackSelectPayOrderRid:self.ordersModel.rid];
+    }
 }
 
 - (IBAction)backGroundButton:(id)sender {

@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSInteger, THNPaymentType) {
-    THNPaymentTypeWechat = 0,   // 微信支付
-    THNPaymentTypeAlipay,       // 支付宝
-    THNPaymentTypeHuabei,       // 花呗
-};
+#import "THNPayManger.h"
 
 @interface THNPaymentTableViewCell : UITableViewCell
 

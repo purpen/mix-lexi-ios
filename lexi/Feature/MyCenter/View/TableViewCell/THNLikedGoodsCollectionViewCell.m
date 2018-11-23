@@ -93,12 +93,12 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 }
 
 - (void)updateConstraints {
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
 
     [super updateConstraints];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     self.goodsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
     [self thn_drawGoodsImageCorner];
     

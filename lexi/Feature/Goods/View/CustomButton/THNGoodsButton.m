@@ -103,10 +103,10 @@ static NSString *const kTitleSell       = @"卖";
 - (void)setupViewUI {
     [self addSubview:self.textLabel];
     
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.mas_equalTo(0);
         make.top.mas_equalTo(2);

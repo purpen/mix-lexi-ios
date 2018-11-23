@@ -51,10 +51,10 @@ static NSString *kTextDiscover  = @"现在去逛逛";
     [self addSubview:self.hintLabel];
     [self addSubview:self.discoverButton];
     
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(95, 95));
         make.top.mas_equalTo(40);

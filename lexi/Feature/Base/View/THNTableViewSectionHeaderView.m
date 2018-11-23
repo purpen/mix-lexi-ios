@@ -42,10 +42,10 @@ static NSString *const kMoreButtonTitle = @"查看全部";
     [self addSubview:self.titleLabel];
     [self addSubview:self.moreButton];
     
-    [self setMasnoryLayout];
+    [self setMasonryLayout];
 }
 
-- (void)setMasnoryLayout {
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(150);
         make.top.bottom.mas_equalTo(0);

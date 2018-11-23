@@ -71,11 +71,9 @@ static NSString *const kWindowLabelResultCellIdentifier = @"kWindowLabelResultCe
     return cell;
 }
 
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNHotKeywordModel *searchIndexModel = self.searchIndexs[indexPath.row];
-     [[NSNotificationCenter defaultCenter]postNotificationName:@"addLabelSuccess" object:nil userInfo:@{@"name":searchIndexModel.name}];
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"addLabelSuccess" object:nil userInfo:@{@"name":searchIndexModel.name}];
 }
 
 - (THNShopWindowResultHeaderView *)resultHeaderView {

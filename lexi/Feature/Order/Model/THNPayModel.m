@@ -6,8 +6,8 @@
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNWxPayModel.h"
+#import "THNPayModel.h"
 
-@implementation THNWxPayModel
+@implementation THNPayModel
 
 @end

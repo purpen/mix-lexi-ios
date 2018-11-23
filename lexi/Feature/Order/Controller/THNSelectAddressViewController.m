@@ -279,6 +279,9 @@ static NSString *const kKeyMobile   = @"mobile";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         [self thn_openEditAddressControllerWithModel:self.addressArr[indexPath.row]];
+        
+    } else if (indexPath.section == 1) {
+        [self thn_openEditAddressControllerWithModel:nil];
     }
 }
 

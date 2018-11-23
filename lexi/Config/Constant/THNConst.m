@@ -58,6 +58,8 @@ NSString *const kUMAppKey           = @"5bc5c570b465f5c5b2000086";
 // 微信
 NSString *const kWXAppKey           = @"wx456e2f0cb22db269";
 NSString *const kWXAppSecret        = @"8eddb55d39cbfdb9fee1afa93a495db1";
+// 支付宝
+NSString *const kAlipayKey          = @"2018102761828848";
 // 微博
 NSString *const kWBAppKey           = @"146542115";
 NSString *const kWBAppSecret        = @"3d2cff91e7e95529e97aa6a2320c940e";
@@ -104,3 +106,4 @@ NSString *const kShelfSuccess                   = @"shelfSuccess";
 NSString *const kUpdateLivingHallStatus         = @"kUpdateLivingHallStatus";
 NSString *const kBrandHallReceiveCoupon         = @"kBrandHallReceiveCoupon";
 NSString *const kLookAllCommentData             = @"kLookAllCommentData";
+NSString *const THNPayMentVCPayCallback          = @"THNPayMentVCPayCallback";
