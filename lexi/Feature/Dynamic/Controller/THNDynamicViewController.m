@@ -61,7 +61,6 @@ static NSString *const kKeyRid  = @"rid";
     [super viewDidLoad];
     
     [self setupUI];
-    [self requestUserDynamicDataWithLoadingMoreData:NO];
 }
 
 #pragma mark - network
@@ -79,11 +78,25 @@ static NSString *const kKeyRid  = @"rid";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
-            [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+            if (loading) {
+                [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:NO];
+                
+            } else {
+                [weakSelf.dynamicTableView endHeaderRefreshAndCurrentPageChange:NO];
+            }
+            
             return ;
         }
         
-        [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
+        if (loading) {
+            [weakSelf.dynamicTableView endFooterRefreshAndCurrentPageChange:YES];
+            
+        } else {
+            [weakSelf.dynamicTableView endHeaderRefreshAndCurrentPageChange:YES];
+            [weakSelf.dynamicTableView resetNoMoreData];
+            [weakSelf.dynamicArr removeAllObjects];
+        }
+        
         [weakSelf thn_setRequestResultData:result.data];
         [weakSelf.dynamicTableView reloadData];
         [SVProgressHUD dismiss];
@@ -120,6 +133,11 @@ static NSString *const kKeyRid  = @"rid";
 }
 
 #pragma mark - custom delegate
+- (void)beginRefreshing {
+    self.currentPage = 1;
+    [self requestUserDynamicDataWithLoadingMoreData:NO];
+}
+
 - (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
     self.currentPage = currentPage.integerValue;
     [self requestUserDynamicDataWithLoadingMoreData:YES];
@@ -208,6 +226,7 @@ static NSString *const kKeyRid  = @"rid";
 - (void)setupUI {
     [self.view addSubview:self.dynamicTableView];
 
+    [self.dynamicTableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:YES delegate:self];
     [self.dynamicTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.dynamicTableView resetCurrentPageNumber];
 }
@@ -216,6 +235,7 @@ static NSString *const kKeyRid  = @"rid";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    [self beginRefreshing];
 }
 
 - (void)setNavigationBar {

@@ -8,7 +8,16 @@
 
 #import "THNGoodsBaseTableViewCell.h"
 
+@protocol THNGoodsActionTableViewCellDelegate <NSObject>
+
+@optional
+- (void)thn_putawayProduct;
+
+@end
+
 @interface THNGoodsActionTableViewCell : THNGoodsBaseTableViewCell
+
+@property (nonatomic, weak) id <THNGoodsActionTableViewCellDelegate> delegate;
 
 /**
  设置商品操作的状态

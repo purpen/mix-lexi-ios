@@ -40,6 +40,8 @@
 #import "THNShareImageViewController.h"
 #import "THNCouponDetailView.h"
 #import "UITableViewCell+DealContent.h"
+#import "THNShelfViewController.h"
+#import "THNProductModel.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -47,7 +49,12 @@ static NSString *const kURLNotLoginCoupon   = @"/market/not_login_coupons";
 static NSString *const kURLLoginCoupon      = @"/market/user_master_coupons";
 static NSString *const kKeyStoreRid         = @"store_rid";
 
-@interface THNGoodsInfoViewController () <THNGoodsFunctionViewDelegate, THNImagesViewDelegate, THNGoodsUserTableViewCellDelegate> {
+@interface THNGoodsInfoViewController () <
+    THNGoodsFunctionViewDelegate,
+    THNImagesViewDelegate,
+    THNGoodsUserTableViewCellDelegate,
+    THNGoodsActionTableViewCellDelegate>
+{
     UIStatusBarStyle _statusBarStyle;
 }
 
@@ -567,6 +574,16 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     [self thn_openUserCenterControllerWithUserId:userId];
 }
 
+- (void)thn_putawayProduct {
+    if (!self.goodsModel) {
+        return;
+    }
+    
+    THNShelfViewController *shelfVC = [[THNShelfViewController alloc] init];
+    shelfVC.productModel = [THNProductModel mj_objectWithKeyValues:[self.goodsModel toDictionary]];
+    [self.navigationController pushViewController:shelfVC animated:YES];
+}
+
 #pragma mark - private methods
 /**
  刷新“组”数据，视图
@@ -822,6 +839,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             THNGoodsActionTableViewCell *actionCell = [THNGoodsActionTableViewCell initGoodsCellWithTableView:tableView];
             goodsCells.actionCell = actionCell;
             actionCell.baseCell = goodsCells;
+            actionCell.delegate = self;
             [actionCell thn_setActionButtonWithGoodsModel:goodsCells.goodsModel];
             
             return actionCell;

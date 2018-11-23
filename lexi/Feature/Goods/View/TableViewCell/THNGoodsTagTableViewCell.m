@@ -32,7 +32,7 @@ static NSString *const kGoodsTagTableViewCellId = @"kGoodsTagTableViewCellId";
     if (self.subviews.count > 1) return;
     
     for (NSUInteger idx = 0; idx < tags.count; idx ++) {
-        THNGoodsModelLabel *model = tags[idx];
+        THNGoodsModelLabels *model = tags[idx];
         NSString *hexColor = idx == 0 ? @"#F5A43C" : @"#777777";
         
         [self thn_creatTagLabelWithText:model.name textColor:hexColor];

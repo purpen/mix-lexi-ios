@@ -7,7 +7,7 @@
 //
 
 #import "THNGoodsUserTableViewCell.h"
-#import "THNGoodsModelProductLikeUser.h"
+#import "THNGoodsModelProductLikeUsers.h"
 #import "UIImageView+WebImage.h"
 #import "THNUserModel.h"
 #import <Masonry/Masonry.h>

@@ -72,7 +72,7 @@ static NSString *const kTextCancel = @"取消";
     UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
 
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        NSLog(@"%@",activityType);
+        
         if (completed) {
             NSLog(@"分享成功");
         } else {

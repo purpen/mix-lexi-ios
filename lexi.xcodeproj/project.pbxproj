@@ -95,16 +95,6 @@
 		4B27B3C5218717D1004AF42F /* THNGoodsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEE0217F1401008E5E28 /* THNGoodsInfoViewController.m */; };
 		4B27B3C6218717D1004AF42F /* THNGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEE2217F1401008E5E28 /* THNGoodsListViewController.m */; };
 		4B27B3C7218717D1004AF42F /* THNGoodsSkuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEE4217F1401008E5E28 /* THNGoodsSkuViewController.m */; };
-		4B27B3C8218717D1004AF42F /* THNFreightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEE8217F1401008E5E28 /* THNFreightModel.m */; };
-		4B27B3C9218717D1004AF42F /* THNFreightModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEEA217F1401008E5E28 /* THNFreightModelItem.m */; };
-		4B27B3CA218717D1004AF42F /* THNSkuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEED217F1401008E5E28 /* THNSkuModel.m */; };
-		4B27B3CB218717D1004AF42F /* THNSkuModelColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEEF217F1401008E5E28 /* THNSkuModelColor.m */; };
-		4B27B3CC218717D1004AF42F /* THNSkuModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEF1217F1401008E5E28 /* THNSkuModelItem.m */; };
-		4B27B3CD218717D1004AF42F /* THNGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEF3217F1401008E5E28 /* THNGoodsModel.m */; };
-		4B27B3CE218717D1004AF42F /* THNGoodsModelAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEF5217F1401008E5E28 /* THNGoodsModelAsset.m */; };
-		4B27B3D0218717D1004AF42F /* THNGoodsModelLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEF9217F1401008E5E28 /* THNGoodsModelLabel.m */; };
-		4B27B3D1218717D1004AF42F /* THNGoodsModelProductLikeUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEFB217F1401008E5E28 /* THNGoodsModelProductLikeUser.m */; };
-		4B27B3D2218717D1004AF42F /* THNGoodsModelSku.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEEFD217F1401008E5E28 /* THNGoodsModelSku.m */; };
 		4B27B3D3218717D1004AF42F /* THNGoodsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF00217F1401008E5E28 /* THNGoodsManager.m */; };
 		4B27B3D4218717D1004AF42F /* THNGoodsTableViewCells.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF02217F1401008E5E28 /* THNGoodsTableViewCells.m */; };
 		4B27B3D5218717D1004AF42F /* THNSkuFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF04217F1401008E5E28 /* THNSkuFilter.m */; };
@@ -489,6 +479,17 @@
 		D85AD64B21A7CE7400776D34 /* THNDealContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD64721A7CE7300776D34 /* THNDealContentTableViewCell.m */; };
 		D85AD64C21A7CE7400776D34 /* THNFollowStoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD64921A7CE7400776D34 /* THNFollowStoreButton.m */; };
 		D85AD64D21A7CE7400776D34 /* THNFollowUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD64A21A7CE7400776D34 /* THNFollowUserButton.m */; };
+		D85AD66D21A7F05200776D34 /* THNGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD65221A7F05100776D34 /* THNGoodsModel.m */; };
+		D85AD66E21A7F05200776D34 /* THNGoodsModelProductLikeUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD65421A7F05100776D34 /* THNGoodsModelProductLikeUsers.m */; };
+		D85AD67021A7F05200776D34 /* THNGoodsModelSku.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD65721A7F05100776D34 /* THNGoodsModelSku.m */; };
+		D85AD67321A7F05300776D34 /* THNGoodsModelAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD65E21A7F05100776D34 /* THNGoodsModelAssets.m */; };
+		D85AD67521A7F05300776D34 /* THNGoodsModelLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD66021A7F05200776D34 /* THNGoodsModelLabels.m */; };
+		D85AD68621A7F06600776D34 /* THNFreightModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD67B21A7F06500776D34 /* THNFreightModelItem.m */; };
+		D85AD68721A7F06600776D34 /* THNFreightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD67D21A7F06500776D34 /* THNFreightModel.m */; };
+		D85AD68821A7F06600776D34 /* THNSkuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD68121A7F06500776D34 /* THNSkuModel.m */; };
+		D85AD68921A7F06600776D34 /* THNSkuModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD68321A7F06500776D34 /* THNSkuModelItem.m */; };
+		D85AD68A21A7F06600776D34 /* THNSkuModelColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD68421A7F06500776D34 /* THNSkuModelColor.m */; };
+		D85AD68D21A7F0A100776D34 /* THNDealContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D85AD68C21A7F0A100776D34 /* THNDealContentModel.m */; };
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
@@ -511,7 +512,6 @@
 		D8C2A067219EA27400886FB2 /* UIImageView+WebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */; };
 		D8D7CFBC219423B400948247 /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBA219423B400948247 /* THNFollowStoreButton+SelfManager.m */; };
 		D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBB219423B400948247 /* THNFollowUserButton+SelfManager.m */; };
-		D8D7CFC1219425E300948247 /* THNDealContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBF219425E300948247 /* THNDealContentModel.m */; };
 		D8D7CFCF21942B1D00948247 /* UITableViewCell+DealContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFCE21942B1D00948247 /* UITableViewCell+DealContent.m */; };
 		D8D7CFFF219437DB00948247 /* THNStoreCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFE6219437D800948247 /* THNStoreCouponCollectionViewCell.m */; };
 		D8D7D000219437DB00948247 /* THNProductCouponCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFE9219437D800948247 /* THNProductCouponCollectionViewCell.m */; };
@@ -780,26 +780,6 @@
 		4BECEEE2217F1401008E5E28 /* THNGoodsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsListViewController.m; sourceTree = "<group>"; };
 		4BECEEE3217F1401008E5E28 /* THNGoodsSkuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsSkuViewController.h; sourceTree = "<group>"; };
 		4BECEEE4217F1401008E5E28 /* THNGoodsSkuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsSkuViewController.m; sourceTree = "<group>"; };
-		4BECEEE7217F1401008E5E28 /* THNFreightModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModel.h; sourceTree = "<group>"; };
-		4BECEEE8217F1401008E5E28 /* THNFreightModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModel.m; sourceTree = "<group>"; };
-		4BECEEE9217F1401008E5E28 /* THNFreightModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModelItem.h; sourceTree = "<group>"; };
-		4BECEEEA217F1401008E5E28 /* THNFreightModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModelItem.m; sourceTree = "<group>"; };
-		4BECEEEC217F1401008E5E28 /* THNSkuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModel.h; sourceTree = "<group>"; };
-		4BECEEED217F1401008E5E28 /* THNSkuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModel.m; sourceTree = "<group>"; };
-		4BECEEEE217F1401008E5E28 /* THNSkuModelColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModelColor.h; sourceTree = "<group>"; };
-		4BECEEEF217F1401008E5E28 /* THNSkuModelColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModelColor.m; sourceTree = "<group>"; };
-		4BECEEF0217F1401008E5E28 /* THNSkuModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModelItem.h; sourceTree = "<group>"; };
-		4BECEEF1217F1401008E5E28 /* THNSkuModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModelItem.m; sourceTree = "<group>"; };
-		4BECEEF2217F1401008E5E28 /* THNGoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModel.h; sourceTree = "<group>"; };
-		4BECEEF3217F1401008E5E28 /* THNGoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModel.m; sourceTree = "<group>"; };
-		4BECEEF4217F1401008E5E28 /* THNGoodsModelAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelAsset.h; sourceTree = "<group>"; };
-		4BECEEF5217F1401008E5E28 /* THNGoodsModelAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelAsset.m; sourceTree = "<group>"; };
-		4BECEEF8217F1401008E5E28 /* THNGoodsModelLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelLabel.h; sourceTree = "<group>"; };
-		4BECEEF9217F1401008E5E28 /* THNGoodsModelLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelLabel.m; sourceTree = "<group>"; };
-		4BECEEFA217F1401008E5E28 /* THNGoodsModelProductLikeUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelProductLikeUser.h; sourceTree = "<group>"; };
-		4BECEEFB217F1401008E5E28 /* THNGoodsModelProductLikeUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelProductLikeUser.m; sourceTree = "<group>"; };
-		4BECEEFC217F1401008E5E28 /* THNGoodsModelSku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelSku.h; sourceTree = "<group>"; };
-		4BECEEFD217F1401008E5E28 /* THNGoodsModelSku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelSku.m; sourceTree = "<group>"; };
 		4BECEEFF217F1401008E5E28 /* THNGoodsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsManager.h; sourceTree = "<group>"; };
 		4BECEF00217F1401008E5E28 /* THNGoodsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsManager.m; sourceTree = "<group>"; };
 		4BECEF01217F1401008E5E28 /* THNGoodsTableViewCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsTableViewCells.h; sourceTree = "<group>"; };
@@ -1338,6 +1318,28 @@
 		D85AD64821A7CE7400776D34 /* THNFollowStoreButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFollowStoreButton.h; sourceTree = "<group>"; };
 		D85AD64921A7CE7400776D34 /* THNFollowStoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreButton.m; sourceTree = "<group>"; };
 		D85AD64A21A7CE7400776D34 /* THNFollowUserButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowUserButton.m; sourceTree = "<group>"; };
+		D85AD65121A7F05000776D34 /* THNGoodsModelLabels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelLabels.h; sourceTree = "<group>"; };
+		D85AD65221A7F05100776D34 /* THNGoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModel.m; sourceTree = "<group>"; };
+		D85AD65321A7F05100776D34 /* THNGoodsModelProductLikeUsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelProductLikeUsers.h; sourceTree = "<group>"; };
+		D85AD65421A7F05100776D34 /* THNGoodsModelProductLikeUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelProductLikeUsers.m; sourceTree = "<group>"; };
+		D85AD65721A7F05100776D34 /* THNGoodsModelSku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelSku.m; sourceTree = "<group>"; };
+		D85AD65821A7F05100776D34 /* THNGoodsModelSku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelSku.h; sourceTree = "<group>"; };
+		D85AD65E21A7F05100776D34 /* THNGoodsModelAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelAssets.m; sourceTree = "<group>"; };
+		D85AD66021A7F05200776D34 /* THNGoodsModelLabels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNGoodsModelLabels.m; sourceTree = "<group>"; };
+		D85AD66121A7F05200776D34 /* THNGoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModel.h; sourceTree = "<group>"; };
+		D85AD66221A7F05200776D34 /* THNGoodsModelAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNGoodsModelAssets.h; sourceTree = "<group>"; };
+		D85AD67B21A7F06500776D34 /* THNFreightModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModelItem.m; sourceTree = "<group>"; };
+		D85AD67C21A7F06500776D34 /* THNFreightModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModel.h; sourceTree = "<group>"; };
+		D85AD67D21A7F06500776D34 /* THNFreightModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFreightModel.m; sourceTree = "<group>"; };
+		D85AD67E21A7F06500776D34 /* THNFreightModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFreightModelItem.h; sourceTree = "<group>"; };
+		D85AD68021A7F06500776D34 /* THNSkuModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModelItem.h; sourceTree = "<group>"; };
+		D85AD68121A7F06500776D34 /* THNSkuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModel.m; sourceTree = "<group>"; };
+		D85AD68221A7F06500776D34 /* THNSkuModelColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModelColor.h; sourceTree = "<group>"; };
+		D85AD68321A7F06500776D34 /* THNSkuModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModelItem.m; sourceTree = "<group>"; };
+		D85AD68421A7F06500776D34 /* THNSkuModelColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSkuModelColor.m; sourceTree = "<group>"; };
+		D85AD68521A7F06500776D34 /* THNSkuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSkuModel.h; sourceTree = "<group>"; };
+		D85AD68B21A7F0A000776D34 /* THNDealContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDealContentModel.h; sourceTree = "<group>"; };
+		D85AD68C21A7F0A100776D34 /* THNDealContentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDealContentModel.m; sourceTree = "<group>"; };
 		D85DA7AB2106030100A36A71 /* THNResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNResponse.m; sourceTree = "<group>"; };
 		D85DA7AC2106030100A36A71 /* THNRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNRequest.h; sourceTree = "<group>"; };
 		D85DA7AD2106030100A36A71 /* THNAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAPI.m; sourceTree = "<group>"; };
@@ -1429,8 +1431,6 @@
 		D8D7CFB9219423B300948247 /* THNFollowStoreButton+SelfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "THNFollowStoreButton+SelfManager.h"; sourceTree = "<group>"; };
 		D8D7CFBA219423B400948247 /* THNFollowStoreButton+SelfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "THNFollowStoreButton+SelfManager.m"; sourceTree = "<group>"; };
 		D8D7CFBB219423B400948247 /* THNFollowUserButton+SelfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "THNFollowUserButton+SelfManager.m"; sourceTree = "<group>"; };
-		D8D7CFBF219425E300948247 /* THNDealContentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDealContentModel.m; sourceTree = "<group>"; };
-		D8D7CFC0219425E300948247 /* THNDealContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDealContentModel.h; sourceTree = "<group>"; };
 		D8D7CFCD21942B1D00948247 /* UITableViewCell+DealContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+DealContent.h"; sourceTree = "<group>"; };
 		D8D7CFCE21942B1D00948247 /* UITableViewCell+DealContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+DealContent.m"; sourceTree = "<group>"; };
 		D8D7CFE5219437D800948247 /* THNNoneCouponView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNNoneCouponView.h; sourceTree = "<group>"; };
@@ -2035,44 +2035,20 @@
 		4BECEEE5217F1401008E5E28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEEE6217F1401008E5E28 /* Freight */,
-				4BECEEEB217F1401008E5E28 /* Sku */,
-				4BECEEF2217F1401008E5E28 /* THNGoodsModel.h */,
-				4BECEEF3217F1401008E5E28 /* THNGoodsModel.m */,
-				4BECEEF4217F1401008E5E28 /* THNGoodsModelAsset.h */,
-				4BECEEF5217F1401008E5E28 /* THNGoodsModelAsset.m */,
-				4BECEEF8217F1401008E5E28 /* THNGoodsModelLabel.h */,
-				4BECEEF9217F1401008E5E28 /* THNGoodsModelLabel.m */,
-				4BECEEFA217F1401008E5E28 /* THNGoodsModelProductLikeUser.h */,
-				4BECEEFB217F1401008E5E28 /* THNGoodsModelProductLikeUser.m */,
-				4BECEEFC217F1401008E5E28 /* THNGoodsModelSku.h */,
-				4BECEEFD217F1401008E5E28 /* THNGoodsModelSku.m */,
+				D85AD67A21A7F06500776D34 /* Freight */,
+				D85AD67F21A7F06500776D34 /* Sku */,
+				D85AD66121A7F05200776D34 /* THNGoodsModel.h */,
+				D85AD65221A7F05100776D34 /* THNGoodsModel.m */,
+				D85AD66221A7F05200776D34 /* THNGoodsModelAssets.h */,
+				D85AD65E21A7F05100776D34 /* THNGoodsModelAssets.m */,
+				D85AD65121A7F05000776D34 /* THNGoodsModelLabels.h */,
+				D85AD66021A7F05200776D34 /* THNGoodsModelLabels.m */,
+				D85AD65321A7F05100776D34 /* THNGoodsModelProductLikeUsers.h */,
+				D85AD65421A7F05100776D34 /* THNGoodsModelProductLikeUsers.m */,
+				D85AD65821A7F05100776D34 /* THNGoodsModelSku.h */,
+				D85AD65721A7F05100776D34 /* THNGoodsModelSku.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		4BECEEE6217F1401008E5E28 /* Freight */ = {
-			isa = PBXGroup;
-			children = (
-				4BECEEE7217F1401008E5E28 /* THNFreightModel.h */,
-				4BECEEE8217F1401008E5E28 /* THNFreightModel.m */,
-				4BECEEE9217F1401008E5E28 /* THNFreightModelItem.h */,
-				4BECEEEA217F1401008E5E28 /* THNFreightModelItem.m */,
-			);
-			path = Freight;
-			sourceTree = "<group>";
-		};
-		4BECEEEB217F1401008E5E28 /* Sku */ = {
-			isa = PBXGroup;
-			children = (
-				4BECEEEC217F1401008E5E28 /* THNSkuModel.h */,
-				4BECEEED217F1401008E5E28 /* THNSkuModel.m */,
-				4BECEEEE217F1401008E5E28 /* THNSkuModelColor.h */,
-				4BECEEEF217F1401008E5E28 /* THNSkuModelColor.m */,
-				4BECEEF0217F1401008E5E28 /* THNSkuModelItem.h */,
-				4BECEEF1217F1401008E5E28 /* THNSkuModelItem.m */,
-			);
-			path = Sku;
 			sourceTree = "<group>";
 		};
 		4BECEEFE217F1401008E5E28 /* Other */ = {
@@ -3163,6 +3139,30 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D85AD67A21A7F06500776D34 /* Freight */ = {
+			isa = PBXGroup;
+			children = (
+				D85AD67B21A7F06500776D34 /* THNFreightModelItem.m */,
+				D85AD67C21A7F06500776D34 /* THNFreightModel.h */,
+				D85AD67D21A7F06500776D34 /* THNFreightModel.m */,
+				D85AD67E21A7F06500776D34 /* THNFreightModelItem.h */,
+			);
+			path = Freight;
+			sourceTree = "<group>";
+		};
+		D85AD67F21A7F06500776D34 /* Sku */ = {
+			isa = PBXGroup;
+			children = (
+				D85AD68021A7F06500776D34 /* THNSkuModelItem.h */,
+				D85AD68121A7F06500776D34 /* THNSkuModel.m */,
+				D85AD68221A7F06500776D34 /* THNSkuModelColor.h */,
+				D85AD68321A7F06500776D34 /* THNSkuModelItem.m */,
+				D85AD68421A7F06500776D34 /* THNSkuModelColor.m */,
+				D85AD68521A7F06500776D34 /* THNSkuModel.h */,
+			);
+			path = Sku;
+			sourceTree = "<group>";
+		};
 		D85DA7A92106030100A36A71 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
@@ -3468,8 +3468,8 @@
 		D8D7CFBE219425E300948247 /* ReuseModel */ = {
 			isa = PBXGroup;
 			children = (
-				D8D7CFC0219425E300948247 /* THNDealContentModel.h */,
-				D8D7CFBF219425E300948247 /* THNDealContentModel.m */,
+				D85AD68B21A7F0A000776D34 /* THNDealContentModel.h */,
+				D85AD68C21A7F0A100776D34 /* THNDealContentModel.m */,
 			);
 			path = ReuseModel;
 			sourceTree = "<group>";
@@ -3851,6 +3851,7 @@
 				4B27B3B8218717D1004AF42F /* THNProductModel.m in Sources */,
 				4B27B3B9218717D1004AF42F /* THNActivityView.m in Sources */,
 				4B27B3BA218717D1004AF42F /* THNDailyRecommendCollectionViewCell.m in Sources */,
+				D85AD68621A7F06600776D34 /* THNFreightModelItem.m in Sources */,
 				D8B434CB219AC711009D2434 /* THNDynamicActionTableViewCell.m in Sources */,
 				D82C018F219AB0E0009F905F /* THNAddressIDCardView.m in Sources */,
 				4B27B3BB218717D1004AF42F /* THNFeaturedCollectionView.m in Sources */,
@@ -3870,17 +3871,8 @@
 				4B27B3C5218717D1004AF42F /* THNGoodsInfoViewController.m in Sources */,
 				4B27B3C6218717D1004AF42F /* THNGoodsListViewController.m in Sources */,
 				4B27B3C7218717D1004AF42F /* THNGoodsSkuViewController.m in Sources */,
-				4B27B3C8218717D1004AF42F /* THNFreightModel.m in Sources */,
-				4B27B3C9218717D1004AF42F /* THNFreightModelItem.m in Sources */,
-				4B27B3CA218717D1004AF42F /* THNSkuModel.m in Sources */,
-				4B27B3CB218717D1004AF42F /* THNSkuModelColor.m in Sources */,
-				4B27B3CC218717D1004AF42F /* THNSkuModelItem.m in Sources */,
-				4B27B3CD218717D1004AF42F /* THNGoodsModel.m in Sources */,
-				4B27B3CE218717D1004AF42F /* THNGoodsModelAsset.m in Sources */,
-				4B27B3D0218717D1004AF42F /* THNGoodsModelLabel.m in Sources */,
-				4B27B3D1218717D1004AF42F /* THNGoodsModelProductLikeUser.m in Sources */,
-				4B27B3D2218717D1004AF42F /* THNGoodsModelSku.m in Sources */,
 				4B27B3D3218717D1004AF42F /* THNGoodsManager.m in Sources */,
+				D85AD68821A7F06600776D34 /* THNSkuModel.m in Sources */,
 				4B27B3D4218717D1004AF42F /* THNGoodsTableViewCells.m in Sources */,
 				4B27B3D5218717D1004AF42F /* THNSkuFilter.m in Sources */,
 				4B27B3D6218717D1004AF42F /* THNGoodsActionButton+SelfManager.m in Sources */,
@@ -3932,6 +3924,7 @@
 				4B27B3FF218717D1004AF42F /* THNNewUserInfoViewController.m in Sources */,
 				D82C0187219AB0E0009F905F /* THNLikedGoodsCollectionViewCell.m in Sources */,
 				D82C0192219AB0E0009F905F /* THNMyCenterDataButton.m in Sources */,
+				D85AD68721A7F06600776D34 /* THNFreightModel.m in Sources */,
 				D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */,
 				4B27B400218717D1004AF42F /* THNSetPasswordViewController.m in Sources */,
 				4B27B401218717D1004AF42F /* THNSignInViewController.m in Sources */,
@@ -3985,9 +3978,11 @@
 				4B27B43E218717D1004AF42F /* THNBuyProgressView.m in Sources */,
 				4B27B43F218717D1004AF42F /* THNEvaluationTableViewCell.m in Sources */,
 				4B27B440218717D1004AF42F /* THNLogisticsPlaceTableViewCell.m in Sources */,
+				D85AD66D21A7F05200776D34 /* THNGoodsModel.m in Sources */,
 				4B27B441218717D1004AF42F /* THNLogisticsPriceView.m in Sources */,
 				4B36A226218C9771007F670E /* main.m in Sources */,
 				4B27B442218717D1004AF42F /* THNLogisticsTableViewCell.m in Sources */,
+				D85AD67321A7F05300776D34 /* THNGoodsModelAssets.m in Sources */,
 				4B27B443218717D1004AF42F /* THNNewlyAddressTableViewCell.m in Sources */,
 				4B27B444218717D1004AF42F /* THNNoLogisticsView.m in Sources */,
 				4B27B445218717D1004AF42F /* THNOrderDetailLogisticsView.m in Sources */,
@@ -4020,6 +4015,7 @@
 				4B27B45A218717D2004AF42F /* THNFunctionPopupView.m in Sources */,
 				4B27B45B218717D2004AF42F /* THNFunctionSortTableViewCell.m in Sources */,
 				D8B434C8219AC711009D2434 /* THNDynamicModelProducts.m in Sources */,
+				D85AD66E21A7F05200776D34 /* THNGoodsModelProductLikeUsers.m in Sources */,
 				4B27B45C218717D2004AF42F /* THNHeaderTitleView.m in Sources */,
 				4B27B45D218717D2004AF42F /* THNLoadView.m in Sources */,
 				4B27B45E218717D2004AF42F /* THNPriceSliderView.m in Sources */,
@@ -4045,6 +4041,7 @@
 				4B27B46F218717D2004AF42F /* THNSearchStoreTableViewCell.m in Sources */,
 				4B27B470218717D2004AF42F /* THNSearchUserTableViewCell.m in Sources */,
 				4B27B471218717D2004AF42F /* THNSearchView.m in Sources */,
+				D85AD67021A7F05200776D34 /* THNGoodsModelSku.m in Sources */,
 				4B27B472218717D2004AF42F /* THNSearchDetailViewController.m in Sources */,
 				4B27B473218717D2004AF42F /* THNSearchIndexTableViewController.m in Sources */,
 				4B27B474218717D2004AF42F /* THNSearchProductViewController.m in Sources */,
@@ -4088,6 +4085,7 @@
 				4B27B495218717D2004AF42F /* THNLifeOrderStoreModel.m in Sources */,
 				4B27B496218717D2004AF42F /* THNLifeOrderUserModel.m in Sources */,
 				4B27B497218717D2004AF42F /* THNTransactionsDataModel.m in Sources */,
+				D85AD67521A7F05300776D34 /* THNGoodsModelLabels.m in Sources */,
 				4B27B498218717D2004AF42F /* THNTransactionsModel.m in Sources */,
 				D8D7D007219437DB00948247 /* THNOfficialCouponCollectionViewCell.m in Sources */,
 				4B27B499218717D2004AF42F /* THNStoreModel.m in Sources */,
@@ -4097,7 +4095,7 @@
 				4B27B49C218717D2004AF42F /* THNLifeManager.m in Sources */,
 				4B27B49D218717D2004AF42F /* THNLifeCashBillInfoTableViewCell.m in Sources */,
 				4B27B49E218717D2004AF42F /* THNLifeCashBillInfoView.m in Sources */,
-				D8D7CFC1219425E300948247 /* THNDealContentModel.m in Sources */,
+				D85AD68921A7F06600776D34 /* THNSkuModelItem.m in Sources */,
 				4B27B49F218717D2004AF42F /* THNLifeCashBillSectionHeaderView.m in Sources */,
 				4B27B4A0218717D2004AF42F /* THNLifeCashBillTableViewCell.m in Sources */,
 				4B27B4A1218717D2004AF42F /* THNLifeCashBillView.m in Sources */,
@@ -4108,6 +4106,7 @@
 				4B27B4A4218717D2004AF42F /* THNLifeOrderProductTableViewCell.m in Sources */,
 				4B27B4A5218717D2004AF42F /* THNLifeOrderStoreTableViewCell.m in Sources */,
 				4B27B4A6218717D2004AF42F /* THNLifeOrderView.m in Sources */,
+				D85AD68D21A7F0A100776D34 /* THNDealContentModel.m in Sources */,
 				4B27B4A7218717D2004AF42F /* THNLifeManagementTextTableViewCell.m in Sources */,
 				4B27B4A8218717D2004AF42F /* THNLifeTransactionRecordTableViewCell.m in Sources */,
 				D8DF16D6218BECC1006AAB9E /* THNCouponSharedModel.m in Sources */,
@@ -4173,6 +4172,7 @@
 				4B27B4DA218717D2004AF42F /* UIImage+GIF.m in Sources */,
 				4B27B4DB218717D2004AF42F /* UIImageView+SDWedImage.m in Sources */,
 				4B27B4DC218717D2004AF42F /* UILable+Frame.m in Sources */,
+				D85AD68A21A7F06600776D34 /* THNSkuModelColor.m in Sources */,
 				4B27B4DD218717D2004AF42F /* UIView+HandyAutoLayout.m in Sources */,
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,

@@ -41,13 +41,11 @@ static NSString *const kTitleAbout  = @"关于乐喜";
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
-    NSLog(@"======= 0 -- %@", navigationAction.targetFrame);
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
     
-    NSLog(@"======= 1 -- %@", navigationAction.targetFrame);
     return nil;
 }
 

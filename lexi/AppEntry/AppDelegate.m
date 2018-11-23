@@ -135,7 +135,10 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
     
     /* 获取集成测试的 deviceID */
     NSString *deviceID =  [UMConfigure deviceIDForIntegration];
+    
+#ifdef DEBUG
     NSLog(@"\n\n--- 集成测试的 deviceID:\n    %@\n", deviceID);
+#endif
 }
 
 #pragma mark - 微信支付设置

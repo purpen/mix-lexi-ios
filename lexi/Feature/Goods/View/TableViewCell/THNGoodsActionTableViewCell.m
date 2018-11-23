@@ -75,6 +75,13 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     self.putawayButton.hidden = !self.canPutaway;
 }
 
+#pragma mark - event response
+- (void)putawayButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_putawayProduct)]) {
+        [self.delegate thn_putawayProduct];
+    }
+}
+
 #pragma mark - private methods
 - (CGFloat)thn_getLikeButtonWidthWithLikeCount:(NSInteger)likeCount {
     NSString *countStr = likeCount > 0 ? [NSString stringWithFormat:@"+%zi", likeCount] : @"喜欢";
@@ -129,6 +136,7 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 - (THNGoodsActionButton *)putawayButton {
     if (!_putawayButton) {
         _putawayButton = [[THNGoodsActionButton alloc] initWithType:(THNGoodsActionButtonTypePutaway)];
+        [_putawayButton addTarget:self action:@selector(putawayButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _putawayButton;
 }
