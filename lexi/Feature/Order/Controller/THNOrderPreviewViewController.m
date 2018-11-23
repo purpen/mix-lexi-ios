@@ -601,19 +601,20 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 //     业务隐藏
-    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
-    return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
-//    return CGRectGetMaxY(self.logisticsView.frame);
+//    self.payDetailViewHeight = [self.payDetailView setOrderDetailPayView:self.detailModel];
+//    return CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight;
+    return CGRectGetMaxY(self.logisticsView.frame);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame))];
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame))];
+//    业务隐藏
+//    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,CGRectGetMaxY(self.logisticsView.frame) + 10 + self.payDetailViewHeight)];
     headerView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [headerView addSubview:self.logisticsView];
 //     业务隐藏支付明细
-    [headerView addSubview:self.payDetailView];
-    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH,  self.payDetailViewHeight);
+//    [headerView addSubview:self.payDetailView];
+//    self.payDetailView.frame = CGRectMake(0, CGRectGetMaxY(self.logisticsView.frame) + 10, SCREEN_WIDTH,  self.payDetailViewHeight);
     return headerView;
 }
 

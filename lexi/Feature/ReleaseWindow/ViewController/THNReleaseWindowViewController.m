@@ -60,6 +60,7 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSMutableArray *storeRids;
 @property (nonatomic, strong) NSArray *coverWithSelectIndexs;
 @property (nonatomic, strong) NSMutableArray *sortMutable;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -107,7 +108,7 @@ THNNavigationBarViewDelegate
         make.height.equalTo(@(100));
     }];
     
-    self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
+    self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
     
     self.threeImageStitchingView.threeImageBlock = ^(NSInteger index) {
@@ -120,6 +121,8 @@ THNNavigationBarViewDelegate
     // 设置键盘距textView的间距
     IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
     keyboardManager.enable = YES;
+    // 禁用点击视图关闭键盘
+    keyboardManager.shouldResignOnTouchOutside = NO;
     keyboardManager.keyboardDistanceFromTextField = 50;
 }
 
@@ -265,7 +268,8 @@ THNNavigationBarViewDelegate
             self.fiveImagesStitchingView.hidden = YES;
             self.sevenImagesStitchingView.hidden = YES;
             self.threeImageStitchingView.hidden = NO;
-            self.imageViewStitchViewHeightConstraint.constant = threeImageHeight;
+            self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
+            self.threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
             [self.threeImageStitchingView setThreeImages:self.coverWithSelectIndexs];
             [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
             break;
@@ -273,7 +277,7 @@ THNNavigationBarViewDelegate
             self.threeImageStitchingView.hidden = YES;
             self.sevenImagesStitchingView.hidden = YES;
             self.fiveImagesStitchingView.hidden = NO;
-            self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + fiveToGrowImageHeight;
+            self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) * 230 / (230 + 143) + (SCREEN_WIDTH - 42) * 158 / (215 + 158) + 2;
             
             self.fiveImagesStitchingView.fiveImageBlock = ^(NSInteger index) {
                 weakSelf.selectIndex = index;
@@ -290,7 +294,7 @@ THNNavigationBarViewDelegate
             self.fiveImagesStitchingView.hidden = YES;
             self.sevenImagesStitchingView.hidden = NO;
 
-            self.imageViewStitchViewHeightConstraint.constant = threeImageHeight + sevenToGrowImageHeight;
+            self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) * 215 / (215 + 158) + (SCREEN_WIDTH - 44) * 1/3 + 2;
             self.sevenImagesStitchingView.frame = self.ImageViewStitchingView.bounds;
             [self.ImageViewStitchingView addSubview:self.sevenImagesStitchingView];
             [self.sevenImagesStitchingView setSevenImages:self.coverWithSelectIndexs];
@@ -400,6 +404,7 @@ THNNavigationBarViewDelegate
 }
 
 #pragma mark - YYTextViewDelegate
+
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
     self.isClickTextField = NO;
     self.toolbar.hidden = NO;
@@ -420,7 +425,6 @@ THNNavigationBarViewDelegate
     self.windowContent = textView.text;
 }
 
-
 // 动态改变TextView的高度
 - (void)textViewDidChange:(YYTextView *)textView {
     CGFloat fltTextHeight = textView.textLayout.textBoundingSize.height;
@@ -428,7 +432,10 @@ THNNavigationBarViewDelegate
     
     [UIView performWithoutAnimation:^{
         textView.height = fltTextHeight;
+        // 24为标题控件的高度
         self.postContenViewHeightConstraint.constant = textView.height + 24;
+        // 待优化一下
+        [self.scrollView scrollRectToVisible:CGRectMake(0, fltTextHeight, SCREEN_WIDTH, SCREEN_HEIGHT) animated:NO];
     }];
 }
 
@@ -438,7 +445,6 @@ THNNavigationBarViewDelegate
     if (transition.animationDuration == 0) {
         self.toolbar.bottom = CGRectGetMinY(toFrame);
     } else {
-        self.toolbar.bottom = CGRectGetMinY(toFrame);
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.toolbar.bottom = CGRectGetMinY(toFrame);
         } completion:NULL];
@@ -520,6 +526,7 @@ THNNavigationBarViewDelegate
 - (THNThreeImageStitchingView *)threeImageStitchingView {
     if (!_threeImageStitchingView) {
         _threeImageStitchingView = [THNThreeImageStitchingView viewFromXib];
+        _imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
         _threeImageStitchingView.frame = self.ImageViewStitchingView.bounds;
         _threeImageStitchingView.isContentModeCenter = YES;
     }

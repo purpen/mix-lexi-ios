@@ -189,6 +189,19 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         }
         
         self.weekPopularArray = result.data[@"products"];
+        
+        for (int i = 1; i <= self.weekPopularArray.count; i++) {
+            if ( i % 5 == 0) {
+                self.featureCellHeight += SCREEN_WIDTH - 40 + 46;
+            } else if (i % 2 == 0) {
+                self.featureCellHeight += ((SCREEN_WIDTH - 49) / 2 + 46);
+            }
+            // 加上间距
+            self.featureCellHeight += i % 2 == 0 || i % 5 == 0 ? 10 : 0;
+        }
+        
+        self.featureCellHeight += 87.5;
+        
         self.title = result.data[@"title"];
         [self.featureCell setCellTypeStyle:FeaturedNo initWithDataArray:self.weekPopularArray initWithTitle:@"本周最受欢迎"];
     } failure:^(THNRequest *request, NSError *error) {
@@ -309,8 +322,6 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    NSInteger showCellRow = self.weekPopularArray.count / 2;
-    self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * showCellRow + 90;
     self.footerViewHeight = self.recommendedArray.count == self.curatorPerPageCount ? self.featureCellHeight + expandViewHeight : self.featureCellHeight;
 
     return self.footerViewHeight;

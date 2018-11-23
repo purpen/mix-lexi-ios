@@ -18,18 +18,18 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_collage" translatesAutoresizingMaskIntoConstraints="NO" id="kUi-H0-BuL">
-                    <rect key="frame" x="0.0" y="0.0" width="346" height="230"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="229.5"/>
                     <color key="backgroundColor" red="0.96078431369999995" green="0.96862745100000003" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-1F-CE2">
-                    <rect key="frame" x="348" y="0.0" width="173" height="230"/>
+                    <rect key="frame" x="322" y="0.0" width="199" height="229.5"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_collage" translatesAutoresizingMaskIntoConstraints="NO" id="nxm-RR-VKr">
-                            <rect key="frame" x="0.0" y="0.0" width="173" height="114"/>
+                            <rect key="frame" x="0.0" y="0.0" width="199" height="114"/>
                             <color key="backgroundColor" red="0.96078431369999995" green="0.96862745100000003" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_collage" translatesAutoresizingMaskIntoConstraints="NO" id="mR7-Ov-Zzm">
-                            <rect key="frame" x="0.0" y="116" width="173" height="114"/>
+                            <rect key="frame" x="0.0" y="116" width="199" height="113.5"/>
                             <color key="backgroundColor" red="0.96078431369999995" green="0.96862745100000003" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
                     </subviews>
@@ -39,20 +39,19 @@
                     </constraints>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="QN4-lr-tgH">
-                    <rect key="frame" x="0.0" y="232" width="521" height="160"/>
+                    <rect key="frame" x="0.0" y="231.5" width="521" height="160.5"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_collage" translatesAutoresizingMaskIntoConstraints="NO" id="wgR-jF-jrs">
-                            <rect key="frame" x="0.0" y="0.0" width="299" height="160"/>
+                            <rect key="frame" x="0.0" y="0.0" width="299" height="160.5"/>
                             <color key="backgroundColor" red="0.96078431369999995" green="0.96862745100000003" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_collage" translatesAutoresizingMaskIntoConstraints="NO" id="2yg-NR-yPj">
-                            <rect key="frame" x="301" y="0.0" width="220" height="160"/>
+                            <rect key="frame" x="301" y="0.0" width="220" height="160.5"/>
                             <color key="backgroundColor" red="0.96078431369999995" green="0.96862745100000003" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="2yg-NR-yPj" firstAttribute="width" secondItem="wgR-jF-jrs" secondAttribute="width" multiplier="158:215" id="Rtg-Mq-kpO"/>
-                        <constraint firstAttribute="height" constant="160" id="fYL-Ls-DXJ"/>
                         <constraint firstItem="2yg-NR-yPj" firstAttribute="height" secondItem="wgR-jF-jrs" secondAttribute="height" id="r9k-hZ-yFm"/>
                     </constraints>
                 </stackView>
@@ -61,12 +60,13 @@
             <constraints>
                 <constraint firstItem="rFl-1F-CE2" firstAttribute="leading" secondItem="kUi-H0-BuL" secondAttribute="trailing" constant="2" id="5Nu-Sd-xiR"/>
                 <constraint firstItem="kUi-H0-BuL" firstAttribute="top" secondItem="Sty-Yc-Ll1" secondAttribute="top" id="7ln-0a-GIE"/>
+                <constraint firstItem="QN4-lr-tgH" firstAttribute="height" secondItem="kUi-H0-BuL" secondAttribute="height" multiplier="161:230" id="AR1-y1-ju9"/>
                 <constraint firstItem="rFl-1F-CE2" firstAttribute="bottom" secondItem="kUi-H0-BuL" secondAttribute="bottom" id="E5i-J5-hhM"/>
                 <constraint firstItem="kUi-H0-BuL" firstAttribute="leading" secondItem="Sty-Yc-Ll1" secondAttribute="leading" id="JDO-By-Flf"/>
                 <constraint firstItem="QN4-lr-tgH" firstAttribute="leading" secondItem="Sty-Yc-Ll1" secondAttribute="leading" id="Zi1-wV-Jx4"/>
                 <constraint firstItem="rFl-1F-CE2" firstAttribute="top" secondItem="Sty-Yc-Ll1" secondAttribute="top" id="dHX-BL-aLc"/>
                 <constraint firstItem="QN4-lr-tgH" firstAttribute="top" secondItem="kUi-H0-BuL" secondAttribute="bottom" constant="2" id="gWA-aR-LyO"/>
-                <constraint firstItem="rFl-1F-CE2" firstAttribute="width" secondItem="kUi-H0-BuL" secondAttribute="width" multiplier="1:2" id="hj8-px-xnk"/>
+                <constraint firstItem="rFl-1F-CE2" firstAttribute="width" secondItem="kUi-H0-BuL" secondAttribute="width" multiplier="143:230" id="hj8-px-xnk"/>
                 <constraint firstItem="rFl-1F-CE2" firstAttribute="trailing" secondItem="Sty-Yc-Ll1" secondAttribute="trailing" id="kPb-TG-43D"/>
                 <constraint firstItem="QN4-lr-tgH" firstAttribute="trailing" secondItem="Sty-Yc-Ll1" secondAttribute="trailing" id="oGa-qw-0FR"/>
                 <constraint firstAttribute="bottom" secondItem="QN4-lr-tgH" secondAttribute="bottom" constant="-2" id="xuf-RY-aI1"/>

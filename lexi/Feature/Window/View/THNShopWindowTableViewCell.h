@@ -22,11 +22,6 @@ typedef void(^ContentBlock)(void);
 typedef void(^ShopWindowCellBlock)(NSString *rid);
 typedef void(^ShopWindowShareBlock)(NSString *rid);
 
-UIKIT_EXTERN CGFloat threeImageHeight;
-UIKIT_EXTERN CGFloat fiveToGrowImageHeight;
-UIKIT_EXTERN CGFloat sevenToGrowImageHeight;
-
-
 @interface THNShopWindowTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
