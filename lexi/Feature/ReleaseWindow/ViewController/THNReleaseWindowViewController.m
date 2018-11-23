@@ -61,6 +61,7 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSArray *coverWithSelectIndexs;
 @property (nonatomic, strong) NSMutableArray *sortMutable;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
 
 @end
 
@@ -434,8 +435,19 @@ THNNavigationBarViewDelegate
         textView.height = fltTextHeight;
         // 24为标题控件的高度
         self.postContenViewHeightConstraint.constant = textView.height + 24;
-        // 待优化一下
-        [self.scrollView scrollRectToVisible:CGRectMake(0, fltTextHeight, SCREEN_WIDTH, SCREEN_HEIGHT) animated:NO];
+        CGFloat height = 0.0;
+        // 待优化一下 6 : 604 plus :630 5s : 568 x:570
+        if (SCREEN_HEIGHT == 568) {
+            height = 568;
+        } else if (SCREEN_HEIGHT == 667) {
+            height = 604;
+        } else if (SCREEN_HEIGHT == 736) {
+            height = 630;
+        } else if (SCREEN_HEIGHT == 812) {
+            height = 570;
+        }
+        
+        [self.scrollView scrollRectToVisible:CGRectMake(0, fltTextHeight, SCREEN_WIDTH, height) animated:NO];
     }];
 }
 
