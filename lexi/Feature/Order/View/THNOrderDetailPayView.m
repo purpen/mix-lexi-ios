@@ -9,6 +9,7 @@
 #import "THNOrderDetailPayView.h"
 #import "THNOrderDetailModel.h"
 #import "NSString+Helper.h"
+#import "THNPayManger.h"
 
 @interface THNOrderDetailPayView()
 @property (weak, nonatomic) IBOutlet UILabel *orderNumberLabel;
@@ -42,17 +43,27 @@
 
 - (CGFloat)setOrderDetailPayView:(THNOrderDetailModel *)detailModel {
     
-    if (!detailModel.outside_target_id) {
+    // 取消隐藏支付方式
+    if (detailModel.user_order_status == 6) {
         self.orderDetailTopView.hidden = YES;
         self.orderDetailTopViewHeightConstraint.constant = 0;
     } else {
-        self.orderNumberLabel.text = detailModel.outside_target_id;
-        self.payMethodLabel.text = @"微信在线支付";
-        self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_wechat"];
+        if (detailModel.pay_type == THNPaymentTypeWechat) {
+            self.payMethodLabel.text = @"微信支付";
+            self.payMethodImageView.image = [UIImage imageNamed:@"icon_pay_wechat"];
+        } else if (detailModel.pay_type == THNPaymentTypeAlipay) {
+            self.payMethodLabel.text = @"支付宝支付";
+            self.payMethodImageView.image = [UIImage imageNamed:@"icon_order_alipay"];
+        } else if (detailModel.pay_type == THNPaymentTypeHuabei) {
+            self.payMethodLabel.text = @"花呗支付";
+            self.payMethodImageView.image = [UIImage imageNamed:@"icon_pay_huabei"];
+        }
+        
         self.orderDetailTopView.hidden = NO;
         self.orderDetailTopViewHeightConstraint.constant = 138;
     }
     
+    self.orderNumberLabel.text = detailModel.outside_target_id;
     self.subtotalLabel.text = [NSString formatFloat:detailModel.total_amount];
     self.totalMoneyLabel.text = [NSString formatFloat:detailModel.user_pay_amount];
     
