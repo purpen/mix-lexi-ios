@@ -23,10 +23,14 @@
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import <UMCommon/UMCommon.h>
+#import <UMPush/UMessage.h>
+#import <UserNotifications/UserNotifications.h>
+#import "THNAlertView.h"
 
 static NSString *const kCancelPayOrderTitle = @"取消支付";
 
-@interface AppDelegate ()<WXApiDelegate>
+@interface AppDelegate ()<WXApiDelegate, UNUserNotificationCenterDelegate>
 
 @end
 
@@ -38,7 +42,7 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
     [self configUSharePlatforms];
     [self configUmengAnalytics];
     [self configWXPlatforms];
-    
+    [self configureUMessageWithLaunchOptions:launchOptions];
     return YES;
 }
 
@@ -80,7 +84,79 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
                                     didEndEditingNotificationName:YYTextViewTextDidEndEditingNotification];
 }
 
-#pragma mark - 友盟设置
+#pragma mark - 友盟推送设置
+- (void)configureUMessageWithLaunchOptions:(NSDictionary *)launchOptions  {
+    // Push功能配置
+    UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
+    entity.types = UMessageAuthorizationOptionBadge|UMessageAuthorizationOptionAlert|UMessageAuthorizationOptionSound;
+    if (@available(iOS 10.0, *)) {
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    } else {
+        // Fallback on earlier versions
+    }
+    [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            
+        } else {
+            
+        }
+    }];
+}
+
+#pragma mark - UNUserNotificationCenterDelegate
+//iOS10新增：处理前台收到通知的代理方法
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center
+      willPresentNotification:(UNNotification *)notification
+        withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler API_AVAILABLE(ios(10.0)){
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //应用处于前台时的远程推送接受
+        //必须加这句代码
+        [UMessage didReceiveRemoteNotification:userInfo];
+    }else{
+        //应用处于前台时的本地推送接受
+    }
+    completionHandler(UNNotificationPresentationOptionSound|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionAlert);
+}
+
+//iOS10新增：处理后台点击通知的代理方法
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+        withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)){
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    if (@available(iOS 10.0, *)) {
+        if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+            //应用处于后台时的远程推送接受
+            //必须加这句代码
+            [UMessage didReceiveRemoteNotification:userInfo];
+        }else{
+            //应用处于后台时的本地推送接受
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+}
+
+//iOS10以下使用这两个方法接收通知
+-(void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if([[[UIDevice currentDevice] systemVersion]intValue] < 10){
+        [UMessage didReceiveRemoteNotification:userInfo];
+    }
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+//    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+//    [UMessage registerDeviceToken:deviceToken];
+}
+
+#pragma mark - 友盟分享设置
 - (void)configUSharePlatforms {
     /* 打开调试日志 */
     [[UMSocialManager defaultManager] openLog:YES];
@@ -150,6 +226,7 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
     if ([url.host isEqualToString:@"safepay"]) {
 //        跳转支付宝钱包进行支付，处理支付结果
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            //  6001 = 取消
             if ([resultDic[@"resultStatus"] integerValue] == 6001) {
                 [SVProgressHUD thn_showInfoWithStatus:kCancelPayOrderTitle];
             } else {
@@ -170,6 +247,7 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 #pragma mark WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[PayResp class]]){
+        // -2为取消
         if (resp.errCode == -2) {
             [SVProgressHUD thn_showInfoWithStatus:kCancelPayOrderTitle];
         } else {
