@@ -44,14 +44,18 @@ UIKIT_EXTERN NSString *const kAppName;
 #pragma mark UM
 UIKIT_EXTERN NSString *const kUMAppKey;
 #pragma mark WX
+UIKIT_EXTERN NSString *const kWXURLScheme;
 UIKIT_EXTERN NSString *const kWXAppKey;
 UIKIT_EXTERN NSString *const kWXAppSecret;
 #pragma mark Alipay
+UIKIT_EXTERN NSString *const kALiURLScheme;
 UIKIT_EXTERN NSString *const kAlipayKey;
 #pragma mark WB
+UIKIT_EXTERN NSString *const kWBURLScheme;
 UIKIT_EXTERN NSString *const kWBAppKey;
 UIKIT_EXTERN NSString *const kWBAppSecret;
 #pragma mark QQ
+UIKIT_EXTERN NSString *const kQQURLScheme;
 UIKIT_EXTERN NSString *const kQQAppId;
 UIKIT_EXTERN NSString *const kQQAppKey;
 
