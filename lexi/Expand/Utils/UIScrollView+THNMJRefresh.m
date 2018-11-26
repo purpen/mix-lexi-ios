@@ -11,7 +11,7 @@
 #import "UIImage+GIF.h"
 
 static NSString *const kTextFooterTitle  = @"正在加载...";
-static NSString *const kTextFooterNoData = @"没有更多数据了";
+static NSString *const kTextFooterNoData = @"- END -";
 
 @implementation UIScrollView (THNMJRefresh)
 
@@ -79,11 +79,11 @@ static NSString *const kTextFooterNoData = @"没有更多数据了";
             [footer setImages:[UIImage imagesWithGifNamed:@"loading"] forState:MJRefreshStatePulling];
             [footer setImages:[UIImage imagesWithGifNamed:@"loading"] forState:MJRefreshStateRefreshing];
             footer.stateLabel.font = [UIFont systemFontOfSize:13.0];
-            footer.stateLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+            footer.stateLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
             [footer setTitle:@"" forState:MJRefreshStateIdle];
             [footer setTitle:kTextFooterNoData forState:MJRefreshStateNoMoreData];
             footer.refreshingTitleHidden = YES;
-            footer.stateLabel.hidden = YES;
+            footer.stateLabel.hidden = !self.showNoMoreDataTitle;
             
             self.mj_footer = footer;
             
@@ -196,6 +196,19 @@ static NSString *const kTextFooterNoData = @"没有更多数据了";
 }
 
 #pragma mark - getters and setters
+- (BOOL)showNoMoreDataTitle {
+    NSNumber *number = objc_getAssociatedObject(self, _cmd);
+    if (number) {
+        return [number boolValue];
+    }
+    
+    return YES;
+}
+
+- (void)setShowNoMoreDataTitle:(BOOL)showNoMoreDataTitle {
+    objc_setAssociatedObject(self, @selector(showNoMoreDataTitle), @(showNoMoreDataTitle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (NSNumber *)currentPage {
     return objc_getAssociatedObject(self, _cmd);
 }
