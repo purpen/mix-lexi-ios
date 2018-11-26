@@ -176,7 +176,8 @@ static NSString *const kTextCancel = @"取消";
 
 - (void)thn_showAnimation:(BOOL)show {
     CGFloat frameH = kDeviceiPhoneX ? 307 : 275;
-    frameH = show ? frameH : 0;
+    CGFloat originY = show ? SCREEN_HEIGHT - frameH : SCREEN_HEIGHT;
+    CGFloat alpha = show ? 0.4 : 0;
     
     [UIView animateWithDuration:0.4
                           delay:0
@@ -184,12 +185,13 @@ static NSString *const kTextCancel = @"取消";
           initialSpringVelocity:0.8
                         options:(UIViewAnimationOptionTransitionCrossDissolve)
                      animations:^{
-                         self.containerView.frame = CGRectMake(0, SCREEN_HEIGHT - frameH, SCREEN_WIDTH, frameH);
-                         self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:show ? 0.4 : 0];
+                         self.containerView.frame = CGRectMake(0, originY, SCREEN_WIDTH, frameH);
+                         self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:alpha];
                          
                      } completion:^(BOOL finished) {
-                         if (show) return ;
-                         [self dismissViewControllerAnimated:YES completion:nil];
+                         if (!show) {
+                             [self dismissViewControllerAnimated:NO completion:nil];
+                         }
                      }];
 }
 

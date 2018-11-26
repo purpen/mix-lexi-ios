@@ -57,6 +57,8 @@ static const NSInteger kRightButtonTag = 123;
 - (void)setNavigationTransparent:(BOOL)transparent showShadow:(BOOL)show {
     self.transparent = transparent;
     self.shadow.hidden = !show;
+    
+    [self setNeedsUpdateConstraints];
 }
 
 /**
@@ -82,6 +84,8 @@ static const NSInteger kRightButtonTag = 123;
     self.titleLabel.text = title;
     self.titleLabel.font = [UIFont systemFontOfSize:size weight:(UIFontWeightRegular)];
     self.titleLabel.textColor = [UIColor colorWithHexString:hexColor];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 /**
@@ -91,6 +95,8 @@ static const NSInteger kRightButtonTag = 123;
     self.leftButton.hidden = NO;
     [self.leftButton setImage:[UIImage imageNamed:imageName] forState:(UIControlStateNormal)];
     [self.leftButton setImage:[UIImage imageNamed:imageName] forState:(UIControlStateHighlighted)];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setNavigationLeftButtonOfText:(NSString *)text {
@@ -125,6 +131,8 @@ static const NSInteger kRightButtonTag = 123;
     self.rightButton.hidden = NO;
     [self.rightButton setImage:[UIImage imageNamed:imageName] forState:(UIControlStateNormal)];
     [self.rightButton setImage:[UIImage imageNamed:imageName] forState:(UIControlStateHighlighted)];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setNavigationRightButtonOfImageNamedArray:(NSArray *)imageNames {

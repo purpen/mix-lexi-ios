@@ -136,6 +136,9 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 - (void)updateUserLivingHallStatus:(BOOL)openingUser initSupplier:(BOOL)supplier initStoreId:(NSString *)storeId;
 
+/**
+ 直接打开登录视图
+ */
 - (void)openUserLoginController;
 
 @end

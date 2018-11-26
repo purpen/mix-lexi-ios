@@ -52,24 +52,9 @@ THNNavigationBarViewDelegate
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
-    switch ([self thn_getPaymentType]) {
-        case THNPaymentTypeWechat: {
-            
-        }
-            break;
-            
-        case THNPaymentTypeAlipay: {
-            
-        }
-            break;
-            
-        case THNPaymentTypeHuabei: {
-            [SVProgressHUD thn_showSuccessWithStatus:@"花呗"];
-        }
-            break;
-    }
-    
-    [[THNPayManger sharedManager] loadThirdPayParamsWithRid:self.orderRid withFromPaymentType:FromPaymentTypePaymentVC withPaymentType:[self thn_getPaymentType]];
+    [[THNPayManger sharedManager] loadThirdPayParamsWithRid:self.orderRid
+                                        withFromPaymentType:FromPaymentTypePaymentVC
+                                            withPaymentType:[self thn_getPaymentType]];
 }
 
 

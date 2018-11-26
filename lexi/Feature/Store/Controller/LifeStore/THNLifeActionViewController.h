@@ -7,21 +7,9 @@
 //
 
 #import "THNBaseViewController.h"
-
-typedef NS_ENUM(NSUInteger, THNLifeActionType) {
-    THNLifeActionTypeText = 0,  //  提示文字
-    THNLifeActionTypeImage,     //  展示图片
-    THNLifeActionTypeCash,      //  提现
-};
+#import "THNLifeActionView.h"
 
 @interface THNLifeActionViewController : THNBaseViewController
-
-// 提示文字
-@property (nonatomic, strong) NSString *hintText;
-// 展示图片
-@property (nonatomic, strong) UIImage *showImage;
-// 提现金额
-- (void)thn_setCashMoney:(CGFloat)cashMoney serviceMoney:(CGFloat)serviceMoney;
 
 - (instancetype)initWithType:(THNLifeActionType)type;
 

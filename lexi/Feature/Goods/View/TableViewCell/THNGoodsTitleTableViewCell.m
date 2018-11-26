@@ -137,7 +137,7 @@ static NSString *const kGoodsTitleTableViewCellId = @"kGoodsTitleTableViewCellId
         make.width.mas_equalTo([self.originalPriceLabel thn_getLabelWidthWithMaxHeight:20]);
     }];
     
-    [self.makeMoneyLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.makeMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.originalPriceLabel.mas_right).with.offset(10);
         make.centerY.mas_equalTo(self.priceLabel);
         make.height.mas_equalTo(20);

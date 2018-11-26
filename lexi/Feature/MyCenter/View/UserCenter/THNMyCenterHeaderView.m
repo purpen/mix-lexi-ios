@@ -22,7 +22,7 @@
 static NSString *const kTextFollow   = @"关注";
 static NSString *const kTextFans     = @"粉丝";
 static NSString *const kTextLiked    = @"已喜欢";
-static NSString *const kTextCollect  = @"收藏";
+static NSString *const kTextCollect  = @"列表";
 static NSString *const kTextStore    = @"设计馆";
 static NSString *const kTextDynamic  = @"动态";
 static NSString *const kTextOrder    = @"我的订单";
@@ -289,8 +289,7 @@ static NSInteger const kSelectedButtonTag = 452;
     
     [self.orderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(88, 30));
-//        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
-        make.left.mas_equalTo(20);
+        make.left.equalTo(self.activityButton.mas_right).with.offset(15);
         make.bottom.mas_equalTo(-20);
     }];
     
@@ -435,8 +434,6 @@ static NSInteger const kSelectedButtonTag = 452;
         _activityButton.backgroundColor = [UIColor colorWithHexString:@"#FF6666"];
         _activityButton.tag = kSelectedButtonTag + 4;
         _activityButton.layer.cornerRadius = 30 / 2;
-        _activityButton.layer.masksToBounds = YES;
-        _activityButton.hidden = YES;
         
         [_activityButton addTarget:self action:@selector(selectedButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }

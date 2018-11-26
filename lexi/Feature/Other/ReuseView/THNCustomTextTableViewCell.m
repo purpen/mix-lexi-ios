@@ -35,8 +35,6 @@
 - (void)thn_setIconImageName:(NSString *)imageName mainText:(NSString *)mainText {
     self.iconImageView.image = [UIImage imageNamed:imageName];
     self.mainTextLabel.text = mainText;
-    
-    [self setNeedsUpdateConstraints];
 }
 
 - (void)thn_setSubText:(NSString *)subText textColor:(NSString *)colorHex {
@@ -52,9 +50,11 @@
     [self addSubview:self.nextImageView];
     [self addSubview:self.mainTextLabel];
     [self addSubview:self.subTextLabel];
+    
+    [self setMasonryLayout];
 }
 
-- (void)updateConstraints {
+- (void)setMasonryLayout {
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(15, 15));
         make.left.mas_equalTo(15);
@@ -69,7 +69,7 @@
     
     [self.mainTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(45);
-        make.width.mas_equalTo([self.mainTextLabel.text boundingSizeWidthWithFontSize:15]);
+        make.width.mas_equalTo(150);
         make.top.bottom.mas_equalTo(0);
     }];
     
@@ -78,8 +78,6 @@
         make.right.mas_equalTo(-30);
         make.top.bottom.mas_equalTo(0);
     }];
-    
-    [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {

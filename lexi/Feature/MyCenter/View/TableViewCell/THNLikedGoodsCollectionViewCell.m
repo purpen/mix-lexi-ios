@@ -94,7 +94,8 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 
 - (void)updateConstraints {
     [self.goodsImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)));
+        make.top.left.mas_equalTo(0);
     }];
     
     [self.infoView mas_remakeConstraints:^(MASConstraintMaker *make) {

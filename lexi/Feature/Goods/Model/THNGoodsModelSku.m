@@ -60,7 +60,7 @@ NSString *const kTHNGoodsModelSkuTown = @"town";
 		self.city = dictionary[kTHNGoodsModelSkuCity];
 	}	
 	if(![dictionary[kTHNGoodsModelSkuCommissionPrice] isKindOfClass:[NSNull class]]){
-		self.commissionPrice = [dictionary[kTHNGoodsModelSkuCommissionPrice] integerValue];
+		self.commissionPrice = [dictionary[kTHNGoodsModelSkuCommissionPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelSkuCommissionRate] isKindOfClass:[NSNull class]]){
@@ -101,7 +101,7 @@ NSString *const kTHNGoodsModelSkuTown = @"town";
 		self.mode = dictionary[kTHNGoodsModelSkuMode];
 	}	
 	if(![dictionary[kTHNGoodsModelSkuPrice] isKindOfClass:[NSNull class]]){
-		self.price = [dictionary[kTHNGoodsModelSkuPrice] integerValue];
+		self.price = [dictionary[kTHNGoodsModelSkuPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelSkuProductName] isKindOfClass:[NSNull class]]){

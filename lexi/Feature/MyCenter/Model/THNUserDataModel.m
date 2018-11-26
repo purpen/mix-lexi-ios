@@ -12,18 +12,12 @@
 @implementation THNUserDataModel
 
 - (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property {
-    if ([property.name isEqualToString:@"street_address"]) {
-        if ([oldValue isKindOfClass:[NSNull class]]) {
+    if (property.type.typeClass == [NSString class]) {
+        if ([oldValue isEqual:[NSNull null]]) {
             return @"";
         }
     }
-    
-    if ([property.name isEqualToString:@"mail"]) {
-        if ([oldValue isKindOfClass:[NSNull class]]) {
-            return @"";
-        }
-    }
-    
+
     return oldValue;
 }
 

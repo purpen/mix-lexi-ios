@@ -20,6 +20,7 @@
 #import "THNLifeCashViewController.h"
 #import "THNLifeActionViewController.h"
 #import "THNShareImageViewController.h"
+#import "THNAlertView.h"
 
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
 ///
@@ -170,12 +171,9 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     UIPasteboard *pab = [UIPasteboard generalPasteboard];
     [pab setString:@"lexixiaoduo"];
     
-    if (!pab) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请在微信添加朋友「lexixiaoduo」"];
-        
-    } else {
-        [SVProgressHUD thn_showSuccessWithStatus:@"复制成功，去微信添加朋友「lexixiaoduo」"];
-    }
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"" message:@"复制成功，去微信添加朋友:\nlexixiaoduo"];
+    [alertView addActionButtonWithTitle:@"确定" handler:nil];
+    [alertView show];
 }
 
 #pragma mark - tableView datasource & delegate
@@ -303,7 +301,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
 
 - (UIView *)footerView {
     if (!_footerView) {
-        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 84)];
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
         _footerView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
     }
     return _footerView;

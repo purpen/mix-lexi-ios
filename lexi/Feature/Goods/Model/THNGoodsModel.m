@@ -211,19 +211,19 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.materialName = dictionary[kTHNGoodsModelMaterialName];
 	}	
 	if(![dictionary[kTHNGoodsModelMaxPrice] isKindOfClass:[NSNull class]]){
-		self.maxPrice = [dictionary[kTHNGoodsModelMaxPrice] integerValue];
+		self.maxPrice = [dictionary[kTHNGoodsModelMaxPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelMaxSalePrice] isKindOfClass:[NSNull class]]){
-		self.maxSalePrice = [dictionary[kTHNGoodsModelMaxSalePrice] integerValue];
+		self.maxSalePrice = [dictionary[kTHNGoodsModelMaxSalePrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelMinPrice] isKindOfClass:[NSNull class]]){
-		self.minPrice = [dictionary[kTHNGoodsModelMinPrice] integerValue];
+		self.minPrice = [dictionary[kTHNGoodsModelMinPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelMinSalePrice] isKindOfClass:[NSNull class]]){
-		self.minSalePrice = [dictionary[kTHNGoodsModelMinSalePrice] integerValue];
+		self.minSalePrice = [dictionary[kTHNGoodsModelMinSalePrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelModes] isKindOfClass:[NSNull class]]){
@@ -252,11 +252,11 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.pyIntro = dictionary[kTHNGoodsModelPyIntro];
 	}	
 	if(![dictionary[kTHNGoodsModelRealPrice] isKindOfClass:[NSNull class]]){
-		self.realPrice = [dictionary[kTHNGoodsModelRealPrice] integerValue];
+		self.realPrice = [dictionary[kTHNGoodsModelRealPrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelRealSalePrice] isKindOfClass:[NSNull class]]){
-		self.realSalePrice = [dictionary[kTHNGoodsModelRealSalePrice] integerValue];
+		self.realSalePrice = [dictionary[kTHNGoodsModelRealSalePrice] floatValue];
 	}
 
 	if(![dictionary[kTHNGoodsModelReturnPolicyId] isKindOfClass:[NSNull class]]){

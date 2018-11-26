@@ -154,7 +154,7 @@ static NSString *const kTextNone = @"已售罄";
     [self.cartButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(59, 40));
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(5);
     }];
     
     [self.countLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -169,20 +169,20 @@ static NSString *const kTextNone = @"已售罄";
     [self.mainButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
         make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(5);
     }];
     
     [self.subButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(buttonWidth, 40));
         make.right.mas_equalTo(-15);
-        make.top.mas_equalTo(10);
+        make.centerY.equalTo(self.mainButton);
     }];
     
     [self.noneLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(40);
         make.left.mas_equalTo(self.cartButton.isHidden ? 15 : 79);
         make.right.mas_equalTo(-15);
-        make.top.mas_equalTo(10);
+        make.centerY.equalTo(self.mainButton);
     }];
     
     [super updateConstraints];

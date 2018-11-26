@@ -15,6 +15,8 @@
 
 static NSString *const kTitleSetting    = @"编辑个人资料";
 static NSString *const kTextSave        = @"保存";
+/// url
+static NSString *const kURLUsers        = @"/users/profile";
 /// key
 static NSString *const kResultDataIds   = @"ids";
 static NSString *const kKeyAvatarId     = @"avatar_id";
@@ -24,6 +26,7 @@ static NSString *const kKeyGender       = @"gender";
 static NSString *const kKeyMail         = @"mail";
 static NSString *const kKeyDate         = @"date";
 static NSString *const kKeyAddress      = @"street_address";
+static NSString *const kKeyProfile      = @"profile";
 
 @interface THNSettingUserInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -42,26 +45,26 @@ static NSString *const kKeyAddress      = @"street_address";
     [self setupUI];
 }
 
-#pragma mark - event response
-- (NSDictionary *)thn_getEditUserInfoData {
-    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-    [paramDict setObject:self.headerView.headId forKey:kKeyAvatarId];
+#pragma mark - network
+- (void)networkUserInfoData {
+    WEAKSELF;
     
-    NSArray *allKey = @[kKeyUsername, kKeyAboutMe, kKeyMail, kKeyAddress, kKeyDate, kKeyGender];
-    NSArray *allData = @[self.userModel.username,
-                         self.userModel.about_me,
-                         self.userModel.mail,
-                         self.userModel.street_address,
-                         self.userModel.date,
-                         [NSString stringWithFormat:@"%zi", self.userModel.gender]];
-    
-    for (NSUInteger idx = 0; idx < allKey.count; idx ++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
-        THNSettingInfoTableViewCell *cell = [self.settingTable cellForRowAtIndexPath:indexPath];
-        NSString *obj = cell.editInfo.length ? cell.editInfo : allData[idx];
-        [paramDict setObject:obj forKey:allKey[idx]];
-    }
-    return [paramDict copy];
+    THNRequest *request = [THNAPI getWithUrlString:kURLUsers requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        weakSelf.userModel = [THNUserDataModel mj_objectWithKeyValues:result.data[kKeyProfile]];
+        [weakSelf thn_setLoginUserData];
+#ifdef DEBUG
+//        THNLog(@"用户的资料：======= %@", [NSString jsonStringWithObject:result.data]);
+#endif
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
 }
 
 #pragma mark - event response
@@ -94,10 +97,35 @@ static NSString *const kKeyAddress      = @"street_address";
 }
 
 #pragma mark - private methods
-- (void)thn_getLoginUserData {
-    self.userModel = [THNUserDataModel mj_objectWithKeyValues:[THNLoginManager sharedManager].userData];
+- (void)thn_setLoginUserData {
+    if (!self.userModel) {
+        return;
+    }
+    
     [self.headerView thn_setUserInfoData:self.userModel];
     self.settingTable.tableHeaderView = self.headerView;
+    [self.settingTable reloadData];
+}
+
+- (NSDictionary *)thn_getEditUserInfoData {
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    [paramDict setObject:self.headerView.headId forKey:kKeyAvatarId];
+    
+    NSArray *allKey = @[kKeyUsername, kKeyAboutMe, kKeyMail, kKeyAddress, kKeyDate, kKeyGender];
+    NSArray *allData = @[self.userModel.username,
+                         self.userModel.about_me,
+                         self.userModel.mail,
+                         self.userModel.street_address,
+                         self.userModel.date,
+                         [NSString stringWithFormat:@"%zi", self.userModel.gender]];
+    
+    for (NSUInteger idx = 0; idx < allKey.count; idx ++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+        THNSettingInfoTableViewCell *cell = [self.settingTable cellForRowAtIndexPath:indexPath];
+        NSString *obj = cell.editInfo.length ? cell.editInfo : allData[idx];
+        [paramDict setObject:obj forKey:allKey[idx]];
+    }
+    return [paramDict copy];
 }
 
 #pragma mark - setup UI
@@ -110,7 +138,7 @@ static NSString *const kKeyAddress      = @"street_address";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
-    [self thn_getLoginUserData];
+    [self networkUserInfoData];
 }
 
 - (void)setNavigationBar {

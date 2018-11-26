@@ -30,6 +30,8 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 @property (nonatomic, assign) BOOL isWish;
 /// 喜欢人数的宽度
 @property (nonatomic, assign) CGFloat likeCountW;
+/// 刷新加载数据
+@property (nonatomic, assign) BOOL refreshLoad;
 
 @end
 
@@ -40,11 +42,16 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     if (!cell) {
         cell = [[THNGoodsActionTableViewCell alloc] initWithStyle:style reuseIdentifier:kGoodsActionTableViewCellId];
         cell.tableView = tableView;
+        cell.refreshLoad = YES;
     }
     return cell;
 }
 
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
+    if (!self.refreshLoad) {
+        return;
+    }
+    
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.canPutaway = YES;
     }
@@ -60,6 +67,7 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     self.likeButton.likeGoodsCompleted = ^(NSInteger count) {
         weakSelf.likeCountW = [weakSelf thn_getLikeButtonWidthWithLikeCount:count];
         weakSelf.baseCell.selectedCellBlock(@"");
+        weakSelf.refreshLoad = NO;
         
         [weakSelf setNeedsUpdateConstraints];
     };

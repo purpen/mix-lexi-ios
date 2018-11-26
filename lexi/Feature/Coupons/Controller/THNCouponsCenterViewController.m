@@ -187,11 +187,11 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     [self thn_fixedHeaderView];
     
     if (index == 0) {
-        [self.recommendCollectionView setContentOffset:CGPointMake(-15, -288) animated:NO];
+        [self.recommendCollectionView setContentOffset:CGPointMake(0, -288) animated:NO];
         self.defaultView.alpha = 0;
         
     } else {
-        [self.couponsCollectionView setContentOffset:CGPointMake(-15, -343) animated:NO];
+        [self.couponsCollectionView setContentOffset:CGPointMake(0, -343) animated:NO];
         [self.sharedCouponArr removeAllObjects];
         [self.singleCouponArr removeAllObjects];
         
@@ -242,12 +242,6 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         self.recommendCollectionView.frame = recommendFrame;
         self.couponsCollectionView.frame = couponFrame;
     }];
-}
-
-- (void)thn_sccollectionView:(UICollectionView *)collectionView {
-    CGPoint off = collectionView.contentOffset;
-    off.y = -240;
-    [collectionView setContentOffset:off animated:NO];
 }
 
 // 显示“没有优惠券”提示视图

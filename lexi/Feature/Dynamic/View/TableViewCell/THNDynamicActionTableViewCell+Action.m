@@ -54,7 +54,9 @@ static NSString *const kKeyRid = @"rid";
     
     NSInteger likeCount = [self.likeButton.titleLabel.text integerValue];
     likeCount += selected ? 1 : -1;
-    [self.likeButton setTitle:[NSString stringWithFormat:@"%zi", likeCount] forState:(UIControlStateNormal)];
+    NSString *likeCountStr = [NSString stringWithFormat:@"%zi", likeCount];
+    
+    [self.likeButton setTitle:likeCountStr forState:(UIControlStateNormal)];
     
     self.dynamicModel.likeCount = likeCount;
     self.dynamicModel.isLike = selected;

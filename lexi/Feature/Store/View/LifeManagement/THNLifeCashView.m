@@ -13,6 +13,9 @@
 #import "UIColor+Extension.h"
 #import "THNConst.h"
 
+/// 最大提现金额
+static NSInteger const kMaxCashMoney    = 10;
+/// text
 static NSString *const kTextTitle       = @"可提现金额";
 static NSString *const kTextTitleSub    = @"（元）";
 static NSString *const kTextTotal       = @"累计已提现：";
@@ -59,9 +62,9 @@ static NSString *const kTextCash        = @"提现";
 
 #pragma mark - private methods
 - (void)thn_setCashButtonStatusWithPrice:(CGFloat)price {
-    NSString *colorHex = price > 10 ? kColorMain : @"#CCCCCC";
+    NSString *colorHex = price >= kMaxCashMoney ? kColorMain : @"#CCCCCC";
     self.cashButton.backgroundColor = [UIColor colorWithHexString:colorHex];
-    self.cashButton.userInteractionEnabled = price > 10;
+    self.cashButton.userInteractionEnabled = price >= kMaxCashMoney;
 }
 
 #pragma mark - setup UI

@@ -273,30 +273,6 @@
 		4B27B49A218717D2004AF42F /* THNStoreModelProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0E1217F1401008E5E28 /* THNStoreModelProduct.m */; };
 		4B27B49B218717D2004AF42F /* THNCountdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0E4217F1401008E5E28 /* THNCountdown.m */; };
 		4B27B49C218717D2004AF42F /* THNLifeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0E6217F1401008E5E28 /* THNLifeManager.m */; };
-		4B27B49D218717D2004AF42F /* THNLifeCashBillInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0EB217F1401008E5E28 /* THNLifeCashBillInfoTableViewCell.m */; };
-		4B27B49E218717D2004AF42F /* THNLifeCashBillInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0ED217F1401008E5E28 /* THNLifeCashBillInfoView.m */; };
-		4B27B49F218717D2004AF42F /* THNLifeCashBillSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0EF217F1401008E5E28 /* THNLifeCashBillSectionHeaderView.m */; };
-		4B27B4A0218717D2004AF42F /* THNLifeCashBillTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0F1217F1401008E5E28 /* THNLifeCashBillTableViewCell.m */; };
-		4B27B4A1218717D2004AF42F /* THNLifeCashBillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0F3217F1401008E5E28 /* THNLifeCashBillView.m */; };
-		4B27B4A2218717D2004AF42F /* THNLifeOrderActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0F6217F1401008E5E28 /* THNLifeOrderActionTableViewCell.m */; };
-		4B27B4A3218717D2004AF42F /* THNLifeOrderInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0F8217F1401008E5E28 /* THNLifeOrderInfoTableViewCell.m */; };
-		4B27B4A4218717D2004AF42F /* THNLifeOrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0FA217F1401008E5E28 /* THNLifeOrderProductTableViewCell.m */; };
-		4B27B4A5218717D2004AF42F /* THNLifeOrderStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0FC217F1401008E5E28 /* THNLifeOrderStoreTableViewCell.m */; };
-		4B27B4A6218717D2004AF42F /* THNLifeOrderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF0FE217F1401008E5E28 /* THNLifeOrderView.m */; };
-		4B27B4A7218717D2004AF42F /* THNLifeManagementTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF101217F1401008E5E28 /* THNLifeManagementTextTableViewCell.m */; };
-		4B27B4A8218717D2004AF42F /* THNLifeTransactionRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF104217F1401008E5E28 /* THNLifeTransactionRecordTableViewCell.m */; };
-		4B27B4A9218717D2004AF42F /* THNEarningsDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF106217F1401008E5E28 /* THNEarningsDateView.m */; };
-		4B27B4AA218717D2004AF42F /* THNEarningsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF108217F1401008E5E28 /* THNEarningsView.m */; };
-		4B27B4AB218717D2004AF42F /* THNLifeActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF10A217F1401008E5E28 /* THNLifeActionView.m */; };
-		4B27B4AC218717D2004AF42F /* THNLifeCashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF10C217F1401008E5E28 /* THNLifeCashView.m */; };
-		4B27B4AD218717D2004AF42F /* THNLifeCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF10E217F1401008E5E28 /* THNLifeCountdownView.m */; };
-		4B27B4AE218717D2004AF42F /* THNLifeDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF110217F1401008E5E28 /* THNLifeDataView.m */; };
-		4B27B4AF218717D2004AF42F /* THNLifeHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF112217F1401008E5E28 /* THNLifeHintView.m */; };
-		4B27B4B0218717D2004AF42F /* THNLifeManagementUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF114217F1401008E5E28 /* THNLifeManagementUserView.m */; };
-		4B27B4B1218717D2004AF42F /* THNLifeSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF116217F1401008E5E28 /* THNLifeSegmentView.m */; };
-		4B27B4B2218717D2004AF42F /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF118217F1401008E5E28 /* THNApplySuccessView.m */; };
-		4B27B4B3218717D2004AF42F /* THNFollowStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF11A217F1401008E5E28 /* THNFollowStoreTableViewCell.m */; };
-		4B27B4B4218717D2004AF42F /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF11C217F1401008E5E28 /* THNUserApplyView.m */; };
 		4B27B4B5218717D2004AF42F /* THNWindowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DCFC202181CAC000DC4FF4 /* THNWindowListViewController.m */; };
 		4B27B4B6218717D2004AF42F /* THNCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF120217F1401008E5E28 /* THNCommentViewController.m */; };
 		4B27B4B7218717D2004AF42F /* THNShopWindowDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECF123217F1401008E5E28 /* THNShopWindowDetailViewController.m */; };
@@ -451,10 +427,34 @@
 		4BF3D78C21916EA5001B67E2 /* THNCommentSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78B21916EA5001B67E2 /* THNCommentSectionHeaderView.xib */; };
 		4BF3D79021928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF3D78E21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m */; };
 		4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78F21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib */; };
-		CDF3D32521A05556003D841A /* (null) in Resources */ = {isa = PBXBuildFile; };
+		CDF3D32521A05556003D841A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC232189C5D8007A5FF0 /* THNImageUrl.m */; };
 		D803BC2C2189E735007A5FF0 /* THNOrderPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC272189E730007A5FF0 /* THNOrderPayModel.m */; };
 		D803BC312189E753007A5FF0 /* THNAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC2F2189E753007A5FF0 /* THNAddressModel.m */; };
+		D80515F821ABC5CE002460A5 /* THNLifeSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515C221ABC5CD002460A5 /* THNLifeSegmentView.m */; };
+		D80515F921ABC5CE002460A5 /* THNLifeManagementTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */; };
+		D80515FA21ABC5CE002460A5 /* THNLifeCashView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515C621ABC5CD002460A5 /* THNLifeCashView.m */; };
+		D80515FB21ABC5CE002460A5 /* THNLifeDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515CA21ABC5CD002460A5 /* THNLifeDataView.m */; };
+		D80515FC21ABC5CE002460A5 /* THNLifeOrderActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515CC21ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.m */; };
+		D80515FD21ABC5CE002460A5 /* THNLifeOrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515CD21ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.m */; };
+		D80515FE21ABC5CE002460A5 /* THNLifeOrderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515CE21ABC5CD002460A5 /* THNLifeOrderView.m */; };
+		D80515FF21ABC5CE002460A5 /* THNLifeOrderInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515CF21ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.m */; };
+		D805160021ABC5CE002460A5 /* THNLifeOrderStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515D021ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.m */; };
+		D805160121ABC5CE002460A5 /* THNLifeCashBillInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515D921ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.m */; };
+		D805160221ABC5CE002460A5 /* THNLifeCashBillTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515DB21ABC5CD002460A5 /* THNLifeCashBillTableViewCell.m */; };
+		D805160321ABC5CE002460A5 /* THNLifeCashBillInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515DC21ABC5CD002460A5 /* THNLifeCashBillInfoView.m */; };
+		D805160421ABC5CE002460A5 /* THNLifeCashBillSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515DE21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.m */; };
+		D805160521ABC5CE002460A5 /* THNLifeCashBillView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515DF21ABC5CD002460A5 /* THNLifeCashBillView.m */; };
+		D805160621ABC5CE002460A5 /* THNEarningsDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515E121ABC5CD002460A5 /* THNEarningsDateView.m */; };
+		D805160721ABC5CE002460A5 /* THNLifeTransactionRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515E521ABC5CD002460A5 /* THNLifeTransactionRecordTableViewCell.m */; };
+		D805160821ABC5CE002460A5 /* THNLifeManagementUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515E721ABC5CD002460A5 /* THNLifeManagementUserView.m */; };
+		D805160921ABC5CE002460A5 /* THNLifeCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515E821ABC5CD002460A5 /* THNLifeCountdownView.m */; };
+		D805160A21ABC5CE002460A5 /* THNLifeHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515EC21ABC5CD002460A5 /* THNLifeHintView.m */; };
+		D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515EE21ABC5CD002460A5 /* THNEarningsView.m */; };
+		D805160C21ABC5CE002460A5 /* THNLifeActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515EF21ABC5CD002460A5 /* THNLifeActionView.m */; };
+		D805160D21ABC5CE002460A5 /* THNUserApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515F321ABC5CD002460A5 /* THNUserApplyView.m */; };
+		D805160E21ABC5CE002460A5 /* THNApplySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515F421ABC5CD002460A5 /* THNApplySuccessView.m */; };
+		D805160F21ABC5CE002460A5 /* THNFollowStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515F621ABC5CD002460A5 /* THNFollowStoreTableViewCell.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
 		D82C015A21956207009F905F /* THNMyCouponDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015721956207009F905F /* THNMyCouponDefaultView.m */; };
@@ -1162,54 +1162,6 @@
 		4BECF0E4217F1401008E5E28 /* THNCountdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCountdown.m; sourceTree = "<group>"; };
 		4BECF0E5217F1401008E5E28 /* THNLifeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManager.h; sourceTree = "<group>"; };
 		4BECF0E6217F1401008E5E28 /* THNLifeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManager.m; sourceTree = "<group>"; };
-		4BECF0EA217F1401008E5E28 /* THNLifeCashBillInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillInfoTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0EB217F1401008E5E28 /* THNLifeCashBillInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillInfoTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0EC217F1401008E5E28 /* THNLifeCashBillInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillInfoView.h; sourceTree = "<group>"; };
-		4BECF0ED217F1401008E5E28 /* THNLifeCashBillInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillInfoView.m; sourceTree = "<group>"; };
-		4BECF0EE217F1401008E5E28 /* THNLifeCashBillSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillSectionHeaderView.h; sourceTree = "<group>"; };
-		4BECF0EF217F1401008E5E28 /* THNLifeCashBillSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillSectionHeaderView.m; sourceTree = "<group>"; };
-		4BECF0F0217F1401008E5E28 /* THNLifeCashBillTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0F1217F1401008E5E28 /* THNLifeCashBillTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0F2217F1401008E5E28 /* THNLifeCashBillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillView.h; sourceTree = "<group>"; };
-		4BECF0F3217F1401008E5E28 /* THNLifeCashBillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillView.m; sourceTree = "<group>"; };
-		4BECF0F5217F1401008E5E28 /* THNLifeOrderActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderActionTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0F6217F1401008E5E28 /* THNLifeOrderActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderActionTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0F7217F1401008E5E28 /* THNLifeOrderInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderInfoTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0F8217F1401008E5E28 /* THNLifeOrderInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderInfoTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0F9217F1401008E5E28 /* THNLifeOrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderProductTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0FA217F1401008E5E28 /* THNLifeOrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderProductTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0FB217F1401008E5E28 /* THNLifeOrderStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderStoreTableViewCell.h; sourceTree = "<group>"; };
-		4BECF0FC217F1401008E5E28 /* THNLifeOrderStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderStoreTableViewCell.m; sourceTree = "<group>"; };
-		4BECF0FD217F1401008E5E28 /* THNLifeOrderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderView.h; sourceTree = "<group>"; };
-		4BECF0FE217F1401008E5E28 /* THNLifeOrderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderView.m; sourceTree = "<group>"; };
-		4BECF100217F1401008E5E28 /* THNLifeManagementTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManagementTextTableViewCell.h; sourceTree = "<group>"; };
-		4BECF101217F1401008E5E28 /* THNLifeManagementTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManagementTextTableViewCell.m; sourceTree = "<group>"; };
-		4BECF103217F1401008E5E28 /* THNLifeTransactionRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeTransactionRecordTableViewCell.h; sourceTree = "<group>"; };
-		4BECF104217F1401008E5E28 /* THNLifeTransactionRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeTransactionRecordTableViewCell.m; sourceTree = "<group>"; };
-		4BECF105217F1401008E5E28 /* THNEarningsDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNEarningsDateView.h; sourceTree = "<group>"; };
-		4BECF106217F1401008E5E28 /* THNEarningsDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNEarningsDateView.m; sourceTree = "<group>"; };
-		4BECF107217F1401008E5E28 /* THNEarningsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNEarningsView.h; sourceTree = "<group>"; };
-		4BECF108217F1401008E5E28 /* THNEarningsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNEarningsView.m; sourceTree = "<group>"; };
-		4BECF109217F1401008E5E28 /* THNLifeActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeActionView.h; sourceTree = "<group>"; };
-		4BECF10A217F1401008E5E28 /* THNLifeActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeActionView.m; sourceTree = "<group>"; };
-		4BECF10B217F1401008E5E28 /* THNLifeCashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashView.h; sourceTree = "<group>"; };
-		4BECF10C217F1401008E5E28 /* THNLifeCashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashView.m; sourceTree = "<group>"; };
-		4BECF10D217F1401008E5E28 /* THNLifeCountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCountdownView.h; sourceTree = "<group>"; };
-		4BECF10E217F1401008E5E28 /* THNLifeCountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCountdownView.m; sourceTree = "<group>"; };
-		4BECF10F217F1401008E5E28 /* THNLifeDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeDataView.h; sourceTree = "<group>"; };
-		4BECF110217F1401008E5E28 /* THNLifeDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeDataView.m; sourceTree = "<group>"; };
-		4BECF111217F1401008E5E28 /* THNLifeHintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeHintView.h; sourceTree = "<group>"; };
-		4BECF112217F1401008E5E28 /* THNLifeHintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeHintView.m; sourceTree = "<group>"; };
-		4BECF113217F1401008E5E28 /* THNLifeManagementUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManagementUserView.h; sourceTree = "<group>"; };
-		4BECF114217F1401008E5E28 /* THNLifeManagementUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManagementUserView.m; sourceTree = "<group>"; };
-		4BECF115217F1401008E5E28 /* THNLifeSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeSegmentView.h; sourceTree = "<group>"; };
-		4BECF116217F1401008E5E28 /* THNLifeSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeSegmentView.m; sourceTree = "<group>"; };
-		4BECF117217F1401008E5E28 /* THNApplySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessView.h; sourceTree = "<group>"; };
-		4BECF118217F1401008E5E28 /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
-		4BECF119217F1401008E5E28 /* THNFollowStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFollowStoreTableViewCell.h; sourceTree = "<group>"; };
-		4BECF11A217F1401008E5E28 /* THNFollowStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreTableViewCell.m; sourceTree = "<group>"; };
-		4BECF11B217F1401008E5E28 /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
-		4BECF11C217F1401008E5E28 /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
 		4BECF11F217F1401008E5E28 /* THNCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentViewController.h; sourceTree = "<group>"; };
 		4BECF120217F1401008E5E28 /* THNCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentViewController.m; sourceTree = "<group>"; };
 		4BECF121217F1401008E5E28 /* THNCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNCommentViewController.xib; sourceTree = "<group>"; };
@@ -1270,6 +1222,54 @@
 		D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrderPayModel.h; sourceTree = "<group>"; };
 		D803BC2F2189E753007A5FF0 /* THNAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressModel.m; sourceTree = "<group>"; };
 		D803BC302189E753007A5FF0 /* THNAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAddressModel.h; sourceTree = "<group>"; };
+		D80515C221ABC5CD002460A5 /* THNLifeSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeSegmentView.m; sourceTree = "<group>"; };
+		D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManagementTextTableViewCell.m; sourceTree = "<group>"; };
+		D80515C521ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManagementTextTableViewCell.h; sourceTree = "<group>"; };
+		D80515C621ABC5CD002460A5 /* THNLifeCashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashView.m; sourceTree = "<group>"; };
+		D80515C721ABC5CD002460A5 /* THNLifeCountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCountdownView.h; sourceTree = "<group>"; };
+		D80515C821ABC5CD002460A5 /* THNLifeManagementUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManagementUserView.h; sourceTree = "<group>"; };
+		D80515C921ABC5CD002460A5 /* THNLifeHintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeHintView.h; sourceTree = "<group>"; };
+		D80515CA21ABC5CD002460A5 /* THNLifeDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeDataView.m; sourceTree = "<group>"; };
+		D80515CC21ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderActionTableViewCell.m; sourceTree = "<group>"; };
+		D80515CD21ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderProductTableViewCell.m; sourceTree = "<group>"; };
+		D80515CE21ABC5CD002460A5 /* THNLifeOrderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderView.m; sourceTree = "<group>"; };
+		D80515CF21ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderInfoTableViewCell.m; sourceTree = "<group>"; };
+		D80515D021ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeOrderStoreTableViewCell.m; sourceTree = "<group>"; };
+		D80515D121ABC5CD002460A5 /* THNLifeOrderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderView.h; sourceTree = "<group>"; };
+		D80515D221ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderProductTableViewCell.h; sourceTree = "<group>"; };
+		D80515D321ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderActionTableViewCell.h; sourceTree = "<group>"; };
+		D80515D421ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderStoreTableViewCell.h; sourceTree = "<group>"; };
+		D80515D521ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeOrderInfoTableViewCell.h; sourceTree = "<group>"; };
+		D80515D721ABC5CD002460A5 /* THNLifeCashBillInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillInfoView.h; sourceTree = "<group>"; };
+		D80515D821ABC5CD002460A5 /* THNLifeCashBillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillView.h; sourceTree = "<group>"; };
+		D80515D921ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillInfoTableViewCell.m; sourceTree = "<group>"; };
+		D80515DA21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillSectionHeaderView.h; sourceTree = "<group>"; };
+		D80515DB21ABC5CD002460A5 /* THNLifeCashBillTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillTableViewCell.m; sourceTree = "<group>"; };
+		D80515DC21ABC5CD002460A5 /* THNLifeCashBillInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillInfoView.m; sourceTree = "<group>"; };
+		D80515DD21ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillInfoTableViewCell.h; sourceTree = "<group>"; };
+		D80515DE21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillSectionHeaderView.m; sourceTree = "<group>"; };
+		D80515DF21ABC5CD002460A5 /* THNLifeCashBillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCashBillView.m; sourceTree = "<group>"; };
+		D80515E021ABC5CD002460A5 /* THNLifeCashBillTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashBillTableViewCell.h; sourceTree = "<group>"; };
+		D80515E121ABC5CD002460A5 /* THNEarningsDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNEarningsDateView.m; sourceTree = "<group>"; };
+		D80515E221ABC5CD002460A5 /* THNLifeActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeActionView.h; sourceTree = "<group>"; };
+		D80515E421ABC5CD002460A5 /* THNLifeTransactionRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeTransactionRecordTableViewCell.h; sourceTree = "<group>"; };
+		D80515E521ABC5CD002460A5 /* THNLifeTransactionRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeTransactionRecordTableViewCell.m; sourceTree = "<group>"; };
+		D80515E621ABC5CD002460A5 /* THNEarningsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNEarningsView.h; sourceTree = "<group>"; };
+		D80515E721ABC5CD002460A5 /* THNLifeManagementUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManagementUserView.m; sourceTree = "<group>"; };
+		D80515E821ABC5CD002460A5 /* THNLifeCountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeCountdownView.m; sourceTree = "<group>"; };
+		D80515E921ABC5CD002460A5 /* THNLifeCashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeCashView.h; sourceTree = "<group>"; };
+		D80515EA21ABC5CD002460A5 /* THNLifeSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeSegmentView.h; sourceTree = "<group>"; };
+		D80515EB21ABC5CD002460A5 /* THNLifeDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeDataView.h; sourceTree = "<group>"; };
+		D80515EC21ABC5CD002460A5 /* THNLifeHintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeHintView.m; sourceTree = "<group>"; };
+		D80515ED21ABC5CD002460A5 /* THNEarningsDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNEarningsDateView.h; sourceTree = "<group>"; };
+		D80515EE21ABC5CD002460A5 /* THNEarningsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNEarningsView.m; sourceTree = "<group>"; };
+		D80515EF21ABC5CD002460A5 /* THNLifeActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeActionView.m; sourceTree = "<group>"; };
+		D80515F121ABC5CD002460A5 /* THNApplySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNApplySuccessView.h; sourceTree = "<group>"; };
+		D80515F221ABC5CD002460A5 /* THNUserApplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNUserApplyView.h; sourceTree = "<group>"; };
+		D80515F321ABC5CD002460A5 /* THNUserApplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNUserApplyView.m; sourceTree = "<group>"; };
+		D80515F421ABC5CD002460A5 /* THNApplySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNApplySuccessView.m; sourceTree = "<group>"; };
+		D80515F621ABC5CD002460A5 /* THNFollowStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFollowStoreTableViewCell.m; sourceTree = "<group>"; };
+		D80515F721ABC5CD002460A5 /* THNFollowStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFollowStoreTableViewCell.h; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
@@ -2781,8 +2781,6 @@
 			children = (
 				4BECF0B7217F1401008E5E28 /* THNLifeManagementViewController.h */,
 				4BECF0B8217F1401008E5E28 /* THNLifeManagementViewController.m */,
-				4BECF0AD217F1401008E5E28 /* THNLifeActionViewController.h */,
-				4BECF0AE217F1401008E5E28 /* THNLifeActionViewController.m */,
 				4BECF0AF217F1401008E5E28 /* THNLifeCashBillDetailViewController.h */,
 				4BECF0B0217F1401008E5E28 /* THNLifeCashBillDetailViewController.m */,
 				4BECF0B1217F1401008E5E28 /* THNLifeCashBillInfoViewController.h */,
@@ -2795,6 +2793,8 @@
 				4BECF0BA217F1401008E5E28 /* THNLifeOrderRecordViewController.m */,
 				4BECF0BB217F1401008E5E28 /* THNLifeTransactionRecordsViewController.h */,
 				4BECF0BC217F1401008E5E28 /* THNLifeTransactionRecordsViewController.m */,
+				4BECF0AD217F1401008E5E28 /* THNLifeActionViewController.h */,
+				4BECF0AE217F1401008E5E28 /* THNLifeActionViewController.m */,
 			);
 			path = LifeStore;
 			sourceTree = "<group>";
@@ -2884,96 +2884,11 @@
 		4BECF0E7217F1401008E5E28 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4BECF0E8217F1401008E5E28 /* LifeManagement */,
-				4BECF117217F1401008E5E28 /* THNApplySuccessView.h */,
-				4BECF118217F1401008E5E28 /* THNApplySuccessView.m */,
-				4BECF119217F1401008E5E28 /* THNFollowStoreTableViewCell.h */,
-				4BECF11A217F1401008E5E28 /* THNFollowStoreTableViewCell.m */,
-				4BECF11B217F1401008E5E28 /* THNUserApplyView.h */,
-				4BECF11C217F1401008E5E28 /* THNUserApplyView.m */,
+				D80515F021ABC5CD002460A5 /* ApplyStore */,
+				D80515C121ABC5CD002460A5 /* LifeManagement */,
+				D80515F521ABC5CD002460A5 /* TableViewCell */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		4BECF0E8217F1401008E5E28 /* LifeManagement */ = {
-			isa = PBXGroup;
-			children = (
-				4BECF0E9217F1401008E5E28 /* LifeCash */,
-				4BECF0F4217F1401008E5E28 /* LifeOrder */,
-				4BECF0FF217F1401008E5E28 /* LifeTableViewCell */,
-				4BECF102217F1401008E5E28 /* LifeTransactions */,
-				4BECF105217F1401008E5E28 /* THNEarningsDateView.h */,
-				4BECF106217F1401008E5E28 /* THNEarningsDateView.m */,
-				4BECF107217F1401008E5E28 /* THNEarningsView.h */,
-				4BECF108217F1401008E5E28 /* THNEarningsView.m */,
-				4BECF109217F1401008E5E28 /* THNLifeActionView.h */,
-				4BECF10A217F1401008E5E28 /* THNLifeActionView.m */,
-				4BECF10B217F1401008E5E28 /* THNLifeCashView.h */,
-				4BECF10C217F1401008E5E28 /* THNLifeCashView.m */,
-				4BECF10D217F1401008E5E28 /* THNLifeCountdownView.h */,
-				4BECF10E217F1401008E5E28 /* THNLifeCountdownView.m */,
-				4BECF10F217F1401008E5E28 /* THNLifeDataView.h */,
-				4BECF110217F1401008E5E28 /* THNLifeDataView.m */,
-				4BECF111217F1401008E5E28 /* THNLifeHintView.h */,
-				4BECF112217F1401008E5E28 /* THNLifeHintView.m */,
-				4BECF113217F1401008E5E28 /* THNLifeManagementUserView.h */,
-				4BECF114217F1401008E5E28 /* THNLifeManagementUserView.m */,
-				4BECF115217F1401008E5E28 /* THNLifeSegmentView.h */,
-				4BECF116217F1401008E5E28 /* THNLifeSegmentView.m */,
-			);
-			path = LifeManagement;
-			sourceTree = "<group>";
-		};
-		4BECF0E9217F1401008E5E28 /* LifeCash */ = {
-			isa = PBXGroup;
-			children = (
-				4BECF0EA217F1401008E5E28 /* THNLifeCashBillInfoTableViewCell.h */,
-				4BECF0EB217F1401008E5E28 /* THNLifeCashBillInfoTableViewCell.m */,
-				4BECF0EC217F1401008E5E28 /* THNLifeCashBillInfoView.h */,
-				4BECF0ED217F1401008E5E28 /* THNLifeCashBillInfoView.m */,
-				4BECF0EE217F1401008E5E28 /* THNLifeCashBillSectionHeaderView.h */,
-				4BECF0EF217F1401008E5E28 /* THNLifeCashBillSectionHeaderView.m */,
-				4BECF0F0217F1401008E5E28 /* THNLifeCashBillTableViewCell.h */,
-				4BECF0F1217F1401008E5E28 /* THNLifeCashBillTableViewCell.m */,
-				4BECF0F2217F1401008E5E28 /* THNLifeCashBillView.h */,
-				4BECF0F3217F1401008E5E28 /* THNLifeCashBillView.m */,
-			);
-			path = LifeCash;
-			sourceTree = "<group>";
-		};
-		4BECF0F4217F1401008E5E28 /* LifeOrder */ = {
-			isa = PBXGroup;
-			children = (
-				4BECF0F5217F1401008E5E28 /* THNLifeOrderActionTableViewCell.h */,
-				4BECF0F6217F1401008E5E28 /* THNLifeOrderActionTableViewCell.m */,
-				4BECF0F7217F1401008E5E28 /* THNLifeOrderInfoTableViewCell.h */,
-				4BECF0F8217F1401008E5E28 /* THNLifeOrderInfoTableViewCell.m */,
-				4BECF0F9217F1401008E5E28 /* THNLifeOrderProductTableViewCell.h */,
-				4BECF0FA217F1401008E5E28 /* THNLifeOrderProductTableViewCell.m */,
-				4BECF0FB217F1401008E5E28 /* THNLifeOrderStoreTableViewCell.h */,
-				4BECF0FC217F1401008E5E28 /* THNLifeOrderStoreTableViewCell.m */,
-				4BECF0FD217F1401008E5E28 /* THNLifeOrderView.h */,
-				4BECF0FE217F1401008E5E28 /* THNLifeOrderView.m */,
-			);
-			path = LifeOrder;
-			sourceTree = "<group>";
-		};
-		4BECF0FF217F1401008E5E28 /* LifeTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				4BECF100217F1401008E5E28 /* THNLifeManagementTextTableViewCell.h */,
-				4BECF101217F1401008E5E28 /* THNLifeManagementTextTableViewCell.m */,
-			);
-			path = LifeTableViewCell;
-			sourceTree = "<group>";
-		};
-		4BECF102217F1401008E5E28 /* LifeTransactions */ = {
-			isa = PBXGroup;
-			children = (
-				4BECF103217F1401008E5E28 /* THNLifeTransactionRecordTableViewCell.h */,
-				4BECF104217F1401008E5E28 /* THNLifeTransactionRecordTableViewCell.m */,
-			);
-			path = LifeTransactions;
 			sourceTree = "<group>";
 		};
 		4BECF11D217F1401008E5E28 /* Window */ = {
@@ -3086,6 +3001,107 @@
 				D803BC302189E753007A5FF0 /* THNAddressModel.h */,
 			);
 			path = Address;
+			sourceTree = "<group>";
+		};
+		D80515C121ABC5CD002460A5 /* LifeManagement */ = {
+			isa = PBXGroup;
+			children = (
+				D80515D621ABC5CD002460A5 /* LifeCash */,
+				D80515CB21ABC5CD002460A5 /* LifeOrder */,
+				D80515C321ABC5CD002460A5 /* LifeTableViewCell */,
+				D80515E321ABC5CD002460A5 /* LifeTransactions */,
+				D80515ED21ABC5CD002460A5 /* THNEarningsDateView.h */,
+				D80515E121ABC5CD002460A5 /* THNEarningsDateView.m */,
+				D80515E621ABC5CD002460A5 /* THNEarningsView.h */,
+				D80515EE21ABC5CD002460A5 /* THNEarningsView.m */,
+				D80515E221ABC5CD002460A5 /* THNLifeActionView.h */,
+				D80515EF21ABC5CD002460A5 /* THNLifeActionView.m */,
+				D80515E921ABC5CD002460A5 /* THNLifeCashView.h */,
+				D80515C621ABC5CD002460A5 /* THNLifeCashView.m */,
+				D80515C721ABC5CD002460A5 /* THNLifeCountdownView.h */,
+				D80515E821ABC5CD002460A5 /* THNLifeCountdownView.m */,
+				D80515EB21ABC5CD002460A5 /* THNLifeDataView.h */,
+				D80515CA21ABC5CD002460A5 /* THNLifeDataView.m */,
+				D80515C921ABC5CD002460A5 /* THNLifeHintView.h */,
+				D80515EC21ABC5CD002460A5 /* THNLifeHintView.m */,
+				D80515C821ABC5CD002460A5 /* THNLifeManagementUserView.h */,
+				D80515E721ABC5CD002460A5 /* THNLifeManagementUserView.m */,
+				D80515EA21ABC5CD002460A5 /* THNLifeSegmentView.h */,
+				D80515C221ABC5CD002460A5 /* THNLifeSegmentView.m */,
+			);
+			path = LifeManagement;
+			sourceTree = "<group>";
+		};
+		D80515C321ABC5CD002460A5 /* LifeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */,
+				D80515C521ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.h */,
+			);
+			path = LifeTableViewCell;
+			sourceTree = "<group>";
+		};
+		D80515CB21ABC5CD002460A5 /* LifeOrder */ = {
+			isa = PBXGroup;
+			children = (
+				D80515CC21ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.m */,
+				D80515CD21ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.m */,
+				D80515CE21ABC5CD002460A5 /* THNLifeOrderView.m */,
+				D80515CF21ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.m */,
+				D80515D021ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.m */,
+				D80515D121ABC5CD002460A5 /* THNLifeOrderView.h */,
+				D80515D221ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.h */,
+				D80515D321ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.h */,
+				D80515D421ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.h */,
+				D80515D521ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.h */,
+			);
+			path = LifeOrder;
+			sourceTree = "<group>";
+		};
+		D80515D621ABC5CD002460A5 /* LifeCash */ = {
+			isa = PBXGroup;
+			children = (
+				D80515D721ABC5CD002460A5 /* THNLifeCashBillInfoView.h */,
+				D80515D821ABC5CD002460A5 /* THNLifeCashBillView.h */,
+				D80515D921ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.m */,
+				D80515DA21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.h */,
+				D80515DB21ABC5CD002460A5 /* THNLifeCashBillTableViewCell.m */,
+				D80515DC21ABC5CD002460A5 /* THNLifeCashBillInfoView.m */,
+				D80515DD21ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.h */,
+				D80515DE21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.m */,
+				D80515DF21ABC5CD002460A5 /* THNLifeCashBillView.m */,
+				D80515E021ABC5CD002460A5 /* THNLifeCashBillTableViewCell.h */,
+			);
+			path = LifeCash;
+			sourceTree = "<group>";
+		};
+		D80515E321ABC5CD002460A5 /* LifeTransactions */ = {
+			isa = PBXGroup;
+			children = (
+				D80515E421ABC5CD002460A5 /* THNLifeTransactionRecordTableViewCell.h */,
+				D80515E521ABC5CD002460A5 /* THNLifeTransactionRecordTableViewCell.m */,
+			);
+			path = LifeTransactions;
+			sourceTree = "<group>";
+		};
+		D80515F021ABC5CD002460A5 /* ApplyStore */ = {
+			isa = PBXGroup;
+			children = (
+				D80515F121ABC5CD002460A5 /* THNApplySuccessView.h */,
+				D80515F421ABC5CD002460A5 /* THNApplySuccessView.m */,
+				D80515F221ABC5CD002460A5 /* THNUserApplyView.h */,
+				D80515F321ABC5CD002460A5 /* THNUserApplyView.m */,
+			);
+			path = ApplyStore;
+			sourceTree = "<group>";
+		};
+		D80515F521ABC5CD002460A5 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D80515F721ABC5CD002460A5 /* THNFollowStoreTableViewCell.h */,
+				D80515F621ABC5CD002460A5 /* THNFollowStoreTableViewCell.m */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		D82C016B219AB0E0009F905F /* TableViewCell */ = {
@@ -3544,7 +3560,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EECADA20D9E7F900BB63F4 /* Build configuration list for PBXNativeTarget "lexi" */;
 			buildPhases = (
-				B5927148BF522BFDE3D262BA /* [CP] Check Pods Manifest.lock */,
+				B963B35071D0DA214CAC6426 /* [CP] Check Pods Manifest.lock */,
 				D8EECAC020D9E7F800BB63F4 /* Sources */,
 				D8EECAC120D9E7F800BB63F4 /* Frameworks */,
 				D8EECAC220D9E7F800BB63F4 /* Resources */,
@@ -3587,7 +3603,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = D8EECABB20D9E7F800BB63F4;
@@ -3675,7 +3690,7 @@
 				4BC7D19D21A52FBD00F22440 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				4BECF184217F1401008E5E28 /* THNArticleStoreTableViewCell.xib in Resources */,
-				CDF3D32521A05556003D841A /* (null) in Resources */,
+				CDF3D32521A05556003D841A /* BuildFile in Resources */,
 				4BECF16D217F1401008E5E28 /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF169217F1401008E5E28 /* THNBrandHallFeaturesTableViewCell.xib in Resources */,
@@ -3754,7 +3769,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lexi/Pods-lexi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B5927148BF522BFDE3D262BA /* [CP] Check Pods Manifest.lock */ = {
+		B963B35071D0DA214CAC6426 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3786,6 +3801,7 @@
 				4B27B37A218717D1004AF42F /* THNAllsetTableViewCell.m in Sources */,
 				4B27B37B218717D1004AF42F /* THNBaseNavigationController.m in Sources */,
 				D8B434CC219AC711009D2434 /* THNDynamicImagesTableViewCell.m in Sources */,
+				D80515FC21ABC5CE002460A5 /* THNLifeOrderActionTableViewCell.m in Sources */,
 				4B27B37C218717D1004AF42F /* THNBaseTabBarController.m in Sources */,
 				4B27B37D218717D1004AF42F /* THNBaseTableViewController.m in Sources */,
 				4B27B37E218717D1004AF42F /* THNBaseViewController.m in Sources */,
@@ -3798,11 +3814,14 @@
 				4B27B383218717D1004AF42F /* THNTableViewSectionHeaderView.m in Sources */,
 				D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */,
 				4B27B384218717D1004AF42F /* THNAllBrandHallViewController.m in Sources */,
+				D805160821ABC5CE002460A5 /* THNLifeManagementUserView.m in Sources */,
 				D8D7CFCF21942B1D00948247 /* UITableViewCell+DealContent.m in Sources */,
+				D805160321ABC5CE002460A5 /* THNLifeCashBillInfoView.m in Sources */,
 				4B27B385218717D1004AF42F /* THNBrandHallFeaturedViewController.m in Sources */,
 				D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */,
 				4B27B386218717D1004AF42F /* THNBrandHallFeaturesTableViewController.m in Sources */,
 				4B27B387218717D1004AF42F /* THNBrandHallStoryViewController.m in Sources */,
+				D805160C21ABC5CE002460A5 /* THNLifeActionView.m in Sources */,
 				4B27B388218717D1004AF42F /* THNBrandHallViewController.m in Sources */,
 				4B27B389218717D1004AF42F /* THNAnnouncementModel.m in Sources */,
 				4B27B38A218717D1004AF42F /* THNCouponModel.m in Sources */,
@@ -3814,9 +3833,11 @@
 				4B27B38F218717D1004AF42F /* THNBrandHallFeaturedCollectionViewCell.m in Sources */,
 				4B27B390218717D1004AF42F /* THNBrandHallFeaturesTableViewCell.m in Sources */,
 				4B27B391218717D1004AF42F /* THNBrandHallHeaderView.m in Sources */,
+				D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */,
 				4B27B392218717D1004AF42F /* THNBrandHallInfoTableViewCell.m in Sources */,
 				4B27B393218717D1004AF42F /* THNBrandHallUserInfoTableViewCell.m in Sources */,
 				4B27B394218717D1004AF42F /* THNCouponDetailView.m in Sources */,
+				D80515FF21ABC5CE002460A5 /* THNLifeOrderInfoTableViewCell.m in Sources */,
 				4B27B395218717D1004AF42F /* THNCouponTableViewCell.m in Sources */,
 				4B27B396218717D1004AF42F /* THNCouponView.m in Sources */,
 				4B27B397218717D1004AF42F /* THNCartViewController.m in Sources */,
@@ -3827,11 +3848,13 @@
 				4B27B39C218717D1004AF42F /* THNCartFunctionView.m in Sources */,
 				4B27B39D218717D1004AF42F /* THNArticleViewController.m in Sources */,
 				4B27B39E218717D1004AF42F /* THNDiscoverThemeViewController.m in Sources */,
+				D80515FE21ABC5CE002460A5 /* THNLifeOrderView.m in Sources */,
 				4B27B39F218717D1004AF42F /* THNDiscoverViewController.m in Sources */,
 				D8C2A057219D577E00886FB2 /* THNShareImageViewController.m in Sources */,
 				4B27B3A0218717D1004AF42F /* THNArticleHeaderView.m in Sources */,
 				4B27B3A1218717D1004AF42F /* THNArticleProductTableViewCell.m in Sources */,
 				D85AD64B21A7CE7400776D34 /* THNDealContentTableViewCell.m in Sources */,
+				D80515FB21ABC5CE002460A5 /* THNLifeDataView.m in Sources */,
 				4B27B3A2218717D1004AF42F /* THNArticleStoreTableViewCell.m in Sources */,
 				4B27B3A3218717D1004AF42F /* THNArticleStoryTableViewCell.m in Sources */,
 				4B27B3A4218717D1004AF42F /* THNDidcoverSetView.m in Sources */,
@@ -3869,6 +3892,7 @@
 				4B27B3BD218717D1004AF42F /* THNFeaturedOpenCarouselScrollView.m in Sources */,
 				4B27B3BE218717D1004AF42F /* THNFeaturedOpeningView.m in Sources */,
 				4B27B3BF218717D1004AF42F /* THNFeatureTableViewCell.m in Sources */,
+				D80515FA21ABC5CE002460A5 /* THNLifeCashView.m in Sources */,
 				4B27B3C0218717D1004AF42F /* THNGrassListCollectionViewCell.m in Sources */,
 				D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */,
 				4B27B3C1218717D1004AF42F /* THNLifeAestheticsCollectionViewCell.m in Sources */,
@@ -3913,6 +3937,7 @@
 				4B27B3ED218717D1004AF42F /* THNImageCollectionViewCell.m in Sources */,
 				4B27B3EE218717D1004AF42F /* THNImagesView.m in Sources */,
 				4B27B3EF218717D1004AF42F /* THNCouponsCenterViewController.m in Sources */,
+				D805160721ABC5CE002460A5 /* THNLifeTransactionRecordTableViewCell.m in Sources */,
 				4B27B3F0218717D1004AF42F /* THNStoreCouponViewController.m in Sources */,
 				4B27B3F1218717D1004AF42F /* THNHomeViewController.m in Sources */,
 				D8D7CFBC219423B400948247 /* THNFollowStoreButton+SelfManager.m in Sources */,
@@ -3926,6 +3951,7 @@
 				4B27B3F8218717D1004AF42F /* THNLivingHallHeaderView.m in Sources */,
 				4B27B3F9218717D1004AF42F /* THNLivingHallMuseumView.m in Sources */,
 				4B27B3FA218717D1004AF42F /* THNLivingHallRecommendTableViewCell.m in Sources */,
+				D805160F21ABC5CE002460A5 /* THNFollowStoreTableViewCell.m in Sources */,
 				4B27B3FB218717D1004AF42F /* THNObtainedView.m in Sources */,
 				4B27B3FC218717D1004AF42F /* THNFindPasswordViewController.m in Sources */,
 				4B27B3FD218717D1004AF42F /* THNLoginViewController.m in Sources */,
@@ -3966,7 +3992,9 @@
 				4B27B418218717D1004AF42F /* THNNewShippingAddressViewController.m in Sources */,
 				4B27B419218717D1004AF42F /* THNUserListViewController.m in Sources */,
 				4B27B41A218717D1004AF42F /* THNUserCenterViewController.m in Sources */,
+				D805160421ABC5CE002460A5 /* THNLifeCashBillSectionHeaderView.m in Sources */,
 				4B27B41C218717D1004AF42F /* THNUserDataModel.m in Sources */,
+				D805160D21ABC5CE002460A5 /* THNUserApplyView.m in Sources */,
 				4B27B41D218717D1004AF42F /* THNUserModel.m in Sources */,
 				4B27B42F218717D1004AF42F /* THNEvaluationViewController.m in Sources */,
 				4B27B430218717D1004AF42F /* THNLogisticsViewController.m in Sources */,
@@ -4005,6 +4033,7 @@
 				D8B434CE219AC711009D2434 /* THNDynamicUserInfoTableViewCell.m in Sources */,
 				4B27B44A218717D1004AF42F /* THNOrderProductTableViewCell.m in Sources */,
 				4B27B44B218717D1004AF42F /* THNOrderTableViewCell.m in Sources */,
+				D805160021ABC5CE002460A5 /* THNLifeOrderStoreTableViewCell.m in Sources */,
 				4B27B44C218717D1004AF42F /* THNPaymentPriceView.m in Sources */,
 				4B27B44D218717D2004AF42F /* THNPaymentTableViewCell.m in Sources */,
 				4B27B44E218717D2004AF42F /* THNPhotoCollectionViewCell.m in Sources */,
@@ -4056,6 +4085,7 @@
 				4B27B473218717D2004AF42F /* THNSearchIndexTableViewController.m in Sources */,
 				4B27B474218717D2004AF42F /* THNSearchProductViewController.m in Sources */,
 				D8D7D008219437DB00948247 /* THNCouponCenterSectionView.m in Sources */,
+				D805160921ABC5CE002460A5 /* THNLifeCountdownView.m in Sources */,
 				4B27B475218717D2004AF42F /* THNSearchStoreTableViewController.m in Sources */,
 				D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */,
 				4B27B476218717D2004AF42F /* THNSearchUserTableViewController.m in Sources */,
@@ -4065,8 +4095,10 @@
 				4B27B479218717D2004AF42F /* THNSettingUserInfoViewController.m in Sources */,
 				4B27B47A218717D2004AF42F /* THNSettingViewController.m in Sources */,
 				4B27B47B218717D2004AF42F /* THNSettingHeaderView.m in Sources */,
+				D805160221ABC5CE002460A5 /* THNLifeCashBillTableViewCell.m in Sources */,
 				4B27B47C218717D2004AF42F /* THNSettingInfoTableViewCell.m in Sources */,
 				D803BC2C2189E735007A5FF0 /* THNOrderPayModel.m in Sources */,
+				D80515FD21ABC5CE002460A5 /* THNLifeOrderProductTableViewCell.m in Sources */,
 				4B27B47D218717D2004AF42F /* THNSettingUserView.m in Sources */,
 				4B27B47E218717D2004AF42F /* THNShareViewController.m in Sources */,
 				4B27B47F218717D2004AF42F /* THNShareActionView.m in Sources */,
@@ -4092,6 +4124,7 @@
 				4B27B492218717D2004AF42F /* THNLifeOrderDataModel.m in Sources */,
 				4B27B493218717D2004AF42F /* THNLifeOrderItemModel.m in Sources */,
 				4B27B494218717D2004AF42F /* THNLifeOrderModel.m in Sources */,
+				D805160621ABC5CE002460A5 /* THNEarningsDateView.m in Sources */,
 				4B27B495218717D2004AF42F /* THNLifeOrderStoreModel.m in Sources */,
 				4B27B496218717D2004AF42F /* THNLifeOrderUserModel.m in Sources */,
 				4B27B497218717D2004AF42F /* THNTransactionsDataModel.m in Sources */,
@@ -4103,39 +4136,17 @@
 				4B27B49A218717D2004AF42F /* THNStoreModelProduct.m in Sources */,
 				4B27B49B218717D2004AF42F /* THNCountdown.m in Sources */,
 				4B27B49C218717D2004AF42F /* THNLifeManager.m in Sources */,
-				4B27B49D218717D2004AF42F /* THNLifeCashBillInfoTableViewCell.m in Sources */,
-				4B27B49E218717D2004AF42F /* THNLifeCashBillInfoView.m in Sources */,
 				D85AD68921A7F06600776D34 /* THNSkuModelItem.m in Sources */,
-				4B27B49F218717D2004AF42F /* THNLifeCashBillSectionHeaderView.m in Sources */,
-				4B27B4A0218717D2004AF42F /* THNLifeCashBillTableViewCell.m in Sources */,
-				4B27B4A1218717D2004AF42F /* THNLifeCashBillView.m in Sources */,
-				4B27B4A2218717D2004AF42F /* THNLifeOrderActionTableViewCell.m in Sources */,
 				D8D7D005219437DB00948247 /* THNNoneCouponView.m in Sources */,
 				D82C0191219AB0E0009F905F /* THNMyCenterMenuView.m in Sources */,
-				4B27B4A3218717D2004AF42F /* THNLifeOrderInfoTableViewCell.m in Sources */,
-				4B27B4A4218717D2004AF42F /* THNLifeOrderProductTableViewCell.m in Sources */,
-				4B27B4A5218717D2004AF42F /* THNLifeOrderStoreTableViewCell.m in Sources */,
-				4B27B4A6218717D2004AF42F /* THNLifeOrderView.m in Sources */,
 				D85AD68D21A7F0A100776D34 /* THNDealContentModel.m in Sources */,
-				4B27B4A7218717D2004AF42F /* THNLifeManagementTextTableViewCell.m in Sources */,
-				4B27B4A8218717D2004AF42F /* THNLifeTransactionRecordTableViewCell.m in Sources */,
 				D8DF16D6218BECC1006AAB9E /* THNCouponSharedModel.m in Sources */,
-				4B27B4A9218717D2004AF42F /* THNEarningsDateView.m in Sources */,
-				4B27B4AA218717D2004AF42F /* THNEarningsView.m in Sources */,
+				D80515F821ABC5CE002460A5 /* THNLifeSegmentView.m in Sources */,
 				D8AA52A021A00AA2003F2111 /* THNSelectWindowProductViewController.m in Sources */,
-				4B27B4AB218717D2004AF42F /* THNLifeActionView.m in Sources */,
-				4B27B4AC218717D2004AF42F /* THNLifeCashView.m in Sources */,
-				4B27B4AD218717D2004AF42F /* THNLifeCountdownView.m in Sources */,
-				4B27B4AE218717D2004AF42F /* THNLifeDataView.m in Sources */,
 				D82C015A21956207009F905F /* THNMyCouponDefaultView.m in Sources */,
-				4B27B4AF218717D2004AF42F /* THNLifeHintView.m in Sources */,
 				D803BC312189E753007A5FF0 /* THNAddressModel.m in Sources */,
-				4B27B4B0218717D2004AF42F /* THNLifeManagementUserView.m in Sources */,
-				4B27B4B1218717D2004AF42F /* THNLifeSegmentView.m in Sources */,
-				4B27B4B2218717D2004AF42F /* THNApplySuccessView.m in Sources */,
-				4B27B4B3218717D2004AF42F /* THNFollowStoreTableViewCell.m in Sources */,
+				D80515F921ABC5CE002460A5 /* THNLifeManagementTextTableViewCell.m in Sources */,
 				D82C018D219AB0E0009F905F /* THNUserListTableViewCell.m in Sources */,
-				4B27B4B4218717D2004AF42F /* THNUserApplyView.m in Sources */,
 				4B27B4B5218717D2004AF42F /* THNWindowListViewController.m in Sources */,
 				4B27B4B6218717D2004AF42F /* THNCommentViewController.m in Sources */,
 				4B27B4B7218717D2004AF42F /* THNShopWindowDetailViewController.m in Sources */,
@@ -4165,12 +4176,15 @@
 				D82C018A219AB0E0009F905F /* THNLikedWindowTableViewCell.m in Sources */,
 				D8D7D001219437DB00948247 /* THNCouponGoodsView.m in Sources */,
 				4B27B4CC218717D2004AF42F /* THNSaveTool.m in Sources */,
+				D805160121ABC5CE002460A5 /* THNLifeCashBillInfoTableViewCell.m in Sources */,
 				4B27B4CD218717D2004AF42F /* THNTextTool.m in Sources */,
 				4B27B4CE218717D2004AF42F /* THNAPI.m in Sources */,
 				4B27B4CF218717D2004AF42F /* THNRequest.m in Sources */,
 				4B27B4D0218717D2004AF42F /* THNResponse.m in Sources */,
+				D805160E21ABC5CE002460A5 /* THNApplySuccessView.m in Sources */,
 				4B27B4D1218717D2004AF42F /* THNQiNiuUpload.m in Sources */,
 				4B27B4D2218717D2004AF42F /* NSDictionary+Helper.m in Sources */,
+				D805160A21ABC5CE002460A5 /* THNLifeHintView.m in Sources */,
 				4B27B4D3218717D2004AF42F /* NSString+Encryption.m in Sources */,
 				4B27B4D4218717D2004AF42F /* NSString+Helper.m in Sources */,
 				4B27B4D5218717D2004AF42F /* NSTimer+Addition.m in Sources */,
@@ -4192,6 +4206,7 @@
 				4B27B4E2218717D2004AF42F /* UIViewController+THNHud.m in Sources */,
 				4B27B4E3218717D2004AF42F /* SVProgressHUD+Helper.m in Sources */,
 				4B27B4E4218717D2004AF42F /* UIScrollView+THNMJRefresh.m in Sources */,
+				D805160521ABC5CE002460A5 /* THNLifeCashBillView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4349,7 +4364,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
+				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -4451,7 +4466,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
+				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

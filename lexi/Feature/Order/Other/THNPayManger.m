@@ -69,7 +69,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
 
 // 支付宝支付
 - (void)alipay:(THNPayModel *)payModel {
-    [[AlipaySDK defaultService] payOrder:payModel.order_string fromScheme:kAlipayKey callback:^(NSDictionary *resultDic) {
+    [[AlipaySDK defaultService] payOrder:payModel.order_string fromScheme:kALiURLScheme callback:^(NSDictionary *resultDic) {
         
     }];
 }

@@ -20,6 +20,11 @@
 @interface UIScrollView (THNMJRefresh)
 
 /**
+ 是否显示没有更多数据时的文字
+ */
+@property (nonatomic, assign) BOOL showNoMoreDataTitle;
+
+/**
  数据列表：当前页数
  */
 @property (nonatomic, strong) NSNumber *currentPage;
@@ -59,6 +64,10 @@
 - (void)beginHeaderRefresh;
 - (void)endHeaderRefresh;
 - (void)endHeaderRefreshAndCurrentPageChange:(BOOL)change;
+
+/**
+ 移除刷新
+ */
 - (void)removeHeaderRefresh;
 
 /**
@@ -67,6 +76,10 @@
 - (void)beginFooterRefresh;
 - (void)endFooterRefresh;
 - (void)endFooterRefreshAndCurrentPageChange:(BOOL)change;
+
+/**
+ 移除加载更多
+ */
 - (void)removeFooterRefresh;
 
 /**
@@ -79,7 +92,6 @@
  重置当前页数
  */
 - (void)resetCurrentPageNumber;
-
 
 @end
 
