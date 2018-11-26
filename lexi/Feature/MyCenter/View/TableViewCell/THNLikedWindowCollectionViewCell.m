@@ -105,7 +105,7 @@
     }];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(cellWidth - 30, self.titleHeight > 40 ? 40 : self.titleHeight));
+        make.size.mas_equalTo(CGSizeMake(cellWidth - 30, self.titleHeight));
         make.left.mas_equalTo(15);
         make.bottom.mas_equalTo(-13);
     }];

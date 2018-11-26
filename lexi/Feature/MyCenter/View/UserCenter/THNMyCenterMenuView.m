@@ -82,13 +82,21 @@ static NSInteger const kMenuButtonTag   = 516;
     self.backgroundColor = [UIColor whiteColor];
     
     [self thn_creatMenuButtonWithTitles:@[kTextCenter, kTextLifeStore]];
-    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal) withFixedItemLength:75 leadSpacing:60 tailSpacing:60];
+    [self addSubview:self.lineView];
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
+    [self.buttonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal)
+                             withFixedItemLength:75
+                                     leadSpacing:60
+                                     tailSpacing:60];
+    
     [self.buttonArr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.bottom.mas_equalTo(-3);
     }];
     
-    [self addSubview:self.lineView];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 2));
         make.bottom.mas_equalTo(0);

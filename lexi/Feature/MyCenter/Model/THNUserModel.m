@@ -16,4 +16,14 @@
              };
 }
 
+- (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property {
+    if (property.type.typeClass == [NSString class]) {
+        if ([oldValue isEqual:[NSNull null]]) {
+            return @"";
+        }
+    }
+    
+    return oldValue;
+}
+
 @end
