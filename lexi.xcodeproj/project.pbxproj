@@ -555,6 +555,7 @@
 		4B282A14219C325C00E1436B /* THNCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentView.h; sourceTree = "<group>"; };
 		4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
 		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
+		4B2EC3FE21AB8B32002ED842 /* lexi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = lexi.entitlements; sourceTree = "<group>"; };
 		4B30937F219E84A5009D42A8 /* THNAddShowWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAddShowWindowViewController.h; sourceTree = "<group>"; };
 		4B309380219E84A5009D42A8 /* THNAddShowWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAddShowWindowViewController.m; sourceTree = "<group>"; };
 		4B36A225218C9771007F670E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1221,7 +1222,6 @@
 		D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNOrderPayModel.h; sourceTree = "<group>"; };
 		D803BC2F2189E753007A5FF0 /* THNAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressModel.m; sourceTree = "<group>"; };
 		D803BC302189E753007A5FF0 /* THNAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAddressModel.h; sourceTree = "<group>"; };
-		D80515C021ABA079002460A5 /* lexi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = lexi.entitlements; sourceTree = "<group>"; };
 		D80515C221ABC5CD002460A5 /* THNLifeSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeSegmentView.m; sourceTree = "<group>"; };
 		D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLifeManagementTextTableViewCell.m; sourceTree = "<group>"; };
 		D80515C521ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLifeManagementTextTableViewCell.h; sourceTree = "<group>"; };
@@ -3538,7 +3538,7 @@
 		D8EECAC620D9E7F800BB63F4 /* lexi */ = {
 			isa = PBXGroup;
 			children = (
-				D80515C021ABA079002460A5 /* lexi.entitlements */,
+				4B2EC3FE21AB8B32002ED842 /* lexi.entitlements */,
 				4B25F20F211EA79F00115E57 /* searchHis.json */,
 				4B2644EE2125590700665A6D /* showWindow.json */,
 				D85DA7C92106030100A36A71 /* AppEntry */,
@@ -3587,6 +3587,9 @@
 					D8EECAC320D9E7F800BB63F4 = {
 						CreatedOnToolsVersion = 9.3.1;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -3599,7 +3602,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = D8EECABB20D9E7F800BB63F4;
@@ -4334,7 +4336,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = lexi/lexi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4420,8 +4422,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lexivip.applexi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5061e1c2-687c-415f-bf0f-0ccb414091d5";
-				PROVISIONING_PROFILE_SPECIFIER = dev_lexivip_provisioning;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -4435,8 +4437,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = lexi/lexi.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4522,8 +4524,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lexivip.applexi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5061e1c2-687c-415f-bf0f-0ccb414091d5";
-				PROVISIONING_PROFILE_SPECIFIER = dis_lexivip_provisioning;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
