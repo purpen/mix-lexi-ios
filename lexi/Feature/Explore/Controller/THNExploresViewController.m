@@ -82,6 +82,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadBrandHallData) name:@"FollowStoreSuccess" object:nil];
     [self setupUI];
     [self loadData];
 }
@@ -211,7 +212,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBrandHallData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBrandHall requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        dispatch_semaphore_signal(self.semaphore);
+       NSInteger signalQuantity =  dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -219,6 +220,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         
         self.brandHallDataArray = [THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:result.data[@"stores"]];
         self.brandHallTitle = result.data[@"title"];
+
+        if (signalQuantity == 0) {
+            [self.tableView reloadData];
+        }
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];

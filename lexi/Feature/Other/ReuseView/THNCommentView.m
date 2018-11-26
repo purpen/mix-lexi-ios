@@ -12,6 +12,7 @@
 #import "UIColor+Extension.h"
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
+#import "THNLoginManager.h"
 
 static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 
@@ -45,11 +46,17 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 - (void)setGrassListModel:(THNGrassListModel *)grassListModel {
     _grassListModel = grassListModel;
     self.praisesButton.selected = grassListModel.is_praise;
+    self.commentCountButton.hidden = grassListModel.comment_count == 0 ?: NO;
     [self.commentCountButton setTitle:[NSString stringWithFormat:@"%ld",grassListModel.comment_count] forState:UIControlStateNormal];
     [self layoutPraisesButton:grassListModel.praise_count initWithSelect:grassListModel.is_praise];
 }
 
 - (IBAction)showKeyword:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(showKeyboard)]) {
         [self.delegate showKeyboard];
     }
@@ -100,6 +107,11 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 }
 
 - (IBAction)awesome:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.praisesButton.selected) {
         [self deletePraises];
     } else {

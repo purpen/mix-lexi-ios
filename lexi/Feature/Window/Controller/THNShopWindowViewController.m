@@ -87,11 +87,10 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 }
 
 - (void)pushLoginVC {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        THNLoginViewController *loginVC = [[THNLoginViewController alloc] init];
-        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:loginVC];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController animated:YES completion:nil];
-    });
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

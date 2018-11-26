@@ -13,6 +13,7 @@
 #import "NSString+Helper.h"
 #import "SVProgressHUD+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNLoginManager.h"
 
 NSString *const kUrlCommentsPraises = @"/shop_windows/comments/praises";
 NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
@@ -109,6 +110,11 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
 
 // 赞
 - (IBAction)reply:(UIButton *)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     self.requestUrl = self.isShopWindow ? kUrlCommentsPraises : kLifeRecordsCommentsPraises;
     if (self.praisesButton.selected) {
         [self deletePraises];
@@ -119,6 +125,11 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
 
 // 回复
 - (IBAction)awesome:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.replyBlcok) {
         self.replyBlcok(self.commentModel.comment_id);
     }

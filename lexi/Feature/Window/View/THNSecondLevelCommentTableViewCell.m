@@ -17,6 +17,7 @@
 #import "SVProgressHUD+Helper.h"
 #import "THNMarco.h"
 #import "THNCommentSectionHeaderView.h"
+#import "THNLoginManager.h"
 
 CGFloat const loadViewHeight = 30;
 CGFloat const allSubCommentHeight = 66;
@@ -141,6 +142,11 @@ CGFloat const allSubCommentHeight = 66;
 
 // 赞
 - (IBAction)reply:(UIButton *)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.praisesButton.selected) {
         [self deletePraises];
     } else {

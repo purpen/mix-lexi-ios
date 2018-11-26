@@ -33,7 +33,7 @@
 
 - (void)setShowWindowModel:(THNShopWindowModel *)showWindowModel {
     _showWindowModel = showWindowModel;
-    self.userNameLabel.text = showWindowModel.user_name;
+    self.userNameLabel.text = showWindowModel.username;
     [self.avatarImageView loadImageWithUrl:[showWindowModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
                                   circular:YES];
 }

@@ -21,6 +21,7 @@
 #import "THNAPI.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "SVProgressHUD+Helper.h"
+#import "THNLoginManager.h"
 
 NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
@@ -241,6 +242,11 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 }
 
 - (IBAction)like:(UIButton *)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.likeButton.selected) {
         [self deleteUserLikes];
     } else {
