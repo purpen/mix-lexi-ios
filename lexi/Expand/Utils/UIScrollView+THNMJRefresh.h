@@ -59,6 +59,10 @@
 - (void)beginHeaderRefresh;
 - (void)endHeaderRefresh;
 - (void)endHeaderRefreshAndCurrentPageChange:(BOOL)change;
+
+/**
+ 移除刷新
+ */
 - (void)removeHeaderRefresh;
 
 /**
@@ -67,6 +71,10 @@
 - (void)beginFooterRefresh;
 - (void)endFooterRefresh;
 - (void)endFooterRefreshAndCurrentPageChange:(BOOL)change;
+
+/**
+ 移除加载更多
+ */
 - (void)removeFooterRefresh;
 
 /**
@@ -79,7 +87,6 @@
  重置当前页数
  */
 - (void)resetCurrentPageNumber;
-
 
 @end
 

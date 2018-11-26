@@ -85,6 +85,7 @@ static NSString *const kTitleUserFollow     = @"关注";
         if (!result.isSuccess) {
             if (refresh) {
                 [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
+                
             } else {
                 [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
             }
@@ -119,6 +120,7 @@ static NSString *const kTitleUserFollow     = @"关注";
         
         if (refresh) {
             [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
+            
         } else {
             [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
         }

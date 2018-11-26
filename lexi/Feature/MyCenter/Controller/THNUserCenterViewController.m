@@ -26,6 +26,7 @@
 #import "THNBrandHallViewController.h"
 #import "THNShareViewController.h"
 #import "THNUserListViewController.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
@@ -49,7 +50,8 @@ static NSString *const kKeyUid = @"uid";
 
 @interface THNUserCenterViewController () <
     THNNavigationBarViewDelegate,
-    THNMyCenterHeaderViewDelegate
+    THNMyCenterHeaderViewDelegate,
+    THNMJRefreshDelegate
 > {
     THNHeaderViewSelectedType _selectedDataType;
 }
@@ -64,7 +66,7 @@ static NSString *const kKeyUid = @"uid";
 @property (nonatomic, strong) NSArray *browsesGoodsArr;
 @property (nonatomic, strong) NSArray *wishGoodsArr;
 @property (nonatomic, strong) NSArray *windowArr;
-@property (nonatomic, strong) NSArray *storeArr;
+@property (nonatomic, strong) NSMutableArray *storeArr;
 
 @end
 
@@ -119,6 +121,40 @@ static NSString *const kKeyUid = @"uid";
         default:
             break;
     }
+}
+
+/**
+ 关注的品牌馆列表加载更多
+ */
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    [self thn_setUserFollowedStoreDataWithPage:currentPage.integerValue];
+}
+
+#pragma mark - private methods
+/**
+ 关注品牌馆数据加载更多
+ */
+- (void)thn_setFollowRefreshLoadData {
+    if (_selectedDataType == THNHeaderViewSelectedTypeStore) {
+        [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+        [self.tableView resetCurrentPageNumber];
+        
+    } else {
+        [self.tableView removeFooterRefresh];
+    }
+}
+
+/**
+ 设置无数据时的默认视图
+ */
+- (void)thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedType)type backgroundColorHex:(NSString *)colorHex {
+    [self.footerView setSubHintLabelTextWithType:type];
+    
+    self.tableView.tableFooterView = !self.dataSections.count ? self.footerView : [UIView new];
+    self.tableView.backgroundColor = [UIColor colorWithHexString:colorHex];
+    
+    [self.tableView reloadData];
+    [SVProgressHUD dismiss];
 }
 
 #pragma mark - network
@@ -203,19 +239,36 @@ static NSString *const kKeyUid = @"uid";
 /**
  获取关注的设计馆数据
  */
-- (void)thn_getUserCenterFollowStoreDataWithGroup:(dispatch_group_t)group {
-    [SVProgressHUD thn_show];
+- (void)thn_getUserCenterFollowStoreDataWithGroup:(dispatch_group_t)group currentPage:(NSInteger)currentPage {
+    if (currentPage == 1) {
+        [SVProgressHUD thn_show];
+    }
     
     WEAKSELF;
     
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [THNUserManager getUserFollowStoreWithParams:@{kKeyUid: self.userId} completion:^(NSArray *storesData, NSError *error) {
+        NSDictionary *params = @{kKeyUid: self.userId,
+                                 @"page": @(currentPage)};
+        
+        [THNUserManager getUserFollowStoreWithParams:params completion:^(NSArray *storesData, NSError *error) {
             dispatch_group_leave(group);
-            if (error) return;
+            if (error) {
+                [self.tableView endFooterRefreshAndCurrentPageChange:NO];
+                return;
+            };
             
-            weakSelf.storeArr = [NSArray arrayWithArray:storesData];
-            [SVProgressHUD dismiss];
+            [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+            
+            if (storesData.count) {
+                for (NSDictionary *storeDict in storesData) {
+                    THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
+                    [weakSelf.storeArr addObject:model];
+                }
+                
+            } else {
+                [self.tableView noMoreData];
+            }
         }];
     });
 }
@@ -257,10 +310,11 @@ static NSString *const kKeyUid = @"uid";
     });
 }
 
-- (void)thn_setUserFollowedStoreData {
+- (void)thn_setUserFollowedStoreDataWithPage:(NSInteger)page {
     dispatch_group_t group = dispatch_group_create();
     
-    [self thn_getUserCenterFollowStoreDataWithGroup:group];
+    [self.storeArr removeAllObjects];
+    [self thn_getUserCenterFollowStoreDataWithGroup:group currentPage:page];
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         [self thn_setUserCenterFollowStoreCell];
@@ -269,20 +323,35 @@ static NSString *const kKeyUid = @"uid";
     });
 }
 
+/**
+ 切换当前要显示的数据
+ */
 - (void)thn_changTableViewDataSourceWithType:(THNHeaderViewSelectedType)type {
     _selectedDataType = type;
     
     [self.dataSections removeAllObjects];
     [self.tableView reloadData];
     
-    if (type == THNHeaderViewSelectedTypeLiked) {
-        [self thn_setUserLikedData];
-        
-    } else if (type == THNHeaderViewSelectedTypeCollect) {
-        [self thn_setUserCollectData];
-        
-    } else if (type == THNHeaderViewSelectedTypeStore) {
-        [self thn_setUserFollowedStoreData];
+    [self thn_setFollowRefreshLoadData];
+    
+    switch (type) {
+        case THNHeaderViewSelectedTypeLiked: {
+            [self thn_setUserLikedData];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeCollect: {
+            [self thn_setUserCollectData];
+        }
+            break;
+            
+        case THNHeaderViewSelectedTypeStore: {
+            [self thn_setUserFollowedStoreDataWithPage:1];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -412,15 +481,11 @@ static NSString *const kKeyUid = @"uid";
  关注的店铺
  */
 - (void)thn_setUserCenterFollowStoreCell {
-    if (!self.storeArr.count) {
-        return;
-    }
+    if (!self.storeArr.count) return;
     
     WEAKSELF;
     
-    for (NSDictionary *storeDict in self.storeArr) {
-        THNStoreModel *model = [[THNStoreModel alloc] initWithDictionary:storeDict];
-        
+    for (THNStoreModel *model in self.storeArr) {
         THNTableViewCells *storeCells = [THNTableViewCells initWithCellType:(THNTableViewCellTypeFollowStore)
                                                             didSelectedItem:^(NSString *ids) {
                                                                 [weakSelf thn_openBrandHallControllerWithBrandId:ids];
@@ -574,19 +639,6 @@ static NSString *const kKeyUid = @"uid";
     }
 }
 
-#pragma mark - private methods
-/**
- 设置无数据时的默认视图
- */
-- (void)thn_setTableViewFooterViewWithType:(THNHeaderViewSelectedType)type backgroundColorHex:(NSString *)colorHex {
-    [self.footerView setSubHintLabelTextWithType:type];
-    
-    self.tableView.tableFooterView = !self.dataSections.count ? self.footerView : [UIView new];
-    self.tableView.backgroundColor = [UIColor colorWithHexString:colorHex];
-    
-    [self.tableView reloadData];
-}
-
 #pragma mark - setup UI
 - (void)setNavigationBar {
     self.navigationBarView.delegate = self;
@@ -619,6 +671,13 @@ static NSString *const kKeyUid = @"uid";
         _footerView = [[THNTableViewFooterView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
     }
     return _footerView;
+}
+
+- (NSMutableArray *)storeArr {
+    if (!_storeArr) {
+        _storeArr = [NSMutableArray array];
+    }
+    return _storeArr;
 }
 
 @end
