@@ -162,8 +162,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     [[UMSocialManager defaultManager] openLog:YES];
     
     /* 设置友盟appkey */
-    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
-    
+//    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
+
     /* 设置微信的appKey和appSecret */
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession
                                           appKey:kWXAppKey
