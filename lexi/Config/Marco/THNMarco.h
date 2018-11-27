@@ -22,6 +22,7 @@
 #define SCREEN_HEIGHT                   [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WITHOUT_STATUS_HEIGHT    (SCREEN_HEIGHT - [[UIApplication sharedApplication] statusBarFrame].size.height)
 #define NAVIGATION_BAR_HEIGHT           kDeviceiPhoneX ? 88 : 64
+#define TABBAR_HEIGHT                   kDeviceiPhoneX ? 83 : 49
 #define STATUS_BAR_HEIGHT               kDeviceiPhoneX ? 44 : 22
 #define ADDRESS_TOP                     kDeviceiPhoneX ? 62 : 40
 #define SEARCH_TOP                      kDeviceiPhoneX ? 52 : 27

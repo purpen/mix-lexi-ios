@@ -129,6 +129,7 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 - (void)setupUI {
     self.navigationBarView.title = kTitleDiscover;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNDiscoverTableViewCell" bundle:nil] forCellReuseIdentifier:kDiscoverCellIdentifier];
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, TABBAR_HEIGHT, 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

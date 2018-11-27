@@ -64,7 +64,7 @@
 #pragma mark - setup UI
 - (void)setupUI {
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
-//    self.tabBar.translucent = NO;
+    self.tabBar.translucent = NO;
     
     [self initTabBarController];
 }
