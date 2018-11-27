@@ -27,6 +27,8 @@
 #import <UMPush/UMessage.h>
 #import <UserNotifications/UserNotifications.h>
 #import "THNAlertView.h"
+#import "THNGoodsInfoViewController.h"
+#import "THNBrandHallViewController.h"
 
 static NSString *const kCancelPayOrderTitle = @"取消支付";
 
@@ -88,12 +90,6 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 - (void)configureUMessageWithLaunchOptions:(NSDictionary *)launchOptions  {
     // Push功能配置
     UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
-    entity.types = UMessageAuthorizationOptionBadge|UMessageAuthorizationOptionAlert|UMessageAuthorizationOptionSound;
-    if (@available(iOS 10.0, *)) {
-        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    } else {
-        // Fallback on earlier versions
-    }
     [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted) {
             
@@ -124,11 +120,14 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)){
     NSDictionary * userInfo = response.notification.request.content.userInfo;
+    
     if (@available(iOS 10.0, *)) {
         if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
             //应用处于后台时的远程推送接受
             //必须加这句代码
             [UMessage didReceiveRemoteNotification:userInfo];
+            [[NSNotificationCenter defaultCenter]postNotificationName:AppDelegateBackgroundRemotePush    object:nil userInfo:userInfo];
+
         }else{
             //应用处于后台时的本地推送接受
         }
@@ -150,10 +149,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-//    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
-    [UMessage registerDeviceToken:deviceToken];
+    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+//    [UMessage registerDeviceToken:deviceToken];
 }
 
 #pragma mark - 友盟分享设置

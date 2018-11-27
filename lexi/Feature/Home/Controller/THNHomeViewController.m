@@ -33,6 +33,7 @@
 @property (nonatomic, strong) THNExploresViewController *explore;
 @property (nonatomic, strong) THNLivingHallViewController *livingHall;
 @property (nonatomic, strong) THNShopWindowViewController *showWindow;
+//@property (nonatomic, strong) UIView *searchView;
 
 @end
 
@@ -99,6 +100,12 @@
     self.childViewControllers[showIndex].view.frame = self.publicView.bounds;
     [self.publicView addSubview:self.childViewControllers[showIndex].view];
     self.currentSubViewController = self.childViewControllers[showIndex];
+}
+
+// 解决设置tabbar的属性为No导致该视图错乱的bug
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
 }
 
 /**
