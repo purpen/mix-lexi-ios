@@ -105,9 +105,9 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 
 #pragma mark - UNUserNotificationCenterDelegate
 //iOS10新增：处理前台收到通知的代理方法
--(void)userNotificationCenter:(UNUserNotificationCenter *)center
-      willPresentNotification:(UNNotification *)notification
-        withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler API_AVAILABLE(ios(10.0)){
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler API_AVAILABLE(ios(10.0)){
     NSDictionary * userInfo = notification.request.content.userInfo;
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         //应用处于前台时的远程推送接受
@@ -120,9 +120,9 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 }
 
 //iOS10新增：处理后台点击通知的代理方法
--(void)userNotificationCenter:(UNUserNotificationCenter *)center
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
-        withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)){
+         withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)){
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     if (@available(iOS 10.0, *)) {
         if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
@@ -138,7 +138,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 }
 
 //iOS10以下使用这两个方法接收通知
--(void)application:(UIApplication *)application
+- (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
@@ -153,7 +153,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 //    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
 //                  stringByReplacingOccurrencesOfString: @">" withString: @""]
 //                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
-//    [UMessage registerDeviceToken:deviceToken];
+    [UMessage registerDeviceToken:deviceToken];
 }
 
 #pragma mark - 友盟分享设置
@@ -162,8 +162,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     [[UMSocialManager defaultManager] openLog:YES];
     
     /* 设置友盟appkey */
-    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
-    
+//    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
+
     /* 设置微信的appKey和appSecret */
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession
                                           appKey:kWXAppKey
