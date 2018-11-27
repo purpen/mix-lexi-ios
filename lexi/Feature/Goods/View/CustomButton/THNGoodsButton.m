@@ -108,8 +108,7 @@ static NSString *const kTitleSell       = @"卖";
 
 - (void)setMasonryLayout {
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(2);
+        make.edges.equalTo(self);
     }];
 }
 
@@ -130,6 +129,7 @@ static NSString *const kTitleSell       = @"卖";
     if (!_textLabel) {
         _textLabel = [[YYLabel alloc] init];
         _textLabel.userInteractionEnabled = NO;
+        _textLabel.textContainerInset = UIEdgeInsetsMake(2, 0, 0, 0);
     }
     return _textLabel;
 }

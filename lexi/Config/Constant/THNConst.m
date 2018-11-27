@@ -110,4 +110,5 @@ NSString *const kShelfSuccess                   = @"shelfSuccess";
 NSString *const kUpdateLivingHallStatus         = @"kUpdateLivingHallStatus";
 NSString *const kBrandHallReceiveCoupon         = @"kBrandHallReceiveCoupon";
 NSString *const kLookAllCommentData             = @"kLookAllCommentData";
-NSString *const THNPayMentVCPayCallback          = @"THNPayMentVCPayCallback";
+NSString *const THNPayMentVCPayCallback         = @"THNPayMentVCPayCallback";
+NSString *const AppDelegateBackgroundRemotePush = @"AppDelegateBackgroundRemotePush";

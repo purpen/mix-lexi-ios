@@ -18,6 +18,7 @@
 #import "THNLoginManager.h"
 #import "AppDelegate.h"
 #import "UIViewController+THNHud.h"
+#import "THNBrandHallViewController.h"
 
 @interface THNBaseTabBarController () <UITabBarControllerDelegate> {
     THNHomeViewController       *_homeVC;
@@ -25,6 +26,8 @@
     THNCartViewController       *_cartVC;
     THNMyCenterViewController   *_myCenterVC;
 }
+
+@property (nonatomic, strong) THNBaseNavigationController *navController;
 
 @end
 
@@ -63,10 +66,17 @@
 
 #pragma mark - setup UI
 - (void)setupUI {
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(backgroundRemotePush:) name:AppDelegateBackgroundRemotePush object:nil];
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
-//    self.tabBar.translucent = NO;
-    
+    self.tabBar.translucent = NO;
     [self initTabBarController];
+}
+
+- (void)backgroundRemotePush:(NSNotification *)notofication {
+    THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
+    brandHallVC.rid = notofication.userInfo[@"rid"];
+    THNBaseNavigationController *naviNavigationVC = self.childViewControllers[0];
+    [naviNavigationVC pushViewController:brandHallVC animated:YES];
 }
 
 /**
@@ -109,6 +119,7 @@
                                                imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
         
         THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:contorller];
+        self.navController = navController;
         [self addChildViewController:navController];
     }
 }
