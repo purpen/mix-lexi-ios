@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, UserIdentityType) {
 @property (nonatomic, assign) NSInteger comment_count;
 @property (nonatomic, strong) NSArray <THNProductModel *>*products;
 @property (nonatomic, strong) NSString *user_name;
+@property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *user_avatar;
 @property (nonatomic, assign) UserIdentityType user_identity;
 @property (nonatomic, strong) NSString *title;

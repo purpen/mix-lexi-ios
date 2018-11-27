@@ -25,6 +25,7 @@
 #import "THNCommentTableView.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "THNShareImageViewController.h"
+#import "THNLoginManager.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -95,6 +96,11 @@ THNCommentTableViewDelegate
 }
 
 - (IBAction)like:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     if (self.likeCountButton.selected) {
         [self deleteUserLikes];
     } else {
@@ -141,6 +147,11 @@ THNCommentTableViewDelegate
 }
 
 - (IBAction)showToolView:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     [self layoutToolView];
 }
 
@@ -157,6 +168,7 @@ THNCommentTableViewDelegate
 
 
 - (IBAction)comment:(id)sender {
+    
     [self pushCommentVC];
 }
 
@@ -286,6 +298,7 @@ THNCommentTableViewDelegate
 }
 
 - (void)layoutCommentView {
+    self.commentCountButton.hidden = self.shopWindowModel.comment_count == 0 ?: NO;
     [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
     self.likeCountButton.selected = self.shopWindowModel.is_like;
     [self.commentCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.comment_count] forState:UIControlStateNormal];

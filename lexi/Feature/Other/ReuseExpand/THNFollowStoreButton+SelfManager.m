@@ -102,6 +102,10 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
         if (self.followStoreBlock) {
             self.followStoreBlock(!self.selected);
         }
+
+        if (self.isNeedRefresh) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"FollowStoreSuccess" object:nil];
+        }
         
         completed(nil);
         

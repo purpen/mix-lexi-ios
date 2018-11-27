@@ -61,4 +61,9 @@ typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
 
 @property (nonatomic, copy) FollowStoreButtonBlock followStoreBlock;
 
+/**
+ 是否需要通知外部界面刷新
+ */
+@property (nonatomic, assign) BOOL isNeedRefresh;
+
 @end

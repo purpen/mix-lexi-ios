@@ -17,6 +17,7 @@
 #import "THNCommentModel.h"
 #import "UIViewController+THNHud.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "THNLoginManager.h"
 
 static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 static NSString *const KUrlLifeRecordsComments  = @"/life_records/comments";
@@ -157,10 +158,14 @@ THNCommentTableViewDelegate
 }
 
 - (IBAction)showToolView:(id)sender {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     self.isSecondComment = NO;
     [self layoutToolView];
 }
-
 
 - (void)layoutToolView {
     if (self.toolbar) {
@@ -241,6 +246,11 @@ THNCommentTableViewDelegate
 #pragma mark - THNCommentTableViewDelegate
 // 回复评论
 - (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+    if (![THNLoginManager isLogin]) {
+        [[THNLoginManager sharedManager] openUserLoginController];
+        return;
+    }
+
     self.isSecondComment = YES;
     [self layoutToolView];
     self.pid = pid;
