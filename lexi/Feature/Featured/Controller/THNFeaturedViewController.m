@@ -448,7 +448,9 @@ THNActivityViewDelegate
             break;
         case 1:
             self.cellType = FeaturedRecommendationPopular;
-            return kCellPopularHeight + kFeaturedCellTopBottomHeight;
+            CGFloat firstItemHeight = (SCREEN_WIDTH - 10 - 20 * 2) / 2;
+            CGFloat secondItemHeight = (SCREEN_WIDTH - 20 - 20 * 2 - 1) / 3;
+            return firstItemHeight + secondItemHeight + 46 * 2 + 10 + kFeaturedCellTopBottomHeight;
             break;
         case 2:
             self.cellType = FeaturedLifeAesthetics;

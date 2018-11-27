@@ -298,10 +298,10 @@ THNCommentTableViewDelegate
 }
 
 - (void)layoutCommentView {
-    self.commentCountButton.hidden = self.shopWindowModel.comment_count == 0 ?: NO;
+    NSString *commentCountBtnTitle = self.shopWindowModel.comment_count == 0 ? @"评论" : [NSString stringWithFormat:@"%ld",self.shopWindowModel.comment_count];
+     [self.commentCountButton setTitle:commentCountBtnTitle forState:UIControlStateNormal];
     [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
     self.likeCountButton.selected = self.shopWindowModel.is_like;
-    [self.commentCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.comment_count] forState:UIControlStateNormal];
 }
 
 //获取字符串长度的方法
@@ -316,6 +316,10 @@ THNCommentTableViewDelegate
     [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
     self.tableViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
     self.navigationBarView.title = @"橱窗";
+    //TableView刷新后位置偏移的问题
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
@@ -433,7 +437,7 @@ THNCommentTableViewDelegate
             return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
         }
         case ShopWindowDetailCellTypeExplore:
-            return cellOtherHeight + 87;
+            return cellOtherHeight + 90 + 10;
         default:
             return kCellLifeAestheticsHeight + 105;
     }

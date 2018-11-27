@@ -46,8 +46,8 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 - (void)setGrassListModel:(THNGrassListModel *)grassListModel {
     _grassListModel = grassListModel;
     self.praisesButton.selected = grassListModel.is_praise;
-    self.commentCountButton.hidden = grassListModel.comment_count == 0 ?: NO;
-    [self.commentCountButton setTitle:[NSString stringWithFormat:@"%ld",grassListModel.comment_count] forState:UIControlStateNormal];
+    NSString *commentCountBtnTitle = grassListModel.comment_count == 0 ? @"评论" : [NSString stringWithFormat:@"%ld",grassListModel.comment_count];
+    [self.commentCountButton setTitle:commentCountBtnTitle forState:UIControlStateNormal];
     [self layoutPraisesButton:grassListModel.praise_count initWithSelect:grassListModel.is_praise];
 }
 

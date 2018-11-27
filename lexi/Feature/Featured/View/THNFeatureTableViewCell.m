@@ -295,7 +295,7 @@ CGFloat const kCellGrassListHeight = 158;
            
         case FeaturedRecommendedToday:{
             THNDailyRecommendModel *dailyRecommendModel = [THNDailyRecommendModel mj_objectWithKeyValues:self.dailyDataArray[indexPath.row]];
-            if (dailyRecommendModel.target_type == RecommendTypeArticle) {
+            if (dailyRecommendModel.target_type == RecommendTypeArticle || dailyRecommendModel.target_type == RecommendTypeGrassList) {
                 if (self.delagate && [self.delagate respondsToSelector:@selector(pushArticle:)]) {
                     [self.delagate pushArticle:dailyRecommendModel.recommend_id];
                 }
