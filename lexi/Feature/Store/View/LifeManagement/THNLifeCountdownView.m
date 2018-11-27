@@ -17,6 +17,8 @@
 #import <DateTools/DateTools.h>
 
 static NSString *const kTextCountdown = @"实习倒计时";
+// 实习的天数
+static NSInteger const maxDay = 30;
 
 @interface THNLifeCountdownView ()
 
@@ -70,8 +72,6 @@ static NSString *const kTextCountdown = @"实习倒计时";
 
 // 结束的日期
 - (NSString *)thn_getEndTimestampWithCreatedAt:(NSString *)createdAt {
-    NSInteger maxDay = 30; // 实习的天数
-    
     NSDate *startDate = [self thn_getDateWithTimestamp:createdAt];
     NSDate *endDate = [startDate dateByAddingDays:maxDay];
     NSInteger timeSp = [[NSNumber numberWithDouble:[endDate timeIntervalSince1970]] integerValue];

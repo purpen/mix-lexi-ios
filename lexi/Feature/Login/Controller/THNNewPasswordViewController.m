@@ -9,6 +9,7 @@
 #import "THNNewPasswordViewController.h"
 #import "THNSetPasswordView.h"
 #import "THNLoginManager.h"
+#import "THNAdvertManager.h"
 
 /// 设置密码 api
 static NSString *const kURLModifyPwd        = @"/auth/modify_pwd";
@@ -82,7 +83,8 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
             [SVProgressHUD thn_showErrorWithStatus:@"登录失败"];
             return ;
         }
-    
+        
+        [THNAdvertManager checkIsNewUserBonus];
     }];
 }
 

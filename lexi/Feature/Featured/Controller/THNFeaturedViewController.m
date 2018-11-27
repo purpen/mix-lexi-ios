@@ -34,6 +34,8 @@
 #import "THNCouponsCenterViewController.h"
 #import "THNShopWindowDetailViewController.h"
 #import "UIViewController+THNHud.h"
+#import "THNAdvertManager.h"
+#import "THNAdvertCouponViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -173,8 +175,23 @@ THNActivityViewDelegate
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hiddenHud];
             [self.tableView reloadData];
+            [self thn_showNewUserBonusAdvertView];
         });
     });
+}
+
+/**
+ 展示新用户领红包视图
+ */
+- (void)thn_showNewUserBonusAdvertView {
+    if (![THNAdvertManager canGetBonus]) {
+        return;
+        
+    } else {
+        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
+        advertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:advertVC animated:NO completion:nil];
+    }
 }
 
 #pragma mark - 请求数据

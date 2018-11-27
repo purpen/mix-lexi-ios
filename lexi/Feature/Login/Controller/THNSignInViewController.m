@@ -14,6 +14,7 @@
 #import "THNZipCodeViewController.h"
 #import "THNLoginManager.h"
 #import "THNNewUserInfoViewController.h"
+#import "THNAdvertManager.h"
 
 /// 发送登录验证码 api
 static NSString *const kURLVerifyCode       = @"/users/dynamic_login_verify_code";
@@ -85,6 +86,8 @@ static NSString *const kTextSkip            = @"跳过";
             [self thn_loginSuccessBack];
         }
     }
+
+    [THNAdvertManager checkIsNewUserBonus];
 }
 
 - (void)thn_loginSuccessBack {
