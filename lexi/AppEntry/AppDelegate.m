@@ -153,7 +153,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 //    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
 //                  stringByReplacingOccurrencesOfString: @">" withString: @""]
 //                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
-//    [UMessage registerDeviceToken:deviceToken];
+    [UMessage registerDeviceToken:deviceToken];
 }
 
 #pragma mark - 友盟分享设置
