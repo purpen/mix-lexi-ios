@@ -69,6 +69,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(backgroundRemotePush:) name:AppDelegateBackgroundRemotePush object:nil];
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
     self.tabBar.translucent = NO;
+
     [self initTabBarController];
 }
 

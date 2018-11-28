@@ -11,6 +11,7 @@
 #import "THNPhotoManager.h"
 #import "THNQiNiuUpload.h"
 #import "THNLoginManager.h"
+#import "THNAdvertManager.h"
 
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";
@@ -41,7 +42,6 @@ static NSString *const kParamAvatarId           = @"avatar_id";
     [super viewDidLoad];
     
     [self setupUI];
-
 }
 
 #pragma mark - network
@@ -109,6 +109,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
     [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
         [self thn_loginSuccessBack];
+        [THNAdvertManager checkIsNewUserBonus];
     }];
 }
 

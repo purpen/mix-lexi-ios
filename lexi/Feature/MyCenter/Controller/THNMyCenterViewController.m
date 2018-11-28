@@ -91,19 +91,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self setupTableViewUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setNavigationBar];
-    
-    if (![THNLoginManager isLogin]) return;
-    
-    [self thn_getUserProfileData];
-    [self thn_uploadViewFrame];
-    [self thn_setUserCenterData];
-    [self thn_changTableViewDataSourceWithType:_selectedDataType];
-}
-
 #pragma mark - custom delegate
 - (void)thn_selectedButtonType:(THNHeaderViewSelectedType)type {
     switch (type) {
@@ -755,6 +742,19 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self.view addSubview:self.containerView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setNavigationBar];
+    
+    if (![THNLoginManager isLogin]) return;
+    
+    [self thn_uploadViewFrame];
+    [self thn_setUserCenterData];
+    [self thn_getUserProfileData];
+    [self thn_changTableViewDataSourceWithType:_selectedDataType];
+}
+
 - (void)setNavigationBar {
     self.navigationBarView.delegate = self;
     [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_nav_share_gray",
@@ -773,23 +773,32 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     }
 }
 
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//
+//    [self thn_uploadViewFrame];
+//}
+
 /**
  是否拥有“生活馆”，更新视图
  */
 - (void)thn_uploadViewFrame {
-    CGRect menuViewFrame = self.menuView.frame;
-    CGFloat height = [THNLoginManager sharedManager].openingUser ? 44 : 0;
-    menuViewFrame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, height);
-    self.menuView.frame = menuViewFrame;
+    BOOL hasLifeStore = [THNLoginManager sharedManager].openingUser;
     
-    CGFloat tabbarH = kDeviceiPhoneX ? 81 : 49;
+    self.menuView.frame = CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 44);
+    self.menuView.hidden = !hasLifeStore;
     
-    CGRect containerFrame = self.menuView.frame;
-    CGFloat containerH = SCREEN_HEIGHT - CGRectGetMaxY(self.menuView.frame) - tabbarH;
-    containerFrame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), SCREEN_WIDTH, containerH);
+    CGFloat tabbarH = kDeviceiPhoneX ? 83 : 49;
+    CGFloat navbarH = kDeviceiPhoneX ? 88 : 64;
+    CGFloat menuH = hasLifeStore ? 44 : 0;
+    CGFloat originY = navbarH + menuH;
+    
+    CGRect containerFrame = self.containerView.frame;
+    CGFloat containerH = SCREEN_HEIGHT - originY - tabbarH;
+    containerFrame = CGRectMake(0, originY, SCREEN_WIDTH, containerH);
     self.containerView.frame = containerFrame;
     
-    NSInteger pageCount = [THNLoginManager sharedManager].openingUser ? 2 : 1;
+    NSInteger pageCount = hasLifeStore ? 2 : 1;
     self.containerView.contentSize = CGSizeMake(SCREEN_WIDTH * pageCount, 0);
     
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, containerH);
@@ -814,9 +823,9 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (THNMyCenterMenuView *)menuView {
     if (!_menuView) {
-        CGFloat height = [THNLoginManager sharedManager].openingUser ? 44 : 0;
-        _menuView = [[THNMyCenterMenuView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, height)];
+        _menuView = [[THNMyCenterMenuView alloc] initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, 44)];
         _menuView.delegate = self;
+        _menuView.hidden = YES;
     }
     return _menuView;
 }

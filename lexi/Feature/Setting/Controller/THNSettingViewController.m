@@ -10,6 +10,7 @@
 #import "THNSettingHeaderView.h"
 #import <YYKit/YYKit.h>
 #import "THNLoginManager.h"
+#import "THNAdvertManager.h"
 #import "THNCustomTextTableViewCell.h"
 #import "THNOrderViewController.h"
 #import "THNAddressViewController.h"
@@ -60,6 +61,7 @@ static NSString *const kTextLoginOut = @"退出登录";
 
     [[THNLoginManager sharedManager] clearLoginInfo];
     [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO initSupplier:NO initStoreId:@""];
+    [[THNAdvertManager sharedManager] clearAdvertInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
@@ -76,6 +78,7 @@ static NSString *const kTextLoginOut = @"退出登录";
     textLabel.textColor = [UIColor colorWithHexString:@"#999999"];
     textLabel.font = [UIFont systemFontOfSize:13];
     textLabel.textContainerInset = UIEdgeInsetsMake(15, 15, 0, 0);
+    textLabel.backgroundColor = [UIColor whiteColor];
     
     return textLabel;
 }
