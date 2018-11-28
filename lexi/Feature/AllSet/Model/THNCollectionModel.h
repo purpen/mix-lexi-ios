@@ -17,5 +17,6 @@
 @property (nonatomic, assign) NSInteger count;
 @property (nonatomic, assign) NSInteger collectionID;
 @property (nonatomic, strong) NSString *cover;
+@property (nonatomic, strong) NSString *sub_name;
 
 @end

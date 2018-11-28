@@ -22,6 +22,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "SVProgressHUD+Helper.h"
 #import "THNLoginManager.h"
+#import "THNConst.h"
 
 NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
@@ -80,8 +81,10 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {
         self.threeImageStitchingView.isHaveUserInteractionEnabled = YES;
+        self.titleLabel.numberOfLines = 0;
         [self hiddenShowWindowDetail];
     } else {
+        self.titleLabel.numberOfLines = 1;
         self.threeImageStitchingView.isHaveUserInteractionEnabled = NO;
     }
     
@@ -149,7 +152,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     self.likeLabel.hidden = YES;
     self.commentLabel.hidden = YES;
     self.buttonView.hidden = YES;
-    self.titleLabelTopConstraint.constant = -35;
+    self.titleLabelTopConstraint.constant = -50;
 }
 
 //动态添加label方法
@@ -197,6 +200,19 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     return size;
 }
 
+- (void)layoutLikeButtonStatus:(BOOL)isLike {
+    self.shopWindowModel.is_like = isLike;
+    self.likeButton.selected = isLike;
+    
+    if (isLike) {
+        self.shopWindowModel.like_count++;
+    } else {
+        self.shopWindowModel.like_count--;
+    }
+    
+    self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
+}
+
 - (void)addUserLikes {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
@@ -207,10 +223,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
             return;
         }
         
-        self.shopWindowModel.is_like = YES;
-        self.likeButton.selected = YES;
-        self.shopWindowModel.like_count += 1;
-        self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
+        [self layoutLikeButtonStatus:YES];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -226,10 +239,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
             return;
         }
         
-        self.shopWindowModel.is_like = NO;
-        self.likeButton.selected = NO;
-        self.shopWindowModel.like_count -= 1;
-        self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
+        [self layoutLikeButtonStatus:NO];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];

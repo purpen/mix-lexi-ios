@@ -88,6 +88,12 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 
 #pragma mark - 友盟推送设置
 - (void)configureUMessageWithLaunchOptions:(NSDictionary *)launchOptions  {
+    
+    //绑定别名
+    [UMessage addAlias:@"11804357269" type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+        
+    }];
+    
     // Push功能配置
     UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
     [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted, NSError * _Nullable error) {

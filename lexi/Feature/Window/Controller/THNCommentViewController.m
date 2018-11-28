@@ -48,6 +48,7 @@ THNCommentTableViewDelegate
 @property (nonatomic, assign) BOOL isNeedLocalHud;
 @property (nonatomic, strong) NSString *requestUrl;
 @property (nonatomic, assign) BOOL isSecondComment;
+@property (nonatomic, assign) NSInteger totalCommentCount;
 
 @end
 
@@ -70,18 +71,8 @@ THNCommentTableViewDelegate
     [self.commentTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.commentTableView resetCurrentPageNumber];
     self.currentPage = 1;
-    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
-    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
-    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
-    [self.commentTableView addGestureRecognizer:tableViewGesture];
     self.commentTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
-   [IQKeyboardManager sharedManager].enable = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].enable = YES;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
@@ -119,8 +110,8 @@ THNCommentTableViewDelegate
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
-        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", [result.data[@"total_count"]integerValue]];
+        self.totalCommentCount = [result.data[@"total_count"]integerValue];
+        self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", self.totalCommentCount];
         [self.commentTableView endFooterRefreshAndCurrentPageChange:YES];
         [self.subComments removeAllObjects];
         NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
@@ -222,6 +213,8 @@ THNCommentTableViewDelegate
         }
 
         if (self.isSecondComment) {
+            self.totalCommentCount += 1;
+            self.navigationBarView.title = [NSString stringWithFormat:@"%ld条评论", self.totalCommentCount];
             [self.commentTableView loadMoreSubCommentData:self.section];
         } else {
             self.currentPage = 1;

@@ -31,4 +31,12 @@
     [self.commentTableView setComments:comments initWithSubComments:subComments];
 }
 
+- (void)setFrame:(CGRect)frame {
+    if (self.isRewriteCellHeight) {
+        frame.origin.y += 15;
+        frame.size.height -= 15;
+    }
+    [super setFrame:frame];
+}
+
 @end

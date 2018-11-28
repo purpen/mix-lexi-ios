@@ -112,3 +112,4 @@ NSString *const kBrandHallReceiveCoupon         = @"kBrandHallReceiveCoupon";
 NSString *const kLookAllCommentData             = @"kLookAllCommentData";
 NSString *const THNPayMentVCPayCallback         = @"THNPayMentVCPayCallback";
 NSString *const AppDelegateBackgroundRemotePush = @"AppDelegateBackgroundRemotePush";
+NSString *const kChangeStatusWindowSuccess      = @"kChangeStatusWindowSuccess";

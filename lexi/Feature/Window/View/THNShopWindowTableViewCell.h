@@ -30,5 +30,6 @@ typedef void(^ShopWindowShareBlock)(NSString *rid);
 @property (nonatomic, copy) ShopWindowShareBlock shareBlock;
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) NSString *flag;
+- (void)layoutLikeButtonStatus:(BOOL)isLike;
 
 @end

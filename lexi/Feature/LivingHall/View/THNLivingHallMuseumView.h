@@ -13,5 +13,6 @@ typedef void(^ReloadLivingHallBlock)(void);
 @interface THNLivingHallMuseumView : UIView
 
 @property (nonatomic, copy) ReloadLivingHallBlock reloadLivingHallBlock;
+- (void)setLivingHallMuseumViewWithTitle:(NSString *)title withContent:(NSString *)content;
 
 @end

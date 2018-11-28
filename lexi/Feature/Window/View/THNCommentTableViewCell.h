@@ -18,5 +18,7 @@ typedef void(^LookCommentBlock)(void);
 initWithSubComments:(NSMutableArray *)subComments;
 @property (nonatomic, strong) THNCommentTableView *commentTableView;
 @property (nonatomic, assign) BOOL isShopWindow;
+//是否给cell设置间距
+@property (nonatomic, assign) BOOL isRewriteCellHeight;
 
 @end

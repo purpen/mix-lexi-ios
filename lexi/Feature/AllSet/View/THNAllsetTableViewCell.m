@@ -42,12 +42,13 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
 
 - (void)setCollectionModel:(THNCollectionModel *)collectionModel {
     _collectionModel = collectionModel;
-    self.nameLabel.text = collectionModel.name;
-    self.productCountTextLabel.text = [NSString stringWithFormat:@"%zi件商品",collectionModel.products.count];
+    self.nameLabel.text = [NSString stringWithFormat:@"%@-%@",collectionModel.name,collectionModel.sub_name];
+    self.productCountTextLabel.text = [NSString stringWithFormat:@"%zi件商品",collectionModel.count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.collectionModel.products.count;
+    // 加一个背景图
+    return self.collectionModel.products.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

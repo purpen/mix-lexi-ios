@@ -21,6 +21,7 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 @property (weak, nonatomic) IBOutlet UIView *fieldBackgroundView;
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *praisesButton;
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 
 @end
@@ -42,11 +43,10 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
     [self.praisesButton setTitle:praisesBtnTitle forState:UIControlStateNormal];
 }
 
-
-- (void)setGrassListModel:(THNGrassListModel *)grassListModel {
-    _grassListModel = grassListModel;
+- (void)setCommentView:(THNGrassListModel *)grassListModel initWithCommentTotalCount:(NSInteger)count {
+    self.grassListModel = grassListModel;
     self.praisesButton.selected = grassListModel.is_praise;
-    NSString *commentCountBtnTitle = grassListModel.comment_count == 0 ? @"评论" : [NSString stringWithFormat:@"%ld",grassListModel.comment_count];
+    NSString *commentCountBtnTitle = count == 0 ? @"评论" : [NSString stringWithFormat:@"%ld",count];
     [self.commentCountButton setTitle:commentCountBtnTitle forState:UIControlStateNormal];
     [self layoutPraisesButton:grassListModel.praise_count initWithSelect:grassListModel.is_praise];
 }

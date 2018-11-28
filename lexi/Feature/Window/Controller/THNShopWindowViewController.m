@@ -56,6 +56,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 @property (nonatomic, assign) NSInteger currentPage;
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
+@property (nonatomic, strong) NSIndexPath *selectCellIndexPath;
 
 
 @end
@@ -64,6 +65,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLikeButtonStatus:) name:kChangeStatusWindowSuccess object:nil];
     [self setupUI];
     [self loadData];
 }
@@ -80,6 +82,12 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 
 - (void)loadData {
     [self loadShopWindowData];
+}
+
+- (void)changeLikeButtonStatus:(NSNotification *)notification {
+    THNShopWindowTableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.selectCellIndexPath];
+    BOOL isLike = [notification.userInfo[@"isLike"] boolValue];
+    [cell layoutLikeButtonStatus:isLike];
 }
 
 - (void)back {
@@ -215,6 +223,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    self.selectCellIndexPath = indexPath;
     shopWindowDetail.shopWindowCellHeight = [tableView rectForRowAtIndexPath:indexPath].size.height;
     shopWindowDetail.shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:self.showWindows[indexPath.row]];
     [self.navigationController pushViewController:shopWindowDetail animated:YES];

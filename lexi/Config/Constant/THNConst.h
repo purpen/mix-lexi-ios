@@ -96,3 +96,4 @@ UIKIT_EXTERN NSString *const kBrandHallReceiveCoupon;
 UIKIT_EXTERN NSString *const kLookAllCommentData;
 UIKIT_EXTERN NSString *const THNPayMentVCPayCallback;
 UIKIT_EXTERN NSString *const AppDelegateBackgroundRemotePush;
+UIKIT_EXTERN NSString *const kChangeStatusWindowSuccess;

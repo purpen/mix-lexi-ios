@@ -73,6 +73,13 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     [self removeFromSuperview];
 }
 
+- (void)setLivingHallMuseumViewWithTitle:(NSString *)title withContent:(NSString *)content {
+    self.nameTextView.text = title;
+    self.introductionTextView.text = content;
+    self.nameCountLabel.text = [NSString stringWithFormat:@"%ld",title.length];
+    self.introductionCountLabel.text = [NSString stringWithFormat:@"%ld",content.length];
+}
+
 - (void)textViewDidChange:(UITextView *)textView {
     if (textView.viewHeight == 44) {
         [self layoutTextView:textView initShowLenthLabel:self.nameCountLabel initWithMaxLenth:16];

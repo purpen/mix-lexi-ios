@@ -72,6 +72,12 @@ THNNavigationBarViewDelegate
     [self setupUI];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
+    keyboardManager.shouldResignOnTouchOutside = YES;
+}
+
 - (void)setupUI {
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];

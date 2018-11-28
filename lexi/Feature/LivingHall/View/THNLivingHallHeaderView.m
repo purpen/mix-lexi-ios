@@ -268,6 +268,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 
 - (IBAction)edit:(id)sender {
     THNLivingHallMuseumView *hallMuseumView = [THNLivingHallMuseumView viewFromXib];
+    [hallMuseumView setLivingHallMuseumViewWithTitle:self.storeNameLabel.text withContent:self.desLabel.text];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     hallMuseumView.frame = window.bounds;
     [window addSubview:hallMuseumView];

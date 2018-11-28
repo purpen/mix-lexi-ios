@@ -64,7 +64,7 @@ NSInteger const maxShowSubComment = 2;
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.showsVerticalScrollIndicator = NO;
-       
+        
         if (self.commentType == CommentTypeSection) {
             if (self.allCommentCount > 3) {
                 self.tableFooterView = self.footView;

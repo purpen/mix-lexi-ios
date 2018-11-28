@@ -21,7 +21,6 @@
 @interface THNCommentView : UIView
 
 @property (nonatomic, weak) id <THNCommentViewDelegate> delegate;
-
-@property (nonatomic, strong) THNGrassListModel *grassListModel;
+- (void)setCommentView:(THNGrassListModel *)grassListModel initWithCommentTotalCount:(NSInteger)count;
 
 @end

@@ -13,6 +13,7 @@
 #import "THNAddressIDCardView.h"
 #import "THNQiNiuUpload.h"
 #import "UIViewController+THNHud.h"
+#import "THNSaveTool.h"
 
 static NSString *const kAddressCellIdentifier = @"kAddressCellIdentifier";
 static CGFloat const addressPickerViewHeight = 255;
@@ -153,6 +154,7 @@ UITextFieldDelegate
         }
         
         self.areaCodes = result.data[@"area_codes"];
+        [self loadPlacesDataCountryID:[self.areaCodes[0][@"id"] integerValue]];
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -162,20 +164,18 @@ UITextFieldDelegate
 
 // 获取所有地址
 - (void)loadPlacesDataCountryID:(NSInteger)countryID {
-    [SVProgressHUD thn_show];
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"country_id"] =  @(countryID);
     THNRequest *request = [THNAPI getWithUrlString:kUrlPlaces requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
         
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        self.provinces = result.data[@"k_1_0"];
+        [THNSaveTool setObject:result.data forKey:[NSString stringWithFormat:@"%ld", countryID]];
+        
         self.resultDict = result.data;
         [self.pickerView reloadAllComponents];
         
@@ -252,7 +252,14 @@ UITextFieldDelegate
         self.countryName = self.areaCodes[_countryIndex][kName] ? : @"";
         self.textView.text = self.countryName;
         self.countryID = [self.areaCodes[_countryIndex][@"id"]integerValue];
-        [self loadPlacesDataCountryID:self.countryID];
+        self.resultDict = [THNSaveTool objectForKey:[NSString stringWithFormat:@"%ld", self.countryID]];
+        
+        if (self.resultDict.count > 0) {
+            [self.pickerView reloadAllComponents];
+        } else {
+            [self loadPlacesDataCountryID:self.countryID];
+        }
+       
         [self.textView resignFirstResponder];
         
     } else if (self.textView.tag == 3) {
@@ -563,9 +570,15 @@ UITextFieldDelegate
 
 #pragma mark - YYTextViewDelegate
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
-    
     if (textView.tag == 3 && !self.countryID) {
-        [self loadPlacesDataCountryID:[self.areaCodes[0][@"id"]integerValue]];
+        NSInteger countryID = [self.areaCodes[0][@"id"]integerValue];
+        self.resultDict = [THNSaveTool objectForKey:[NSString stringWithFormat:@"%ld", countryID]];
+        
+        if (self.resultDict.count > 0) {
+            [self.pickerView reloadAllComponents];
+        } else {
+            [self loadPlacesDataCountryID:countryID];
+        }
     }
     
     if (textView.tag == 3) {
@@ -649,7 +662,7 @@ UITextFieldDelegate
     if (self.textView.tag == 3) {
         
         if (component == 0) {
-            
+            self.provinces = self.resultDict[@"k_1_0"];
             return self.provinces.count;
             
         } else if (component == 1) {

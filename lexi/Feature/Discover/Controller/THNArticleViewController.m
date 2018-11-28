@@ -98,6 +98,7 @@ THNCommentTableViewDelegate
 @property (nonatomic, assign) NSInteger section;
 @property (nonatomic, assign) BOOL isSecondComment;
 
+
 @end
 
 @implementation THNArticleViewController {
@@ -121,27 +122,12 @@ THNCommentTableViewDelegate
     self.commentView.delegate = self;
     [self.view addSubview:self.commentView];
     [self.view addSubview:self.tableView];
-    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
-    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
-    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
-    [self.tableView addGestureRecognizer:tableViewGesture];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
-   [IQKeyboardManager sharedManager].enable = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].enable = YES;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
     self.toolbar.hidden = YES;
-}
-
-- (void)tableViewTouchInSide{
-    // ------结束编辑，隐藏键盘
-    [self.view endEditing:YES];
 }
 
 - (void)pushCommentVC {
@@ -171,16 +157,17 @@ THNCommentTableViewDelegate
             THNDealContentModel *contenModel = [[THNDealContentModel alloc] initWithDictionary:dict];
             [self.contentModels addObject:contenModel];
         }
-        [self.dataArray addObject:KArticleCellTypeArticle];
-
+        
+        if (self.contentModels.count > 0) {
+            [self.dataArray addObject:KArticleCellTypeArticle];
+        }
+    
         if (self.grassListModel.recommend_store.count > 0) {
             [self.dataArray addObject:kArticleCellTypeStore];
         }
         
-        [self.commentView setGrassListModel:self.grassListModel];
         [self.tableView reloadData];
-        [self loadLifeRecordsCommentData];
-        
+        [self loadRecommendProductData];
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -197,7 +184,8 @@ THNCommentTableViewDelegate
         }
         
         self.allCommentCount = [result.data[@"total_count"] integerValue];
-        [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
+        [self setTotalCommentCount];
+        
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         if (self.comments.count > maxShowComment) {
@@ -232,20 +220,27 @@ THNCommentTableViewDelegate
             }
         }
         
+        if (self.comments.count > 0 && ![self.dataArray containsObject:KArticleCellTypeComment]) {
+            // 评论插入位置,有推荐故事为倒数二,否则为最后一个
+            NSInteger insertIndex = self.lifeRecords.count > 0 ? 1 : 0;
+            [self.dataArray insertObject:KArticleCellTypeComment atIndex:self.dataArray.count - insertIndex];
+        }
+        
         if (self.isNeedLocalHud) {
-            [UIView performWithoutAnimation:^{
-                 [self.tableView reloadData];
-            }];
+            [self.tableView reloadData];
             return;
         }
 
-        if (self.comments.count > 0) {
-            [self.dataArray addObject:KArticleCellTypeComment];
-        }
-        [self loadRecommendProductData];
+        
+        [self loadRecommendStoryData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
     }];
+}
+
+- (void)setTotalCommentCount {
+    [self.commentView setCommentView:self.grassListModel initWithCommentTotalCount:self.allCommentCount];
+    [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
 }
 
 // 推荐商品
@@ -260,8 +255,12 @@ THNCommentTableViewDelegate
         }
         
         self.products = result.data[@"products"];
-        [self.dataArray addObject:kArticleCellTypeProduct];
-        [self loadRecommendStoryData];
+        
+        if (self.products > 0) {
+             [self.dataArray addObject:kArticleCellTypeProduct];
+        }
+       
+        [self loadLifeRecordsCommentData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
     }];
@@ -279,7 +278,11 @@ THNCommentTableViewDelegate
         }
         
         self.lifeRecords = result.data[@"life_records"];
-        [self.dataArray addObject:kArticleCellTypeStory];
+        
+        if (self.lifeRecords.count > 0) {
+            [self.dataArray addObject:kArticleCellTypeStory];
+        }
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -358,6 +361,7 @@ THNCommentTableViewDelegate
     } else if ([articleStr isEqualToString:KArticleCellTypeComment]) {
         self.articleCellType = ArticleCellTypeComment;
         THNCommentTableViewCell *cell = [THNCommentTableViewCell viewFromXib];
+        cell.isRewriteCellHeight = YES;
         cell.commentTableView.commentDelegate = self;
         [cell setComments:self.comments initWithSubComments:self.subComments];
         return cell;
@@ -420,7 +424,7 @@ THNCommentTableViewDelegate
             CGFloat subCommentHeight = 32 * self.moreThanSubComments.count + 18 * self.lessThanSubComments.count + self.subCommentHeight;
             // 间距 + 头部视图和尾部视图 + 一级评论 + 二级评论
             CGFloat headerWithFooterViewHeight = self.allCommentCount > 3 ? 89.5 : 49;
-            return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
+            return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight + 15;
         }
         case ArticleCellTypeStore:
             return 110;

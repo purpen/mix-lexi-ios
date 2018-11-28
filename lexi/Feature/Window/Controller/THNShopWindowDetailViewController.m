@@ -77,6 +77,8 @@ THNCommentTableViewDelegate
 @property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (nonatomic, assign) BOOL isNeedLocalHud;
+@property (nonatomic, assign) NSInteger likeWindowCount;
+@property (nonatomic, assign) BOOL isLike;
 
 
 @end
@@ -108,6 +110,21 @@ THNCommentTableViewDelegate
     }
 }
 
+- (void)layoutLikeButtonStatus:(BOOL)isLike {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kChangeStatusWindowSuccess object:nil userInfo:@{@"isLike":@(isLike)}];
+    
+    self.likeCountButton.selected = isLike;
+    
+    if (isLike) {
+        self.likeWindowCount++;
+    } else {
+        self.likeWindowCount--;
+    }
+    
+    NSString *commentLikeCountBtnTitle = self.likeWindowCount == 0 ? @"喜欢" : [NSString stringWithFormat:@"%ld",self.likeWindowCount];
+    [self.likeCountButton setTitle:commentLikeCountBtnTitle forState:UIControlStateNormal];
+}
+
 - (void)addUserLikes {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.shopWindowModel.rid;
@@ -117,11 +134,8 @@ THNCommentTableViewDelegate
             [SVProgressHUD showInfoWithStatus:result.statusMessage];
             return;
         }
-
-        self.shopWindowModel.is_like = YES;
-        self.likeCountButton.selected = YES;
-        self.shopWindowModel.like_count += 1;
-        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+        
+        [self layoutLikeButtonStatus:YES];
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -137,10 +151,7 @@ THNCommentTableViewDelegate
             return;
         }
 
-        self.shopWindowModel.is_like = NO;
-        self.likeCountButton.selected = NO;
-        self.shopWindowModel.like_count -= 1;
-        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+        [self layoutLikeButtonStatus:NO];
     } failure:^(THNRequest *request, NSError *error) {
 
     }];
@@ -225,7 +236,7 @@ THNCommentTableViewDelegate
     }];
 }
 
-// 评论列表
+// 评论列表和橱窗详情
 - (void)loadShopWindowDetailData {
     if (self.isNeedLocalHud) {
         [SVProgressHUD thn_show];
@@ -249,6 +260,7 @@ THNCommentTableViewDelegate
 
         self.shopWindowModel = [THNShopWindowModel mj_objectWithKeyValues:result.data];
         [self layoutCommentView];
+        
         self.allCommentCount = [result.data[@"comment_count"] integerValue];
         [THNSaveTool setObject:@(self.allCommentCount) forKey:kCommentCount];
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
@@ -280,14 +292,15 @@ THNCommentTableViewDelegate
                 [self.subComments addObject:lessThanSubComments];
             }
         }
+        
+        if (self.comments.count > 0 && ![self.dataArray containsObject:@(ShopWindowDetailCellTypeComment)]) {
+            // 评论插入第一个
+            [self.dataArray insertObject:@(ShopWindowDetailCellTypeComment) atIndex:1];
+        }
 
         if (self.isNeedLocalHud) {
             [self.tableView reloadData];
             return;
-        }
-
-        if (self.comments.count > 0) {
-            [self.dataArray addObject:@(ShopWindowDetailCellTypeComment)];
         }
         
         [self loadShowWindowGuessLikeData];
@@ -299,9 +312,12 @@ THNCommentTableViewDelegate
 
 - (void)layoutCommentView {
     NSString *commentCountBtnTitle = self.shopWindowModel.comment_count == 0 ? @"评论" : [NSString stringWithFormat:@"%ld",self.shopWindowModel.comment_count];
-     [self.commentCountButton setTitle:commentCountBtnTitle forState:UIControlStateNormal];
-    [self.likeCountButton setTitle:[NSString stringWithFormat:@"%ld", self.shopWindowModel.like_count] forState:UIControlStateNormal];
+    NSString *commentLikeCountBtnTitle = self.shopWindowModel.like_count == 0 ? @"喜欢" : [NSString stringWithFormat:@"%ld",self.shopWindowModel.like_count];
+    self.likeWindowCount = self.shopWindowModel.like_count;
+    [self.commentCountButton setTitle:commentCountBtnTitle forState:UIControlStateNormal];
+    [self.likeCountButton setTitle:commentLikeCountBtnTitle forState:UIControlStateNormal];
     self.likeCountButton.selected = self.shopWindowModel.is_like;
+    self.isLike = self.shopWindowModel.is_like;
 }
 
 //获取字符串长度的方法
@@ -322,18 +338,8 @@ THNCommentTableViewDelegate
     self.tableView.estimatedSectionFooterHeight = 0;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    UITapGestureRecognizer *tableViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTouchInSide)];
-    tableViewGesture.numberOfTapsRequired = 1;//几个手指点击
-    tableViewGesture.cancelsTouchesInView = NO;//是否取消点击处的其他action
-    [self.tableView addGestureRecognizer:tableViewGesture];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
-    [IQKeyboardManager sharedManager].enable = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].enable = YES;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
@@ -417,16 +423,21 @@ THNCommentTableViewDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat fixedHeight = self.shopWindowModel.keywords.count == 0 ? 113 : 135;
+    CGFloat titleHeight = [self getSizeByString:self.shopWindowModel.title AndFontSize:[UIFont fontWithName:@"PingFangSC-Medium" size:15]];
+    CGFloat contentHeight = [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+    CGFloat otherHeight = fixedHeight + titleHeight + contentHeight;
+    
     switch (self.cellType) {
         case ShopWindowDetailCellTypeMain:
-
+            
             switch (self.imageType) {
                 case ShopWindowImageTypeThree:
-                    return  180 + (SCREEN_WIDTH - 2) * 2/3 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return (SCREEN_WIDTH - 2) * 2/3 + otherHeight;
                 case ShopWindowImageTypeFive:
-                    return  180 + (SCREEN_WIDTH - 2) * 230/(230 + 143) + (SCREEN_WIDTH - 2) * 158/(215 + 158) + 2 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return otherHeight + (SCREEN_WIDTH - 2) * 230/(230 + 143) + (SCREEN_WIDTH - 2) * 158/(215 + 158) + 2;
                 default:
-                    return  180 + (SCREEN_WIDTH - 2) * 215/(215 + 158) + (SCREEN_WIDTH - 4) * 1/3 + 2 + [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+                    return otherHeight + (SCREEN_WIDTH - 2) * 215/(215 + 158) + (SCREEN_WIDTH - 4) * 1/3 + 2;
             }
         case ShopWindowDetailCellTypeComment: {
            
@@ -437,12 +448,11 @@ THNCommentTableViewDelegate
             return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
         }
         case ShopWindowDetailCellTypeExplore:
-            return cellOtherHeight + 90 + 10;
+            return self.comments.count == 0 ? cellOtherHeight + 87 : cellOtherHeight + 87 + 15;
         default:
             return kCellLifeAestheticsHeight + 105;
     }
 }
-
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
     CGRect toFrame = [[YYTextKeyboardManager defaultManager] convertRect:transition.toFrame toView:self.view];
@@ -464,7 +474,7 @@ THNCommentTableViewDelegate
 //获取字符串高度的方法
 - (CGFloat)getSizeByString:(NSString*)string AndFontSize:(UIFont *)font
 {
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 35, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     return size.height;
 }
 
