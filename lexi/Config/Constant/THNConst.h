@@ -45,6 +45,7 @@ UIKIT_EXTERN NSString *const kClientVersion;
 UIKIT_EXTERN NSString *const kClientID;
 UIKIT_EXTERN NSString *const kClientSecret;
 UIKIT_EXTERN NSString *const kFontFamily;
+UIKIT_EXTERN NSString *const kClientVersionKey;
 
 #pragma mark - App Store ID
 UIKIT_EXTERN NSString *const kAppStoreId;

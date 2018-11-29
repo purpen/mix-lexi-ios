@@ -29,6 +29,7 @@
 #import "THNAlertView.h"
 #import "THNGoodsInfoViewController.h"
 #import "THNBrandHallViewController.h"
+#import "THNGuideTool.h"
 
 static NSString *const kCancelPayOrderTitle = @"取消支付";
 
@@ -50,8 +51,7 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 
 #pragma mark - 加载根视图
 - (void)setRootViewController {
-    THNBaseTabBarController *tabBarC = [[THNBaseTabBarController alloc] init];
-    self.window.rootViewController = tabBarC;
+    self.window.rootViewController = [THNGuideTool chooseRootViewController];
    // [self thn_loadLoginController];
 }
 

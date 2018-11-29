@@ -57,6 +57,8 @@ NSString *const kClientVersion      = @"1.0.0";
 NSString *const kClientID           = @"appstore";
 NSString *const kClientSecret       = @"appstore";
 NSString *const kFontFamily         = @"PingFang";
+// 版本对应的key
+NSString *const kClientVersionKey   = @"clientVersion";
 
 #pragma mark - App Store ID
 NSString *const kAppStoreId         = @"com.taihuoniao.lexi";
