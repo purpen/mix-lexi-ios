@@ -37,7 +37,7 @@
 #import "THNBaseNavigationController.h"
 #import "THNShareViewController.h"
 #import "THNUserCenterViewController.h"
-#import "THNShareImageViewController.h"
+#import "THNShareWxaViewController.h"
 #import "THNCouponDetailView.h"
 #import "UITableViewCell+DealContent.h"
 #import "THNShelfViewController.h"
@@ -664,11 +664,13 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  打开卖货分享图片视图
  */
 - (void)thn_openGoodsShareImageController {
-    if (!self.goodsId.length) return;
+    if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeGoods)
-                                                                                        requestId:self.goodsId];
-    [self presentViewController:shareImageVC animated:NO completion:nil];
+    THNShareWxaViewController *shareVC = [[THNShareWxaViewController alloc] initWithType:(THNShareWxaViewTypeSellGoods)
+                                                                               requestId:self.goodsId];
+    shareVC.sellMoney = self.goodsModel.commissionPrice;
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 /**
