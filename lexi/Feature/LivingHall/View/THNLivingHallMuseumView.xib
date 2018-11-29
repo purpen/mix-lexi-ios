@@ -54,7 +54,7 @@
                                 <constraint firstAttribute="width" constant="44" id="DR1-th-RZ0"/>
                                 <constraint firstAttribute="height" constant="44" id="FuG-Qg-euD"/>
                             </constraints>
-                            <state key="normal" image="icon_hint_close"/>
+                            <state key="normal" image="icon_popup_close"/>
                             <connections>
                                 <action selector="close:" destination="iN0-l3-epB" eventType="touchUpInside" id="hhV-Kf-HuO"/>
                             </connections>
@@ -139,7 +139,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="0.40167487157534248" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Nci-eM-Zda" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Suk-id-kgj"/>
                 <constraint firstItem="Nci-eM-Zda" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" constant="-50" id="fmp-JB-Lil"/>
@@ -157,6 +157,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_hint_close" width="10" height="10"/>
+        <image name="icon_popup_close" width="15" height="15"/>
     </resources>
 </document>

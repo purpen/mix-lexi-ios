@@ -105,6 +105,11 @@ THNActivityViewDelegate
     [self loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self hiddenHud];
+}
+
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     return [super initWithStyle:UITableViewStyleGrouped];
@@ -128,6 +133,7 @@ THNActivityViewDelegate
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
 }
+
 
 - (void)loadData {
     //创建信号量

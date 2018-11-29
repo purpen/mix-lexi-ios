@@ -23,7 +23,7 @@ static NSString *const kDiscoverSetCellIdentifier = @"kDiscoverSetCellIdentifier
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:25
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] initWithLineSpacing:10
                                                                                    initWithWidth:105
                                                                                   initwithHeight:130];
     layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);

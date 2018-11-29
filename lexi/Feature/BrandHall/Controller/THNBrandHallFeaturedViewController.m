@@ -20,11 +20,11 @@
 #import "THNGoodsListViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNWebKitViewViewController.h"
+#import "UIView+Helper.h"
 
 static NSString *const kUrlBrandHallFeatured = @"/column/handpick_store";
 static NSString *const kUrlBrandHallBannerStore = @"/banners/store_ad";
 static NSString *const kBrandHallFeaturedCollectionCellIdentifier = @"kBrandHallFeaturedCollectionCellIdentifier";
-static CGFloat const kBrandHallHeight = 375;
 
 @interface THNBrandHallFeaturedViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, THNBannerViewDelegate>
 
@@ -165,7 +165,9 @@ static CGFloat const kBrandHallHeight = 375;
 #pragma mark - lazy
 - (THNBannerView *)bannerView {
     if (!_bannerView) {
-        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 290)];
+        CGFloat fixedHeight = 60 + 130 + 47;
+        CGFloat collectionViewY = kDeviceiPhoneX ? SCREEN_HEIGHT - 88 - fixedHeight : SCREEN_HEIGHT - 64 - fixedHeight;
+        _bannerView = [[THNBannerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, collectionViewY - 20)];
         _bannerView.delegate = self;
     }
     return _bannerView;
@@ -174,7 +176,9 @@ static CGFloat const kBrandHallHeight = 375;
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:15 initWithWidth:73 initwithHeight:130];
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + 20, SCREEN_WIDTH, 130) collectionViewLayout:layout];
+        CGFloat fixedHeight = 60 + 130 + 47;
+        CGFloat collectionViewY = kDeviceiPhoneX ? SCREEN_HEIGHT - 88 - fixedHeight : SCREEN_HEIGHT - 64 - fixedHeight;
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, collectionViewY, SCREEN_WIDTH, 130) collectionViewLayout:layout];
         layout.sectionInset = UIEdgeInsetsMake(10, 20, 0, 20);
         _collectionView.showsHorizontalScrollIndicator = NO;
         [_collectionView registerNib:[UINib nibWithNibName:@"THNBrandHallFeaturedCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandHallFeaturedCollectionCellIdentifier];

@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upr-fs-cqA">
-                        <rect key="frame" x="20" y="14" width="36" height="14"/>
+                        <rect key="frame" x="20" y="14" width="292" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="haY-bl-BiJ"/>
                         </constraints>
@@ -40,6 +40,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="Upr-fs-cqA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="H8R-Kd-PCz"/>
+                    <constraint firstAttribute="trailing" secondItem="Upr-fs-cqA" secondAttribute="trailing" constant="20" id="WpJ-V6-dRh"/>
                     <constraint firstItem="Cxe-Hm-Es0" firstAttribute="top" secondItem="Upr-fs-cqA" secondAttribute="bottom" constant="5" id="mkz-LF-n33"/>
                     <constraint firstItem="Upr-fs-cqA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="tEp-Jb-ThL"/>
                     <constraint firstItem="Cxe-Hm-Es0" firstAttribute="leading" secondItem="Upr-fs-cqA" secondAttribute="leading" id="uNz-rj-a6p"/>

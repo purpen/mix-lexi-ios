@@ -36,7 +36,8 @@ static NSString *const kUrlEditStore = @"/store/edit_store";
     [self layotuTextViewStyle:self.nameTextView];
     self.nameTextView.delegate = self;
     self.introductionTextView.delegate = self;
-    self.nameTextView.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
+    self.nameTextView.contentInset = UIEdgeInsetsMake(5, 5, 0, 0);
+    self.introductionTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 0);
 }
 
 - (void)layotuTextViewStyle:(UITextView *)textView {
