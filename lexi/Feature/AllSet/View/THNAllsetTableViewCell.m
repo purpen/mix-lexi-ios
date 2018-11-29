@@ -81,7 +81,7 @@ static NSString *const kSetCollectionCellIdentifier = @"kSetCollectionCellIdenti
                   layout:(UICollectionViewFlowLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat itemWidth = indexPath.row == 0 ? SCREEN_WIDTH - 30 : (SCREEN_WIDTH - 60) / 4;
-    CGFloat itemHeight = indexPath.row == 0 ? 200  : 79;
+    CGFloat itemHeight = indexPath.row == 0 ? 200  : (SCREEN_WIDTH - 60) / 4;
     return CGSizeMake(itemWidth, itemHeight);
 }
 

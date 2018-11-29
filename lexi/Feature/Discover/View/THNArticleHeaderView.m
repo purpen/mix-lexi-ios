@@ -41,7 +41,7 @@
 - (void)setGrassListModel:(THNGrassListModel *)grassListModel {
     _grassListModel = grassListModel;
     self.userNameLabel.text = grassListModel.user_name;
-    [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
+    [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatarSmall)]
                                   circular:YES];
     
     [self.backgroundImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];

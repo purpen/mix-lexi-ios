@@ -70,6 +70,17 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [self loadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.stitchingButton.hidden = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.stitchingButton.hidden = YES;
+    [self hiddenHud];
+}
+
 - (void)setupUI {
     self.showWindowType = ShowWindowTypeRecommend;
     self.navigationBarView.hidden = YES;
@@ -99,16 +110,6 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.stitchingButton.hidden = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.stitchingButton.hidden = YES;
 }
 
 - (void)loadShopWindowData {

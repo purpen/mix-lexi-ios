@@ -67,6 +67,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
 @property (nonatomic, assign) NSInteger lastPage;
 // 去支付的订单ID
 @property (nonatomic, strong) NSString *orderRid;
+// 是否加载之前加载过的数据
+@property (nonatomic, assign) BOOL isLoadLastMoreData;
 
 @end
 
@@ -116,6 +118,9 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
             break;
         }
     }
+    
+    // 更改订单的状态，清除之前数据，再次从后台请求
+    self.isLoadLastMoreData = YES;
 }
 
 - (void)loadOrdersData {
@@ -125,7 +130,8 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @(self.currentPage);
+    params[@"per_page"] = @(self.isLoadLastMoreData ? 10 * self.currentPage : 10);
+    params[@"page"] = @(self.isLoadLastMoreData ? 1 :self.currentPage);
     params[@"status"] = @(self.orderType);
     THNRequest *request = [THNAPI getWithUrlString:kUrlOrders requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -143,55 +149,38 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         switch (self.orderType) {
             
             case OrderTypeAll:{
-                if (orders.count > 0) {
-                    [self.allOrders addObjectsFromArray:orders];
-                } else {
-                    [self.tableView noMoreData];
-                }
-                
+                [self.allOrders addObjectsFromArray:orders];
                 [self.orders setArray:self.allOrders];
                 break;
             }
 
             case OrderTypeWaitDelivery:{
-                if (orders.count > 0) {
-                    [self.waitDeliveryOrders addObjectsFromArray:orders];
-                } else {
-                    [self.tableView noMoreData];
-                }
+                [self.waitDeliveryOrders addObjectsFromArray:orders];
                 [self.orders setArray:self.waitDeliveryOrders];
                 break;
             }
             case OrderTypWaiteReceipt:{
-                if (orders.count > 0) {
-                    [self.waiteReceiptOrders addObjectsFromArray:orders];
-                } else {
-                    [self.tableView noMoreData];
-                }
+                [self.waiteReceiptOrders addObjectsFromArray:orders];
                 [self.orders setArray:self.waiteReceiptOrders];
                 break;
             }
             case OrderTypeEvaluation:{
-                if (orders.count > 0) {
-                    [self.evaluationOrders addObjectsFromArray:orders];
-                } else {
-                    [self.tableView noMoreData];
-                }
+                [self.evaluationOrders addObjectsFromArray:orders];
                 [self.orders setArray:self.evaluationOrders];
                 break;
             }
             case OrderTypePayment:{
-                if (orders.count > 0) {
-                    [self.paymentOrders addObjectsFromArray:orders];
-                } else {
-                    [self.tableView noMoreData];
-                }
+                [self.paymentOrders addObjectsFromArray:orders];
                 [self.orders setArray:self.paymentOrders];
                 break;
             }
         }
         
-
+        if ([result.data[@"next"] isKindOfClass:[NSNull class]] && self.orders.count != 0) {
+            
+            [self.tableView noMoreData];
+        }
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
@@ -281,6 +270,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         self.lastPage = self.currentPage;
         self.currentPage = 1;
         [self.tableView resetCurrentPageNumber];
+        self.isLoadLastMoreData = NO;
         [self loadOrdersData];
     } else {
         [self.tableView reloadData];
@@ -412,6 +402,7 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
         self.currentPage = currentPage.integerValue;
     }
     
+    self.isLoadLastMoreData = NO;
     [self loadOrdersData];
 }
 

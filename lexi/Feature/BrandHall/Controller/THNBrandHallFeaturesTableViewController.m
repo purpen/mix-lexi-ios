@@ -63,7 +63,6 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
         }
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
-        [self.stores addObjectsFromArray:result.data[@"stores"]];
         NSArray *stores = result.data[@"stores"];
         if (stores.count > 0) {
             [self.stores addObjectsFromArray:stores];

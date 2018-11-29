@@ -266,7 +266,7 @@ THNCommentTableViewDelegate
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
         for (THNCommentModel *commentModel in self.comments) {
-            commentModel.height = [self getSizeByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+            commentModel.height = [self getSizeByString:commentModel.content withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14] withMaxWidth:SCREEN_WIDTH - 80];
             self.commentHeight += commentModel.height;
             // 记录单个评论下的子评论
             NSMutableArray *moreThanSubComments = [NSMutableArray array];
@@ -283,7 +283,7 @@ THNCommentTableViewDelegate
                   
                     THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
                     NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                    subCommentModel.height = [self getSizeByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+                    subCommentModel.height = [self getSizeByString:contentStr withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12] withMaxWidth:SCREEN_WIDTH - 102];
                     [lessThanSubComments addObject:subCommentModel];
                     [self.lessThanSubComments addObject:subCommentModel];
                     self.subCommentHeight += subCommentModel.height;
@@ -318,13 +318,6 @@ THNCommentTableViewDelegate
     [self.likeCountButton setTitle:commentLikeCountBtnTitle forState:UIControlStateNormal];
     self.likeCountButton.selected = self.shopWindowModel.is_like;
     self.isLike = self.shopWindowModel.is_like;
-}
-
-//获取字符串长度的方法
-- (CGFloat)getHeightByString:(NSString*)string AndFontSize:(CGFloat)font
-{
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size;
-    return size.height;
 }
 
 - (void)setupUI {
@@ -424,8 +417,8 @@ THNCommentTableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat fixedHeight = self.shopWindowModel.keywords.count == 0 ? 113 : 135;
-    CGFloat titleHeight = [self getSizeByString:self.shopWindowModel.title AndFontSize:[UIFont fontWithName:@"PingFangSC-Medium" size:15]];
-    CGFloat contentHeight = [self getSizeByString:self.shopWindowModel.des AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+    CGFloat titleHeight = [self getSizeByString:self.shopWindowModel.title withFontSize:[UIFont fontWithName:@"PingFangSC-Medium" size:15] withMaxWidth:SCREEN_WIDTH - 35];
+    CGFloat contentHeight = [self getSizeByString:self.shopWindowModel.des withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14] withMaxWidth:SCREEN_WIDTH - 35];
     CGFloat otherHeight = fixedHeight + titleHeight + contentHeight;
     
     switch (self.cellType) {
@@ -472,9 +465,9 @@ THNCommentTableViewDelegate
 }
 
 //获取字符串高度的方法
-- (CGFloat)getSizeByString:(NSString*)string AndFontSize:(UIFont *)font
+- (CGFloat)getSizeByString:(NSString *)string withFontSize:(UIFont *)font withMaxWidth:(CGFloat)maxWidth
 {
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 35, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     return size.height;
 }
 

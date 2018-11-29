@@ -27,7 +27,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.identityView drawCornerWithType:0 radius:4];
-    [self.verifiedView drawCornerWithType:0 radius:4];
+    self.verifiedView.layer.cornerRadius = 4;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 

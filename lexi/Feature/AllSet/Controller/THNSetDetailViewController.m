@@ -82,7 +82,7 @@ THNMJRefreshDelegate
         }
 
         self.cover = result.data[@"cover"];
-        self.setTitle = result.data[@"name"];
+        self.setTitle = [NSString stringWithFormat:@"%@-%@",result.data[@"name"],result.data[@"sub_name"]];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

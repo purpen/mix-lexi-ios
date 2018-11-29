@@ -87,6 +87,11 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [self loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self hiddenHud];
+}
+
 - (void)loadData {
     //创建信号量
     self.semaphore = dispatch_semaphore_create(0);

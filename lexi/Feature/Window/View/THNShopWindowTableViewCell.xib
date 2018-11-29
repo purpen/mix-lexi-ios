@@ -125,7 +125,7 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dph-2D-z6F" customClass="THNFollowUserButton">
-                        <rect key="frame" x="459" y="10.5" width="63" height="30"/>
+                        <rect key="frame" x="464" y="10.5" width="63" height="30"/>
                         <color key="backgroundColor" red="0.37254901959999998" green="0.89411764709999997" blue="0.69411764710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="3L8-xl-1Io"/>
@@ -145,7 +145,7 @@
                     <constraint firstItem="eIA-GB-siH" firstAttribute="top" secondItem="zfq-Lp-Dw2" secondAttribute="bottom" constant="10" id="6bc-6v-z3O"/>
                     <constraint firstItem="oRx-yC-vtK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6q7-sW-QCF"/>
                     <constraint firstAttribute="bottom" secondItem="TCn-5D-cIN" secondAttribute="bottom" id="7bh-ud-heG"/>
-                    <constraint firstAttribute="trailing" secondItem="dph-2D-z6F" secondAttribute="trailing" constant="25" id="AjL-5f-nXt"/>
+                    <constraint firstAttribute="trailing" secondItem="dph-2D-z6F" secondAttribute="trailing" constant="20" id="AjL-5f-nXt"/>
                     <constraint firstItem="9uM-cV-2Jy" firstAttribute="leading" secondItem="MGx-lp-hIh" secondAttribute="leading" id="Bzs-22-Det"/>
                     <constraint firstItem="ZHM-SD-eqg" firstAttribute="leading" secondItem="9uM-cV-2Jy" secondAttribute="trailing" constant="13" id="Fk4-Xa-H3y"/>
                     <constraint firstItem="TCn-5D-cIN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="HKu-zX-3Xu"/>

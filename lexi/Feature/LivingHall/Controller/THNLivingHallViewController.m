@@ -72,6 +72,11 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     [self loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self hiddenHud];
+}
+
 - (void)loadData {
     //创建信号量
     self.semaphore = dispatch_semaphore_create(0);

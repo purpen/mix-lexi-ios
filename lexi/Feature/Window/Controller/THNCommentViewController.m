@@ -61,7 +61,7 @@ THNCommentTableViewDelegate
 }
 
 - (void)setupUI {
-    [self.fieldBackgroundView drawCornerWithType:0 radius:self.fieldBackgroundView.viewHeight / 2];
+    self.fieldBackgroundView.layer.cornerRadius = self.fieldBackgroundView.viewHeight / 2;
     CGFloat topWithBottomHeight = kDeviceiPhoneX ? 88 + 34 : 64;
     self.commentTableView = [[THNCommentTableView alloc]initWithFrame:CGRectMake(0, NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 50 - topWithBottomHeight) initWithCommentType:CommentTypeAll];
     self.commentTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
