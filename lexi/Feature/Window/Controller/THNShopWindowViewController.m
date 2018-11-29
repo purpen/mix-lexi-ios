@@ -57,6 +57,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 // 之前记录的页码
 @property (nonatomic, assign) NSInteger lastPage;
 @property (nonatomic, strong) NSIndexPath *selectCellIndexPath;
+@property (nonatomic, strong) UIView *windowDesLabelsView;
 
 
 @end
@@ -212,9 +213,16 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.lineView.frame))];
     [headerView addSubview:self.showImageView];
+    [headerView addSubview:self.windowDesLabelsView];
     [headerView addSubview:self.selectButtonView];
     self.lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [headerView addSubview:self.lineView];
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.frame = self.showImageView.bounds;
+    gradientLayer.colors =  @[(__bridge id)[UIColor colorWithHexString:@"000000" alpha:0.5].CGColor,
+                              (__bridge id)[UIColor colorWithHexString:@"000000" alpha:0].CGColor];
+    gradientLayer.locations = @[@(0.0), @(1)];
+    [self.showImageView.layer addSublayer:gradientLayer];
     return headerView;
 }
 
@@ -318,7 +326,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
-        _showImageView.image = kDeviceiPhoneX ?  [UIImage imageNamed:@"icon_showWindow_bg_X"] : [UIImage imageNamed:@"icon_showWindow_bg"];
+        [_showImageView sd_setImageWithURL:[NSURL URLWithString:@"https://static.moebeast.com/image/static/shop_window_head.jpg"]];
     }
     return _showImageView;
 }
@@ -356,6 +364,29 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [_stitchingButton addTarget:self action:@selector(pushReleaseWindowVC) forControlEvents:UIControlEventTouchUpInside];
     }
     return _stitchingButton;
+}
+
+- (UIView *)windowDesLabelsView {
+    if (!_windowDesLabelsView) {
+        _windowDesLabelsView = [[UIView alloc]initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, 70)];
+        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH, 20)];
+        titleLabel.text = @"发现生活美学";
+        titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:20];
+        UILabel *secondTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(18, CGRectGetMaxY(titleLabel.frame) + 15, SCREEN_WIDTH, 14)];
+        secondTitleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+        secondTitleLabel.text = @"发掘好物，品位生活";
+        UILabel *threeTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(18, CGRectGetMaxY(secondTitleLabel.frame) + 5, SCREEN_WIDTH, 14)];
+        threeTitleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+        threeTitleLabel.text = @"寻找搭配灵感,塑造自己的独特风格";
+        titleLabel.textColor = [UIColor whiteColor];
+        secondTitleLabel.textColor = [UIColor whiteColor];
+        threeTitleLabel.textColor = [UIColor whiteColor];
+        [_windowDesLabelsView addSubview:titleLabel];
+        [_windowDesLabelsView addSubview:secondTitleLabel];
+        [_windowDesLabelsView addSubview:threeTitleLabel];
+        
+    }
+    return _windowDesLabelsView;
 }
 
 - (NSMutableArray *)showWindowFollows {

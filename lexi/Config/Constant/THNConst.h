@@ -23,6 +23,16 @@ UIKIT_EXTERN NSString *const kWxaHomePath;
 UIKIT_EXTERN NSString *const kWxaProductPath;
 UIKIT_EXTERN NSString *const kWxaWindowPath;
 
+#pragma mark - 分享H5前缀
+// 文章
+UIKIT_EXTERN NSString *const kShareArticleUrlPrefix;
+// 种草清单
+UIKIT_EXTERN NSString *const kShareGrassUrlPrefix;
+// 商品
+UIKIT_EXTERN NSString *const kShareProductUrlPrefix;
+// 个人主页
+UIKIT_EXTERN NSString *const kShareUserUrlPrefix;
+
 #pragma mark - App 公共参数
 UIKIT_EXTERN NSInteger const kAppDebug;
 UIKIT_EXTERN NSString *const KAppType;

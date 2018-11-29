@@ -14,8 +14,8 @@
 
 static NSString *const kCollectionViewCellId = @"THNLikedWindowCollectionViewCellId";
 ///
-static NSString *const kURLLikedWindow      = @"/shop_windows/user_likes";
-static NSString *const kURLOtherLikedWindow = @"/shop_windows/other_user_likes";
+static NSString *const kURLLikedWindow       = @"/shop_windows/user_likes";
+static NSString *const kURLOtherLikedWindow  = @"/shop_windows/other_user_likes";
 
 @interface THNWindowListViewController () <UICollectionViewDelegate, UICollectionViewDataSource, THNMJRefreshDelegate>
 
