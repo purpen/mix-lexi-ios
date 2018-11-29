@@ -165,7 +165,7 @@ static NSString *const kTextCancel = @"取消";
     [super viewWillLayoutSubviews];
     
     [self thn_showAnimation:YES];
-    self.cancelButton.frame = CGRectMake(0, 235, SCREEN_WIDTH, 40);
+    self.cancelButton.frame = CGRectMake(0, 224, SCREEN_WIDTH, 40);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -175,7 +175,7 @@ static NSString *const kTextCancel = @"取消";
 }
 
 - (void)thn_showAnimation:(BOOL)show {
-    CGFloat frameH = kDeviceiPhoneX ? 307 : 275;
+    CGFloat frameH = kDeviceiPhoneX ? 296 : 264;
     CGFloat originY = show ? SCREEN_HEIGHT - frameH : SCREEN_HEIGHT;
     CGFloat alpha = show ? 0.4 : 0;
     
@@ -205,7 +205,7 @@ static NSString *const kTextCancel = @"取消";
 #pragma mark - getters and setters
 - (UIView *)containerView {
     if (!_containerView) {
-        CGFloat frameH = kDeviceiPhoneX ? 307 : 275;
+        CGFloat frameH = kDeviceiPhoneX ? 296 : 264;
         _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, frameH)];
         _containerView.backgroundColor = [UIColor whiteColor];
     }
@@ -218,6 +218,7 @@ static NSString *const kTextCancel = @"取消";
         [_cancelButton setTitle:kTextCancel forState:(UIControlStateNormal)];
         [_cancelButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:(UIControlStateNormal)];
         _cancelButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        _cancelButton.backgroundColor = [UIColor whiteColor];
         [_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _cancelButton;
