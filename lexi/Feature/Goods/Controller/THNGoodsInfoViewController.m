@@ -320,7 +320,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             
         } failure:^(THNRequest *request, NSError *error) {
             dispatch_group_leave(group);
-            [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         }];
     });
 }

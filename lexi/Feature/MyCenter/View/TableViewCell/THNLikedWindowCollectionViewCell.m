@@ -62,7 +62,8 @@
     self.titleLabel.attributedText = attStr;
     
     // 标题的动态高度
-    self.titleHeight = [self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 30];
+    CGFloat textH = [self.titleLabel thn_getLabelHeightWithMaxWidth:CGRectGetWidth(self.bounds) - 30];
+    self.titleHeight = textH > 41 ? 41 : textH;
 }
 
 #pragma mark - setup UI
@@ -118,6 +119,7 @@
     if (!_titleLabel) {
         _titleLabel = [[YYLabel alloc] init];
         _titleLabel.numberOfLines = 2;
+        _titleLabel.textContainerInset = UIEdgeInsetsMake(2, 0, 0, 0);
     }
     return _titleLabel;
 }

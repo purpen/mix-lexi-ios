@@ -44,7 +44,7 @@
     [self.avatarImageView loadImageWithUrl:[grassListModel.user_avator loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
                                   circular:YES];
     
-    [self.backgroundImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.backgroundImageView loadImageWithUrl:[grassListModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];
     if ([grassListModel.channel_name isEqualToString:grassNote]) {
         self.themeLabel.textColor = [UIColor colorWithHexString:@"75AB9A"];
     } else if ([grassListModel.channel_name isEqualToString:creatorStoryTitle]) {
