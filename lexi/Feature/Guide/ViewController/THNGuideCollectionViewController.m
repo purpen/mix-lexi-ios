@@ -25,15 +25,25 @@ static NSString * const kGuideCellIdentifier = @"guideCellIdentifier";
     [self setupUI];
 }
 
-- (void)setupUI {
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kGuideCellIdentifier];
+- (instancetype)init {
     UICollectionViewFlowLayout *layout  = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.itemSize = SCREEN_BOUNDS.size;
+    self.collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
+    [self.collectionView registerClass:[THNGuideCollectionViewCell class] forCellWithReuseIdentifier:kGuideCellIdentifier];
     self.collectionView.bounces = NO;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.pagingEnabled = YES;
-    [self.collectionView setCollectionViewLayout:layout animated:YES];
+    /**
+     1.设置背景色
+     2.由于糊上了一层collectionView所以在Appdelegate中设置window的背景色被collectionView覆盖.此时collectionView的颜色要重新设置
+     */
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    return self;
+}
+
+- (void)setupUI {
+
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -49,7 +59,5 @@ static NSString * const kGuideCellIdentifier = @"guideCellIdentifier";
     [cell setGuideCellWithImage:[NSString stringWithFormat:@"guide_page%zd", indexPath.row] withShowCloseButton:isShowCloseBtn];
     return cell;
 }
-
-
 
 @end

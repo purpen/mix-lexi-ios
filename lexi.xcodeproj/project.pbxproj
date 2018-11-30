@@ -3071,7 +3071,6 @@
 			isa = PBXGroup;
 			children = (
 				CDF3D33821B01CB7003D841A /* Other */,
-				CDF3D33921B01CB7003D841A /* Model */,
 				CDF3D33A21B01CB7003D841A /* View */,
 				CDF3D33B21B01CB7003D841A /* ViewController */,
 			);
@@ -3085,13 +3084,6 @@
 				CDF3D33D21B01D21003D841A /* THNGuideTool.m */,
 			);
 			path = Other;
-			sourceTree = "<group>";
-		};
-		CDF3D33921B01CB7003D841A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		CDF3D33A21B01CB7003D841A /* View */ = {

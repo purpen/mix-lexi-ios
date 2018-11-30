@@ -24,6 +24,7 @@
     if (self) {
         self.frame = frame;
         [self.contentView addSubview:self.guideImageView];
+        [self.contentView addSubview:self.closeButton];
     }
 
     return self;

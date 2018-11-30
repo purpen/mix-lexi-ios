@@ -10,6 +10,7 @@
 #import "THNSaveTool.h"
 #import "THNConst.h"
 #import "THNGuideCollectionViewController.h"
+#import "THNHomeViewController.h"
 #import "THNBaseTabBarController.h"
 
 @implementation THNGuideTool
