@@ -69,6 +69,10 @@ static NSString *const kTextCancel      = @"取消";
     [self.saveImageView downloadImage:imageUrl];
 }
 
+- (void)thn_setShareCardImageUrl:(NSString *)imageUrl {
+    [self.wxaImageView downloadImage:imageUrl];
+}
+
 #pragma mark - event response
 - (void)cancelButtonAction:(UIButton *)button {
     if ([self.delegate respondsToSelector:@selector(thn_cancelShare)]) {

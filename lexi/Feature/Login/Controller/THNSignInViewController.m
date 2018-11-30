@@ -129,6 +129,8 @@ static NSString *const kTextSkip            = @"跳过";
     WEAKSELF;
     
     [THNLoginManager userLoginWithParams:param modeType:type completion:^(THNResponse *result, NSError *error) {
+        [SVProgressHUD dismiss];
+        
         if (error) {
             [weakSelf.signInView thn_setErrorHintText:[weakSelf thn_getErrorMessage:error]];
             return ;

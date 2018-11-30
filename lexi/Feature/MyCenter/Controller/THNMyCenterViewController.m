@@ -37,6 +37,8 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 
+#define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物快来看看吧", obj]
+
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
 static NSString *const kHeaderTitleWindow   = @"喜欢的橱窗";
@@ -607,7 +609,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  打开分享视图
  */
 - (void)thn_openShareController {
+    if (!self.userModel.uid.length) return;
+    
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
+                            descr:self.userModel.about_me
+                        thumImage:self.userModel.avatar
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }
@@ -772,12 +780,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         self.navigationBarView.title = @"";
     }
 }
-
-//- (void)viewWillLayoutSubviews {
-//    [super viewWillLayoutSubviews];
-//
-//    [self thn_uploadViewFrame];
-//}
 
 /**
  是否拥有“生活馆”，更新视图

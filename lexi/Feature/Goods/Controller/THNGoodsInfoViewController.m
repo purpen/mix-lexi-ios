@@ -268,6 +268,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 //已登录用户获取商家优惠券列表
 - (void)thn_getUserMasterCouponsDataWithGroup:(dispatch_group_t)group  {
     WEAKSELF;
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"store_rid"] = self.goodsModel.storeRid;
     
@@ -276,7 +277,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         THNRequest *request = [THNAPI getWithUrlString:kURLLoginCoupon requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
             dispatch_group_leave(group);
-            
             if (!result.success) {
                 [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
                 return;
@@ -312,10 +312,10 @@ static NSString *const kKeyStoreRid         = @"store_rid";
             // type = 3  满减   type = 1 或者 2  为优惠券
             NSPredicate *fullReductionPredicate = [NSPredicate predicateWithFormat:@"type = 3"];
             NSPredicate *couponPredicate = [NSPredicate predicateWithFormat:@"type = 1 || type = 2"];
-            weakSelf.fullReductions = [weakSelf.allCouponsArr  filteredArrayUsingPredicate:fullReductionPredicate];
+            weakSelf.fullReductions = [weakSelf.allCouponsArr filteredArrayUsingPredicate:fullReductionPredicate];
             
             if (![THNLoginManager isLogin]) {
-                weakSelf.noLoginCoupons = [weakSelf.allCouponsArr  filteredArrayUsingPredicate:couponPredicate];
+                weakSelf.noLoginCoupons = [weakSelf.allCouponsArr filteredArrayUsingPredicate:couponPredicate];
             }
             
         } failure:^(THNRequest *request, NSError *error) {
@@ -654,7 +654,12 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     cellHeight -= !self.fullReductions.count ? 19 : 0;
     
     // 可领取红包
-    cellHeight -= !self.allCouponsArr.count ? 26 : 0;
+    if ([THNLoginManager isLogin]) {
+        cellHeight -= !self.loginCoupons.count ? 26 : 0;
+        
+    } else {
+        cellHeight -= !self.noLoginCoupons.count ? 26 : 0;
+    }
     
     return cellHeight;
 }

@@ -49,7 +49,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 static NSString *const kKeyUid = @"uid";
 
 @interface THNUserCenterViewController () <
-    THNNavigationBarViewDelegate,
     THNMyCenterHeaderViewDelegate,
     THNMJRefreshDelegate
 > {
@@ -641,8 +640,12 @@ static NSString *const kKeyUid = @"uid";
 
 #pragma mark - setup UI
 - (void)setNavigationBar {
-    self.navigationBarView.delegate = self;
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_nav_share_gray"];
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share"];
+    
+    WEAKSELF;
+    [self.navigationBarView didNavigationRightButtonCompletion:^{
+        [weakSelf thn_openShareController];
+    }];
 }
 
 /**

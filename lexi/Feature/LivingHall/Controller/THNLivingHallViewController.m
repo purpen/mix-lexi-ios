@@ -26,7 +26,7 @@
 #import "THNPhotoManager.h"
 #import "THNQiNiuUpload.h"
 #import "THNShareViewController.h"
-#import "THNShareImageViewController.h"
+#import "THNShareWxaViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 500;
 static CGFloat const expandViewHeight = 59;
@@ -291,8 +291,12 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     };
 
     self.livingHallHeaderView.livingHallShareBlock = ^{
-        THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:THNSharePosterTypeLifeStore requestId:[THNLoginManager sharedManager].storeRid];
-        [weakSelf presentViewController:shareImageVC animated:NO completion:nil];
+        if (![THNLoginManager sharedManager].storeRid.length) return;
+        
+        THNShareWxaViewController *shareVC = [[THNShareWxaViewController alloc] initWithType:(THNShareWxaViewTypeLifeStore)
+                                                                                   requestId:[THNLoginManager sharedManager].storeRid];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:shareVC animated:NO completion:nil];
     };
     
     return self.livingHallHeaderView;

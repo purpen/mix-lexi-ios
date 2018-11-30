@@ -10,7 +10,9 @@
 #import "THNLoginManager.h"
 
 /// url
-static NSString *const kURLWxaPoster = @"/market/wxa_poster";
+static NSString *const kURLWxaPoster    = @"/market/wxa_poster";
+static NSString *const kURLWxaGoods     = @"/market/share/product_card";
+static NSString *const kURLWxaLifeStore = @"/market/share/life_store";
 /// key
 static NSString *const kKeyRid       = @"rid";
 // 平台类型 1=品牌馆, 2=生活馆, 3=独立小程序分享商品, 4=核心平台分享商品
@@ -48,6 +50,7 @@ static NSString *const kKeyImageUrl  = @"image_url";
     
     [self setupUI];
     [self thn_networkPosterImageData];
+    [self thn_networkWxaCardImageData];
 }
 
 #pragma mark - custom delegate
@@ -56,7 +59,7 @@ static NSString *const kKeyImageUrl  = @"image_url";
 }
 
 - (void)thn_reviewSharePosterImage:(UIImage *)image {
-    [SVProgressHUD thn_showInfoWithStatus:@"预览图片"];
+//    [SVProgressHUD thn_showInfoWithStatus:@"预览图片"];
 }
 
 - (void)thn_shareToWechat {
@@ -64,10 +67,20 @@ static NSString *const kKeyImageUrl  = @"image_url";
 }
 
 - (void)thn_savePosterImage:(UIImage *)image {
-    [SVProgressHUD thn_showInfoWithStatus:@"保存图片"];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+        [SVProgressHUD thn_showErrorWithStatus:@"保存失败"];
+        
+    } else {
+        [SVProgressHUD thn_showSuccessWithStatus:@"已保存到相册"];
+    }
 }
 
 #pragma mark - network
+// 海报
 - (void)thn_networkPosterImageData {
     [SVProgressHUD thn_show];
     
@@ -84,6 +97,30 @@ static NSString *const kKeyImageUrl  = @"image_url";
         }
         
         [weakSelf.shareView thn_setSharePosterImageUrl:result.data[kKeyImageUrl]];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+// 卡片海报
+- (void)thn_networkWxaCardImageData {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    
+    THNRequest *request = [THNAPI postWithUrlString:[self thn_requestUrl]
+                                  requestDictionary:@{kKeyRid: self.requestId}
+                                           delegate:nil];
+    
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [weakSelf.shareView thn_setShareCardImageUrl:result.data[kKeyImageUrl]];
         [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -131,6 +168,17 @@ static NSString *const kKeyImageUrl  = @"image_url";
     }
     
     return self.requestId;
+}
+
+/**
+ 分享卡片的 url
+ */
+- (NSString *)thn_requestUrl {
+    if (self.shareViewType == THNShareWxaViewTypeLifeStore) {
+        return kURLWxaLifeStore;
+    }
+    
+    return kURLWxaGoods;
 }
 
 #pragma mark - public methods

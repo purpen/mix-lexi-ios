@@ -38,6 +38,11 @@ typedef NS_ENUM(NSUInteger, THNShareWxaViewType) {
  */
 - (void)thn_setSharePosterImageUrl:(NSString *)imageUrl;
 
+/**
+ 分享卡片的url
+ */
+- (void)thn_setShareCardImageUrl:(NSString *)imageUrl;
+
 - (instancetype)initWithFrame:(CGRect)frame type:(THNShareWxaViewType)type;
 
 @end

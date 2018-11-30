@@ -150,7 +150,7 @@ static const NSInteger kRightButtonTag = 123;
         [self.rightButtonArr addObject:rightButton];
     }
     
-    [self layoutIfNeeded];
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setNavigationRightButtonOfText:(NSString *)text {
