@@ -164,4 +164,8 @@ typedef NS_ENUM(NSUInteger,Formatter) {
 // 小数点处理
 + (NSString *)formatFloat:(float)f;
 
+
+// 判断字符串是不是URL
+- (BOOL)isValidUrl;
+
 @end

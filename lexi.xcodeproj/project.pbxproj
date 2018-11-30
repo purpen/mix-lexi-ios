@@ -353,6 +353,7 @@
 		4BC7D1AB21A6948100F22440 /* THNSearchWindowLabelResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3E7958219F0D0A002FE789 /* THNSearchWindowLabelResultViewController.m */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNPayModel.m */; };
+		4BD7D63E21B1050300161F1F /* THNMessagePushManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
 		4BECF161217F1401008E5E28 /* THNAllAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE42217F1401008E5E28 /* THNAllAnnouncementView.xib */; };
 		4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE45217F1401008E5E28 /* THNAnnouncementView.xib */; };
@@ -600,6 +601,8 @@
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPayModel.h; sourceTree = "<group>"; };
 		4BCAF8DF21893A4400EF9491 /* THNPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPayModel.m; sourceTree = "<group>"; };
+		4BD7D63C21B1050300161F1F /* THNMessagePushManger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNMessagePushManger.h; sourceTree = "<group>"; };
+		4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNMessagePushManger.m; sourceTree = "<group>"; };
 		4BECEE0B217F1401008E5E28 /* THNAllsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewController.h; sourceTree = "<group>"; };
 		4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewController.m; sourceTree = "<group>"; };
 		4BECEE0D217F1401008E5E28 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
@@ -1714,6 +1717,8 @@
 				4BECEE22217F1401008E5E28 /* THNTableViewCells.m */,
 				4BECEE23217F1401008E5E28 /* THNTableViewSections.h */,
 				4BECEE24217F1401008E5E28 /* THNTableViewSections.m */,
+				4BD7D63C21B1050300161F1F /* THNMessagePushManger.h */,
+				4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -4252,6 +4257,7 @@
 				D8CD7BD921AFE00900C1E320 /* THNShareWxaView.m in Sources */,
 				4B27B4B9218717D2004AF42F /* THNShopWindowModel.m in Sources */,
 				4B27B4BA218717D2004AF42F /* THNWindowModel.m in Sources */,
+				4BD7D63E21B1050300161F1F /* THNMessagePushManger.m in Sources */,
 				4B27B4BB218717D2004AF42F /* THNWindowModelProducts.m in Sources */,
 				4B27B4BC218717D2004AF42F /* THNWindowModelShopWindows.m in Sources */,
 				4BF3D78A21916E8B001B67E2 /* THNCommentSectionHeaderView.m in Sources */,

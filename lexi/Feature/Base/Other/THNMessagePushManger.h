@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "THNBaseNavigationController.h"
 
 @interface THNMessagePushManger : NSObject
+
++ (void)pushMessageTypeWithNavigationVC:(THNBaseNavigationController *)navi
+                       initWithUserInfo:(NSDictionary *)userInfo;
 
 @end

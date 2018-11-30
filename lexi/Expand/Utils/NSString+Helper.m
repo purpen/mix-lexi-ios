@@ -297,4 +297,11 @@ static NSString *const kLocaleIdentifier = @"zh_CN";
     }
 }
 
+// 判断字符串是不是URL
+- (BOOL)isValidUrl {
+    NSString *regex =@"[a-zA-z]+://[^\\s]*";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    return [urlTest evaluateWithObject:self];
+}
+
 @end

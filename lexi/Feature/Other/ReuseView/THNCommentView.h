@@ -15,6 +15,7 @@
 @optional
 - (void)showKeyboard;
 - (void)lookComment;
+- (void)shareArticle;
 
 @end
 

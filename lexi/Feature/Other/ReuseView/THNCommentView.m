@@ -22,8 +22,6 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *praisesButton;
 @property (nonatomic, strong) THNGrassListModel *grassListModel;
-
-
 @end
 
 @implementation THNCommentView
@@ -37,7 +35,7 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
     if (isSelect) {
         [self.praisesButton setTitleColor:[UIColor colorWithHexString:@"FF6666"] forState:UIControlStateNormal];
     } else {
-        [self.praisesButton setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
+        [self.praisesButton setTitleColor:[UIColor colorWithHexString:@"333333"] forState:UIControlStateNormal];
     }
     NSString *praisesBtnTitle = praiseCount == 0 ? @"赞" : [NSString stringWithFormat:@"%ld", praiseCount];
     [self.praisesButton setTitle:praisesBtnTitle forState:UIControlStateNormal];
@@ -65,6 +63,12 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 - (IBAction)lookComment:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(lookComment)]) {
         [self.delegate lookComment];
+    }
+}
+
+- (IBAction)share:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(shareArticle)]) {
+        [self.delegate shareArticle];
     }
 }
 

@@ -16,6 +16,7 @@
 #import "THNMarco.h"
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
+#import <UMCommon/UMCommon.h>
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 

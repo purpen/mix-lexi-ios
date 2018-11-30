@@ -9,8 +9,11 @@
 #import "THNShareViewController.h"
 #import "THNShareActionView.h"
 #import <UMShare/UMShare.h>
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kTextCancel = @"取消";
+static NSString *const kShareSuccessTitle = @"分享成功";
+static NSString *const kShareFailureTitle = @"分享失败";
 
 @interface THNShareViewController () <THNShareActionViewDelegate>
 
@@ -18,6 +21,10 @@ static NSString *const kTextCancel = @"取消";
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) THNShareActionView *thirdActionView;
 @property (nonatomic, strong) THNShareActionView *moreActionView;
+@property (nonatomic, strong) NSString *shareTitle;
+@property (nonatomic, strong) NSString *shareDescr;
+@property (nonatomic, strong) UIImage *thumImage;
+@property (nonatomic, strong) NSString *shareUrl;
 
 @end
 
@@ -31,6 +38,21 @@ static NSString *const kTextCancel = @"取消";
     return self;
 }
 
+- (void)shareObjectWithTitle:(NSString *)title
+                       descr:(NSString *)descr
+                   thumImage:(NSString *)thumImageStr
+                      webUrl:(NSString *)url {
+    self.shareTitle = title;
+    self.shareDescr = descr;
+    self.shareUrl = url;
+    
+    if ([thumImageStr isValidUrl]) {
+        self.thumImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL                                             URLWithString:thumImageStr]]];
+    } else {
+        self.thumImage = [UIImage imageNamed:thumImageStr];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,7 +64,7 @@ static NSString *const kTextCancel = @"取消";
     if (shareView == self.thirdActionView) {
         switch (index) {
             case 0:
-                [self shareMiniProgramToPlatformType:UMSocialPlatformType_WechatSession];
+                [self shareWebPageToPlatformType:UMSocialPlatformType_WechatSession];
                 break;
             case 1:
                 [self shareWebPageToPlatformType:UMSocialPlatformType_WechatTimeLine];
@@ -64,19 +86,17 @@ static NSString *const kTextCancel = @"取消";
 
 // 系统分享
 - (void)systemShare {
-    NSString *shareText = @"分享标题";
-    UIImage *shareImage = [UIImage imageNamed:@"icon_brandHall_v"];
-    NSURL *shareURL = [NSURL URLWithString:@"https://www.baidu.com/"];
-    NSArray *activityItems = [[NSArray alloc] initWithObjects:shareText, shareImage, shareURL, nil];
+    
+    NSArray *activityItems = [[NSArray alloc] initWithObjects:self.shareTitle, self.thumImage, self.shareUrl, nil];
 
     UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
 
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         
         if (completed) {
-            NSLog(@"分享成功");
+            [SVProgressHUD thn_showInfoWithStatus:kShareSuccessTitle];
         } else {
-            NSLog(@"分享失败");
+            [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
         }
 
         [vc dismissViewControllerAnimated:YES completion:nil];
@@ -93,8 +113,8 @@ static NSString *const kTextCancel = @"取消";
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
-    UMShareMiniProgramObject *shareObject = [UMShareMiniProgramObject shareObjectWithTitle:@"小程序标题" descr:@"小程序内容描述" thumImage:[UIImage imageNamed:@"icon_Applets_share"]];
-    shareObject.webpageUrl = @"https://www.baidu.com";
+    UMShareMiniProgramObject *shareObject = [UMShareMiniProgramObject shareObjectWithTitle:self.shareTitle descr:self.shareDescr thumImage:self.thumImage];
+    shareObject.webpageUrl = self.shareUrl;
     shareObject.userName = @"gh_65428219bffb";
     shareObject.path = @"/pages/index/index";
     messageObject.shareObject = shareObject;
@@ -127,9 +147,9 @@ static NSString *const kTextCancel = @"取消";
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
     //创建网页内容对象
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"分享标题" descr:@"分享内容描述" thumImage:[UIImage imageNamed:@"icon_start_yellow"]];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareDescr thumImage:self.thumImage];
     //设置网页地址
-    shareObject.webpageUrl = @"http://mobile.umeng.com/social";
+    shareObject.webpageUrl = self.shareUrl;
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
@@ -138,9 +158,9 @@ static NSString *const kTextCancel = @"取消";
     [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
         [self thn_showAnimation:NO];
         if (error) {
-            [SVProgressHUD thn_showInfoWithStatus:@"分享失败"];
+            [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
         }else{
-            [SVProgressHUD thn_showInfoWithStatus:@"分享成功"];
+            [SVProgressHUD thn_showInfoWithStatus:kShareSuccessTitle];
             
         }
     }];
