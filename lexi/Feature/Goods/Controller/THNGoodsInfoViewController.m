@@ -1040,7 +1040,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     WEAKSELF;
     
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        [weakSelf thn_openGoodsShareImageController];
+        [weakSelf thn_openShareController];
     }];
 }
 

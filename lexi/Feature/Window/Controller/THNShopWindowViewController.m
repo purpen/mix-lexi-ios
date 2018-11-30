@@ -219,7 +219,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [headerView addSubview:self.lineView];
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame = self.showImageView.bounds;
-    gradientLayer.colors =  @[(__bridge id)[UIColor colorWithHexString:@"000000" alpha:0.5].CGColor,
+    gradientLayer.colors =  @[(__bridge id)[UIColor colorWithHexString:@"000000" alpha:0.3].CGColor,
                               (__bridge id)[UIColor colorWithHexString:@"000000" alpha:0].CGColor];
     gradientLayer.locations = @[@(0.0), @(1)];
     [self.showImageView.layer addSublayer:gradientLayer];

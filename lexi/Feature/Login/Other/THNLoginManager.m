@@ -66,7 +66,7 @@ MJCodingImplementation
     THNRequest *request = [THNAPI postWithUrlString:postUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
@@ -77,7 +77,6 @@ MJCodingImplementation
         completion(result, nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(nil, error);
     }];
 }
