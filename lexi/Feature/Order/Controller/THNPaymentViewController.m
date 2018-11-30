@@ -116,7 +116,7 @@ THNNavigationBarViewDelegate
 - (void)recordingPayType {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.orderRid;
-    params[@"pay_type"] = @([self thn_getPaymentType]);
+    params[@"pay_type"] = [self thn_getPaymentType] == THNPaymentTypeHuabei ?  @(4) : @([self thn_getPaymentType]);
     THNRequest *request = [THNAPI postWithUrlString:kUrlRecordingPayType requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
@@ -143,7 +143,7 @@ THNNavigationBarViewDelegate
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

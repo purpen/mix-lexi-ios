@@ -44,7 +44,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
         return;
     }
     
-    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,
+    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,   
                                 kParamAreaCode: weakSelf.areacode,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
