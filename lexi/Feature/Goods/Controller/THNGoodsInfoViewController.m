@@ -682,7 +682,13 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  打开分享视图
  */
 - (void)thn_openShareController {
+    if (!self.goodsId.length || !self.goodsModel) return;
+    
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    [shareVC shareObjectWithTitle:self.goodsModel.name
+                            descr:self.goodsModel.features
+                        thumImage:self.goodsModel.cover
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareProductUrlPrefix, self.goodsId]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }

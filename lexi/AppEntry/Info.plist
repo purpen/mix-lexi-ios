@@ -33,7 +33,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>qq1106125719</string>
+				<string>QQ41ee2397</string>
 			</array>
 		</dict>
 		<dict>
@@ -41,7 +41,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>weibo146542115</string>
+				<string>wb146542115</string>
 			</array>
 		</dict>
 		<dict>
@@ -66,6 +66,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>alipay2018102761828848</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1106125719</string>
 			</array>
 		</dict>
 	</array>

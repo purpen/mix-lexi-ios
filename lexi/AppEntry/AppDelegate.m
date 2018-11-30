@@ -31,6 +31,7 @@
 #import "THNGuideTool.h"
 
 static NSString *const kCancelPayOrderTitle = @"取消支付";
+static NSString *const kRedirectURL = @"https://lite.lexivip.com/";
 
 @interface AppDelegate ()<WXApiDelegate, UNUserNotificationCenterDelegate>
 
@@ -177,7 +178,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession
                                           appKey:kWXAppKey
                                        appSecret:kWXAppSecret
-                                     redirectURL:@"http:mobile.umeng.com/social"];
+                                     redirectURL:kRedirectURL];
     /* 移除相应平台的分享，如微信收藏 */
     [[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
     
@@ -187,13 +188,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ
                                           appKey:kQQAppId /*设置QQ平台的appID*/
                                        appSecret:nil
-                                     redirectURL:@"http://mobile.umeng.com/social"];
+                                     redirectURL:kRedirectURL];
     
     /* 设置新浪的appKey和appSecret */
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina
                                           appKey:kWBAppKey
                                        appSecret:kWBAppSecret
-                                     redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
+                                     redirectURL:kRedirectURL];
 }
 
 #pragma mark 友盟统计

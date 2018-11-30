@@ -165,6 +165,7 @@ static NSString *const kShareFailureTitle = @"分享失败";
                                 currentViewController:self
                                            completion:^(id data, NSError *error) {
                                                if (error) {
+                                                   THNLog(@"share -- %@", error);
                                                    [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
                                                    
                                                } else {

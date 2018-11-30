@@ -75,11 +75,12 @@ NSString *const kWXAppSecret        = @"8eddb55d39cbfdb9fee1afa93a495db1";
 NSString *const kALiURLScheme       = @"alipay2018102761828848";
 NSString *const kAlipayKey          = @"2018102761828848";
 // 微博
-NSString *const kWBURLScheme        = @"weibo146542115";
+NSString *const kWBURLScheme        = @"wb146542115";
 NSString *const kWBAppKey           = @"146542115";
 NSString *const kWBAppSecret        = @"3d2cff91e7e95529e97aa6a2320c940e";
 // QQ
-NSString *const kQQURLScheme        = @"qq1106125719";
+NSString *const kQQTencent          = @"tencent1106125719";
+NSString *const kQQURLScheme        = @"QQ41ee2397";
 NSString *const kQQAppId            = @"1106125719";
 NSString *const kQQAppKey           = @"Vx7fjdJy7i1As15N";
 
