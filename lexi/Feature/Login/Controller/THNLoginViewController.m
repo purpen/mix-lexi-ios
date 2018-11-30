@@ -10,6 +10,7 @@
 #import "THNLoginView.h"
 #import "THNSignInViewController.h"
 #import "THNSignUpViewController.h"
+#import "THNBaseTabBarController.h"
 
 @interface THNLoginViewController () <THNLoginViewDelegate>
 
@@ -46,7 +47,8 @@
 
 #pragma mark - custom delegate
 - (void)thn_loginViewDidSelectSkipButton:(UIButton *)button {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [UIApplication sharedApplication].keyWindow.rootViewController = [[THNBaseTabBarController alloc] init];
 }
 
 - (void)thn_loginViewDidSelectSignUpButton:(UIButton *)button {

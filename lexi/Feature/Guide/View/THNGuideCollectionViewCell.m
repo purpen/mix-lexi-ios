@@ -47,7 +47,7 @@
 - (void)click {
     [UIApplication sharedApplication].keyWindow.rootViewController = [[THNBaseTabBarController alloc] init];
     CATransition *animal = [CATransition animation];
-    animal.duration = 0.5;
+    animal.duration = 0.2;
     animal.type = @"fade";
     [[UIApplication sharedApplication].keyWindow.layer addAnimation:animal forKey:nil];
 }

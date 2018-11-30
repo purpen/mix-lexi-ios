@@ -37,13 +37,14 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 
-#define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物快来看看吧", obj]
+#define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
 /// seciton header 默认的标题
 static NSString *const kHeaderTitleLiked    = @"喜欢的商品";
 static NSString *const kHeaderTitleWindow   = @"喜欢的橱窗";
 static NSString *const kHeaderTitleBrowses  = @"最近查看";
 static NSString *const kHeaderTitleWishList = @"心愿单";
+static NSString *const kShareDes            = @"快来看看吧";
 /// cell 的高度
 static CGFloat const kCellHeightGoods       = 100.0;
 static CGFloat const kCellHeightWindow      = 162.0;
@@ -613,7 +614,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
     [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
-                            descr:self.userModel.about_me
+                            descr:kShareDes
                         thumImage:self.userModel.avatar
                            webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;

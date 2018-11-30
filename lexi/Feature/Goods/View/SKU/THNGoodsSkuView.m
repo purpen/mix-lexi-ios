@@ -18,8 +18,9 @@
 
 static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionViewCellId";
 ///
-static NSString *const kTitleColor = @"颜色";
-static NSString *const kTitleSize  = @"尺寸";
+static NSString *const kTitleColor   = @"颜色";
+static NSString *const kTitleSize    = @"尺寸";
+static NSString *const kTextInterval = @"∮";
 ///
 static CGFloat const kMaxHeight = 337.0;
 
@@ -94,7 +95,7 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 - (NSArray *)thn_filter:(THNSkuFilter *)filter conditionForRow:(NSInteger)row {
-    NSMutableArray *skus = [NSMutableArray arrayWithArray:[self.skuArr[row] componentsSeparatedByString:@" "]];
+    NSMutableArray *skus = [NSMutableArray arrayWithArray:[self.skuArr[row] componentsSeparatedByString:kTextInterval]];
     for (NSString *mode in skus) {
         if (!mode.length) {
             [skus removeObject:mode];
@@ -250,7 +251,7 @@ static CGFloat const kMaxHeight = 337.0;
     [self.skuArr removeAllObjects];
     
     for (THNSkuModelItem *itemModel in data) {
-        [self.skuArr addObject:itemModel.mode];
+        [self.skuArr addObject:[NSString stringWithFormat:@"%@%@%@", itemModel.sColor, kTextInterval, itemModel.sModel]];
     }
 }
 
@@ -260,9 +261,9 @@ static CGFloat const kMaxHeight = 337.0;
 - (void)thn_getModeContentTextWithModelData:(NSArray *)data {
     NSMutableArray *contentArr = [NSMutableArray array];
     for (THNSkuModelColor *model in data) {
-        [contentArr addObject:[model.name stringByReplacingOccurrencesOfString:@" " withString:@""]];
+        [contentArr addObject:model.name];
     }
-    
+
     [self.modeArr addObject:contentArr];
 }
 
@@ -343,7 +344,7 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 - (CGFloat)thn_getContentSizeHeight {
-    return self.colorHeight + self.sizeHeight + 15;
+    return self.colorHeight + self.sizeHeight + 30;
 }
 
 - (CGFloat)thn_getSkuViewSizeHeight {

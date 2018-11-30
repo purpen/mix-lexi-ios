@@ -53,7 +53,7 @@ static NSString *const kRedirectURL = @"https://lite.lexivip.com/";
 #pragma mark - 加载根视图
 - (void)setRootViewController {
     self.window.rootViewController = [THNGuideTool chooseRootViewController];
-   // [self thn_loadLoginController];
+//    [self thn_loadLoginController];
 }
 
 - (void)thn_loadLoginController {

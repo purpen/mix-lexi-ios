@@ -128,6 +128,9 @@ static NSString *const kTextCancel      = @"取消";
     [self addSubview:self.wxaContainerView];
     [self addSubview:self.wxaButton];
     
+    self.wxaContainerView.hidden = YES;
+    self.wxaButton.hidden = YES;
+    
     [self.imageContainerView addSubview:self.saveImageView];
     [self.imageContainerView addSubview:self.saveHintLabel];
     [self addSubview:self.imageContainerView];
@@ -170,7 +173,8 @@ static NSString *const kTextCancel      = @"取消";
     /// 保存图片
     [self.imageContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(containerW, containerW));
-        make.right.mas_equalTo(-15);
+//        make.right.mas_equalTo(-15);
+        make.centerX.equalTo(self);
         make.top.mas_equalTo([self originY]);
     }];
     
@@ -188,7 +192,8 @@ static NSString *const kTextCancel      = @"取消";
     
     [self.saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 70));
-        make.centerX.equalTo(self.imageContainerView);
+//        make.centerX.equalTo(self.imageContainerView);
+        make.centerX.equalTo(self);
         make.top.equalTo(self.imageContainerView.mas_bottom).with.offset(25);
     }];
     

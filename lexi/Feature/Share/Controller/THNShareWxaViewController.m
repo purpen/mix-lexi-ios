@@ -97,7 +97,6 @@ static NSString *const kKeyImageUrl  = @"image_url";
         }
         
         [weakSelf.shareView thn_setSharePosterImageUrl:result.data[kKeyImageUrl]];
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
