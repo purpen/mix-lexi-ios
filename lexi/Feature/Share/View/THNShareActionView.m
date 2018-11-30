@@ -44,7 +44,7 @@ static NSInteger const kActionButtonTag = 2352;
 - (NSArray *)thn_getTitlesWithType:(THNShareActionViewType)type {
     NSArray *titles = @[@[@"微信", @"朋友圈", @"微博", @"QQ", @"QQ空间"],
                         @[@"更多分享"],
-                        @[@"生成长图", @"更多分享"]];
+                        @[@"保存海报", @"更多分享"]];
     
     return titles[(NSUInteger)type];
 }

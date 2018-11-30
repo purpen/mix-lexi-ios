@@ -757,7 +757,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 
 - (void)setNavigationBar {
     self.navigationBarView.delegate = self;
-    [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_nav_share_gray",
+    [self.navigationBarView setNavigationRightButtonOfImageNamedArray:@[@"icon_share",
                                                                         @"icon_setting_gray"]];
 }
 

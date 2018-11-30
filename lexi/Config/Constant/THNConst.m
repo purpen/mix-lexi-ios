@@ -27,13 +27,13 @@ NSString *const kWxaWindowPath  = @"pages/windowDetail/windowDetail";
 
 #pragma mark - 分享H5前缀
 // 文章
-NSString *const kShareArticleUrlPrefix = @"https://h5.lexivip.com/article/life?rid=";
+NSString *const kShareArticleUrlPrefix  = @"https://h5.lexivip.com/article/life?rid=";
 // 种草清单
-NSString *const kShareGrassUrlPrefix = @"https://h5.lexivip.com/article/grass?rid=";
+NSString *const kShareGrassUrlPrefix    = @"https://h5.lexivip.com/article/grass?rid=";
 // 商品
-NSString *const kShareProductUrlPrefix = @"https://h5.lexivip.com/product_view?rid=";
+NSString *const kShareProductUrlPrefix  = @"https://h5.lexivip.com/product_view?rid=";
 // 个人主页
-NSString *const kShareUserUrlPrefix = @"https://h5.lexivip.com/user/home?uid=";
+NSString *const kShareUserUrlPrefix     = @"https://h5.lexivip.com/user/home?uid=";
 
 #pragma mark - 测试账号
 /**
