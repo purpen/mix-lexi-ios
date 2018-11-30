@@ -289,12 +289,12 @@ static NSString *const kUrlOrdersDelete = @"/orders/delete";
     THNOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOrderCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    __weak typeof(cell)weakCell = cell;
+    WEAKSELF;
     
     cell.countDownBlock = ^(THNOrderTableViewCell *cell) {
-        NSIndexPath *currentIndexPath = [tableView indexPathForCell:weakCell];
-        THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:self.orders[currentIndexPath.row]];
-        [self deleteOrderData:orderModel.rid initWithCurrenIndex:currentIndexPath.row];
+        NSIndexPath *currentIndexPath = [weakSelf.tableView indexPathForCell:cell];
+        THNOrdersModel *orderModel = [THNOrdersModel mj_objectWithKeyValues:weakSelf.orders[currentIndexPath.row]];
+        [weakSelf deleteOrderData:orderModel.rid initWithCurrenIndex:currentIndexPath.row];
     };
     
     // 解决滑动没结束切换视图刷新tableView 数据越界问题
