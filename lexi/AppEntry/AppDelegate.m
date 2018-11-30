@@ -23,7 +23,6 @@
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
 #import <AlipaySDK/AlipaySDK.h>
-#import <UMCommon/UMCommon.h>
 #import <UMPush/UMessage.h>
 #import <UserNotifications/UserNotifications.h>
 #import "THNAlertView.h"
@@ -89,13 +88,15 @@ static NSString *const kCancelPayOrderTitle = @"取消支付";
 #pragma mark - 友盟推送设置
 - (void)configureUMessageWithLaunchOptions:(NSDictionary *)launchOptions  {
     
-    //绑定别名
-    [UMessage addAlias:@"11804357269" type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-        
-    }];
-    
     // Push功能配置
     UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
+    // 实现UNUserNotificationCenterDelegate
+    if (@available(iOS 10.0, *)) {
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    } else {
+        
+    }
+    [UMessage setAutoAlert:NO];
     [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted) {
             
@@ -147,7 +148,10 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    
     if([[[UIDevice currentDevice] systemVersion]intValue] < 10){
+        [[NSNotificationCenter defaultCenter] postNotificationName:AppDelegateBackgroundRemotePush object:nil userInfo:userInfo];
+        [UMessage setAutoAlert:NO];
         [UMessage didReceiveRemoteNotification:userInfo];
     }
     completionHandler(UIBackgroundFetchResultNewData);

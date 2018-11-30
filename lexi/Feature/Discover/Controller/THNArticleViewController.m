@@ -32,6 +32,7 @@
 #import "THNCommentTableView.h"
 #import "THNCommentViewController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "THNShareViewController.h"
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -532,6 +533,21 @@ THNCommentTableViewDelegate
 
 - (void)lookComment {
     [self pushCommentVC];
+}
+
+- (void)shareArticle {
+    THNShareViewController *shareVC = [[THNShareViewController alloc]init];
+    NSString *shareUrlPrefix;
+    
+    if (self.grassListModel.type == DisCoverContentTypeArticle) {
+        shareUrlPrefix = kShareArticleUrlPrefix;
+    } else if (self.grassListModel.type == DisCoverContentTypeGrassList) {
+        shareUrlPrefix = kShareGrassUrlPrefix;
+    }
+
+    [shareVC shareObjectWithTitle:self.grassListModel.title descr:self.grassListModel.des thumImage:self.grassListModel.cover webUrl:[shareUrlPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",self.rid]]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 #pragma mark - lazy

@@ -127,7 +127,7 @@ THNCommentTableViewDelegate
 
 - (void)addUserLikes {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     THNRequest *request = [THNAPI postWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
@@ -143,7 +143,7 @@ THNCommentTableViewDelegate
 
 - (void)deleteUserLikes {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     THNRequest *request = [THNAPI deleteWithUrlString:kUrlShopWindowsUserLikes requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
@@ -194,7 +194,7 @@ THNCommentTableViewDelegate
 //猜你喜欢
 - (void)loadShowWindowGuessLikeData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowGuessLike requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
@@ -216,7 +216,7 @@ THNCommentTableViewDelegate
 // 相似橱窗
 - (void)loadShowWindowSimilarData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowSimilar requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
 
@@ -245,7 +245,7 @@ THNCommentTableViewDelegate
     }
 
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlShowWindowDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (self.isNeedLocalHud) {
@@ -488,7 +488,7 @@ THNCommentTableViewDelegate
 #pragma mark - THNToolBarViewDelegate
 - (void)addComment:(NSString *)text {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = self.shopWindowModel.rid;
+    params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     if (self.pid) {
         params[@"pid"] = @(self.pid);
     }

@@ -16,6 +16,20 @@ UIKIT_EXTERN NSString *const lifeRememberTitle;
 UIKIT_EXTERN NSString *const handTeachTitle;
 UIKIT_EXTERN NSString *const grassNote;
 
+
+/**
+ 发现页类型
+
+ - DisCoverContentTypeArticle: 文章
+ - DisCoverContentTypeGrassList: 种草笔记
+ - DisCoverContentTypeVideo: 视频
+ */
+typedef NS_ENUM(NSUInteger, DisCoverContentType) {
+    DisCoverContentTypeArticle = 1,
+    DisCoverContentTypeGrassList,
+    DisCoverContentTypeVideo,
+};
+
 @interface THNGrassListModel : NSObject
 
 @property (nonatomic, strong) NSString *title;
@@ -41,6 +55,7 @@ UIKIT_EXTERN NSString *const grassNote;
 @property (nonatomic, assign) NSInteger praise_count;
 @property (nonatomic, assign) BOOL is_praise;
 @property (nonatomic, assign) NSInteger comment_count;
+@property (nonatomic, assign) DisCoverContentType type;
 
 
 @end

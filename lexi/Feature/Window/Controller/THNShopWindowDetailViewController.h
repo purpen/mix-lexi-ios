@@ -22,5 +22,7 @@ typedef NS_ENUM(NSUInteger, ShopWindowDetailCellType) {
 
 @property (nonatomic, assign) CGFloat shopWindowCellHeight;
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
+//橱窗编号
+@property (nonatomic, strong) NSString *rid;
 
 @end

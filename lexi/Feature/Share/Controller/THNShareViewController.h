@@ -17,4 +17,17 @@ typedef NS_ENUM(NSUInteger, ShareContentType) {
 
 - (instancetype)initWithType:(ShareContentType)type;
 
+/**
+ * @param title 标题
+ * @param descr 描述
+ * @param thumImageStr 缩略图
+ * @param url 链接地址
+ *
+ */
+- (void)shareObjectWithTitle:(NSString *)title
+                       descr:(NSString *)descr
+                   thumImage:(NSString *)thumImageStr
+                      webUrl:(NSString *)url;
+
+
 @end

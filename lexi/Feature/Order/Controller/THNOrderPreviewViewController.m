@@ -516,11 +516,14 @@ static NSString *const kUrlOfficialFill = @"/market/user_official_fill";
 - (void)changeExpress {
     // 添加或改变默认物流ID
     for (NSMutableDictionary *skuDict in self.skuItems) {
+        // 每个店铺的物流公司列表
         NSDictionary *logisticsDict = self.logisticsDict[skuDict[@"rid"]];
         for (NSMutableDictionary *goodsDict in [skuDict[@"sku_items"]mutableCopy]) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"is_default = YES"];
             NSArray *expressArray = [logisticsDict[goodsDict[@"sku"]][@"express"] filteredArrayUsingPredicate:predicate];
+            // 获取每个商品默认的物流ID
             NSString *logId = expressArray[0][@"express_id"];
+            // 改变每个商品的物流ID
             [goodsDict setObject:logId forKey:@"express_id"];
         }
     }

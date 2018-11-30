@@ -18,7 +18,7 @@
 #import "THNLoginManager.h"
 #import "AppDelegate.h"
 #import "UIViewController+THNHud.h"
-#import "THNBrandHallViewController.h"
+#import "THNMessagePushManger.h"
 
 @interface THNBaseTabBarController () <UITabBarControllerDelegate> {
     THNHomeViewController       *_homeVC;
@@ -73,11 +73,9 @@
     [self initTabBarController];
 }
 
-- (void)backgroundRemotePush:(NSNotification *)notofication {
-    THNBrandHallViewController *brandHallVC = [[THNBrandHallViewController alloc]init];
-    brandHallVC.rid = notofication.userInfo[@"rid"];
+- (void)backgroundRemotePush:(NSNotification *)notification {
     THNBaseNavigationController *naviNavigationVC = self.childViewControllers[0];
-    [naviNavigationVC pushViewController:brandHallVC animated:YES];
+    [THNMessagePushManger pushMessageTypeWithNavigationVC:naviNavigationVC initWithUserInfo:notification.userInfo];
 }
 
 /**
