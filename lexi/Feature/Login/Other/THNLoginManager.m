@@ -16,7 +16,8 @@
 #import "THNMarco.h"
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
-#import <UMCommon/UMCommon.h>
+#import <UMPush/UMessage.h>
+#import "THNSaveTool.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
 
@@ -71,6 +72,8 @@ MJCodingImplementation
             return ;
         }
         
+        [self setUMAlias:result.data];
+        
         self.token = result.data[kRequestToken];
         self.expirationTime = result.data[kRequestExpiration];
         self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
@@ -93,6 +96,8 @@ MJCodingImplementation
             return ;
         }
         
+        [self setUMAlias:result.data];
+    
         self.token = NULL_TO_NIL(result.data[kRequestToken]);
         self.expirationTime = NULL_TO_NIL(result.data[kRequestExpiration]);
         self.openingUser = NO;
@@ -212,6 +217,19 @@ MJCodingImplementation
     return NO;
 }
 
+
+/**
+ 设置友盟别名，并保存UID,当用户退出登录清空
+ */
+- (void)setUMAlias:(NSDictionary *)result {
+    NSString *uid = result[@"uid"];
+    [THNSaveTool setObject:uid forKey:kUid];
+    //绑定友盟别名
+    [UMessage addAlias:uid type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+        
+    }];
+}
+
 /**
  保存登录信息
  */
@@ -226,6 +244,11 @@ MJCodingImplementation
 - (void)clearLoginInfo {
     //  客户端清空缓存的 token
     self.token = nil;
+    
+    //移除别名
+    [UMessage removeAlias:[THNSaveTool objectForKey:kUid] type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+        
+    }];
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     if ([defaultManager isDeletableFileAtPath:[[self class] archiveFilePath]]) {

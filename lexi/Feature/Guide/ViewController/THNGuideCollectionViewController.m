@@ -55,8 +55,9 @@ static NSString * const kGuideCellIdentifier = @"guideCellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNGuideCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGuideCellIdentifier forIndexPath:indexPath];
-    BOOL isShowCloseBtn = indexPath.row == kShowCount - 1 ?: NO;
-    [cell setGuideCellWithImage:[NSString stringWithFormat:@"guide_page%zd", indexPath.row] withShowCloseButton:isShowCloseBtn];
+    BOOL isShowCloseBtn = indexPath.row != kShowCount - 1 ?: NO;
+    NSString *imagePrefix = kDeviceiPhoneX ? @"guide_x_page_" : @"guide_page_";
+    [cell setGuideCellWithImage:[NSString stringWithFormat:@"%@%zd",imagePrefix, indexPath.row] withShowCloseButton:isShowCloseBtn];
     return cell;
 }
 

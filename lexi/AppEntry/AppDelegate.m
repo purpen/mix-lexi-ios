@@ -23,6 +23,7 @@
 #import <UMShare/UMShare.h>
 #import <WXApi.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import <UMCommon/UMCommon.h>
 #import <UMPush/UMessage.h>
 #import <UserNotifications/UserNotifications.h>
 #import "THNAlertView.h"
@@ -88,7 +89,6 @@ static NSString *const kRedirectURL = @"https://lite.lexivip.com/";
 
 #pragma mark - 友盟推送设置
 - (void)configureUMessageWithLaunchOptions:(NSDictionary *)launchOptions  {
-    
     // Push功能配置
     UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
     // 实现UNUserNotificationCenterDelegate
@@ -245,6 +245,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
         }];
         
     } else {
+        // 友盟分享结果
         BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
         if (!result) {
             return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)self];

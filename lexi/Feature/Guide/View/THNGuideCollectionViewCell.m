@@ -8,6 +8,7 @@
 
 #import "THNGuideCollectionViewCell.h"
 #import "THNBaseTabBarController.h"
+#import <Masonry/Masonry.h>
 
 @interface THNGuideCollectionViewCell ()
 
@@ -25,6 +26,14 @@
         self.frame = frame;
         [self.contentView addSubview:self.guideImageView];
         [self.contentView addSubview:self.closeButton];
+        
+        [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(self).with.offset(100);
+            make.right.equalTo(self).with.offset(-100);
+            make.bottom.equalTo(self).with.offset(-30);
+            make.height.equalTo(@(50));
+        }];
+        
     }
 
     return self;
