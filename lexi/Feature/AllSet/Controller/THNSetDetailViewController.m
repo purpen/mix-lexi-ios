@@ -107,7 +107,7 @@ THNMJRefreshDelegate
    
     self.titleLabel.text = self.setTitle;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",self.products.count];
-    [self.coverImageView loadImageWithUrl:[self.cover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
+    [self.coverImageView loadImageWithUrl:[self.cover loadImageUrlWithType:(THNLoadImageUrlTypeBannerDefault)]];
     [headerView addSubview:self.coverImageView];
     [headerView addSubview:self.maskImageView];
     [headerView addSubview:self.titleLabel];

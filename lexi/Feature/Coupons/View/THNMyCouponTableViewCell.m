@@ -13,6 +13,7 @@
 #import <DateTools/DateTools.h>
 #import "UIImageView+WebImage.h"
 #import "UIView+Helper.h"
+#import "THNMarco.h"
 
 static NSString *const kTextUse     = @"去\n使\n用";
 static NSString *const kTextUseType = @" 全场通用";
@@ -233,14 +234,14 @@ static NSString *const kTextUseType = @" 全场通用";
     }];
     
     [self.amountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(110, 32));
-        make.left.mas_equalTo(25);
+        make.size.mas_equalTo(CGSizeMake(kDeviceiPhone5 ? 100 : 110, 32));
+        make.left.mas_equalTo(kDeviceiPhoneX ? 25 : 30);
         make.top.mas_equalTo(19);
     }];
     
     [self.conditionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(110, 15));
-        make.left.mas_equalTo(25);
+        make.size.mas_equalTo(CGSizeMake(kDeviceiPhone5 ? 100 : 110, 15));
+        make.left.equalTo(self.amountLabel.mas_left).with.offset(0);
         make.top.equalTo(self.amountLabel.mas_bottom).with.offset(5);
     }];
     

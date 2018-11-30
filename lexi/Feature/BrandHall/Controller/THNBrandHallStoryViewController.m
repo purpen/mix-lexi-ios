@@ -11,6 +11,7 @@
 #import "THNBrandHallInfoTableViewCell.h"
 #import "THNBrandHallUserInfoTableViewCell.h"
 #import "THNDealContentTableViewCell.h"
+#import "UITableViewCell+DealContent.h"
 #import <MJExtension/MJExtension.h>
 #import "THNStoreModel.h"
 #import "THNShopWindowModel.h"
@@ -93,6 +94,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     THNRequest *request = [THNAPI getWithUrlString:kUrlStoreDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
+        THNLog(@"-------- 品牌故事：%@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -143,42 +145,6 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     }];
 }
 
-/**
- 获取图文详情的高度
- */
-- (CGFloat)thn_getGoodsInfoDealContentHeightWithData:(NSArray *)content {
-    CGFloat contentH = 0.0;
-    
-    for (THNDealContentModel *model in content) {
-        if ([model.type isEqualToString:@"text"]) {
-            CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:model.content
-                                                                 fontSize:14
-                                                              lineSpacing:7
-                                                                  fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
-            contentH += (textH + 10);
-            
-        } else if ([model.type isEqualToString:@"image"]) {
-            UIImage *contentImage = [UIImage getImageFormDiskCacheForKey:model.content];
-            
-            if (![UIImage isCacheImageOfImageUrl:model.content]) {
-                [[SDWebImageManager sharedManager].imageCache storeImage:contentImage
-                                                                  forKey:model.content
-                                                                  toDisk:YES
-                                                              completion:nil];
-            }
-            
-            CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
-            CGFloat imageH = contentImage.size.height * imageScale;
-            
-            contentH += (imageH + 10);
-        }
-    }
-    
-    return contentH;
-    
-}
-
-
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
@@ -217,7 +183,7 @@ static NSString *const KStoreUserInfoCellIdentifier = @"KStoreUserInfoCellIdenti
     } else if (indexPath.row == 1) {
         return 285;
     } else {
-        return [self thn_getGoodsInfoDealContentHeightWithData:self.contentModels];
+        return [UITableViewCell heightWithDaelContentData:self.contentModels type:(THNDealContentTypeBrandHall)];
     }
 }
 
