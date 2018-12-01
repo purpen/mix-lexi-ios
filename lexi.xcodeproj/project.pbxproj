@@ -353,7 +353,6 @@
 		4BC7D1AB21A6948100F22440 /* THNSearchWindowLabelResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3E7958219F0D0A002FE789 /* THNSearchWindowLabelResultViewController.m */; };
 		4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DC218834C300EF9491 /* THNCommentModel.m */; };
 		4BCAF8E021893A4400EF9491 /* THNPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCAF8DF21893A4400EF9491 /* THNPayModel.m */; };
-		4BD7D63E21B1050300161F1F /* THNMessagePushManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */; };
 		4BECF14E217F1401008E5E28 /* THNAllsetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE15217F1401008E5E28 /* THNAllsetTableViewCell.xib */; };
 		4BECF161217F1401008E5E28 /* THNAllAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE42217F1401008E5E28 /* THNAllAnnouncementView.xib */; };
 		4BECF163217F1401008E5E28 /* THNAnnouncementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BECEE45217F1401008E5E28 /* THNAnnouncementView.xib */; };
@@ -436,6 +435,9 @@
 		CDF3D33E21B01D21003D841A /* THNGuideTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D33D21B01D21003D841A /* THNGuideTool.m */; };
 		CDF3D34121B01EA0003D841A /* THNGuideCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D34021B01EA0003D841A /* THNGuideCollectionViewController.m */; };
 		CDF3D34421B021C2003D841A /* THNGuideCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D34321B021C2003D841A /* THNGuideCollectionViewCell.m */; };
+		CDF3D34721B248DE003D841A /* THNMessagePushManger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D34521B248DC003D841A /* THNMessagePushManger.m */; };
+		CDF3D34A21B24901003D841A /* THNShareWxaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D34921B24901003D841A /* THNShareWxaViewController.m */; };
+		CDF3D34D21B2491B003D841A /* THNShareWxaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D34C21B2491A003D841A /* THNShareWxaView.m */; };
 		D803BC242189C5D8007A5FF0 /* THNImageUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC232189C5D8007A5FF0 /* THNImageUrl.m */; };
 		D803BC2C2189E735007A5FF0 /* THNOrderPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC272189E730007A5FF0 /* THNOrderPayModel.m */; };
 		D803BC312189E753007A5FF0 /* THNAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D803BC2F2189E753007A5FF0 /* THNAddressModel.m */; };
@@ -518,8 +520,6 @@
 		D8C2A057219D577E00886FB2 /* THNShareImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A055219D577E00886FB2 /* THNShareImageViewController.m */; };
 		D8C2A05E219D869E00886FB2 /* THNSelectProducCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */; };
 		D8C2A067219EA27400886FB2 /* UIImageView+WebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */; };
-		D8CD7BD621AFDF4100C1E320 /* THNShareWxaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD7BD521AFDF4100C1E320 /* THNShareWxaViewController.m */; };
-		D8CD7BD921AFE00900C1E320 /* THNShareWxaView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD7BD821AFE00900C1E320 /* THNShareWxaView.m */; };
 		D8D7CFBC219423B400948247 /* THNFollowStoreButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBA219423B400948247 /* THNFollowStoreButton+SelfManager.m */; };
 		D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFBB219423B400948247 /* THNFollowUserButton+SelfManager.m */; };
 		D8D7CFCF21942B1D00948247 /* UITableViewCell+DealContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D7CFCE21942B1D00948247 /* UITableViewCell+DealContent.m */; };
@@ -601,8 +601,6 @@
 		4BCAF8DC218834C300EF9491 /* THNCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCommentModel.m; sourceTree = "<group>"; };
 		4BCAF8DE21893A4400EF9491 /* THNPayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPayModel.h; sourceTree = "<group>"; };
 		4BCAF8DF21893A4400EF9491 /* THNPayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPayModel.m; sourceTree = "<group>"; };
-		4BD7D63C21B1050300161F1F /* THNMessagePushManger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNMessagePushManger.h; sourceTree = "<group>"; };
-		4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNMessagePushManger.m; sourceTree = "<group>"; };
 		4BECEE0B217F1401008E5E28 /* THNAllsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAllsetTableViewController.h; sourceTree = "<group>"; };
 		4BECEE0C217F1401008E5E28 /* THNAllsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAllsetTableViewController.m; sourceTree = "<group>"; };
 		4BECEE0D217F1401008E5E28 /* THNSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNSetDetailViewController.h; sourceTree = "<group>"; };
@@ -1239,6 +1237,12 @@
 		CDF3D34021B01EA0003D841A /* THNGuideCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGuideCollectionViewController.m; sourceTree = "<group>"; };
 		CDF3D34221B021C2003D841A /* THNGuideCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNGuideCollectionViewCell.h; sourceTree = "<group>"; };
 		CDF3D34321B021C2003D841A /* THNGuideCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNGuideCollectionViewCell.m; sourceTree = "<group>"; };
+		CDF3D34521B248DC003D841A /* THNMessagePushManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNMessagePushManger.m; sourceTree = "<group>"; };
+		CDF3D34621B248DE003D841A /* THNMessagePushManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMessagePushManger.h; sourceTree = "<group>"; };
+		CDF3D34821B24900003D841A /* THNShareWxaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShareWxaViewController.h; sourceTree = "<group>"; };
+		CDF3D34921B24901003D841A /* THNShareWxaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShareWxaViewController.m; sourceTree = "<group>"; };
+		CDF3D34B21B2491A003D841A /* THNShareWxaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShareWxaView.h; sourceTree = "<group>"; };
+		CDF3D34C21B2491A003D841A /* THNShareWxaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNShareWxaView.m; sourceTree = "<group>"; };
 		D8011B852181A13D00619240 /* THNUserCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNUserCenterViewController.h; sourceTree = "<group>"; };
 		D8011B862181A13D00619240 /* THNUserCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNUserCenterViewController.m; sourceTree = "<group>"; };
 		D803BC222189C5D8007A5FF0 /* THNImageUrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImageUrl.h; sourceTree = "<group>"; };
@@ -1452,10 +1456,6 @@
 		D8C2A05D219D869E00886FB2 /* THNSelectProducCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSelectProducCollectionView.m; sourceTree = "<group>"; };
 		D8C2A065219EA27400886FB2 /* UIImageView+WebImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebImage.h"; sourceTree = "<group>"; };
 		D8C2A066219EA27400886FB2 /* UIImageView+WebImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebImage.m"; sourceTree = "<group>"; };
-		D8CD7BD421AFDF4100C1E320 /* THNShareWxaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShareWxaViewController.h; sourceTree = "<group>"; };
-		D8CD7BD521AFDF4100C1E320 /* THNShareWxaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShareWxaViewController.m; sourceTree = "<group>"; };
-		D8CD7BD721AFE00900C1E320 /* THNShareWxaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShareWxaView.h; sourceTree = "<group>"; };
-		D8CD7BD821AFE00900C1E320 /* THNShareWxaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShareWxaView.m; sourceTree = "<group>"; };
 		D8D7CFAC2193DF0500948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		D8D7CFAD2193DF0600948247 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		D8D7CFB8219423B300948247 /* THNFollowUserButton+SelfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "THNFollowUserButton+SelfManager.h"; sourceTree = "<group>"; };
@@ -1713,12 +1713,12 @@
 		4BECEE20217F1401008E5E28 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				CDF3D34621B248DE003D841A /* THNMessagePushManger.h */,
+				CDF3D34521B248DC003D841A /* THNMessagePushManger.m */,
 				4BECEE21217F1401008E5E28 /* THNTableViewCells.h */,
 				4BECEE22217F1401008E5E28 /* THNTableViewCells.m */,
 				4BECEE23217F1401008E5E28 /* THNTableViewSections.h */,
 				4BECEE24217F1401008E5E28 /* THNTableViewSections.m */,
-				4BD7D63C21B1050300161F1F /* THNMessagePushManger.h */,
-				4BD7D63D21B1050300161F1F /* THNMessagePushManger.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -2760,8 +2760,8 @@
 		4BECF09D217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D8CD7BD421AFDF4100C1E320 /* THNShareWxaViewController.h */,
-				D8CD7BD521AFDF4100C1E320 /* THNShareWxaViewController.m */,
+				CDF3D34821B24900003D841A /* THNShareWxaViewController.h */,
+				CDF3D34921B24901003D841A /* THNShareWxaViewController.m */,
 				D8C2A056219D577E00886FB2 /* THNShareImageViewController.h */,
 				D8C2A055219D577E00886FB2 /* THNShareImageViewController.m */,
 				4BECF09E217F1401008E5E28 /* THNShareViewController.h */,
@@ -2773,8 +2773,8 @@
 		4BECF0A0217F1401008E5E28 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D8CD7BD721AFE00900C1E320 /* THNShareWxaView.h */,
-				D8CD7BD821AFE00900C1E320 /* THNShareWxaView.m */,
+				CDF3D34B21B2491A003D841A /* THNShareWxaView.h */,
+				CDF3D34C21B2491A003D841A /* THNShareWxaView.m */,
 				4BECF0A1217F1401008E5E28 /* THNShareActionView.h */,
 				4BECF0A2217F1401008E5E28 /* THNShareActionView.m */,
 			);
@@ -3076,6 +3076,7 @@
 			isa = PBXGroup;
 			children = (
 				CDF3D33821B01CB7003D841A /* Other */,
+				CDF3D33921B01CB7003D841A /* Model */,
 				CDF3D33A21B01CB7003D841A /* View */,
 				CDF3D33B21B01CB7003D841A /* ViewController */,
 			);
@@ -3089,6 +3090,13 @@
 				CDF3D33D21B01D21003D841A /* THNGuideTool.m */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		CDF3D33921B01CB7003D841A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		CDF3D33A21B01CB7003D841A /* View */ = {
@@ -3675,6 +3683,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EECADA20D9E7F900BB63F4 /* Build configuration list for PBXNativeTarget "lexi" */;
 			buildPhases = (
+				B963B35071D0DA214CAC6426 /* [CP] Check Pods Manifest.lock */,
 				D8EECAC020D9E7F800BB63F4 /* Sources */,
 				D8EECAC120D9E7F800BB63F4 /* Frameworks */,
 				D8EECAC220D9E7F800BB63F4 /* Resources */,
@@ -3883,6 +3892,24 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lexi/Pods-lexi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B963B35071D0DA214CAC6426 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lexi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3963,7 +3990,6 @@
 				4B27B3A8218717D1004AF42F /* THNBannerModel.m in Sources */,
 				4B27B3A9218717D1004AF42F /* THNCategoriesModel.m in Sources */,
 				4B309381219E84A5009D42A8 /* THNAddShowWindowViewController.m in Sources */,
-				D8CD7BD621AFDF4100C1E320 /* THNShareWxaViewController.m in Sources */,
 				4B27B3AA218717D1004AF42F /* THNFeaturedBrandModel.m in Sources */,
 				4B27B3AB218717D1004AF42F /* THNSetModel.m in Sources */,
 				4B27B3AC218717D1004AF42F /* THNBannerView.m in Sources */,
@@ -4094,6 +4120,7 @@
 				4B27B41A218717D1004AF42F /* THNUserCenterViewController.m in Sources */,
 				D805160421ABC5CE002460A5 /* THNLifeCashBillSectionHeaderView.m in Sources */,
 				4B27B41C218717D1004AF42F /* THNUserDataModel.m in Sources */,
+				CDF3D34D21B2491B003D841A /* THNShareWxaView.m in Sources */,
 				D805160D21ABC5CE002460A5 /* THNUserApplyView.m in Sources */,
 				4B27B41D218717D1004AF42F /* THNUserModel.m in Sources */,
 				4B27B42F218717D1004AF42F /* THNEvaluationViewController.m in Sources */,
@@ -4160,6 +4187,7 @@
 				4B27B45C218717D2004AF42F /* THNHeaderTitleView.m in Sources */,
 				4B27B45D218717D2004AF42F /* THNLoadView.m in Sources */,
 				4B27B45E218717D2004AF42F /* THNPriceSliderView.m in Sources */,
+				CDF3D34721B248DE003D841A /* THNMessagePushManger.m in Sources */,
 				D8D7D000219437DB00948247 /* THNProductCouponCollectionViewCell.m in Sources */,
 				4B27B45F218717D2004AF42F /* THNTextCollectionView.m in Sources */,
 				D8D7D009219437DB00948247 /* THNCouponsCenterHeaderView.m in Sources */,
@@ -4218,6 +4246,7 @@
 				4B27B48A218717D2004AF42F /* THNLifeTransactionRecordsViewController.m in Sources */,
 				4B27B48B218717D2004AF42F /* THNLifeCashBillDataModel.m in Sources */,
 				4B27B48C218717D2004AF42F /* THNLifeCashBillModel.m in Sources */,
+				CDF3D34A21B24901003D841A /* THNShareWxaViewController.m in Sources */,
 				4B27B48D218717D2004AF42F /* THNLifeCashBillOrderModel.m in Sources */,
 				4B27B48E218717D2004AF42F /* THNLifeCashCollectModel.m in Sources */,
 				4B27B48F218717D2004AF42F /* THNLifeOrdersCollectModel.m in Sources */,
@@ -4254,10 +4283,8 @@
 				4B27B4B6218717D2004AF42F /* THNCommentViewController.m in Sources */,
 				4B27B4B7218717D2004AF42F /* THNShopWindowDetailViewController.m in Sources */,
 				4B27B4B8218717D2004AF42F /* THNShopWindowViewController.m in Sources */,
-				D8CD7BD921AFE00900C1E320 /* THNShareWxaView.m in Sources */,
 				4B27B4B9218717D2004AF42F /* THNShopWindowModel.m in Sources */,
 				4B27B4BA218717D2004AF42F /* THNWindowModel.m in Sources */,
-				4BD7D63E21B1050300161F1F /* THNMessagePushManger.m in Sources */,
 				4B27B4BB218717D2004AF42F /* THNWindowModelProducts.m in Sources */,
 				4B27B4BC218717D2004AF42F /* THNWindowModelShopWindows.m in Sources */,
 				4BF3D78A21916E8B001B67E2 /* THNCommentSectionHeaderView.m in Sources */,

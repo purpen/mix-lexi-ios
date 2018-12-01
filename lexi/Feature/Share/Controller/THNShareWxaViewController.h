@@ -17,7 +17,7 @@
 @property (nonatomic, assign) CGFloat sellMoney;
 
 /**
- 分享的各种海报
+ 分享的各种海报x
  
  @param type 海报的类型
  @param requestId 请求参数 rid

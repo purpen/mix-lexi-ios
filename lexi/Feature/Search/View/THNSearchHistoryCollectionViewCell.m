@@ -23,7 +23,7 @@ NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
 
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"F5F7F9"];
-    self.titleLabel.frame = self.bounds;
+    self.titleLabel.frame = CGRectMake(10, 0, self.viewWidth - 20, self.viewHeight);
     [self drawCornerWithType:0 radius:self.viewHeight / 2];
     [self addSubview:self.titleLabel];
 }
@@ -38,8 +38,6 @@ NSString *const kSearchHistoryCellIdentifier = @"kSearchHistoryCellIdentifier";
         _titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.textColor = [UIColor colorWithHexString:@"#666666"];
-        _titleLabel.layer.cornerRadius = 4;
-        _titleLabel.layer.masksToBounds = YES;
     }
     return _titleLabel;
 }
