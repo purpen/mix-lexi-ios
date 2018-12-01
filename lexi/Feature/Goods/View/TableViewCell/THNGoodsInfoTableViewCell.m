@@ -300,7 +300,13 @@ static NSString *const kTextResetSku        = @"重选规格";
  设置商品的颜色/尺寸信息
  */
 - (void)thn_setGoodsColorText:(NSString *)color mode:(NSString *)mode {
-    NSString *skuMode = [NSString stringWithFormat:@"%@ / %@", color, mode];
+    NSString *colorStr = color;
+    
+    if (color.length & mode.length) {
+        [colorStr stringByAppendingString:@" / "];
+    }
+    
+    NSString *skuMode = [NSString stringWithFormat:@"%@%@", colorStr, mode];
     
     self.colorLabel.text = skuMode;
 }
