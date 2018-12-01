@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, CarouselBannerType) {
 @property (nonatomic, assign) CarouselBannerType carouselBannerType;
 
 - (void)setBannerView:(NSArray *)array;
+- (void)removeTimer;
 @property (nonatomic, weak) id <THNBannerViewDelegate> delegate;
 
 @end

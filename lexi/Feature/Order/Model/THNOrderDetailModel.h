@@ -42,6 +42,8 @@
 @property (nonatomic, assign) NSInteger user_order_status;
 // 支付方式
 @property (nonatomic, assign) THNPaymentType pay_type;
+// 订单创建时间
+@property (nonatomic, strong) NSString *created_at;
 
 
 @end

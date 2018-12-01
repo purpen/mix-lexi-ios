@@ -43,6 +43,11 @@ static NSString *const kBrandHallFeaturedCollectionCellIdentifier = @"kBrandHall
     [self loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.bannerView removeTimer];
+}
+
 - (void)setupUI {
     [self.view addSubview:self.bannerView];
     [self.view addSubview:self.collectionView];

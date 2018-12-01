@@ -42,6 +42,7 @@
 #import "UITableViewCell+DealContent.h"
 #import "THNShelfViewController.h"
 #import "THNProductModel.h"
+#import "THNSaveTool.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -103,7 +104,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupUI];
     [self thn_getGoodsInfoDataWithGoodsId:self.goodsId];
 }
@@ -261,6 +262,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
                                              if (error) return;
                                              
                                              weakSelf.storeModel = model;
+                                             // 存储品牌馆ID
+                                             [THNSaveTool setObject:model.rid forKey:kBrandHallRid];
                                          }];
     });
 }

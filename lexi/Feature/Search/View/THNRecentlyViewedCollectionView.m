@@ -39,7 +39,7 @@ static NSString *const kSearchProductCellIdentifier = @"kSearchProductCellIdenti
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kSearchProductCellIdentifier forIndexPath:indexPath];
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recentlyViewedProducts[indexPath.row]];
-    [cell setProductModel:productModel initWithType:THNHomeTypeExplore];
+    [cell setProductModel:productModel initWithType:THNHomeTypeShowPrice];
     return cell;
 }
 

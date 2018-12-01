@@ -25,7 +25,7 @@ static NSString *kUrlOrderWXPay = @"/orders/wx_pay/app";
                           withPaymentType:(THNPaymentType)paymentType {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = rid;
-    params[@"pay_type"] = paymentType == THNPaymentTypeHuabei ?  @(4) : @(paymentType);
+    params[@"pay_type"] = @(paymentType);
     NSString *requestUrl = fromPaymentType == FromPaymentTypePaymentVC ?  kUrlCreateOrderWXPay : kUrlOrderWXPay;
     THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {

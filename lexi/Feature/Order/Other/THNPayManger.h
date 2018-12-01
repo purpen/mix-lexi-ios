@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, FromPaymentType) {
 typedef NS_ENUM(NSInteger, THNPaymentType) {
     THNPaymentTypeWechat = 1,   // 微信支付
     THNPaymentTypeAlipay,       // 支付宝
-    THNPaymentTypeHuabei,       // 花呗
+    THNPaymentTypeHuabei = 4,       // 花呗
 };
 
 @interface THNPayManger : NSObject

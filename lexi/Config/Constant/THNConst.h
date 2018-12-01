@@ -104,7 +104,6 @@ UIKIT_EXTERN NSString *const kOrderDetailLogisticsTracking;
 UIKIT_EXTERN NSString *const kIsCloseOpenedPromptView;
 UIKIT_EXTERN NSString *const kShelfSuccess;
 UIKIT_EXTERN NSString *const kUpdateLivingHallStatus;
-UIKIT_EXTERN NSString *const kBrandHallReceiveCoupon;
 UIKIT_EXTERN NSString *const kLookAllCommentData;
 UIKIT_EXTERN NSString *const THNPayMentVCPayCallback;
 UIKIT_EXTERN NSString *const AppDelegateBackgroundRemotePush;

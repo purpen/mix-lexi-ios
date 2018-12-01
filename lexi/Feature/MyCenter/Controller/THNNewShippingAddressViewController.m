@@ -501,7 +501,7 @@ UITextFieldDelegate
     cell.textView.tag = indexPath.row;
     [cell setPlaceholderText:self.placeholders[indexPath.row]];
 
-    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0 && self.zipcode.length > 0) {
+    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0) {
         self.saveButton.enabled = YES;
         self.saveButton.alpha = 1;
     } else {

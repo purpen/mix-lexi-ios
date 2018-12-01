@@ -35,6 +35,7 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     [self.collectionView addSubview:self.pageControl];
     [self layoutPageControl];
     [self.collectionView reloadData];
+    [self addTimer];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -64,16 +65,13 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
         if (self.bannerDataArray.count == 0) {
             return self;
         }
+
         [collectionView performBatchUpdates:^{
             [collectionView reloadData];
         } completion:^(BOOL finished) {
             
             [self scrollStartPoint];
         }];
-        
-        
-        [self addTimer];
-        
         
     }
     
@@ -190,7 +188,8 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
     if (scrollView.contentOffset.x < self.viewWidth * 0.5) {
         self.pageControl.currentPage = self.bannerDataArray.count - 1;
     }
-    
+
+    // 往左划
     if (scrollView.contentOffset.x < 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.bannerDataArray.count inSection:0];
         self.pageControl.currentPage = self.bannerDataArray.count;
