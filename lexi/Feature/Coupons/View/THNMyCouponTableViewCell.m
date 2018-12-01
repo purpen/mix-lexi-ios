@@ -261,21 +261,21 @@ static NSString *const kTextUseType = @" 全场通用";
     [self.storeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(20);
         make.left.equalTo(self.storeIconImageView.mas_right).with.offset(5);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.centerY.equalTo(self.storeIconImageView);
     }];
     
     [self.typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(13);
         make.left.mas_equalTo(158);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.top.equalTo(self.timeLabel.mas_bottom).with.offset(9);
     }];
     
     [self.sourceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(11);
         make.left.mas_equalTo(158);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.top.equalTo(self.typeLabel.mas_bottom).with.offset(9);
     }];
 }
