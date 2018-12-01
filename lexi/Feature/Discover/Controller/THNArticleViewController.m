@@ -344,6 +344,16 @@ THNCommentTableViewDelegate
     return size.height;
 }
 
+/**
+ 获取文章类型（种草笔记边距不一样）
+ */
+- (THNDealContentType)thn_getArticleContentType {
+    BOOL isGrassNote = [self.grassListModel.channel_name isEqualToString:grassNote];
+    THNDealContentType contentType = isGrassNote ? THNDealContentTypeGrassNote : THNDealContentTypeArticle;
+    
+    return contentType;
+}
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
@@ -356,7 +366,7 @@ THNCommentTableViewDelegate
         self.articleCellType = ArticleCellTypeArticle;
         THNDealContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kArticleContentCellIdentifier forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell thn_setDealContentData:self.contentModels];
+        [cell thn_setDealContentData:self.contentModels type:[self thn_getArticleContentType]];
         return cell;
 
     } else if ([articleStr isEqualToString:KArticleCellTypeComment]) {
@@ -417,7 +427,8 @@ THNCommentTableViewDelegate
     switch (self.articleCellType) {
         case ArticleCellTypeArticle:
             if (!self.lifeRecordsDetailCellHeight) {
-               self.lifeRecordsDetailCellHeight = [UITableViewCell heightWithDaelContentData:self.contentModels];
+                self.lifeRecordsDetailCellHeight = [UITableViewCell heightWithDaelContentData:self.contentModels
+                                                                                         type:[self thn_getArticleContentType]];
             }
             return self.lifeRecordsDetailCellHeight;
         case ArticleCellTypeComment:{

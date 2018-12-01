@@ -76,13 +76,16 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     
     [self addSubview:textLabel];
     
+    CGFloat textOrigin = self.type == THNDealContentTypeGrassNote ? 40 : 30;
+    CGFloat textW = kScreenWidth - textOrigin;
+    
     NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] initWithString:text];
     textAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
     textAtt.color = [UIColor colorWithHexString:@"#333333"];
     textAtt.lineSpacing = 7;
     
     YYTextContainer *container = [YYTextContainer new];
-    container.size = CGSizeMake(kScreenWidth - 30, CGFLOAT_MAX);
+    container.size = CGSizeMake(textW, CGFLOAT_MAX);
     container.maximumNumberOfRows = 0;
         
     // 生成排版结果
@@ -91,7 +94,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     textLabel.size = layout.textBoundingSize;
     textLabel.textLayout = layout;
     
-    textLabel.frame = CGRectMake(15, self.originY, kScreenWidth - 30, layout.textBoundingSize.height);
+    textLabel.frame = CGRectMake(textOrigin / 2, self.originY, textW, layout.textBoundingSize.height);
     self.originY += (layout.textBoundingSize.height + 10);
 }
 
@@ -163,11 +166,20 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
 
 #pragma mark - getters and setters
 - (CGFloat)thn_imageOriginX {
-    return self.type == THNDealContentTypeArticle ? 0 : 15;
+    NSDictionary *originDict = @{@(THNDealContentTypeArticle)   : @(0),
+                                 @(THNDealContentTypeGoodsInfo) : @(15),
+                                 @(THNDealContentTypeBrandHall) : @(15),
+                                 @(THNDealContentTypeGrassNote) : @(20)};
+    
+    CGFloat originX = [originDict[@(self.type)] floatValue];
+    
+    return originX;
 }
 
 - (CGFloat)thn_imageWidth {
-    return self.type == THNDealContentTypeArticle ? kScreenWidth : kScreenWidth - 30;
+    CGFloat imageW = kScreenWidth - ([self thn_imageOriginX] * 2);
+    
+    return imageW;
 }
 
 #pragma mark -

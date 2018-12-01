@@ -36,15 +36,24 @@
 }
 
 + (CGFloat)heightWithDaelContentData:(NSArray<THNDealContentModel *> *)dealContent type:(THNDealContentType)type {
+    NSDictionary *originDict = @{@(THNDealContentTypeArticle)   : @(0),
+                                 @(THNDealContentTypeGoodsInfo) : @(15),
+                                 @(THNDealContentTypeBrandHall) : @(15),
+                                 @(THNDealContentTypeGrassNote) : @(20)};
+    
+    CGFloat originX = [originDict[@(type)] floatValue];
+    CGFloat imageW = kScreenWidth - originX;
+    CGFloat textOrigin = type == THNDealContentTypeGrassNote ? 40 : 30;
+    CGFloat textW = kScreenWidth - textOrigin;
+    
     CGFloat contentH = 0.0;
-    CGFloat imageW = type == THNDealContentTypeArticle ? kScreenWidth : kScreenWidth - 30;
     
     for (THNDealContentModel *model in dealContent) {
         if ([model.type isEqualToString:@"text"]) {
             CGFloat textH = [YYLabel thn_getYYLabelTextLayoutSizeWithText:[NSString filterHTML:model.content]
                                                                  fontSize:14
                                                               lineSpacing:7
-                                                                  fixSize:CGSizeMake(kScreenWidth - 30, MAXFLOAT)].height;
+                                                                  fixSize:CGSizeMake(textW, MAXFLOAT)].height;
             contentH += (textH + 10);
             
         } else if ([model.type isEqualToString:@"image"]) {
@@ -64,7 +73,7 @@
                                                                   completion:nil];
                 }
                 
-                CGFloat imageScale = (kScreenWidth - 30) / contentImage.size.width;
+                CGFloat imageScale = imageW / contentImage.size.width;
                 CGFloat imageH = contentImage.size.height * imageScale;
                 
                 contentH += (imageH + 10);
