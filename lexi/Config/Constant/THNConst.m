@@ -46,6 +46,7 @@ NSString *const kAdminPhone         = @"13716171560";
 NSString *const kAdminPWD           = @"123456";
 NSString *const kTestEmail          = @"18518391827";
 NSString *const kTestPassword       = @"in456321";
+NSString *const kUid                = @"THNUid";
 
 #pragma mark -
 NSInteger const kAppDebug           = 1;

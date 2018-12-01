@@ -150,7 +150,7 @@ CGFloat orderCellLineSpacing = 10;
                 // 十分钟的倒计时显示的值
                 self.countDownText = [NSString stringWithNSTimeInterval:self.timeInterval];
                 self.payCountDownTextLabel.text = self.countDownText;
-                [self addTimer];
+//                [self addTimer];
             }
             break;
         case OrderStatusEvaluation:

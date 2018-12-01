@@ -16,6 +16,7 @@ UIKIT_EXTERN NSString *const kTestEmail;
 UIKIT_EXTERN NSString *const kTestPassword;
 UIKIT_EXTERN NSString *const kTestAppKey;
 UIKIT_EXTERN NSString *const kTestAppSecret;
+UIKIT_EXTERN NSString *const kUid;
 
 #pragma mark - 小程序参数
 UIKIT_EXTERN NSString *const kWxaAuthAppId;
