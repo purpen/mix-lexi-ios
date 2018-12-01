@@ -51,7 +51,7 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
     THNOrdersItemsModel *itemsModel = [THNOrdersItemsModel mj_objectWithKeyValues:detailModel.items[0]];
     self.firstExpressName = itemsModel.express_name;
     self.storeNameLabel.text = storeModel.store_name;
-    self.timeLabel.text = [NSString timeConversion:itemsModel.express_at initWithFormatterType:FormatterDay];
+    self.timeLabel.text = [NSString timeConversion:detailModel.created_at initWithFormatterType:FormatterDay];
     switch (detailModel.user_order_status) {
         case OrderStatusWaitDelivery:
             self.orderStatusLabel.text = @"待发货";

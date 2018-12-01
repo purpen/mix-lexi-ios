@@ -86,7 +86,6 @@ THNMJRefreshDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCouponData) name:kBrandHallReceiveCoupon object:nil];
     // 存储品牌馆ID
     [THNSaveTool setObject:self.rid forKey:kBrandHallRid];
     [self setupUI];
@@ -124,6 +123,7 @@ THNMJRefreshDelegate
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hiddenHud];
+            [self setupLayout];
             [self.collectionView reloadData];
         });
     });
@@ -245,7 +245,6 @@ THNMJRefreshDelegate
         }
       
         self.couponViewHeight =  [self.couponView layoutCouponView:self.fullReductions withLoginCoupons:self.loginCoupons withNologinCoupos:self.noLoginCoupons];
-        [self setupLayout];
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];
@@ -453,6 +452,7 @@ THNMJRefreshDelegate
     if (self.isRecords) {
          size  = CGSizeMake(SCREEN_WIDTH, 265);
     } else {
+        NSLog(@"----------------%.2f", self.announcementViewHeight);
          size = CGSizeMake(SCREEN_WIDTH, 265 + self.couponViewHeight + self.announcementViewHeight + 40 + 15 + 25);
     }
    

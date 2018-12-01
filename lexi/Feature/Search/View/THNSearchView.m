@@ -191,7 +191,7 @@ NSString *const shopWindowTypePathComponent = @"showWindowHistorySearch.data";
     NSString *subString = textField.text;
     subString = [subString stringByReplacingCharactersInRange:range withString:string];
     // 延时一秒请求
-    [self performSelector:@selector(goSearch:) withObject:subString afterDelay:0.5f];
+    [self performSelector:@selector(goSearch:) withObject:subString afterDelay:1.0f];
     return YES;
 }
 

@@ -11,12 +11,16 @@
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNMarco.h"
 
 @interface THNAllAnnouncementView()
 
 @property (weak, nonatomic) IBOutlet UILabel *announcementTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *closedTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *deliveryTimeLabel;
+@property (weak, nonatomic) IBOutlet UIView *closeTintView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *closeTintViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *closeTintViewTopConstraint;
 
 @end
 
@@ -24,6 +28,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.closeTintViewTopConstraint.constant = NAVIGATION_BAR_HEIGHT;
 }
 
 
@@ -33,6 +38,8 @@
 
 - (void)setAnnouncementModel:(THNAnnouncementModel *)announcementModel {
     _announcementModel = announcementModel;
+    self.closeTintView.hidden = !announcementModel.is_closed;
+    self.closeTintViewHeightConstraint.constant = announcementModel.is_closed ? 100 : 0;
     NSString *beginDate = [NSString timeConversion:announcementModel.begin_date initWithFormatterType:FormatterDay];
     NSString *endDate = [NSString timeConversion:announcementModel.end_date initWithFormatterType:FormatterDay];
     NSString *deliveryDate = [NSString timeConversion:announcementModel.delivery_date initWithFormatterType:FormatterDay];

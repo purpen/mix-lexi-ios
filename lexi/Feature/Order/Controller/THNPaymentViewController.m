@@ -87,7 +87,14 @@ THNNavigationBarViewDelegate
 
 #pragma mark - private methods
 - (THNPaymentType)thn_getPaymentType {
-    return (THNPaymentType)self.selectIndex.row + 1;
+    switch (self.selectIndex.row) {
+        case 0:
+            return THNPaymentTypeWechat;
+        case 1:
+            return THNPaymentTypeAlipay;
+        default:
+            return THNPaymentTypeHuabei;
+    }
 }
 
 #pragma mark - setup UI
@@ -116,7 +123,7 @@ THNNavigationBarViewDelegate
 - (void)recordingPayType {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.orderRid;
-    params[@"pay_type"] = [self thn_getPaymentType] == THNPaymentTypeHuabei ?  @(4) : @([self thn_getPaymentType]);
+    params[@"pay_type"] = @([self thn_getPaymentType]);
     THNRequest *request = [THNAPI postWithUrlString:kUrlRecordingPayType requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {

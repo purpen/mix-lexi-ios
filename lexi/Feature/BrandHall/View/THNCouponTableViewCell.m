@@ -52,7 +52,7 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
 - (void)setCouponModel:(THNCouponModel *)couponModel {
     _couponModel = couponModel;
     // 0、未领取 1、已领取
-    if (couponModel.status == 0) {
+    if (self.couponModel.status == 0) {
         self.moneyMarkLabel.textColor = [UIColor colorWithHexString:@"FF6934"];
         self.moneyLabel.textColor = [UIColor colorWithHexString:@"FF6934"];
         self.restrictionPromptLabel.textColor = [UIColor colorWithHexString:@"5FE4B1"];
@@ -93,8 +93,9 @@ static NSString *const kUrlCouponsGrant = @"/market/coupons/grant";
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
-        
-    [[NSNotificationCenter defaultCenter]postNotificationName:kBrandHallReceiveCoupon object:nil];
+
+        self.couponModel.status = 1;
+        [self receivedStyle];
         
     } failure:^(THNRequest *request, NSError *error) {
         

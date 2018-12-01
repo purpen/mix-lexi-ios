@@ -92,11 +92,19 @@ UICollectionViewDelegateFlowLayout
     [super viewDidLoad];
     [self setupUI];
     [self showHud];
+    // 读取历史记录
+    [self.searchView readHistorySearch];
     if ([THNLoginManager isLogin]) {
         [self loadUserBrowseData];
     } else {
         [self loadHotRecommendData];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 解决点击索引列表到搜索详情再pop回来,SearchViewDelegate为索引VC,点击搜索无反应的问题
+    self.searchView.delegate = self;
 }
 
 - (void)setupUI {
@@ -125,9 +133,7 @@ UICollectionViewDelegateFlowLayout
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
         }
-        
-        // 读取历史记录
-        [self.searchView readHistorySearch];
+
         self.recentlyViewedProducts = result.data[@"products"];
         if (self.recentlyViewedProducts.count > 0) {
             [self.sectionTitles addObject:KSearchRecentlyViewedTitle];
@@ -221,7 +227,7 @@ UICollectionViewDelegateFlowLayout
     [self.sectionTitles removeObjectAtIndex:0];
     [self.searchView.historySearchArr removeAllObjects];
     NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *filePath = [Path stringByAppendingPathComponent:shopWindowTypePathComponent];
+    NSString *filePath = [Path stringByAppendingPathComponent:mainTypePathComponent];
     [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     [self.collectionView reloadData];
 }
@@ -316,9 +322,14 @@ UICollectionViewDelegateFlowLayout
     NSString *sectionTitle = self.sectionTitles[indexPath.section];
     if ([sectionTitle isEqualToString:KSearchHistoryTitle]) {
         self.searchTintType = SearchTintTypeHistory;
-        CGFloat historyWordWidth = [self.historyWords[indexPath.row] boundingSizeWidthWithFontSize:14] + 20;
-        return CGSizeMake(historyWordWidth, 30);
-        
+        CGFloat historyWordWidth = [self.historyWords[indexPath.row] boundingSizeWidthWithFontSize:14] + 30;
+
+        if (historyWordWidth > SCREEN_WIDTH - 40) {
+            return CGSizeMake(SCREEN_WIDTH - 40, 30);
+        } else {
+            return CGSizeMake(historyWordWidth, 30);
+        }
+
     } else if ([sectionTitle isEqualToString:KSearchRecentlyViewedTitle]) {
         self.searchTintType = SearchTintTypeRecentlyViewed;
         return CGSizeMake(SCREEN_WIDTH, 146);

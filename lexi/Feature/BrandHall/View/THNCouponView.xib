@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q8m-NB-CJD">
-                    <rect key="frame" x="14" y="10" width="423" height="26"/>
+                    <rect key="frame" x="14" y="12.5" width="423" height="26"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="领取设计馆优惠红包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDP-IN-OJG">
                             <rect key="frame" x="34" y="4.5" width="108" height="17"/>
@@ -54,7 +54,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCZ-RB-HiJ">
-                    <rect key="frame" x="14" y="41" width="347" height="15"/>
+                    <rect key="frame" x="14" y="38.5" width="347" height="15"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_less" translatesAutoresizingMaskIntoConstraints="NO" id="VeY-SB-2wu">
                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
@@ -79,7 +79,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6G-Ri-XXD">
-                    <rect key="frame" x="81" y="37.5" width="300" height="22"/>
+                    <rect key="frame" x="81" y="35" width="300" height="22"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="tGo-dC-IZV"/>
                     </constraints>
@@ -94,9 +94,9 @@
                 <constraint firstItem="r6G-Ri-XXD" firstAttribute="centerY" secondItem="LCZ-RB-HiJ" secondAttribute="centerY" id="6Qd-hB-AaQ"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="7ye-09-jLS"/>
                 <constraint firstItem="LCZ-RB-HiJ" firstAttribute="leading" secondItem="Q8m-NB-CJD" secondAttribute="leading" id="Gaa-Z9-38f"/>
-                <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" constant="5" id="J3E-8H-wU1"/>
+                <constraint firstItem="LCZ-RB-HiJ" firstAttribute="top" secondItem="Q8m-NB-CJD" secondAttribute="bottom" id="J3E-8H-wU1"/>
                 <constraint firstItem="r6G-Ri-XXD" firstAttribute="leading" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="-280" id="OGL-Ug-2d7"/>
-                <constraint firstItem="Q8m-NB-CJD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="S79-za-DbS"/>
+                <constraint firstItem="Q8m-NB-CJD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12.5" id="S79-za-DbS"/>
                 <constraint firstItem="Q8m-NB-CJD" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-10" id="q66-SY-bhs"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LCZ-RB-HiJ" secondAttribute="trailing" constant="86" id="qY4-8f-9Z9"/>
             </constraints>
@@ -115,7 +115,7 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_arrow_right_gray" width="4.5" height="9"/>
+        <image name="icon_arrow_right_gray" width="4" height="9"/>
         <image name="icon_coupon" width="29" height="15"/>
         <image name="icon_less" width="15" height="15"/>
     </resources>
