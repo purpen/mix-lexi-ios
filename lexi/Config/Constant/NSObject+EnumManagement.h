@@ -62,6 +62,7 @@ typedef NS_ENUM(NSUInteger, THNDealContentType) {
     THNDealContentTypeArticle = 0,  // 文章详情
     THNDealContentTypeGoodsInfo,    // 商品详情
     THNDealContentTypeBrandHall,    // 品牌馆故事
+    THNDealContentTypeGrassNote,    // 种草笔记
 };
 
 @interface NSObject (EnumManagement)

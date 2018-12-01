@@ -65,7 +65,7 @@ static NSString *const kTextUseType = @" 全场通用";
     
     [self thn_setAmountLabelTextWithValue:model.amount minAmount:model.min_amount];
     [self thn_setTimeLabelTextWithStartTime:model.start_at endTime:model.expired_at type:(THNUserCouponTypeOfficial)];
-    [self thn_setTypeLabelTextWithText:kTextUseType type:(THNUserCouponTypeOfficial)];
+    [self thn_setTypeLabelTextWithText:model.category_name type:(THNUserCouponTypeOfficial)];
     [self thn_setSourceLabelTextWithText:[self thn_getCouponSourceTextType:model.source]];
 }
 
@@ -84,7 +84,7 @@ static NSString *const kTextUseType = @" 全场通用";
         [self thn_setStoreLabelTextWithName:model.store_name logoUrl:model.store_logo];
         
     } else if (couponType == THNUserCouponTypeOfficial) {
-        [self thn_setTypeLabelTextWithText:kTextUseType type:(THNUserCouponTypeFail)];
+        [self thn_setTypeLabelTextWithText:model.category_name type:(THNUserCouponTypeFail)];
         [self thn_setSourceLabelTextWithText:[self thn_getCouponSourceTextType:model.source]];
     }
 }
@@ -173,7 +173,7 @@ static NSString *const kTextUseType = @" 全场通用";
                                                                                     alignToFont:[UIFont systemFontOfSize:12]
                                                                                       alignment:(YYTextVerticalAlignmentCenter)];
     
-    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:text];
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", text]];
     att.color = [UIColor colorWithHexString:type == THNUserCouponTypeOfficial ? @"#333333" : @"#999999"];
     att.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
     
@@ -261,21 +261,21 @@ static NSString *const kTextUseType = @" 全场通用";
     [self.storeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(20);
         make.left.equalTo(self.storeIconImageView.mas_right).with.offset(5);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.centerY.equalTo(self.storeIconImageView);
     }];
     
     [self.typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(13);
         make.left.mas_equalTo(158);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.top.equalTo(self.timeLabel.mas_bottom).with.offset(9);
     }];
     
     [self.sourceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(11);
         make.left.mas_equalTo(158);
-        make.right.mas_equalTo(-90);
+        make.right.mas_equalTo(-70);
         make.top.equalTo(self.typeLabel.mas_bottom).with.offset(9);
     }];
 }

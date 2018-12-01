@@ -8,6 +8,7 @@
 
 #import "THNBaseTabBarController.h"
 #import "THNBaseNavigationController.h"
+#import "THNLoginViewController.h"
 #import "THNHomeViewController.h"
 #import "THNCartViewController.h"
 #import "THNDiscoverViewController.h"
@@ -47,7 +48,6 @@
 #pragma mark - tabBar delegate
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     THNBaseNavigationController *navController = (THNBaseNavigationController *)viewController;
-    
     if ([navController.viewControllers[0] isKindOfClass:[THNMyCenterViewController class]]) {
         if ([THNLoginManager isLogin]) {
             return YES;

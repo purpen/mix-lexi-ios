@@ -3046,8 +3046,8 @@
 		CDF3D32821B01A18003D841A /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				CDF3D32921B01A18003D841A /* THNAdvertManager.m */,
 				CDF3D32A21B01A18003D841A /* THNAdvertManager.h */,
+				CDF3D32921B01A18003D841A /* THNAdvertManager.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -3064,10 +3064,10 @@
 		CDF3D32E21B01A18003D841A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CDF3D32F21B01A18003D841A /* THNAdvertCouponView.h */,
 				CDF3D33021B01A18003D841A /* THNAdvertCouponTableViewCell.h */,
-				CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */,
 				CDF3D33221B01A18003D841A /* THNAdvertCouponTableViewCell.m */,
+				CDF3D32F21B01A18003D841A /* THNAdvertCouponView.h */,
+				CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";

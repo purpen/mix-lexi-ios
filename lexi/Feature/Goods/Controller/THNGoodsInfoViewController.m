@@ -682,7 +682,13 @@ static NSString *const kKeyStoreRid         = @"store_rid";
  打开分享视图
  */
 - (void)thn_openShareController {
+    if (!self.goodsId.length || !self.goodsModel) return;
+    
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    [shareVC shareObjectWithTitle:self.goodsModel.name
+                            descr:self.goodsModel.features
+                        thumImage:self.goodsModel.cover
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareProductUrlPrefix, self.goodsId]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }
@@ -1027,7 +1033,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 - (void)thn_showNavigationBarView:(BOOL)show {
-    NSString *iconName = show ? @"icon_share_gray" : @"icon_share_white";
+    NSString *iconName = show ? @"icon_share" : @"icon_share_white";
     NSString *title = show ? self.goodsModel.name : @"";
     
     self.navigationBarView.transparent = !show;

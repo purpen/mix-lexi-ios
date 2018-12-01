@@ -14,7 +14,7 @@
 #import "UIView+Helper.h"
 
 /// 红包有效期
-static NSInteger const kMaxCouponDay = 7;
+static NSInteger const kMaxCouponDay = 14;
 
 @interface THNAdvertCouponTableViewCell ()
 

@@ -10,10 +10,14 @@
 #import "THNAdvertCouponView.h"
 #import "THNAdvertManager.h"
 #import "THNLoginManager.h"
+#import "THNAlertView.h"
+#import "THNMyCouponViewController.h"
 
 static NSString *const kURLNewUserBonus = @"/market/grant_new_user_bonus";
 
-@interface THNAdvertCouponViewController () <THNAdvertCouponViewDelegate>
+@interface THNAdvertCouponViewController () <THNAdvertCouponViewDelegate> {
+    BOOL _isOpenCouponVC;    // 已打开优惠券
+}
 
 @property (nonatomic, strong) THNAdvertCouponView *advertView;
 
@@ -40,10 +44,38 @@ static NSString *const kURLNewUserBonus = @"/market/grant_new_user_bonus";
         }
         
         [[THNAdvertManager sharedManager] updateGrantStatus:YES];
+        [self thn_showAlertView];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
+}
+
+#pragma mark - private methods
+- (void)thn_showAlertView {
+    [self thn_showAnimation:NO dismiss:NO];
+    
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"领取成功" message:@""];
+    [alertView addActionButtonWithTitles:@[@"去使用", @"查看优惠券"] handler:^(UIButton *actionButton, NSInteger index) {
+        if (index == 0) {
+            [self thn_showAnimation:NO dismiss:YES];
+            
+        } else {
+            [self thn_openCouponController];
+        }
+    }];
+    
+    [alertView show];
+}
+
+/**
+ 打开优惠券视图
+ */
+- (void)thn_openCouponController {
+    _isOpenCouponVC = YES;
+    
+    THNMyCouponViewController *couponVC = [[THNMyCouponViewController alloc] init];
+    [self.navigationController pushViewController:couponVC animated:YES];
 }
 
 #pragma mark - custom delegate
@@ -54,15 +86,12 @@ static NSString *const kURLNewUserBonus = @"/market/grant_new_user_bonus";
         }];
         
     } else {
-        [[THNAdvertManager sharedManager] updateGrantStatus:YES];
-        [self thn_showAnimation:NO];
-        [SVProgressHUD thn_showSuccessWithStatus:@"领取成功"];
-//        [self networkGrantNewUserBonus];
+        [self networkGrantNewUserBonus];
     }
 }
 
 - (void)thn_advertViewClose {
-    [self thn_showAnimation:NO];
+    [self thn_showAnimation:NO dismiss:YES];
 }
 
 #pragma mark - setup UI
@@ -76,15 +105,19 @@ static NSString *const kURLNewUserBonus = @"/market/grant_new_user_bonus";
     [super viewWillAppear:animated];
     
     self.navigationBarView.hidden = YES;
+    
+    if (_isOpenCouponVC) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    [self thn_showAnimation:YES];
+    [self thn_showAnimation:YES dismiss:NO];
 }
 
-- (void)thn_showAnimation:(BOOL)show {
+- (void)thn_showAnimation:(BOOL)show dismiss:(BOOL)dismiss {
     CGFloat originY = show ? 0 : -SCREEN_HEIGHT;
     CGFloat alpha = show ? 0.5 : 0;
 
@@ -105,7 +138,7 @@ static NSString *const kURLNewUserBonus = @"/market/grant_new_user_bonus";
                          }
 
                      } completion:^(BOOL finished) {
-                         if (!show) {
+                         if (dismiss) {
                              [self dismissViewControllerAnimated:NO completion:nil];
                          }
                      }];

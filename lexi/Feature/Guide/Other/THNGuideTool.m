@@ -25,7 +25,7 @@
 
     if (![newVersion isEqualToString:oldVersion]) {
 
-        rootVC = [[THNGuideCollectionViewController alloc]init];
+        rootVC = [[THNGuideCollectionViewController alloc] init];
 
         [THNSaveTool setObject:newVersion forKey:kClientVersionKey];
 

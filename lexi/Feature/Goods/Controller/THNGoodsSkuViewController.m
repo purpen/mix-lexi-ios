@@ -97,6 +97,7 @@ static NSString *const kKeyQuantity = @"quantity";
         
                                        weakSelf.skuModel = model;
                                        weakSelf.skuView.skuModel = model;
+                                       [weakSelf thn_showSkuView:YES];
                                        [SVProgressHUD dismiss];
                                    }];
 }
@@ -224,8 +225,8 @@ static NSString *const kKeyQuantity = @"quantity";
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.maskView];
-    [self.view addSubview:self.mainView];
     [self.mainView addSubview:self.skuView];
+    [self.view addSubview:self.mainView];
     
     if (self.viewType == THNGoodsSkuTypeDirectSelect) {
         [self.mainView addSubview:self.functionView];
@@ -255,11 +256,12 @@ static NSString *const kKeyQuantity = @"quantity";
           initialSpringVelocity:1.0
                         options:(UIViewAnimationOptionCurveEaseOut) animations:^{
                             self.mainView.frame = viewFrame;
+                            
                         } completion:nil];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if ([touches anyObject].view == self.mainView) {
+    if ([touches anyObject].view == self.mainView || [touches anyObject].view == self.maskView) {
         self.view.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
