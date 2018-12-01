@@ -36,6 +36,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNAdvertManager.h"
 #import "THNAdvertCouponViewController.h"
+#import "THNBaseNavigationController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -195,8 +196,9 @@ THNActivityViewDelegate
         
     } else {
         THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
-        advertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:advertVC animated:NO completion:nil];
+        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
+        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:navVC animated:NO completion:nil];
     }
 }
 

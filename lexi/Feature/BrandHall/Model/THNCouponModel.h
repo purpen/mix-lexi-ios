@@ -33,6 +33,8 @@ typedef NS_ENUM(NSUInteger, ShowCouponStyleType) {
 @property (nonatomic, assign) CGFloat reach_amount;
 // 最小金额
 @property (nonatomic, assign) CGFloat min_amount;
+@property (nonatomic, strong) NSString *category_id;
+@property (nonatomic, strong) NSString *category_name;
 @property (nonatomic, strong) NSString *start_date;
 @property (nonatomic, strong) NSString *end_date;
 @property (nonatomic, strong) NSString *start_at;

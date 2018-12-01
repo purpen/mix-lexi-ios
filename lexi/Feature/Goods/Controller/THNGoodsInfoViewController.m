@@ -1033,7 +1033,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 - (void)thn_showNavigationBarView:(BOOL)show {
-    NSString *iconName = show ? @"icon_share_gray" : @"icon_share_white";
+    NSString *iconName = show ? @"icon_share" : @"icon_share_white";
     NSString *title = show ? self.goodsModel.name : @"";
     
     self.navigationBarView.transparent = !show;

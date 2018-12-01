@@ -93,7 +93,7 @@ static NSString *const kPlaceholderImageName = @"default_image_place";
                   options:YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionIgnoreFailedURL
                  progress:nil
                 transform:^UIImage *(UIImage *image, NSURL *url) {
-                            image = [image imageByResizeToSize:size contentMode:UIViewContentModeCenter];
+                            image = [image imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFill];
                             return [image imageByRoundCornerRadius:cornerRadius];
                 }
                completion:nil];

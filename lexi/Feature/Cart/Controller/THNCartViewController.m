@@ -16,6 +16,7 @@
 #import "THNSelectAddressViewController.h"
 #import "THNLoginManager.h"
 #import "THNCartDefaultView.h"
+#import "UIScrollView+THNMJRefresh.h"
 
 #define kTextGoodsCount(count) [NSString stringWithFormat:@"%zi件礼品", count]
 
@@ -37,7 +38,8 @@ static NSString *const kKeyQuantity = @"quantity";
     UITableViewDelegate,
     UITableViewDataSource,
     THNGoodsInfoTableViewCellDelegate,
-    THNCartFunctionViewDelegate
+    THNCartFunctionViewDelegate,
+    THNMJRefreshDelegate
 >
 
 /// 购物车商品列表
@@ -69,18 +71,24 @@ static NSString *const kKeyQuantity = @"quantity";
     [super viewDidLoad];
     
     [self setupUI];
+    [SVProgressHUD thn_show];
 }
 
 #pragma mark - network
 /**
  购物车商品
  */
-- (void)thn_getCartGoodsData {
-    [SVProgressHUD thn_show];
+- (void)thn_getCartGoodsDataWithRefresh:(BOOL)refresh {
+    if (![THNLoginManager isLogin]) {
+        [self.cartTableView endHeaderRefresh];
+        return;
+    }
     
     WEAKSELF;
     
     [THNGoodsManager getCartGoodsCompletion:^(NSArray *goodsData, NSError *error) {
+        [weakSelf.cartTableView endHeaderRefresh];
+        
         if (error) return;
         
         weakSelf.cartGoodsArr = [NSMutableArray arrayWithArray:goodsData];
@@ -93,21 +101,25 @@ static NSString *const kKeyQuantity = @"quantity";
 /**
  心愿单商品
  */
-- (void)thn_getWishListGoodsData {
-    [SVProgressHUD thn_show];
-    
+- (void)thn_getWishListGoodsDataWithRefresh:(BOOL)refresh {
+    if (![THNLoginManager isLogin]) {
+        [self.cartTableView endHeaderRefresh];
+        return;
+    }
+
     WEAKSELF;
     
     [THNGoodsManager getUserCenterProductsWithType:(THNUserCenterGoodsTypeWishList)
                                             params:@{@"per_page": @(10)}
                                         completion:^(NSArray *goodsData, NSInteger count, NSError *error) {
+                                            [weakSelf.cartTableView endHeaderRefresh];
+                                            
                                             if (error) return;
         
                                             weakSelf.wishGoodsArr = [NSMutableArray arrayWithArray:goodsData];
                                             weakSelf.recordWishArr = [NSMutableArray arrayWithArray:goodsData];
                                             
                                             [weakSelf.cartTableView reloadData];
-                                            [SVProgressHUD dismiss];
                                         }];
 }
 
@@ -125,6 +137,11 @@ static NSString *const kKeyQuantity = @"quantity";
 }
 
 #pragma mark - custom delegate
+- (void)beginRefreshing {
+    [self thn_getCartGoodsDataWithRefresh:YES];
+    [self thn_getWishListGoodsDataWithRefresh:YES];
+}
+
 // 心愿单商品加购物车
 - (void)thn_didSelectedAddGoodsToCart:(THNGoodsInfoTableViewCell *)cell {
     NSIndexPath *indexPath = [self.cartTableView indexPathForCell:cell];
@@ -136,8 +153,7 @@ static NSString *const kKeyQuantity = @"quantity";
     WEAKSELF;
     
     [self thn_openGoodsSkuControllerWithGoodsModel:model completed:^(NSString *skuId) {
-        [SVProgressHUD thn_showSuccessWithStatus:@"添加成功"];
-        [weakSelf thn_getCartGoodsData];
+        [weakSelf thn_getCartGoodsDataWithRefresh:YES];
     }];
 }
 
@@ -344,7 +360,7 @@ static NSString *const kKeyQuantity = @"quantity";
         [self thn_showEditButtonWithText:kTextDone];
         
     } else {
-        [self thn_getWishListGoodsData];
+        [self thn_getWishListGoodsDataWithRefresh:YES];
 //        [self.wishGoodsArr addObjectsFromArray:[self.recordWishArr copy]];
         [self thn_showEditButtonWithText:self.cartGoodsArr.count ? kTextEdit : @""];
     }
@@ -379,7 +395,7 @@ static NSString *const kKeyQuantity = @"quantity";
     
     [self.cartGoodsArr removeObjectsInArray:[selectedItems copy]];
     [self.selectedArr removeAllObjects];
-    [self thn_getCartGoodsData];
+    [self thn_getCartGoodsDataWithRefresh:YES];
     
     if (!self.cartGoodsArr.count) {
         // 商品删除完，结束编辑状态
@@ -562,6 +578,8 @@ static NSString *const kKeyQuantity = @"quantity";
     [self.view addSubview:self.cartTableView];
     [self.view addSubview:self.functionView];
     
+    [self.cartTableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
+    
     [self thn_setDefaultCartView];
 }
 
@@ -570,12 +588,12 @@ static NSString *const kKeyQuantity = @"quantity";
     
     [self setNavigationBar];
     
-    if ([THNLoginManager isLogin]) {
-        [self thn_getCartGoodsData];
-        [self thn_getWishListGoodsData];
+    if (![THNLoginManager isLogin]) {
+        [self thn_clearData];
         
     } else {
-        [self thn_clearData];
+        [self thn_getCartGoodsDataWithRefresh:NO];
+        [self thn_getWishListGoodsDataWithRefresh:NO];
     }
 }
 

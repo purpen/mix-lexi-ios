@@ -20,7 +20,7 @@ static NSString *const kGoodsSkuCollectionViewCellId = @"kGoodsSkuCollectionView
 ///
 static NSString *const kTitleColor   = @"颜色";
 static NSString *const kTitleSize    = @"尺寸";
-static NSString *const kTextInterval = @"∮";
+static NSString *const kTextInterval = @"¢";
 ///
 static CGFloat const kMaxHeight = 337.0;
 
@@ -58,12 +58,9 @@ static CGFloat const kMaxHeight = 337.0;
 - (instancetype)initWithFrame:(CGRect)frame skuModel:(THNSkuModel *)skuModel goodsModel:(THNGoodsModel *)goodsModel {
     self = [super initWithFrame:frame];
     if (self) {
-        if (skuModel) {
-            self.skuModel = skuModel;
-        }
-        
-        [self thn_setTitleText:goodsModel];
         [self setupViewUI];
+        self.skuModel = skuModel ? skuModel : nil;
+        [self thn_setTitleText:goodsModel];
     }
     return self;
 }
@@ -78,78 +75,8 @@ static CGFloat const kMaxHeight = 337.0;
     _skuModel = skuModel;
     
     [self thn_setGoodsSkuModel:skuModel];
+    [self.skuCollectionView reloadData];
     [self setNeedsUpdateConstraints];
-}
-
-#pragma mark - sku filter datasource
-- (NSInteger)thn_numberOfSectionsForModeInFilter:(THNSkuFilter *)filter {
-    return self.modeArr.count;
-}
-
-- (NSArray *)thn_filter:(THNSkuFilter *)filter modesInSection:(NSInteger)section {
-    return self.modeArr[section];
-}
-
-- (NSInteger)thn_numberOfConditionsInFilter:(THNSkuFilter *)filter {
-    return self.skuArr.count;
-}
-
-- (NSArray *)thn_filter:(THNSkuFilter *)filter conditionForRow:(NSInteger)row {
-    NSMutableArray *skus = [NSMutableArray arrayWithArray:[self.skuArr[row] componentsSeparatedByString:kTextInterval]];
-    for (NSString *mode in skus) {
-        if (!mode.length) {
-            [skus removeObject:mode];
-        }
-    }
-    
-    return [skus copy];
-}
-
-- (id)thn_filter:(THNSkuFilter *)filter resultOfConditionForRow:(NSInteger)row {
-    return self.skuArr[row];
-}
-
-#pragma mark - collectionView datasource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.modeArr.count;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.modeArr[section] count];
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *data = (NSArray *)self.modeArr[indexPath.section];
-
-    return CGSizeMake([data[indexPath.row] boundingSizeWidthWithFontSize:12] + 12, 24);
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    THNGoodsSkuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGoodsSkuCollectionViewCellId
-                                                                                    forIndexPath:indexPath];
-    
-    NSArray *data = (NSArray *)self.modeArr[indexPath.section];
-    cell.modeName = data[indexPath.row];
-    
-    if ([self.skuFilter.availableIndexPathsSet containsObject:indexPath]) {
-        cell.cellType = THNGoodsSkuCellTypeNormal;
-        
-    } else {
-        cell.cellType = THNGoodsSkuCellTypeDisable;
-    }
-    
-    if ([self.skuFilter.selectedIndexPaths containsObject:indexPath]) {
-        cell.cellType = THNGoodsSkuCellTypeSelected;
-    }
-    
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.skuFilter thn_didSelectedModeWithIndexPath:indexPath];
-    [collectionView reloadData];
-    
-    [self thn_getSelectedSkuItem];
 }
 
 #pragma mark - private methods
@@ -192,7 +119,7 @@ static CGFloat const kMaxHeight = 337.0;
     }
     
     // 没有颜色、尺寸，不选择SKU，可直接购买
-    if (model.colors.count == 0 && model.modes.count == 0) {
+    if (!model.colors.count && !model.modes.count) {
         self.selectSkuItem = itemModel;
         return;
     }
@@ -200,6 +127,29 @@ static CGFloat const kMaxHeight = 337.0;
     // 默认选中
     [self.skuFilter thn_didSelectedModeWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     [self thn_getSelectedSkuItem];
+}
+
+/**
+ 获取可组合搭配的 SKU
+ */
+- (void)thn_getSkuWithModelData:(NSArray *)data {
+    [self.skuArr removeAllObjects];
+    
+    for (THNSkuModelItem *itemModel in data) {
+        [self.skuArr addObject:[NSString stringWithFormat:@"%@%@%@", itemModel.sColor, kTextInterval, itemModel.sModel]];
+    }
+}
+
+/**
+ 获取型号的内容
+ */
+- (void)thn_getModeContentTextWithModelData:(NSArray *)data {
+    NSMutableArray *contentArr = [NSMutableArray array];
+    for (THNSkuModelColor *model in data) {
+        [contentArr addObject:model.name];
+    }
+    
+    [self.modeArr addObject:contentArr];
 }
 
 /**
@@ -245,42 +195,93 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 /**
- 获取可组合搭配的 SKU
- */
-- (void)thn_getSkuWithModelData:(NSArray *)data {
-    [self.skuArr removeAllObjects];
-    
-    for (THNSkuModelItem *itemModel in data) {
-        [self.skuArr addObject:[NSString stringWithFormat:@"%@%@%@", itemModel.sColor, kTextInterval, itemModel.sModel]];
-    }
-}
-
-/**
- 获取型号的内容
- */
-- (void)thn_getModeContentTextWithModelData:(NSArray *)data {
-    NSMutableArray *contentArr = [NSMutableArray array];
-    for (THNSkuModelColor *model in data) {
-        [contentArr addObject:model.name];
-    }
-
-    [self.modeArr addObject:contentArr];
-}
-
-/**
  所有型号内容的高度
  */
 - (CGFloat)thn_getModeContentHeightWithModelData:(NSArray *)data {
     CGFloat contentW = 0;
+    
     for (THNSkuModelColor *model in data) {
         CGFloat nameW = [model.name boundingSizeWidthWithFontSize:12] + 22;
         contentW += nameW;
     }
     
     CGFloat contentH = 34.0;
-    CGFloat lineNum = (contentW - 10) / (SCREEN_WIDTH - 73);
+    CGFloat lineNum = ceil(contentW) / (SCREEN_WIDTH - 73);
     
     return contentH * ceil(lineNum) + 15;
+}
+
+
+#pragma mark - sku filter datasource
+- (NSInteger)thn_numberOfSectionsForModeInFilter:(THNSkuFilter *)filter {
+    return self.modeArr.count;
+}
+
+- (NSArray *)thn_filter:(THNSkuFilter *)filter modesInSection:(NSInteger)section {
+    return self.modeArr[section];
+}
+
+- (NSInteger)thn_numberOfConditionsInFilter:(THNSkuFilter *)filter {
+    return self.skuArr.count;
+}
+
+- (NSArray *)thn_filter:(THNSkuFilter *)filter conditionForRow:(NSInteger)row {
+    NSMutableArray *skus = [NSMutableArray arrayWithArray:[self.skuArr[row] componentsSeparatedByString:kTextInterval]];
+
+    [skus enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![(NSString *)obj length]) {
+            [skus removeObject:obj];
+        }
+    }];
+    
+    return [skus copy];
+}
+
+- (id)thn_filter:(THNSkuFilter *)filter resultOfConditionForRow:(NSInteger)row {
+    return self.skuArr[row];
+}
+
+#pragma mark - collectionView datasource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return self.modeArr.count;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.modeArr[section] count];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *data = (NSArray *)self.modeArr[indexPath.section];
+    
+    return CGSizeMake([data[indexPath.row] boundingSizeWidthWithFontSize:12] + 12, 24);
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNGoodsSkuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGoodsSkuCollectionViewCellId
+                                                                                    forIndexPath:indexPath];
+    
+    NSArray *data = (NSArray *)self.modeArr[indexPath.section];
+    cell.modeName = data[indexPath.row];
+    
+    if ([self.skuFilter.availableIndexPathsSet containsObject:indexPath]) {
+        cell.cellType = THNGoodsSkuCellTypeNormal;
+        
+    } else {
+        cell.cellType = THNGoodsSkuCellTypeDisable;
+    }
+    
+    if ([self.skuFilter.selectedIndexPaths containsObject:indexPath]) {
+        cell.cellType = THNGoodsSkuCellTypeSelected;
+    }
+    
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.skuFilter thn_didSelectedModeWithIndexPath:indexPath];
+    [collectionView reloadData];
+    
+    [self thn_getSelectedSkuItem];
 }
 
 #pragma mark - setup UI
@@ -324,14 +325,14 @@ static CGFloat const kMaxHeight = 337.0;
     
     [self.colorLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(18);
-        make.size.mas_equalTo(CGSizeMake(40, 15));
+        make.top.mas_equalTo(15);
+        make.size.mas_equalTo(CGSizeMake(40, 24));
     }];
     
     [self.sizeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(self.colorHeight > 0 ? (self.colorHeight + 10) : 18);
-        make.size.mas_equalTo(CGSizeMake(40, 15));
+        make.top.mas_equalTo(self.colorHeight > 0 ? self.colorHeight + 6 : 15);
+        make.size.mas_equalTo(CGSizeMake(40, 24));
     }];
     
     [self.skuCollectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -344,7 +345,9 @@ static CGFloat const kMaxHeight = 337.0;
 }
 
 - (CGFloat)thn_getContentSizeHeight {
-    return self.colorHeight + self.sizeHeight + 30;
+//    CGFloat modeH = self.modeArr.count * 15;
+    
+    return self.colorHeight + self.sizeHeight + 25;
 }
 
 - (CGFloat)thn_getSkuViewSizeHeight {
