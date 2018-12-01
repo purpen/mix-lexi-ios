@@ -42,7 +42,7 @@
                                  @(THNDealContentTypeGrassNote) : @(20)};
     
     CGFloat originX = [originDict[@(type)] floatValue];
-    CGFloat imageW = kScreenWidth - originX;
+    CGFloat imageW = kScreenWidth - originX * 2;
     CGFloat textOrigin = type == THNDealContentTypeGrassNote ? 40 : 30;
     CGFloat textW = kScreenWidth - textOrigin;
     

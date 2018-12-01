@@ -177,7 +177,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
 }
 
 - (CGFloat)thn_imageWidth {
-    CGFloat imageW = kScreenWidth - ([self thn_imageOriginX] * 2);
+    CGFloat imageW = kScreenWidth - [self thn_imageOriginX] * 2;
     
     return imageW;
 }
