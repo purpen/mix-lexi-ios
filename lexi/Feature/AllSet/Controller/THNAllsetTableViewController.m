@@ -64,12 +64,12 @@ static CGFloat const kCellRowHeight = 382;
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *collections = result.data[@"collections"];
-        if (collections.count > 0) {
-            [self.collections addObjectsFromArray:collections];
-        } else {
+        [self.collections addObjectsFromArray:collections];
+        
+        if (![result.data[@"next"] boolValue] && self.collections.count != 0) {
             [self.tableView noMoreData];
         }
-
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

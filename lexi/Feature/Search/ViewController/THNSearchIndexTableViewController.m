@@ -38,7 +38,6 @@ static NSString *const kSearchIndexCellIdentifier = @"kSearchIndexCellIdentifier
     [self.tableView registerNib:[UINib nibWithNibName:@"THNSearchIndexTableViewCell" bundle:nil] forCellReuseIdentifier:kSearchIndexCellIdentifier];
 }
 
-
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -75,12 +75,13 @@ THNMJRefreshDelegate
 
         [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.products addObjectsFromArray:products];
-        } else {
+        [self.products addObjectsFromArray:products];
+       
+        if (![result.data[@"next"] boolValue] && self.products.count != 0) {
+            
             [self.collectionView noMoreData];
         }
-
+        
         self.cover = result.data[@"cover"];
         self.setTitle = [NSString stringWithFormat:@"%@-%@",result.data[@"name"],result.data[@"sub_name"]];
         [self.collectionView reloadData];

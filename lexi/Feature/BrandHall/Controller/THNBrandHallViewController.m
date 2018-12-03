@@ -152,12 +152,13 @@ THNMJRefreshDelegate
         
         [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.products addObjectsFromArray:products];
-        } else {
+        [self.products addObjectsFromArray:products];
+        
+        if (![result.data[@"next"] boolValue] && self.products.count != 0) {
+            
             [self.collectionView noMoreData];
         }
-
+        
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         if (signalQuantity == 0) {
             [self.collectionView reloadData];

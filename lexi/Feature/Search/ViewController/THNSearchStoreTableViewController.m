@@ -68,12 +68,12 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *stores = result.data[@"stores"];
-        if (stores.count > 0) {
-            [self.stores addObjectsFromArray:[THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:stores]];
-        } else {
+        [self.stores addObjectsFromArray:[THNFeaturedBrandModel mj_objectArrayWithKeyValuesArray:stores]];
+        
+        if (![result.data[@"next"] boolValue] && self.stores.count != 0) {
             [self.tableView noMoreData];
         }
-
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

@@ -21,14 +21,13 @@
 
 static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentifier";
 
-@interface THNBrandCollectionViewCell()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface THNBrandCollectionViewCell () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *backGroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *storePruductCountLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *pruductCollectionView;
-
 @property (weak, nonatomic) IBOutlet THNFollowStoreButton *flowButton;
 @property (nonatomic, assign) BOOL isFollow;
 
@@ -61,12 +60,12 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
 
 - (void)setFeatureBrandModel:(THNFeaturedBrandModel *)featureBrandModel {
     _featureBrandModel = featureBrandModel;
-    
     [self.backGroundImageView loadImageWithUrl:[featureBrandModel.bgcover loadImageUrlWithType:(THNLoadImageUrlTypeDefault)]];
     [self.storeImageView loadImageWithUrl:[featureBrandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = featureBrandModel.name;
     self.storePruductCountLabel.text = [NSString stringWithFormat:@"%ld 件",featureBrandModel.store_products_counts];
     [self.flowButton selfManagerFollowBrandStatus:featureBrandModel.is_followed brandModel:featureBrandModel];
+    [self.pruductCollectionView reloadData];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

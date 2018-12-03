@@ -84,9 +84,10 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 
         [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.dataArray addObjectsFromArray:products];
-        } else {
+        [self.dataArray addObjectsFromArray:products];
+        
+        if (![result.data[@"next"] boolValue] && self.dataArray.count != 0) {
+            
             [self.collectionView noMoreData];
         }
         

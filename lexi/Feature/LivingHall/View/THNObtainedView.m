@@ -26,7 +26,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     [self.backGroundView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 

@@ -33,7 +33,7 @@
 @property (nonatomic, strong) THNExploresViewController *explore;
 @property (nonatomic, strong) THNLivingHallViewController *livingHall;
 @property (nonatomic, strong) THNShopWindowViewController *showWindow;
-//@property (nonatomic, strong) UIView *searchView;
+@property (nonatomic, strong) UIView *lineView;
 
 @end
 
@@ -44,11 +44,34 @@
     [self setupUI];
     [self setNavigationBar];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kUpdateLivingHallStatus object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeFrame:) name:@"startScrollTableView" object:nil];
 }
 
 - (void)refreshLayoutHomeView {
      [self claer];
      [self setupUI];
+}
+
+- (void)changeFrame:(NSNotification *)notification {
+    CGFloat contentOffsetY = [notification.userInfo[@"contentOffsetY"] floatValue];
+    // 上滑
+    if (contentOffsetY > 0){
+        [UIView animateWithDuration:0.25 animations:^{
+            self.searchView.viewY = kDeviceiPhoneX ? - 35 - 44 : -35 - 22;;
+            self.selectButtonView.viewY = 0 - STATUS_BAR_HEIGHT ;
+            self.publicView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
+            self.publicView.viewHeight = SCREEN_HEIGHT - self.publicView.viewY;
+        }];
+        
+    } else {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.searchView.viewY = 35;
+            self.selectButtonView.viewY = CGRectGetMaxY(self.searchView.frame);
+            self.publicView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
+            self.publicView.viewHeight = SCREEN_HEIGHT - self.publicView.viewY;
+        }];
+      
+    }
 }
 
 // 登录成功刷新，清空再去更新视图
@@ -73,6 +96,7 @@
     [self.view addSubview:self.selectButtonView];
     self.selectButtonView.delegate = self;
     UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
+    self.lineView = lineView;
     [self.view addSubview:lineView];
     [self.view addSubview:self.publicView];
     
@@ -102,11 +126,11 @@
     self.currentSubViewController = self.childViewControllers[showIndex];
 }
 
-// 解决设置tabbar的属性为No导致该视图错乱的bug
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
-}
+//// 解决设置tabbar的属性为No导致该视图错乱的bug
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
+//}
 
 /**
  设置导航栏
