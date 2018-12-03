@@ -15,7 +15,9 @@ typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
     THNFollowButtonTypeExplore = 0,     // 探索页面
     THNFollowButtonTypeStoreInfo,       // 品牌馆详情页面
     THNFollowButtonTypeStoreList,       // 个人中心关注设计馆列表
-    THNFollowButtonTypeGoodsInfo        // 商品详情
+    THNFollowButtonTypeGoodsInfo,       // 商品详情
+    THNFollowButtonTypeArticle,         // 文章中
+    THNFollowButtonTypeSearch,          // 搜索列表
 };
 
 typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
@@ -31,13 +33,16 @@ typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
  店铺数据
  */
 @property (nonatomic, strong) THNStoreModel *storeModel;
+@property (nonatomic, strong) THNFeaturedBrandModel *brandModel;
+@property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
 
 /**
- 品牌馆数据
+ 颜色
  */
-@property (nonatomic, strong) THNFeaturedBrandModel *brandModel;
-
-@property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
+@property (nonatomic, strong) UIColor *normalTitleColor;
+@property (nonatomic, strong) UIColor *selectedTitleColor;
+@property (nonatomic, strong) UIColor *normalBgColor;
+@property (nonatomic, strong) UIColor *selectedBgColor;
 
 /**
  根据加载的页面创建

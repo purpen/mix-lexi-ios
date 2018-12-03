@@ -65,7 +65,7 @@ static NSString *const kTextNone = @"已售罄";
     
     [self thn_hasStockCount:YES];
     
-    self.type = model.isCustomService ? THNGoodsFunctionViewTypeCustom : THNGoodsFunctionViewTypeDefault;
+    self.type = model.isCustomMade ? THNGoodsFunctionViewTypeCustom : THNGoodsFunctionViewTypeDefault;
     
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.subButton.makeMoney = model.commissionPrice;

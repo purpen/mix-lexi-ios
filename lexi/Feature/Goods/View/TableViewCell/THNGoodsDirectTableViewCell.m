@@ -41,7 +41,7 @@ static NSString *const kGoodsDirectTableViewCellId = @"kGoodsDirectTableViewCell
 
 - (void)thn_setCustomDaysWithGoodsModel:(THNGoodsModel *)model {
     self.hintLabel.text = model.isMadeHoliday ? [NSString stringWithFormat:@"%@%@", kNeedDays(model.madeCycle), kTextInclude] : kNeedDays(model.madeCycle);
-    self.hintLabel.hidden = !model.isCustomService;
+    self.hintLabel.hidden = !model.isCustomMade;
 }
 
 - (void)thn_setCustomNumberOfDays:(NSInteger)days isIncludeHolidays:(BOOL)isInclude {

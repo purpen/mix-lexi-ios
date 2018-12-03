@@ -16,6 +16,8 @@
 #import "UIView+Helper.h"
 #import "THNFollowStoreButton.h"
 #import "THNFollowStoreButton+SelfManager.h"
+#import "UIColor+Extension.h"
+#import "THNConst.h"
 
 static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentifier";
 
@@ -49,6 +51,9 @@ static NSString * const kBrandProductCellIdentifier = @"kBrandProductCellIdentif
     self.pruductCollectionView.scrollEnabled = NO;
     [self.pruductCollectionView setCollectionViewLayout:flowLayout];
     [self.pruductCollectionView registerNib:[UINib nibWithNibName:@"THNBannnerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kBrandProductCellIdentifier];
+    
+    self.flowButton.selectedBgColor = [UIColor colorWithHexString:@"#EFF3F2" alpha:0.5];
+    self.flowButton.selectedTitleColor = [UIColor whiteColor];
     [self.flowButton drawCornerWithType:0 radius:self.flowButton.viewHeight / 2];
     [self.flowButton setupViewUI];
     [self.storeImageView drawCornerWithType:0 radius:4];

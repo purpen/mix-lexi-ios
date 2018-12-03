@@ -69,7 +69,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 #pragma mark - private methods
 - (void)thn_changeButtonAnimation {
     self.selected = !self.selected;
-    self.backgroundColor = [UIColor colorWithHexString:self.selected ? @"#EFF3F2" : kColorMain];
+    self.backgroundColor = self.selected ? self.selectedBgColor : self.normalBgColor;
     [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, self.selected ? 0 : 5, 0, 0))];
     
     self.storeModel.isFollowed = self.selected;

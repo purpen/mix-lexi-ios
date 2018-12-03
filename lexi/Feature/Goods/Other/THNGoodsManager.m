@@ -194,7 +194,7 @@ static NSString *const kKeyUid              = @"uid";
 - (void)requestProductSkusInfoWithParams:(NSDictionary *)params completion:(void (^)(THNSkuModel *model, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLProductsSku requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"========== SKU： %@", [NSString jsonStringWithObject:result.data]);
+//        THNLog(@"========== SKU： %@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;

@@ -22,7 +22,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.backGroundView.layer.cornerRadius = 4;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.backGroundView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

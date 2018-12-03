@@ -423,7 +423,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNGoodsTableViewCells *directCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeChoose) didSelectedItem:^(NSString *rid) {
         [weakSelf thn_openGoodsSkuController];
     }];
-    directCells.height = self.goodsModel.isCustomService ? 80 : 55;
+    directCells.height = self.goodsModel.isCustomMade ? 80 : 55;
     directCells.goodsModel = self.goodsModel;
     
     THNTableViewSections *sections = [THNTableViewSections initSectionsWithCells:[@[directCells] mutableCopy]];
