@@ -116,7 +116,8 @@ THNCommentTableViewDelegate
         [self.subComments removeAllObjects];
         NSArray *comments = [THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]];
         [self.comments addObjectsFromArray:comments];
-        if ([result.data[@"remain_count"] integerValue] == 0) {
+        
+        if (![result.data[@"next"] boolValue] && self.comments.count != 0) {
             [self.commentTableView noMoreData];
         }
         

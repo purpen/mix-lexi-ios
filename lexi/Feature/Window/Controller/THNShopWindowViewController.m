@@ -145,21 +145,16 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
 
         if (self.showWindowType == ShowWindowTypeFollow) {
-            if (showWindowFollows.count > 0) {
-                [self.showWindowFollows addObjectsFromArray:showWindowFollows];
-            } else {
-                [self.tableView noMoreData];
-            }
-
+            [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
             self.showWindows = self.showWindowFollows;
         } else {
-            if (showWindowFollows.count > 0) {
-                [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
-            } else {
-                [self.tableView noMoreData];
-            }
-
+            [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
             self.showWindows = self.showWindowRecommends;
+        }
+        
+        if (![result.data[@"next"] boolValue] && self.showWindows.count != 0) {
+            
+            [self.tableView noMoreData];
         }
         
         [self.tableView reloadData];
@@ -217,12 +212,6 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [headerView addSubview:self.selectButtonView];
     self.lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.selectButtonView.frame), SCREEN_WIDTH, 0.5)];
     [headerView addSubview:self.lineView];
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = self.showImageView.bounds;
-    gradientLayer.colors =  @[(__bridge id)[UIColor colorWithHexString:@"000000" alpha:0.3].CGColor,
-                              (__bridge id)[UIColor colorWithHexString:@"000000" alpha:0].CGColor];
-    gradientLayer.locations = @[@(0.0), @(1)];
-    [self.showImageView.layer addSublayer:gradientLayer];
     return headerView;
 }
 
@@ -327,6 +316,12 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
         [_showImageView sd_setImageWithURL:[NSURL URLWithString:@"https://static.moebeast.com/image/static/shop_window_head.jpg"]];
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.frame = self.showImageView.bounds;
+        gradientLayer.colors =  @[(__bridge id)[UIColor colorWithHexString:@"000000" alpha:0.3].CGColor,
+                                  (__bridge id)[UIColor colorWithHexString:@"000000" alpha:0].CGColor];
+        gradientLayer.locations = @[@(0.0), @(1)];
+        [_showImageView.layer addSublayer:gradientLayer];
     }
     return _showImageView;
 }

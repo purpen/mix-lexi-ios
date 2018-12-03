@@ -161,7 +161,7 @@ THNMJRefreshDelegate
             self.footerView.hidden = YES;
         }
         
-        if (![result.data[@"next"] boolValue]) {
+        if (![result.data[@"next"] boolValue] && self.productCollectionView.products.count != 0) {
             [self.productCollectionView noMoreData];
         }
         

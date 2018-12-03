@@ -28,7 +28,6 @@ static NSString *const kPopularProductCellIdentifier = @"kPopularProductCellIden
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kPopularProductCellIdentifier];
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.popularDataArray.count;
 }

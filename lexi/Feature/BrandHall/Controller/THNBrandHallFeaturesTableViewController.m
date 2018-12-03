@@ -64,9 +64,9 @@ static CGFloat const kBrandHallFeaturesHeight = 300;
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *stores = result.data[@"stores"];
-        if (stores.count > 0) {
-            [self.stores addObjectsFromArray:stores];
-        } else {
+        [self.stores addObjectsFromArray:stores];
+        
+        if (![result.data[@"next"] boolValue] && self.stores.count != 0) {
             [self.tableView noMoreData];
         }
         

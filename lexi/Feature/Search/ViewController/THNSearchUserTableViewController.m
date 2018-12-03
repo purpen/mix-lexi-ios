@@ -69,12 +69,12 @@ static NSString *const kSearchUserCellIdentifier = @"kSearchUserCellIdentifier";
 
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *users = result.data[@"users"];
-        if (users.count > 0) {
-            [self.users addObjectsFromArray:[THNUserModel mj_objectArrayWithKeyValuesArray:users]];
-        } else {
+        [self.users addObjectsFromArray:[THNUserModel mj_objectArrayWithKeyValuesArray:users]];
+        
+        if (![result.data[@"next"] boolValue] && self.users.count != 0) {
             [self.tableView noMoreData];
         }
-
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];

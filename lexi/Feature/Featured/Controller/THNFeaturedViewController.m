@@ -37,6 +37,8 @@
 #import "THNAdvertManager.h"
 #import "THNAdvertCouponViewController.h"
 #import "THNBaseNavigationController.h"
+#import "THNHomeSearchView.h"
+#import "THNSelectButtonView.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 90;
@@ -94,6 +96,8 @@ THNActivityViewDelegate
 @property (nonatomic, assign) CGFloat customGrassCellHeight;
 @property (nonatomic, strong) NSMutableArray *newPopularDataArray;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (nonatomic, strong) THNHomeSearchView *searchView;
+@property (nonatomic, assign) CGFloat lastContentOffset;
 
 @end
 
@@ -425,7 +429,18 @@ THNActivityViewDelegate
     } else {
         return 0;
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
+    if (scrollView.contentOffset.y > 1) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"startScrollTableView" object:nil userInfo:@{@"contentOffsetY":@(scrollView.contentOffset.y - self.lastContentOffset)}];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.lastContentOffset = scrollView.contentOffset.y;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

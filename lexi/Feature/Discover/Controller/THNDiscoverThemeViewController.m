@@ -67,12 +67,14 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
         
         [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *lifeRecords = result.data[@"life_records"];
-        if (lifeRecords.count > 0) {
-            [self.lifeRecords addObjectsFromArray:lifeRecords];
-        } else {
+        [self.lifeRecords addObjectsFromArray:lifeRecords];
+    
+        
+        if (![result.data[@"next"] boolValue] && self.lifeRecords.count != 0) {
+            
             [self.collectionView noMoreData];
         }
-
+        
         self.collectionView.dataArray = self.lifeRecords;
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {

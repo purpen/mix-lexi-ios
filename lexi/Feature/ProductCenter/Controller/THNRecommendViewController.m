@@ -140,9 +140,9 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         }
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.hotDataArray addObjectsFromArray:products];
-        } else {
+        [self.hotDataArray addObjectsFromArray:products];
+    
+        if (![result.data[@"next"] boolValue] && self.hotDataArray.count != 0) {
             [self.tableView noMoreData];
         }
         
@@ -172,12 +172,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.officialRecommendDataArray addObjectsFromArray:products];
-        } else {
+        [self.officialRecommendDataArray addObjectsFromArray:products];
+        
+        if (![result.data[@"next"] boolValue] && self.officialRecommendDataArray.count != 0) {
             [self.tableView noMoreData];
         }
-
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
@@ -204,12 +204,12 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
         NSArray *products = result.data[@"products"];
-        if (products.count > 0) {
-            [self.dataArrayNew addObjectsFromArray:products];
-        } else {
+        [self.dataArrayNew addObjectsFromArray:products];
+        
+        if (![result.data[@"next"] boolValue] && self.dataArrayNew.count != 0) {
             [self.tableView noMoreData];
         }
-
+        
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD dismiss];
