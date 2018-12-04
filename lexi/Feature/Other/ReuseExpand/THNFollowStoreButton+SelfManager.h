@@ -26,5 +26,6 @@
  */
 - (void)selfManagerFollowBrandStatus:(BOOL)follow brandModel:(THNFeaturedBrandModel *)model;
 - (void)selfManagerFollowBrandStatus:(BOOL)follow OffcialStoreModel:(THNOffcialStoreModel *)model;
+- (void)selfManagerFollowBrandStatus:(BOOL)follow grassListModel:(THNGrassListModel *)model;
 
 @end

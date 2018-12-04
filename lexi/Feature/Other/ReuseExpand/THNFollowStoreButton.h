@@ -10,6 +10,7 @@
 #import "THNStoreModel.h"
 #import "THNFeaturedBrandModel.h"
 #import "THNOffcialStoreModel.h"
+#import "THNGrassListModel.h"
 
 typedef NS_ENUM(NSUInteger, THNFollowButtonType) {
     THNFollowButtonTypeExplore = 0,     // 探索页面
@@ -35,6 +36,7 @@ typedef void(^FollowStoreButtonBlock)(BOOL isFollow);
 @property (nonatomic, strong) THNStoreModel *storeModel;
 @property (nonatomic, strong) THNFeaturedBrandModel *brandModel;
 @property (nonatomic, strong) THNOffcialStoreModel *offcialStoreModel;
+@property (nonatomic, strong) THNGrassListModel *grassListModel;
 
 /**
  颜色

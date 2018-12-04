@@ -192,28 +192,38 @@ THNMJRefreshDelegate
 - (void)selectPhotoFinish {
     if (self.selectWindowBlock) {
         int i = 0;
-        for (NSString *storeRid in self.storeRids) {
-            if ([self.storeRid isEqualToString:storeRid]) {
+        for (NSMutableDictionary *storeRidMutable in self.storeRids) {
+            if ([self.storeRid isEqualToString:storeRidMutable[@"storeRid"]]) {
                 i++;
             }
         }
 
         if (i == 2) {
-            [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
-            [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-            [SVProgressHUD setFont:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
-            [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"一个橱窗最多可添加同一个设计馆2件商品"];
-            [SVProgressHUD dismissWithDelay:2.0 completion:^{
-                [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
-            }];
-
+            [self showHudTintTitle:@"一个橱窗最多可添加同一个设计馆2件商品"];
             return;
+        }
+        
+        for (NSMutableDictionary *productRidMutable in self.productRids) {
+            if ([self.productRid isEqualToString:productRidMutable[@"productRid"]] && ![self.productRid isEqualToString:self.currentProductRid]) {
+                [self showHudTintTitle:@"你当前已添加该商品"];
+                return;
+            }
         }
 
         self.selectWindowBlock(self.selectCover, self.coverID, self.productRid, self.storeRid);
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)showHudTintTitle:(NSString *)title {
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHexString:@"#000000"]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setFont:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
+    [SVProgressHUD showImage:[UIImage imageNamed:@""] status:title];
+    [SVProgressHUD dismissWithDelay:2.0 completion:^{
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
+    }];
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource

@@ -59,6 +59,8 @@ static NSString *const kUrlColumnHandpickOptimization = @"/column/handpick_optim
 static NSString *const kUrlLifeRecords = @"/life_records/recommend";
 // 内容区banner
 static NSString *const kUrlBannersHandpickContent = @"/banners/handpick_content";
+NSString *const kDidScrollViewOffsetY = @"didScrollViewOffsetY";
+NSString *const kLastContentOffsetY = @"lastContentOffsetY";
 
 @interface THNFeaturedViewController () <
 THNFeatureTableViewCellDelegate,
@@ -137,6 +139,16 @@ THNActivityViewDelegate
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
+    // 解决一直下拉搜索动画导致闪动的问题
+    self.tableView.bounces = NO;
+    // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
+    // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 
 
@@ -184,7 +196,6 @@ THNActivityViewDelegate
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self hiddenHud];
             [self.tableView reloadData];
             [self thn_showNewUserBonusAdvertView];
         });
@@ -212,6 +223,7 @@ THNActivityViewDelegate
     THNRequest *request = [THNAPI getWithUrlString:kUrlBannersHandpickTop requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
+         [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -431,18 +443,6 @@ THNActivityViewDelegate
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    if (scrollView.contentOffset.y > 1) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"startScrollTableView" object:nil userInfo:@{@"contentOffsetY":@(scrollView.contentOffset.y - self.lastContentOffset)}];
-    }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.lastContentOffset = scrollView.contentOffset.y;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNFeatureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFeaturedCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -554,12 +554,20 @@ THNActivityViewDelegate
                 }];
             }
          
-            return kCellGrassListHeight * 2 + self.customGrassCellHeight + 25 + kFeaturedCellTopBottomHeight;
+            return kCellGrassListHeight * 2 + self.customGrassCellHeight + 5 + kFeaturedCellTopBottomHeight;
             break;
     }
     
     return 0;
     
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.lastContentOffset = scrollView.contentOffset.y;
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现

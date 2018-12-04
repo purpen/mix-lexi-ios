@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+UIKIT_EXTERN NSString *const kDidScrollViewOffsetY;
+
+
 @interface THNFeaturedViewController : UITableViewController
 
 @end

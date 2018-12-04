@@ -17,5 +17,7 @@ typedef void(^SelectWindowBlcok)(NSString *cover,
 
 @property (nonatomic, copy) SelectWindowBlcok selectWindowBlock;
 @property (nonatomic, strong) NSArray *storeRids;
+@property (nonatomic, strong) NSArray *productRids;
+@property (nonatomic, strong) NSString *currentProductRid;
 
 @end

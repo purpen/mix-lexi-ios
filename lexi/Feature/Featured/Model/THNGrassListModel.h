@@ -56,6 +56,8 @@ typedef NS_ENUM(NSUInteger, DisCoverContentType) {
 @property (nonatomic, assign) BOOL is_praise;
 @property (nonatomic, assign) NSInteger comment_count;
 @property (nonatomic, assign) DisCoverContentType type;
+// 是否为用户发布
+@property (nonatomic, assign) BOOL is_user;
 
 
 @end

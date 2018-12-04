@@ -247,6 +247,8 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
             self.stitchingButton.viewY = SCREEN_HEIGHT - spacing;
         }];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
