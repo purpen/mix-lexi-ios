@@ -77,6 +77,8 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     
     if (self.likeLabel.hidden == YES && self.commentLabel.hidden == YES) {
         self.titleLabelTopConstraint.constant = -15;
+    } else {
+        self.titleLabelTopConstraint.constant = 10;
     }
     
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {

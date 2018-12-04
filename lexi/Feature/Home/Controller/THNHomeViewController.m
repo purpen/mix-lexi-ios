@@ -126,11 +126,11 @@
     self.currentSubViewController = self.childViewControllers[showIndex];
 }
 
-//// 解决设置tabbar的属性为No导致该视图错乱的bug
-//- (void)viewWillLayoutSubviews {
-//    [super viewWillLayoutSubviews];
-//    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
-//}
+// 解决设置tabbar的属性为No导致该视图错乱的bug
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
+}
 
 /**
  设置导航栏

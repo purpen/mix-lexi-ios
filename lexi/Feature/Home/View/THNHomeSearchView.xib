@@ -40,7 +40,7 @@
             <connections>
                 <outlet property="searchTextField" destination="153-0I-h5k" id="pE5-a0-hkJ"/>
             </connections>
-            <point key="canvasLocation" x="-75.5" y="-335"/>
+            <point key="canvasLocation" x="-93" y="-278"/>
         </view>
         <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="jS6-a5-RZg">
             <point key="canvasLocation" x="61" y="86"/>
