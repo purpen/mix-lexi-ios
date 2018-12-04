@@ -67,63 +67,52 @@ static NSString *const kTitleUserFollow     = @"关注";
 #pragma mark - custom delegate
 - (void)beginRefreshing {
     self.currentPage = 1;
-    [self thn_requestUserListDataWithRefresh:YES];
+    [self.userTableView resetCurrentPageNumber];
+    [self.userTableView resetNoMoreData];
+    
+    [self.modelArr removeAllObjects];
+    [self thn_requestUserListData];
 }
 
 - (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
     self.currentPage = currentPage.integerValue;
-    [self thn_requestUserListDataWithRefresh:NO];
+    [self thn_requestUserListData];
 }
 
 #pragma mark - network
-- (void)thn_requestUserListDataWithRefresh:(BOOL)refresh {
+- (void)thn_requestUserListData {
+    WEAKSELF;
+    
     THNRequest *request = [THNAPI getWithUrlString:[self thn_getRequestUrl]
                                  requestDictionary:[self thn_requestParams]
                                           delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self.userTableView endHeaderRefresh];
+        
         if (!result.isSuccess) {
-            if (refresh) {
-                [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
-                
-            } else {
-                [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
-            }
-            
+            [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
-        NSArray *dataArr = [NSArray arrayWithArray:(NSArray *)result.data[[self thn_resultDataKey]]];
+        [self.userTableView endFooterRefreshAndCurrentPageChange:YES];
         
-        if (refresh) {
-            [self.userTableView endHeaderRefreshAndCurrentPageChange:YES];
-            [self.modelArr removeAllObjects];
-            [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
-            [self.userTableView resetNoMoreData];
+        NSArray *dataArr = [NSArray arrayWithArray:(NSArray *)result.data[[weakSelf thn_resultDataKey]]];
+        
+        if (dataArr.count) {
+            [weakSelf.modelArr addObjectsFromArray:[weakSelf thn_convertModelWithData:dataArr]];
             
         } else {
-            [self.userTableView endFooterRefreshAndCurrentPageChange:YES];
-            
-            if (dataArr.count) {
-                [self.modelArr addObjectsFromArray:[self thn_convertModelWithData:dataArr]];
-                
-            } else {
-                [self.userTableView noMoreData];
-            }
+            [self.userTableView noMoreData];
         }
-    
-        [self.userTableView reloadData];
+
+        [weakSelf.userTableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
-        
-        if (refresh) {
-            [self.userTableView endHeaderRefreshAndCurrentPageChange:NO];
-            
-        } else {
-            [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
-        }
+        [self.userTableView endHeaderRefresh];
+        [self.userTableView endFooterRefreshAndCurrentPageChange:NO];
     }];
 }
 

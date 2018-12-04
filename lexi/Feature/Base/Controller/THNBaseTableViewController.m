@@ -65,10 +65,17 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         
         return secitons.headerTitle.length ? kSectionHeaderViewH : secitons.headerHeight;
     }
+    
     return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (self.dataSections.count) {
+        THNTableViewSections *secitons = self.dataSections[section];
+        
+        return secitons.footerView;
+    }
+    
     return [UIView new];
 }
 
@@ -78,6 +85,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         
         return secitons.footerHeight;
     }
+    
     return 0.01;
 }
 
@@ -92,23 +100,24 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
     return 44.0;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//}
+//
+//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+//
+//}
+//
+//- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+//
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUITableViewCellId];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kUITableViewCellId];
     }
+    
     return cell;
 }
 
@@ -131,6 +140,8 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;
+        _tableView.estimatedSectionHeaderHeight = 0;
+        _tableView.estimatedSectionFooterHeight = 0;
     }
     return _tableView;
 }

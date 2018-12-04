@@ -80,9 +80,18 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 - (THNTableViewSectionHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[THNTableViewSectionHeaderView alloc] init];
+        _headerView.backgroundColor = [UIColor whiteColor];
         [_headerView.moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _headerView;
+}
+
+- (UIView *)footerView {
+    if (!_footerView) {
+        _footerView = [[UIView alloc] init];
+        _footerView.backgroundColor = [UIColor whiteColor];
+    }
+    return _footerView;
 }
 
 #pragma mark - event response
