@@ -44,7 +44,8 @@ static NSString *const kTitleSelected   = @"已关注";
 - (void)setFollowStoreStatus:(BOOL)follow {
     self.selected = follow;
     [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, self.selected ? 0 : 5, 0, 0))];
-    self.backgroundColor = [UIColor colorWithHexString:follow ? @"#EFF3F2" : kColorMain];
+    
+    self.backgroundColor = follow ? self.selectedBgColor : self.normalBgColor;
 }
 
 #pragma mark - 显示加载动画
@@ -69,8 +70,8 @@ static NSString *const kTitleSelected   = @"已关注";
     
     [self setTitle:kTitleNormal forState:(UIControlStateNormal)];
     [self setTitle:kTitleSelected forState:(UIControlStateSelected)];
-    [self setTitleColor:[UIColor colorWithHexString:kColorWhite] forState:(UIControlStateNormal)];
-    [self setTitleColor:[UIColor colorWithHexString:@"#949EA6"] forState:(UIControlStateSelected)];
+    [self setTitleColor:self.normalTitleColor forState:(UIControlStateNormal)];
+    [self setTitleColor:self.selectedTitleColor forState:(UIControlStateSelected)];
     self.titleLabel.font = [UIFont systemFontOfSize:13];
     [self setImage:[UIImage imageNamed:@"icon_store_feature"] forState:(UIControlStateNormal)];
     [self setImage:[UIImage new] forState:(UIControlStateSelected)];
@@ -91,6 +92,23 @@ static NSString *const kTitleSelected   = @"已关注";
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.loadView);
     }];
+}
+
+#pragma mark - colors
+- (UIColor *)normalTitleColor {
+    return _normalTitleColor ? _normalTitleColor : [UIColor colorWithHexString:kColorWhite];
+}
+
+- (UIColor *)selectedTitleColor {
+    return _selectedTitleColor ? _selectedTitleColor : [UIColor colorWithHexString:@"#949EA6"];
+}
+
+- (UIColor *)normalBgColor {
+    return _normalBgColor ? _normalBgColor : [UIColor colorWithHexString:kColorMain alpha:1];
+}
+
+- (UIColor *)selectedBgColor {
+    return _selectedBgColor ? _selectedBgColor : [UIColor colorWithHexString:@"#EFF3F2" alpha:1];
 }
 
 #pragma mark - getters and setters

@@ -26,7 +26,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.backGroundView drawCornerWithType:0 radius:4];
+
+    [self.backGroundView drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

@@ -25,7 +25,6 @@
  @param model 品牌馆数据
  */
 - (void)selfManagerFollowBrandStatus:(BOOL)follow brandModel:(THNFeaturedBrandModel *)model;
-
 - (void)selfManagerFollowBrandStatus:(BOOL)follow OffcialStoreModel:(THNOffcialStoreModel *)model;
 
 @end
