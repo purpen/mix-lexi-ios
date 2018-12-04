@@ -405,9 +405,13 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
+    // 解决一直上拉搜索动画导致闪动的问题
+    self.tableView.bounces = NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // 解决下拉搜索框位置无法改变的问题
+    self.tableView.bounces = YES;
     self.lastContentOffset = scrollView.contentOffset.y;
 }
 

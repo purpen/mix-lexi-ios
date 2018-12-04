@@ -139,8 +139,6 @@ THNActivityViewDelegate
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
-    // 解决一直下拉搜索动画导致闪动的问题
-    self.tableView.bounces = NO;
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -564,10 +562,14 @@ THNActivityViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
+    // 解决一直上拉搜索动画导致闪动的问题
+    self.tableView.bounces = NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.lastContentOffset = scrollView.contentOffset.y;
+   // 解决下拉搜索框位置无法改变的问题
+    self.tableView.bounces = YES;
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
