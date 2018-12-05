@@ -171,7 +171,7 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     UIPasteboard *pab = [UIPasteboard generalPasteboard];
     [pab setString:@"lexixiaoduo"];
     
-    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"" message:@"复制成功，去微信添加朋友:\nlexixiaoduo"];
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:@"" message:@"复制成功，去添加乐喜辅导员微信:\nlexixiaoduo"];
     [alertView addActionButtonWithTitle:@"确定" handler:nil];
     [alertView show];
 }

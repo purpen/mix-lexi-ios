@@ -542,6 +542,8 @@
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
 		D8F0CE3321B7ADD400ACF0EC /* THNImagesToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */; };
+		D8F0CE3721B7DB7E00ACF0EC /* THNPosterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3621B7DB7E00ACF0EC /* THNPosterManager.m */; };
+		D8F0CE3A21B7E5C500ACF0EC /* THNShareActionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3921B7E5C500ACF0EC /* THNShareActionCollectionViewCell.m */; };
 		D8F998872137D6440012AED3 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = D8F998862137D6440012AED3 /* loading.gif */; };
 /* End PBXBuildFile section */
 
@@ -1511,6 +1513,10 @@
 		D8EECAD320D9E7F900BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8F0CE3121B7ADD400ACF0EC /* THNImagesToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImagesToolBar.h; sourceTree = "<group>"; };
 		D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImagesToolBar.m; sourceTree = "<group>"; };
+		D8F0CE3521B7DB7E00ACF0EC /* THNPosterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNPosterManager.h; sourceTree = "<group>"; };
+		D8F0CE3621B7DB7E00ACF0EC /* THNPosterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNPosterManager.m; sourceTree = "<group>"; };
+		D8F0CE3821B7E5C500ACF0EC /* THNShareActionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNShareActionCollectionViewCell.h; sourceTree = "<group>"; };
+		D8F0CE3921B7E5C500ACF0EC /* THNShareActionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNShareActionCollectionViewCell.m; sourceTree = "<group>"; };
 		D8F9985F213641510012AED3 /* NSObject+EnumManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumManagement.h"; sourceTree = "<group>"; };
 		D8F99860213641510012AED3 /* NSObject+EnumManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EnumManagement.m"; sourceTree = "<group>"; };
 		D8F998862137D6440012AED3 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -2756,6 +2762,7 @@
 		4BECF09C217F1401008E5E28 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				D8F0CE3421B7DB5400ACF0EC /* Other */,
 				4BECF09D217F1401008E5E28 /* Controller */,
 				4BECF0A0217F1401008E5E28 /* View */,
 			);
@@ -2782,6 +2789,8 @@
 				CDF3D34C21B2491A003D841A /* THNShareWxaView.m */,
 				4BECF0A1217F1401008E5E28 /* THNShareActionView.h */,
 				4BECF0A2217F1401008E5E28 /* THNShareActionView.m */,
+				D8F0CE3821B7E5C500ACF0EC /* THNShareActionCollectionViewCell.h */,
+				D8F0CE3921B7E5C500ACF0EC /* THNShareActionCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3681,6 +3690,15 @@
 			path = lexi;
 			sourceTree = "<group>";
 		};
+		D8F0CE3421B7DB5400ACF0EC /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				D8F0CE3521B7DB7E00ACF0EC /* THNPosterManager.h */,
+				D8F0CE3621B7DB7E00ACF0EC /* THNPosterManager.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3991,6 +4009,7 @@
 				4B27B3A2218717D1004AF42F /* THNArticleStoreTableViewCell.m in Sources */,
 				4B27B3A3218717D1004AF42F /* THNArticleStoryTableViewCell.m in Sources */,
 				4B27B3A4218717D1004AF42F /* THNDidcoverSetView.m in Sources */,
+				D8F0CE3A21B7E5C500ACF0EC /* THNShareActionCollectionViewCell.m in Sources */,
 				4B27B3A5218717D1004AF42F /* THNDiscoverSetCollectionViewCell.m in Sources */,
 				4B27B3A6218717D1004AF42F /* THNDiscoverTableViewCell.m in Sources */,
 				4BCAF8DD218834C300EF9491 /* THNCommentModel.m in Sources */,
@@ -4085,6 +4104,7 @@
 				4B27B3F7218717D1004AF42F /* THNLivingHallExpandView.m in Sources */,
 				4B27B3F8218717D1004AF42F /* THNLivingHallHeaderView.m in Sources */,
 				4B27B3F9218717D1004AF42F /* THNLivingHallMuseumView.m in Sources */,
+				D8F0CE3721B7DB7E00ACF0EC /* THNPosterManager.m in Sources */,
 				4B27B3FA218717D1004AF42F /* THNLivingHallRecommendTableViewCell.m in Sources */,
 				D805160F21ABC5CE002460A5 /* THNFollowStoreTableViewCell.m in Sources */,
 				4B27B3FB218717D1004AF42F /* THNObtainedView.m in Sources */,

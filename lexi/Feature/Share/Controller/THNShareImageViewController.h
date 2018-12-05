@@ -7,13 +7,7 @@
 //
 
 #import "THNBaseViewController.h"
-
-typedef NS_ENUM(NSUInteger, THNSharePosterType) {
-    THNSharePosterTypeGoods = 0,    // 分享商品
-    THNSharePosterTypeLifeStore,    // 生活馆
-    THNSharePosterTypeWindow,       // 橱窗
-    THNSharePosterTypeInvitation,   // 邀请
-};
+#import "NSObject+EnumManagement.h"
 
 @interface THNShareImageViewController : THNBaseViewController
 

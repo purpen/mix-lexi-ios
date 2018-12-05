@@ -660,7 +660,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_openShareController {
     if (!self.userModel.uid.length) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
     [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
                             descr:kShareDes
                         thumImage:self.userModel.avatar

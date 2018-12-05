@@ -65,6 +65,15 @@ typedef NS_ENUM(NSUInteger, THNDealContentType) {
     THNDealContentTypeGrassNote,    // 种草笔记
 };
 
+typedef NS_ENUM(NSUInteger, THNSharePosterType) {
+    THNSharePosterTypeNone = 0,     // 没有海报
+    THNSharePosterTypeGoods,        // 分享商品
+    THNSharePosterTypeLifeStore,    // 生活馆
+    THNSharePosterTypeWindow,       // 橱窗
+    THNSharePosterTypeInvitation,   // 邀请
+    THNSharePosterTypeBrandStore,   // 品牌馆
+};
+
 @interface NSObject (EnumManagement)
 
 @end

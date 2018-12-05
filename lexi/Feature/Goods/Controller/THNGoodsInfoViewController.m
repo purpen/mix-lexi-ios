@@ -693,7 +693,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_openShareController {
     if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
     [shareVC shareObjectWithTitle:self.goodsModel.name
                             descr:self.goodsModel.features
                         thumImage:self.goodsModel.cover
@@ -886,7 +886,7 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_goodsImageShareGoodsAction {
     if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
     [shareVC shareObjectWithTitle:self.goodsModel.name
                             descr:self.goodsModel.features
                         thumImage:self.goodsModel.cover
