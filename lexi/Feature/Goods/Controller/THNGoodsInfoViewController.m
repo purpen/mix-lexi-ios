@@ -57,7 +57,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNGoodsUserTableViewCellDelegate,
     THNGoodsActionTableViewCellDelegate,
     YBImageBrowserDataSource,
-    YBImageBrowserDelegate
+    YBImageBrowserDelegate,
+    THNImagesToolBarDelegate
 > {
     UIStatusBarStyle _statusBarStyle;
 }
@@ -82,6 +83,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 @property (nonatomic, strong) NSArray *noLoginCoupons;
 /// 图片列表
 @property (nonatomic, strong) THNImagesView *imagesView;
+/// 详情图片浏览器
+@property (nonatomic, weak) YBImageBrowser *imageBrowser;
 /// 底部功能视图
 @property (nonatomic, strong) THNGoodsFunctionView *functionView;
 /// 优惠券详情视图
@@ -815,15 +818,20 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 #pragma mark - 查看商品原图
 - (void)thn_openGoodsImageControllerWithIndex:(NSInteger)index {
-    THNImagesToolBar *toolBar = [THNImagesToolBar new];
+    THNImagesToolBar *toolBar = [[THNImagesToolBar alloc] initWithGoodsModel:self.goodsModel];
+    toolBar.delegate = self;
     
     YBImageBrowser *browser = [YBImageBrowser new];
     browser.dataSource = self;
     browser.delegate = self;
     browser.toolBars = @[toolBar];
     browser.currentIndex = index;
+    browser.transitionDuration = 0.3;
+    browser.shouldHideStatusBar = NO;
     
     [browser show];
+    
+    self.imageBrowser = browser;
 }
 
 /**
@@ -852,11 +860,39 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 - (void)yb_imageBrowser:(YBImageBrowser *)imageBrowser respondsToLongPress:(UILongPressGestureRecognizer *)longPress {
-    
+//    NSLog(@"图片长按");
 }
 
 - (void)yb_imageBrowser:(YBImageBrowser *)imageBrowser pageIndexChanged:(NSUInteger)index data:(id<YBImageBrowserCellDataProtocol>)data {
 //    [self.imagesView thn_setContentOffsetWithIndex:index];
+}
+
+- (void)yb_imageBrowser:(YBImageBrowser *)imageBrowser transitionAnimationEndedWithIsEnter:(BOOL)isEnter {
+    [self.tableView reloadData];
+}
+
+- (void)thn_goodsImageBuyGoodsAction {
+    if (!self.goodsId.length || !self.goodsModel) return;
+    
+    THNGoodsSkuViewController *goodsSkuVC = [[THNGoodsSkuViewController alloc] initWithSkuModel:self.skuModel
+                                                                                     goodsModel:self.goodsModel
+                                                                                       viewType:(THNGoodsSkuTypeDefault)];
+    goodsSkuVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    goodsSkuVC.functionType = self.functionView.type;
+    goodsSkuVC.handleType = THNGoodsButtonTypeBuy;
+    [self.imageBrowser presentViewController:goodsSkuVC animated:NO completion:nil];
+}
+
+- (void)thn_goodsImageShareGoodsAction {
+    if (!self.goodsId.length || !self.goodsModel) return;
+    
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    [shareVC shareObjectWithTitle:self.goodsModel.name
+                            descr:self.goodsModel.features
+                        thumImage:self.goodsModel.cover
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareProductUrlPrefix, self.goodsId]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self.imageBrowser presentViewController:shareVC animated:NO completion:nil];
 }
 
 #pragma mark - tableView datasource

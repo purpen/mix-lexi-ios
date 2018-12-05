@@ -17,6 +17,9 @@
     id <YBImageBrowserCellDataProtocol> _data;
 }
 
+/// 商品数据
+@property (nonatomic, strong) THNGoodsModel *goodsModel;
+/// 视图
 @property (nonatomic, strong) CAGradientLayer *gradient;
 @property (nonatomic, strong) THNGoodsActionButton *likeButton;
 @property (nonatomic, strong) THNGoodsActionButton *buyButton;
@@ -27,9 +30,10 @@
 
 @implementation THNImagesToolBar
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)model {
+    self = [super init];
     if (self) {
+        self.goodsModel = model;
         [self setupViewUI];
     }
     return self;
@@ -47,6 +51,19 @@
 
 - (void)yb_browserPageIndexChanged:(NSUInteger)pageIndex totalPage:(NSUInteger)totalPage data:(id<YBImageBrowserCellDataProtocol>)data {
     self.countLabel.text = [NSString stringWithFormat:@"%zi/%zi", pageIndex + 1, totalPage];
+}
+
+#pragma mark - event response
+- (void)buyButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_goodsImageBuyGoodsAction)]) {
+        [self.delegate thn_goodsImageBuyGoodsAction];
+    }
+}
+
+- (void)shareButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_goodsImageShareGoodsAction)]) {
+        [self.delegate thn_goodsImageShareGoodsAction];
+    }
 }
 
 #pragma mark - setup UI
@@ -100,7 +117,16 @@
 - (THNGoodsActionButton *)likeButton {
     if (!_likeButton) {
         _likeButton = [[THNGoodsActionButton alloc] initWithType:(THNGoodsActionButtonTypeLike)];
-        [_likeButton selfManagerLikeGoodsStatus:self.goodsModel.isLike goodsId:self.goodsModel.rid];
+        [_likeButton selfManagerLikeGoodsStatus:self.goodsModel.isLike
+                                          count:self.goodsModel.likeCount
+                                        goodsId:self.goodsModel.rid];
+        
+        WEAKSELF;
+        
+        _likeButton.likeGoodsCompleted = ^(NSInteger count) {
+            weakSelf.goodsModel.isLike = !weakSelf.goodsModel.isLike;
+            weakSelf.goodsModel.likeCount = count;
+        };
     }
     return _likeButton;
 }

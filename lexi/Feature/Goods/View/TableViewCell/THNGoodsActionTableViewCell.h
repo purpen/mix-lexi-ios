@@ -19,6 +19,8 @@
 
 @property (nonatomic, weak) id <THNGoodsActionTableViewCellDelegate> delegate;
 
+@property (nonatomic, strong) THNGoodsModel *goodsModel;
+
 /**
  设置商品操作的状态
  */

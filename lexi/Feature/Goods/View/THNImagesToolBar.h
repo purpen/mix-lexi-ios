@@ -10,11 +10,18 @@
 #import "THNGoodsModel.h"
 #import <YBImageBrowser/YBImageBrowserToolBarProtocol.h>
 
+@protocol THNImagesToolBarDelegate <NSObject>
+
+@required
+- (void)thn_goodsImageBuyGoodsAction;
+- (void)thn_goodsImageShareGoodsAction;
+
+@end
+
 @interface THNImagesToolBar : UIView <YBImageBrowserToolBarProtocol>
 
-/**
- 商品数据
- */
-@property (nonatomic, strong) THNGoodsModel *goodsModel;
+@property (nonatomic, weak) id <THNImagesToolBarDelegate> delegate;
+
+- (instancetype)initWithGoodsModel:(THNGoodsModel *)model;
 
 @end

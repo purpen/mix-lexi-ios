@@ -22,6 +22,8 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 @implementation THNFollowStoreButton (SelfManager)
 
 - (void)selfManagerFollowStoreStatus:(BOOL)follow storeModel:(THNStoreModel *)model {
+    if (!model.rid.length) return;
+    
     [self setFollowStoreStatus:follow];
     self.storeId = model.rid;
     self.storeModel = model;
@@ -29,6 +31,8 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 }
 
 - (void)selfManagerFollowBrandStatus:(BOOL)follow brandModel:(THNFeaturedBrandModel *)model {
+    if (!model.rid.length) return;
+    
     [self setFollowStoreStatus:follow];
     self.storeId = model.rid ? model.rid : model.store_rid;
     self.brandModel = model;
@@ -36,6 +40,8 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 }
 
 - (void)selfManagerFollowBrandStatus:(BOOL)follow OffcialStoreModel:(THNOffcialStoreModel *)model {
+    if (!model.rid.length) return;
+    
     [self setFollowStoreStatus:follow];
     self.storeId = model.rid;
     self.offcialStoreModel = model;
@@ -43,6 +49,8 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
 }
 
 - (void)selfManagerFollowBrandStatus:(BOOL)follow grassListModel:(THNGrassListModel *)model {
+    if (!model.uid.length) return;
+    
     [self setFollowStoreStatus:follow];
     self.storeId = model.uid;
     self.grassListModel = model;
