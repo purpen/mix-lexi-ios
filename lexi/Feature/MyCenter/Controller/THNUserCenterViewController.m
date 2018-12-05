@@ -133,13 +133,6 @@ static NSString *const kKeyUid = @"uid";
     [self thn_setUserFollowedStoreDataWithPage:currentPage.integerValue];
 }
 
-/**
- 刷新列表数据
- */
-- (void)beginRefreshing {
-    [self thn_refreshTableViewDataSourceWithType:_selectedDataType];
-}
-
 #pragma mark - private methods
 /**
  切换当前加载的列表数据
@@ -147,14 +140,14 @@ static NSString *const kKeyUid = @"uid";
 - (void)thn_switchCurrentListDataWithType:(THNHeaderViewSelectedType)type {
     _selectedDataType = type;
     
-    //    [self thn_setLoadMoreDataFooter];
+    [self thn_setLoadMoreDataFooter];
     [self thn_replaceCurrentListDataWithType:type];
     
     if (self.dataSections.count) {
         [self.tableView reloadData];
         
     } else {
-        [self.tableView beginHeaderRefresh];
+        [self thn_refreshTableViewDataSourceWithType:type];
     }
 }
 
@@ -358,6 +351,7 @@ static NSString *const kKeyUid = @"uid";
  喜欢的列表
  */
 - (void)thn_setUserLikedData {
+    [SVProgressHUD thn_show];
     dispatch_group_t group = dispatch_group_create();
     
     [self thn_getUserCenterGoodsDataWithGroup:group type:(THNUserCenterGoodsTypeLikedGoods)];
@@ -368,6 +362,7 @@ static NSString *const kKeyUid = @"uid";
         [self thn_setUserCenterLikedGoodsCell];
         [self thn_setUserCenterLikedWindowCell];
         [self thn_loadUserCenterTableView];
+        [SVProgressHUD dismiss];
     });
 }
 
@@ -375,6 +370,7 @@ static NSString *const kKeyUid = @"uid";
  浏览的列表（原“收藏”）
  */
 - (void)thn_setUserCollectData {
+    [SVProgressHUD thn_show];
     dispatch_group_t group = dispatch_group_create();
     
     [self thn_getUserCenterGoodsDataWithGroup:group type:(THNUserCenterGoodsTypeBrowses)];
@@ -385,6 +381,7 @@ static NSString *const kKeyUid = @"uid";
         [self thn_setUserCenterBrowesGoodsCell];
         [self thn_setUserCenterWishGoodsCell];
         [self thn_loadUserCenterTableView];
+        [SVProgressHUD dismiss];
     });
 }
 
@@ -392,15 +389,19 @@ static NSString *const kKeyUid = @"uid";
  关注的设计馆
  */
 - (void)thn_setUserFollowedStoreDataWithPage:(NSInteger)page {
+    if (page <= 1) {
+        [SVProgressHUD thn_show];
+    }
+    
     dispatch_group_t group = dispatch_group_create();
     
     [self.storeArr removeAllObjects];
     [self thn_getUserCenterFollowStoreDataWithGroup:group currentPage:page];
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [self.storeSectionsArr removeAllObjects];
         [self thn_setUserCenterFollowStoreCell];
         [self thn_loadUserCenterTableView];
+        [SVProgressHUD dismiss];
     });
 }
 
@@ -702,7 +703,6 @@ static NSString *const kKeyUid = @"uid";
 #pragma mark - setup UI
 - (void)setupUI {
     self.tableView.tableHeaderView = self.headerView;
-    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -189,6 +189,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  刷新列表数据
  */
 - (void)beginRefreshing {
+    [self.tableView resetCurrentPageNumber];
     [self thn_refreshTableViewDataSourceWithType:_selectedDataType];
 }
 
@@ -199,7 +200,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)thn_switchCurrentListDataWithType:(THNHeaderViewSelectedType)type {
     _selectedDataType = type;
     
-//    [self thn_setLoadMoreDataFooter];
+    [self thn_setLoadMoreDataFooter];
     [self thn_replaceCurrentListDataWithType:type];
     
     if (self.dataSections.count) {
@@ -226,6 +227,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeStore: {
+            [self.storeSectionsArr removeAllObjects];
             [self thn_setUserFollowedStoreDataWithPage:1];
         }
             break;
@@ -452,7 +454,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_getUserCenterFollowStoreDataWithGroup:group currentPage:page];
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [self.storeSectionsArr removeAllObjects];
         [self thn_setUserCenterFollowStoreCell];
         [self thn_loadUserCenterTableView];
     });
