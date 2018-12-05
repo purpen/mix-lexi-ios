@@ -42,6 +42,13 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+- (void)selfManagerFollowBrandStatus:(BOOL)follow grassListModel:(THNGrassListModel *)model {
+    [self setFollowStoreStatus:follow];
+    self.storeId = model.uid;
+    self.grassListModel = model;
+    [self addTarget:self action:@selector(followStoreAction:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
 - (void)followStoreAction:(id)sender {
     if (![THNLoginManager isLogin]) {
         [[THNLoginManager sharedManager] openUserLoginController];
@@ -77,6 +84,7 @@ static NSString *const kURLFollowCancel = @"/unfollow/store";
     self.brandModel.is_followed = self.selected;
     self.brandModel.is_follow_store = self.selected;
     self.offcialStoreModel.is_followed = self.selected;
+    self.grassListModel.is_follow = self.selected;
 }
 
 #pragma mark - request

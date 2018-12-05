@@ -62,6 +62,7 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSMutableArray *sortMutable;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
+@property (nonatomic, strong) NSMutableArray *productRids;
 
 @end
 
@@ -210,6 +211,7 @@ THNNavigationBarViewDelegate
 }
 
 - (void)pushSelectWindowProductVC {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selectIndex == %ld", self.selectIndex];
     WEAKSELF;
     THNSelectWindowProductViewController *selectProductVC = [[THNSelectWindowProductViewController alloc]init];
     
@@ -226,9 +228,6 @@ THNNavigationBarViewDelegate
                 break;
         }
 
-        // 保存选择商品封面的店铺ID
-        [self.storeRids addObject:storeRid];
-
         // 保存已选择商品的封面和位置
         NSMutableDictionary *coverWithIndexParams = [NSMutableDictionary dictionary];
         coverWithIndexParams[@"cover"] = cover;
@@ -242,9 +241,25 @@ THNNavigationBarViewDelegate
             if ([mutableDict[@"selectIndex"] integerValue] == self.selectIndex) {
                 mutableDict[@"rid"] = productRid;
                 mutableDict[@"cover_id"] = @(coverID);
+                NSMutableDictionary *currentStoreDict = [self.storeRids filteredArrayUsingPredicate:predicate][0];
+                currentStoreDict[@"storeRid"] = storeRid;
+                NSMutableDictionary *currentProductDict = [self.productRids filteredArrayUsingPredicate:predicate][0];
+                currentProductDict[@"productRid"] = productRid;
                 return;
             }
         }
+        
+        // 选择商品的信息
+        NSMutableDictionary *productDict = [NSMutableDictionary dictionary];
+        productDict[@"selectIndex"] = @(self.selectIndex);
+        productDict[@"productRid"] = productRid;
+        [self.productRids addObject:productDict];
+        
+        // 选择店铺的信息
+        NSMutableDictionary *storeDict = [NSMutableDictionary dictionary];
+        storeDict[@"selectIndex"] = @(self.selectIndex);
+        storeDict[@"storeRid"] = storeRid;
+        [self.storeRids addObject:storeDict];
         
         // 设置发布橱窗后台需要的信息
         NSMutableDictionary *releaseParams = [NSMutableDictionary dictionary];
@@ -254,7 +269,13 @@ THNNavigationBarViewDelegate
         [self.productItems addObject:releaseParams];
     };
 
+
     selectProductVC.storeRids = self.storeRids;
+    if ([self.productRids filteredArrayUsingPredicate:predicate].count > 0) {
+         selectProductVC.currentProductRid = [self.productRids filteredArrayUsingPredicate:predicate][0][@"productRid"];
+    }
+    
+    selectProductVC.productRids = self.productRids;
     [weakSelf.navigationController pushViewController:selectProductVC animated:YES];
 }
 
@@ -596,6 +617,13 @@ THNNavigationBarViewDelegate
         _storeRids = [NSMutableArray array];
     }
     return _storeRids;
+}
+
+- (NSArray *)productRids {
+    if (!_productRids) {
+        _productRids = [NSMutableArray array];
+    }
+    return _productRids;
 }
 
 - (NSMutableArray *)sortMutable {

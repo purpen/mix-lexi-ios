@@ -58,6 +58,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 @property (nonatomic, assign) BOOL isLoadMoreData;
 @property (nonatomic, assign) CGFloat footerViewHeight;
 @property (nonatomic, assign) CGFloat featureCellHeight;
+@property (nonatomic, assign) CGFloat lastContentOffset;
 
 @end
 
@@ -112,6 +113,11 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     self.curatorPerPageCount = 10;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.expandView.viewHeight = expandViewHeight;
+}
+
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     return [super initWithStyle:UITableViewStyleGrouped];
@@ -124,6 +130,14 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
     self.tableView.estimatedRowHeight = 400;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
+    // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 
 // 馆长推荐
@@ -302,11 +316,6 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     return self.livingHallHeaderView;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.expandView.viewHeight = expandViewHeight;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH,self.footerViewHeight)];
     self.featureCell.frame = CGRectMake(0, -cellSpacing + expandViewHeight, SCREEN_WIDTH,self.featureCellHeight);
@@ -339,6 +348,18 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
     [self pushGoodInfo:productModel.rid];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
+    // 解决一直上拉搜索动画导致闪动的问题
+    self.tableView.bounces = NO;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // 解决下拉搜索框位置无法改变的问题
+    self.tableView.bounces = YES;
+    self.lastContentOffset = scrollView.contentOffset.y;
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) THNLivingHallViewController *livingHall;
 @property (nonatomic, strong) THNShopWindowViewController *showWindow;
 @property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, assign) CGFloat publicViewHeight;
 
 @end
 
@@ -44,7 +45,7 @@
     [self setupUI];
     [self setNavigationBar];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshLayoutHomeView) name:kUpdateLivingHallStatus object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeFrame:) name:@"startScrollTableView" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setSearchAnimation:) name:THNHomeVCDidScrollView object:nil];
 }
 
 - (void)refreshLayoutHomeView {
@@ -52,26 +53,36 @@
      [self setupUI];
 }
 
-- (void)changeFrame:(NSNotification *)notification {
-    CGFloat contentOffsetY = [notification.userInfo[@"contentOffsetY"] floatValue];
+- (void)setSearchAnimation:(NSNotification *)notification {
+    CGFloat scrollDistance = [notification.userInfo[kScrollDistance] floatValue];
+    
     // 上滑
-    if (contentOffsetY > 0){
-        [UIView animateWithDuration:0.25 animations:^{
-            self.searchView.viewY = kDeviceiPhoneX ? - 35 - 44 : -35 - 22;;
-            self.selectButtonView.viewY = 0 - STATUS_BAR_HEIGHT ;
-            self.publicView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
-            self.publicView.viewHeight = SCREEN_HEIGHT - self.publicView.viewY;
+    if (scrollDistance > 0) {
+        [UIView animateWithDuration:0.15 animations:^{
+            self.searchView.viewY = kDeviceiPhoneX ? - 18 - 44 : -18 - 22;;
+            self.selectButtonView.viewY = kDeviceiPhoneX ? 18 : 0;
+            self.lineView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
+            self.publicView.viewY = CGRectGetMaxY(self.lineView.frame);
+            
+            
         }];
         
-    } else {
-        [UIView animateWithDuration:0.25 animations:^{
-            self.searchView.viewY = 35;
-            self.selectButtonView.viewY = CGRectGetMaxY(self.searchView.frame);
-            self.publicView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
-            self.publicView.viewHeight = SCREEN_HEIGHT - self.publicView.viewY;
+        self.publicView.viewHeight = kDeviceiPhoneX ? SCREEN_HEIGHT - self.lineView.viewY - 80 : SCREEN_HEIGHT - self.lineView.viewY - 50;
+        self.publicViewHeight = self.publicView.height;
+        
+    } else if (scrollDistance < 0) {
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            self.searchView.viewY = 18 + STATUS_BAR_HEIGHT;
+            self.selectButtonView.viewY = CGRectGetMaxY(self.searchView.frame) - 10;
+            self.lineView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
+            self.publicView.viewY = CGRectGetMaxY(self.lineView.frame);
         }];
-      
+        
+            self.publicView.viewHeight = self.publicViewHeight - 60;
     }
+  
+    
 }
 
 // 登录成功刷新，清空再去更新视图
@@ -126,11 +137,11 @@
     self.currentSubViewController = self.childViewControllers[showIndex];
 }
 
-// 解决设置tabbar的属性为No导致该视图错乱的bug
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    self.searchView.frame = CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40);
-}
+//// 解决设置tabbar的属性为No导致该视图错乱的bug
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//    self.searchView.viewHeight = 40;
+//}
 
 /**
  设置导航栏
@@ -143,7 +154,7 @@
 - (THNHomeSearchView *)searchView {
     if (!_searchView) {
         _searchView = [[THNHomeSearchView alloc]
-                       initWithFrame:CGRectMake(20, 35 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
+                       initWithFrame:CGRectMake(20,  18 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
         [_searchView setSearchType:SearchTypeHome];
     }
     return _searchView;
@@ -152,7 +163,7 @@
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
         NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索", @"橱窗"] : @[@"精选", @"探索", @"橱窗"];
-        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame), SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
+        _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame) - 10, SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
         _selectButtonView.defaultShowIndex = titleArray.count - 3;
     }
     return _selectButtonView;

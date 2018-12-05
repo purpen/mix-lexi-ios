@@ -199,50 +199,86 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
     return CGRectGetMaxY(self.setView.frame) + 20;
 }
 
+/**
+ 获取故事cell的高度
+ */
 - (CGFloat)getCellHeight:(NSArray *)array {
-    __block CGFloat firstRowMaxtitleHeight = 0;
-    __block CGFloat firstRowMaxcontentHeight = 0;
-    __block CGFloat secondRowMaxtitleHeight = 0;
-    __block CGFloat secondRowMaxcontentHeight = 0;
+    __block CGFloat maxtitleHeight = 0;
+    __block CGFloat totalTitleHeight = 0;
+    
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
         //  设置最大size
         CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
-        CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
         CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
-        CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
-        NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
-        NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
-        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
-        CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+        NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
+        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height + 15;
         
-        // 取出第一列最大的titleLabel和contentLabel的高度
-        if (idx <= 1) {
-            
-            if (titleHeight > firstRowMaxtitleHeight) {
-                firstRowMaxtitleHeight = titleHeight;
+        if (idx % 2 == 0) {
+            maxtitleHeight = 0;
+            if (idx == array.count - 1) {
+                totalTitleHeight  += titleHeight;
             }
-            
-            if (contentHeight > secondRowMaxtitleHeight ) {
-                firstRowMaxcontentHeight = contentHeight;
-            }
-            // 取出第二列最大的titleLabel和contentLabel的高度
-        } else {
-            
-            if (titleHeight > secondRowMaxtitleHeight) {
-                secondRowMaxtitleHeight = titleHeight;
-            }
-            
-            if (contentHeight > secondRowMaxcontentHeight) {
-                secondRowMaxcontentHeight = titleHeight;
-            }
-            
+        }
+        
+        if (titleHeight > maxtitleHeight) {
+            maxtitleHeight = titleHeight;
+        }
+        
+        if (idx % 2 == 1) {
+            totalTitleHeight  += maxtitleHeight;
         }
     }];
     
-    CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
-    return 158 * 2 + customGrassCellHeight + 30 + 70;
+    NSInteger showRow = array.count / 2 + array.count % 2;
+    
+    return 175 * showRow + 85 + totalTitleHeight;
 }
+
+//- (CGFloat)getCellHeight:(NSArray *)array {
+//    __block CGFloat firstRowMaxtitleHeight = 0;
+//    __block CGFloat firstRowMaxcontentHeight = 0;
+//    __block CGFloat secondRowMaxtitleHeight = 0;
+//    __block CGFloat secondRowMaxcontentHeight = 0;
+//    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        THNGrassListModel *grassListModel = [THNGrassListModel mj_objectWithKeyValues:obj];
+//        //  设置最大size
+//        CGFloat titleMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 7.5;
+//        CGFloat contentMaxWidth = (SCREEN_WIDTH - 40 - 9) / 2 - 10.5;
+//        CGSize titleSize = CGSizeMake(titleMaxWidth, 35);
+//        CGSize contentSize = CGSizeMake(contentMaxWidth, 33);
+//        NSDictionary *titleFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Medium" size:12]};
+//        NSDictionary *contentFont = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:12]};
+//        CGFloat titleHeight = [grassListModel.title boundingRectWithSize:titleSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:titleFont context:nil].size.height;
+//        CGFloat contentHeight = [grassListModel.des boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:contentFont context:nil].size.height;
+//        
+//        // 取出第一列最大的titleLabel和contentLabel的高度
+//        if (idx <= 1) {
+//            
+//            if (titleHeight > firstRowMaxtitleHeight) {
+//                firstRowMaxtitleHeight = titleHeight;
+//            }
+//            
+//            if (contentHeight > secondRowMaxtitleHeight ) {
+//                firstRowMaxcontentHeight = contentHeight;
+//            }
+//            // 取出第二列最大的titleLabel和contentLabel的高度
+//        } else {
+//            
+//            if (titleHeight > secondRowMaxtitleHeight) {
+//                secondRowMaxtitleHeight = titleHeight;
+//            }
+//            
+//            if (contentHeight > secondRowMaxcontentHeight) {
+//                secondRowMaxcontentHeight = titleHeight;
+//            }
+//            
+//        }
+//    }];
+//    
+//    CGFloat customGrassCellHeight = firstRowMaxtitleHeight + secondRowMaxtitleHeight + firstRowMaxcontentHeight + secondRowMaxcontentHeight;
+//    return 158 * 2 + customGrassCellHeight + 30 + 70;
+//}
 
 #pragma mark - THNBannerViewDelegate
 

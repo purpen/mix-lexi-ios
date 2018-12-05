@@ -126,3 +126,8 @@ NSString *const kLookAllCommentData             = @"kLookAllCommentData";
 NSString *const THNPayMentVCPayCallback         = @"THNPayMentVCPayCallback";
 NSString *const AppDelegateBackgroundRemotePush = @"AppDelegateBackgroundRemotePush";
 NSString *const kChangeStatusWindowSuccess      = @"kChangeStatusWindowSuccess";
+NSString *const THNHomeVCDidScrollView          = @"THNHomeVCDidScrollView";
+
+#pragma mark - key
+NSString *const kScrollDistance                 = @"scrollDistance";
+

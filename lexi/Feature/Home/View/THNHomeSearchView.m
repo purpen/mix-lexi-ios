@@ -31,6 +31,11 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.viewHeight = 40;
+}
+
 - (void)setSearchType:(SearchType)searchType {
     self.searchTextField.delegate = self;
     switch (searchType) {

@@ -75,6 +75,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 @property (nonatomic, strong) NSString *goodDesignTitle;
 @property (nonatomic, strong) NSString *goodThingTitle;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (nonatomic, assign) CGFloat lastContentOffset;
 
 @end
 
@@ -140,7 +141,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self hiddenHud];
             [self.tableView reloadData];
         });
     });
@@ -160,6 +160,15 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
+    self.tableView.bounces = NO;
+    // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
+    // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 
 #pragma mark - 请求数据
@@ -167,6 +176,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self hiddenHud];
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -392,6 +402,19 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGRectGetMaxY(self.categoriesCollectionView.frame);
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
+    // 解决一直上拉搜索动画导致闪动的问题
+    self.tableView.bounces = NO;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // 解决下拉搜索框位置无法改变的问题
+    self.tableView.bounces = YES;
+    self.lastContentOffset = scrollView.contentOffset.y;
+}
+
 
 #pragma mark - THNExploreTableViewCellDelegate
 - (void)lookAllWithType:(ExploreCellType)cellType {
