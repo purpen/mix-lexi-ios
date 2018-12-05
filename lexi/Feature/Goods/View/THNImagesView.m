@@ -7,7 +7,6 @@
 //
 
 #import "THNImagesView.h"
-#import "THNImageCollectionViewCell.h"
 #import "THNMarco.h"
 #import "THNGoodsModelAssets.h"
 #import "UIColor+Extension.h"
@@ -19,8 +18,6 @@ static NSString *const kTHNImageCollectionViewCellId = @"kTHNImageCollectionView
     BOOL _isFull;
 }
 
-/// 图片浏览器
-@property (nonatomic, strong) UICollectionView *imageCollecitonView;
 /// 图片链接
 @property (nonatomic, strong) NSMutableArray *imageUrlArr;
 /// 图片

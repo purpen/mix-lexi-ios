@@ -541,6 +541,7 @@
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
 		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
+		D8F0CE3321B7ADD400ACF0EC /* THNImagesToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */; };
 		D8F998872137D6440012AED3 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = D8F998862137D6440012AED3 /* loading.gif */; };
 /* End PBXBuildFile section */
 
@@ -1508,6 +1509,8 @@
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8EECAD320D9E7F900BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D8F0CE3121B7ADD400ACF0EC /* THNImagesToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImagesToolBar.h; sourceTree = "<group>"; };
+		D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImagesToolBar.m; sourceTree = "<group>"; };
 		D8F9985F213641510012AED3 /* NSObject+EnumManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumManagement.h"; sourceTree = "<group>"; };
 		D8F99860213641510012AED3 /* NSObject+EnumManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EnumManagement.m"; sourceTree = "<group>"; };
 		D8F998862137D6440012AED3 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -2117,6 +2120,8 @@
 				4BECEF38217F1401008E5E28 /* THNImageCollectionViewCell.m */,
 				4BECEF39217F1401008E5E28 /* THNImagesView.h */,
 				4BECEF3A217F1401008E5E28 /* THNImagesView.m */,
+				D8F0CE3121B7ADD400ACF0EC /* THNImagesToolBar.h */,
+				D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3683,6 +3688,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EECADA20D9E7F900BB63F4 /* Build configuration list for PBXNativeTarget "lexi" */;
 			buildPhases = (
+				1DE776ED9A3D1E6D65C60C0A /* [CP] Check Pods Manifest.lock */,
 				D8EECAC020D9E7F800BB63F4 /* Sources */,
 				D8EECAC120D9E7F800BB63F4 /* Frameworks */,
 				D8EECAC220D9E7F800BB63F4 /* Resources */,
@@ -3847,6 +3853,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1DE776ED9A3D1E6D65C60C0A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lexi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F28A69C6EC6029D37419480 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3867,6 +3891,8 @@
 				"${BUILT_PRODUCTS_DIR}/Qiniu/Qiniu.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/YBImageBrowser/YBImageBrowser.framework",
+				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
 				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3884,6 +3910,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Qiniu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YBImageBrowser.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4154,6 +4182,7 @@
 				D82C0190219AB0E0009F905F /* THNMyCenterHeaderView.m in Sources */,
 				4B27B452218717D2004AF42F /* THNSelectLogisticsTableViewCell.m in Sources */,
 				4BCAF8E021893A4400EF9491 /* THNPayModel.m in Sources */,
+				D8F0CE3321B7ADD400ACF0EC /* THNImagesToolBar.m in Sources */,
 				4B27B453218717D2004AF42F /* THNSelectOfficalCouponView.m in Sources */,
 				4B27B454218717D2004AF42F /* THNAlertView.m in Sources */,
 				4B27B455218717D2004AF42F /* THNCustomTextTableViewCell.m in Sources */,

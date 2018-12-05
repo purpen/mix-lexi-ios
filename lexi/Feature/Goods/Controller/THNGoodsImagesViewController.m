@@ -111,6 +111,10 @@
     [self.view addSubview:self.buyButton];
     [self.view addSubview:self.shareButton];
     
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
     [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(66, 29));
         make.left.mas_equalTo(15);

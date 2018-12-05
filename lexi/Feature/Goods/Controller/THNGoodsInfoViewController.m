@@ -15,7 +15,6 @@
 #import "THNImagesView.h"
 #import "THNGoodsFunctionView.h"
 #import "THNGoodsSkuViewController.h"
-#import "THNGoodsImagesViewController.h"
 #import "THNGoodsDescribeViewController.h"
 #import "THNUserListViewController.h"
 #import "THNGoodsTitleTableViewCell.h"
@@ -43,6 +42,8 @@
 #import "THNShelfViewController.h"
 #import "THNProductModel.h"
 #import "THNSaveTool.h"
+#import <YBImageBrowser/YBImageBrowser.h>
+#import "THNImagesToolBar.h"
 
 static NSInteger const kFooterHeight = 18;
 ///
@@ -54,8 +55,10 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     THNGoodsFunctionViewDelegate,
     THNImagesViewDelegate,
     THNGoodsUserTableViewCellDelegate,
-    THNGoodsActionTableViewCellDelegate>
-{
+    THNGoodsActionTableViewCellDelegate,
+    YBImageBrowserDataSource,
+    YBImageBrowserDelegate
+> {
     UIStatusBarStyle _statusBarStyle;
 }
 
@@ -737,21 +740,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 }
 
 /**
- 查看商品图片
- */
-- (void)thn_openGoodsImageControllerWithIndex:(NSInteger)index {
-    THNGoodsImagesViewController *goodsImageVC = [[THNGoodsImagesViewController alloc] initWithGoodsModel:self.goodsModel
-                                                                                                 skuModel:self.skuModel];
-    [goodsImageVC thn_scrollContentWithIndex:index];
-    [goodsImageVC thn_setSkuFunctionViewType:self.functionView.type
-                                  handleType:self.goodsModel.isCustomMade ? THNGoodsButtonTypeCustom : THNGoodsButtonTypeBuy
-                       titleAttributedString:[self thn_getGoodsInfoTitle]];
-    goodsImageVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    
-    [self presentViewController:goodsImageVC animated:NO completion:nil];
-}
-
-/**
  打开商品 SKU 视图
  */
 - (void)thn_openGoodsSkuController {
@@ -823,6 +811,52 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     self.couponDetailView.frame = window.bounds;
     [window addSubview:self.couponDetailView];
+}
+
+#pragma mark - 查看商品原图
+- (void)thn_openGoodsImageControllerWithIndex:(NSInteger)index {
+    THNImagesToolBar *toolBar = [THNImagesToolBar new];
+    
+    YBImageBrowser *browser = [YBImageBrowser new];
+    browser.dataSource = self;
+    browser.delegate = self;
+    browser.toolBars = @[toolBar];
+    browser.currentIndex = index;
+    
+    [browser show];
+}
+
+/**
+ 从指定的视图渲染图片
+ */
+- (id)sourceCellWithIndex:(NSInteger)index {
+    THNImageCollectionViewCell *imageCell = (THNImageCollectionViewCell *)[self.imagesView.imageCollecitonView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+    
+    return imageCell ? imageCell.showImageView : nil;
+}
+
+#pragma mark YBImageBrowserDataSource & delegate
+- (NSUInteger)yb_numberOfCellForImageBrowserView:(YBImageBrowserView *)imageBrowserView {
+    return self.goodsModel.assets.count;
+}
+
+- (id<YBImageBrowserCellDataProtocol>)yb_imageBrowserView:(YBImageBrowserView *)imageBrowserView dataForCellAtIndex:(NSUInteger)index {
+    THNGoodsModelAssets *asset = self.goodsModel.assets[index];
+    
+    YBImageBrowseCellData *data = [YBImageBrowseCellData new];
+    data.url = [NSURL URLWithString:asset.viewUrl];
+    data.sourceObject = [self sourceCellWithIndex:index];
+    [data preload];
+    
+    return data;
+}
+
+- (void)yb_imageBrowser:(YBImageBrowser *)imageBrowser respondsToLongPress:(UILongPressGestureRecognizer *)longPress {
+    
+}
+
+- (void)yb_imageBrowser:(YBImageBrowser *)imageBrowser pageIndexChanged:(NSUInteger)index data:(id<YBImageBrowserCellDataProtocol>)data {
+//    [self.imagesView thn_setContentOffsetWithIndex:index];
 }
 
 #pragma mark - tableView datasource

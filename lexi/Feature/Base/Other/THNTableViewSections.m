@@ -89,7 +89,6 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 - (UIView *)footerView {
     if (!_footerView) {
         _footerView = [[UIView alloc] init];
-        _footerView.backgroundColor = [UIColor whiteColor];
     }
     return _footerView;
 }

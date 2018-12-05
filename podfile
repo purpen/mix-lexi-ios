@@ -23,6 +23,7 @@ target "lexi" do
  pod 'UMCShare/Social/ReducedQQ'
  pod 'UMCShare/Social/ReducedSina'
  pod 'WechatOpenSDK'
+ pod 'YBImageBrowser'
  pod 'MLeaksFinder'
  
 end
