@@ -142,6 +142,7 @@ static NSString *const kUITableViewCellId = @"UITableViewCellId";
         _tableView.showsHorizontalScrollIndicator = NO;
         _tableView.estimatedSectionHeaderHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
+        _tableView.estimatedRowHeight = 0;
     }
     return _tableView;
 }
