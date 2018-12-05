@@ -28,7 +28,8 @@ static NSString *const kUrlLifeRecordsPraises = @"/life_records/praises";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.fieldBackgroundView.layer.cornerRadius = self.fieldBackgroundView.viewHeight / 2;
+    self.fieldBackgroundView.layer.cornerRadius = (50 - 17) / 2;
+    
 }
 
 - (void)layoutPraisesButton:(NSInteger)praiseCount initWithSelect:(BOOL)isSelect {

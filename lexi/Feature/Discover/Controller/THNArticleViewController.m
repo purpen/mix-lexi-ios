@@ -190,6 +190,7 @@ THNCommentTableViewDelegate
         
         [self.comments addObjectsFromArray:[THNCommentModel mj_objectArrayWithKeyValuesArray:result.data[@"comments"]]];
         
+        // 最大显示三条
         if (self.comments.count > maxShowComment) {
              [self.comments removeObjectsInRange:NSMakeRange(maxShowComment, self.comments.count - maxShowComment)];
         }
@@ -427,7 +428,7 @@ THNCommentTableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.articleCellType) {
         case ArticleCellTypeArticle:
-            if (!self.lifeRecordsDetailCellHeight) {
+            if (self.lifeRecordsDetailCellHeight == 0) {
                 self.lifeRecordsDetailCellHeight = [UITableViewCell heightWithDaelContentData:self.contentModels
                                                                                          type:[self thn_getArticleContentType]];
             }
@@ -444,7 +445,7 @@ THNCommentTableViewDelegate
         case ArticleCellTypeProduct:
             return 259;
         case ArticleCellTypeStory:
-            if (!self.storyCellHeight) {
+            if (self.storyCellHeight == 0) {
                 self.storyCellHeight = [self getCellHeight:self.lifeRecords] + 10;
             }
             return self.storyCellHeight;

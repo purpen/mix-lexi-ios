@@ -78,7 +78,7 @@
             <connections>
                 <outlet property="orderNumberTextField" destination="M4p-YK-1tm" id="tlh-O9-h9A"/>
             </connections>
-            <point key="canvasLocation" x="37.5" y="-52.5"/>
+            <point key="canvasLocation" x="115" y="-62"/>
         </view>
     </objects>
     <resources>

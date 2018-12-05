@@ -109,6 +109,7 @@ UIKIT_EXTERN NSString *const THNPayMentVCPayCallback;
 UIKIT_EXTERN NSString *const AppDelegateBackgroundRemotePush;
 UIKIT_EXTERN NSString *const kChangeStatusWindowSuccess;
 UIKIT_EXTERN NSString *const THNHomeVCDidScrollView;
+UIKIT_EXTERN NSString *const THNRecommendVCRemoveTimer;
 
 #pragma mark - key
 UIKIT_EXTERN NSString *const kScrollDistance;

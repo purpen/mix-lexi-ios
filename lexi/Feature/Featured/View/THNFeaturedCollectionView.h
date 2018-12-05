@@ -29,5 +29,6 @@ typedef NS_ENUM(NSUInteger, BannerType) {
 @property (nonatomic, strong) NSArray *banners;
 @property (nonatomic, assign) BannerType bannerType;
 @property (nonatomic, weak) id <THNFeaturedCollectionViewDelegate> featuredDelegate;
+- (void)removeTimer;
 
 @end

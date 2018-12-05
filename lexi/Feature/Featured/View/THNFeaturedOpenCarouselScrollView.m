@@ -8,6 +8,7 @@
 
 #import "THNFeaturedOpenCarouselScrollView.h"
 #import "UIColor+Extension.h"
+#import "THNConst.h"
 
 #define ViewWidth self.bounds.size.width
 #define ViewHeight self.bounds.size.height
@@ -26,14 +27,15 @@
 @property(nonatomic,strong) UIView *secondView;
 @property(nonatomic,strong) UILabel *secondLabel1;
 @property(nonatomic,strong) UILabel *secondLabel2;
+@property (nonatomic, strong) NSTimer *timer;
 
 @end
 
 @implementation THNFeaturedOpenCarouselScrollView
 
-
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeTimer) name:THNRecommendVCRemoveTimer object:nil];
         self.index = 0;
         self.delegate = self;
         self.firstView.frame = CGRectMake(0, 0, Screen_Width, ViewHeight);
@@ -45,6 +47,10 @@
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (void)setDataTitleArray:(NSArray *)titleArray {
@@ -67,7 +73,12 @@
     
     self.titles = [NSMutableArray arrayWithArray:finalArray];
     [self setDataWithIndex:self.index];
-    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(nextView) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(nextView) userInfo:nil repeats:YES];
+}
+
+- (void)removeTimer {
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (void)setDataWithIndex:(int)index{

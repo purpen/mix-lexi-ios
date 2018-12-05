@@ -54,6 +54,7 @@ CGFloat const kCellGrassListHeight = 158;
 @property (assign,nonatomic) CGFloat m_dragStartX;
 @property (assign,nonatomic) CGFloat m_dragEndX;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
 
 @end
 
@@ -125,12 +126,14 @@ CGFloat const kCellGrassListHeight = 158;
 - (void)setCellTypeStyle:(FeaturedCellType)cellType initWithDataArray:(NSArray *)dataArray initWithTitle:(NSString *)title {
     self.cellType = cellType;
     self.pageControl.hidden = YES;
+    self.lineView.hidden = NO;
     
     switch (cellType) {
         case FeaturedRecommendedToday:
             self.dailyDataArray = dataArray;
             self.lookAllButton.hidden = YES;
             self.instructionImageView.hidden = YES;
+            self.lineView.hidden = YES;
             break;
         case FeaturedRecommendationPopular:
             self.lookAllButton.hidden = YES;

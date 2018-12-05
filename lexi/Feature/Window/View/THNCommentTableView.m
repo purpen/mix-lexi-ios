@@ -124,7 +124,7 @@ NSInteger const maxShowSubComment = 2;
         
         [self.subComments replaceObjectAtIndex:section withObject:array];
         [UIView performWithoutAnimation:^{
-            [self reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
+            [self reloadData];
         }];
        
     } failure:^(THNRequest *request, NSError *error) {
@@ -218,7 +218,7 @@ NSInteger const maxShowSubComment = 2;
     NSArray *sectionSubComments = self.subComments[indexPath.section];
     THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:sectionSubComments[indexPath.row]];
 
-    if (!subCommentModel.height) {
+    if (subCommentModel.height == 0) {
         if (self.commentDelegate && [self.commentDelegate respondsToSelector:@selector(lookAllSubComment)]) {
             [self.commentDelegate lookAllSubComment];
         }

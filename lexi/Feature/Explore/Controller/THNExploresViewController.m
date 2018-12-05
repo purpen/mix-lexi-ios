@@ -37,7 +37,7 @@ static CGFloat const kBannerViewSpacing = 20;
 static CGFloat const kBannerViewY = 15;
 static CGFloat const kCategoriesViewHeight = 155;
 static CGFloat const kCaregoriesCellWidth = 55;
-static CGFloat const kExploreCellTopBottomHeight = 87;
+static CGFloat const kExploreCellTopBottomHeight = 77;
 
 static NSString *const kExploreCellIdentifier = @"kExploreCellIdentifier";
 // banner
