@@ -222,12 +222,12 @@ static NSInteger const kSelectedButtonTag = 452;
     [self addSubview:self.followLabel];
     [self addSubview:self.fansLabel];
     [self addSubview:self.signatureLabel];
-    [self addSubview:self.bottomView];
     [self.bottomView addSubview:self.activityButton];
     [self.bottomView addSubview:self.orderButton];
     [self.bottomView addSubview:self.couponButton];
     [self.bottomView addSubview:self.couponDotView];
     [self.bottomView addSubview:self.serviceButton];
+    [self addSubview:self.bottomView];
     [self addSubview:self.lineView];
     [self addSubview:self.followButton];
     

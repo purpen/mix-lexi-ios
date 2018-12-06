@@ -278,7 +278,7 @@ THNMJRefreshDelegate
     
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
         shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [weakSelf presentViewController:shareVC animated:NO completion:nil];
     }];

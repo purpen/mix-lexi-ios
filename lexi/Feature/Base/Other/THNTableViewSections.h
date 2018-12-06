@@ -40,6 +40,11 @@ typedef void (^THNTableViewSectionMoreBlock)(void);
 @property (nonatomic, strong) NSString *headerTitle;
 
 /**
+ 尾部视图
+ */
+@property (nonatomic, strong) UIView *footerView;
+
+/**
  点击查看更多的回调
  */
 @property (nonatomic, copy) THNTableViewSectionMoreBlock selectedMoreCompletion;

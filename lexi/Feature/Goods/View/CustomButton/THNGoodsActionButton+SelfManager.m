@@ -25,12 +25,16 @@ static NSString *const kKeyRids = @"rids";
 @implementation THNGoodsActionButton (SelfManager)
 
 - (void)selfManagerLikeGoodsStatus:(BOOL)like goodsId:(NSString *)goodsId {
+    if (!goodsId.length) return;
+    
     self.goodsId = goodsId;
     [self setLikedGoodsStatus:like];
     [self addTarget:self action:@selector(likeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
 - (void)selfManagerLikeGoodsStatus:(BOOL)like count:(NSInteger)count goodsId:(NSString *)goodsId {
+    if (!goodsId.length) return;
+    
     self.goodsId = goodsId;
     self.likeCount = count;
     [self setLikedGoodsStatus:like count:count];
@@ -38,6 +42,8 @@ static NSString *const kKeyRids = @"rids";
 }
 
 - (void)selfManagerWishGoodsStatus:(BOOL)wish goodsId:(NSString *)goodsId {
+    if (!goodsId.length) return;
+    
     self.goodsId = goodsId;
     [self setWishGoodsStatus:wish];
     [self addTarget:self action:@selector(wishButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -86,7 +92,9 @@ static NSString *const kKeyRids = @"rids";
             if (error) return;
             
             self.likeCount -= 1;
-            self.likeGoodsCompleted(self.likeCount);
+            if (self.likeGoodsCompleted) {
+                self.likeGoodsCompleted(self.likeCount);
+            }
             [self setLikedGoodsStatus:NO count:self.likeCount];
         }];
         
@@ -96,7 +104,9 @@ static NSString *const kKeyRids = @"rids";
             if (error) return;
             
             self.likeCount += 1;
-            self.likeGoodsCompleted(self.likeCount);
+            if (self.likeGoodsCompleted) {
+                self.likeGoodsCompleted(self.likeCount);
+            }
             [self setLikedGoodsStatus:YES count:self.likeCount];
         }];
     }

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNImageCollectionViewCell.h"
 
 @protocol THNImagesViewDelegate <NSObject>
 
@@ -17,6 +18,11 @@
 @interface THNImagesView : UIView
 
 @property (nonatomic, weak) id <THNImagesViewDelegate> delegate;
+
+/**
+ 图片浏览器
+ */
+@property (nonatomic, strong) UICollectionView *imageCollecitonView;
 
 - (void)thn_setContentOffsetWithIndex:(NSInteger)index;
 

@@ -37,8 +37,6 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 
 #pragma mark - setup UI
 - (void)setupViewUI {
-    self.backgroundColor = [UIColor whiteColor];
-    
     [self addSubview:self.titleLabel];
     [self addSubview:self.moreButton];
     
@@ -47,14 +45,14 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 
 - (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(150);
-        make.top.bottom.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(150, 16));
+        make.bottom.mas_equalTo(-20);
         make.left.mas_equalTo(20);
     }];
     
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(70);
-        make.top.bottom.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(70, 40));
+        make.centerY.equalTo(self.titleLabel);
         make.right.mas_equalTo(-20);
     }];
 }
@@ -62,8 +60,7 @@ static NSString *const kMoreButtonTitle = @"查看全部";
 #pragma mark - getters and setters
 - (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
-    
-    [self setNeedsUpdateConstraints];
+    self.titleLabel.hidden = !title.length;
 }
 
 - (UILabel *)titleLabel {
@@ -71,6 +68,7 @@ static NSString *const kMoreButtonTitle = @"查看全部";
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightMedium)];
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
+        _titleLabel.hidden = YES;
     }
     return _titleLabel;
 }

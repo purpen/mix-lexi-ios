@@ -83,7 +83,7 @@
 }
 
 - (void)shareButtonAction:(UIButton *)button {
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(ShareContentTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }
@@ -111,6 +111,10 @@
     [self.view addSubview:self.buyButton];
     [self.view addSubview:self.shareButton];
     
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
     [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(66, 29));
         make.left.mas_equalTo(15);

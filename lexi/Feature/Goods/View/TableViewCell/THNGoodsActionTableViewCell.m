@@ -26,12 +26,8 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 @property (nonatomic, strong) THNGoodsActionButton *putawayButton;
 /// 是否可以上架商品
 @property (nonatomic, assign) BOOL canPutaway;
-/// 是否已加入心愿单
-@property (nonatomic, assign) BOOL isWish;
 /// 喜欢人数的宽度
 @property (nonatomic, assign) CGFloat likeCountW;
-/// 刷新加载数据
-@property (nonatomic, assign) BOOL refreshLoad;
 
 @end
 
@@ -42,21 +38,17 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     if (!cell) {
         cell = [[THNGoodsActionTableViewCell alloc] initWithStyle:style reuseIdentifier:kGoodsActionTableViewCellId];
         cell.tableView = tableView;
-        cell.refreshLoad = YES;
     }
     return cell;
 }
 
 - (void)thn_setActionButtonWithGoodsModel:(THNGoodsModel *)model {
-    if (!self.refreshLoad) {
-        return;
-    }
+    self.goodsModel = model;
     
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.canPutaway = YES;
     }
     
-    self.isWish = model.isWish;
     self.likeCountW = [self thn_getLikeButtonWidthWithLikeCount:model.likeCount];
     
     [self setNeedsUpdateConstraints];
@@ -67,14 +59,15 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     self.likeButton.likeGoodsCompleted = ^(NSInteger count) {
         weakSelf.likeCountW = [weakSelf thn_getLikeButtonWidthWithLikeCount:count];
         weakSelf.baseCell.selectedCellBlock(@"");
-        weakSelf.refreshLoad = NO;
+        weakSelf.goodsModel.isLike = !weakSelf.goodsModel.isLike;
+        weakSelf.goodsModel.likeCount = count;
         
         [weakSelf setNeedsUpdateConstraints];
     };
     
     [self.wishButton selfManagerWishGoodsStatus:model.isWish goodsId:model.rid];
     self.wishButton.wishGoodsCompleted = ^(BOOL isWish) {
-        weakSelf.isWish = isWish;
+        weakSelf.goodsModel.isWish = isWish;
         
         [weakSelf setNeedsUpdateConstraints];
     };
@@ -112,7 +105,7 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     }];
     
     [self.wishButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.isWish ? 63 : 79, 29));
+        make.size.mas_equalTo(CGSizeMake(self.goodsModel.isWish ? 63 : 79, 29));
         make.right.mas_equalTo(self.canPutaway ? -92 : -15);
         make.centerY.equalTo(self.likeButton);
     }];

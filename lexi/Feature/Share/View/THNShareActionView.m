@@ -10,12 +10,16 @@
 #import "UIColor+Extension.h"
 #import "THNMarco.h"
 #import "UIView+Helper.h"
+#import "THNShareActionCollectionViewCell.h"
 
-static NSInteger const kActionButtonTag = 2352;
+/// text
+static NSString *const kTitleSave = @"保存海报";
+/// id
+static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollectionViewCellId";
 
-@interface THNShareActionView ()
+@interface THNShareActionView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (nonatomic, strong) NSMutableArray *actionButtonArr;
+@property (nonatomic, strong) UICollectionView *actionCollectionView;
 @property (nonatomic, strong) NSArray *titlesArr;
 @property (nonatomic, strong) NSArray *imagesArr;
 
@@ -33,18 +37,16 @@ static NSInteger const kActionButtonTag = 2352;
     return self;
 }
 
-#pragma mark - event response
-- (void)actionButtonAction:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_shareView:didSelectedShareActionIndex:)]) {
-        [self.delegate thn_shareView:self didSelectedShareActionIndex:button.tag - kActionButtonTag];
-    }
+#pragma mark - public methods
+- (void)hiddenSaveImageButton {
+    
 }
 
 #pragma mark - private methods
 - (NSArray *)thn_getTitlesWithType:(THNShareActionViewType)type {
     NSArray *titles = @[@[@"微信", @"朋友圈", @"微博", @"QQ", @"QQ空间"],
                         @[@"更多分享"],
-                        @[@"保存海报", @"更多分享"]];
+                        @[kTitleSave, @"更多分享"]];
     
     return titles[(NSUInteger)type];
 }
@@ -61,7 +63,7 @@ static NSInteger const kActionButtonTag = 2352;
 - (void)setupViewUI {
     self.backgroundColor = [UIColor whiteColor];
     
-    [self thn_creatActionButtonWithTitles:self.titlesArr iconImages:self.imagesArr];
+    [self addSubview:self.actionCollectionView];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -72,34 +74,41 @@ static NSInteger const kActionButtonTag = 2352;
 }
 
 #pragma mark - getters and setters
-- (void)thn_creatActionButtonWithTitles:(NSArray *)titles iconImages:(NSArray *)iconImages {
-    CGFloat originX = (CGRectGetWidth(self.frame) - 30) / 5;
-    originX += (originX - 50) / 4;
-    CGFloat itemH = CGRectGetHeight(self.frame);
-    
-    for (NSUInteger idx = 0; idx < titles.count; idx ++) {
-        UIButton *actionButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + originX * idx, 0, 50, itemH)];
-        [actionButton setTitle:titles[idx] forState:(UIControlStateNormal)];
-        [actionButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
-        [actionButton setTitleEdgeInsets:(UIEdgeInsetsMake(70, -50, 0, 0))];
-        actionButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        [actionButton setImage:[UIImage imageNamed:iconImages[idx]] forState:(UIControlStateNormal)];
-        [actionButton setImage:[UIImage imageNamed:iconImages[idx]] forState:(UIControlStateHighlighted)];
-        actionButton.imageView.contentMode = UIViewContentModeCenter;
-        [actionButton setImageEdgeInsets:(UIEdgeInsetsMake(-25, 0, 0, 0))];
-        actionButton.tag = kActionButtonTag + idx;
-        [actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+- (UICollectionView *)actionCollectionView {
+    if (!_actionCollectionView) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.itemSize = CGSizeMake(50, CGRectGetHeight(self.frame));
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
+        flowLayout.minimumLineSpacing = (SCREEN_WIDTH - 280) / 4;
         
-        [self addSubview:actionButton];
-        [self.actionButtonArr addObject:actionButton];
+        _actionCollectionView = [[UICollectionView alloc] initWithFrame: \
+                                 CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)
+                                                   collectionViewLayout:flowLayout];
+        _actionCollectionView.delegate = self;
+        _actionCollectionView.dataSource = self;
+        _actionCollectionView.backgroundColor = [UIColor whiteColor];
+        _actionCollectionView.showsHorizontalScrollIndicator = NO;
+        [_actionCollectionView registerClass:[THNShareActionCollectionViewCell class] forCellWithReuseIdentifier:kShareActionCollectionViewCellId];
     }
+    return _actionCollectionView;
 }
 
-- (NSMutableArray *)actionButtonArr {
-    if (!_actionButtonArr) {
-        _actionButtonArr = [NSMutableArray array];
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.titlesArr.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    THNShareActionCollectionViewCell *actionCell = [collectionView dequeueReusableCellWithReuseIdentifier:kShareActionCollectionViewCellId
+                                                                                             forIndexPath:indexPath];
+    [actionCell thn_setActionImageNamed:self.imagesArr[indexPath.row] title:self.titlesArr[indexPath.row]];
+    
+    return actionCell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(thn_shareView:didSelectedShareActionIndex:)]) {
+        [self.delegate thn_shareView:self didSelectedShareActionIndex:indexPath.row];
     }
-    return _actionButtonArr;
 }
 
 @end

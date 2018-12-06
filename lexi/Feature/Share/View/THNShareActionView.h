@@ -25,6 +25,11 @@ typedef NS_ENUM(NSUInteger, THNShareActionViewType) {
 
 @property (nonatomic, weak) id <THNShareActionViewDelegate> delegate;
 
+/**
+ 隐藏保存海报的按钮
+ */
+- (void)hiddenSaveImageButton;
+
 - (instancetype)initWithFrame:(CGRect)frame type:(THNShareActionViewType)type;
 
 @end

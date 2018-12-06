@@ -50,10 +50,10 @@ static NSString *const kTextPutaway = @"上架";
     self.selected = liked;
     
     [self thn_showIcon:!liked];
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_showBorder:NO borderColor:@"#2D343A"];
     [self thn_setIconImageName:liked ? @"" : @"icon_like_white"];
     [self thn_setTitleLabelText:liked ? kTextLiked : kTextLike textColor:kColorWhite];
-    self.textLabel.textAlignment = NSTextAlignmentCenter;
     [self thn_setBackgroundColorHex:liked ? @"#2D343A" : kColorMain];
     
     [self setNeedsUpdateConstraints];
@@ -62,12 +62,22 @@ static NSString *const kTextPutaway = @"上架";
 - (void)setLikedGoodsStatus:(BOOL)liked count:(NSInteger)count {
     self.selected = liked;
     
-    [self thn_showIcon:YES];
-    [self thn_showBorder:!liked borderColor:@"#EDEDEF"];
-    [self thn_setIconImageName:liked ? @"icon_like_white" : @"icon_like_gray"];
     NSString *countStr = count > 0 ? [NSString stringWithFormat:@"+%zi", count] : kTextLike;
-    [self thn_setTitleLabelText:countStr textColor:liked ? kColorWhite : @"#949EA6"];
-    [self thn_setBackgroundColorHex:liked ? kColorMain : kColorWhite];
+    
+    [self thn_showIcon:YES];
+    
+    if (self.type == THNGoodsActionButtonTypeLikeCount) {
+        [self thn_showBorder:!liked borderColor:@"#EDEDEF"];
+        [self thn_setIconImageName:liked ? @"icon_like_white" : @"icon_like_gray"];
+        [self thn_setTitleLabelText:countStr textColor:liked ? kColorWhite : @"#949EA6"];
+        [self thn_setBackgroundColorHex:liked ? kColorMain : kColorWhite];
+        
+    } else if (self.type == THNGoodsActionButtonTypeLike) {
+        [self thn_showBorder:!liked borderColor:@"#2D343A"];
+        [self thn_setIconImageName:@"icon_like_white"];
+        [self thn_setTitleLabelText:countStr textColor:kColorWhite];
+        [self thn_setBackgroundColorHex:liked ? kColorMain : @"#2D343A"];
+    }
     
     [self setNeedsUpdateConstraints];
 }

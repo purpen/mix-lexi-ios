@@ -98,12 +98,9 @@ static NSString *const kKeyProfile      = @"profile";
 
 #pragma mark - private methods
 - (void)thn_setLoginUserData {
-    if (!self.userModel) {
-        return;
-    }
+    if (!self.userModel) return;
     
     [self.headerView thn_setUserInfoData:self.userModel];
-    self.settingTable.tableHeaderView = self.headerView;
     [self.settingTable reloadData];
 }
 
@@ -183,6 +180,7 @@ static NSString *const kKeyProfile      = @"profile";
         _settingTable.showsVerticalScrollIndicator = NO;
         _settingTable.separatorColor = [UIColor colorWithHexString:@"#E9E9E9"];
         _settingTable.tableFooterView = [UIView new];
+        _settingTable.tableHeaderView = self.headerView;
     }
     return _settingTable;
 }
@@ -190,6 +188,7 @@ static NSString *const kKeyProfile      = @"profile";
 - (THNSettingUserView *)headerView {
     if (!_headerView) {
         _headerView = [[THNSettingUserView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
+        
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(openImageController:)];
         [_headerView addGestureRecognizer:tap];

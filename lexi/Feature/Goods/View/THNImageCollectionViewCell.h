@@ -10,6 +10,8 @@
 
 @interface THNImageCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, strong) UIImageView *showImageView;
+
 - (void)thn_setImageUrl:(NSString *)url;
 
 @end

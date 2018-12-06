@@ -25,19 +25,27 @@ static NSString *const kShareFailureTitle = @"分享失败";
 @property (nonatomic, strong) NSString *shareDescr;
 @property (nonatomic, strong) UIImage *thumImage;
 @property (nonatomic, strong) NSString *shareUrl;
+@property (nonatomic, assign) THNSharePosterType posterType;
 
 @end
 
 @implementation THNShareViewController
 
-- (instancetype)initWithType:(ShareContentType)type {
+- (instancetype)initWithType:(THNSharePosterType)posterType {
     self = [super init];
     if (self) {
-        
+        self.posterType = posterType;
     }
     return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self setupUI];
+}
+
+#pragma mark - public methods
 - (void)shareObjectWithTitle:(NSString *)title
                        descr:(NSString *)descr
                    thumImage:(NSString *)thumImageStr
@@ -51,12 +59,6 @@ static NSString *const kShareFailureTitle = @"分享失败";
     } else {
         self.thumImage = [UIImage imageNamed:thumImageStr];
     }
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self setupUI];
 }
 
 #pragma mark - custom delegate
@@ -81,7 +83,12 @@ static NSString *const kShareFailureTitle = @"分享失败";
         }
         
     } else if (shareView == self.moreActionView) {
-        [self systemShare];
+        if (index == 0) {
+            [SVProgressHUD thn_showInfoWithStatus:@"保存海报"];
+            
+        } else if (index == 1) {
+            [self systemShare];
+        }
     }
 }
 
@@ -189,6 +196,10 @@ static NSString *const kShareFailureTitle = @"分享失败";
     [self.containerView addSubview:self.moreActionView];
     [self.containerView addSubview:self.cancelButton];
     [self.view addSubview:self.containerView];
+    
+    if (self.posterType == THNSharePosterTypeNone) {
+        [self.moreActionView hiddenSaveImageButton];
+    }
 }
 
 - (void)viewWillLayoutSubviews {
@@ -266,7 +277,7 @@ static NSString *const kShareFailureTitle = @"分享失败";
 - (THNShareActionView *)moreActionView {
     if (!_moreActionView) {
         _moreActionView = [[THNShareActionView alloc] initWithFrame:CGRectMake(0, 112, SCREEN_WIDTH, 112)
-                                                               type:(THNShareActionViewTypeMore)];
+                                                               type:(THNShareActionViewTypeImage)];
         _moreActionView.delegate = self;
     }
     return _moreActionView;

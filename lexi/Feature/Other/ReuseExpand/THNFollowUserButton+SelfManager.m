@@ -55,12 +55,12 @@ static NSString *const kKeyStatus   = @"followed_status";
         return;
     }
     
+    [self startLoading];
+    
     if (!self.userId.length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"用户数据错误"];
+        [self endLoading];
         return;
     }
-    
-    [self startLoading];
     
     [self requestFollowUserWithURL:self.followStatus == THNUserFollowStatusNot ? kURLFollow : kURLUnFollow
                             userId:self.userId

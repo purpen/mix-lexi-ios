@@ -92,7 +92,7 @@ MJCodingImplementation
     THNRequest *request = [THNAPI postWithUrlString:kURLAppRegister requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showErrorWithStatus:kTextRegisterError];
+            [SVProgressHUD thn_showInfoWithStatus:kTextRegisterError];
             return ;
         }
         
@@ -106,7 +106,6 @@ MJCodingImplementation
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:kTextRegisterError];
         completion(error);
     }];
 }
@@ -118,7 +117,7 @@ MJCodingImplementation
     THNRequest *request = [THNAPI postWithUrlString:kURLLogout requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
         
@@ -126,7 +125,6 @@ MJCodingImplementation
         completion(nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
         completion(error);
     }];
 }
@@ -138,7 +136,7 @@ MJCodingImplementation
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
@@ -155,15 +153,19 @@ MJCodingImplementation
         }
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD thn_showErrorWithStatus:kTextRequestError];
-        
         if (completion) {
             completion(nil, error);
         }
     }];
 }
 
+/**
+ 更新用户生活馆的状态
 
+ @param openingUser 小B用户
+ @param supplier 大B用户
+ @param storeId 生活馆 id
+ */
 - (void)updateUserLivingHallStatus:(BOOL)openingUser initSupplier:(BOOL)supplier initStoreId:(NSString *)storeId {
     self.openingUser = openingUser;
     self.storeRid = storeId;
@@ -209,6 +211,9 @@ MJCodingImplementation
     return YES;
 }
 
+/**
+ 是否首次登录
+ */
 + (BOOL)isFirstLogin {
     if ([THNLoginManager sharedManager].firstLogin == 1) {
         return YES;
@@ -216,7 +221,6 @@ MJCodingImplementation
     
     return NO;
 }
-
 
 /**
  设置友盟别名，并保存UID,当用户退出登录清空
