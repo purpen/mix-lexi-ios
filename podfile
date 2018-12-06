@@ -24,5 +24,4 @@ target "lexi" do
  pod 'WechatOpenSDK'
  pod 'MLeaksFinder'
  pod 'YYKit'
- pod 'YBImageBrowser', '~>2.0.9'
 end

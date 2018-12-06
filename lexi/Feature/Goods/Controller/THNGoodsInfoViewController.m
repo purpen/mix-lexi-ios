@@ -42,7 +42,7 @@
 #import "THNShelfViewController.h"
 #import "THNProductModel.h"
 #import "THNSaveTool.h"
-#import <YBImageBrowser/YBImageBrowser.h>
+#import "YBImageBrowser.h"
 #import "THNImagesToolBar.h"
 
 static NSInteger const kFooterHeight = 18;
@@ -854,7 +854,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     YBImageBrowseCellData *data = [YBImageBrowseCellData new];
     data.url = [NSURL URLWithString:asset.viewUrl];
     data.sourceObject = [self sourceCellWithIndex:index];
-//    [data preload];
     
     return data;
 }

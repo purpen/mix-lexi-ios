@@ -363,6 +363,8 @@ static NSInteger const kSelectedButtonTag = 452;
     [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll)
                                      width:1
                                      color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 #pragma mark - getters and setters
@@ -546,7 +548,6 @@ static NSInteger const kSelectedButtonTag = 452;
 - (THNFollowUserButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowUserButton alloc] init];
-        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }
