@@ -370,7 +370,7 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] init];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
+        _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _headerImageView.userInteractionEnabled = YES;
         _headerImageView.layer.cornerRadius = 70 / 2;
         _headerImageView.layer.masksToBounds = YES;

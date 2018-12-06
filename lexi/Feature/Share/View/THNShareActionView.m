@@ -77,9 +77,7 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 - (UICollectionView *)actionCollectionView {
     if (!_actionCollectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake(50, CGRectGetHeight(self.frame));
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
-        flowLayout.minimumLineSpacing = (SCREEN_WIDTH - 280) / 4;
+        flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH/5, CGRectGetHeight(self.frame));
         
         _actionCollectionView = [[UICollectionView alloc] initWithFrame: \
                                  CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)
