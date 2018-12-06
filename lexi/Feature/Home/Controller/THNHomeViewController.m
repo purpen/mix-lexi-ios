@@ -21,6 +21,8 @@
 #import "THNSearchViewController.h"
 #import "THNShopWindowViewController.h"
 
+static CGFloat const searchViewTopStatusBarSpacing = 18;
+
 @interface THNHomeViewController ()<THNSelectButtonViewDelegate>
 
 @property (nonatomic, strong) THNHomeSearchView *searchView;
@@ -48,9 +50,18 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setSearchAnimation:) name:THNHomeVCDidScrollView object:nil];
 }
 
+// 刷新该页面的状态(生活馆)
 - (void)refreshLayoutHomeView {
      [self claer];
-     [self setupUI];
+     [self.view addSubview:self.selectButtonView];
+     self.selectButtonView.delegate = self;
+    
+     // 退出登录等等重新进入该视图,searchView隐藏的话，重新设置selectButtonView的Y
+     if (self.searchView.viewY < 0) {
+        self.selectButtonView.viewY = kDeviceiPhoneX ? searchViewTopStatusBarSpacing : 0;
+     }
+    
+     [self setHomeChildVC];
 }
 
 - (void)setSearchAnimation:(NSNotification *)notification {
@@ -59,12 +70,10 @@
     // 上滑
     if (scrollDistance > 0) {
         [UIView animateWithDuration:0.15 animations:^{
-            self.searchView.viewY = kDeviceiPhoneX ? - 18 - 44 : -18 - 22;;
-            self.selectButtonView.viewY = kDeviceiPhoneX ? 18 : 0;
+            self.searchView.viewY = kDeviceiPhoneX ? - searchViewTopStatusBarSpacing - 44 : -searchViewTopStatusBarSpacing - 22;;
+            self.selectButtonView.viewY = kDeviceiPhoneX ? searchViewTopStatusBarSpacing : 0;
             self.lineView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
             self.publicView.viewY = CGRectGetMaxY(self.lineView.frame);
-            
-            
         }];
         
         self.publicView.viewHeight = kDeviceiPhoneX ? SCREEN_HEIGHT - self.lineView.viewY - 80 : SCREEN_HEIGHT - self.lineView.viewY - 50;
@@ -73,7 +82,7 @@
     } else if (scrollDistance < 0) {
         
         [UIView animateWithDuration:0.15 animations:^{
-            self.searchView.viewY = 18 + STATUS_BAR_HEIGHT;
+            self.searchView.viewY = searchViewTopStatusBarSpacing + STATUS_BAR_HEIGHT;
             self.selectButtonView.viewY = CGRectGetMaxY(self.searchView.frame) - 10;
             self.lineView.viewY = CGRectGetMaxY(self.selectButtonView.frame);
             self.publicView.viewY = CGRectGetMaxY(self.lineView.frame);
@@ -81,8 +90,6 @@
         
             self.publicView.viewHeight = self.publicViewHeight - 60;
     }
-  
-    
 }
 
 // 登录成功刷新，清空再去更新视图
@@ -93,6 +100,7 @@
     [self.livingHall removeFromParentViewController];
     [self.explore removeFromParentViewController];
     [self.showWindow removeFromParentViewController];
+    [self.publicView removeAllSubviews];
 }
 
 - (void)setupUI {
@@ -116,6 +124,10 @@
         make.top.equalTo(lineView.mas_bottom);
     }];
     
+    [self setHomeChildVC];
+}
+
+- (void)setHomeChildVC {
     if ([THNLoginManager sharedManager].openingUser) {
         THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
         [self addChildViewController:livingHall];
@@ -127,7 +139,7 @@
     [self addChildViewController:explore];
     THNShopWindowViewController *showWindow = [[THNShopWindowViewController alloc]init];
     [self addChildViewController:showWindow];
-   
+    
     self.featured = featured;
     self.explore = explore;
     self.showWindow = showWindow;
@@ -154,7 +166,7 @@
 - (THNHomeSearchView *)searchView {
     if (!_searchView) {
         _searchView = [[THNHomeSearchView alloc]
-                       initWithFrame:CGRectMake(20,  18 + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
+                       initWithFrame:CGRectMake(20,  searchViewTopStatusBarSpacing + STATUS_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
         [_searchView setSearchType:SearchTypeHome];
     }
     return _searchView;

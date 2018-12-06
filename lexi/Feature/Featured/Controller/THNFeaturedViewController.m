@@ -41,7 +41,7 @@
 #import "THNSelectButtonView.h"
 
 // cell共用上下的高
-static CGFloat const kFeaturedCellTopBottomHeight = 90;
+static CGFloat const kFeaturedCellTopBottomHeight = 80;
 static CGFloat const kPopularFooterViewHeight = 180;
 static CGFloat const kFeaturedX = 20;
 static NSString *const kFeaturedCellIdentifier = @"kFeaturedCellIdentifier";
@@ -366,18 +366,21 @@ THNActivityViewDelegate
 #pragma mark - UITableView mehtod 实现
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
-        headerView.backgroundColor = [UIColor whiteColor];
-        self.featuredCollectionView.featuredDelegate = self;
+        UIView *headerView;
         
-        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
-            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeProductCenterType];
+        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
+             [headerView addSubview:self.openingView];
+             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+            
         } else {
-            [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.featuredCollectionView.frame) + 10)];
         }
         
+        self.featuredCollectionView.featuredDelegate = self;
+        headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
-        [headerView addSubview:self.openingView];
+        
         __weak typeof(self)weakSelf = self;
         self.openingView.openingBlcok = ^{
             
@@ -401,7 +404,13 @@ THNActivityViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return CGRectGetMaxY(self.openingView.frame) + 10;
+        
+        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+             return CGRectGetMaxY(self.openingView.frame) + 10;
+        } else {
+             return CGRectGetMaxY(self.featuredCollectionView.frame) + 10;
+        }
+       
     } else {
         return 0;
     }
@@ -681,13 +690,7 @@ THNActivityViewDelegate
 - (THNFeaturedOpeningView *)openingView {
     if (!_openingView) {
         _openingView = [THNFeaturedOpeningView viewFromXib];
-        
-        if ([THNLoginManager sharedManager].openingUser || [THNLoginManager sharedManager].supplier) {
-            _openingView.topTintView.hidden = YES;
-            _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 70);
-        } else {
-             _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
-        }
+        _openingView.frame = CGRectMake(15, CGRectGetMaxY(self.featuredCollectionView.frame) + 20, SCREEN_WIDTH - 30, 135);
     }
     
     return _openingView;

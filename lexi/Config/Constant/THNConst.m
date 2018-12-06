@@ -34,6 +34,12 @@ NSString *const kShareGrassUrlPrefix    = @"https://h5.lexivip.com/article/grass
 NSString *const kShareProductUrlPrefix  = @"https://h5.lexivip.com/product_view?rid=";
 // 个人主页
 NSString *const kShareUserUrlPrefix     = @"https://h5.lexivip.com/user/home?uid=";
+// 橱窗
+NSString *const kShareShowWindowPrefix  = @"https://h5.lexivip.com/shop/window?rid=";
+// 集合
+NSString *const kShareCollectionPrefix  = @"https://h5.lexivip.com/collection?id=";
+// 品牌馆
+NSString *const kShareBrandHallPrefix   = @"https://h5.lexivip.com/brand_pavilion?rid=";
 
 #pragma mark - 测试账号
 /**
@@ -127,6 +133,7 @@ NSString *const THNPayMentVCPayCallback         = @"THNPayMentVCPayCallback";
 NSString *const AppDelegateBackgroundRemotePush = @"AppDelegateBackgroundRemotePush";
 NSString *const kChangeStatusWindowSuccess      = @"kChangeStatusWindowSuccess";
 NSString *const THNHomeVCDidScrollView          = @"THNHomeVCDidScrollView";
+NSString *const THNRecommendVCRemoveTimer       = @"THNRecommendVCRemoveTimer";
 
 #pragma mark - key
 NSString *const kScrollDistance                 = @"scrollDistance";

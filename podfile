@@ -10,7 +10,6 @@ target "lexi" do
  pod 'MJExtension', '~> 3.0.15'
  pod 'IQKeyboardManager', '~> 4.0.10'
  pod 'SVProgressHUD', '~> 2.2.5'
- pod 'YYKit'
  pod "Qiniu", "~> 7.1"
  pod 'DateTools'
  pod 'HMSegmentedControl'
@@ -23,7 +22,7 @@ target "lexi" do
  pod 'UMCShare/Social/ReducedQQ'
  pod 'UMCShare/Social/ReducedSina'
  pod 'WechatOpenSDK'
- pod 'YBImageBrowser'
  pod 'MLeaksFinder'
- 
+ pod 'YYKit'
+ pod 'YBImageBrowser', '~>2.0.9'
 end

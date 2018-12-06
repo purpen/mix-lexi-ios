@@ -65,7 +65,7 @@
 - (THNHomeSearchView *)searchView {
     if (!_searchView) {
         _searchView = [[THNHomeSearchView alloc]
-                       initWithFrame:CGRectMake(20, 10 + NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 34)];
+                       initWithFrame:CGRectMake(20, 10 + NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH - 20 * 2, 40)];
         [_searchView setSearchType:SearchTypeProductCenter];
     }
     return _searchView;

@@ -116,8 +116,8 @@ static NSString *const kOrderDetailCellIdentifier = @"kOrderDetailCellIdentifier
     } else {
         cell.logisticsView.hidden = NO;
     }
-    
-    if (self.detailModel.user_order_status == OrderStatusReceipt) {
+    // 业务订单详情为发货也显示物流跟踪按钮
+    if (self.detailModel.user_order_status == OrderStatusReceipt || self.detailModel.user_order_status == OrderStatusEvaluation ||self.detailModel.user_order_status == OrderStatusFinish) {
         cell.logisticsButton.hidden = NO;
     } else {
         cell.logisticsButton.hidden = YES;

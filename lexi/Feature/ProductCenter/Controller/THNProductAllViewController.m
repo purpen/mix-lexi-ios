@@ -154,11 +154,12 @@ static CGFloat interitemSpacing = 10;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     THNProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCenterCellIdentifier forIndexPath:indexPath];
     
+    WEAKSELF;
     cell.shelfBlock = ^(THNProductCollectionViewCell *cell) {
-        THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];
+        THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:weakSelf.dataArray[indexPath.row]];
         THNShelfViewController *shelf = [[THNShelfViewController alloc]init];
         shelf.productModel = productModel;
-        [self.navigationController pushViewController:shelf animated:YES];
+        [weakSelf.navigationController pushViewController:shelf animated:YES];
     };
     
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.dataArray[indexPath.row]];

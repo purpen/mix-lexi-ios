@@ -33,6 +33,12 @@ UIKIT_EXTERN NSString *const kShareGrassUrlPrefix;
 UIKIT_EXTERN NSString *const kShareProductUrlPrefix;
 // 个人主页
 UIKIT_EXTERN NSString *const kShareUserUrlPrefix;
+// 橱窗
+UIKIT_EXTERN NSString *const kShareShowWindowPrefix;
+// 集合
+UIKIT_EXTERN NSString *const kShareCollectionPrefix;
+// 品牌馆
+UIKIT_EXTERN NSString *const kShareBrandHallPrefix;
 
 #pragma mark - App 公共参数
 UIKIT_EXTERN NSInteger const kAppDebug;
@@ -109,6 +115,7 @@ UIKIT_EXTERN NSString *const THNPayMentVCPayCallback;
 UIKIT_EXTERN NSString *const AppDelegateBackgroundRemotePush;
 UIKIT_EXTERN NSString *const kChangeStatusWindowSuccess;
 UIKIT_EXTERN NSString *const THNHomeVCDidScrollView;
+UIKIT_EXTERN NSString *const THNRecommendVCRemoveTimer;
 
 #pragma mark - key
 UIKIT_EXTERN NSString *const kScrollDistance;

@@ -25,6 +25,7 @@
 #import "THNOrderPayView.h"
 #import "THNOrderDetailModel.h"
 #import "THNPayManger.h"
+#import "THNObtainedView.h"
 
 static NSString *const kOrderSubCellIdentifier = @"kOrderSubCellIdentifier";
 static NSString *const kUrlOrdersIsMergePay = @"/orders/app_pay/is_merge";
@@ -260,9 +261,16 @@ CGFloat orderCellLineSpacing = 10;
 - (IBAction)backGroundButton:(id)sender {
     switch (self.ordersModel.user_order_status) {
         case OrderStatusWaitDelivery:
-        case OrderStatusReceipt:
-            [self loadOrdersSignedData];
+        case OrderStatusReceipt:{
+            THNObtainedView *obtainedMuseumView = [THNObtainedView sharedManager];
+            [obtainedMuseumView show:@"请你再次确认商品已签收" withRightButtonTitle:@"取消" withLeftButtonTitle:@"确认收货"];
+            
+            obtainedMuseumView.obtainedleftBlock  = ^{
+                [self loadOrdersSignedData];
+            };
+            
             break;
+        }
         case OrderStatusEvaluation:
             if (self.delegate && [self.delegate respondsToSelector:@selector(pushEvaluation:initWithRid:)]) {
                 [self.delegate pushEvaluation:self.products initWithRid:self.ordersModel.rid];

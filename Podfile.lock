@@ -21,35 +21,35 @@ PODS:
   - IQKeyboardManager (4.0.13)
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
-  - MJRefresh (3.1.15.3)
+  - MJRefresh (3.1.15.7)
   - MLeaksFinder (1.0.0):
     - FBRetainCycleDetector
-  - Qiniu (7.2.4):
+  - Qiniu (7.2.5):
     - HappyDNS (~> 0.3)
-  - SDWebImage (4.4.1):
-    - SDWebImage/Core (= 4.4.1)
-  - SDWebImage/Core (4.4.1)
+  - SDWebImage (4.4.3):
+    - SDWebImage/Core (= 4.4.3)
+  - SDWebImage/Core (4.4.3)
   - SVProgressHUD (2.2.5)
-  - UMCAnalytics (5.5.0):
+  - UMCAnalytics (5.5.2):
     - UMCCommon
-  - UMCCommon (1.5.2)
+  - UMCCommon (1.5.3)
   - UMCErrorCatch (1.0.0):
     - UMCCommon
-  - UMCPush (3.2.2):
+  - UMCPush (3.2.3):
     - UMCCommon
   - UMCSecurityPlugins (1.0.6)
-  - UMCShare/Core (6.9.3):
+  - UMCShare/Core (6.9.5):
     - UMCCommon
-  - UMCShare/Social/ReducedQQ (6.9.3):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedSina (6.9.3):
+  - UMCShare/Social/ReducedQQ (6.9.5):
     - UMCCommon
     - UMCShare/Core
-  - UMCShare/Social/ReducedWeChat (6.9.3):
+  - UMCShare/Social/ReducedSina (6.9.5):
     - UMCCommon
     - UMCShare/Core
-  - WechatOpenSDK (1.8.2)
+  - UMCShare/Social/ReducedWeChat (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+  - WechatOpenSDK (1.8.3)
   - YBImageBrowser (2.0.9):
     - SDWebImage
     - YYImage
@@ -81,7 +81,7 @@ DEPENDENCIES:
   - UMCShare/Social/ReducedSina
   - UMCShare/Social/ReducedWeChat
   - WechatOpenSDK
-  - YBImageBrowser
+  - YBImageBrowser (~> 2.0.9)
   - YYKit
 
 SPEC REPOS:
@@ -119,22 +119,22 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
-  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
-  Qiniu: 65384bca1cdb0480a68d9b9b8f54db53418c0355
-  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
+  Qiniu: 909b408ee489ea54827e9717be90b94bc9dfbc48
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  UMCAnalytics: 4667788559a72f2fa5077117d1b8802a3b6eb6bb
-  UMCCommon: 4392868ac47ff1b101663106bb114ba616fabbad
+  UMCAnalytics: 6654fd3c8201ff6da5c86a3ae29cd5c8436d3b7b
+  UMCCommon: 016af43c0f769feb1ae1861d65aaf2b23b89c9c7
   UMCErrorCatch: 51f1b68f920233e90a3fa6d51f0456174507ec78
-  UMCPush: 5ab89bdbcc1fe90b1c669ff79213b44dc4821ec5
+  UMCPush: 628b5c61be5a5036cb31eb9b3a3ab8dce7521691
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMCShare: 023886b10d11119331c9c46d8e8a0c31fe67c23e
-  WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
+  UMCShare: 552b29753f1b4da87b51d96545ed19e6263df397
+  WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
   YBImageBrowser: 6a77dfbff275d4b2c4a9a845f9181c898dbad34d
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 5ff50f1c6219cf22bdf7eeb37916343b83d09aa3
+PODFILE CHECKSUM: b82f02acf37f0f97ec5c3936f6b3b7a7354d5b4a
 
 COCOAPODS: 1.5.3
