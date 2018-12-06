@@ -24,7 +24,8 @@
 #import "THNLoginViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNReleaseWindowViewController.h"
-#import "THNShareImageViewController.h"
+#import "THNShareViewController.h"
+#import "THNShopWindowModel.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -193,12 +194,15 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [weakSelf.navigationController pushViewController:comment animated:YES];
     };
     
-    cell.shareBlock = ^(NSString *rid) {
-        if (!rid.length) return;
-        
-        THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeWindow)
-                                                                                            requestId:rid];
-        [weakSelf presentViewController:shareImageVC animated:NO completion:nil];
+    cell.shareBlock = ^(THNShopWindowModel *shopWindowModel) {
+        if (!shopWindowModel.rid.length) return;
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+        [shareVC shareObjectWithTitle:shopWindowModel.title
+                                descr:shopWindowModel.des
+                            thumImage:shopWindowModel.product_covers[0]
+                               webUrl:[kShareShowWindowPrefix stringByAppendingString:shopWindowModel.rid]];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:shareVC animated:NO completion:nil];
     };
     
     return cell;

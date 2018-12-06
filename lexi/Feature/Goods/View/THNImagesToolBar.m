@@ -14,7 +14,7 @@
 #import "THNGoodsActionButton+SelfManager.h"
 
 @interface THNImagesToolBar () {
-    id <YBImageBrowserCellDataProtocol> _data;
+//    id <YBImageBrowserCellDataProtocol> _data;
 }
 
 /// 商品数据

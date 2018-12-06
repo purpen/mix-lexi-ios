@@ -268,7 +268,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 
 - (IBAction)share:(id)sender {
     if (self.shareBlock) {
-        self.shareBlock(self.shopWindowModel.rid);
+        self.shareBlock(self.shopWindowModel);
     }
 }
 

@@ -557,8 +557,11 @@ THNCommentTableViewDelegate
     } else if (self.grassListModel.type == DisCoverContentTypeGrassList) {
         shareUrlPrefix = kShareGrassUrlPrefix;
     }
-
-    [shareVC shareObjectWithTitle:self.grassListModel.title descr:self.grassListModel.des thumImage:self.grassListModel.cover webUrl:[shareUrlPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",self.rid]]];
+    
+    [shareVC shareObjectWithTitle:self.grassListModel.title
+                            descr:self.grassListModel.des
+                        thumImage:self.grassListModel.cover
+                           webUrl:[shareUrlPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",self.rid]]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }

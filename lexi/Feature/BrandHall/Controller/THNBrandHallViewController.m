@@ -32,6 +32,7 @@
 #import "THNBrandHallStoryViewController.h"
 #import "UIViewController+THNHud.h"
 #import "THNShareViewController.h"
+#import "THNConst.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -274,11 +275,15 @@ THNMJRefreshDelegate
 - (void)setupUI {
     self.brandShowType = BrandShowTypeProduct;
     self.navigationBarView.delegate = self;
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share"];
     
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+        [shareVC shareObjectWithTitle:weakSelf.offcialStoreModel.name
+                                descr:weakSelf.offcialStoreModel.tag_line
+                            thumImage:weakSelf.offcialStoreModel.logo
+                               webUrl:[kShareBrandHallPrefix stringByAppendingString:weakSelf.rid]];
         shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [weakSelf presentViewController:shareVC animated:NO completion:nil];
     }];

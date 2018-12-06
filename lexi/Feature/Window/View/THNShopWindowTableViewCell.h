@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
 
 typedef void(^ContentBlock)(void);
 typedef void(^ShopWindowCellBlock)(NSString *rid);
-typedef void(^ShopWindowShareBlock)(NSString *rid);
+typedef void(^ShopWindowShareBlock)(THNShopWindowModel *shopWindowModel);
 
 @interface THNShopWindowTableViewCell : UITableViewCell
 

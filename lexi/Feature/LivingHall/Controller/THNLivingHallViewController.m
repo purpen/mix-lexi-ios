@@ -146,6 +146,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     params[@"page"] = @(self.pageCount);
     params[@"per_page"] = @(self.curatorPerPageCount);
     params[@"sid"] = [THNLoginManager sharedManager].storeRid;
+    params[@"is_distributed"] = @(2);
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {

@@ -13,6 +13,7 @@
 #import "UIImageView+WebImage.h"
 #import "UIViewController+THNHud.h"
 #import "THNGoodsInfoViewController.h"
+#import "THNShareViewController.h"
 
 static NSString *const kSetDetailProductCellIdentifier = @"kSetDetailProductCellIdentifier";
 static NSString *const kSetDetailHeaderViewIdentifier = @"kSetDetailHeaderViewIdentifier";
@@ -47,8 +48,20 @@ THNMJRefreshDelegate
 
 - (void)setupUI {
     self.navigationBarView.delegate = self;
-    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share_gray"];
+    [self.navigationBarView setNavigationRightButtonOfImageNamed:@"icon_share"];
     self.navigationBarView.title = @"集合";
+    
+    WEAKSELF;
+    [self.navigationBarView didNavigationRightButtonCompletion:^{
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+        [shareVC shareObjectWithTitle:weakSelf.setTitle
+                                descr:nil
+                            thumImage:weakSelf.cover
+                               webUrl:[kShareCollectionPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",weakSelf.collectionID]]];
+        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:shareVC animated:NO completion:nil];
+    }];
+    
     [self.view addSubview:self.collectionView];
     [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSetDetailProductCellIdentifier];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSetDetailHeaderViewIdentifier];
