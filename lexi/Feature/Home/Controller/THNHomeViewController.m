@@ -88,7 +88,10 @@ static CGFloat const searchViewTopStatusBarSpacing = 18;
             self.publicView.viewY = CGRectGetMaxY(self.lineView.frame);
         }];
         
+        if (self.publicViewHeight) {
             self.publicView.viewHeight = self.publicViewHeight - 60;
+        }
+        
     }
 }
 

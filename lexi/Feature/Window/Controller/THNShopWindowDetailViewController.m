@@ -24,7 +24,7 @@
 #import "THNToolBarView.h"
 #import "THNCommentTableView.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
-#import "THNShareImageViewController.h"
+#import "THNShareViewController.h"
 #import "THNLoginManager.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
@@ -186,9 +186,13 @@ THNCommentTableViewDelegate
 - (IBAction)share:(id)sender {
     if (!self.shopWindowModel.rid.length) return;
     
-    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeWindow)
-                                                                                        requestId:self.shopWindowModel.rid];
-    [self presentViewController:shareImageVC animated:NO completion:nil];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+    [shareVC shareObjectWithTitle:self.shopWindowModel.title
+                            descr:self.shopWindowModel.des
+                        thumImage:self.shopWindowModel.product_covers[0]
+                           webUrl:[kShareShowWindowPrefix stringByAppendingString:self.shopWindowModel.rid]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 //猜你喜欢
