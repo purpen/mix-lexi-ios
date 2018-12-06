@@ -20,8 +20,8 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 @interface THNShareActionView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *actionCollectionView;
-@property (nonatomic, strong) NSArray *titlesArr;
-@property (nonatomic, strong) NSArray *imagesArr;
+@property (nonatomic, strong) NSMutableArray *titlesArr;
+@property (nonatomic, strong) NSMutableArray *imagesArr;
 
 @end
 
@@ -30,8 +30,8 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 - (instancetype)initWithFrame:(CGRect)frame type:(THNShareActionViewType)type {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titlesArr = [self thn_getTitlesWithType:type];
-        self.imagesArr = [self thn_getImagesWithType:type];
+        self.titlesArr = [NSMutableArray arrayWithArray:[self thn_getTitlesWithType:type]];
+        self.imagesArr = [NSMutableArray arrayWithArray:[self thn_getImagesWithType:type]];
         [self setupViewUI];
     }
     return self;
@@ -39,7 +39,12 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 
 #pragma mark - public methods
 - (void)hiddenSaveImageButton {
+    if (![self.titlesArr[0] isEqualToString:kTitleSave]) return;
     
+    [self.titlesArr removeObjectAtIndex:0];
+    [self.imagesArr removeObjectAtIndex:0];
+    
+    [self.actionCollectionView reloadData];
 }
 
 #pragma mark - private methods
