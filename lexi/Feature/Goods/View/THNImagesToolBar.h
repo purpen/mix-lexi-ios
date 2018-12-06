@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "THNGoodsModel.h"
-#import <YBImageBrowser/YBImageBrowserToolBarProtocol.h>
+#import "YBImageBrowserToolBarProtocol.h"
 
 @protocol THNImagesToolBarDelegate <NSObject>
 

@@ -427,7 +427,7 @@
 		4BF3D78C21916EA5001B67E2 /* THNCommentSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78B21916EA5001B67E2 /* THNCommentSectionHeaderView.xib */; };
 		4BF3D79021928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF3D78E21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m */; };
 		4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78F21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib */; };
-		CDF3D32521A05556003D841A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		CDF3D32521A05556003D841A /* (null) in Resources */ = {isa = PBXBuildFile; };
 		CDF3D33321B01A1A003D841A /* THNAdvertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32921B01A18003D841A /* THNAdvertManager.m */; };
 		CDF3D33421B01A1A003D841A /* THNAdvertCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32D21B01A18003D841A /* THNAdvertCouponViewController.m */; };
 		CDF3D33521B01A1A003D841A /* THNAdvertCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */; };
@@ -3706,7 +3706,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EECADA20D9E7F900BB63F4 /* Build configuration list for PBXNativeTarget "lexi" */;
 			buildPhases = (
-				98FA049B88E3E9349E6F962E /* [CP] Check Pods Manifest.lock */,
 				D8EECAC020D9E7F800BB63F4 /* Sources */,
 				D8EECAC120D9E7F800BB63F4 /* Frameworks */,
 				D8EECAC220D9E7F800BB63F4 /* Resources */,
@@ -3836,7 +3835,7 @@
 				4BC7D19D21A52FBD00F22440 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				4BECF184217F1401008E5E28 /* THNArticleStoreTableViewCell.xib in Resources */,
-				CDF3D32521A05556003D841A /* BuildFile in Resources */,
+				CDF3D32521A05556003D841A /* (null) in Resources */,
 				4BECF16D217F1401008E5E28 /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF169217F1401008E5E28 /* THNBrandHallFeaturesTableViewCell.xib in Resources */,
@@ -3917,24 +3916,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lexi/Pods-lexi-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		98FA049B88E3E9349E6F962E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-lexi-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -4528,7 +4509,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -4631,7 +4612,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

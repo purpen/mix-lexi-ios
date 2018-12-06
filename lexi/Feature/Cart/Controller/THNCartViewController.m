@@ -18,7 +18,7 @@
 #import "THNCartDefaultView.h"
 #import "UIScrollView+THNMJRefresh.h"
 
-#define kTextGoodsCount(count) [NSString stringWithFormat:@"%zi件礼品", count]
+#define kTextGoodsCount(count) [NSString stringWithFormat:@"%zi件商品", count]
 
 static NSString *const kTextEdit = @"编辑";
 static NSString *const kTextDone = @"完成";

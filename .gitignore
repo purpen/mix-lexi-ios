@@ -1,3 +1,7 @@
+analysis.sh
+compile_commands.json
+xcodebuild.log
+
 # Xcode
 .DS_Store
 */build/*

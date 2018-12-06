@@ -363,6 +363,8 @@ static NSInteger const kSelectedButtonTag = 452;
     [self.dynamicButton drawViewBorderType:(UIViewBorderLineTypeAll)
                                      width:1
                                      color:[UIColor colorWithHexString:@"#EDEDEF"]];
+    
+    [self.followButton drawCornerWithType:(UILayoutCornerRadiusAll) radius:4];
 }
 
 #pragma mark - getters and setters
@@ -370,7 +372,7 @@ static NSInteger const kSelectedButtonTag = 452;
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] init];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#EDEDEF"];
+        _headerImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _headerImageView.userInteractionEnabled = YES;
         _headerImageView.layer.cornerRadius = 70 / 2;
         _headerImageView.layer.masksToBounds = YES;
@@ -546,7 +548,6 @@ static NSInteger const kSelectedButtonTag = 452;
 - (THNFollowUserButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowUserButton alloc] init];
-        _followButton.layer.cornerRadius = 4;
     }
     return _followButton;
 }
