@@ -14,7 +14,6 @@
 
 @interface THNDoneButton ()
 
-/// 主按钮
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, copy) void (^doneHandle)(void);
 /// 高斯模糊背景
@@ -32,7 +31,7 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame withTitle:(NSString *)title completion:(void (^)(void))completion {
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title completion:(void (^)(void))completion {
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];

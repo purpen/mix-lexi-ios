@@ -17,9 +17,6 @@
 
 /**
  根据占位文字初始化
-
- @param placeholder 占位文字
- @return self
  */
 - (instancetype)initWithPlaceholderText:(NSString *)placeholder;
 

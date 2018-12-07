@@ -10,9 +10,7 @@
 
 @interface THNLoginBaseView ()
 
-/// 标题
 @property (nonatomic, strong) UILabel *titleLabel;
-/// 副标题
 @property (nonatomic, strong) UILabel *subTitleLabel;
 
 @end
@@ -36,13 +34,18 @@
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleLabel];
+    [self addSubview:self.subTitleLabel];
+
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(250, 30));
         make.left.mas_equalTo(20);
         make.top.mas_equalTo(kDeviceiPhoneX ? 104 : 84);
     }];
     
-    [self addSubview:self.subTitleLabel];
     [self.subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 12));
         make.left.mas_equalTo(20);
@@ -55,6 +58,14 @@
     self.titleLabel.text = title;
 }
 
+- (void)setSubTitle:(NSString *)subTitle {
+    self.subTitleLabel.text = subTitle;
+    
+    if (subTitle.length) {
+        self.subTitleLabel.hidden = NO;
+    }
+}
+
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
@@ -62,14 +73,6 @@
         _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
     }
     return _titleLabel;
-}
-
-- (void)setSubTitle:(NSString *)subTitle {
-    self.subTitleLabel.text = subTitle;
-    
-    if (subTitle.length) {
-        self.subTitleLabel.hidden = NO;
-    }
 }
 
 - (UILabel *)subTitleLabel {

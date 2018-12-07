@@ -6,19 +6,6 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		D822535E21B920590021D81A /* OCLint */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = D822535F21B920590021D81A /* Build configuration list for PBXAggregateTarget "OCLint" */;
-			buildPhases = (
-			);
-			dependencies = (
-			);
-			name = OCLint;
-			productName = OCLint;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		4B24D3A4219A677500525A05 /* THNReleaseWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B24D3A2219A677500525A05 /* THNReleaseWindowViewController.m */; };
 		4B24D3A5219A677500525A05 /* THNReleaseWindowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B24D3A3219A677500525A05 /* THNReleaseWindowViewController.xib */; };
@@ -160,7 +147,7 @@
 		4B27B407218717D1004AF42F /* THNPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF7B217F1401008E5E28 /* THNPhotoManager.m */; };
 		4B27B408218717D1004AF42F /* THNAuthCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF7E217F1401008E5E28 /* THNAuthCodeButton.m */; };
 		4B27B409218717D1004AF42F /* THNDoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF80217F1401008E5E28 /* THNDoneButton.m */; };
-		4B27B40A218717D1004AF42F /* THNFindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF82217F1401008E5E28 /* THNFindPassword.m */; };
+		4B27B40A218717D1004AF42F /* THNFindPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF82217F1401008E5E28 /* THNFindPasswordView.m */; };
 		4B27B40B218717D1004AF42F /* THNLoginBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF84217F1401008E5E28 /* THNLoginBaseView.m */; };
 		4B27B40C218717D1004AF42F /* THNLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF86217F1401008E5E28 /* THNLoginView.m */; };
 		4B27B40D218717D1004AF42F /* THNNewUserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF88217F1401008E5E28 /* THNNewUserInfoView.m */; };
@@ -169,7 +156,6 @@
 		4B27B410218717D1004AF42F /* THNSignInView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF8E217F1401008E5E28 /* THNSignInView.m */; };
 		4B27B411218717D1004AF42F /* THNSignUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF90217F1401008E5E28 /* THNSignUpView.m */; };
 		4B27B412218717D1004AF42F /* THNZipCodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF92217F1401008E5E28 /* THNZipCodeTableViewCell.m */; };
-		4B27B413218717D1004AF42F /* THNZipCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF94217F1401008E5E28 /* THNZipCodeView.m */; };
 		4B27B414218717D1004AF42F /* THNAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF98217F1401008E5E28 /* THNAddressViewController.m */; };
 		4B27B416218717D1004AF42F /* THNMyCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEF9E217F1401008E5E28 /* THNMyCenterViewController.m */; };
 		4B27B418218717D1004AF42F /* THNNewShippingAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BECEFA2217F1401008E5E28 /* THNNewShippingAddressViewController.m */; };
@@ -480,6 +466,7 @@
 		D805160F21ABC5CE002460A5 /* THNFollowStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D80515F621ABC5CD002460A5 /* THNFollowStoreTableViewCell.m */; };
 		D81A7236211967400056D8B8 /* apply_header_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A72342119673F0056D8B8 /* apply_header_image@3x.png */; };
 		D81A7237211967400056D8B8 /* apply_header_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D81A7235211967400056D8B8 /* apply_header_image@2x.png */; };
+		D822536B21BA0FD20021D81A /* THNBindPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D822536A21BA0FD20021D81A /* THNBindPhoneViewController.m */; };
 		D82C015A21956207009F905F /* THNMyCouponDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015721956207009F905F /* THNMyCouponDefaultView.m */; };
 		D82C015F2195623C009F905F /* THNMyCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C015E2195623C009F905F /* THNMyCouponTableViewCell.m */; };
 		D82C0187219AB0E0009F905F /* THNLikedGoodsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D82C016C219AB0E0009F905F /* THNLikedGoodsCollectionViewCell.m */; };
@@ -516,6 +503,7 @@
 		D85DA80B2106030200A36A71 /* login_background_image_x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */; };
 		D85DA80C2106030200A36A71 /* login_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D22106030100A36A71 /* login_background_image@3x.png */; };
 		D85DA80D2106030200A36A71 /* login_background_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D85DA7D32106030100A36A71 /* login_background_image@2x.png */; };
+		D85E2B0C21BA47240092732E /* THNBindPhoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85E2B0B21BA47240092732E /* THNBindPhoneView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8A26A8221B919BE00AADDEF /* YBImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A26A4621B919BE00AADDEF /* YBImageBrowser.m */; };
 		D8A26A8321B919BE00AADDEF /* YBVideoBrowseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A26A4F21B919BE00AADDEF /* YBVideoBrowseCell.m */; };
@@ -937,8 +925,8 @@
 		4BECEF7E217F1401008E5E28 /* THNAuthCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAuthCodeButton.m; sourceTree = "<group>"; };
 		4BECEF7F217F1401008E5E28 /* THNDoneButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNDoneButton.h; sourceTree = "<group>"; };
 		4BECEF80217F1401008E5E28 /* THNDoneButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNDoneButton.m; sourceTree = "<group>"; };
-		4BECEF81217F1401008E5E28 /* THNFindPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFindPassword.h; sourceTree = "<group>"; };
-		4BECEF82217F1401008E5E28 /* THNFindPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFindPassword.m; sourceTree = "<group>"; };
+		4BECEF81217F1401008E5E28 /* THNFindPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFindPasswordView.h; sourceTree = "<group>"; };
+		4BECEF82217F1401008E5E28 /* THNFindPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNFindPasswordView.m; sourceTree = "<group>"; };
 		4BECEF83217F1401008E5E28 /* THNLoginBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLoginBaseView.h; sourceTree = "<group>"; };
 		4BECEF84217F1401008E5E28 /* THNLoginBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLoginBaseView.m; sourceTree = "<group>"; };
 		4BECEF85217F1401008E5E28 /* THNLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLoginView.h; sourceTree = "<group>"; };
@@ -955,8 +943,6 @@
 		4BECEF90217F1401008E5E28 /* THNSignUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNSignUpView.m; sourceTree = "<group>"; };
 		4BECEF91217F1401008E5E28 /* THNZipCodeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNZipCodeTableViewCell.h; sourceTree = "<group>"; };
 		4BECEF92217F1401008E5E28 /* THNZipCodeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNZipCodeTableViewCell.m; sourceTree = "<group>"; };
-		4BECEF93217F1401008E5E28 /* THNZipCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNZipCodeView.h; sourceTree = "<group>"; };
-		4BECEF94217F1401008E5E28 /* THNZipCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNZipCodeView.m; sourceTree = "<group>"; };
 		4BECEF97217F1401008E5E28 /* THNAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAddressViewController.h; sourceTree = "<group>"; };
 		4BECEF98217F1401008E5E28 /* THNAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAddressViewController.m; sourceTree = "<group>"; };
 		4BECEF9D217F1401008E5E28 /* THNMyCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMyCenterViewController.h; sourceTree = "<group>"; };
@@ -1341,6 +1327,8 @@
 		D80515F721ABC5CD002460A5 /* THNFollowStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNFollowStoreTableViewCell.h; sourceTree = "<group>"; };
 		D81A72342119673F0056D8B8 /* apply_header_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@3x.png"; sourceTree = "<group>"; };
 		D81A7235211967400056D8B8 /* apply_header_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apply_header_image@2x.png"; sourceTree = "<group>"; };
+		D822536921BA0FD20021D81A /* THNBindPhoneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBindPhoneViewController.h; sourceTree = "<group>"; };
+		D822536A21BA0FD20021D81A /* THNBindPhoneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBindPhoneViewController.m; sourceTree = "<group>"; };
 		D82309D9210868A800CDD502 /* THNQiNiuUpload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNQiNiuUpload.h; sourceTree = "<group>"; };
 		D82309DA210868A800CDD502 /* THNQiNiuUpload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNQiNiuUpload.m; sourceTree = "<group>"; };
 		D82A0A1A210EFD3D0040F70A /* NSDictionary+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helper.h"; sourceTree = "<group>"; };
@@ -1449,6 +1437,8 @@
 		D85DA7D92106030100A36A71 /* THNConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNConst.h; sourceTree = "<group>"; };
 		D85DA7DA2106030100A36A71 /* THNTextConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNTextConst.h; sourceTree = "<group>"; };
 		D85DA7DC2106030100A36A71 /* THNMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMarco.h; sourceTree = "<group>"; };
+		D85E2B0A21BA47240092732E /* THNBindPhoneView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNBindPhoneView.h; sourceTree = "<group>"; };
+		D85E2B0B21BA47240092732E /* THNBindPhoneView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNBindPhoneView.m; sourceTree = "<group>"; };
 		D87672422186B88800EDD442 /* THNNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNotification.h; sourceTree = "<group>"; };
 		D87672432186B88800EDD442 /* THNNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNotification.m; sourceTree = "<group>"; };
 		D87672452186BC8F00EDD442 /* THNNotificationHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNNotificationHeader.h; sourceTree = "<group>"; };
@@ -2417,6 +2407,8 @@
 				4BECEF67217F1401008E5E28 /* THNNewPasswordViewController.m */,
 				4BECEF70217F1401008E5E28 /* THNZipCodeViewController.h */,
 				4BECEF71217F1401008E5E28 /* THNZipCodeViewController.m */,
+				D822536921BA0FD20021D81A /* THNBindPhoneViewController.h */,
+				D822536A21BA0FD20021D81A /* THNBindPhoneViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2446,30 +2438,30 @@
 		4BECEF7C217F1401008E5E28 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEF7D217F1401008E5E28 /* THNAuthCodeButton.h */,
-				4BECEF7E217F1401008E5E28 /* THNAuthCodeButton.m */,
-				4BECEF7F217F1401008E5E28 /* THNDoneButton.h */,
-				4BECEF80217F1401008E5E28 /* THNDoneButton.m */,
-				4BECEF81217F1401008E5E28 /* THNFindPassword.h */,
-				4BECEF82217F1401008E5E28 /* THNFindPassword.m */,
 				4BECEF83217F1401008E5E28 /* THNLoginBaseView.h */,
 				4BECEF84217F1401008E5E28 /* THNLoginBaseView.m */,
 				4BECEF85217F1401008E5E28 /* THNLoginView.h */,
 				4BECEF86217F1401008E5E28 /* THNLoginView.m */,
-				4BECEF87217F1401008E5E28 /* THNNewUserInfoView.h */,
-				4BECEF88217F1401008E5E28 /* THNNewUserInfoView.m */,
-				4BECEF89217F1401008E5E28 /* THNPasswordTextField.h */,
-				4BECEF8A217F1401008E5E28 /* THNPasswordTextField.m */,
-				4BECEF8B217F1401008E5E28 /* THNSetPasswordView.h */,
-				4BECEF8C217F1401008E5E28 /* THNSetPasswordView.m */,
 				4BECEF8D217F1401008E5E28 /* THNSignInView.h */,
 				4BECEF8E217F1401008E5E28 /* THNSignInView.m */,
 				4BECEF8F217F1401008E5E28 /* THNSignUpView.h */,
 				4BECEF90217F1401008E5E28 /* THNSignUpView.m */,
+				4BECEF81217F1401008E5E28 /* THNFindPasswordView.h */,
+				4BECEF82217F1401008E5E28 /* THNFindPasswordView.m */,
+				4BECEF8B217F1401008E5E28 /* THNSetPasswordView.h */,
+				4BECEF8C217F1401008E5E28 /* THNSetPasswordView.m */,
+				4BECEF87217F1401008E5E28 /* THNNewUserInfoView.h */,
+				4BECEF88217F1401008E5E28 /* THNNewUserInfoView.m */,
+				D85E2B0A21BA47240092732E /* THNBindPhoneView.h */,
+				D85E2B0B21BA47240092732E /* THNBindPhoneView.m */,
 				4BECEF91217F1401008E5E28 /* THNZipCodeTableViewCell.h */,
 				4BECEF92217F1401008E5E28 /* THNZipCodeTableViewCell.m */,
-				4BECEF93217F1401008E5E28 /* THNZipCodeView.h */,
-				4BECEF94217F1401008E5E28 /* THNZipCodeView.m */,
+				4BECEF7D217F1401008E5E28 /* THNAuthCodeButton.h */,
+				4BECEF7E217F1401008E5E28 /* THNAuthCodeButton.m */,
+				4BECEF7F217F1401008E5E28 /* THNDoneButton.h */,
+				4BECEF80217F1401008E5E28 /* THNDoneButton.m */,
+				4BECEF89217F1401008E5E28 /* THNPasswordTextField.h */,
+				4BECEF8A217F1401008E5E28 /* THNPasswordTextField.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3936,9 +3928,6 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = lexi;
 				TargetAttributes = {
-					D822535E21B920590021D81A = {
-						CreatedOnToolsVersion = 10.1;
-					};
 					D8EECAC320D9E7F800BB63F4 = {
 						CreatedOnToolsVersion = 9.3.1;
 						SystemCapabilities = {
@@ -3965,7 +3954,6 @@
 			projectRoot = "";
 			targets = (
 				D8EECAC320D9E7F800BB63F4 /* lexi */,
-				D822535E21B920590021D81A /* OCLint */,
 			);
 		};
 /* End PBXProject section */
@@ -4243,6 +4231,7 @@
 				4B27B3AD218717D1004AF42F /* THNBannnerCollectionViewCell.m in Sources */,
 				4B27B3AE218717D1004AF42F /* THNBrandCollectionViewCell.m in Sources */,
 				4B27B3AF218717D1004AF42F /* THNCategoriesCollectionView.m in Sources */,
+				D85E2B0C21BA47240092732E /* THNBindPhoneView.m in Sources */,
 				4B27B3B0218717D1004AF42F /* THNCategoriesCollectionViewCell.m in Sources */,
 				4B27B3B1218717D1004AF42F /* THNExploreTableViewCell.m in Sources */,
 				D8A26A8F21B919BE00AADDEF /* YBIBFileManager.m in Sources */,
@@ -4354,7 +4343,7 @@
 				4B27B408218717D1004AF42F /* THNAuthCodeButton.m in Sources */,
 				4B24D3A4219A677500525A05 /* THNReleaseWindowViewController.m in Sources */,
 				4B27B409218717D1004AF42F /* THNDoneButton.m in Sources */,
-				4B27B40A218717D1004AF42F /* THNFindPassword.m in Sources */,
+				4B27B40A218717D1004AF42F /* THNFindPasswordView.m in Sources */,
 				4B27B40B218717D1004AF42F /* THNLoginBaseView.m in Sources */,
 				4B27B40C218717D1004AF42F /* THNLoginView.m in Sources */,
 				D8D7CFFF219437DB00948247 /* THNStoreCouponCollectionViewCell.m in Sources */,
@@ -4367,7 +4356,6 @@
 				D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */,
 				4B27B411218717D1004AF42F /* THNSignUpView.m in Sources */,
 				4B27B412218717D1004AF42F /* THNZipCodeTableViewCell.m in Sources */,
-				4B27B413218717D1004AF42F /* THNZipCodeView.m in Sources */,
 				4B27B414218717D1004AF42F /* THNAddressViewController.m in Sources */,
 				4B27B416218717D1004AF42F /* THNMyCenterViewController.m in Sources */,
 				4B27B418218717D1004AF42F /* THNNewShippingAddressViewController.m in Sources */,
@@ -4466,6 +4454,7 @@
 				4B27B46C218717D2004AF42F /* THNSearchHotRecommendCollectionViewCell.m in Sources */,
 				4B27B46D218717D2004AF42F /* THNSearchHotSearchCollectionViewCell.m in Sources */,
 				4B27B46E218717D2004AF42F /* THNSearchIndexTableViewCell.m in Sources */,
+				D822536B21BA0FD20021D81A /* THNBindPhoneViewController.m in Sources */,
 				4B27B46F218717D2004AF42F /* THNSearchStoreTableViewCell.m in Sources */,
 				4B27B470218717D2004AF42F /* THNSearchUserTableViewCell.m in Sources */,
 				4B27B471218717D2004AF42F /* THNSearchView.m in Sources */,
@@ -4633,24 +4622,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D822536021B920590021D81A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3693CDWGS5;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		D822536121B920590021D81A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3693CDWGS5;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		D8EECAD820D9E7F900BB63F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4685,6 +4656,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPILER_INDEX_STORE_ENABLE = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4744,6 +4716,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPILER_INDEX_STORE_ENABLE = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4773,6 +4746,7 @@
 				CODE_SIGN_ENTITLEMENTS = lexi/lexi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				COMPILER_INDEX_STORE_ENABLE = Default;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4876,6 +4850,7 @@
 				CODE_SIGN_ENTITLEMENTS = lexi/lexi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				COMPILER_INDEX_STORE_ENABLE = Default;
 				DEVELOPMENT_TEAM = 3693CDWGS5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4972,15 +4947,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D822535F21B920590021D81A /* Build configuration list for PBXAggregateTarget "OCLint" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D822536021B920590021D81A /* Debug */,
-				D822536121B920590021D81A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		D8EECABF20D9E7F800BB63F4 /* Build configuration list for PBXProject "lexi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

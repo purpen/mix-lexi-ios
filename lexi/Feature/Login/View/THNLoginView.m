@@ -21,21 +21,13 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
 
 @interface THNLoginView ()
 
-/// 背景视图
 @property (nonatomic, strong) UIImageView *backgroundImageView;
-/// 跳过按钮
 @property (nonatomic, strong) UIButton *skipButton;
-/// logo
 @property (nonatomic, strong) UIImageView *logoImageView;
-/// 标题(欢迎语)
 @property (nonatomic, strong) UILabel *headerLabel;
-/// 副标题(slogan)
 @property (nonatomic, strong) UILabel *subheadLabel;
-/// 登录
 @property (nonatomic, strong) UIButton *signInButton;
-/// 微信登录
 @property (nonatomic, strong) UIButton *wechatButton;
-/// 注册
 @property (nonatomic, strong) UIButton *signUpButton;
 
 @end
@@ -52,26 +44,26 @@ static NSString *const kWechatButtonTitle   = @"微信登录";
 
 #pragma mark - event response
 - (void)skipButtonAction:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_loginViewDidSelectSkipButton:)]) {
-        [self.delegate thn_loginViewDidSelectSkipButton:button];
+    if ([self.delegate respondsToSelector:@selector(thn_loginDidSelectSkip)]) {
+        [self.delegate thn_loginDidSelectSkip];
     }
 }
 
 - (void)signUpButtonAction:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_loginViewDidSelectSignUpButton:)]) {
-        [self.delegate thn_loginViewDidSelectSignUpButton:button];
+    if ([self.delegate respondsToSelector:@selector(thn_loginDidSelectSignUp)]) {
+        [self.delegate thn_loginDidSelectSignUp];
     }
 }
 
 - (void)wechatButtonAction:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_loginViewDidSelectWechatButton:)]) {
-        [self.delegate thn_loginViewDidSelectWechatButton:button];
+    if ([self.delegate respondsToSelector:@selector(thn_loginDidSelectWechat)]) {
+        [self.delegate thn_loginDidSelectWechat];
     }
 }
 
 - (void)signInButton:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_loginViewDidSelectSignInButton:)]) {
-        [self.delegate thn_loginViewDidSelectSignInButton:button];
+    if ([self.delegate respondsToSelector:@selector(thn_loginDidSelectSignIn)]) {
+        [self.delegate thn_loginDidSelectSignIn];
     }
 }
 

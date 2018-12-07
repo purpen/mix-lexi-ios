@@ -18,7 +18,7 @@ static NSString *const kParamAreaCode       = @"areacode";
 static NSString *const kParamPassword       = @"password";
 static NSString *const kParamAffirmPassword = @"affirm_password";
 
-@interface THNNewPasswordViewController ()
+@interface THNNewPasswordViewController () <THNSetPasswordViewDelegate>
 
 @property (nonatomic, strong) THNSetPasswordView *setPasswordView;
 
@@ -26,32 +26,36 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 
 @implementation THNNewPasswordViewController
 
-#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
 }
 
-#pragma mark - network
-- (void)networdPostNewPasswordWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
+#pragma mark - network  
+/**
+ 设置新密码
+ */
+- (void)networdPostNewPasswordWithParam:(NSDictionary *)param {
     [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLModifyPwd requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.isSuccess) {
-            [SVProgressHUD thn_showSuccessWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
-    
-        [SVProgressHUD dismiss];
-        if (completion) {
-            completion();
-        }
+        
+        [self thn_signInWithParam:param];
      
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
+}
+
+#pragma mark - custom delegate
+- (void)thn_setPasswordToRegister:(NSString *)password affirmPassword:(NSString *)affirmPassword {
+    [self thn_getPasswordParam:password affirmPassword:affirmPassword];
 }
 
 #pragma mark - private methods
@@ -59,10 +63,7 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  获取密码参数
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
-    WEAKSELF;
-    
     if (!self.email.length || !password.length || !affirmPassword.length) {
-        [SVProgressHUD thn_showErrorWithStatus:@"获取注册信息失败"];
         return;
     }
     
@@ -70,22 +71,27 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
-    [self networdPostNewPasswordWithParam:paramDict completion:^{
-        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
-    }];
+    [self networdPostNewPasswordWithParam:paramDict];
 }
 
+/**
+ 修改完密码直接登录
+ */
 - (void)thn_signInWithParam:(NSDictionary *)param {
     [SVProgressHUD thn_show];
     
-    [THNLoginManager userLoginWithParams:param modeType:THNLoginModeTypePassword completion:^(THNResponse *result, NSError *error) {
-        if (error && ![result isSuccess]) {
-            [SVProgressHUD thn_showErrorWithStatus:@"登录失败"];
-            return ;
-        }
-        
-        [THNAdvertManager checkIsNewUserBonus];
-    }];
+    [THNLoginManager userLoginWithParams:param
+                                modeType:THNLoginModeTypePassword
+                              completion:^(THNResponse *result, NSError *error) {
+                                  if (![result isSuccess]) {
+                                      [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+                                      return ;
+                                  }
+                                  
+                                  [SVProgressHUD thn_showSuccessWithStatus:@"登录成功"];
+                                  [THNAdvertManager checkIsNewUserBonus];
+                                  [self dismissViewControllerAnimated:YES completion:nil];
+                              }];
 }
 
 #pragma mark - setup UI
@@ -97,20 +103,9 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 - (THNSetPasswordView *)setPasswordView {
     if (!_setPasswordView) {
         _setPasswordView = [[THNSetPasswordView alloc] initWithType:(THNSetPasswordTypeFind)];
-        
-        WEAKSELF;
-        _setPasswordView.SetPasswordRegisterBlock = ^(NSString *password, NSString *affirmPassword) {
-            [weakSelf thn_getPasswordParam:password affirmPassword:affirmPassword];
-        };
+        _setPasswordView.delegate = self;
     }
     return _setPasswordView;
-}
-
-#pragma mark - dealloc
-- (BOOL)willDealloc {
-    [self.setPasswordView removeFromSuperview];
-    
-    return YES;
 }
 
 @end

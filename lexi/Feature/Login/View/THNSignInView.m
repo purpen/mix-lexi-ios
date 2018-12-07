@@ -23,6 +23,8 @@ static NSString *const kDoneButtonTitle     = @"登录";
 static NSString *const kForgetButtonTitle   = @"忘记密码？";
 static NSString *const kSignUpText          = @"还没有账号？点击注册";
 static NSString *const kThirdLoginText      = @"第三方登录";
+static NSString *const kLoginPwd            = @"密码登录";
+static NSString *const kLoginAuth           = @"动态码登录";
 /// 动态登录的 key
 static NSString *const kParamAreaCode       = @"areacode";
 static NSString *const kParamEmail          = @"email";
@@ -31,37 +33,21 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 
 @interface THNSignInView () <UITextFieldDelegate>
 
-/// 登录方式切换
 @property (nonatomic, strong) UISegmentedControl *loginSegmented;
-/// 控件容器
 @property (nonatomic, strong) UIView *containerView;
-/// 手机区号
 @property (nonatomic, strong) UIButton *zipCodeButton;
-/// 手机号输入框
 @property (nonatomic, strong) UITextField *phoneTextField;
-/// 密码输入框
 @property (nonatomic, strong) THNPasswordTextField *pwdTextField;
-/// 验证码输入框
 @property (nonatomic, strong) UITextField *authCodeTextField;
-/// 获取验证码按钮
 @property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
-/// 完成（登录）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
-/// 忘记密码按钮
 @property (nonatomic, strong) UIButton *forgetButton;
-/// 已有账号，去登录提示
 @property (nonatomic, strong) YYLabel *signUpLabel;
-/// 第三方登录提示
 @property (nonatomic, strong) UILabel *thirdLoginLabel;
-/// 错误提示
 @property (nonatomic, strong) UILabel *errorHintLabel;
-/// 微信登录
 @property (nonatomic, strong) UIButton *wechatButton;
-/// 保存加载控件
 @property (nonatomic, strong) NSArray *controlArray;
-/// 登录方式
 @property (nonatomic, assign) THNLoginModeType loginModeType;
-/// 获取的验证码
 @property (nonatomic, strong) NSString *verifyCode;
 
 @end
@@ -90,28 +76,25 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     [self thn_showErrorHint:YES];
 }
 
-#pragma mark - private methods
-/**
- 登录
- */
+#pragma mark - event response
 - (void)thn_doneButtonAction {
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
     
     if (![self getPhoneNum].length) {
-        [self thn_setErrorHintText:@"请输入手机号"];
+        [self thn_setErrorHintText:kPhonePlaceholder];
         return;
     }
     
     if (self.loginModeType == THNLoginModeTypePassword) {
         if (![self getPassword].length) {
-            [self thn_setErrorHintText:@"请输入密码"];
+            [self thn_setErrorHintText:kPwdPlaceholder];
             return;
         }
         
     } else if (self.loginModeType == THNLoginModeTypeVeriDynamic) {
         if (![self getVerifyCode].length) {
-            [self thn_setErrorHintText:@"请输入验证码"];
+            [self thn_setErrorHintText:kAuthPlaceholder];
             return;
         }
     }
@@ -123,17 +106,15 @@ static NSString *const kParamVerifyCode     = @"verify_code";
     }
 }
 
-#pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![self getPhoneNum].length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:kPhonePlaceholder];
         return;
     }
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
-        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
-                                                zipCode:[weakSelf getZipCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_signInSendAuthCodeWithPhoneNum:zipCode:)]) {
+        [self.delegate thn_signInSendAuthCodeWithPhoneNum:[self getPhoneNum]
+                                                  zipCode:[self getZipCode]];
     }
     
     [button thn_countdownStartTime:60 completion:nil];
@@ -142,94 +123,56 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 - (void)zipCodeButtonAction:(UIButton *)button {
     [self thn_showErrorHint:NO];
     
-    if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
-        [self.delegate thn_showZipCodeList];
+    if ([self.delegate respondsToSelector:@selector(thn_signInShowZipCodeList)]) {
+        [self.delegate thn_signInShowZipCodeList];
     }
 }
 
 - (void)wechatButtonAction:(UIButton *)button {
-    [SVProgressHUD thn_showInfoWithStatus:@"微信登录"];
+    if ([self.delegate respondsToSelector:@selector(thn_signInUseWechatLogin)]) {
+        [self.delegate thn_signInUseWechatLogin];
+    }
 }
 
 - (void)forgetButtonAction:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(thn_forgetPassword)]) {
-        [self.delegate thn_forgetPassword];
+    if ([self.delegate respondsToSelector:@selector(thn_signInForgetPassword)]) {
+        [self.delegate thn_signInForgetPassword];
     }
 }
 
 - (void)loginSegmentedControlAction:(UISegmentedControl *)segment {
     [self endEditing:YES];
     [self thn_showErrorHint:NO];
-    
     [self thn_changeLoginPasswordMethod:!(BOOL)segment.selectedSegmentIndex];
-
-    if (segment.selectedSegmentIndex == 1) {
-        self.loginModeType = THNLoginModeTypeVeriDynamic;
-        
-        if ([self.pwdTextField isFirstResponder]) {
-            [self.pwdTextField resignFirstResponder];
-            [self.authCodeTextField becomeFirstResponder];
-        }
-        
-        if (self.pwdTextField.text.length) {
-            self.pwdTextField.text = @"";
-        }
-        
-    } else {
-        self.loginModeType = THNLoginModeTypePassword;
-        
-        if ([self.authCodeTextField isFirstResponder]) {
-            [self.authCodeTextField resignFirstResponder];
-            [self.pwdTextField becomeFirstResponder];
-        }
-        
-        if (self.authCodeTextField.text.length) {
-            self.authCodeTextField.text = @"";
-        }
-    }
+    
+    self.loginModeType = (THNLoginModeType)segment.selectedSegmentIndex;
 }
 
-/**
- 切换密码登录
- */
 - (void)thn_changeLoginPasswordMethod:(BOOL)change {
+    self.pwdTextField.text = @"";
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.pwdTextField.alpha = change ? 1 : 0;
         self.authCodeTextField.alpha = change ? 0 : 1;
     }];
 }
 
-/**
- 展示错误提示
- */
 - (void)thn_showErrorHint:(BOOL)show {
     self.errorHintLabel.hidden = !show;
 }
 
-/**
- 获取输入的手机号
- */
 - (NSString *)getPhoneNum {
     return self.phoneTextField.text;
 }
 
-/**
- 获取手机区号
- */
 - (NSString *)getZipCode {
     return self.zipCodeButton.titleLabel.text;
 }
 
-/**
- 获取短信验证码
- */
 - (NSString *)getVerifyCode {
     return self.authCodeTextField.text;
 }
 
-/**
- 获取密码
- */
 - (NSString *)getPassword {
     return self.pwdTextField.text;
 }
@@ -388,10 +331,10 @@ static NSString *const kParamVerifyCode     = @"verify_code";
  绘制分割线
  */
 - (void)drawRect:(CGRect)rect {
-//    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 85))
-//                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 85))
-//                        width:0.5
-//                        color:[UIColor colorWithHexString:@"#E9E9E9" alpha:1]];
+    [UIView drawRectLineStart:(CGPointMake(48, SCREEN_HEIGHT - 85))
+                          end:(CGPointMake(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 85))
+                        width:0.5
+                        color:[UIColor colorWithHexString:@"#E9E9E9" alpha:1]];
     
     [UIView drawRectLineStart:(CGPointMake(100, CGRectGetMinY(self.loginSegmented.frame) + 10))
                           end:(CGPointMake(100, CGRectGetMaxY(self.loginSegmented.frame) - 10))
@@ -402,7 +345,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 #pragma mark - getters and setters
 - (UISegmentedControl *)loginSegmented {
     if (!_loginSegmented) {
-        _loginSegmented = [[UISegmentedControl alloc] initWithItems:@[@"密码登录", @"动态码登录"]];
+        _loginSegmented = [[UISegmentedControl alloc] initWithItems:@[kLoginPwd, kLoginAuth]];
         _loginSegmented.selectedSegmentIndex = 0;
         _loginSegmented.tintColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
         [_loginSegmented setContentOffset:(CGSizeMake(-18, 0)) forSegmentAtIndex:0];
@@ -487,7 +430,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         WEAKSELF;
         
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                 withTitle:kDoneButtonTitle
+                                                     title:kDoneButtonTitle
                                                 completion:^{
                                                     [weakSelf thn_doneButtonAction];
                                                 }];
@@ -510,6 +453,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
 - (YYLabel *)signUpLabel {
     if (!_signUpLabel) {
         _signUpLabel = [[YYLabel alloc] init];
+        
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kSignUpText];
         attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
         attText.color = [UIColor colorWithHexString:@"#333333"];
@@ -520,8 +464,8 @@ static NSString *const kParamVerifyCode     = @"verify_code";
                                     color:[UIColor colorWithHexString:kColorMain]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    if ([weakSelf.delegate respondsToSelector:@selector(thn_goToRegister)]) {
-                                        [weakSelf.delegate thn_goToRegister];
+                                    if ([weakSelf.delegate respondsToSelector:@selector(thn_signInToRegister)]) {
+                                        [weakSelf.delegate thn_signInToRegister];
                                     }
                                 }];
         
@@ -549,7 +493,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         _thirdLoginLabel.text = kThirdLoginText;
         _thirdLoginLabel.textAlignment = NSTextAlignmentCenter;
         _thirdLoginLabel.backgroundColor = [UIColor whiteColor];
-        _thirdLoginLabel.hidden = YES;
     }
     return _thirdLoginLabel;
 }
@@ -560,7 +503,6 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         [_wechatButton setImage:[UIImage imageNamed:@"icon_wechat_white"] forState:(UIControlStateNormal)];
         [_wechatButton addTarget:self action:@selector(wechatButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
         _wechatButton.backgroundColor = [UIColor colorWithHexString:@"#3DBD7D"];
-        _wechatButton.hidden = YES;
     }
     return _wechatButton;
 }

@@ -28,8 +28,6 @@ static NSString *const kParamMobile         = @"mobile";
 
 /// 申请资料填写视图
 @property (nonatomic, strong) THNUserApplyView *userApplyView;
-/// 区号列表
-@property (nonatomic, strong) THNZipCodeViewController *zipCodeVC;
 
 @end
 
@@ -46,16 +44,14 @@ static NSString *const kParamMobile         = @"mobile";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    WEAKSELF;
-    
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD thn_showErrorWithStatus:@"数据错误"];
+        if (![result isSuccess]) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
-        [weakSelf.userApplyView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [self.userApplyView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -68,22 +64,17 @@ static NSString *const kParamMobile         = @"mobile";
 - (void)networkApplyLifeStoreWithParam:(NSDictionary *)param {
     [SVProgressHUD thn_show];
     
-    WEAKSELF;
-    
     THNRequest *request = [THNAPI postWithUrlString:kURLApply requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
         if (![result isSuccess]) {
-            [SVProgressHUD thn_showErrorWithStatus:kTextRequestError];
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
         }
 
         [[THNLoginManager sharedManager] updateUserLivingHallStatus:YES
                                                        initSupplier:NO
                                                         initStoreId:result.data[@"store_rid"]];
-        
-        THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
-        [weakSelf.navigationController pushViewController:successVC animated:YES];
+        [self thn_openApplySuccessController];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -103,7 +94,17 @@ static NSString *const kParamMobile         = @"mobile";
 }
 
 - (void)thn_showZipCodeList {
-    [self presentViewController:self.zipCodeVC animated:YES completion:nil];
+    THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
+    zipCodeVC.selectAreaCodeBlock = ^(NSString *code) {
+        [self.userApplyView thn_setAreaCode:code];
+    };
+    [self presentViewController:zipCodeVC animated:YES completion:nil];
+}
+
+#pragma mark - private methods
+- (void)thn_openApplySuccessController {
+    THNApplySuccessViewController *successVC = [[THNApplySuccessViewController alloc] init];
+    [self.navigationController pushViewController:successVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -128,19 +129,6 @@ static NSString *const kParamMobile         = @"mobile";
         _userApplyView.delegate = self;
     }
     return _userApplyView;
-}
-
-- (THNZipCodeViewController *)zipCodeVC {
-    if (!_zipCodeVC) {
-        _zipCodeVC = [[THNZipCodeViewController alloc] init];
-        
-        WEAKSELF;
-        _zipCodeVC.SelectAreaCode = ^(NSString *code) {
-            [weakSelf.userApplyView thn_setAreaCode:code];
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
-        };
-    }
-    return _zipCodeVC;
 }
 
 @end

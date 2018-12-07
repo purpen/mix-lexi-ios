@@ -13,10 +13,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "THNMarco.h"
 #import "UIImage+Helper.h"
-#import <AssetsLibrary/AssetsLibrary.h>
-#import <Photos/Photos.h>
-#import <AVFoundation/AVFoundation.h>
-#import <MobileCoreServices/MobileCoreServices.h>
 
 static NSString *const kActionTakePhotoTitle    = @"拍照";
 static NSString *const kActionAlbumTitle        = @"我的相册";
@@ -25,13 +21,9 @@ static NSString *const kActionDoneTitle         = @"确认";
 
 @interface THNPhotoManager () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
-/// 当前控制器
 @property (nonatomic, weak) UIViewController *viewController;
-/// 媒体选择
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
-/// 类型（相册&相机）
 @property (nonatomic, assign) NSInteger sourceType;
-/// 选择照片的回调
 @property (nonatomic, copy) void (^SelectImageBlock)(NSData *imageData);
 
 @end

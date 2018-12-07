@@ -10,4 +10,8 @@
 
 @implementation THNAreaModel
 
++ (NSDictionary *)mj_objectClassInArray {
+    return @{@"area_codes": [THNAreaCodeModel class]};
+}
+
 @end

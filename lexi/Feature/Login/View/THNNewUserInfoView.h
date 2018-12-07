@@ -10,17 +10,8 @@
 
 @protocol THNNewUserInfoViewDelegate <NSObject>
 
-@required
-/**
- 确认用户信息
-
- @param infoParam 信息数据
- */
+@optional
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam;
-
-/**
- 选择头像图片
- */
 - (void)thn_setUserInfoSelectHeader;
 
 @end
@@ -31,15 +22,11 @@
 
 /**
  设置头像
-
- @param imageData 图片数据
  */
 - (void)setHeaderImageWithData:(NSData *)imageData;
 
 /**
- 上传七牛后的id
-
- @param idx 图片id
+ 上传七牛后的图片id
  */
 - (void)setHeaderAvatarId:(NSInteger)idx;
 

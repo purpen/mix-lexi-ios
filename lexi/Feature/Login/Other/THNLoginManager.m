@@ -17,6 +17,7 @@
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
 #import <UMPush/UMessage.h>
+#import <UMShare/UMShare.h>
 #import "THNSaveTool.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
@@ -28,6 +29,7 @@ static NSString *const kURLAppRegister  = @"/auth/set_password";
 static NSString *const kURLLogout       = @"/auth/logout";
 static NSString *const kURLUserProfile  = @"/users/profile";
 static NSString *const kURLUsers        = @"/users";
+static NSString *const kURLWechatBind   = @"/auth/app_bind_wx";
 /// 请求数据 key
 static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
@@ -56,6 +58,10 @@ MJCodingImplementation
     [[THNLoginManager sharedManager] requestLogoutCompletion:completion];
 }
 
++ (void)useWechatLoginCompletion:(void (^)(BOOL , NSString *, NSError *))completion {
+    [[THNLoginManager sharedManager] requestWechetUserInfoCompletion:completion];
+}
+
 #pragma mark - request
 /**
  用户登录
@@ -67,6 +73,9 @@ MJCodingImplementation
     NSString *postUrl = [self thn_getLoginUrlWithType:type];
     THNRequest *request = [THNAPI postWithUrlString:postUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"用户登录：%@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
@@ -160,6 +169,42 @@ MJCodingImplementation
 }
 
 /**
+ 去微信授权获取用户信息
+ */
+- (void)requestWechetUserInfoCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
+    [[UMSocialManager defaultManager] getUserInfoWithPlatform:UMSocialPlatformType_WechatSession
+                                        currentViewController:nil
+                                                   completion:^(id result, NSError *error) {
+                                                       if (error) {
+                                                           completion(NO, nil, error);
+                                                           return ;
+                                                       }
+                                                       
+                                                       NSDictionary *params = [self thn_getWechatUserInfoResult:result];
+                                                       [self requestWechatBingWithParams:params completion:completion];
+                                                   }];
+}
+
+/**
+ 微信绑定/登录
+ */
+- (void)requestWechatBingWithParams:(NSDictionary *)params completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
+    THNRequest *request = [THNAPI postWithUrlString:kURLWechatBind requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"微信绑定：%@", result.responseDict);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        completion([result.data[@"is_bind"] boolValue], result.data[@"openid"], nil);
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        completion(NO, nil, error);
+    }];
+}
+
+/**
  更新用户生活馆的状态
 
  @param openingUser 小B用户
@@ -195,6 +240,7 @@ MJCodingImplementation
     }];
 }
 
+#pragma mark - public methods
 /**
  是否登录
  */
@@ -289,6 +335,19 @@ MJCodingImplementation
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject stringByAppendingString:NSStringFromClass(self)];
 }
 
+/**
+ 打开登录视图
+ */
+- (void)openUserLoginController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
+                                                                                     animated:YES
+                                                                                   completion:nil];
+    });
+}
+
 #pragma mark - private methods
 /**
  根据登录类型获取 api url地址
@@ -313,16 +372,29 @@ MJCodingImplementation
 }
 
 /**
- 打开登录视图
+ 用户的微信信息
+
+ @param result 友盟第三方登录的返回结果
  */
-- (void)openUserLoginController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
-        THNBaseNavigationController *loginNavController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:loginNavController
-                                                                                     animated:YES
-                                                                                   completion:nil];
-    });
+- (NSDictionary *)thn_getWechatUserInfoResult:(id)result {
+    UMSocialUserInfoResponse *resp = result;
+    
+    NSDictionary *wechatInfo = resp.originalResponse;
+    NSString *country   = wechatInfo[@"country"];
+    NSString *city      = wechatInfo[@"city"];
+    NSString *province  = wechatInfo[@"province"];
+    
+    NSMutableDictionary *wechatParams = [NSMutableDictionary dictionary];
+    [wechatParams setObject:resp.openid      forKey:@"openid"];
+    [wechatParams setObject:resp.name        forKey:@"nick_name"];
+    [wechatParams setObject:resp.iconurl     forKey:@"avatar_url"];
+    [wechatParams setObject:resp.unionGender forKey:@"gender"];
+    [wechatParams setObject:resp.uid         forKey:@"unionid"];
+    [wechatParams setObject:country          forKey:@"country"];
+    [wechatParams setObject:city             forKey:@"province"];
+    [wechatParams setObject:province         forKey:@"city"];
+    
+    return [wechatParams copy];
 }
 
 #pragma mark - shared

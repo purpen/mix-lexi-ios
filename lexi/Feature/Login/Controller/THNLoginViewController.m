@@ -46,24 +46,24 @@
 }
 
 #pragma mark - custom delegate
-- (void)thn_loginViewDidSelectSkipButton:(UIButton *)button {
-//    [self dismissViewControllerAnimated:YES completion:nil];
-    [UIApplication sharedApplication].keyWindow.rootViewController = [[THNBaseTabBarController alloc] init];
+- (void)thn_loginDidSelectSkip {
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [UIApplication sharedApplication].keyWindow.rootViewController = [[THNBaseTabBarController alloc] init];
 }
 
-- (void)thn_loginViewDidSelectSignUpButton:(UIButton *)button {
+- (void)thn_loginDidSelectSignUp {
     THNSignUpViewController *signUpVC = [[THNSignUpViewController alloc] init];
     signUpVC.canSkip = YES;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
-- (void)thn_loginViewDidSelectSignInButton:(UIButton *)button {
+- (void)thn_loginDidSelectSignIn {
     THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
     signInVC.canSkip = YES;
     [self.navigationController pushViewController:signInVC animated:YES];
 }
 
-- (void)thn_loginViewDidSelectWechatButton:(UIButton *)button {
+- (void)thn_loginDidSelectWechat {
     [SVProgressHUD thn_showInfoWithStatus:@"打开微信登录"];
 }
 

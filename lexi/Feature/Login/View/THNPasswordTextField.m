@@ -12,15 +12,12 @@
 
 @interface THNPasswordTextField () <UITextFieldDelegate>
 
-/// 输入框
 @property (nonatomic, strong) UITextField *contentTextField;
-/// 显示密码的按钮
 @property (nonatomic, strong) UIButton *secureButton;
 
 @end
 
 @implementation THNPasswordTextField
-
 
 - (instancetype)initWithPlaceholderText:(NSString *)placeholder {
     self = [super init];
@@ -50,23 +47,27 @@
 }
 
 #pragma mark - setup UI
-- (void)setText:(NSString *)text {
-    self.contentTextField.text = text;
-}
-
-- (NSString *)text {
-    return self.contentTextField.text;
-}
-
 - (void)setViewUI {
     [self addSubview:self.contentTextField];
-    [_contentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self setMasonryLayout];
+}
+
+- (void)setMasonryLayout {
+    [self.contentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.mas_equalTo(0);
         make.height.mas_equalTo(46);
     }];
 }
 
 #pragma mark - getters and setters
+- (NSString *)text {
+    return self.contentTextField.text;
+}
+
+- (void)setText:(NSString *)text {
+    self.contentTextField.text = text;
+}
 
 - (UITextField *)contentTextField {
     if (!_contentTextField) {
@@ -91,12 +92,6 @@
         [_secureButton addTarget:self action:@selector(secureButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _secureButton;
-}
-
-- (BOOL)willDealloc {
-    self.contentTextField.secureTextEntry = NO;
-    
-    return YES;
 }
 
 @end

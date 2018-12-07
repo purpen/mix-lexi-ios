@@ -45,7 +45,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 #pragma mark - network
-- (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param completion:(void (^)(void))completion {
+- (void)networkPostUserCompleteInfoWithParam:(NSDictionary *)param {
     [SVProgressHUD thn_show];
     
     THNRequest *request = [THNAPI postWithUrlString:kURLCompleteInfo requestDictionary:param delegate:nil];
@@ -54,10 +54,8 @@ static NSString *const kParamAvatarId           = @"avatar_id";
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
         }
         
-        [SVProgressHUD dismiss];
-        if (completion) {
-            completion();
-        }
+        [self thn_loginSuccessBack];
+        [THNAdvertManager checkIsNewUserBonus];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -69,22 +67,18 @@ static NSString *const kParamAvatarId           = @"avatar_id";
  选择头像照片
  */
 - (void)thn_getSelectImage {
-    WEAKSELF;
-    
     [[THNPhotoManager sharedManager] getPhotoOfAlbumOrCameraWithController:self completion:^(NSData *imageData) {
-        [weakSelf.newUserInfoView setHeaderImageWithData:imageData];
+        [self.newUserInfoView setHeaderImageWithData:imageData];
         
         [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:imageData
                                                     compltion:^(NSDictionary *result) {
                                                         NSArray *idsArray = result[kResultDataIds];
-                                                        [weakSelf.newUserInfoView setHeaderAvatarId:[idsArray[0] integerValue]];
+                                                        [self.newUserInfoView setHeaderAvatarId:[idsArray[0] integerValue]];
                                                     }];
     }];
 }
 
 - (void)thn_loginSuccessBack {
-    WEAKSELF;
-    
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {
             [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -96,8 +90,9 @@ static NSString *const kParamAvatarId           = @"avatar_id";
             return;
         }
         
+        [SVProgressHUD thn_showSuccessWithStatus:@"登录成功"];
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
-        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -107,10 +102,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 }
 
 - (void)thn_setUserInfoEditDoneWithParam:(NSDictionary *)infoParam {
-    [self networkPostUserCompleteInfoWithParam:infoParam completion:^{
-        [self thn_loginSuccessBack];
-        [THNAdvertManager checkIsNewUserBonus];
-    }];
+    [self networkPostUserCompleteInfoWithParam:infoParam];
 }
 
 #pragma mark - setup UI

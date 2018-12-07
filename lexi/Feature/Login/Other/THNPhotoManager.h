@@ -11,15 +11,14 @@
 
 @interface THNPhotoManager : NSObject
 
-+ (instancetype)sharedManager;
-
 /**
  获取系统图片
 
  @param controller 当前控制器
  @param completion 完成回调
  */
-- (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller
-                                   completion:(void(^)(NSData *imageData))completion;
+- (void)getPhotoOfAlbumOrCameraWithController:(UIViewController *)controller completion:(void(^)(NSData *imageData))completion;
+
++ (instancetype)sharedManager;
 
 @end

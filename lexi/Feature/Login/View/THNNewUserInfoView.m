@@ -18,11 +18,13 @@ static NSString *const kHintLabelText       = @"有个真实头像，会增加�
 static NSString *const kNamePlaceholder     = @"输入用户名";
 static NSString *const kDayPlaceholder      = @"输入生日信息";
 static NSString *const kSexLabelText        = @"性别:";
+static NSString *const kSexMan              = @"男";
+static NSString *const kSexWoman            = @"女";
 static NSString *const kDoneButtonTitle     = @"确认";
 static NSString *const kToolbarItemDone     = @"完成";
 static NSString *const kToolbarItemCancel   = @"取消";
 static NSInteger const kOptionButtonTag     = 1632;
-/// 设置信息上传参数
+/// key
 static NSString *const kParamAvatarId   = @"avatar_id";
 static NSString *const kParamName       = @"username";
 static NSString *const kParamDate       = @"date";
@@ -30,28 +32,17 @@ static NSString *const kParamGender     = @"gender";
 
 @interface THNNewUserInfoView () <UITextFieldDelegate>
 
-/// 用户头像
 @property (nonatomic, strong) UIImageView *headImageView;
-/// 相机，选择照片按钮
 @property (nonatomic, strong) UIButton *cameraButton;
-/// 头像更换提示文字
 @property (nonatomic, strong) UILabel *hintLabel;
-/// 用户名输入框
 @property (nonatomic, strong) UITextField *nameTextField;
-/// 选择生日
 @property (nonatomic, strong) UITextField *dayTextField;
-/// 日期选择器
 @property (nonatomic, strong) UIDatePicker *dayDatePicker;
-/// 日期选择器工具栏
 @property (nonatomic, strong) UIToolbar *dayToolbar;
-/// 性别选择视图
 @property (nonatomic, strong) UIView *sexView;
 @property (nonatomic, strong) UIButton *selectButton;
-/// 完成（确认）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
-/// 0:女生 & 1:男生
 @property (nonatomic, assign) NSInteger selectSex;
-/// 头像图片id
 @property (nonatomic, assign) NSInteger avatarId;
 
 @end
@@ -82,8 +73,7 @@ static NSString *const kParamGender     = @"gender";
  获取用户设置信息
  */
 - (NSDictionary *)getUserInfoParam {
-    NSDictionary *infoDict = @{
-                               kParamName: [self getUserNickname],
+    NSDictionary *infoDict = @{kParamName: [self getUserNickname],
                                kParamDate: [self getUserBirthday],
                                kParamGender: [self getUserGender],
                                kParamAvatarId: [self getUserAvatarId]};
@@ -171,6 +161,7 @@ static NSString *const kParamGender     = @"gender";
     if (textField == self.dayTextField) {
         return NO;
     }
+    
     return YES;
 }
 
@@ -185,7 +176,7 @@ static NSString *const kParamGender     = @"gender";
     [self addSubview:self.nameTextField];
     [self addSubview:self.dayTextField];
     
-    [self thn_initMultipleOptionButtons:@[@"女生", @"男生"]];
+    [self thn_initMultipleOptionButtons:@[kSexWoman, kSexMan]];
     [self addSubview:self.sexView];
     [self addSubview:self.doneButton];
     
@@ -413,7 +404,7 @@ static NSString *const kParamGender     = @"gender";
         WEAKSELF;
         
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                 withTitle:kDoneButtonTitle
+                                                     title:kDoneButtonTitle
                                                 completion:^{
                                                     [weakSelf thn_doneButtonAction];
                                                 }];
