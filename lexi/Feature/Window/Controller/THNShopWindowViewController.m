@@ -196,7 +196,8 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     
     cell.shareBlock = ^(THNShopWindowModel *shopWindowModel) {
         if (!shopWindowModel.rid.length) return;
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                             requestId:shopWindowModel.rid];
         [shareVC shareObjectWithTitle:shopWindowModel.title
                                 descr:shopWindowModel.des
                             thumImage:shopWindowModel.product_covers[0]

@@ -693,7 +693,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_openShareController {
     if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)
+                                                                         requestId:self.goodsId];
     [shareVC shareObjectWithTitle:self.goodsModel.name
                             descr:self.goodsModel.features
                         thumImage:self.goodsModel.cover

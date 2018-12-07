@@ -51,7 +51,8 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 - (NSArray *)thn_getTitlesWithType:(THNShareActionViewType)type {
     NSArray *titles = @[@[@"微信", @"朋友圈", @"微博", @"QQ", @"QQ空间"],
                         @[@"更多分享"],
-                        @[kTitleSave, @"更多分享"]];
+                        @[kTitleSave, @"更多分享"],
+                        @[kTitleSave, @"微信", @"朋友圈", @"微博", @"QQ", @"QQ空间"]];
     
     return titles[(NSUInteger)type];
 }
@@ -59,7 +60,8 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 - (NSArray *)thn_getImagesWithType:(THNShareActionViewType)type {
     NSArray *images = @[@[@"icon_share_wechat", @"icon_share_timeline", @"icon_share_weibo", @"icon_share_qq", @"icon_share_qq_space"],
                         @[@"icon_share_more"],
-                        @[@"icon_share_image", @"icon_share_more"]];
+                        @[@"icon_share_image", @"icon_share_more"],
+                        @[@"icon_share_save", @"icon_share_wechat", @"icon_share_timeline", @"icon_share_weibo", @"icon_share_qq", @"icon_share_qq_space"],];
     
     return images[(NSUInteger)type];
 }
@@ -82,7 +84,7 @@ static NSString *const kShareActionCollectionViewCellId = @"THNShareActionCollec
 - (UICollectionView *)actionCollectionView {
     if (!_actionCollectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH/5, CGRectGetHeight(self.frame));
+        flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH/5, CGRectGetHeight(self.bounds) - 1);
         
         _actionCollectionView = [[UICollectionView alloc] initWithFrame: \
                                  CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - 1)

@@ -125,6 +125,9 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
                 [paramDict setObject:kWxaHomePath forKey:kKeyPath];
             }
                 break;
+                
+            default:
+                break;
         }
         
         return [paramDict copy];

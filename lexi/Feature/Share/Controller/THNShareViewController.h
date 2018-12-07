@@ -14,6 +14,15 @@
 - (instancetype)initWithType:(THNSharePosterType)posterType;
 
 /**
+ 初始化分享视图
+
+ @param posterType 生成的海报类型
+ @param requestId 海报链接的 id
+ @return self
+ */
+- (instancetype)initWithType:(THNSharePosterType)posterType requestId:(NSString *)requestId;
+
+/**
  * @param title 标题
  * @param descr 描述
  * @param thumImageStr 缩略图

@@ -186,7 +186,8 @@ THNCommentTableViewDelegate
 - (IBAction)share:(id)sender {
     if (!self.shopWindowModel.rid.length) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                         requestId:self.shopWindowModel.rid];
     [shareVC shareObjectWithTitle:self.shopWindowModel.title
                             descr:self.shopWindowModel.des
                         thumImage:self.shopWindowModel.product_covers[0]

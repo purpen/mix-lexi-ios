@@ -15,8 +15,11 @@
  获取分享的海报图片
 
  @param type 海报类型
+ @param requestId rid
  @param completion 海报图片
  */
-+ (void)getSharePosterImageDataWithType:(THNSharePosterType)type completion:(void (^)(NSString *imageUrl))completion;
++ (void)getSharePosterImageDataWithType:(THNSharePosterType)type
+                              requestId:(NSString *)requestId
+                             completion:(void (^)(NSString *imageUrl))completion;
 
 @end

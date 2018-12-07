@@ -342,7 +342,7 @@ static NSString *const kTextCancel      = @"取消";
         [_saveButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _saveButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_saveButton setImageEdgeInsets:UIEdgeInsetsMake(-20, 10, 0, 0)];
-        [_saveButton setTitleEdgeInsets:(UIEdgeInsetsMake(50, -40, 0, 0))];
+        [_saveButton setTitleEdgeInsets:(UIEdgeInsetsMake(60, -40, 0, 0))];
         [_saveButton addTarget:self action:@selector(saveButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _saveButton;
