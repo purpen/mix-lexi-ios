@@ -854,7 +854,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     YBImageBrowseCellData *data = [YBImageBrowseCellData new];
     data.url = [NSURL URLWithString:asset.viewUrl];
     data.sourceObject = [self sourceCellWithIndex:index];
-    
+    [data preload];
+
     return data;
 }
 

@@ -16,16 +16,19 @@
  - THNHomeTypeFeatured: 精选 显示喜欢
  - THNHomeTypeCenter: 选品中心 显示赚和上架，卖
  - THNHomeTypeBrandHall: 隐藏原价按钮
+ - THNHomeTypeGrassList 显示查看详情
  */
 typedef NS_ENUM(NSInteger, THNHomeType) {
     THNHomeTypeExplore,
     THNHomeTypeFeatured,
     THNHomeTypeCenter,
     THNHomeTypeBrandHall,
-    THNHomeTypeShowPrice
+    THNHomeTypeShowPrice,
+    THNHomeTypeGrassList
 };
 
 typedef void(^ShelfBlock)(THNProductCollectionViewCell *cell);
+typedef void(^SeeProductDetailBlock)(NSString *rid);
 
 
 @class THNProductModel;
@@ -35,5 +38,6 @@ typedef void(^ShelfBlock)(THNProductCollectionViewCell *cell);
 - (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType;
 
 @property (nonatomic, copy) ShelfBlock shelfBlock;
+@property (nonatomic, copy) SeeProductDetailBlock seeProductDetailBlock;
 
 @end

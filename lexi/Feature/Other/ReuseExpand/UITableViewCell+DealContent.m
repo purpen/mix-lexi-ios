@@ -78,6 +78,8 @@
                 
                 contentH += (imageH + 10);
             }
+        } else if ([model.type isEqualToString:@"product"]) {
+            contentH += model.bigPicture ? 350 : 150;
         }
     }
     

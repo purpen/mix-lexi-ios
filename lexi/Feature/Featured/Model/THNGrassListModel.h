@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, DisCoverContentType) {
 @property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, strong) NSDictionary *recommend_store;
 @property (nonatomic, strong) NSArray <THNGoodsModelDealContent *> *deal_content;
+@property (nonatomic, strong) NSString *content;
 
 @property (nonatomic, assign) BOOL is_follow;
 // 用户ID

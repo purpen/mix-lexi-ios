@@ -27,5 +27,7 @@
 @property (nonatomic, strong) NSString *bgcover;
 @property (nonatomic, strong) NSString *rid;
 @property (nonatomic, strong) NSString *logo;
+// 是否有资质
+@property (nonatomic, assign) BOOL has_qualification;
 
 @end

@@ -13,6 +13,7 @@
 #import "YYLabel+Helper.h"
 #import "THNTextTool.h"
 #import "NSString+Helper.h"
+#import "THNConst.h"
 
 @interface THNCenterProductTableViewCell()
 
@@ -27,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *sellButton;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelLeftConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *seeDetailButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shippingImageViewTopConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *earnTextLabel;
 
 @end
 
@@ -38,11 +42,26 @@
     self.productImageView.layer.masksToBounds = YES;
     self.shelfButton.layer.cornerRadius = self.shelfButton.viewHeight / 2;
     self.sellButton.layer.cornerRadius = self.sellButton.viewHeight / 2;
+    self.seeDetailButton.layer.cornerRadius = 15;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setProductModel:(THNProductModel *)productModel {
+    _productModel = productModel;
     
+    if (self.isFromGrassList) {
+        [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
+        self.seeDetailButton.hidden = NO;
+    } else {
+        [self setProductAttributes:productModel.real_sale_price initWithOriginPrice:productModel.real_price initWithLikeCount:productModel.like_count];
+        self.seeDetailButton.hidden = YES;
+    }
+    
+    self.buttonView.hidden = self.isFromGrassList;
+    self.amountMoneyLabel.hidden = self.isFromGrassList;
+    self.earnTextLabel.hidden = self.isFromGrassList;
+    
+    self.shippingImageViewTopConstraint.constant = self.isFromGrassList ? 0 : 7;
     self.sallOutImageView.hidden = !productModel.is_sold_out;
     [self.productImageView loadImageWithUrl:[productModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeGoodsList)]];
 
@@ -56,9 +75,6 @@
 
     self.productNameLabel.text = productModel.name;
     
-    [self setProductAttributes:productModel.real_sale_price initWithOriginPrice:productModel.real_price initWithLikeCount:productModel.like_count];
-    
-
     if (!productModel.have_distributed) {
         self.shelfButton.backgroundColor = [UIColor colorWithHexString:@"2D343A"];
         [self.shelfButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -72,6 +88,12 @@
     }
 
     self.amountMoneyLabel.text = [NSString formatFloat:productModel.commission_price];
+}
+
+- (void)setCenterProductCell:(THNProductModel *)productModel
+      withIsShowDetailButton:(BOOL)isShowDetailButton {
+    
+    
 }
 
 - (void)setProductAttributes:(CGFloat)salePrice
@@ -110,6 +132,11 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(shelf:)]) {
         [self.delegate shelf:self];
     }
+}
+- (IBAction)seeProductDetail:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNGoodInfoVCSeeProductDetail
+                                                        object:nil
+                                                      userInfo:@{@"goodInfoRid" : self.productModel.rid}];
 }
 
 @end

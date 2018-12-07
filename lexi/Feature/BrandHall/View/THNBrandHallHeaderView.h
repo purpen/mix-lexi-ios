@@ -14,6 +14,7 @@
 - (void)showProduct;
 - (void)showLifeRecords;
 - (void)pushBrandHallStory:(NSString *)rid;
+- (void)lookBrandHallQualification:(NSString *)rid;
 
 @end
 

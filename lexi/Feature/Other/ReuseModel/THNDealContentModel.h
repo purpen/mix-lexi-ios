@@ -7,6 +7,7 @@
 @property (nonatomic, strong) NSString * rid;
 @property (nonatomic, strong) NSString * type;
 @property (nonatomic, assign) NSInteger width;
+@property (nonatomic, assign) BOOL bigPicture;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

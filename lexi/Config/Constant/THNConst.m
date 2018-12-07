@@ -41,6 +41,9 @@ NSString *const kShareCollectionPrefix  = @"https://h5.lexivip.com/collection?id
 // 品牌馆
 NSString *const kShareBrandHallPrefix   = @"https://h5.lexivip.com/brand_pavilion?rid=";
 
+#pragma mark - 业务H5前缀
+NSString *const THNBrandHallVCQualificationPrefix = @"https://h5.lexivip.com/shop/qualification_validation?rid=";
+
 #pragma mark - 测试账号
 /**
  (正式环境)小B账号：
@@ -134,6 +137,7 @@ NSString *const AppDelegateBackgroundRemotePush = @"AppDelegateBackgroundRemoteP
 NSString *const kChangeStatusWindowSuccess      = @"kChangeStatusWindowSuccess";
 NSString *const THNHomeVCDidScrollView          = @"THNHomeVCDidScrollView";
 NSString *const THNRecommendVCRemoveTimer       = @"THNRecommendVCRemoveTimer";
+NSString *const THNGoodInfoVCSeeProductDetail   = @"THNGoodInfoVCSeeProductDetail";
 
 #pragma mark - key
 NSString *const kScrollDistance                 = @"scrollDistance";

@@ -13,6 +13,7 @@
 #import "THNTextTool.h"
 #import "NSString+Helper.h"
 #import "UIColor+Extension.h"
+#import "THNConst.h"
 
 @interface THNProductCollectionViewCell()
 
@@ -29,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *shelfButton;
 @property (weak, nonatomic) IBOutlet UIButton *sellButton;
 @property (weak, nonatomic) IBOutlet UILabel *amountMoneyLabel;
+@property (weak, nonatomic) IBOutlet UIButton *seeDetailButton;
+@property (nonatomic, strong) THNProductModel *productModel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelTrailingConstraint;
 
 @end
 
@@ -40,9 +44,14 @@
     self.productImageView.layer.masksToBounds = YES;
     self.shelfButton.layer.cornerRadius = self.shelfButton.viewHeight / 2;
     self.sellButton.layer.cornerRadius = self.sellButton.viewHeight / 2;
+    self.seeDetailButton.layer.cornerRadius = 15;
 }
 
-- (void)setProductModel:(THNProductModel *)productModel initWithType:(THNHomeType)homeType {
+- (void)setProductModel:(THNProductModel *)productModel
+           initWithType:(THNHomeType)homeType {
+    
+    self.productModel = productModel;
+    self.seeDetailButton.hidden = YES;
 
     switch (homeType) {
         case THNHomeTypeExplore: {
@@ -88,7 +97,18 @@
             self.centerButtonViewComstraint.constant = 0;
             self.centerButtonView.hidden = YES;
             [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:0];
+            break;
         }
+        
+        case THNHomeTypeGrassList: {
+            self.centerButtonViewComstraint.constant = 10;
+            self.centerButtonView.hidden = YES;
+            self.seeDetailButton.hidden = NO;
+            self.productNameLabel.numberOfLines = 2;
+            [self setProductAttributes:productModel.min_sale_price initWithOriginPrice:productModel.min_price initWithLikeCount:productModel.like_count];
+            break;
+        }
+            
     }
     
 
@@ -140,4 +160,11 @@
 - (IBAction)sell:(id)sender {
     
 }
+
+- (IBAction)seeProductDetail:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNGoodInfoVCSeeProductDetail
+                                                        object:nil
+                                                      userInfo:@{@"goodInfoRid" : self.productModel.rid}];
+}
+
 @end

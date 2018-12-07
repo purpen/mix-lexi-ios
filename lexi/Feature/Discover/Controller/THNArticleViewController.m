@@ -110,6 +110,7 @@ THNCommentTableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushCommentVC) name:kLookAllCommentData object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushGoodInfoVC:) name:THNGoodInfoVCSeeProductDetail object:nil];
     tableViewY = kDeviceiPhoneX ? -44 : -22;
     articleHeaderViewHeight = 335 + 64 + 22;
     [self setupUI];
@@ -137,6 +138,14 @@ THNCommentTableViewDelegate
     commentVC.commentCount = self.allCommentCount;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
+
+- (void)pushGoodInfoVC:(NSNotification *)notification {
+    NSString *goodInfoRid = notification.userInfo[@"goodInfoRid"];
+    THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:goodInfoRid];
+    [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+
 
 // 文章详情
 - (void)loadLifeRecordsDetailData {
@@ -230,6 +239,22 @@ THNCommentTableViewDelegate
         }
         
         if (self.isNeedLocalHud) {
+//            NSInteger commentCellIndex = 0;
+//            for (UITableViewCell *cell in self.tableView.visibleCells) {
+//                if ([cell.class isSubclassOfClass:[THNCommentTableViewCell class]]) {
+//                    commentCellIndex = [self.tableView indexPathForCell:cell].row;
+//                }
+//            }
+//
+//            NSInteger commentInDataArrayIndex = [self.dataArray indexOfObject:KArticleCellTypeComment];
+//
+//            if (commentCellIndex == commentInDataArrayIndex) {
+//
+//            } else {
+//                [self.tableView layoutIfNeeded]
+//
+//                [self.tableView scrollToRow:commentInDataArrayIndex inSection:0 atScrollPosition:UITableViewScrollPositionNone animated:YES];
+//            }
             [self.tableView reloadData];
             return;
         }
@@ -557,7 +582,7 @@ THNCommentTableViewDelegate
     } else if (self.grassListModel.type == DisCoverContentTypeGrassList) {
         shareUrlPrefix = kShareGrassUrlPrefix;
     }
-    
+
     [shareVC shareObjectWithTitle:self.grassListModel.title
                             descr:self.grassListModel.des
                         thumImage:self.grassListModel.cover

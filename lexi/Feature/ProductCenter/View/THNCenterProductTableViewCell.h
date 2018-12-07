@@ -25,6 +25,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (nonatomic, strong) THNProductModel *productModel;
+@property (nonatomic, assign) BOOL isFromGrassList;
 @property (nonatomic, weak) id <THNCenterProductTableViewCellDelegate>delegate;
 
 @end

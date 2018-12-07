@@ -70,7 +70,7 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 - (void)setupUI {
     self.productType = ProductTypeHot;
-    self.tableView.rowHeight = 171;
+    self.tableView.rowHeight = 175;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"THNCenterProductTableViewCell" bundle:nil] forCellReuseIdentifier:kCenterProductCellIdentifier];

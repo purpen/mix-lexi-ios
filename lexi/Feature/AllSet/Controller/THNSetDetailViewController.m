@@ -30,6 +30,8 @@ THNMJRefreshDelegate
 @property (nonatomic, strong) NSMutableArray *products;
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *setTitle;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *subTitle;
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *productCountLabel;
@@ -54,8 +56,8 @@ THNMJRefreshDelegate
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
-        [shareVC shareObjectWithTitle:weakSelf.setTitle
-                                descr:nil
+        [shareVC shareObjectWithTitle:weakSelf.title
+                                descr:weakSelf.subTitle
                             thumImage:weakSelf.cover
                                webUrl:[kShareCollectionPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",weakSelf.collectionID]]];
         shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -96,7 +98,9 @@ THNMJRefreshDelegate
         }
         
         self.cover = result.data[@"cover"];
-        self.setTitle = [NSString stringWithFormat:@"%@-%@",result.data[@"name"],result.data[@"sub_name"]];
+        self.title = result.data[@"name"];
+        self.subTitle = result.data[@"sub_name"];
+        self.setTitle = [NSString stringWithFormat:@"%@-%@", self.title, self.subTitle];
         [self.collectionView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self hiddenHud];
