@@ -288,6 +288,17 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self.tableView reloadData];
 }
 
+/**
+ 切换用户重新加载数据
+ */
+- (void)thn_changeUserReloadData {
+    if (![[THNLoginManager sharedManager].userId isEqualToString:self.recordUid]) {
+        [self.dataSections removeAllObjects];
+        [self.tableView reloadData];
+        [self.tableView beginHeaderRefresh];
+    }
+}
+
 #pragma mark - network
 /**
  获取用户资料
@@ -813,10 +824,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_uploadViewFrame];
     [self thn_setUserCenterData];
     [self thn_getUserProfileData];
-    
-    if (![[THNLoginManager sharedManager].userId isEqualToString:self.recordUid]) {
-        [self.tableView beginHeaderRefresh];
-    }
+    [self thn_changeUserReloadData];
 }
 
 - (void)setNavigationBar {

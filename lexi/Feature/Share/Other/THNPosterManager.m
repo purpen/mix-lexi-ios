@@ -59,7 +59,6 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
             return ;
         }
         
-        NSLog(@"海报URL：%@", result.data[@"image_url"]);
         completion(result.data[@"image_url"]);
         
     } failure:^(THNRequest *request, NSError *error) {
