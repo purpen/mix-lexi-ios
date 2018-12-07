@@ -14,6 +14,10 @@
 #import <SDWebImage/SDWebImageManager.h>
 #import "SVProgressHUD+Helper.h"
 #import "NSString+Helper.h"
+#import "THNProductModel.h"
+#import "THNProductCollectionViewCell.h"
+#import "THNCenterProductTableViewCell.h"
+#import "THNMarco.h"
 
 static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCellId";
 
@@ -58,6 +62,9 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
             } else {
                 [self thn_creatContentImageWithImageUrl:model.content];
             }
+        } else if ([model.type isEqualToString:@"product"]) {
+            THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:model.content];
+            [self thn_creatContentProduct:productModel withIsShowBigPicture:model.bigPicture];
         }
     }
 }
@@ -164,6 +171,38 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
     return CGSizeMake(0, 0);
 }
 
+/**
+ 商品内容
+ */
+- (void)thn_creatContentProduct:(THNProductModel *)productModel
+           withIsShowBigPicture:(BOOL)isShowBigPicture {
+    
+    if (isShowBigPicture) {
+        [self thn_setProductCollectionCell:productModel];
+    } else {
+        [self thn_setCenterCollectionCell:productModel];
+    }
+}
+
+- (void)thn_setProductCollectionCell:(THNProductModel *)productModel {
+    THNProductCollectionViewCell *productCollectionCell = [THNProductCollectionViewCell viewFromXib];
+    [productCollectionCell setProductModel:productModel initWithType:THNHomeTypeGrassList];
+    [self addSubview:productCollectionCell];
+    productCollectionCell.frame = CGRectMake(20, self.originY, SCREEN_WIDTH - 40, 320);
+    
+    self.originY += 350;
+}
+
+- (void)thn_setCenterCollectionCell:(THNProductModel *)productModel {
+    THNCenterProductTableViewCell *centerProductCell = [THNCenterProductTableViewCell viewFromXib];
+    centerProductCell.isFromGrassList = YES;
+    [centerProductCell setProductModel:productModel];
+    [self addSubview:centerProductCell];
+    centerProductCell.frame = CGRectMake(0, self.originY, SCREEN_WIDTH, 150);
+    
+    self.originY += 150;
+}
+
 #pragma mark - getters and setters
 - (CGFloat)thn_imageOriginX {
     NSDictionary *originDict = @{@(THNDealContentTypeArticle)   : @(0),
@@ -186,5 +225,6 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
 - (void)dealloc {
     [[SDWebImageManager sharedManager].imageCache clearMemory];
 }
+
 
 @end

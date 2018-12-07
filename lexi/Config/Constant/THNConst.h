@@ -40,6 +40,9 @@ UIKIT_EXTERN NSString *const kShareCollectionPrefix;
 // 品牌馆
 UIKIT_EXTERN NSString *const kShareBrandHallPrefix;
 
+#pragma mark - 业务H5前缀
+UIKIT_EXTERN NSString *const THNBrandHallVCQualificationPrefix;
+
 #pragma mark - App 公共参数
 UIKIT_EXTERN NSInteger const kAppDebug;
 UIKIT_EXTERN NSString *const KAppType;
@@ -116,6 +119,7 @@ UIKIT_EXTERN NSString *const AppDelegateBackgroundRemotePush;
 UIKIT_EXTERN NSString *const kChangeStatusWindowSuccess;
 UIKIT_EXTERN NSString *const THNHomeVCDidScrollView;
 UIKIT_EXTERN NSString *const THNRecommendVCRemoveTimer;
+UIKIT_EXTERN NSString *const THNGoodInfoVCSeeProductDetail;
 
 #pragma mark - key
 UIKIT_EXTERN NSString *const kScrollDistance;

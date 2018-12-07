@@ -33,6 +33,7 @@
 #import "UIViewController+THNHud.h"
 #import "THNShareViewController.h"
 #import "THNConst.h"
+#import "THNWebKitViewViewController.h"
 
 static NSString *const kBrandHallProductCellIdentifier = @"kBrandHallProductCellIdentifier";
 static NSString *const kBrandHallLifeRecordsCellIdentifier = @"kBrandHallLifeRecordsCellIdentifier";
@@ -541,6 +542,12 @@ THNMJRefreshDelegate
     THNBrandHallStoryViewController *brandHallStoryVC = [[THNBrandHallStoryViewController alloc]init];
     brandHallStoryVC.rid = rid;
     [self.navigationController pushViewController:brandHallStoryVC animated:YES];
+}
+
+- (void)lookBrandHallQualification:(NSString *)rid {
+    THNWebKitViewViewController *webkitVC = [[THNWebKitViewViewController alloc]init];
+    webkitVC.url = [NSString stringWithFormat:@"%@%@",THNBrandHallVCQualificationPrefix, rid];
+    [self.navigationController pushViewController:webkitVC animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate

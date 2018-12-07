@@ -11,6 +11,7 @@ NSString *const kTHNGoodsModelDealContentHeight = @"height";
 NSString *const kTHNGoodsModelDealContentRid = @"rid";
 NSString *const kTHNGoodsModelDealContentType = @"type";
 NSString *const kTHNGoodsModelDealContentWidth = @"width";
+NSString *const kTHNGoodsModelDealContentBigPicture = @"big_picture";
 
 @interface THNDealContentModel ()
 @end
@@ -42,6 +43,9 @@ NSString *const kTHNGoodsModelDealContentWidth = @"width";
 	if(![dictionary[kTHNGoodsModelDealContentWidth] isKindOfClass:[NSNull class]]){
 		self.width = [dictionary[kTHNGoodsModelDealContentWidth] integerValue];
 	}
+    if(![dictionary[kTHNGoodsModelDealContentBigPicture] isKindOfClass:[NSNull class]]){
+        self.bigPicture = [dictionary[kTHNGoodsModelDealContentBigPicture] boolValue];
+    }
 
 	return self;
 }
@@ -64,6 +68,7 @@ NSString *const kTHNGoodsModelDealContentWidth = @"width";
 		dictionary[kTHNGoodsModelDealContentType] = self.type;
 	}
 	dictionary[kTHNGoodsModelDealContentWidth] = @(self.width);
+    dictionary[kTHNGoodsModelDealContentBigPicture] = @(self.bigPicture);
 	return dictionary;
 
 }
@@ -86,6 +91,7 @@ NSString *const kTHNGoodsModelDealContentWidth = @"width";
 		[aCoder encodeObject:self.type forKey:kTHNGoodsModelDealContentType];
 	}
 	[aCoder encodeObject:@(self.width) forKey:kTHNGoodsModelDealContentWidth];
+    [aCoder encodeObject:@(self.bigPicture) forKey:kTHNGoodsModelDealContentBigPicture];
 }
 
 /**
@@ -99,6 +105,7 @@ NSString *const kTHNGoodsModelDealContentWidth = @"width";
 	self.rid = [aDecoder decodeObjectForKey:kTHNGoodsModelDealContentRid];
 	self.type = [aDecoder decodeObjectForKey:kTHNGoodsModelDealContentType];
 	self.width = [[aDecoder decodeObjectForKey:kTHNGoodsModelDealContentWidth] integerValue];
+    self.bigPicture = [[aDecoder decodeObjectForKey:kTHNGoodsModelDealContentBigPicture] boolValue];
 	return self;
 
 }

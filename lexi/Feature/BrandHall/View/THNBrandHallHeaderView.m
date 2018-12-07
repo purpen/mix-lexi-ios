@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *desLabel;
 @property (weak, nonatomic) IBOutlet THNFollowStoreButton *followButton;
 @property (weak, nonatomic) IBOutlet UIButton *designHallButton;
+@property (weak, nonatomic) IBOutlet UIButton *qualificationButton;
 
 @end
 
@@ -52,6 +53,8 @@
     self.nameLabel.text = offcialStoreModel.name;
     self.followButton.isNeedRefresh = YES;
     [self.followButton selfManagerFollowBrandStatus:offcialStoreModel.is_followed OffcialStoreModel:offcialStoreModel];
+    self.qualificationButton.hidden = !offcialStoreModel.has_qualification;
+    
 }
 
 - (IBAction)productButton:(id)sender {
@@ -76,6 +79,12 @@
 - (IBAction)lookBrandHallStory:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(pushBrandHallStory:)]) {
         [self.delegate pushBrandHallStory:self.offcialStoreModel.rid];
+    }
+}
+
+- (IBAction)lookBrandHallQualification:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(lookBrandHallQualification:)]) {
+        [self.delegate lookBrandHallQualification:self.offcialStoreModel.rid];
     }
 }
 
