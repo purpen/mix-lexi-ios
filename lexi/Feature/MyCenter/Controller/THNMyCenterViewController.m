@@ -87,6 +87,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 @property (nonatomic, strong) THNMyCenterMenuView *menuView;
 /// 生活馆管理
 @property (nonatomic, strong) THNLifeManagementViewController *lifeStoreVC;
+/// 记录请求的用户id
+@property (nonatomic, strong) NSString *recordUid;
 
 @end
 
@@ -97,6 +99,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self setupUI];
     [self thn_switchCurrentListDataWithType:THNHeaderViewSelectedTypeLiked];
+    self.recordUid = [THNLoginManager sharedManager].userId;
 }
 
 #pragma mark - custom delegate
@@ -810,6 +813,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_uploadViewFrame];
     [self thn_setUserCenterData];
     [self thn_getUserProfileData];
+    
+    if (![[THNLoginManager sharedManager].userId isEqualToString:self.recordUid]) {
+        [self.tableView beginHeaderRefresh];
+    }
 }
 
 - (void)setNavigationBar {

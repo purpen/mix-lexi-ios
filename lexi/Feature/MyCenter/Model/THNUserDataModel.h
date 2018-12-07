@@ -25,5 +25,6 @@
 @property (nonatomic, strong) NSString *last_seen;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *avatar_id;
+@property (nonatomic, assign) BOOL is_bind_wx;
 
 @end

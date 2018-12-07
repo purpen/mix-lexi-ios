@@ -19,14 +19,18 @@
 #import "THNLifeOrderRecordViewController.h"
 #import "THNLifeCashViewController.h"
 #import "THNLifeActionViewController.h"
-#import "THNShareImageViewController.h"
+#import "THNShareViewController.h"
 #import "THNAlertView.h"
 
+#define kTextInTitle(obj) [NSString stringWithFormat:@"@%@邀请你一起来乐喜", obj]
+
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
+static NSString *const kURLApplyStore       = @"https://h5.lexivip.com/shop/guide";
 ///
-static NSString *const kTextFriends = @"邀请好友开馆赚钱";
-static NSString *const kTextWechat  = @"加入馆主群，获取赚钱攻略";
-static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
+static NSString *const kTextFriends     = @"邀请好友开馆赚钱";
+static NSString *const kTextInvitation  = @"开一个能赚钱的生活馆";
+static NSString *const kTextWechat      = @"加入馆主群，获取赚钱攻略";
+static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 @interface THNLifeManagementViewController () <
     UITableViewDelegate,
@@ -161,9 +165,15 @@ static NSString *const kTextPhone   = @"客服电话 400-2345-0000";
     
     if (!lifeStoreId.length) return;
     
-    THNShareImageViewController *shareImageVC = [[THNShareImageViewController alloc] initWithType:(THNSharePosterTypeInvitation)
-                                                                                        requestId:lifeStoreId];
-    [self presentViewController:shareImageVC animated:NO completion:nil];
+    THNUserDataModel *userModel = [THNUserDataModel mj_objectWithKeyValues:[THNLoginManager sharedManager].userData];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeInvitation)
+                                                                         requestId:lifeStoreId];
+    [shareVC shareObjectWithTitle:kTextInTitle(userModel.username)
+                            descr:kTextInvitation
+                        thumImage:userModel.avatar
+                           webUrl:kURLApplyStore];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 // 复制微信号

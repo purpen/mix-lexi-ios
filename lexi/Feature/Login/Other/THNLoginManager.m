@@ -152,8 +152,8 @@ MJCodingImplementation
         self.storeRid = result.data[kRequestStoreRid];
         self.openingUser = [result.data[kRequestIsSmallB] boolValue];
         self.supplier = [result.data[kRequestSupplier] boolValue];
-        self.userData = result.data[kRequestProfile];
         self.userId = result.data[kRequestProfile][kRequestUserId];
+        self.userData = result.data[kRequestProfile];
         
         [self saveLoginInfo];
         
@@ -191,11 +191,23 @@ MJCodingImplementation
 - (void)requestWechatBingWithParams:(NSDictionary *)params completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
     THNRequest *request = [THNAPI postWithUrlString:kURLWechatBind requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"微信绑定：%@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
+        
+        [self setUMAlias:result.data];
+        
+        self.token = result.data[kRequestToken];
+        self.expirationTime = result.data[kRequestExpiration];
+        self.firstLogin = [result.data[kRequestFirstLogin] integerValue];
+        self.storeRid = result.data[kRequestStoreRid];
+        self.openingUser = [result.data[kRequestIsSmallB] boolValue];
+        self.supplier = [result.data[kRequestSupplier] boolValue];
+        self.userId = result.data[kRequestProfile][kRequestUserId];
+        self.userData = result.data[kRequestProfile];
+        
+        [self saveLoginInfo];
         
         completion([result.data[@"is_bind"] boolValue], result.data[@"openid"], nil);
         
@@ -215,6 +227,7 @@ MJCodingImplementation
     self.openingUser = openingUser;
     self.storeRid = storeId;
     self.supplier = supplier;
+    
     [self saveLoginInfo];
 }
 
@@ -292,13 +305,15 @@ MJCodingImplementation
  清除登录信息
  */
 - (void)clearLoginInfo {
-    //  客户端清空缓存的 token
+    // 客户端清空缓存的 token
     self.token = nil;
     
     //移除别名
-    [UMessage removeAlias:[THNSaveTool objectForKey:kUid] type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+    [UMessage removeAlias:[THNSaveTool objectForKey:kUid]
+                     type:@"lexi"
+                 response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
         
-    }];
+                 }];
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     if ([defaultManager isDeletableFileAtPath:[[self class] archiveFilePath]]) {

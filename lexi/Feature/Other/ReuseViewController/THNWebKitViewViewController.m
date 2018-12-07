@@ -28,6 +28,12 @@
     [self.view addSubview:self.webView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationBarView.title = self.title;
+}
+
 #pragma mark - webView delegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [SVProgressHUD thn_show];

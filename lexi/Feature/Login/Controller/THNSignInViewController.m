@@ -177,12 +177,23 @@ static NSString *const kTextSkip            = @"跳过";
 }
 
 - (void)thn_signInUseWechatLogin {
+    WEAKSELF;
+    
     [THNLoginManager useWechatLoginCompletion:^(BOOL isBind, NSString *openid, NSError *error) {
         if (!isBind) {
-            [self thn_openBindPhoneControllerWithWechatOpenId:openid];
+            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openid];
             
         } else {
-            NSLog(@"登录成功");
+            if ([THNLoginManager isFirstLogin]) {
+                [weakSelf thn_openNewUserInfoController];
+                
+            } else {
+                [SVProgressHUD thn_showSuccessWithStatus:@"登录成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            }
+            
+            [THNAdvertManager checkIsNewUserBonus];
         }
     }];
 }
