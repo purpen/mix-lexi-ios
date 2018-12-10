@@ -1076,6 +1076,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 #pragma mark - setup UI
 - (void)setupUI {
+    [self setNavigationBar];
+    
     self.tableView.contentInset = UIEdgeInsetsMake(-44, 0, 55, 0);
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
@@ -1085,8 +1087,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self setNavigationBar];
     
     if ([THNLoginManager isLogin]) {
         [self thn_getCartGoodsCount];

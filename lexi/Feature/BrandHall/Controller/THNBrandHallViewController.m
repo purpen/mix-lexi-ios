@@ -280,7 +280,7 @@ THNMJRefreshDelegate
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)
-                                                                             requestId:self.rid];
+                                                                             requestId:weakSelf.rid];
         [shareVC shareObjectWithTitle:weakSelf.offcialStoreModel.name
                                 descr:weakSelf.offcialStoreModel.tag_line
                             thumImage:weakSelf.offcialStoreModel.logo

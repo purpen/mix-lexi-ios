@@ -67,8 +67,6 @@ static NSString *const kTextCancel      = @"取消";
 }
 
 - (void)thn_setSharePosterImageUrl:(NSString *)imageUrl {
-    [SVProgressHUD thn_show];
-    
     [self.saveImageView downloadImage:imageUrl place:nil completed:^(UIImage *image, NSError *error) {
         [SVProgressHUD dismiss];
     }];

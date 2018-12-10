@@ -82,6 +82,8 @@ static NSString *const kKeyImageUrl  = @"image_url";
 #pragma mark - network
 // 海报
 - (void)thn_networkPosterImageData {
+    [SVProgressHUD thn_show];
+    
     WEAKSELF;
 
     THNRequest *request = [THNAPI postWithUrlString:kURLWxaPoster
