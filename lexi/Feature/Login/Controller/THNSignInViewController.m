@@ -181,9 +181,9 @@ static NSString *const kTextSkip            = @"跳过";
     
     [SVProgressHUD thn_show];
     
-    [THNLoginManager useWechatLoginCompletion:^(BOOL isBind, NSString *openid, NSError *error) {
+    [THNLoginManager useWechatLoginCompletion:^(BOOL isBind, NSString *openId, NSError *error) {
         if (!isBind) {
-            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openid];
+            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openId];
             
         } else {
             if ([THNLoginManager isFirstLogin]) {

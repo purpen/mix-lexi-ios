@@ -87,9 +87,9 @@ static NSString *const kTextLoginOut = @"退出登录";
 - (void)thn_userBindWechat {
     WEAKSELF;
     
-    [THNLoginManager useWechatLoginCompletion:^(BOOL isBind, NSString *openid, NSError *error) {
+    [THNLoginManager useWechatBindCompletion:^(BOOL isBind, NSString *openId, NSError *error) {
         if (!isBind) {
-            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openid];
+            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openId];
             
         } else {
             [SVProgressHUD thn_showSuccessWithStatus:@"已绑定"];

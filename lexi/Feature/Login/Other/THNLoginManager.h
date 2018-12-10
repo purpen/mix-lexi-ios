@@ -125,6 +125,7 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  使用微信登录注册
  */
 + (void)useWechatLoginCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion;
++ (void)useWechatBindCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion;
 
 /**
  更新生活馆信息

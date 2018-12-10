@@ -29,7 +29,8 @@ static NSString *const kURLAppRegister  = @"/auth/set_password";
 static NSString *const kURLLogout       = @"/auth/logout";
 static NSString *const kURLUserProfile  = @"/users/profile";
 static NSString *const kURLUsers        = @"/users";
-static NSString *const kURLWechatBind   = @"/auth/app_bind_wx";
+static NSString *const kURLWechatLogin  = @"/auth/app_bind_wx";
+static NSString *const kURLWechatBind   = @"/users/user_info_bind_wx";
 /// 请求数据 key
 static NSString *const kRequestData         = @"data";
 static NSString *const kRequestExpiration   = @"expiration";
@@ -59,7 +60,11 @@ MJCodingImplementation
 }
 
 + (void)useWechatLoginCompletion:(void (^)(BOOL , NSString *, NSError *))completion {
-    [[THNLoginManager sharedManager] requestWechetUserInfoCompletion:completion];
+    [[THNLoginManager sharedManager] requestWechetUserInfoOfLogin:YES completion:completion];
+}
+
++ (void)useWechatBindCompletion:(void (^)(BOOL, NSString *, NSError *))completion {
+    [[THNLoginManager sharedManager] requestWechetUserInfoOfLogin:NO completion:completion];
 }
 
 #pragma mark - request
@@ -171,7 +176,7 @@ MJCodingImplementation
 /**
  去微信授权获取用户信息
  */
-- (void)requestWechetUserInfoCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
+- (void)requestWechetUserInfoOfLogin:(BOOL)login completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
     [[UMSocialManager defaultManager] getUserInfoWithPlatform:UMSocialPlatformType_WechatSession
                                         currentViewController:nil
                                                    completion:^(id result, NSError *error) {
@@ -181,18 +186,20 @@ MJCodingImplementation
                                                        }
                                                        
                                                        NSDictionary *params = [self thn_getWechatUserInfoResult:result];
-                                                       [self requestWechatBingWithParams:params completion:completion];
+                                                       [self requestWechatWithParams:params login:login completion:completion];
                                                    }];
 }
 
 /**
  微信绑定/登录
  */
-- (void)requestWechatBingWithParams:(NSDictionary *)params completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
-    THNRequest *request = [THNAPI postWithUrlString:kURLWechatBind requestDictionary:params delegate:nil];
+- (void)requestWechatWithParams:(NSDictionary *)params login:(BOOL)login completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
+    NSString *requestUrl = login ? kURLWechatLogin : kURLWechatBind;
+    
+    THNRequest *request = [THNAPI postWithUrlString:requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
 #ifdef DEBUG
-        THNLog(@"微信授权、登录--- %@", result.responseDict);
+        THNLog(@"微信绑定/登录--- %@", result.responseDict);
 #endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
