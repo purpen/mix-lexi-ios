@@ -99,7 +99,7 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
             
             case THNSharePosterTypeNone:
             case THNSharePosterTypeInvitation: {
-                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+                [paramDict setObject:kWxaStoreGuidePath forKey:kKeyPath];
             }
                 break;
                 

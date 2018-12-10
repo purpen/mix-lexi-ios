@@ -71,7 +71,10 @@ static NSString *const kKeyQuantity = @"quantity";
     [super viewDidLoad];
     
     [self setupUI];
-    [SVProgressHUD thn_show];
+    
+    if ([THNLoginManager isLogin]) {
+        [SVProgressHUD thn_show];
+    }
 }
 
 #pragma mark - network

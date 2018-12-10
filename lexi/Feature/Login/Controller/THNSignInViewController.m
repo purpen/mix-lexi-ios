@@ -179,6 +179,8 @@ static NSString *const kTextSkip            = @"跳过";
 - (void)thn_signInUseWechatLogin {
     WEAKSELF;
     
+    [SVProgressHUD thn_show];
+    
     [THNLoginManager useWechatLoginCompletion:^(BOOL isBind, NSString *openid, NSError *error) {
         if (!isBind) {
             [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openid];

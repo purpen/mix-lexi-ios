@@ -21,6 +21,7 @@ UIKIT_EXTERN NSString *const kUid;
 #pragma mark - 小程序参数
 UIKIT_EXTERN NSString *const kWxaAuthAppId;
 UIKIT_EXTERN NSString *const kWxaHomePath;
+UIKIT_EXTERN NSString *const kWxaStoreGuidePath;
 UIKIT_EXTERN NSString *const kWxaProductPath;
 UIKIT_EXTERN NSString *const kWxaWindowPath;
 

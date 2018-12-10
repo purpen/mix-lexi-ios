@@ -20,10 +20,11 @@ NSString *const kTestAppSecret      = @"e238bf64d77e5be7284686aaacd0232e7248254a
 //NSString *const kTestAppSecret      = @"4d8ebaf52b76603a158b67f525a1b9e5f80677da";
 
 #pragma mark - 小程序参数
-NSString *const kWxaAuthAppId   = @"wx60ed17bfd850985d";
-NSString *const kWxaHomePath    = @"pages/index/index";
-NSString *const kWxaProductPath = @"pages/product/product";
-NSString *const kWxaWindowPath  = @"pages/windowDetail/windowDetail";
+NSString *const kWxaAuthAppId       = @"wx60ed17bfd850985d";
+NSString *const kWxaHomePath        = @"pages/index/index";
+NSString *const kWxaStoreGuidePath  = @"lifeStore/pages/lifeStoreGuide/lifeStoreGuide";
+NSString *const kWxaProductPath     = @"pages/product/product";
+NSString *const kWxaWindowPath      = @"pages/windowDetail/windowDetail";
 
 #pragma mark - 分享H5前缀
 // 文章

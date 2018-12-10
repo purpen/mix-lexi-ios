@@ -379,12 +379,11 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     WEAKSELF;
     
     THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^(NSString *rid) {
-        [weakSelf.dataSections removeObjectAtIndex:5];
-        
         dispatch_group_t group = dispatch_group_create();
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            [weakSelf.dataSections removeObjectAtIndex:5];
             [weakSelf thn_setGoodsInfoLikedUserCell];
             [weakSelf thn_reloadGoodsInfoSections];
         });

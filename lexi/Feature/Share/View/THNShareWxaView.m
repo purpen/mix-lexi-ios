@@ -12,6 +12,7 @@
 #import "UIView+Helper.h"
 #import "THNMarco.h"
 #import "UIImageView+WebImage.h"
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kTextSellGoods   = @"朋友通过你分享的此链接和图片购买商品，你即可赚取相应收益! 收益仅自己可见";
 static NSString *const kTextHintWechat  = @"点击直接分享好友样式";
@@ -66,7 +67,11 @@ static NSString *const kTextCancel      = @"取消";
 }
 
 - (void)thn_setSharePosterImageUrl:(NSString *)imageUrl {
-    [self.saveImageView downloadImage:imageUrl];
+    [SVProgressHUD thn_show];
+    
+    [self.saveImageView downloadImage:imageUrl place:nil completed:^(UIImage *image, NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
 }
 
 - (void)thn_setShareCardImageUrl:(NSString *)imageUrl {

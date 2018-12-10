@@ -59,6 +59,12 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     [self.flowButton drawCornerWithType:0 radius:4];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.avatarImageView drawCornerWithType:(UILayoutCornerRadiusAll) radius:30/2];
+}
+
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
     _shopWindowModel = shopWindowModel;
     self.nameLabel.text = shopWindowModel.user_name;

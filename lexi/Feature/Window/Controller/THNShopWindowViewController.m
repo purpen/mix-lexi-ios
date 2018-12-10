@@ -146,7 +146,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
 
         if (self.showWindowType == ShowWindowTypeFollow) {
-            [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
+            [self.showWindowFollows addObjectsFromArray:showWindowFollows];
             self.showWindows = self.showWindowFollows;
         } else {
             [self.showWindowRecommends addObjectsFromArray:showWindowFollows];

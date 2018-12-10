@@ -191,6 +191,9 @@ MJCodingImplementation
 - (void)requestWechatBingWithParams:(NSDictionary *)params completion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion {
     THNRequest *request = [THNAPI postWithUrlString:kURLWechatBind requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"微信授权、登录--- %@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
@@ -408,6 +411,7 @@ MJCodingImplementation
     [wechatParams setObject:country          forKey:@"country"];
     [wechatParams setObject:city             forKey:@"province"];
     [wechatParams setObject:province         forKey:@"city"];
+    [wechatParams setObject:kWXAppKey        forKey:@"app_id"];
     
     return [wechatParams copy];
 }
