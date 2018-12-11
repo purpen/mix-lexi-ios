@@ -12,6 +12,7 @@
 #import "UILable+Frame.h"
 #import "THNConst.h"
 #import "THNMarco.h"
+#import "UIView+Helper.h"
 
 static const NSInteger kRightButtonTag = 123;
 
@@ -331,6 +332,16 @@ static const NSInteger kRightButtonTag = 123;
     }
     
     [super updateConstraints];
+}
+
+- (void)drawRect:(CGRect)rect {
+    if (self.bottomLine) {
+        CGFloat originY = CGRectGetHeight(self.frame) - 1;
+        [UIView drawRectLineStart:(CGPointMake(0, originY))
+                              end:(CGPointMake(CGRectGetWidth(self.frame), originY))
+                            width:1
+                            color:[UIColor colorWithHexString:@"#E9E9E9"]];
+    }
 }
 
 #pragma mark - getters and setters

@@ -37,6 +37,8 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 
+#import "THNCashViewController.h"
+
 #define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
 /// seciton header 默认的标题
@@ -672,15 +674,17 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  打开分享视图
  */
 - (void)thn_openShareController {
-    if (!self.userModel.uid.length) return;
-    
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
-    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
-                            descr:kShareDes
-                        thumImage:self.userModel.avatar
-                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
-    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [self presentViewController:shareVC animated:NO completion:nil];
+    THNCashViewController *cashVC = [[THNCashViewController alloc] init];
+    [self.navigationController pushViewController:cashVC animated:YES];
+//    if (!self.userModel.uid.length) return;
+//
+//    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
+//    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
+//                            descr:kShareDes
+//                        thumImage:self.userModel.avatar
+//                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
+//    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+//    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 /**
