@@ -7,6 +7,7 @@
 //
 
 #import "UIImageView+WebImage.h"
+#import "UIView+Helper.h"
 
 static NSString *const kPlaceholderImageUser = @"default_user_place";
 static NSString *const kPlaceholderImageName = @"default_image_place";
@@ -81,6 +82,7 @@ static NSString *const kPlaceholderImageName = @"default_image_place";
 - (void)loadImageWithUrl:(NSString *)url circular:(BOOL)circular {
     if (circular) {
         [self loadImageWithUrl:url resizeToSize:self.frame.size cornerRadius:self.frame.size.height / 2];
+        [self drawCornerWithType:(UILayoutCornerRadiusAll) radius:self.frame.size.height/2];
         
     } else {
         [self loadImageWithUrl:url];
@@ -93,8 +95,8 @@ static NSString *const kPlaceholderImageName = @"default_image_place";
                   options:YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionIgnoreFailedURL
                  progress:nil
                 transform:^UIImage *(UIImage *image, NSURL *url) {
-                            image = [image imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFill];
-                            return [image imageByRoundCornerRadius:cornerRadius];
+                    image = [image imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFill];
+                    return [image imageByRoundCornerRadius:cornerRadius];
                 }
                completion:nil];
 }

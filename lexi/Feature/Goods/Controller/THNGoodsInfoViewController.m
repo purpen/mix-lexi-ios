@@ -138,6 +138,9 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         
         [weakSelf thn_getGoodsInfoSkuDataWithGroup:group];
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
+        if ([THNLoginManager isLogin]) {
+            [weakSelf thn_getUserMasterCouponsDataWithGroup:group];
+        }
         [weakSelf thn_getGoodsInfoStoreCouponDataWithGroup:group];
         [weakSelf thn_getGoodsInfoStoreDataWithGroup:group];
         [weakSelf thn_getGoodsInfoFreightDataWithGroup:group];

@@ -28,9 +28,7 @@ static NSString *const kKeyData     = @"data";
 
 @interface THNAddressViewController ()
 
-/// 收货地址
 @property (nonatomic, strong) UITableView *addressTable;
-/// 数据
 @property (nonatomic, strong) NSMutableArray *addressArr;
 
 @end

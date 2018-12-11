@@ -15,14 +15,14 @@
 #import "THNNewShippingAddressViewController.h"
 #import "THNAlertView.h"
 
-static NSString *const kTitleDone  = @"继续以确认订单";
+static NSString *const kTitleDone           = @"继续以确认订单";
 /// url
-static NSString *const kURLAddress       = @"/address";
-static NSString *const kURLAddressCustom = @"/address/custom";
+static NSString *const kURLAddress          = @"/address";
+static NSString *const kURLAddressCustom    = @"/address/custom";
 /// key
-static NSString *const kKeyData     = @"data";
-static NSString *const kKeyName     = @"user_name";
-static NSString *const kKeyMobile   = @"mobile";
+static NSString *const kKeyData             = @"data";
+static NSString *const kKeyName             = @"user_name";
+static NSString *const kKeyMobile           = @"mobile";
 
 @interface THNSelectAddressViewController () <
     THNNavigationBarViewDelegate,
@@ -31,15 +31,10 @@ static NSString *const kKeyMobile   = @"mobile";
     THNAddressTableViewCellDelegate
 >
 
-/// 完成按钮
 @property (nonatomic, strong) UIButton *doneButton;
-/// 进度条
 @property (nonatomic, strong) THNBuyProgressView *progressView;
-/// 收货地址
 @property (nonatomic, strong) UITableView *addressTable;
-/// 数据
 @property (nonatomic, strong) NSMutableArray *addressArr;
-/// 选中的单元格
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
 /// 是否上传海关身份证照片
 @property (nonatomic, assign) BOOL haveIdCard;

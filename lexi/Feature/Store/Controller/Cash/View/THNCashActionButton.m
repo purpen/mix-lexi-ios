@@ -14,6 +14,7 @@
 
 @interface THNCashActionButton ()
 
+@property (nonatomic, strong) UIButton *actionButton;
 @property (nonatomic, strong) UIImageView *selectedIcon;
 @property (nonatomic, strong) UIImageView *hintIcon;
 
@@ -38,7 +39,7 @@
 - (void)thn_showCashMoneyValue:(CGFloat)value {
     NSString *moneyStr = [NSString stringWithFormat:@"%.0f元", value];
     
-    [self setTitle:moneyStr forState:(UIControlStateNormal)];
+    [self.actionButton setTitle:moneyStr forState:(UIControlStateNormal)];
 }
 
 - (void)thn_showCashMode:(THNCashMode)mode {
@@ -48,15 +49,15 @@
     NSDictionary *titleDict = @{@(THNCashModeWechat): @"微信",
                                 @(THNCashModeAlipay): @"支付宝"};
     
-    [self setImage:[UIImage imageNamed:modeDict[@(mode)]] forState:(UIControlStateNormal)];
-    [self setTitle:titleDict[@(mode)] forState:(UIControlStateNormal)];
+    [self.actionButton setImage:[UIImage imageNamed:modeDict[@(mode)]] forState:(UIControlStateNormal)];
+    [self.actionButton setTitle:titleDict[@(mode)] forState:(UIControlStateNormal)];
 }
 
 #pragma mark - private methods
 - (void)thn_changeStatusOfSelected:(BOOL)selected {
     NSString *selectedColor = selected ? kColorMain : @"#CCCCCC";
     
-    self.layer.borderColor = [UIColor colorWithHexString:selectedColor].CGColor;
+    self.actionButton.layer.borderColor = [UIColor colorWithHexString:selectedColor].CGColor;
     self.selectedIcon.hidden = !selected;
 }
 
@@ -64,31 +65,40 @@
     [self thn_changeStatusOfSelected:selected];
 }
 
+#pragma mark - event response
+- (void)actionButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCashActionButton:)]) {
+        [self.delegate thn_didSelectedCashActionButton:self];
+    }
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
+    self.backgroundColor = [UIColor whiteColor];
+    
+    [self addSubview:self.actionButton];
     [self addSubview:self.selectedIcon];
     [self addSubview:self.hintIcon];
+    
+    [self setMasonryLayout];
 }
 
 - (void)setupShowStyleWithType:(THNCashActionButtonType)type {
-    self.backgroundColor = [UIColor whiteColor];
-    self.layer.cornerRadius = 4;
-    self.layer.borderWidth = 1;
-    self.layer.borderColor = [UIColor colorWithHexString:@"#CCCCCC"].CGColor;
-    self.titleLabel.font = [UIFont systemFontOfSize:16];
-    [self setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
-    
     if (type == THNCashActionButtonTypeMoney) {
-        self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        self.actionButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     
     } else if (type == THNCashActionButtonTypeMode) {
-        self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [self setImageEdgeInsets:(UIEdgeInsetsMake(0, 15, 0, 0))];
-        [self setTitleEdgeInsets:(UIEdgeInsetsMake(0, 25, 0, 0))];
+        self.actionButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [self.actionButton setImageEdgeInsets:(UIEdgeInsetsMake(0, 15, 0, 0))];
+        [self.actionButton setTitleEdgeInsets:(UIEdgeInsetsMake(0, 25, 0, 0))];
     }
 }
 
 - (void)setMasonryLayout {
+    [self.actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
     [self.selectedIcon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.left.mas_equalTo(0);
@@ -102,6 +112,19 @@
 }
 
 #pragma mark - getters and setters
+- (UIButton *)actionButton {
+    if (!_actionButton) {
+        _actionButton = [[UIButton alloc] init];
+        _actionButton.layer.cornerRadius = 4;
+        _actionButton.layer.borderWidth = 1;
+        _actionButton.layer.borderColor = [UIColor colorWithHexString:@"#CCCCCC"].CGColor;
+        _actionButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_actionButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
+        [_actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _actionButton;
+}
+
 - (UIImageView *)selectedIcon {
     if (!_selectedIcon) {
         _selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_cash_selected"]];

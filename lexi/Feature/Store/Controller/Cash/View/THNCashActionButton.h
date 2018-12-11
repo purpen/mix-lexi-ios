@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class THNCashActionButton;
 
 typedef NS_ENUM(NSUInteger, THNCashActionButtonType) {
     THNCashActionButtonTypeMoney = 0,   // 显示金额
@@ -18,7 +19,17 @@ typedef NS_ENUM(NSUInteger, THNCashMode) {
     THNCashModeAlipay,      // 支付宝
 };
 
-@interface THNCashActionButton : UIButton
+@protocol THNCashActionButtonDelegate <NSObject>
+
+@optional
+- (void)thn_didSelectedCashActionButton:(THNCashActionButton *)button;
+
+@end
+
+@interface THNCashActionButton : UIView
+
+@property (nonatomic, assign) BOOL selected;
+@property (nonatomic, weak) id <THNCashActionButtonDelegate> delegate;
 
 /**
  显示“极速到账”的角标

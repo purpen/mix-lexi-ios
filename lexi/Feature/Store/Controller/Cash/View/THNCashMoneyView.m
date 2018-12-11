@@ -13,7 +13,7 @@
 static NSString *const kTitleMoney = @"选择提现金额";
 static NSInteger const kActionTag = 534;
 
-@interface THNCashMoneyView ()
+@interface THNCashMoneyView () <THNCashActionButtonDelegate>
 
 @property (nonatomic, strong) NSMutableArray *firstButtonArr;
 @property (nonatomic, strong) NSMutableArray *secondButtonArr;
@@ -31,8 +31,8 @@ static NSInteger const kActionTag = 534;
     return self;
 }
 
-#pragma mark - event response
-- (void)actionButtonAction:(THNCashActionButton *)button {
+#pragma mark - custom delegate
+- (void)thn_didSelectedCashActionButton:(THNCashActionButton *)button {
     self.selectedButton.selected = NO;
     button.selected = YES;
     self.selectedButton = button;
@@ -71,9 +71,10 @@ static NSInteger const kActionTag = 534;
         [actionButton thn_showCashMoneyValue:value.floatValue];
         actionButton.tag = kActionTag + idx;
         actionButton.selected = idx == 0;
-        [actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+        actionButton.delegate = self;
         if (idx == 0) {
             self.selectedButton = actionButton;
+            [actionButton thn_showHintIcon];
         }
         
         [self addSubview:actionButton];
