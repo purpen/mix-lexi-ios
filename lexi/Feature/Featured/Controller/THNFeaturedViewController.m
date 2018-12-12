@@ -66,7 +66,8 @@ NSString *const kLastContentOffsetY = @"lastContentOffsetY";
 THNFeatureTableViewCellDelegate,
 THNBannerViewDelegate,
 THNFeaturedCollectionViewDelegate,
-THNActivityViewDelegate
+THNActivityViewDelegate,
+THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
@@ -100,6 +101,7 @@ THNActivityViewDelegate
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, strong) THNHomeSearchView *searchView;
 @property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) BOOL isNeedsHud;
 
 @end
 
@@ -107,6 +109,7 @@ THNActivityViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isNeedsHud = YES;
     [self initPageNumber];
     [self setupUI];
     [self loadData];
@@ -139,6 +142,7 @@ THNActivityViewDelegate
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -159,7 +163,10 @@ THNActivityViewDelegate
     self.isAddWindow = YES;
     self.isFromMain = YES;
     self.loadViewY = 135 + 22;
-    [self showHud];
+    
+    if (self.isNeedsHud) {
+        [self showHud];
+    }
     
     dispatch_group_async(group, queue, ^{
         [self loadTopBannerData];
@@ -184,7 +191,6 @@ THNActivityViewDelegate
     });
   
     dispatch_group_notify(group, queue, ^{
-        
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
@@ -194,6 +200,7 @@ THNActivityViewDelegate
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView endHeaderRefresh];
             [self.tableView reloadData];
             [self thn_showNewUserBonusAdvertView];
         });
@@ -571,14 +578,21 @@ THNActivityViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
-    // 解决一直上拉搜索动画导致闪动的问题
-    self.tableView.bounces = NO;
+    // 解决一直上拉搜索动画导致闪动的问题,下拉刷新界面需设置bounces为YES
+    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.lastContentOffset = scrollView.contentOffset.y;
    // 解决下拉搜索框位置无法改变的问题
     self.tableView.bounces = YES;
+}
+
+#pragma mark - THNMJRefreshDelegate
+- (void)beginRefreshing {
+    self.isNeedsHud = NO;
+    [self initPageNumber];
+    [self loadData];
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现

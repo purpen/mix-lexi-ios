@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MJExtension/MJExtension.h>
+#import "THNAreaCodeModel.h"
 
 @interface THNAreaModel : NSObject
 
-@property (nonatomic, strong) NSArray *area_codes;
+@property (nonatomic, strong) NSArray <THNAreaCodeModel *>*area_codes;
 @property (nonatomic, assign) NSInteger count;
 
 @end

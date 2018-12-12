@@ -12,6 +12,7 @@
 #import "UIView+Helper.h"
 #import "THNMarco.h"
 #import "UIImageView+WebImage.h"
+#import "SVProgressHUD+Helper.h"
 
 static NSString *const kTextSellGoods   = @"朋友通过你分享的此链接和图片购买商品，你即可赚取相应收益! 收益仅自己可见";
 static NSString *const kTextHintWechat  = @"点击直接分享好友样式";
@@ -66,7 +67,9 @@ static NSString *const kTextCancel      = @"取消";
 }
 
 - (void)thn_setSharePosterImageUrl:(NSString *)imageUrl {
-    [self.saveImageView downloadImage:imageUrl];
+    [self.saveImageView downloadImage:imageUrl place:nil completed:^(UIImage *image, NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
 }
 
 - (void)thn_setShareCardImageUrl:(NSString *)imageUrl {
@@ -342,7 +345,7 @@ static NSString *const kTextCancel      = @"取消";
         [_saveButton setTitleColor:[UIColor colorWithHexString:@"#333333"] forState:(UIControlStateNormal)];
         _saveButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_saveButton setImageEdgeInsets:UIEdgeInsetsMake(-20, 10, 0, 0)];
-        [_saveButton setTitleEdgeInsets:(UIEdgeInsetsMake(50, -40, 0, 0))];
+        [_saveButton setTitleEdgeInsets:(UIEdgeInsetsMake(60, -40, 0, 0))];
         [_saveButton addTarget:self action:@selector(saveButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _saveButton;

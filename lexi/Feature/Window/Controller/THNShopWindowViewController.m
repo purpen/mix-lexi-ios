@@ -26,6 +26,7 @@
 #import "THNReleaseWindowViewController.h"
 #import "THNShareViewController.h"
 #import "THNShopWindowModel.h"
+#import "THNUserCenterViewController.h"
 
 typedef NS_ENUM(NSUInteger, ShowWindowType) {
     ShowWindowTypeFollow,
@@ -33,14 +34,20 @@ typedef NS_ENUM(NSUInteger, ShowWindowType) {
     
 };
 
-static CGFloat const showImageViewHeight = 256;
+static CGFloat const showImageViewHeight = 200;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 static NSString *const kShopWindowsRecommend = @"/shop_windows/recommend";
 static NSString *const kShopWindowsFollow = @"/shop_windows/follow";
 ///
 static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image/static/shop_window_head.jpg";
 
-@interface THNShopWindowViewController () <UITableViewDelegate, UITableViewDataSource, THNSelectButtonViewDelegate, THNMJRefreshDelegate>
+@interface THNShopWindowViewController () <
+UITableViewDelegate,
+UITableViewDataSource,
+THNSelectButtonViewDelegate,
+THNMJRefreshDelegate,
+THNShopWindowTableViewCellDelegate
+>
 
 @property (nonatomic, strong) THNSelectButtonView *selectButtonView;
 @property (nonatomic, strong) UIImageView *showImageView;
@@ -59,7 +66,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 @property (nonatomic, assign) NSInteger lastPage;
 @property (nonatomic, strong) NSIndexPath *selectCellIndexPath;
 @property (nonatomic, strong) UIView *windowDesLabelsView;
-
+@property (nonatomic, assign) BOOL isNeedsHud;
 
 @end
 
@@ -89,11 +96,13 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [self.view addSubview:self.tableView];
     [[UIApplication sharedApplication].keyWindow addSubview:self.stitchingButton];
     [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     [self.tableView resetCurrentPageNumber];
     self.currentPage = 1;
 }
 
 - (void)loadData {
+    self.isNeedsHud = YES;
     [self loadShopWindowData];
 }
 
@@ -119,12 +128,12 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     if (self.showWindowType == ShowWindowTypeFollow) {
         self.isAddWindow = YES;
         self.loadViewY = 135 + 5;
-        if (self.currentPage == 1) {
+        if (self.isNeedsHud) {
             [SVProgressHUD thn_show];
         }
         requestUrl = kShopWindowsFollow;
     } else {
-        if (self.currentPage == 1) {
+        if (self.isNeedsHud) {
             [self showHud];
         }
         requestUrl = kShopWindowsRecommend;
@@ -136,6 +145,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
         [SVProgressHUD dismiss];
+        [self.tableView endHeaderRefresh];
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
@@ -146,7 +156,7 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
 
         if (self.showWindowType == ShowWindowTypeFollow) {
-            [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
+            [self.showWindowFollows addObjectsFromArray:showWindowFollows];
             self.showWindows = self.showWindowFollows;
         } else {
             [self.showWindowRecommends addObjectsFromArray:showWindowFollows];
@@ -161,9 +171,11 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         [self.tableView reloadData];
     } failure:^(THNRequest *request, NSError *error) {
         [self.tableView endFooterRefreshAndCurrentPageChange:NO];
+        [self.tableView endHeaderRefresh];
         [self hiddenHud];
     }];
 }
+
 
 - (void)pushReleaseWindowVC {
     if (![THNLoginManager isLogin]) {
@@ -181,30 +193,10 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     THNShopWindowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kShopWindowCellIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
     THNShopWindowModel *shopWindowModel = self.showWindows[indexPath.row];
     [cell setShopWindowModel:shopWindowModel];
     cell.imageType = ShopWindowImageTypeThree;
-    
-    WEAKSELF;
-    cell.contentBlock = ^{
-        THNCommentViewController *comment = [[THNCommentViewController alloc]init];
-        comment.rid = shopWindowModel.rid;
-        comment.commentCount = shopWindowModel.comment_count;
-        comment.isFromShopWindow = YES; 
-        [weakSelf.navigationController pushViewController:comment animated:YES];
-    };
-    
-    cell.shareBlock = ^(THNShopWindowModel *shopWindowModel) {
-        if (!shopWindowModel.rid.length) return;
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
-        [shareVC shareObjectWithTitle:shopWindowModel.title
-                                descr:shopWindowModel.des
-                            thumImage:shopWindowModel.product_covers[0]
-                               webUrl:[kShareShowWindowPrefix stringByAppendingString:shopWindowModel.rid]];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [weakSelf presentViewController:shareVC animated:NO completion:nil];
-    };
-    
     return cell;
 }
 
@@ -300,7 +292,47 @@ static NSString *const kWindowHeadImageUrl = @"https://static.moebeast.com/image
         self.currentPage = currentPage.integerValue;
     }
     
+    self.isNeedsHud = NO;
     [self loadShopWindowData];
+}
+
+- (void)beginRefreshing {
+    self.currentPage = 1;
+    self.isNeedsHud = NO;
+    
+    if (self.showWindowType == ShowWindowTypeFollow) {
+        [self.showWindowFollows removeAllObjects];
+    } else {
+        [self.showWindowRecommends removeAllObjects];
+    }
+    
+    [self loadShopWindowData];
+}
+
+#pragma mark - THNShopWindowTableViewCellDelegate
+- (void)lookContentBlock:(THNShopWindowModel *)shopWindowModel {
+    THNCommentViewController *comment = [[THNCommentViewController alloc]init];
+    comment.rid = shopWindowModel.rid;
+    comment.commentCount = shopWindowModel.comment_count;
+    comment.isFromShopWindow = YES;
+    [self.navigationController pushViewController:comment animated:YES];
+}
+
+- (void)showWindowShare:(THNShopWindowModel *)shopWindowModel {
+    if (!shopWindowModel.rid.length) return;
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                         requestId:shopWindowModel.rid];
+    [shareVC shareObjectWithTitle:shopWindowModel.title
+                            descr:shopWindowModel.des
+                        thumImage:shopWindowModel.product_covers[0]
+                           webUrl:[kShareShowWindowPrefix stringByAppendingString:shopWindowModel.rid]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
+}
+
+- (void)clickAvatarImageView:(NSString *)userRid {
+    THNUserCenterViewController *userCentenVC = [[THNUserCenterViewController alloc]initWithUserId:userRid];
+    [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
 #pragma mark - lazy

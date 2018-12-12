@@ -25,7 +25,6 @@ typedef NS_ENUM(NSUInteger, THNAuthCodeButtonType) {
  @param startTime 开始时间
  @param completion 结束后的回调
  */
-- (void)thn_countdownStartTime:(NSTimeInterval)startTime
-                    completion:(void (^)(THNAuthCodeButton *authCodeButton))completion;
+- (void)thn_countdownStartTime:(NSTimeInterval)startTime completion:(void (^)(THNAuthCodeButton *authCodeButton))completion;
 
 @end

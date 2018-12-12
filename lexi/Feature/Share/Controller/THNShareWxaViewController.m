@@ -105,8 +105,6 @@ static NSString *const kKeyImageUrl  = @"image_url";
 
 // 卡片海报
 - (void)thn_networkWxaCardImageData {
-    [SVProgressHUD thn_show];
-    
     WEAKSELF;
     
     THNRequest *request = [THNAPI postWithUrlString:[self thn_requestUrl]
@@ -120,7 +118,6 @@ static NSString *const kKeyImageUrl  = @"image_url";
         }
         
         [weakSelf.shareView thn_setShareCardImageUrl:result.data[kKeyImageUrl]];
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];

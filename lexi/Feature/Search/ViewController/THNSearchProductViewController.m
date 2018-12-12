@@ -52,23 +52,27 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
 
 - (void)setupUI {
     self.navigationBarView.hidden = YES;
-    [self.collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:kSearchProductCellIdentifier];
-    [self.view addSubview:self.functionView];
-    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeSearch];
-    [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
-    UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.functionView.frame), SCREEN_WIDTH, 0.5)];
-    [self.view addSubview:lineView];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    
     [self.view addSubview:self.collectionView];
+    
     [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.collectionView resetCurrentPageNumber];
     self.currentPage = 1;
+    
+    [self.functionView thn_createFunctionButtonWithType:THNGoodsListViewTypeSearch];
+    [self.view addSubview:self.functionView];
+    
+    [[UIApplication sharedApplication].windows.firstObject addSubview:self.popupView];
+    
+    UIView *lineView = [UIView initLineView:CGRectMake(0, CGRectGetMaxY(self.functionView.frame), SCREEN_WIDTH, 0.5)];
+    [self.view addSubview:lineView];
 }
 
 - (void)loadSearchProductData {
     if (self.currentPage == 1) {
         self.isTransparent = YES;
-        [self showHud];
+//        [self showHud];
+        [SVProgressHUD thn_show];
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.currentPage);
@@ -76,7 +80,7 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
     [params setValuesForKeysWithDictionary:self.producrConditionParams];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [self hiddenHud];
+//        [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;
@@ -87,14 +91,16 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
         [self.dataArray addObjectsFromArray:products];
         
         if (![result.data[@"next"] boolValue] && self.dataArray.count != 0) {
-            
             [self.collectionView noMoreData];
         }
         
         [self.popupView thn_setDoneButtonTitleWithGoodsCount:[result.data[@"count"] integerValue] show:YES];
         [self.collectionView reloadData];
+        [SVProgressHUD dismiss];
+        
     } failure:^(THNRequest *request, NSError *error) {
-        [self hiddenHud];
+//        [self hiddenHud];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -174,11 +180,21 @@ static NSString *const kUrlSearchProduct = @"/core_platforms/search/products";
         layout.minimumInteritemSpacing = interitemSpacing;
         layout.minimumLineSpacing = 20;
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.functionView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.functionView.frame)) collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
-        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 220, 0);
+        layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
+//        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.functionView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.functionView.frame)) collectionViewLayout:layout];
+//        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 220, 0);
+        
+        CGFloat originY = CGRectGetMaxY(self.functionView.frame);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+                                             collectionViewLayout:layout];
+
+        _collectionView.contentInset = UIEdgeInsetsMake(originY + 15, 0, originY + 80, 0);
+        _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        [_collectionView registerNib:[UINib nibWithNibName:@"THNProductCollectionViewCell" bundle:nil]
+          forCellWithReuseIdentifier:kSearchProductCellIdentifier];
     }
     return _collectionView;
 }

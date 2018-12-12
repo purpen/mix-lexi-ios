@@ -135,7 +135,7 @@ NSString *const kTHNGoodsModelTotalStock = @"total_stock";
 		self.deliveryProvince = dictionary[kTHNGoodsModelDeliveryProvince];
 	}	
 	if(![dictionary[kTHNGoodsModelFeatures] isKindOfClass:[NSNull class]]){
-		self.features = dictionary[kTHNGoodsModelFeatures];
+		self.features = [dictionary[kTHNGoodsModelFeatures] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
 	}	
 	if(![dictionary[kTHNGoodsModelFid] isKindOfClass:[NSNull class]]){
 		self.fid = dictionary[kTHNGoodsModelFid];

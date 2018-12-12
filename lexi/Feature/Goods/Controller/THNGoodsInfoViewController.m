@@ -138,10 +138,10 @@ static NSString *const kKeyStoreRid         = @"store_rid";
         
         [weakSelf thn_getGoodsInfoSkuDataWithGroup:group];
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
-        [weakSelf thn_getGoodsInfoStoreCouponDataWithGroup:group];
         if ([THNLoginManager isLogin]) {
             [weakSelf thn_getUserMasterCouponsDataWithGroup:group];
         }
+        [weakSelf thn_getGoodsInfoStoreCouponDataWithGroup:group];
         [weakSelf thn_getGoodsInfoStoreDataWithGroup:group];
         [weakSelf thn_getGoodsInfoFreightDataWithGroup:group];
         [weakSelf thn_getGoodsInfoSimilarGoodsDataWithGroup:group];
@@ -382,12 +382,11 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     WEAKSELF;
     
     THNGoodsTableViewCells *actionCells = [THNGoodsTableViewCells initWithCellType:(THNGoodsTableViewCellTypeAction) didSelectedItem:^(NSString *rid) {
-        [weakSelf.dataSections removeObjectAtIndex:5];
-        
         dispatch_group_t group = dispatch_group_create();
         [weakSelf thn_getGoodsInfoLikedUserDataWithGroup:group];
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            [weakSelf.dataSections removeObjectAtIndex:5];
             [weakSelf thn_setGoodsInfoLikedUserCell];
             [weakSelf thn_reloadGoodsInfoSections];
         });
@@ -693,7 +692,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_openShareController {
     if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)
+                                                                         requestId:self.goodsId];
     [shareVC shareObjectWithTitle:self.goodsModel.name
                             descr:self.goodsModel.features
                         thumImage:self.goodsModel.cover
@@ -854,7 +854,6 @@ static NSString *const kKeyStoreRid         = @"store_rid";
     YBImageBrowseCellData *data = [YBImageBrowseCellData new];
     data.url = [NSURL URLWithString:asset.viewUrl];
     data.sourceObject = [self sourceCellWithIndex:index];
-    [data preload];
 
     return data;
 }
@@ -886,7 +885,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)thn_goodsImageShareGoodsAction {
     if (!self.goodsId.length || !self.goodsModel) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)
+                                                                         requestId:self.goodsId];
     [shareVC shareObjectWithTitle:self.goodsModel.name
                             descr:self.goodsModel.features
                         thumImage:self.goodsModel.cover
@@ -1079,6 +1079,8 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 
 #pragma mark - setup UI
 - (void)setupUI {
+    [self setNavigationBar];
+    
     self.tableView.contentInset = UIEdgeInsetsMake(-44, 0, 55, 0);
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.separatorStyle = THNTableViewCellSeparatorStyleNone;
@@ -1089,10 +1091,9 @@ static NSString *const kKeyStoreRid         = @"store_rid";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setNavigationBar];
-    
     if ([THNLoginManager isLogin]) {
         [self thn_getCartGoodsCount];
+        [self thn_getUserMasterCouponsDataWithGroup:dispatch_group_create()];
     }
 }
 

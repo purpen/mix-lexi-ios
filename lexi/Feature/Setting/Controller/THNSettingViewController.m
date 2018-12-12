@@ -20,6 +20,7 @@
 #import "THNSignInViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNBaseTabBarController.h"
+#import "THNBindPhoneViewController.h"
 
 /// cell id
 static NSString *const kTextTableViewCellId = @"THNCustomTextTableViewCellId";
@@ -60,8 +61,8 @@ static NSString *const kTextLoginOut = @"退出登录";
     self.backHome = YES;
 
     [[THNLoginManager sharedManager] clearLoginInfo];
-    [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO initSupplier:NO initStoreId:@""];
     [[THNAdvertManager sharedManager] clearAdvertInfo];
+    [[THNLoginManager sharedManager] updateUserLivingHallStatus:NO initSupplier:NO initStoreId:@""];
     [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateLivingHallStatus object:nil];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
@@ -82,6 +83,29 @@ static NSString *const kTextLoginOut = @"退出登录";
     
     return textLabel;
 }
+
+- (void)thn_userBindWechat {
+    WEAKSELF;
+    
+    [THNLoginManager useWechatBindCompletion:^(BOOL isBind, NSString *openId, NSError *error) {
+        if (!isBind) {
+            [weakSelf thn_openBindPhoneControllerWithWechatOpenId:openId];
+            
+        } else {
+            [SVProgressHUD thn_showSuccessWithStatus:@"已绑定"];
+        }
+    }];
+}
+
+/**
+ 微信绑定手机号
+ */
+- (void)thn_openBindPhoneControllerWithWechatOpenId:(NSString *)openId {
+    THNBindPhoneViewController *bindVC = [[THNBindPhoneViewController alloc] init];
+    bindVC.wechatOpenId = openId;
+    [self.navigationController pushViewController:bindVC animated:YES];
+}
+
 
 #pragma mark - setup UI
 - (void)setupUI {
@@ -140,7 +164,7 @@ static NSString *const kTextLoginOut = @"退出登录";
                       mainText:self.mainTexts[indexPath.section][indexPath.row]];
     
     if (indexPath.section == 0) {
-        [cell thn_setSubText:@"未绑定" textColor:@"FF6666"];
+        [cell thn_setSubText:[self getBindWechatText] textColor:[self getBindWechatColor]];
     }
 
     return cell;
@@ -148,7 +172,9 @@ static NSString *const kTextLoginOut = @"退出登录";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-//        [SVProgressHUD thn_showSuccessWithStatus:@"绑定微信"];
+        if (!self.userModel.is_bind_wx) {
+            [self thn_userBindWechat];
+        }
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -174,6 +200,14 @@ static NSString *const kTextLoginOut = @"退出登录";
 }
 
 #pragma mark - getters and setters
+- (NSString *)getBindWechatText {
+    return self.userModel.is_bind_wx ? @"已绑定" : @"未绑定";
+}
+
+- (NSString *)getBindWechatColor {
+    return self.userModel.is_bind_wx ? kColorMain : @"#FF6667";
+}
+
 - (UITableView *)settingTable {
     if (!_settingTable) {
         _settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:(UITableViewStylePlain)];

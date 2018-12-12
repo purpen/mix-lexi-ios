@@ -13,13 +13,17 @@ typedef NS_ENUM(NSUInteger, THNSetPasswordType) {
     THNSetPasswordTypeFind
 };
 
+@protocol THNSetPasswordViewDelegate <NSObject>
+
+@optional
+- (void)thn_setPasswordToRegister:(NSString *)password affirmPassword:(NSString *)affirmPassword;
+
+@end
+
 @interface THNSetPasswordView : THNLoginBaseView
 
-- (instancetype)initWithType:(THNSetPasswordType)type;
+@property (nonatomic, weak) id <THNSetPasswordViewDelegate> delegate;
 
-/**
- 设置完成密码，注册
- */
-@property (nonatomic, copy) void (^SetPasswordRegisterBlock)(NSString *password, NSString *affirmPassword);
+- (instancetype)initWithType:(THNSetPasswordType)type;
 
 @end

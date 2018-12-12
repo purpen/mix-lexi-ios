@@ -12,9 +12,7 @@
 
 @interface THNZipCodeTableViewCell ()
 
-/// 标题
 @property (nonatomic, strong) UILabel *titleLabel;
-/// 描述
 @property (nonatomic, strong) UILabel *describeLabel;
 
 @end
@@ -47,14 +45,14 @@
 
 - (void)setMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150, 20));
-        make.left.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(150, 16));
+        make.left.mas_equalTo(20);
         make.centerY.equalTo(self);
     }];
     
     [self.describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
-        make.right.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(100, 16));
+        make.right.mas_equalTo(-20);
         make.centerY.equalTo(self);
     }];
 }

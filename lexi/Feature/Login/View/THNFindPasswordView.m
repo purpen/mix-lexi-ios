@@ -1,13 +1,13 @@
 
 //
-//  THNFindPassword.m
+//  THNFindPasswordView.m
 //  lexi
 //
 //  Created by FLYang on 2018/7/27.
 //  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
-#import "THNFindPassword.h"
+#import "THNFindPasswordView.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
 #import "SVProgressHUD+Helper.h"
@@ -19,30 +19,21 @@ static NSString *const kPhonePlaceholder    = @"请输入手机号码";
 static NSString *const kAuthPlaceholder     = @"请输入手机动态码";
 static NSString *const kDoneButtonTitle     = @"设置密码";
 
-@interface THNFindPassword ()
+@interface THNFindPasswordView ()
 
-/// 控件容器
 @property (nonatomic, strong) UIView *containerView;
-/// 手机区号
 @property (nonatomic, strong) UIButton *zipCodeButton;
-/// 手机号输入框
 @property (nonatomic, strong) UITextField *phoneTextField;
-/// 验证码输入框
 @property (nonatomic, strong) UITextField *authCodeTextField;
-/// 获取验证码按钮
 @property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
-/// 完成（下一步）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
-/// 错误提示
 @property (nonatomic, strong) UILabel *errorHintLabel;
-/// 记录加载控件
 @property (nonatomic, strong) NSArray *controlArray;
-/// 验证码
 @property (nonatomic, strong) NSString *verifyCode;;
 
 @end
 
-@implementation THNFindPassword
+@implementation THNFindPasswordView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -72,46 +63,34 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
     [self thn_showErrorHint:NO];
     
     if (!self.phoneTextField.text.length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:kPhonePlaceholder];
         return;
     }
     
     if (![self getVerifyCode].length) {
-        [self thn_setErrorHintText:@"请输入验证码"];
+        [self thn_setErrorHintText:kAuthPlaceholder];
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(thn_setPasswordWithPhoneNum:zipCode:verifyCode:)]) {
-        [self.delegate thn_setPasswordWithPhoneNum:[self getPhoneNum]
-                                           zipCode:[self getZipCode]
-                                        verifyCode:[self getVerifyCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_findPwdSetPasswordWithPhoneNum:zipCode:verifyCode:)]) {
+        [self.delegate thn_findPwdSetPasswordWithPhoneNum:[self getPhoneNum]
+                                                  zipCode:[self getZipCode]
+                                               verifyCode:[self getVerifyCode]];
     }
 }
 
-/**
- 获取输入的手机号
- */
 - (NSString *)getPhoneNum {
     return self.phoneTextField.text;
 }
 
-/**
- 获取手机区号
- */
 - (NSString *)getZipCode {
     return self.zipCodeButton.titleLabel.text;
 }
 
-/**
- 获取短信验证码
- */
 - (NSString *)getVerifyCode {
     return self.authCodeTextField.text;
 }
 
-/**
- 展示错误提示
- */
 - (void)thn_showErrorHint:(BOOL)show {
     self.errorHintLabel.hidden = !show;
 }
@@ -119,13 +98,13 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![self getPhoneNum].length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:kPhonePlaceholder];
         return;
     }
     
     WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
-        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
+    if ([weakSelf.delegate respondsToSelector:@selector(thn_findPwdSendAuthCodeWithPhoneNum:zipCode:)]) {
+        [weakSelf.delegate thn_findPwdSendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
                                                 zipCode:[weakSelf getZipCode]];
     }
     
@@ -136,8 +115,8 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
 - (void)zipCodeButtonAction:(UIButton *)button {
     [self thn_showErrorHint:NO];
     
-    if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
-        [self.delegate thn_showZipCodeList];
+    if ([self.delegate respondsToSelector:@selector(thn_findPwdShowZipCodeList)]) {
+        [self.delegate thn_findPwdShowZipCodeList];
     }
 }
 
@@ -261,7 +240,7 @@ static NSString *const kDoneButtonTitle     = @"设置密码";
         WEAKSELF;
         
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                 withTitle:kDoneButtonTitle
+                                                     title:kDoneButtonTitle
                                                 completion:^{
                                                     [weakSelf thn_doneButtonAction];
                                                 }];

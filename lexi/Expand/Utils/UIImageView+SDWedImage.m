@@ -30,8 +30,10 @@ static NSString *const kDefaultImageName = @"default_image_place";
 
 #pragma mark SDWebImage缓存图片后的回调
 - (void)downloadImage:(NSString *)url place:(UIImage *)place completed:(DownloadCompleted)completed {
+    UIImage *placeImage = place ? place : [UIImage imageNamed:kDefaultImageName];
+    
     [self sd_setImageWithURL:[NSURL URLWithString:url]
-            placeholderImage:place
+            placeholderImage:placeImage
                      options:SDWebImageLowPriority | SDWebImageRetryFailed
                    completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                        completed(image, error);

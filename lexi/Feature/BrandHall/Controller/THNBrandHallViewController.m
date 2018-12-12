@@ -103,7 +103,6 @@ THNMJRefreshDelegate
     [self showHud];
     
     dispatch_group_async(group, queue, ^{
-      
         [self loadOffcialStoreData];
     });
     dispatch_group_async(group, queue, ^{
@@ -280,7 +279,8 @@ THNMJRefreshDelegate
     
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
-        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+        THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)
+                                                                             requestId:weakSelf.rid];
         [shareVC shareObjectWithTitle:weakSelf.offcialStoreModel.name
                                 descr:weakSelf.offcialStoreModel.tag_line
                             thumImage:weakSelf.offcialStoreModel.logo
@@ -459,7 +459,6 @@ THNMJRefreshDelegate
     if (self.isRecords) {
          size  = CGSizeMake(SCREEN_WIDTH, 265);
     } else {
-        NSLog(@"----------------%.2f", self.announcementViewHeight);
          size = CGSizeMake(SCREEN_WIDTH, 265 + self.couponViewHeight + self.announcementViewHeight + 40 + 15 + 25);
     }
    
@@ -547,6 +546,7 @@ THNMJRefreshDelegate
 - (void)lookBrandHallQualification:(NSString *)rid {
     THNWebKitViewViewController *webkitVC = [[THNWebKitViewViewController alloc]init];
     webkitVC.url = [NSString stringWithFormat:@"%@%@",THNBrandHallVCQualificationPrefix, rid];
+    webkitVC.title = @"资质信息";
     [self.navigationController pushViewController:webkitVC animated:YES];
 }
 

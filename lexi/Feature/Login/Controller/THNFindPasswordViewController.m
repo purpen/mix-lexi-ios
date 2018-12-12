@@ -7,7 +7,7 @@
 //
 
 #import "THNFindPasswordViewController.h"
-#import "THNFindPassword.h"
+#import "THNFindPasswordView.h"
 #import "THNZipCodeViewController.h"
 #import "THNNewPasswordViewController.h"
 
@@ -26,15 +26,12 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 
 @interface THNFindPasswordViewController () <THNFindPasswordDelegate>
 
-@property (nonatomic, strong) THNFindPassword *findPasswordView;
-@property (nonatomic, strong) THNZipCodeViewController *zipCodeVC;
-@property (nonatomic, strong) THNNewPasswordViewController *newPasswordVC;
+@property (nonatomic, strong) THNFindPasswordView *findPasswordView;
 
 @end
 
 @implementation THNFindPasswordViewController
 
-#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,17 +43,17 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
  获取短信验证码
  */
 - (void)networkGetVerifyCodeWithParam:(NSDictionary *)param {
-    WEAKSELF;
-    
     THNRequest *request = [THNAPI postWithUrlString:kURLVerifyCode requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        NSLog(@"获取验证码 ======== %@", result.responseDict);
-        if (![result hasData] || ![result isSuccess]) {
-            [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
+#ifdef DEBUG
+        NSLog(@"找回密码-验证码：%@", result.responseDict);
+#endif
+        if (![result isSuccess]) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
-        [weakSelf.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
+        [self.findPasswordView thn_setVerifyCode:result.data[kResultVerifyCode]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -66,23 +63,17 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 /**
  忘记密码
  */
-- (void)networkPostFindPasswordWith:(NSDictionary *)param completion:(void (^)(NSString *email))completion {
+- (void)networkPostFindPasswordWith:(NSDictionary *)param {
     [SVProgressHUD thn_show];
-    
-    WEAKSELF;
     
     THNRequest *request = [THNAPI postWithUrlString:kURLFindPassword requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result isSuccess]) {
-            [weakSelf.findPasswordView thn_setErrorHintText:result.statusMessage];
+            [self.findPasswordView thn_setErrorHintText:result.statusMessage];
             return;
         }
         
-        if (completion) {
-            completion(result.data[kParamEmail]);
-        }
-        
-        [SVProgressHUD dismiss];
+        [self thn_openNewPasswordControllerWithEmail:result.data[kParamEmail]];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
@@ -90,30 +81,34 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 }
 
 #pragma mark - custom delegate
-- (void)thn_setPasswordWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode verifyCode:(NSString *)code {
+- (void)thn_findPwdSetPasswordWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode verifyCode:(NSString *)code {
     NSDictionary *paramDict = @{kParamEmail : phoneNum,
                                 kParamAreaCode1: zipCode,
                                 kParamVerifyCode: code};
     
-    WEAKSELF;
-    
-    [self networkPostFindPasswordWith:paramDict completion:^(NSString *email) {
-        [SVProgressHUD dismiss];
-        
-        weakSelf.newPasswordVC.email = email;
-        [weakSelf.navigationController pushViewController:weakSelf.newPasswordVC animated:YES];
-    }];
+    [self networkPostFindPasswordWith:paramDict];
 }
 
-- (void)thn_sendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
+- (void)thn_findPwdSendAuthCodeWithPhoneNum:(NSString *)phoneNum zipCode:(NSString *)zipCode {
     NSDictionary *paramDict = @{kParamMobile : phoneNum,
                                 kParamAreaCode: zipCode};
     
     [self networkGetVerifyCodeWithParam:paramDict];
 }
 
-- (void)thn_showZipCodeList {
-    [self presentViewController:self.zipCodeVC animated:YES completion:nil];
+- (void)thn_findPwdShowZipCodeList {
+    THNZipCodeViewController *zipCodeVC = [[THNZipCodeViewController alloc] init];
+    zipCodeVC.selectAreaCodeBlock = ^(NSString *code) {
+        [self.findPasswordView thn_setAreaCode:code];
+    };
+    [self presentViewController:zipCodeVC animated:YES completion:nil];
+}
+
+#pragma mark - private methods
+- (void)thn_openNewPasswordControllerWithEmail:(NSString *)email {
+    THNNewPasswordViewController *newPwdVC = [[THNNewPasswordViewController alloc] init];
+    newPwdVC.email = email;
+    [self.navigationController pushViewController:newPwdVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -122,32 +117,12 @@ static NSString *const kResultVerifyCode    = @"phone_verify_code";
 }
 
 #pragma mark - getters and setters
-- (THNFindPassword *)findPasswordView {
+- (THNFindPasswordView *)findPasswordView {
     if (!_findPasswordView) {
-        _findPasswordView = [[THNFindPassword alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _findPasswordView = [[THNFindPasswordView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _findPasswordView.delegate = self;
     }
     return _findPasswordView;
-}
-
-- (THNZipCodeViewController *)zipCodeVC {
-    if (!_zipCodeVC) {
-        _zipCodeVC = [[THNZipCodeViewController alloc] init];
-        
-        WEAKSELF;
-        _zipCodeVC.SelectAreaCode = ^(NSString *code) {
-            [weakSelf.findPasswordView thn_setAreaCode:code];
-            [weakSelf.zipCodeVC dismissViewControllerAnimated:YES completion:nil];
-        };
-    }
-    return _zipCodeVC;
-}
-
-- (THNNewPasswordViewController *)newPasswordVC {
-    if (!_newPasswordVC) {
-        _newPasswordVC = [[THNNewPasswordViewController alloc] init];
-    }
-    return _newPasswordVC;
 }
 
 @end

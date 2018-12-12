@@ -16,6 +16,7 @@
 static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
 static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
 static NSString *const kURLInvite      = @"/market/share/invite_poster";
+static NSString *const kURLBrand       = @"/market/share/store_poster";
 
 /// key
 static NSString *const kKeyRid       = @"rid";
@@ -37,7 +38,12 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
 
 @implementation THNPosterManager
 
-+ (void)getSharePosterImageDataWithType:(THNSharePosterType)type completion:(void (^)(NSString *))completion {
++ (void)getSharePosterImageDataWithType:(THNSharePosterType)type
+                              requestId:(NSString *)requestId
+                             completion:(void (^)(NSString *))completion {
+    
+    [THNPosterManager sharedManager].posterType = type;
+    [THNPosterManager sharedManager].requestId = requestId;
     [[THNPosterManager sharedManager] thn_networkPosterImageDataCompletion:completion];
 }
 
@@ -53,7 +59,6 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
             return ;
         }
         
-        NSLog(@"海报URL：%@", result.data[@"image_url"]);
         completion(result.data[@"image_url"]);
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -62,10 +67,12 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
 }
 
 - (NSString *)thn_getRequestUrl {
-    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods)     : kURLWxaPoster,
+    NSDictionary *urlDict = @{@(THNSharePosterTypeNone)      : kURLInvite,
+                              @(THNSharePosterTypeGoods)     : kURLWxaPoster,
                               @(THNSharePosterTypeWindow)    : kURLShopWindow,
                               @(THNSharePosterTypeInvitation): kURLInvite,
-                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster};
+                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster,
+                              @(THNSharePosterTypeBrandStore): kURLBrand,};
     
     return urlDict[@(self.posterType)];
 }
@@ -73,8 +80,8 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
 - (NSDictionary *)thn_getRequestParams {
     if (self.requestId.length) {
         NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
-                                       kKeyScene: [self thn_paramsScene],
-                                       kKeyRid: self.requestId};
+                                       kKeyScene    : [self thn_paramsScene],
+                                       kKeyRid      : self.requestId};
         
         NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:defaultParam];
         
@@ -89,9 +96,10 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
                 [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
             }
                 break;
-                
+            
+            case THNSharePosterTypeNone:
             case THNSharePosterTypeInvitation: {
-                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+                [paramDict setObject:kWxaStoreGuidePath forKey:kKeyPath];
             }
                 break;
                 
@@ -99,6 +107,9 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
                 [paramDict setObject:@(2) forKey:kKeyType];
                 [paramDict setObject:kWxaHomePath forKey:kKeyPath];
             }
+                break;
+                
+            default:
                 break;
         }
         

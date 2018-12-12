@@ -17,14 +17,7 @@
 
 @interface THNLoginBaseView : UIView
 
-/**
- 标题
- */
 @property (nonatomic, strong) NSString *title;
-
-/**
- 副标题
- */
 @property (nonatomic, strong) NSString *subTitle;
 
 @end

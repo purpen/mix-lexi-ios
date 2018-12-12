@@ -62,6 +62,7 @@ static NSString *const kDealContentTableViewCellId = @"kDealContentTableViewCell
             } else {
                 [self thn_creatContentImageWithImageUrl:model.content];
             }
+            
         } else if ([model.type isEqualToString:@"product"]) {
             THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:model.content];
             [self thn_creatContentProduct:productModel withIsShowBigPicture:model.bigPicture];

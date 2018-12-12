@@ -18,18 +18,21 @@ typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
     ShopWindowImageTypeSeven,
 };
 
-typedef void(^ContentBlock)(void);
-typedef void(^ShopWindowCellBlock)(NSString *rid);
-typedef void(^ShopWindowShareBlock)(THNShopWindowModel *shopWindowModel);
+
+@protocol THNShopWindowTableViewCellDelegate <NSObject>
+- (void)lookContentBlock:(THNShopWindowModel *)shopWindowModel;
+- (void)clickImageViewWithRid:(NSString *)productRid;
+- (void)showWindowShare:(THNShopWindowModel *)shopWindowModel;
+- (void)clickAvatarImageView:(NSString *)userRid;
+
+@end
 
 @interface THNShopWindowTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) THNShopWindowModel *shopWindowModel;
-@property (nonatomic, copy) ContentBlock contentBlock;
-@property (nonatomic, copy) ShopWindowCellBlock shopWindowCellBlock;
-@property (nonatomic, copy) ShopWindowShareBlock shareBlock;
 @property (nonatomic, assign) ShopWindowImageType imageType;
 @property (nonatomic, strong) NSString *flag;
+@property (nonatomic, weak) id <THNShopWindowTableViewCellDelegate> delegate;
 - (void)layoutLikeButtonStatus:(BOOL)isLike;
 
 @end

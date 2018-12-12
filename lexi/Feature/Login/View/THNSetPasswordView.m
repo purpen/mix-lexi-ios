@@ -19,18 +19,13 @@ static NSString *const kVerifyPwdPlaceholder    = @"重复输入密码";
 static NSString *const kDoneButtonTitle         = @"注册";
 static NSString *const kDoneButtonSure          = @"确认";
 
-@interface THNSetPasswordView () {
-    THNSetPasswordType _setType;
-}
+@interface THNSetPasswordView ()
 
-/// 密码输入框
 @property (nonatomic, strong) THNPasswordTextField *pwdTextField;
-/// 验证密码输入框
 @property (nonatomic, strong) THNPasswordTextField *verifyPwdTextField;
-/// 完成（登录）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
-/// 记录加载控件
 @property (nonatomic, strong) NSArray *controlArray;
+@property (nonatomic, assign) THNSetPasswordType setType;
 
 @end
 
@@ -39,7 +34,7 @@ static NSString *const kDoneButtonSure          = @"确认";
 - (instancetype)initWithType:(THNSetPasswordType)type {
     self = [super init];
     if (self) {
-        _setType = type;
+        self.setType = type;
         self.title = type == THNSetPasswordTypeNew ? kTitleNew : kTitleFind;
         [self setupViewUI];
     }
@@ -50,17 +45,9 @@ static NSString *const kDoneButtonSure          = @"确认";
 - (void)thn_doneButtonAction {
     [self endEditing:YES];
     
-    if (![self.verifyPwdTextField.text isEqualToString:self.pwdTextField.text]) {
-        [SVProgressHUD thn_showInfoWithStatus:@"两次密码输入不一致"];
-        return;
+    if ([self.delegate respondsToSelector:@selector(thn_setPasswordToRegister:affirmPassword:)]) {
+        [self.delegate thn_setPasswordToRegister:self.pwdTextField.text affirmPassword:self.verifyPwdTextField.text];
     }
-    
-    if (self.pwdTextField.text.length < 8 || self.verifyPwdTextField.text.length < 8) {
-        [SVProgressHUD thn_showInfoWithStatus:[NSString stringWithFormat:@"请输入%@", kSubTitleLabelText]];
-        return;
-    }
-    
-    self.SetPasswordRegisterBlock(self.pwdTextField.text, self.verifyPwdTextField.text);
 }
 
 #pragma mark - setup UI
@@ -79,6 +66,7 @@ static NSString *const kDoneButtonSure          = @"确认";
     
     CGFloat leadSpacing = kDeviceiPhoneX ? 194 : 174;
     CGFloat tailSpacing = SCREEN_HEIGHT - leadSpacing - (46 + 25) * self.controlArray.count;
+    
     [self.controlArray mas_distributeViewsAlongAxis:(MASAxisTypeVertical)
                                 withFixedItemLength:46
                                         leadSpacing:leadSpacing
@@ -98,6 +86,14 @@ static NSString *const kDoneButtonSure          = @"确认";
 }
 
 #pragma mark - getters and setters
+- (NSString *)getDoneTitle {
+    if (self.setType == THNSetPasswordTypeNew) {
+        return kDoneButtonTitle;
+    }
+    
+    return kDoneButtonSure;
+}
+
 - (void)setViewTitle:(NSString *)viewTitle {
     self.title = viewTitle;
 }
@@ -121,7 +117,7 @@ static NSString *const kDoneButtonSure          = @"确认";
         WEAKSELF;
         
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                 withTitle:_setType == THNSetPasswordTypeNew ? kDoneButtonTitle : kDoneButtonSure
+                                                     title:[self getDoneTitle]
                                                 completion:^{
                                                     [weakSelf thn_doneButtonAction];
                                                 }];

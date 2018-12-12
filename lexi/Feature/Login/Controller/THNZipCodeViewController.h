@@ -8,11 +8,13 @@
 
 #import "THNBaseViewController.h"
 
+typedef void (^ZipSelectAreaCodeBlock)(NSString *code);
+
 @interface THNZipCodeViewController : THNBaseViewController
 
 /**
  选择的区号
  */
-@property (nonatomic, copy) void (^SelectAreaCode)(NSString *code);
+@property (nonatomic, copy) ZipSelectAreaCodeBlock selectAreaCodeBlock;
 
 @end

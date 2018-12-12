@@ -81,6 +81,8 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
 }
 
 - (void)updateConstraints {
+    BOOL isNormal = self.type == THNAddressCellTypeNormal;
+    
     [self.selectButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.bottom.mas_equalTo(0);
@@ -88,30 +90,30 @@ static NSString *const kAddressTableViewCellId = @"kAddressTableViewCellId";
     }];
     
     [self.namelabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.type == THNAddressCellTypeNormal ? 15 : 52);
+        make.left.mas_equalTo(isNormal ? 15 : 52);
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(-44);
+        make.right.mas_equalTo(-15);
         make.height.mas_equalTo(16);
     }];
     
     [self.addresslabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.namelabel.mas_left).with.offset(0);
         make.top.equalTo(self.namelabel.mas_bottom).with.offset(5);
-        make.right.mas_equalTo(-44);
+        make.right.mas_equalTo(-15);
         make.height.mas_equalTo(15);
     }];
     
     [self.citylabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.addresslabel.mas_left).with.offset(0);
         make.top.equalTo(self.addresslabel.mas_bottom).with.offset(5);
-        make.right.mas_equalTo(-44);
+        make.right.mas_equalTo(-15);
         make.height.mas_equalTo(15);
     }];
     
     [self.phonelabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.citylabel.mas_left).with.offset(0);
         make.top.equalTo(self.citylabel.mas_bottom).with.offset(5);
-        make.right.mas_equalTo(-44);
+        make.right.mas_equalTo(-15);
         make.height.mas_equalTo(15);
     }];
     

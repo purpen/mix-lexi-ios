@@ -17,7 +17,6 @@
 
 @implementation THNBaseViewController
 
-#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupBaseUI];
@@ -42,7 +41,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [SVProgressHUD dismiss];
+    if ([SVProgressHUD isVisible]) {
+        [SVProgressHUD dismiss];
+    }
+    
     UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
     [rootViewController hiddenHud];
 }

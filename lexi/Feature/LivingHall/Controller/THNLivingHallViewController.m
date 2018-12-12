@@ -40,7 +40,7 @@ static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remov
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
-@interface THNLivingHallViewController ()<THNFeatureTableViewCellDelegate>
+@interface THNLivingHallViewController ()<THNFeatureTableViewCellDelegate, THNMJRefreshDelegate>
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
 // 本周最受人气欢迎Cell
@@ -59,6 +59,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 @property (nonatomic, assign) CGFloat footerViewHeight;
 @property (nonatomic, assign) CGFloat featureCellHeight;
 @property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) BOOL isNeedsHud;
 
 @end
 
@@ -70,6 +71,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     [self initPageNumber];
     [self.livingHallHeaderView setLifeStore];
     [self setupUI];
+    self.isNeedsHud = YES;
     [self loadData];
 }
 
@@ -87,7 +89,11 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     self.isAddWindow = YES;
     self.isFromMain = YES;
     self.loadViewY = 135 + 22;
-    [self showHud];
+    
+    if (self.isNeedsHud) {
+        [self showHud];
+    }
+    
     dispatch_group_async(group, queue, ^{
         [self loadCuratorRecommendedData];
     });
@@ -102,6 +108,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hiddenHud];
+            [self.tableView endHeaderRefresh];
             [self.tableView reloadData];
         });
     });
@@ -130,6 +137,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
     self.tableView.estimatedRowHeight = 400;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -354,7 +362,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
     // 解决一直上拉搜索动画导致闪动的问题
-    self.tableView.bounces = NO;
+    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -368,6 +376,15 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 - (void)pushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
     [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+#pragma makr - THNMJRefreshDelegate
+- (void)beginRefreshing {
+    self.isNeedsHud = NO;
+    self.featureCellHeight = 0;
+    [self.recommendedMutableArray removeAllObjects];
+    [self initPageNumber];
+    [self loadData];
 }
 
 - (void)dealloc {

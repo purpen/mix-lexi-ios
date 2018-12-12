@@ -17,7 +17,7 @@ static NSString *const kParamAreaCode       = @"areacode";
 static NSString *const kParamPassword       = @"password";
 static NSString *const kParamAffirmPassword = @"affirm_password";
 
-@interface THNSetPasswordViewController ()
+@interface THNSetPasswordViewController () <THNSetPasswordViewDelegate>
 
 @property (nonatomic, strong) THNSetPasswordView *setPasswordView;
 
@@ -25,11 +25,15 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 
 @implementation THNSetPasswordViewController
 
-#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
+}
+
+#pragma mark - custom delegate
+- (void)thn_setPasswordToRegister:(NSString *)password affirmPassword:(NSString *)affirmPassword {
+    [self thn_getPasswordParam:password affirmPassword:affirmPassword];
 }
 
 #pragma mark - private methods
@@ -37,24 +41,25 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
  获取密码参数
  */
 - (void)thn_getPasswordParam:(NSString *)password affirmPassword:(NSString *)affirmPassword {
-    WEAKSELF;
-    
-    if (!weakSelf.email.length || !weakSelf.areacode.length || !password.length || !affirmPassword.length) {
-        [SVProgressHUD thn_showErrorWithStatus:@"获取注册信息失败"];
+    if (!self.email.length || !self.areacode.length || !password.length || !affirmPassword.length) {
         return;
     }
     
-    NSDictionary *paramDict = @{kParamEmail: weakSelf.email,   
-                                kParamAreaCode: weakSelf.areacode,
+    NSDictionary *paramDict = @{kParamEmail: self.email,
+                                kParamAreaCode: self.areacode,
                                 kParamPassword: password,
                                 kParamAffirmPassword: affirmPassword};
     
     [THNLoginManager userRegisterWithParams:paramDict completion:^(NSError *error) {
         if (error) return;
         
-        THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
-        [weakSelf.navigationController pushViewController:newUserInfoVC animated:YES];
+        [self thn_setNewUserInfoController];
     }];
+}
+
+- (void)thn_setNewUserInfoController {
+    THNNewUserInfoViewController *newUserInfoVC = [[THNNewUserInfoViewController alloc] init];
+    [self.navigationController pushViewController:newUserInfoVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -66,20 +71,9 @@ static NSString *const kParamAffirmPassword = @"affirm_password";
 - (THNSetPasswordView *)setPasswordView {
     if (!_setPasswordView) {
         _setPasswordView = [[THNSetPasswordView alloc] initWithType:(THNSetPasswordTypeNew)];
-        
-        WEAKSELF;
-        _setPasswordView.SetPasswordRegisterBlock = ^(NSString *password, NSString *affirmPassword) {
-            [weakSelf thn_getPasswordParam:password affirmPassword:affirmPassword];
-        };
+        _setPasswordView.delegate = self;
     }
     return _setPasswordView;
-}
-
-#pragma mark - dealloc
-- (BOOL)willDealloc {
-    [self.setPasswordView removeFromSuperview];
-    
-    return YES;
 }
 
 @end

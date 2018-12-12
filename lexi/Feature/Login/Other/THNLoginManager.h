@@ -53,7 +53,6 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  */
 @property (nonatomic, assign) BOOL openingUser;
 
-
 /**
  是否大B用户
  */
@@ -63,8 +62,6 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  用户资料
  */
 @property (nonatomic, strong) NSDictionary *userData;
-
-+ (instancetype)sharedManager;
 
 /**
  是否登录状态
@@ -107,8 +104,7 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  @param params 请求参数
  @param completion 完成操作
  */
-+ (void)userRegisterWithParams:(NSDictionary *)params
-                    completion:(void (^)(NSError *error))completion;
++ (void)userRegisterWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion;
 
 /**
  退出登录
@@ -123,9 +119,13 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 /**
  更新用户信息
  */
-- (void)updateUserProfileWithParams:(NSDictionary *)params
-                         completion:(void (^)(THNResponse *date, NSError *error))completion;
+- (void)updateUserProfileWithParams:(NSDictionary *)params completion:(void (^)(THNResponse *date, NSError *error))completion;
 
+/**
+ 使用微信登录注册
+ */
++ (void)useWechatLoginCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion;
++ (void)useWechatBindCompletion:(void (^)(BOOL isBind, NSString *openId, NSError *error))completion;
 
 /**
  更新生活馆信息
@@ -140,5 +140,7 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
  直接打开登录视图
  */
 - (void)openUserLoginController;
+
++ (instancetype)sharedManager;
 
 @end

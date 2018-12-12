@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, THNShareActionViewType) {
     THNShareActionViewTypeThird = 0,    // 第三方分享
     THNShareActionViewTypeMore,         // 分享更多
     THNShareActionViewTypeImage,        // 分享更多+保存图片
+    THNShareActionViewTypePoster,       // 分享海报
 };
 
 @protocol THNShareActionViewDelegate <NSObject>

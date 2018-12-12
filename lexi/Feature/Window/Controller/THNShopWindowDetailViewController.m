@@ -26,6 +26,7 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "THNShareViewController.h"
 #import "THNLoginManager.h"
+#import "THNUserCenterViewController.h"
 
 static NSString *const kUrlShowWindowGuessLike = @"/shop_windows/guess_like";
 static NSString *const kUrlShowWindowSimilar = @"/shop_windows/similar";
@@ -41,7 +42,8 @@ THNExploreTableViewCellDelegate,
 THNFeatureTableViewCellDelegate,
 YYTextKeyboardObserver,
 THNToolBarViewDelegate,
-THNCommentTableViewDelegate
+THNCommentTableViewDelegate,
+THNShopWindowTableViewCellDelegate
 >
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -186,7 +188,8 @@ THNCommentTableViewDelegate
 - (IBAction)share:(id)sender {
     if (!self.shopWindowModel.rid.length) return;
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeWindow)
+                                                                         requestId:self.shopWindowModel.rid];
     [shareVC shareObjectWithTitle:self.shopWindowModel.title
                             descr:self.shopWindowModel.des
                         thumImage:self.shopWindowModel.product_covers[0]
@@ -362,10 +365,10 @@ THNCommentTableViewDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WEAKSELF;
     if ([self.dataArray[indexPath.row] integerValue]== ShopWindowDetailCellTypeMain) {
         self.cellType = ShopWindowDetailCellTypeMain;
         THNShopWindowTableViewCell *cell = [THNShopWindowTableViewCell viewFromXib];
+        cell.delegate = self;
         
         
         if (self.shopWindowModel.products.count == 3) {
@@ -375,11 +378,6 @@ THNCommentTableViewDelegate
         } else {
             self.imageType = ShopWindowImageTypeSeven;
         }
-        
-        cell.shopWindowCellBlock = ^(NSString *rid) {
-            THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
-            [weakSelf.navigationController pushViewController:goodInfoVC animated:YES];
-        };
         
         cell.imageType = self.imageType;
         cell.flag = @"shopWindowDetail";
@@ -445,7 +443,7 @@ THNCommentTableViewDelegate
             return  15 * self.comments.count + headerWithFooterViewHeight + commentHeight + subCommentHeight;
         }
         case ShopWindowDetailCellTypeExplore:
-            return self.comments.count == 0 ? cellOtherHeight + 87 : cellOtherHeight + 87 + 15;
+            return self.comments.count == 0 ? cellOtherHeight + 77 : cellOtherHeight + 77 + 15;
         default:
             return kCellLifeAestheticsHeight + 105;
     }
@@ -527,6 +525,17 @@ THNCommentTableViewDelegate
 
 - (void)lookAllSubComment {
     [self pushCommentVC];
+}
+
+#pragma mark - THNShopWindowTableViewCellDelegate
+- (void)clickImageViewWithRid:(NSString *)productRid {
+    THNGoodsInfoViewController *goodInfoVC = [[THNGoodsInfoViewController alloc]initWithGoodsId:productRid];
+    [self.navigationController pushViewController:goodInfoVC animated:YES];
+}
+
+- (void)clickAvatarImageView:(NSString *)userRid {
+    THNUserCenterViewController *userCentenVC = [[THNUserCenterViewController alloc]initWithUserId:userRid];
+    [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
 #pragma mark - lazy

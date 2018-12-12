@@ -11,8 +11,8 @@
 #import "SVProgressHUD+Helper.h"
 #import "THNAuthCodeButton.h"
 #import "THNDoneButton.h"
-#import "THNWebKitViewViewController.h"
 
+/// text
 static NSString *const kTitleLabelText      = @"注册";
 static NSString *const kZipCodeDefault      = @"+86";
 static NSString *const kPhonePlaceholder    = @"请输入手机号码";
@@ -20,34 +20,23 @@ static NSString *const kAuthPlaceholder     = @"请输入手机动态码";
 static NSString *const kDoneButtonTitle     = @"下一步设置密码";
 static NSString *const kSignInText          = @"已有账号？点击登录";
 static NSString *const kProtocolText        = @"注册代表同意乐喜《服务条款》和《隐私条款》";
-///
+/// url
 static NSString *const kUrlService = @"https://h5.lexivip.com/site/service_agreement";
 static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
-@interface THNSignUpView () {
-    NSString *_verifyCode;
-}
+@interface THNSignUpView ()
 
-/// 控件容器
 @property (nonatomic, strong) UIView *containerView;
-/// 手机区号
 @property (nonatomic, strong) UIButton *zipCodeButton;
-/// 手机号输入框
 @property (nonatomic, strong) UITextField *phoneTextField;
-/// 验证码输入框
 @property (nonatomic, strong) UITextField *authCodeTextField;
-/// 获取验证码按钮
 @property (nonatomic, strong) THNAuthCodeButton *authCodeButton;
-/// 完成（下一步）按钮
 @property (nonatomic, strong) THNDoneButton *doneButton;
-/// 记录加载控件
 @property (nonatomic, strong) NSArray *controlArray;
-/// 错误提示
 @property (nonatomic, strong) UILabel *errorHintLabel;
-/// 已有账号，去登录提示
 @property (nonatomic, strong) YYLabel *signInLabel;
-/// 用户协议提示
 @property (nonatomic, strong) YYLabel *protocolLabel;
+@property (nonatomic, strong) NSString *verifyCode;
 
 @end
 
@@ -63,7 +52,7 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 #pragma mark - public methods
 - (void)thn_setVerifyCode:(NSString *)code {
-    _verifyCode = code;
+    self.verifyCode = code;
 }
 
 - (void)thn_setAreaCode:(NSString *)code {
@@ -81,12 +70,12 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
     [self thn_showErrorHint:NO];
     
     if (![self getPhoneNum].length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:kPhonePlaceholder];
         return;
     }
     
     if (![self getVerifyCode].length) {
-        [self thn_setErrorHintText:@"请输入验证码"];
+        [self thn_setErrorHintText:kAuthPlaceholder];
         return;
     }
     
@@ -97,30 +86,18 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
     }
 }
 
-/**
- 获取输入的手机号
- */
 - (NSString *)getPhoneNum {
     return self.phoneTextField.text;
 }
 
-/**
- 获取手机区号
- */
 - (NSString *)getZipCode {
     return self.zipCodeButton.titleLabel.text;
 }
 
-/**
- 获取短信验证码
- */
 - (NSString *)getVerifyCode {
     return self.authCodeTextField.text;
 }
 
-/**
- 展示错误提示
- */
 - (void)thn_showErrorHint:(BOOL)show {
     self.errorHintLabel.hidden = !show;
 }
@@ -128,14 +105,12 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 #pragma mark - event response
 - (void)authCodeButtonAction:(THNAuthCodeButton *)button {
     if (![self getPhoneNum].length) {
-        [SVProgressHUD thn_showInfoWithStatus:@"请输入手机号"];
+        [SVProgressHUD thn_showInfoWithStatus:kPhonePlaceholder];
         return;
     }
     
-    WEAKSELF;
-    if ([weakSelf.delegate respondsToSelector:@selector(thn_sendAuthCodeWithPhoneNum:zipCode:)]) {
-        [weakSelf.delegate thn_sendAuthCodeWithPhoneNum:[weakSelf getPhoneNum]
-                                                zipCode:[weakSelf getZipCode]];
+    if ([self.delegate respondsToSelector:@selector(thn_signUpSendAuthCodeWithPhoneNum:zipCode:)]) {
+        [self.delegate thn_signUpSendAuthCodeWithPhoneNum:[self getPhoneNum] zipCode:[self getZipCode]];
     }
 
     [self.authCodeTextField becomeFirstResponder];
@@ -145,15 +120,9 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 - (void)zipCodeButtonAction:(UIButton *)button {
     [self thn_showErrorHint:NO];
     
-    if ([self.delegate respondsToSelector:@selector(thn_showZipCodeList)]) {
-        [self.delegate thn_showZipCodeList];
+    if ([self.delegate respondsToSelector:@selector(thn_signUpShowZipCodeList)]) {
+        [self.delegate thn_signUpShowZipCodeList];
     }
-}
-
-- (void)thn_openWebViewControllerWithUrl:(NSString *)url {
-    THNWebKitViewViewController *webVC = [[THNWebKitViewViewController alloc] init];
-    webVC.url = url;
-    [self.currentVC.navigationController pushViewController:webVC animated:YES];
 }
 
 #pragma mark - setup UI
@@ -279,10 +248,10 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 - (THNDoneButton *)doneButton {
     if (!_doneButton) {
-        WEAKSELF;
         
+        WEAKSELF;
         _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                 withTitle:kDoneButtonTitle
+                                                     title:kDoneButtonTitle
                                                 completion:^{
                                                     [weakSelf thn_doneButtonAction];
                                                 }];
@@ -309,14 +278,14 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
         attText.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
         attText.color = [UIColor colorWithHexString:@"#333333"];
         attText.alignment = NSTextAlignmentCenter;
-        
+    
         WEAKSELF;
         [attText setTextHighlightRange:NSMakeRange(5, 4)
                                  color:[UIColor colorWithHexString:kColorMain]
                        backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                              tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                 if ([weakSelf.delegate respondsToSelector:@selector(thn_directLogin)]) {
-                                     [weakSelf.delegate thn_directLogin];
+                                 if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpDirectLogin)]) {
+                                     [weakSelf.delegate thn_signUpDirectLogin];
                                  }
                              }];
         
@@ -327,25 +296,30 @@ static NSString *const kUrlPrivacy = @"https://h5.lexivip.com/site/privacy";
 
 - (YYLabel *)protocolLabel {
     if (!_protocolLabel) {
-        WEAKSELF;
-        
         _protocolLabel = [[YYLabel alloc] init];
+        
         NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:kProtocolText];
         attText.font = [UIFont systemFontOfSize:12 weight:(UIFontWeightRegular)];
         attText.color = [UIColor colorWithHexString:@"#B2B2B2"];
         attText.alignment = NSTextAlignmentCenter;
+        
+        WEAKSELF;
         [attText setTextHighlightRange:NSMakeRange(8, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [weakSelf thn_openWebViewControllerWithUrl:kUrlService];
+                                    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpCheckProtocolUrl:)]) {
+                                        [weakSelf.delegate thn_signUpCheckProtocolUrl:kUrlService];
+                                    }
                                 }];
         
         [attText setTextHighlightRange:NSMakeRange(15, 6)
                                     color:[UIColor colorWithHexString:@"#2A2A2A"]
                           backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                                 tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                    [weakSelf thn_openWebViewControllerWithUrl:kUrlPrivacy];
+                                    if ([weakSelf.delegate respondsToSelector:@selector(thn_signUpCheckProtocolUrl:)]) {
+                                        [weakSelf.delegate thn_signUpCheckProtocolUrl:kUrlPrivacy];
+                                    }
                                 }];
         
         _protocolLabel.attributedText = attText;

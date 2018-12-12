@@ -37,6 +37,8 @@
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
 
+#import "THNCashViewController.h"
+
 #define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
 /// seciton header 默认的标题
@@ -87,6 +89,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 @property (nonatomic, strong) THNMyCenterMenuView *menuView;
 /// 生活馆管理
 @property (nonatomic, strong) THNLifeManagementViewController *lifeStoreVC;
+/// 记录请求的用户id
+@property (nonatomic, strong) NSString *recordUid;
 
 @end
 
@@ -97,6 +101,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self setupUI];
     [self thn_switchCurrentListDataWithType:THNHeaderViewSelectedTypeLiked];
+    self.recordUid = [THNLoginManager sharedManager].userId;
 }
 
 #pragma mark - custom delegate
@@ -283,6 +288,17 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_setTableViewBgColor];
     
     [self.tableView reloadData];
+}
+
+/**
+ 切换用户重新加载数据
+ */
+- (void)thn_changeUserReloadData {
+    if (![[THNLoginManager sharedManager].userId isEqualToString:self.recordUid]) {
+        [self.dataSections removeAllObjects];
+        [self.tableView reloadData];
+        [self.tableView beginHeaderRefresh];
+    }
 }
 
 #pragma mark - network
@@ -658,15 +674,17 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  打开分享视图
  */
 - (void)thn_openShareController {
-    if (!self.userModel.uid.length) return;
-    
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
-    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
-                            descr:kShareDes
-                        thumImage:self.userModel.avatar
-                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
-    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [self presentViewController:shareVC animated:NO completion:nil];
+    THNCashViewController *cashVC = [[THNCashViewController alloc] init];
+    [self.navigationController pushViewController:cashVC animated:YES];
+//    if (!self.userModel.uid.length) return;
+//
+//    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
+//    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
+//                            descr:kShareDes
+//                        thumImage:self.userModel.avatar
+//                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
+//    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+//    [self presentViewController:shareVC animated:NO completion:nil];
 }
 
 /**
@@ -810,6 +828,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_uploadViewFrame];
     [self thn_setUserCenterData];
     [self thn_getUserProfileData];
+    [self thn_changeUserReloadData];
 }
 
 - (void)setNavigationBar {
