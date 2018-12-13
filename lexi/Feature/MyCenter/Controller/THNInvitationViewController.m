@@ -143,6 +143,10 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     [super viewWillAppear:animated];
     
     self.navigationBarView.title = kTitleInvitation;
+    
+    [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShare];
+    [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptCash];
+    [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShareF];
 }
 
 #pragma mark - webView delegate
@@ -175,11 +179,6 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 #pragma mark - getters and setters
 - (WKWebView *)webView {
     if (!_webView) {
-        WKUserContentController *userContent = [[WKUserContentController alloc] init];
-        [userContent addScriptMessageHandler:self name:kScriptShare];
-        [userContent addScriptMessageHandler:self name:kScriptCash];
-        [userContent addScriptMessageHandler:self name:kScriptShareF];
-        
         WKPreferences *preferences = [WKPreferences new];
         preferences.minimumFontSize = 10;
         preferences.javaScriptEnabled = YES;
@@ -187,7 +186,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         
         WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
         webConfig.preferences = preferences;
-        webConfig.userContentController = userContent;
+        webConfig.userContentController = [[WKUserContentController alloc] init];
         
         _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:webConfig];
         _webView.navigationDelegate = self;
@@ -201,7 +200,9 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 }
 
 #pragma mark
-- (void)dealloc {
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptShare];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptCash];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptShareF];

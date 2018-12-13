@@ -85,6 +85,8 @@ static NSString *const kScriptApply   = @"applyLifeStore";
     [super viewWillAppear:animated];
     
     [self setNavigationBar];
+    
+    [self.applyWebView.configuration.userContentController addScriptMessageHandler:self name:kScriptApply];
 }
 
 - (void)setNavigationBar {
@@ -94,9 +96,6 @@ static NSString *const kScriptApply   = @"applyLifeStore";
 #pragma mark - getters and setters
 - (WKWebView *)applyWebView {
     if (!_applyWebView) {
-        WKUserContentController *userContent = [[WKUserContentController alloc] init];
-        [userContent addScriptMessageHandler:self name:kScriptApply];
-    
         WKPreferences *preferences = [WKPreferences new];
         preferences.minimumFontSize = 10;
         preferences.javaScriptEnabled = YES;
@@ -104,7 +103,7 @@ static NSString *const kScriptApply   = @"applyLifeStore";
         
         WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
         webConfig.preferences = preferences;
-        webConfig.userContentController = userContent;
+        webConfig.userContentController = [[WKUserContentController alloc] init];
         
         _applyWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
                                            configuration:webConfig];
@@ -121,7 +120,9 @@ static NSString *const kScriptApply   = @"applyLifeStore";
 }
 
 #pragma mark
-- (void)dealloc {
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
     [self.applyWebView.configuration.userContentController removeScriptMessageHandlerForName:kScriptApply];
 }
 
