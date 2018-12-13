@@ -11,6 +11,8 @@
 
 @interface THNGoodsListCollectionReusableView : UICollectionReusableView
 
-- (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType userData:(NSArray *)userData;
+- (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType
+                              userData:(NSArray *)userData
+                             userCount:(NSInteger)userCount;
 
 @end

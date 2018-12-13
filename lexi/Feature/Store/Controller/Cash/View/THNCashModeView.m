@@ -34,11 +34,14 @@ static NSInteger const kActionTag = 434;
     self.selectedButton.selected = NO;
     button.selected = YES;
     self.selectedButton = button;
+    
+    self.cashMode = button.tag - kActionTag;
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.title = kTitleMode;
+    self.cashMode = 0;
     
     [self thn_createCashModeButton];
     [self setMasonryLayout];

@@ -13,6 +13,7 @@
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "THNConst.h"
+#import "UIImageView+WebImage.h"
 
 #define CURRENT_WINDOW [[UIApplication sharedApplication].windows firstObject]
 
@@ -27,6 +28,13 @@ static NSInteger const kActionButtonTag     = 1951;
 /// 文字内容
 @property (nonatomic, strong) YYLabel *titleLable;
 @property (nonatomic, strong) YYLabel *messageLabel;
+
+// 微信头像
+@property (nonatomic, strong) UIImageView *headImageView;
+@property (nonatomic, strong) UIImageView *wechatIcon;
+@property (nonatomic, strong) YYLabel *wechatName;
+@property (nonatomic, strong) YYLabel *wechatTitle;
+@property (nonatomic, assign) BOOL isWechat;
 
 /// 操作按钮
 @property (nonatomic, strong) UIView *buttonContainerView;
@@ -50,6 +58,21 @@ static NSInteger const kActionButtonTag     = 1951;
 
 + (instancetype)initAlertViewTitle:(NSString *)title message:(NSString *)message {
     return [[self alloc] initAlertViewTitle:title message:message];
+}
+
+- (instancetype)initAlertViewWechatHeadImage:(NSString *)image nickname:(NSString *)nickname title:(NSString *)title {
+    self = [super init];
+    if (self) {
+        self.isWechat = YES;
+        [self setupViewUI];
+        [self setupWechatViewUI];
+        [self thn_setWechatInfoWithHeadImage:image nickname:nickname title:title];
+    }
+    return self;
+}
+
++ (instancetype)initAlertViewWechatHeadImage:(NSString *)image nickname:(NSString *)nickname title:(NSString *)title {
+    return [[self alloc] initAlertViewWechatHeadImage:image nickname:nickname title:title];
 }
 
 #pragma mark - public methods
@@ -161,7 +184,9 @@ static NSInteger const kActionButtonTag     = 1951;
     }
 }
 
-// 按钮添加分割线
+/**
+ 按钮添加分割线
+ */
 - (UIButton *)thn_addCuttingLineWithButton:(UIButton *)button {
     UILabel *lineLabel = [[UILabel alloc] init];
     lineLabel.backgroundColor = [UIColor colorWithHexString:@"#E9E9E9"];
@@ -175,14 +200,62 @@ static NSInteger const kActionButtonTag     = 1951;
     return button;
 }
 
+/**
+ 微信视图展示的信息
+ */
+- (void)thn_setWechatInfoWithHeadImage:(NSString *)image nickname:(NSString *)nickname title:(NSString *)title {
+    [self.headImageView loadImageWithUrl:image];
+    self.wechatName.text = nickname;
+    self.wechatTitle.text = title;
+}
+
 #pragma mark - setup UI
 - (void)setupViewUI {
-    self.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.3];
+    self.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.5];
     
     [self.containerView addSubview:self.titleLable];
     [self.containerView addSubview:self.messageLabel];
     [self.containerView addSubview:self.buttonContainerView];
     [self addSubview:self.containerView];
+}
+
+- (void)setupWechatViewUI {
+    self.titleLable.hidden = YES;
+    self.messageLabel.hidden = YES;
+    
+    [self.containerView addSubview:self.headImageView];
+    [self.containerView addSubview:self.wechatIcon];
+    [self.containerView addSubview:self.wechatName];
+    [self.containerView addSubview:self.wechatTitle];
+    
+    [self setWechatMasonryLayout];
+}
+
+- (void)setWechatMasonryLayout {
+    [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(52, 52));
+        make.top.mas_equalTo(20);
+        make.centerX.equalTo(self);
+    }];
+    
+    [self.wechatIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(18, 18));
+        make.bottom.right.equalTo(self.headImageView).with.offset(0);
+    }];
+    
+    [self.wechatName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(15);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.equalTo(self.headImageView.mas_bottom).with.offset(5);
+    }];
+    
+    [self.wechatTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(22);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.top.equalTo(self.wechatName.mas_bottom).with.offset(10);
+    }];
 }
 
 - (void)updateConstraints {
@@ -209,7 +282,13 @@ static NSInteger const kActionButtonTag     = 1951;
     }];
     
     [self.buttonContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.messageLabel.mas_bottom).with.offset(17);
+        if (self.isWechat) {
+            make.height.mas_equalTo(ACTION_BUTTON_HEIGHT);
+            
+        } else {
+            make.top.equalTo(self.messageLabel.mas_bottom).with.offset(17);
+        }
+        
         make.left.right.bottom.mas_equalTo(0);
     }];
     
@@ -249,6 +328,10 @@ static NSInteger const kActionButtonTag     = 1951;
 
 #pragma mark - getters and setters
 - (CGFloat)getContainerHeight {
+    if (self.isWechat) {
+        return 210;
+    }
+    
     CGFloat originH = 20 + 10 + 17;
     CGFloat titleH = [self getTitleHeight];
     CGFloat messageH = [self getMessageHeight];
@@ -331,6 +414,45 @@ static NSInteger const kActionButtonTag     = 1951;
         _messageLabel.numberOfLines = 0;
     }
     return _messageLabel;
+}
+
+#pragma mark 微信
+- (UIImageView *)headImageView {
+    if (!_headImageView) {
+        _headImageView = [[UIImageView alloc] init];
+        _headImageView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+        _headImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _headImageView.layer.cornerRadius = 52/2;
+        _headImageView.layer.masksToBounds = YES;
+    }
+    return _headImageView;
+}
+
+- (UIImageView *)wechatIcon {
+    if (!_wechatIcon) {
+        _wechatIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_head_wechat"]];
+    }
+    return _wechatIcon;
+}
+
+- (YYLabel *)wechatName {
+    if (!_wechatName) {
+        _wechatName = [[YYLabel alloc] init];
+        _wechatName.textColor = [UIColor colorWithHexString:@"#666666"];
+        _wechatName.font = [UIFont systemFontOfSize:14];
+        _wechatName.textAlignment = NSTextAlignmentCenter;
+    }
+    return _wechatName;
+}
+
+- (YYLabel *)wechatTitle {
+    if (!_wechatTitle) {
+        _wechatTitle = [[YYLabel alloc] init];
+        _wechatTitle.textColor = [UIColor colorWithHexString:@"#333333"];
+        _wechatTitle.font = [UIFont systemFontOfSize:18];
+        _wechatTitle.textAlignment = NSTextAlignmentCenter;
+    }
+    return _wechatTitle;
 }
 
 - (UIView *)buttonContainerView {

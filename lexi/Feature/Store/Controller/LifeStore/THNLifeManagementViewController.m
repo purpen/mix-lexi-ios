@@ -66,14 +66,7 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (![THNLoginManager sharedManager].openingUser) {
-        return;
-    }
-    
-    [self thn_setLifeStoreUserData];
-    [self thn_getLifeTransactionData];
-    [self thn_getLifeOrdersCollectData];
-    [self thn_getLifeCashCollectData];
+    [self setupUI];
 }
 
 #pragma mark - custom delegate
@@ -115,8 +108,6 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
                                      [weakSelf.userView thn_setLifeStoreInfo:model];
                                      [weakSelf.countdownView thn_setLifeStoreCreatedAt:model.created_at];
                                      [weakSelf thn_showCountdownPhases:model.phases];
-                                     
-                                     [weakSelf setupUI];
                                  }];
 }
 
@@ -245,12 +236,27 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     [super viewWillAppear:animated];
     
     self.navigationBarView.hidden = YES;
+    
+    if (![THNLoginManager sharedManager].openingUser) {
+        return;
+    }
+    
+    [self thn_setLifeStoreUserData];
+    [self thn_getLifeTransactionData];
+    [self thn_getLifeOrdersCollectData];
+    [self thn_getLifeCashCollectData];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.lifeInfoTable.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.frame));
 }
 
 #pragma mark - getters and setters
 - (UITableView *)lifeInfoTable {
     if (!_lifeInfoTable) {
-        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.frame))
+        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectZero
                                                       style:(UITableViewStylePlain)];
         _lifeInfoTable.delegate = self;
         _lifeInfoTable.dataSource = self;

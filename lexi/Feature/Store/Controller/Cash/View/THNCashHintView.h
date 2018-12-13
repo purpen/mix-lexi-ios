@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+typedef NS_ENUM(NSUInteger, THNCashHintViewType) {
+    THNCashHintViewTypeNotes = 0,   // 注意事项
+    THNCashHintViewTypeQuery,       // 到账查询
+};
 
 @interface THNCashHintView : UIView
 
-@end
+- (instancetype)initWithType:(THNCashHintViewType)type;
 
-NS_ASSUME_NONNULL_END
+@end

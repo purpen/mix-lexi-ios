@@ -63,4 +63,14 @@ typedef void (^ActionButtonHandler)(UIButton *actionButton, NSInteger index);
 
 + (instancetype)initAlertViewTitle:(NSString *)title message:(NSString *)message;
 
+/**
+ 显示微信头像视图
+
+ @param image 头像链接
+ @param nickname 微信名
+ @param title 提示语
+ @return self
+ */
++ (instancetype)initAlertViewWechatHeadImage:(NSString *)image nickname:(NSString *)nickname title:(NSString *)title;
+
 @end

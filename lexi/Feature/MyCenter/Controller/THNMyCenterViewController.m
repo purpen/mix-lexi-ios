@@ -36,8 +36,8 @@
 #import "THNShopWindowDetailViewController.h"
 #import "THNShopWindowModel.h"
 #import "UIScrollView+THNMJRefresh.h"
-
-#import "THNCashViewController.h"
+#import "THNInvitationViewController.h"
+#import "THNAdvertInviteView.h"
 
 #define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
@@ -123,7 +123,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
             break;
             
         case THNHeaderViewSelectedTypeActivity: {
-            [self thn_openShareController];
+            [self thn_openInvitationController];
         }
             break;
             
@@ -288,6 +288,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_setTableViewBgColor];
     
     [self.tableView reloadData];
+    [self thn_showInvitationView];
 }
 
 /**
@@ -299,6 +300,18 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
         [self.tableView reloadData];
         [self.tableView beginHeaderRefresh];
     }
+}
+
+/**
+ 显示邀请视图
+ */
+- (void)thn_showInvitationView {
+    THNAdvertInviteView *inviteView = [[THNAdvertInviteView alloc] init];
+    inviteView.advertInviteDoneBlock = ^{
+        [self thn_openInvitationController];
+    };
+    
+    [inviteView show];
 }
 
 #pragma mark - network
@@ -674,17 +687,25 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  打开分享视图
  */
 - (void)thn_openShareController {
-    THNCashViewController *cashVC = [[THNCashViewController alloc] init];
-    [self.navigationController pushViewController:cashVC animated:YES];
-//    if (!self.userModel.uid.length) return;
-//
-//    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
-//    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
-//                            descr:kShareDes
-//                        thumImage:self.userModel.avatar
-//                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
-//    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-//    [self presentViewController:shareVC animated:NO completion:nil];
+    if (!self.userModel.uid.length) return;
+
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
+    [shareVC shareObjectWithTitle:kShareUserInfo(self.userModel.username)
+                            descr:kShareDes
+                        thumImage:self.userModel.avatar
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareUserUrlPrefix, self.userModel.uid]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
+}
+
+/**
+ 邀请好友得35元
+ */
+- (void)thn_openInvitationController {
+    if (!self.userModel.uid) return;
+    
+    THNInvitationViewController *invitationVC = [[THNInvitationViewController alloc] initWithUserModel:self.userModel];
+    [self.navigationController pushViewController:invitationVC animated:YES];
 }
 
 /**
@@ -808,14 +829,13 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)setupUI {
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
     self.tableView.tableHeaderView = self.headerView;
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     
     [self.view addSubview:self.menuView];
     [self.containerView addSubview:self.tableView];
     [self addChildViewController:self.lifeStoreVC];
     [self.containerView addSubview:self.lifeStoreVC.view];
     [self.view addSubview:self.containerView];
-    
-    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -863,8 +883,8 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     CGFloat menuH = hasLifeStore ? 44 : 0;
     CGFloat originY = navbarH + menuH;
     
-    CGRect containerFrame = self.containerView.frame;
     CGFloat containerH = SCREEN_HEIGHT - originY - tabbarH;
+    CGRect containerFrame = self.containerView.frame;
     containerFrame = CGRectMake(0, originY, SCREEN_WIDTH, containerH);
     self.containerView.frame = containerFrame;
     

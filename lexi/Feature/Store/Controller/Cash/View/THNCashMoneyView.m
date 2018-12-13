@@ -15,6 +15,7 @@ static NSInteger const kActionTag = 534;
 
 @interface THNCashMoneyView () <THNCashActionButtonDelegate>
 
+@property (nonatomic, strong) NSArray *moneyArr;
 @property (nonatomic, strong) NSMutableArray *firstButtonArr;
 @property (nonatomic, strong) NSMutableArray *secondButtonArr;
 @property (nonatomic, strong) THNCashActionButton *selectedButton;
@@ -36,14 +37,18 @@ static NSInteger const kActionTag = 534;
     self.selectedButton.selected = NO;
     button.selected = YES;
     self.selectedButton = button;
+    
+    NSInteger index = button.tag - kActionTag;
+    self.cashAmount = [self.moneyArr[index] floatValue];
 }
 
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.title = kTitleMoney;
+    self.moneyArr = @[@(1), @(2), @(3), @(4), @(10), @(20)];
+    self.cashAmount = [self.moneyArr[0] floatValue];
     
-    NSArray *moneyValues = @[@(1), @(2), @(3), @(4), @(10), @(20)];
-    [self thn_createCashMoneyButtonWithValues:moneyValues];
+    [self thn_createCashMoneyButtonWithValues:self.moneyArr];
     [self setMasonryLayout];
 }
 
@@ -51,13 +56,13 @@ static NSInteger const kActionTag = 534;
     [self.firstButtonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal) withFixedSpacing:10 leadSpacing:20 tailSpacing:20];
     [self.firstButtonArr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(50);
-        make.top.mas_equalTo(45);
+        make.top.mas_equalTo(50);
     }];
     
     [self.secondButtonArr mas_distributeViewsAlongAxis:(MASAxisTypeHorizontal) withFixedSpacing:10 leadSpacing:20 tailSpacing:20];
     [self.secondButtonArr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(50);
-        make.top.mas_equalTo(110);
+        make.top.mas_equalTo(115);
     }];
 }
 

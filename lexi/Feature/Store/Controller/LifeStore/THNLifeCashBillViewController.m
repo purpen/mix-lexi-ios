@@ -18,16 +18,13 @@ static NSString *const kCashBillTableViewCellId = @"THNLifeCashBillTableViewCell
 /// text
 static NSString *const kTextCashBill = @"对账单";
 /// key
-static NSString *const kKeyPage     = @"page";
+static NSString *const kKeyPage = @"page";
 
 @interface THNLifeCashBillViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *billTable;
-// 当前页码
 @property (nonatomic, assign) NSInteger page;
-// 日期
 @property (nonatomic, strong) NSArray *allKey;
-// 数据
 @property (nonatomic, strong) NSMutableArray *allValue;
 
 @end

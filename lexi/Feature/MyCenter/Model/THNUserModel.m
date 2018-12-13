@@ -11,9 +11,7 @@
 @implementation THNUserModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
-    return @{
-             @"user_id": @"ID"
-             };
+    return @{@"user_id": @"ID"};
 }
 
 - (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property {

@@ -625,12 +625,10 @@ static NSString *const kKeyUid              = @"uid";
  获取栏目商品的编码
  */
 - (NSString *)thn_getColumnCodeWithListType:(THNGoodsListViewType)type {
-    NSDictionary *codeResult = @{
-                                 @(THNGoodsListViewTypeEditors):    @"e_recommend",
+    NSDictionary *codeResult = @{@(THNGoodsListViewTypeEditors):    @"e_recommend",
                                  @(THNGoodsListViewTypeNewProduct): @"e_new",
                                  @(THNGoodsListViewTypeDesign):     @"preferential_design",
-                                 @(THNGoodsListViewTypeGoodThing):  @"affordable_goods"
-                                 };
+                                 @(THNGoodsListViewTypeGoodThing):  @"affordable_goods"};
 
     return codeResult[@(type)];
 }

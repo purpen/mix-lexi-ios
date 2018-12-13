@@ -10,4 +10,6 @@
 
 @interface THNCashModeView : THNCashBaseView
 
+@property (nonatomic, assign) NSInteger cashMode;
+
 @end

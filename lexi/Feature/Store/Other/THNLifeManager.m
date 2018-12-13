@@ -139,6 +139,7 @@ static NSString *const kKeyItems    = @"items";
 - (void)requestLifeOrderRecordWithParams:(NSDictionary *)params completion:(void (^)(THNLifeOrderDataModel *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLLifeOrder requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"生活馆订单记录：--- %@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;

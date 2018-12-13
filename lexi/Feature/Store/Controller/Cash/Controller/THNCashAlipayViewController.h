@@ -8,10 +8,8 @@
 
 #import "THNBaseViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface THNCashAlipayViewController : THNBaseViewController
 
-@end
+@property (nonatomic, assign) CGFloat cashAmount;
 
-NS_ASSUME_NONNULL_END
+@end

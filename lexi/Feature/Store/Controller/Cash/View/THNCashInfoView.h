@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "THNLifeCashBillModel.h"
 
 @interface THNCashInfoView : UIView
 
-@end
+- (void)thn_setLifeCashBillDetailData:(THNLifeCashBillModel *)model;
 
-NS_ASSUME_NONNULL_END
+@end

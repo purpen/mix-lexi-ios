@@ -215,14 +215,14 @@ MJCodingImplementation
         self.openingUser = [result.data[kRequestIsSmallB] boolValue];
         self.supplier = [result.data[kRequestSupplier] boolValue];
         self.userId = result.data[kRequestProfile][kRequestUserId];
-        self.userData = result.data[kRequestProfile];
+        self.userData = result.data;
         
         [self saveLoginInfo];
         
         completion([result.data[@"is_bind"] boolValue], result.data[@"openid"], nil);
         
     } failure:^(THNRequest *request, NSError *error) {
-        completion(NO, nil, error);
+        completion(NO, params[@"openid"], error);
     }];
 }
 
@@ -405,6 +405,9 @@ MJCodingImplementation
     UMSocialUserInfoResponse *resp = result;
     
     NSDictionary *wechatInfo = resp.originalResponse;
+#ifdef DEBUG
+    THNLog(@"微信授权数据 === %@", wechatInfo);
+#endif
     NSString *country   = wechatInfo[@"country"];
     NSString *city      = wechatInfo[@"city"];
     NSString *province  = wechatInfo[@"province"];

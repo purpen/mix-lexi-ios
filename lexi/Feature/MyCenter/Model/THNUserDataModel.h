@@ -26,5 +26,8 @@
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *avatar_id;
 @property (nonatomic, assign) BOOL is_bind_wx;
+@property (nonatomic, assign) BOOL is_bind;
+@property (nonatomic, strong) NSString *openid;
+@property (nonatomic, strong) NSString *wx_avatar;
 
 @end

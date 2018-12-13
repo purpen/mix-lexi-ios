@@ -147,18 +147,18 @@ static NSString *const kKeyStatus   = @"status";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.orderArr.count) {
         THNLifeOrderModel *model = self.orderArr[indexPath.section];
-        
+    
         if (indexPath.row == 0) {
             return 64.0;
             
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == (model.items.count + 3) - 2) {
             return 60.0;
             
-        } else if (indexPath.row == 2) {
-            return 70.0;
-            
-        } else if (indexPath.row == 3) {
+        } else if (indexPath.row == (model.items.count + 3) - 1) {
             return model.life_order_status == 1 ? 0.01 : 49.0;
+            
+        } else {
+            return 75.0;
         }
     }
     
@@ -247,7 +247,7 @@ static NSString *const kKeyStatus   = @"status";
 - (THNLifeSegmentView *)segmentView {
     if (!_segmentView) {
         _segmentView = [[THNLifeSegmentView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 56)
-                                                          titles:@[@"全部", @"待发货", @"已收货", @"已完成"]];
+                                                          titles:@[@"全部", @"待发货", @"已发货", @"已完成"]];
         _segmentView.delegate = self;
     }
     return _segmentView;

@@ -11,7 +11,6 @@
 
 @interface THNWebKitViewViewController () <WKNavigationDelegate, WKUIDelegate>
 
-/// 开馆指引
 @property (nonatomic, strong) WKWebView *webView;
 
 @end

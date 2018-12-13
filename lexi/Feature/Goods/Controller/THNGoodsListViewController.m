@@ -52,6 +52,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 @property (nonatomic, assign) NSInteger sortNewest;
 /// 用户id
 @property (nonatomic, strong) NSString *userId;
+/// 栏目浏览人数
+@property (nonatomic, assign) NSInteger userCount;
 
 @end
 
@@ -253,7 +255,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
                                           params:params
                                       completion:^(NSArray *usersData, NSInteger count, NSError *error) {
                                           if (error) return;
-        
+                                          
+                                          weakSelf.userCount = count;
                                           [weakSelf.userArray addObjectsFromArray:usersData];
                                           [weakSelf.goodsCollectionView reloadData];
                                           [SVProgressHUD dismiss];
@@ -487,7 +490,9 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     if ([self thn_showHeaderView]) {
         THNGoodsListCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kCollectionViewHeaderViewId
                                                                                                    forIndexPath:indexPath];
-        [headerView thn_setShowContentWithListType:self.goodsListType userData:[self.userArray copy]];
+        [headerView thn_setShowContentWithListType:self.goodsListType
+                                          userData:[self.userArray copy]
+                                         userCount:self.userCount];
 
         return headerView;
     }

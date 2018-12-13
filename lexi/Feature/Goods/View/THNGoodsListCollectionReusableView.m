@@ -51,7 +51,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
     return self;
 }
 
-- (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType userData:(NSArray *)userData {
+- (void)thn_setShowContentWithListType:(THNGoodsListViewType)listType userData:(NSArray *)userData userCount:(NSInteger)userCount {
     NSDictionary *titleDict = @{@(THNGoodsListViewTypeEditors)   : kTitleEditors,
                                 @(THNGoodsListViewTypeNewProduct): kTitleNewProduct,
                                 @(THNGoodsListViewTypeDesign)    : kTitleDesign,
@@ -74,7 +74,7 @@ static NSString *const kSloganGoodThing     = @"品质与设计并存的精选�
     
     if (userData.count) {
         [self thn_setRecordUserData:[self thn_getUserModelWithData:userData]];
-        [self thn_setUserCountWithValue:userData.count];
+        [self thn_setUserCountWithValue:userCount];
     }
 }
 

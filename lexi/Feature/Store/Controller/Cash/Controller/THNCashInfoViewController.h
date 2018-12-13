@@ -8,10 +8,8 @@
 
 #import "THNBaseViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface THNCashInfoViewController : THNBaseViewController
 
-@end
+- (instancetype)initWithCashBillId:(NSString *)billId;
 
-NS_ASSUME_NONNULL_END
+@end

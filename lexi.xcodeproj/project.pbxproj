@@ -527,6 +527,7 @@
 		D85E2B5E21BA5D400092732E /* YBImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85E2B4321BA5D400092732E /* YBImageBrowserView.m */; };
 		D85E2B5F21BA5D400092732E /* YBImageBrowserViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D85E2B4721BA5D400092732E /* YBImageBrowserViewLayout.m */; };
 		D85E2B6021BA5D400092732E /* YBImageBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D85E2B4921BA5D400092732E /* YBImageBrowser.bundle */; };
+		D85F266821BF8EC700DF246F /* THNCashAlipayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D85F266721BF8EC700DF246F /* THNCashAlipayView.m */; };
 		D86073EE21BE41A200DC257B /* THNCashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D86073ED21BE41A200DC257B /* THNCashViewController.m */; };
 		D86073F121BE463600DC257B /* THNCashRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D86073F021BE463600DC257B /* THNCashRecordViewController.m */; };
 		D86073F421BE471600DC257B /* THNCashAlipayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D86073F321BE471600DC257B /* THNCashAlipayViewController.m */; };
@@ -537,6 +538,11 @@
 		D860740621BE614800DC257B /* THNCashBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = D860740521BE614800DC257B /* THNCashBaseView.m */; };
 		D860740921BE62DA00DC257B /* THNCashAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = D860740821BE62DA00DC257B /* THNCashAmountView.m */; };
 		D860740C21BE633000DC257B /* THNCashView.m in Sources */ = {isa = PBXBuildFile; fileRef = D860740B21BE633000DC257B /* THNCashView.m */; };
+		D860740F21BF724D00DC257B /* THNCashHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = D860740E21BF724D00DC257B /* THNCashHintView.m */; };
+		D87D8B4621BFB81100F678B0 /* THNCashInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4521BFB81100F678B0 /* THNCashInfoView.m */; };
+		D87D8B4921BFBD1600F678B0 /* THNCashRecordDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */; };
+		D87D8B4C21C2005600F678B0 /* THNInvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */; };
+		D87D8B4F21C236BC00F678B0 /* THNAdvertInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */; };
 		D8AA52A021A00AA2003F2111 /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529F21A00AA2003F2111 /* THNSelectWindowProductViewController.m */; };
@@ -1503,6 +1509,8 @@
 		D85E2B4721BA5D400092732E /* YBImageBrowserViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBImageBrowserViewLayout.m; sourceTree = "<group>"; };
 		D85E2B4821BA5D400092732E /* YBImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBImageBrowser.h; sourceTree = "<group>"; };
 		D85E2B4921BA5D400092732E /* YBImageBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YBImageBrowser.bundle; sourceTree = "<group>"; };
+		D85F266621BF8EC700DF246F /* THNCashAlipayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashAlipayView.h; sourceTree = "<group>"; };
+		D85F266721BF8EC700DF246F /* THNCashAlipayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashAlipayView.m; sourceTree = "<group>"; };
 		D86073EC21BE41A200DC257B /* THNCashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashViewController.h; sourceTree = "<group>"; };
 		D86073ED21BE41A200DC257B /* THNCashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashViewController.m; sourceTree = "<group>"; };
 		D86073EF21BE463600DC257B /* THNCashRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashRecordViewController.h; sourceTree = "<group>"; };
@@ -1523,6 +1531,8 @@
 		D860740821BE62DA00DC257B /* THNCashAmountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashAmountView.m; sourceTree = "<group>"; };
 		D860740A21BE633000DC257B /* THNCashView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashView.h; sourceTree = "<group>"; };
 		D860740B21BE633000DC257B /* THNCashView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashView.m; sourceTree = "<group>"; };
+		D860740D21BF724D00DC257B /* THNCashHintView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashHintView.h; sourceTree = "<group>"; };
+		D860740E21BF724D00DC257B /* THNCashHintView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashHintView.m; sourceTree = "<group>"; };
 		D87672422186B88800EDD442 /* THNNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNNotification.h; sourceTree = "<group>"; };
 		D87672432186B88800EDD442 /* THNNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNNotification.m; sourceTree = "<group>"; };
 		D87672452186BC8F00EDD442 /* THNNotificationHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNNotificationHeader.h; sourceTree = "<group>"; };
@@ -1530,6 +1540,14 @@
 		D876724B218700F300EDD442 /* THNCouponsCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCouponsCenterViewController.m; sourceTree = "<group>"; };
 		D876724D2187010A00EDD442 /* THNStoreCouponViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNStoreCouponViewController.h; sourceTree = "<group>"; };
 		D876724E2187010A00EDD442 /* THNStoreCouponViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNStoreCouponViewController.m; sourceTree = "<group>"; };
+		D87D8B4421BFB81100F678B0 /* THNCashInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashInfoView.h; sourceTree = "<group>"; };
+		D87D8B4521BFB81100F678B0 /* THNCashInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashInfoView.m; sourceTree = "<group>"; };
+		D87D8B4721BFBD1600F678B0 /* THNCashRecordDefaultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashRecordDefaultView.h; sourceTree = "<group>"; };
+		D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashRecordDefaultView.m; sourceTree = "<group>"; };
+		D87D8B4A21C2005600F678B0 /* THNInvitationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNInvitationViewController.h; sourceTree = "<group>"; };
+		D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNInvitationViewController.m; sourceTree = "<group>"; };
+		D87D8B4D21C236BC00F678B0 /* THNAdvertInviteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertInviteView.h; sourceTree = "<group>"; };
+		D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertInviteView.m; sourceTree = "<group>"; };
 		D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+THNMJRefresh.h"; sourceTree = "<group>"; };
 		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
@@ -2507,6 +2525,8 @@
 				4BECEFA4217F1401008E5E28 /* THNUserListViewController.m */,
 				D8011B852181A13D00619240 /* THNUserCenterViewController.h */,
 				D8011B862181A13D00619240 /* THNUserCenterViewController.m */,
+				D87D8B4A21C2005600F678B0 /* THNInvitationViewController.h */,
+				D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3195,6 +3215,8 @@
 				CDF3D33221B01A18003D841A /* THNAdvertCouponTableViewCell.m */,
 				CDF3D32F21B01A18003D841A /* THNAdvertCouponView.h */,
 				CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */,
+				D87D8B4D21C236BC00F678B0 /* THNAdvertInviteView.h */,
+				D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3203,7 +3225,6 @@
 			isa = PBXGroup;
 			children = (
 				CDF3D33821B01CB7003D841A /* Other */,
-				CDF3D33921B01CB7003D841A /* Model */,
 				CDF3D33A21B01CB7003D841A /* View */,
 				CDF3D33B21B01CB7003D841A /* ViewController */,
 			);
@@ -3217,13 +3238,6 @@
 				CDF3D33D21B01D21003D841A /* THNGuideTool.m */,
 			);
 			path = Other;
-			sourceTree = "<group>";
-		};
-		CDF3D33921B01CB7003D841A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		CDF3D33A21B01CB7003D841A /* View */ = {
@@ -3285,8 +3299,8 @@
 		D80515C321ABC5CD002460A5 /* LifeTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */,
 				D80515C521ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.h */,
+				D80515C421ABC5CD002460A5 /* THNLifeManagementTextTableViewCell.m */,
 			);
 			path = LifeTableViewCell;
 			sourceTree = "<group>";
@@ -3294,16 +3308,16 @@
 		D80515CB21ABC5CD002460A5 /* LifeOrder */ = {
 			isa = PBXGroup;
 			children = (
+				D80515D321ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.h */,
 				D80515CC21ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.m */,
-				D80515CD21ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.m */,
-				D80515CE21ABC5CD002460A5 /* THNLifeOrderView.m */,
+				D80515D521ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.h */,
 				D80515CF21ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.m */,
+				D80515D221ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.h */,
+				D80515CD21ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.m */,
+				D80515D421ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.h */,
 				D80515D021ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.m */,
 				D80515D121ABC5CD002460A5 /* THNLifeOrderView.h */,
-				D80515D221ABC5CD002460A5 /* THNLifeOrderProductTableViewCell.h */,
-				D80515D321ABC5CD002460A5 /* THNLifeOrderActionTableViewCell.h */,
-				D80515D421ABC5CD002460A5 /* THNLifeOrderStoreTableViewCell.h */,
-				D80515D521ABC5CD002460A5 /* THNLifeOrderInfoTableViewCell.h */,
+				D80515CE21ABC5CD002460A5 /* THNLifeOrderView.m */,
 			);
 			path = LifeOrder;
 			sourceTree = "<group>";
@@ -3311,16 +3325,16 @@
 		D80515D621ABC5CD002460A5 /* LifeCash */ = {
 			isa = PBXGroup;
 			children = (
-				D80515D721ABC5CD002460A5 /* THNLifeCashBillInfoView.h */,
-				D80515D821ABC5CD002460A5 /* THNLifeCashBillView.h */,
-				D80515D921ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.m */,
-				D80515DA21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.h */,
-				D80515DB21ABC5CD002460A5 /* THNLifeCashBillTableViewCell.m */,
-				D80515DC21ABC5CD002460A5 /* THNLifeCashBillInfoView.m */,
 				D80515DD21ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.h */,
+				D80515D921ABC5CD002460A5 /* THNLifeCashBillInfoTableViewCell.m */,
+				D80515D721ABC5CD002460A5 /* THNLifeCashBillInfoView.h */,
+				D80515DC21ABC5CD002460A5 /* THNLifeCashBillInfoView.m */,
+				D80515DA21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.h */,
 				D80515DE21ABC5CD002460A5 /* THNLifeCashBillSectionHeaderView.m */,
-				D80515DF21ABC5CD002460A5 /* THNLifeCashBillView.m */,
 				D80515E021ABC5CD002460A5 /* THNLifeCashBillTableViewCell.h */,
+				D80515DB21ABC5CD002460A5 /* THNLifeCashBillTableViewCell.m */,
+				D80515D821ABC5CD002460A5 /* THNLifeCashBillView.h */,
+				D80515DF21ABC5CD002460A5 /* THNLifeCashBillView.m */,
 			);
 			path = LifeCash;
 			sourceTree = "<group>";
@@ -3693,10 +3707,10 @@
 			children = (
 				D86073EC21BE41A200DC257B /* THNCashViewController.h */,
 				D86073ED21BE41A200DC257B /* THNCashViewController.m */,
-				D86073EF21BE463600DC257B /* THNCashRecordViewController.h */,
-				D86073F021BE463600DC257B /* THNCashRecordViewController.m */,
 				D86073F221BE471600DC257B /* THNCashAlipayViewController.h */,
 				D86073F321BE471600DC257B /* THNCashAlipayViewController.m */,
+				D86073EF21BE463600DC257B /* THNCashRecordViewController.h */,
+				D86073F021BE463600DC257B /* THNCashRecordViewController.m */,
 				D86073F521BE477300DC257B /* THNCashInfoViewController.h */,
 				D86073F621BE477300DC257B /* THNCashInfoViewController.m */,
 			);
@@ -3708,6 +3722,8 @@
 			children = (
 				D860740A21BE633000DC257B /* THNCashView.h */,
 				D860740B21BE633000DC257B /* THNCashView.m */,
+				D85F266621BF8EC700DF246F /* THNCashAlipayView.h */,
+				D85F266721BF8EC700DF246F /* THNCashAlipayView.m */,
 				D860740421BE614800DC257B /* THNCashBaseView.h */,
 				D860740521BE614800DC257B /* THNCashBaseView.m */,
 				D860740721BE62DA00DC257B /* THNCashAmountView.h */,
@@ -3718,6 +3734,12 @@
 				D86073FF21BE57DC00DC257B /* THNCashModeView.m */,
 				D860740121BE585900DC257B /* THNCashActionButton.h */,
 				D860740221BE585900DC257B /* THNCashActionButton.m */,
+				D860740D21BF724D00DC257B /* THNCashHintView.h */,
+				D860740E21BF724D00DC257B /* THNCashHintView.m */,
+				D87D8B4421BFB81100F678B0 /* THNCashInfoView.h */,
+				D87D8B4521BFB81100F678B0 /* THNCashInfoView.m */,
+				D87D8B4721BFBD1600F678B0 /* THNCashRecordDefaultView.h */,
+				D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4216,6 +4238,7 @@
 				4B27B37F218717D1004AF42F /* THNTableViewCells.m in Sources */,
 				D8B434CD219AC711009D2434 /* THNDynamicContentTableViewCell.m in Sources */,
 				4B27B380218717D1004AF42F /* THNTableViewSections.m in Sources */,
+				D87D8B4F21C236BC00F678B0 /* THNAdvertInviteView.m in Sources */,
 				D85E2B5B21BA5D400092732E /* YBIBPhotoAlbumManager.m in Sources */,
 				CDF3D33521B01A1A003D841A /* THNAdvertCouponView.m in Sources */,
 				4B27B381218717D1004AF42F /* THNNavigationBarView.m in Sources */,
@@ -4229,6 +4252,7 @@
 				4B27B385218717D1004AF42F /* THNBrandHallFeaturedViewController.m in Sources */,
 				D8DF16C9218AF1D5006AAB9E /* THNCouponManager.m in Sources */,
 				4B27B386218717D1004AF42F /* THNBrandHallFeaturesTableViewController.m in Sources */,
+				D87D8B4921BFBD1600F678B0 /* THNCashRecordDefaultView.m in Sources */,
 				4B27B387218717D1004AF42F /* THNBrandHallStoryViewController.m in Sources */,
 				D805160C21ABC5CE002460A5 /* THNLifeActionView.m in Sources */,
 				4B27B388218717D1004AF42F /* THNBrandHallViewController.m in Sources */,
@@ -4243,6 +4267,7 @@
 				4B27B390218717D1004AF42F /* THNBrandHallFeaturesTableViewCell.m in Sources */,
 				4B27B391218717D1004AF42F /* THNBrandHallHeaderView.m in Sources */,
 				D85E2B5121BA5D400092732E /* YBImageBrowserTipView.m in Sources */,
+				D860740F21BF724D00DC257B /* THNCashHintView.m in Sources */,
 				D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */,
 				4B27B392218717D1004AF42F /* THNBrandHallInfoTableViewCell.m in Sources */,
 				4B27B393218717D1004AF42F /* THNBrandHallUserInfoTableViewCell.m in Sources */,
@@ -4331,6 +4356,7 @@
 				4B27B3D9218717D1004AF42F /* THNGoodsButton.m in Sources */,
 				4B27B3DA218717D1004AF42F /* THNGoodsSkuCollectionViewCell.m in Sources */,
 				4B27B3DB218717D1004AF42F /* THNGoodsSkuView.m in Sources */,
+				D87D8B4621BFB81100F678B0 /* THNCashInfoView.m in Sources */,
 				4B27B3DC218717D1004AF42F /* THNGoodsActionTableViewCell.m in Sources */,
 				4B27B3DD218717D1004AF42F /* THNGoodsBaseTableViewCell.m in Sources */,
 				4BC7D1A221A568D300F22440 /* THNOrderPayTableViewCell.m in Sources */,
@@ -4347,6 +4373,7 @@
 				4B27B3E7218717D1004AF42F /* THNGoodsTitleTableViewCell.m in Sources */,
 				4B27B3E8218717D1004AF42F /* THNGoodsUserTableViewCell.m in Sources */,
 				CDF3D33421B01A1A003D841A /* THNAdvertCouponViewController.m in Sources */,
+				D87D8B4C21C2005600F678B0 /* THNInvitationViewController.m in Sources */,
 				4B27B3E9218717D1004AF42F /* THNCartButton.m in Sources */,
 				4B27B3EA218717D1004AF42F /* THNGoodsCouponTableViewCell.m in Sources */,
 				D8409310219ECD7300EF1F70 /* THNSelectPruductCoverCollectionViewCell.m in Sources */,
@@ -4419,6 +4446,7 @@
 				D85E2B4E21BA5D400092732E /* YBVideoBrowseCellData.m in Sources */,
 				4B27B41D218717D1004AF42F /* THNUserModel.m in Sources */,
 				4B27B42F218717D1004AF42F /* THNEvaluationViewController.m in Sources */,
+				D85F266821BF8EC700DF246F /* THNCashAlipayView.m in Sources */,
 				CDF3D34121B01EA0003D841A /* THNGuideCollectionViewController.m in Sources */,
 				4B27B430218717D1004AF42F /* THNLogisticsViewController.m in Sources */,
 				4B27B431218717D1004AF42F /* THNOrderDetailViewController.m in Sources */,

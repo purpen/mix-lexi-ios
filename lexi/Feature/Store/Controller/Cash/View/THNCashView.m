@@ -10,6 +10,7 @@
 #import "THNCashAmountView.h"
 #import "THNCashMoneyView.h"
 #import "THNCashModeView.h"
+#import "THNCashHintView.h"
 #import "UIColor+Extension.h"
 #import "UIView+Helper.h"
 #import "THNConst.h"
@@ -22,6 +23,7 @@ static NSString *const kTextCash = @"我要提现";
 @property (nonatomic, strong) THNCashMoneyView *moneyView;
 @property (nonatomic, strong) THNCashModeView *modeView;
 @property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) THNCashHintView *hintView;
 
 @end
 
@@ -37,7 +39,26 @@ static NSString *const kTextCash = @"我要提现";
 
 #pragma mark - public methods
 - (void)setCashAmount:(CGFloat)cashAmount {
+    _cashAmount = cashAmount;
+    
     [self.amountView thn_setCashAmountValue:cashAmount];
+}
+
+#pragma mark - event response
+- (void)doneButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedDoneCashWithAmount:mode:)]) {
+        [self.delegate thn_didSelectedDoneCashWithAmount:[self thn_getCashAmount]
+                                                    mode:[self thn_getCashMode]];
+    }
+}
+
+#pragma mark - private methods
+- (CGFloat)thn_getCashAmount {
+    return self.moneyView.cashAmount;
+}
+
+- (NSInteger)thn_getCashMode {
+    return self.modeView.cashMode;
 }
 
 #pragma mark - setup UI
@@ -48,6 +69,7 @@ static NSString *const kTextCash = @"我要提现";
     [self addSubview:self.moneyView];
     [self addSubview:self.modeView];
     [self addSubview:self.doneButton];
+    [self addSubview:self.hintView];
     
     [self setMasonryLayout];
 }
@@ -60,25 +82,33 @@ static NSString *const kTextCash = @"我要提现";
 
 - (void)setMasonryLayout {
     [self.amountView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(96);
+        make.height.mas_equalTo(90);
         make.top.left.right.mas_equalTo(0);
     }];
     
     [self.moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(180);
+        make.height.mas_equalTo(170);
         make.left.right.mas_equalTo(0);
         make.top.equalTo(self.amountView.mas_bottom).with.offset(10);
     }];
     
     [self.modeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(190);
+        make.left.right.mas_equalTo(0);
         make.top.equalTo(self.moneyView.mas_bottom).with.offset(0);
     }];
     
     [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(44);
         make.left.mas_equalTo(20);
-        make.bottom.right.mas_equalTo(-20);
+        make.right.mas_equalTo(-20);
+        make.bottom.equalTo(self.modeView.mas_bottom).with.offset(-20);
+    }];
+    
+    [self.hintView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(180);
+        make.left.right.mas_equalTo(0);
+        make.top.equalTo(self.modeView.mas_bottom).with.offset(10);
     }];
 }
 
@@ -111,8 +141,16 @@ static NSString *const kTextCash = @"我要提现";
         [_doneButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         _doneButton.titleLabel.font = [UIFont systemFontOfSize:16];
         _doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain];
+        [_doneButton addTarget:self action:@selector(doneButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _doneButton;
+}
+
+- (THNCashHintView *)hintView {
+    if (!_hintView) {
+        _hintView = [[THNCashHintView alloc] initWithType:(THNCashHintViewTypeNotes)];
+    }
+    return _hintView;
 }
 
 @end

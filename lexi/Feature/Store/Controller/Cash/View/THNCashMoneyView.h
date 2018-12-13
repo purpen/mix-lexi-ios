@@ -10,4 +10,6 @@
 
 @interface THNCashMoneyView : THNCashBaseView
 
+@property (nonatomic, assign) CGFloat cashAmount;
+
 @end

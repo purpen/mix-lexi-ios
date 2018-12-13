@@ -106,7 +106,6 @@ static NSString *const kTextLoginOut = @"退出登录";
     [self.navigationController pushViewController:bindVC animated:YES];
 }
 
-
 #pragma mark - setup UI
 - (void)setupUI {
     self.settingTable.tableHeaderView = self.headerView;
