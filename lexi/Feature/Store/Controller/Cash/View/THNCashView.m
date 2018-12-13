@@ -17,7 +17,7 @@
 
 static NSString *const kTextCash = @"我要提现";
 
-@interface THNCashView ()
+@interface THNCashView () <THNCashMoneyViewDelegate>
 
 @property (nonatomic, strong) THNCashAmountView *amountView;
 @property (nonatomic, strong) THNCashMoneyView *moneyView;
@@ -42,6 +42,11 @@ static NSString *const kTextCash = @"我要提现";
     _cashAmount = cashAmount;
     
     [self.amountView thn_setCashAmountValue:cashAmount];
+}
+
+#pragma mark - custom delegate
+- (void)thn_didSelectedCashMoneyIndex:(NSInteger)index {
+    [self.hintView thn_changeCashMoneyTime:index > 0];
 }
 
 #pragma mark - event response
@@ -123,6 +128,7 @@ static NSString *const kTextCash = @"我要提现";
 - (THNCashMoneyView *)moneyView {
     if (!_moneyView) {
         _moneyView = [[THNCashMoneyView alloc] init];
+        _moneyView.delegate = self;
     }
     return _moneyView;
 }

@@ -15,6 +15,11 @@ typedef NS_ENUM(NSUInteger, THNCashHintViewType) {
 
 @interface THNCashHintView : UIView
 
+/**
+ 改变提现的到账时间
+ */
+- (void)thn_changeCashMoneyTime:(BOOL)change;
+
 - (instancetype)initWithType:(THNCashHintViewType)type;
 
 @end

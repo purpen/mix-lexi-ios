@@ -40,6 +40,10 @@ static NSInteger const kActionTag = 534;
     
     NSInteger index = button.tag - kActionTag;
     self.cashAmount = [self.moneyArr[index] floatValue];
+    
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCashMoneyIndex:)]) {
+        [self.delegate thn_didSelectedCashMoneyIndex:index];
+    }
 }
 
 #pragma mark - setup UI

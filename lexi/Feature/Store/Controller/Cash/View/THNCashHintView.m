@@ -14,11 +14,13 @@
 #import <Masonry/Masonry.h>
 #import "THNConst.h"
 
+#define kTextHint(obj) [NSString stringWithFormat:@"提现申请将在%@内审批到账；如遇高峰期，可能延迟到账，烦请耐心等待", obj]
+
 static NSString *const kTitleNotes      = @"注意事项";
 static NSString *const kTitleExplain    = @"提现说明";
 static NSString *const kTitleQuery      = @"到账查询";
 static NSString *const kTextHintHigh    = @"1-3小时";
-static NSString *const kTextHint1       = @"提现申请将在1-3小时内审批到账；如遇高峰期，可能延迟到账，烦请耐心等待";
+static NSString *const kTextHintLow     = @"24小时";
 static NSString *const kTextHint2       = @"请及时关注提现记录，查看提现状态";
 static NSString *const kTextHint3       = @"提现到账查询：支付宝 > 我的 > 账单，如果有名称为“乐喜提现成功”的数据，即提现成功到账";
 static NSString *const kTextHint4       = @"支付宝：我的 > 账单";
@@ -27,6 +29,7 @@ static NSString *const kTextHint5       = @"微信：我 > 钱包 > 零钱 > 零
 @interface THNCashHintView ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) YYLabel *showTimeLabel;
 
 @end
 
@@ -42,10 +45,24 @@ static NSString *const kTextHint5       = @"微信：我 > 钱包 > 零钱 > 零
     return self;
 }
 
+- (void)thn_changeCashMoneyTime:(BOOL)change {
+    NSString *time = change ? kTextHintLow : kTextHintHigh;
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:kTextHint(time)];
+    att.font = [UIFont systemFontOfSize:13];
+    att.color = [UIColor colorWithHexString:@"#999999"];
+    att.lineSpacing = 5;
+    [att setTextHighlightRange:NSMakeRange(6, time.length)
+                         color:[UIColor colorWithHexString:@"#FF6666"]
+               backgroundColor:[UIColor colorWithHexString:@"#000000"]
+                     tapAction:nil];
+
+    self.showTimeLabel.attributedText = att;
+}
+
 #pragma mark - private methods
 - (void)thn_creatHintTextWithType:(THNCashHintViewType)type {
     if (type == THNCashHintViewTypeNotes) {
-        [self thn_createHintInfoViewWithTexts:@[kTextHint1, kTextHint2, kTextHint3]];
+        [self thn_createHintInfoViewWithTexts:@[kTextHint(kTextHintHigh), kTextHint2, kTextHint3]];
         
     } else if (type == THNCashHintViewTypeQuery) {
         [self thn_createHintInfoViewWithTexts:@[kTextHint4, kTextHint5]];
@@ -87,6 +104,9 @@ static NSString *const kTextHint5       = @"微信：我 > 钱包 > 零钱 > 零
         numLabel.text = [NSString stringWithFormat:@"%zi", idx + 1];
         [numLabel drawCornerWithType:(UILayoutCornerRadiusAll) radius:15/2];
         
+        YYLabel *textLabel = [[YYLabel alloc] init];
+        textLabel.numberOfLines = 0;
+        
         NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:texts[idx]];
         att.font = [UIFont systemFontOfSize:13];
         att.color = [UIColor colorWithHexString:@"#999999"];
@@ -96,10 +116,10 @@ static NSString *const kTextHint5       = @"微信：我 > 钱包 > 零钱 > 零
                                  color:[UIColor colorWithHexString:@"#FF6666"]
                        backgroundColor:[UIColor colorWithHexString:@"#FFFFFF"]
                              tapAction:nil];
+            
+            self.showTimeLabel = textLabel;
         }
         
-        YYLabel *textLabel = [[YYLabel alloc] init];
-        textLabel.numberOfLines = 0;
         textLabel.attributedText = att;
         
         CGFloat textH = [textLabel thn_getLabelHeightWithMaxWidth:kScreenWidth - 62];

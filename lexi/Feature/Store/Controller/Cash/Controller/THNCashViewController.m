@@ -136,15 +136,15 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
 
 - (NSDictionary *)thn_getRequestParams {
     NSDictionary *param = @{@"cash_type": @(1),
-                            @"open_id": self.userModel.openid,
-                            @"amount": @(self.cashAmount)};
+                            @"open_id"  : self.userModel.openid,
+                            @"amount"   : @(self.cashAmount)};
     
     return param;
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
-    self.cashView.cashAmount = 1.5;
+    self.cashView.cashAmount = 99999;
     
     [self.containerView addSubview:self.cashView];
     [self.view addSubview:self.containerView];

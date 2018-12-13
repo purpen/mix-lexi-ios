@@ -8,8 +8,15 @@
 
 #import "THNCashBaseView.h"
 
+@protocol THNCashMoneyViewDelegate <NSObject>
+
+- (void)thn_didSelectedCashMoneyIndex:(NSInteger)index;
+
+@end
+
 @interface THNCashMoneyView : THNCashBaseView
 
 @property (nonatomic, assign) CGFloat cashAmount;
+@property (nonatomic, weak) id <THNCashMoneyViewDelegate> delegate;
 
 @end

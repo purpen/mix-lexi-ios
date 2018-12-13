@@ -201,9 +201,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 }
 
 #pragma mark
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
+- (void)dealloc {
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptShare];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptCash];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:kScriptShareF];
