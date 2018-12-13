@@ -40,7 +40,7 @@
     self.searchTextField.delegate = self;
     switch (searchType) {
         case SearchTypeHome:
-            [self drwaShadow];
+            [self drawShadow:1.0];
             break;
         case SearchTypeProductCenter:
             self.backgroundColor = [UIColor colorWithHexString:@"F6F5F5"];

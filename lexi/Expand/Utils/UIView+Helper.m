@@ -225,7 +225,7 @@
 }
 
 #pragma mark - 绘制阴影
-- (void)drwaShadow {
+- (void)drawShadow:(float)shadowOpacity {
     self.layer.shadowRadius = 4;
     self.layer.cornerRadius = 4;
     self.layer.shadowOffset = CGSizeMake(0, 0);

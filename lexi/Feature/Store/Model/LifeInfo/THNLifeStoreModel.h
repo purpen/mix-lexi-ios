@@ -19,5 +19,7 @@
 // phases = 1: 实习馆主、2: 达人馆主
 @property (nonatomic, assign) NSInteger phases;
 @property (nonatomic, copy) NSString *created_at;
+// 是否有推荐商品
+@property (nonatomic, assign) BOOL has_product;
 
 @end

@@ -335,6 +335,7 @@ THNShopWindowTableViewCellDelegate
     [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
+
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
@@ -349,7 +350,7 @@ THNShopWindowTableViewCellDelegate
 
 - (UIImageView *)showImageView {
     if (!_showImageView) {
-//        CGFloat showImageViewY = kDeviceiPhoneX ?  44 : 20;
+        //        CGFloat showImageViewY = kDeviceiPhoneX ?  44 : 20;
         _showImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, showImageViewHeight)];
         _showImageView.contentMode = UIViewContentModeScaleAspectFill;
         _showImageView.layer.masksToBounds = YES;
@@ -435,5 +436,6 @@ THNShopWindowTableViewCellDelegate
     }
     return _showWindowRecommends;
 }
+
 
 @end

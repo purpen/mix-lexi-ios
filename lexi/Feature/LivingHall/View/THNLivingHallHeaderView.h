@@ -12,12 +12,14 @@ typedef void(^ChangeHeaderViewBlock)(void);
 typedef void(^PushProductCenterBlock)(void);
 typedef void(^EditStoreLogoBlock)(void);
 typedef void(^LivingHallShareBlock)(void);
+typedef void(^LoadLifeStoreDataSuccessBlock)(BOOL isHaveRecommendData);
 
 @interface THNLivingHallHeaderView : UIView
 
 @property (weak, nonatomic) IBOutlet UIView *noProductView;
 
 - (void)setLifeStore;
+- (void)loadLifeStoreData:(LoadLifeStoreDataSuccessBlock)lifeStoreDataSuccess;
 @property (nonatomic, strong) NSString *storeAvatarUrl;
 @property (nonatomic, copy) ChangeHeaderViewBlock changeHeaderViewBlock;
 @property (nonatomic, copy) PushProductCenterBlock pushProductCenterBlock;

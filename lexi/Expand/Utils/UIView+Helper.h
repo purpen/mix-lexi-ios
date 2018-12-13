@@ -85,7 +85,7 @@ typedef NS_ENUM(NSUInteger, UIViewBorderLineType) {
 
  绘制阴影
  */
-- (void)drwaShadow;
+- (void)drawShadow:(float)shadowOpacity;
 
 /**
  xib加载View

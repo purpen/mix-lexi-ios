@@ -29,7 +29,7 @@
     [super awakeFromNib];
     self.selectButton.userInteractionEnabled = NO;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    [self drwaShadow];
+    [self drawShadow:1.0];
 }
 
 

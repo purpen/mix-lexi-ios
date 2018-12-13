@@ -27,32 +27,37 @@
 #import "THNQiNiuUpload.h"
 #import "THNShareViewController.h"
 #import "THNShareWxaViewController.h"
+#import "THNLivingRecommendProductSetTableViewCell.h"
+#import "THNLivingHallRecommendTableViewController.h"
+#import "UIColor+Extension.h"
+#import "THNLivingHallHeadLineView.h"
+#import "THNExploreTableViewCell.h"
 
-static CGFloat const livingHallHeaderViewHeight = 500;
-static CGFloat const expandViewHeight = 59;
-static CGFloat const cellSpacing = 15;
-
-static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecommendCellIdentifier";
-// 馆长推荐
-static NSString *const kUrlCuratorRecommended = @"/core_platforms/products/by_store";
-// 删除商品
-static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remove";
+static CGFloat const livingHallHeaderViewHeight = 544;
+static NSString *const kLivingHallRecommendProductSetCellIdentifier = @"kLivingHallRecommendProductSetCellIdentifier";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
+static NSString *const kUrlColumnHandpickNewExpress = @"/column/handpick_new_express";
 
-@interface THNLivingHallViewController ()<THNFeatureTableViewCellDelegate, THNMJRefreshDelegate>
+typedef NS_ENUM(NSUInteger, LivingHallCellType) {
+    LivingHallCellTypeRecommend,
+    LivingHallCellTypeNewExpressProduct
+};
+
+@interface THNLivingHallViewController () <
+THNFeatureTableViewCellDelegate,
+THNMJRefreshDelegate,
+THNExploreTableViewCellDelegate
+>
 
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
 // 本周最受人气欢迎Cell
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
 @property (nonatomic, strong)  THNLivingHallExpandView *expandView;
-@property (nonatomic, strong) NSArray *recommendedArray;
-@property (nonatomic, strong) NSArray *weekPopularArray;
-@property (nonatomic, strong) NSMutableArray *recommendedMutableArray;
+@property (nonatomic, strong) NSMutableArray *weekPopularArray;
+@property (nonatomic, strong) NSArray *expressNewProductArray;
 @property (nonatomic, strong) NSArray *likeProductUserArray;
 @property (nonatomic, assign) CGFloat recommenLabelHegiht;
-@property (nonatomic, assign) NSInteger pageCount;
-@property (nonatomic, assign) NSInteger curatorPerPageCount;
 @property (nonatomic, assign) NSInteger weekPopularPerPageCount;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, assign) BOOL isLoadMoreData;
@@ -60,6 +65,13 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 @property (nonatomic, assign) CGFloat featureCellHeight;
 @property (nonatomic, assign) CGFloat lastContentOffset;
 @property (nonatomic, assign) BOOL isNeedsHud;
+/// 当前页码
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong) UIView *noLivingHallHeaderView;
+@property (nonatomic, strong) THNLivingHallHeadLineView *headLineView;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) LivingHallCellType livingHallCellType;
+@property (nonatomic, assign) BOOL isHaveRecommendData;
 
 @end
 
@@ -67,9 +79,7 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadCuratorRecommendedData) name:kShelfSuccess object:nil];
-    [self initPageNumber];
-    [self.livingHallHeaderView setLifeStore];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshCuratorRecommendedData) name:kShelfSuccess object:nil];
     [self setupUI];
     self.isNeedsHud = YES;
     [self loadData];
@@ -80,7 +90,23 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     [self hiddenHud];
 }
 
+- (void)refreshCuratorRecommendedData {
+    THNLivingRecommendProductSetTableViewCell *recommendProductSetCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    recommendProductSetCell.isMergeRecommendData = NO;
+    [recommendProductSetCell loadCuratorRecommendedData];
+}
+
 - (void)loadData {
+    
+    [self.livingHallHeaderView setLifeStore];
+    
+    [self.livingHallHeaderView loadLifeStoreData:^(BOOL isHaveRecommendData) {
+        self.isHaveRecommendData = isHaveRecommendData;
+        if (self.isHaveRecommendData) {
+            [self.dataArray addObject:@(LivingHallCellTypeRecommend)];
+        }
+    }];
+    
     //创建信号量
     self.semaphore = dispatch_semaphore_create(0);
     //创建全局并行队列
@@ -88,14 +114,14 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     dispatch_group_t group = dispatch_group_create();
     self.isAddWindow = YES;
     self.isFromMain = YES;
-    self.loadViewY = 135 + 22;
+    self.loadViewY = 130;
     
     if (self.isNeedsHud) {
         [self showHud];
     }
     
     dispatch_group_async(group, queue, ^{
-        [self loadCuratorRecommendedData];
+        [self loadNewExpressProductData];
     });
     dispatch_group_async(group, queue, ^{
         [self loadWeekPopularData];
@@ -114,15 +140,9 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     });
 }
 
-// 初始化页码
-- (void)initPageNumber {
-    self.pageCount = 1;
-    self.curatorPerPageCount = 10;
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.expandView.viewHeight = expandViewHeight;
+    self.headLineView.frame = CGRectMake(20, 107, SCREEN_WIDTH - 40, 110);
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -134,10 +154,15 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingHallRecommendTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendCellIdentifier];
-    self.tableView.estimatedRowHeight = 400;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    [self.tableView registerNib:[UINib nibWithNibName:@"THNLivingRecommendProductSetTableViewCell" bundle:nil] forCellReuseIdentifier:kLivingHallRecommendProductSetCellIdentifier];
+    // 抖动闪动漂移等问题
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
+    [self.tableView resetCurrentPageNumber];
+    self.currentPage = 1;
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -148,66 +173,35 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     }
 }
 
-// 馆长推荐
-- (void)loadCuratorRecommendedData {
+// 新品速递
+- (void)loadNewExpressProductData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"page"] = @(self.pageCount);
-    params[@"per_page"] = @(self.curatorPerPageCount);
-    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
-    params[@"is_distributed"] = @(2);
-    
-    THNRequest *request = [THNAPI getWithUrlString:kUrlCuratorRecommended requestDictionary:params delegate:nil];
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickNewExpress requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-       NSInteger signalQuantity =  dispatch_semaphore_signal(self.semaphore);
+        dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [self.recommendedMutableArray removeAllObjects];
-        NSArray *array = result.data[@"products"];
-        self.recommendedArray = [THNProductModel mj_objectArrayWithKeyValuesArray:array] ;
-        [self.recommendedMutableArray addObjectsFromArray:self.recommendedArray];
+        self.expressNewProductArray = result.data[@"products"];
         
-        if (self.recommendedmutableArray.count > 0) {
-            self.livingHallHeaderView.noProductView.hidden = YES;
-        } else {
-            self.livingHallHeaderView.noProductView.hidden = NO;
+        if (self.expressNewProductArray.count > 0) {
+            [self.dataArray addObject:@(LivingHallCellTypeNewExpressProduct)];
         }
         
-        if (signalQuantity == 0) {
-            [self.tableView reloadData];
-        }
+        self.title = result.data[@"title"];
+        [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-       dispatch_semaphore_signal(self.semaphore);
-    }];
-}
-
-// 删除馆长推荐商品
-- (void)deleteProduct:(NSString *)rid initCellIndex:(NSInteger)index {
-    [SVProgressHUD thn_show];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"rid"] = rid;
-    params[@"sid"] = [THNLoginManager sharedManager].storeRid;
-    THNRequest *request = [THNAPI deleteWithUrlString:kUrlDeleteProduct requestDictionary:params delegate:nil];
-    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        [SVProgressHUD dismiss];
-        if (!result.success) {
-            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
-            return;
-        }
-
-        [self.recommendedMutableArray removeObjectAtIndex:index];
-        [self.tableView deleteRow:index inSection:0 withRowAnimation:UITableViewRowAnimationNone];
-    } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD dismiss];
+        dispatch_semaphore_signal(self.semaphore);
     }];
 }
 
 // 本周最受人气欢迎
 - (void)loadWeekPopularData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
     THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
@@ -216,22 +210,31 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
             return;
         }
         
-        self.weekPopularArray = result.data[@"products"];
+        [self.weekPopularArray addObjectsFromArray:result.data[@"products"]];
         
-        for (int i = 1; i <= self.weekPopularArray.count; i++) {
-            if ( i % 5 == 0) {
-                self.featureCellHeight += SCREEN_WIDTH - 40 + 46;
-            } else if (i % 2 == 0) {
-                self.featureCellHeight += ((SCREEN_WIDTH - 49) / 2 + 46);
-            }
-            // 加上间距
-            self.featureCellHeight += i % 2 == 0 || i % 5 == 0 ? 10 : 0;
+//        for (int i = 1; i <= self.weekPopularArray.count; i++) {
+//            if ( i % 5 == 0) {
+//                self.featureCellHeight += SCREEN_WIDTH - 40 + 46;
+//            } else if (i % 2 == 0) {
+//                self.featureCellHeight += ((SCREEN_WIDTH - 49) / 2 + 46);
+//            }
+//            // 加上间距
+//            self.featureCellHeight += i % 2 == 0 || i % 5 == 0 ? 10 : 0;
+//        }
+        
+        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * self.weekPopularArray.count / 2 + 80;
+        
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        
+        if (![result.data[@"next"] boolValue] && self.weekPopularArray.count != 0) {
+            
+            [self.tableView noMoreData];
         }
-        
-        self.featureCellHeight += 87.5;
         
         self.title = result.data[@"title"];
         [self.featureCell setCellTypeStyle:FeaturedNo initWithDataArray:self.weekPopularArray initWithTitle:@"本周最受欢迎"];
+        [self.tableView reloadData];
+        
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];
@@ -257,112 +260,121 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 
 #pragma mark - UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.recommendedmutableArray.count;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNLivingHallRecommendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLivingHallRecommendCellIdentifier forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    THNProductModel *productModel = self.recommendedmutableArray[indexPath.row];
-    // 设置喜欢用户头像
-    [cell loadLikeProductUserData:productModel.rid];
-    // 设置馆长头像
-    [cell setCurtorAvatar:self.livingHallHeaderView.storeAvatarUrl];
-    [cell setProductModel:productModel];
     
-    __weak typeof(self)weakSelf = self;
-    cell.deleteProductBlock = ^(UITableViewCell *cell) {
-        NSIndexPath *indexPath = [tableView indexPathForCell:cell];
-         THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
-        [weakSelf deleteProduct:productModel.rid initCellIndex:indexPath.row];
-    };
-    
-    cell.shareProductBlock = ^{
-        THNShareViewController *shareVC = [[THNShareViewController alloc]init];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:shareVC animated:NO completion:nil];
-    };
-    
-    return cell;
+    if ([self.dataArray[indexPath.row] integerValue] == LivingHallCellTypeNewExpressProduct) {
+        self.livingHallCellType = LivingHallCellTypeNewExpressProduct;
+        THNExploreTableViewCell *cell = [THNExploreTableViewCell viewFromXib];
+        cell.isRewriteCellHeight = self.isHaveRecommendData;
+        [cell setCellTypeStyle:ExploreRecommend initWithDataArray:self.expressNewProductArray
+                 initWithTitle:@"新品速递"];
+        cell.delagate = self;
+        return cell;
+        
+    } else {
+        self.livingHallCellType = LivingHallCellTypeRecommend;
+        THNLivingRecommendProductSetTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLivingHallRecommendProductSetCellIdentifier forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.storeAvatarUrl = self.livingHallHeaderView.storeAvatarUrl;
+        
+        WEAKSELF;
+        cell.lookMoreRecommenDataBlock = ^{
+            THNLivingHallRecommendTableViewController *recommendProductSetVC = [[THNLivingHallRecommendTableViewController alloc]init];
+            recommendProductSetVC.storeAvatarUrl = self.livingHallHeaderView.storeAvatarUrl;
+            [weakSelf.navigationController pushViewController:recommendProductSetVC animated:YES];
+        };
+        
+        cell.recommendCellBlock = ^(NSString *rid) {
+            [weakSelf pushGoodInfo:rid];
+        };
+        
+        return cell;
+    }
 }
 
 #pragma mark - UITableViewDelegate method 实现
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
-        return self.livingHallHeaderView.noProductView.hidden ? livingHallHeaderViewHeight - 115 - 100 : livingHallHeaderViewHeight - 100;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.livingHallCellType == LivingHallCellTypeRecommend) {
+        return 243;
     } else {
-          return self.livingHallHeaderView.noProductView.hidden ? livingHallHeaderViewHeight - 115 : livingHallHeaderViewHeight;
+         return self.isHaveRecommendData ? cellOtherHeight + 77 + 15 : cellOtherHeight + 77;
     }
-  
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([THNLoginManager sharedManager].openingUser) {
+        if ([THNSaveTool objectForKey:kIsCloseLivingHallView]) {
+            return self.livingHallHeaderView.noProductView.hidden ? livingHallHeaderViewHeight - 115 - 100 : livingHallHeaderViewHeight - 100;
+        } else {
+            return self.livingHallHeaderView.noProductView.hidden ? livingHallHeaderViewHeight - 115 : livingHallHeaderViewHeight;
+        }
+    } else {
+        
+        return CGRectGetMaxY(self.noLivingHallHeaderView.frame) + 15;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     __weak typeof(self)weakSelf = self;
     
-    self.livingHallHeaderView.changeHeaderViewBlock = ^{
-        [weakSelf.tableView reloadData];
-    };
-    
-    self.livingHallHeaderView.pushProductCenterBlock = ^{
-        THNPruductCenterViewController *productCenter = [[THNPruductCenterViewController alloc]init];
-        [weakSelf.navigationController pushViewController:productCenter animated:YES];
-    };
-    
-    self.livingHallHeaderView.storeLogoBlock = ^{
-        [weakSelf thn_getSelectImage];
-    };
-
-    self.livingHallHeaderView.livingHallShareBlock = ^{
-        if (![THNLoginManager sharedManager].storeRid.length) return;
+    if ([THNLoginManager sharedManager].openingUser) {
+        self.livingHallHeaderView.changeHeaderViewBlock = ^{
+            [weakSelf.tableView reloadData];
+        };
         
-        THNShareWxaViewController *shareVC = [[THNShareWxaViewController alloc] initWithType:(THNShareWxaViewTypeLifeStore)
-                                                                                   requestId:[THNLoginManager sharedManager].storeRid];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [weakSelf presentViewController:shareVC animated:NO completion:nil];
-    };
-    
-    return self.livingHallHeaderView;
+        self.livingHallHeaderView.pushProductCenterBlock = ^{
+            THNPruductCenterViewController *productCenter = [[THNPruductCenterViewController alloc]init];
+            [weakSelf.navigationController pushViewController:productCenter animated:YES];
+        };
+        
+        self.livingHallHeaderView.storeLogoBlock = ^{
+            [weakSelf thn_getSelectImage];
+        };
+        
+        self.livingHallHeaderView.livingHallShareBlock = ^{
+            if (![THNLoginManager sharedManager].storeRid.length) return;
+            
+            THNShareWxaViewController *shareVC = [[THNShareWxaViewController alloc] initWithType:(THNShareWxaViewTypeLifeStore)
+                                                                                       requestId:[THNLoginManager sharedManager].storeRid];
+            shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            [weakSelf presentViewController:shareVC animated:NO completion:nil];
+        };
+        
+        return self.livingHallHeaderView;
+    } else {
+        UIView *headerView = [[UIView alloc]initWithFrame:self.noLivingHallHeaderView.frame];
+        [headerView addSubview:self.noLivingHallHeaderView];
+        [self.noLivingHallHeaderView addSubview:self.headLineView];
+        [headerView addSubview:self.noLivingHallHeaderView];
+        return headerView;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, -15, SCREEN_WIDTH,self.footerViewHeight)];
-    self.featureCell.frame = CGRectMake(0, -cellSpacing + expandViewHeight, SCREEN_WIDTH,self.featureCellHeight);
-    if (self.recommendedArray.count == self.curatorPerPageCount) {
-        self.featureCell.viewY = expandViewHeight - 15;
-        [footerView addSubview:self.expandView];
-    } else {
-        self.featureCell.viewY = 0;
-    }
-
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,self.footerViewHeight)];
+    self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH,self.featureCellHeight);
     self.featureCell.backgroundColor = [UIColor whiteColor];
-    __weak typeof(self)weakSelf = self;
-    
-    self.expandView.loadMoreDateBlcok = ^{
-        weakSelf.curatorPerPageCount += weakSelf.curatorPerPageCount;
-        weakSelf.isLoadMoreData = YES;
-        [weakSelf loadCuratorRecommendedData];
-    };
-    
     [footerView addSubview:self.featureCell];
     return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    self.footerViewHeight = self.recommendedArray.count == self.curatorPerPageCount ? self.featureCellHeight + expandViewHeight : self.featureCellHeight;
-
-    return self.footerViewHeight;
+    
+    // featureCell距footerView的间距
+    return self.featureCellHeight + 15;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.recommendedmutableArray[indexPath.row]];
-    [self pushGoodInfo:productModel.rid];
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
-    // 解决一直上拉搜索动画导致闪动的问题
-    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
+//    // 解决一直上拉搜索动画导致闪动的问题
+//    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -379,11 +391,15 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 }
 
 #pragma makr - THNMJRefreshDelegate
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    self.isNeedsHud = NO;
+    [self loadWeekPopularData];
+}
+
 - (void)beginRefreshing {
     self.isNeedsHud = NO;
     self.featureCellHeight = 0;
-    [self.recommendedMutableArray removeAllObjects];
-    [self initPageNumber];
     [self loadData];
 }
 
@@ -407,19 +423,41 @@ static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
     return _featureCell;
 }
 
-- (THNLivingHallExpandView *)expandView {
-    if (!_expandView) {
-        _expandView = [THNLivingHallExpandView viewFromXib];
-        _expandView.frame = CGRectMake(0, -cellSpacing, SCREEN_WIDTH, expandViewHeight);
+- (NSMutableArray *)weekPopularArray {
+    if (!_weekPopularArray) {
+        _weekPopularArray = [NSMutableArray array];
     }
-    return _expandView;
+    return _weekPopularArray;
 }
 
-- (NSMutableArray *)recommendedmutableArray {
-    if (!_recommendedMutableArray) {
-        _recommendedMutableArray = [NSMutableArray array];
+- (UIView *)noLivingHallHeaderView {
+    if (!_noLivingHallHeaderView) {
+        _noLivingHallHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 240)];
+        _noLivingHallHeaderView.backgroundColor = [UIColor whiteColor];
+        UIImageView *backGroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 214)];
+        backGroundImageView.image = [UIImage imageNamed:@"icon_noLivingHall_back"];
+        UILabel *tintLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 27, SCREEN_WIDTH, 20)];
+        tintLabel.text = @"自己买省钱 卖出去赚钱";
+        tintLabel.textColor = [UIColor colorWithHexString:@"32CDBD"];
+        tintLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:20];
+        [_noLivingHallHeaderView addSubview:backGroundImageView];
+        [_noLivingHallHeaderView addSubview:tintLabel];
     }
-    return _recommendedMutableArray;
+    return _noLivingHallHeaderView;
+}
+
+- (THNLivingHallHeadLineView *)headLineView {
+    if (!_headLineView) {
+        _headLineView = [THNLivingHallHeadLineView viewFromXib];
+    }
+    return _headLineView;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end

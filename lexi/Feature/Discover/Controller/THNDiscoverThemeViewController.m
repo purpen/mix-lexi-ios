@@ -65,11 +65,11 @@ static NSString *const kUrlGrassNote = @"/life_records/grass_note";
             return;
         }
         
-        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
+        
         NSArray *lifeRecords = result.data[@"life_records"];
         [self.lifeRecords addObjectsFromArray:lifeRecords];
     
-        
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
         if (![result.data[@"next"] boolValue] && self.lifeRecords.count != 0) {
             
             [self.collectionView noMoreData];

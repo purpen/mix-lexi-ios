@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
 
 
 @protocol THNShopWindowTableViewCellDelegate <NSObject>
+
+@optional
 - (void)lookContentBlock:(THNShopWindowModel *)shopWindowModel;
 - (void)clickImageViewWithRid:(NSString *)productRid;
 - (void)showWindowShare:(THNShopWindowModel *)shopWindowModel;

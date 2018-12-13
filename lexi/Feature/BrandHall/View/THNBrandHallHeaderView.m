@@ -38,7 +38,7 @@
     self.followButton.layer.cornerRadius = self.followButton.viewHeight / 2;
     self.designHallButton.layer.cornerRadius = self.designHallButton.viewHeight / 2;
     [self.followButton setupViewUI];
-    [self drwaShadow];
+    [self drawShadow:1.0];
 }
 
 - (void)setOffcialStoreModel:(THNOffcialStoreModel *)offcialStoreModel {

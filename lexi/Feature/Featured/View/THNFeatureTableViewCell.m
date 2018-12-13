@@ -211,8 +211,8 @@ CGFloat const kCellGrassListHeight = 158;
             itemHeight = (SCREEN_WIDTH - 49) / 2 + 46;
             break;
         case FeaturedNo:
-            itemWidth = (indexPath.row + 1) % 5 ? (SCREEN_WIDTH - 49) / 2 : SCREEN_WIDTH - 40;
-            itemHeight = itemWidth + 46;
+            itemWidth = (SCREEN_WIDTH - 49) / 2;
+            itemHeight = (SCREEN_WIDTH - 49) / 2 + 46;
             break;
     }
     

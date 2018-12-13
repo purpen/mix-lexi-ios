@@ -35,7 +35,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     if (SCREEN_WIDTH == 320) {
         self.desTitleLabel.text = @"分享好物赚钱, 购物省钱";
     }
-    [self drwaShadow];
+    [self drawShadow:1.0];
 }
 
 // 开馆指引

@@ -69,7 +69,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // 添加阴影
-    [self.livingHallView drwaShadow];
+    [self.livingHallView drawShadow:1.0];
     self.livingHallView.layer.borderWidth = 0;
     self.avatarCollectionView.dataSource = self;
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]initWithLineSpacing:-5 initWithWidth:29 initwithHeight:29];
@@ -93,12 +93,11 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 - (void)setLifeStore {
     THNLoginManager *loginManger = [THNLoginManager sharedManager];
     self.loginManger = loginManger;
-    [self loadLifeStoreData];
     [self loadLifeStoreVisitorData];
     [self loadSelectProductCenterData];
 }
 
-- (void)loadLifeStoreData {
+- (void)loadLifeStoreData:(LoadLifeStoreDataSuccessBlock)lifeStoreDataSuccess {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.loginManger.storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
@@ -136,6 +135,11 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
             self.promptViewHeightConstraint.constant = 0;
             self.promptView.hidden = YES;
         }
+        
+        
+        self.noProductView.hidden = storeModel.has_product ?: NO;
+        lifeStoreDataSuccess(storeModel.has_product);
+        
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
@@ -275,7 +279,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     
     __weak typeof(self)weakSelf = self;
     hallMuseumView.reloadLivingHallBlock = ^{
-        [weakSelf loadLifeStoreData];
+        [weakSelf loadLifeStoreData:nil];
     };
 }
 
@@ -290,8 +294,6 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         [THNSaveTool setBool:YES forKey:kIsCloseOpenedPromptView];
     }
 }
-
-
 
 - (IBAction)goSelection:(id)sender {
     self.pushProductCenterBlock();

@@ -229,7 +229,7 @@ static NSString *const kParamVerifyCode     = @"verify_code";
         make.top.equalTo(self.sloganLabel.mas_bottom).with.offset(kDeviceiPhone5 ? 20 : 30);
         make.height.mas_equalTo(360);
     }];
-    [self.containerView drwaShadow];
+    [self.containerView drawShadow:1.0];
     
     [self.errorHintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(200, 20));
