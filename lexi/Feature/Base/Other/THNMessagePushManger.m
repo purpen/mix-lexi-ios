@@ -12,11 +12,13 @@
 #import "THNOrdersItemsModel.h"
 #import <MJExtension/MJExtension.h>
 #import "THNShopWindowDetailViewController.h"
+#import "THNLifeOrderRecordViewController.h"
 
 typedef NS_ENUM(NSUInteger, MessagePushType) {
     MessagePushTypeExpress = 1,
     MessagePushTypeBrandHall,
     MessagePushTypeShowWindow,
+    MessagePushTypeLifeManger
 };
 
 @implementation THNMessagePushManger
@@ -49,6 +51,11 @@ typedef NS_ENUM(NSUInteger, MessagePushType) {
             break;
         }
             
+        case MessagePushTypeLifeManger: {
+            THNLifeOrderRecordViewController *lifeOrderRecordVC = [[THNLifeOrderRecordViewController alloc]init];
+            [navi pushViewController:lifeOrderRecordVC animated:YES];
+            break;
+        }
     }
 }
 
