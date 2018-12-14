@@ -45,6 +45,11 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
 
 - (void)setBanners:(NSArray *)banners {
     _banners = banners;
+    
+    if (banners.count == 0) {
+        return;
+    }
+    
     [self addTimer];
     [self reloadData];
     [self scrollStartPoint];

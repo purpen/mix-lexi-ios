@@ -131,11 +131,9 @@ static CGFloat const searchViewTopStatusBarSpacing = 18;
 }
 
 - (void)setHomeChildVC {
-    if ([THNLoginManager sharedManager].openingUser) {
-        THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
-        [self addChildViewController:livingHall];
-        self.livingHall = livingHall;
-    }
+    THNLivingHallViewController *livingHall = [[THNLivingHallViewController alloc]init];
+    [self addChildViewController:livingHall];
+    self.livingHall = livingHall;
     THNFeaturedViewController *featured = [[THNFeaturedViewController alloc]init];
     [self addChildViewController:featured];
     THNExploresViewController *explore = [[THNExploresViewController alloc]init];
@@ -146,7 +144,7 @@ static CGFloat const searchViewTopStatusBarSpacing = 18;
     self.featured = featured;
     self.explore = explore;
     self.showWindow = showWindow;
-    NSInteger showIndex = self.childViewControllers.count - 3;
+    NSInteger showIndex = 0;
     self.childViewControllers[showIndex].view.frame = self.publicView.bounds;
     [self.publicView addSubview:self.childViewControllers[showIndex].view];
     self.currentSubViewController = self.childViewControllers[showIndex];
@@ -177,9 +175,9 @@ static CGFloat const searchViewTopStatusBarSpacing = 18;
 
 - (THNSelectButtonView *)selectButtonView {
     if (!_selectButtonView) {
-        NSArray *titleArray =  [THNLoginManager sharedManager].openingUser ? @[@"生活馆", @"精选", @"探索", @"橱窗"] : @[@"精选", @"探索", @"橱窗"];
+        NSArray *titleArray = @[@"生活馆", @"精选", @"探索", @"橱窗"];
         _selectButtonView = [[THNSelectButtonView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.searchView.frame) - 10, SCREEN_WIDTH, 60) titles:titleArray initWithButtonType:ButtonTypeDefault];
-        _selectButtonView.defaultShowIndex = titleArray.count - 3;
+        _selectButtonView.defaultShowIndex = 0;
     }
     return _selectButtonView;
 }

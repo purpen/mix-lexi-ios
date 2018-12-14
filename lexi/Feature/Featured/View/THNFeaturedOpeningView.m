@@ -24,6 +24,8 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
 @property (weak, nonatomic) IBOutlet UIView *bottomCarouselView;
 @property (weak, nonatomic) IBOutlet UIButton *openingButton;
 @property (weak, nonatomic) IBOutlet UILabel *desTitleLabel;
+@property (nonatomic, strong) THNFeaturedOpenCarouselScrollView *carouselScrollView;
+@property (nonatomic, assign) FeatureOpeningType openingType;
 
 @end
 
@@ -35,7 +37,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     if (SCREEN_WIDTH == 320) {
         self.desTitleLabel.text = @"分享好物赚钱, 购物省钱";
     }
-    [self drwaShadow];
+    [self drawShadow:1.0];
 }
 
 // 开馆指引
@@ -60,23 +62,32 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
             [headlineAttStrArray addObject:headLineAttStr];
         }
         
-        CGFloat y = 0;
-        if (openingType == FeatureOpeningTypeMain) {
-            y = 20;
-        } else {
-            y = - 45.5;
-        }
-        
-       THNFeaturedOpenCarouselScrollView *carouselScrollView = [[THNFeaturedOpenCarouselScrollView alloc] initWithFrame:CGRectMake(68, y, self.viewWidth - 68, 40)];
-        [carouselScrollView setDataTitleArray:headlineAttStrArray];
-        [self.bottomCarouselView addSubview:carouselScrollView];
+        self.openingType = openingType;
+        [self.carouselScrollView setDataTitleArray:headlineAttStrArray];
+        [self.bottomCarouselView addSubview:self.carouselScrollView];
     } failure:^(THNRequest *request, NSError *error) {
         
     }];
 }
 
  - (IBAction)opening:(id)sender {
-    self.openingBlcok();
+     if (self.openingBlcok) {
+         self.openingBlcok();
+     }
+    
+}
+
+- (THNFeaturedOpenCarouselScrollView *)carouselScrollView {
+    if (!_carouselScrollView) {
+        CGFloat y = 0;
+        if (self.openingType == FeatureOpeningTypeMain) {
+            y = 20;
+        } else {
+            y = - 45.5;
+        }
+        _carouselScrollView = [[THNFeaturedOpenCarouselScrollView alloc] initWithFrame:CGRectMake(68, y, self.viewWidth - 68, 40)];
+    }
+    return _carouselScrollView;
 }
 
 @end

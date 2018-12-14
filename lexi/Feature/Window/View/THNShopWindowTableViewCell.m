@@ -57,6 +57,17 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.flowButton setupViewUI];
     [self.flowButton drawCornerWithType:0 radius:4];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTap)];
+    // 允许用户交互
+    self.avatarImageView.userInteractionEnabled = YES;
+    
+    [self.avatarImageView addGestureRecognizer:tap];
+}
+
+- (void)doTap{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickAvatarImageView:)]) {
+        [self.delegate clickAvatarImageView:self.shopWindowModel.uid];
+    }
 }
 
 - (void)setShopWindowModel:(THNShopWindowModel *)shopWindowModel {
@@ -142,8 +153,8 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 // 调用代理方法
 - (void)callBlcokMethodmethod:(NSInteger)index {
     THNProductModel *productModel = [THNProductModel mj_objectWithKeyValues:self.shopWindowModel.products[index]];
-    if (self.shopWindowCellBlock) {
-        self.shopWindowCellBlock(productModel.rid);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickImageViewWithRid:)]) {
+        [self.delegate clickImageViewWithRid:productModel.rid];
     }
 }
 
@@ -248,8 +259,8 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 }
 
 - (IBAction)content:(id)sender {
-    if (self.contentBlock) {
-        self.contentBlock();
+    if (self.delegate && [self.delegate respondsToSelector:@selector(lookContentBlock:)]) {
+        [self.delegate lookContentBlock:self.shopWindowModel];
     }
 }
 
@@ -267,8 +278,8 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
 }
 
 - (IBAction)share:(id)sender {
-    if (self.shareBlock) {
-        self.shareBlock(self.shopWindowModel);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(showWindowShare:)]) {
+        [self.delegate showWindowShare:self.shopWindowModel];
     }
 }
 

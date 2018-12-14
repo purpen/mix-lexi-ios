@@ -33,7 +33,7 @@
     self.rightTopImageView.layer.masksToBounds = YES;
     self.rightBottomImageView.layer.masksToBounds = YES;
     self.leftImageView.layer.masksToBounds = YES;
-    [self drwaShadow];
+    [self drawShadow:1.0];
 }
 
 - (void)setLifeRecordModel:(THNShopWindowModel *)lifeRecordModel {

@@ -34,8 +34,6 @@
 #import "THNCouponsCenterViewController.h"
 #import "THNShopWindowDetailViewController.h"
 #import "UIViewController+THNHud.h"
-#import "THNAdvertManager.h"
-#import "THNAdvertCouponViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNHomeSearchView.h"
 #import "THNSelectButtonView.h"
@@ -66,7 +64,8 @@ NSString *const kLastContentOffsetY = @"lastContentOffsetY";
 THNFeatureTableViewCellDelegate,
 THNBannerViewDelegate,
 THNFeaturedCollectionViewDelegate,
-THNActivityViewDelegate
+THNActivityViewDelegate,
+THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) THNFeaturedCollectionView *featuredCollectionView;
@@ -100,6 +99,7 @@ THNActivityViewDelegate
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, strong) THNHomeSearchView *searchView;
 @property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) BOOL isNeedsHud;
 
 @end
 
@@ -107,6 +107,7 @@ THNActivityViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isNeedsHud = YES;
     [self initPageNumber];
     [self setupUI];
     [self loadData];
@@ -139,6 +140,7 @@ THNActivityViewDelegate
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNFeatureTableViewCell" bundle:nil] forCellReuseIdentifier:kFeaturedCellIdentifier];
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -159,7 +161,10 @@ THNActivityViewDelegate
     self.isAddWindow = YES;
     self.isFromMain = YES;
     self.loadViewY = 135 + 22;
-    [self showHud];
+    
+    if (self.isNeedsHud) {
+        [self showHud];
+    }
     
     dispatch_group_async(group, queue, ^{
         [self loadTopBannerData];
@@ -184,7 +189,6 @@ THNActivityViewDelegate
     });
   
     dispatch_group_notify(group, queue, ^{
-        
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
@@ -194,25 +198,10 @@ THNActivityViewDelegate
         dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView endHeaderRefresh];
             [self.tableView reloadData];
-            [self thn_showNewUserBonusAdvertView];
         });
     });
-}
-
-/**
- 展示新用户领红包视图
- */
-- (void)thn_showNewUserBonusAdvertView {
-    if (![THNAdvertManager canGetBonus]) {
-        return;
-        
-    } else {
-        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
-        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
-        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:navVC animated:NO completion:nil];
-    }
 }
 
 #pragma mark - 请求数据
@@ -368,15 +357,17 @@ THNActivityViewDelegate
     if (section == 0) {
         UIView *headerView;
         
-        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
-             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
-             [headerView addSubview:self.openingView];
-             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
-            
-        } else {
-             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.featuredCollectionView.frame) + 10)];
-        }
+        // 业务调整，去掉该开馆头条
+//        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+//             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
+//             [headerView addSubview:self.openingView];
+//             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+//
+//        } else {
         
+//        }
+        
+        headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.featuredCollectionView.frame) + 10)];
         self.featuredCollectionView.featuredDelegate = self;
         headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
@@ -392,8 +383,6 @@ THNActivityViewDelegate
             } else {
                 THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
                 [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
-//                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
-//                [weakSelf presentViewController:navController animated:YES completion:nil];
             }
         };
         return headerView;
@@ -405,12 +394,12 @@ THNActivityViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         
-        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
-             return CGRectGetMaxY(self.openingView.frame) + 10;
-        } else {
-             return CGRectGetMaxY(self.featuredCollectionView.frame) + 10;
-        }
-       
+//        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+//             return CGRectGetMaxY(self.openingView.frame) + 10;
+//        } else {
+        
+//        }
+       return CGRectGetMaxY(self.featuredCollectionView.frame) + 10;
     } else {
         return 0;
     }
@@ -425,7 +414,7 @@ THNActivityViewDelegate
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    // 业务隐藏
+    
     if (section == 0) {
         return self.activityView;
     } else if (section == 1){
@@ -571,14 +560,21 @@ THNActivityViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
-    // 解决一直上拉搜索动画导致闪动的问题
-    self.tableView.bounces = NO;
+    // 解决一直上拉搜索动画导致闪动的问题,下拉刷新界面需设置bounces为YES
+    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.lastContentOffset = scrollView.contentOffset.y;
    // 解决下拉搜索框位置无法改变的问题
     self.tableView.bounces = YES;
+}
+
+#pragma mark - THNMJRefreshDelegate
+- (void)beginRefreshing {
+    self.isNeedsHud = NO;
+    [self initPageNumber];
+    [self loadData];
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate method 实现
@@ -667,9 +663,15 @@ THNActivityViewDelegate
 
 #pragma mark - THNActivityViewDelegate
 
-- (void)pushGoodList {
+- (void)pushGoodListShipping {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeFreeShipping title:@"包邮专区"];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)pushGoodListOrderCustomization {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单定制"];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+
 }
 
 - (void)pushCouponsCenter {

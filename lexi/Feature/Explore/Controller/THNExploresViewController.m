@@ -57,7 +57,11 @@ static NSString *const kUrlGoodDesign = @"/column/preferential_design";
 // 百元好物
 static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 
-@interface THNExploresViewController ()<THNExploreTableViewCellDelegate, THNBannerViewDelegate>
+@interface THNExploresViewController () <
+THNExploreTableViewCellDelegate,
+THNBannerViewDelegate,
+THNMJRefreshDelegate
+>
 
 @property (nonatomic, strong) THNBannerView *bannerView;
 @property (nonatomic, strong) THNCategoriesCollectionView *categoriesCollectionView;
@@ -76,6 +80,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 @property (nonatomic, strong) NSString *goodThingTitle;
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) BOOL isNeedsHud;
 
 @end
 
@@ -85,6 +90,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadBrandHallData) name:@"FollowStoreSuccess" object:nil];
     [self setupUI];
+    self.isNeedsHud = YES;
     [self loadData];
 }
 
@@ -102,7 +108,10 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     self.isAddWindow = YES;
     self.isFromMain = YES;
     self.loadViewY = 135 + 22;
-    [self showHud];
+    
+    if (self.isNeedsHud) {
+        [self showHud];
+    }
     
     dispatch_group_async(group, queue, ^{
         [self loadBannerData];
@@ -160,7 +169,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
-    self.tableView.bounces = NO;
+    [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     // tableView内容向下偏移20pt或向下偏移64pt,导致一进来就走scrollViewDid代理方法
     // 链接 : https://blog.csdn.net/yuhao309/article/details/78864211
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -176,6 +185,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)loadBannerData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlBanner requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self.tableView endHeaderRefresh];
         [self hiddenHud];
         dispatch_semaphore_signal(self.semaphore);
         if (!result.success) {
@@ -369,6 +379,12 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     return cell;
 }
 
+#pragma makr - THNMJRefreshDelegate
+- (void)beginRefreshing {
+    self.isNeedsHud = NO;
+    [self loadData];
+}
+
 #pragma mark - UITableViewDelegate method 实现
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.cellType) {
@@ -407,7 +423,7 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
     // 解决一直上拉搜索动画导致闪动的问题
-    self.tableView.bounces = NO;
+    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -415,7 +431,6 @@ static NSString *const kUrlHundredGoodThings  = @"/column/affordable_goods";
     self.tableView.bounces = YES;
     self.lastContentOffset = scrollView.contentOffset.y;
 }
-
 
 #pragma mark - THNExploreTableViewCellDelegate
 - (void)lookAllWithType:(ExploreCellType)cellType {
