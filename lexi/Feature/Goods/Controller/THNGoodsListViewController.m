@@ -129,7 +129,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         case THNGoodsListViewTypeNewProduct:
         case THNGoodsListViewTypeDesign:
         case THNGoodsListViewTypeGoodThing:
-        case THNGoodsListViewTypeFreeShipping: {
+        case THNGoodsListViewTypeFreeShipping:
+        case THNGoodsListViewTypeNewExpress: {
             [self thn_showFunctionView:type != THNGoodsListViewTypeGoodThing];
             
             NSDictionary *params = [self thn_requestColumnDefaultParams];
@@ -362,8 +363,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 个人中心商品数据：默认的请求参数
 - (NSDictionary *)thn_requestUserDefaultParams {
-    NSDictionary *params = @{@"page": @(self.currentPage += 1),
-                             @"per_page": @(10),
+    NSDictionary *params = @{@"page"       : @(self.currentPage += 1),
+                             @"per_page"   : @(10),
                              @"sort_newest": @(1)};
     
     if (self.userId.length) {
@@ -378,18 +379,18 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 分类商品数据：默认的请求参数
 - (NSDictionary *)thn_requestCategoryDefaultParams {
-    NSDictionary *params = @{@"id": self.categoryId,
-                             @"page": @(self.currentPage += 1),
+    NSDictionary *params = @{@"id"      : self.categoryId,
+                             @"page"    : @(self.currentPage += 1),
                              @"per_page": @(10),
-                             @"status": @(1)};
+                             @"status"  : @(1)};
     
     return params;
 }
 
 // 栏目商品数据：默认的请求参数
 - (NSDictionary *)thn_requestColumnDefaultParams {
-    NSDictionary *params = @{@"page": @(self.currentPage += 1),
-                             @"per_page": @(10),
+    NSDictionary *params = @{@"page"     : @(self.currentPage += 1),
+                             @"per_page" : @(10),
                              @"view_more": @(1)};
     
     return params;
@@ -397,7 +398,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 // 接单订制商品数据：默认的请求参数
 - (NSDictionary *)thn_requestCustomizationParams {
-    NSDictionary *params = @{@"page": @(self.currentPage += 1),
+    NSDictionary *params = @{@"page"    : @(self.currentPage += 1),
                              @"per_page": @(10)};
     
     return params;

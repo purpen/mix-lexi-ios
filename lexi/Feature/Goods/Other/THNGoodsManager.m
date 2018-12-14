@@ -309,6 +309,9 @@ static NSString *const kKeyUid              = @"uid";
     
     THNRequest *request = [THNAPI getWithUrlString:url requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"栏目商品 --- %@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;
@@ -586,17 +589,16 @@ static NSString *const kKeyUid              = @"uid";
  不用栏目商品的 api 地址
  */
 - (NSString *)thn_getColumnProductsUrlWithListType:(THNGoodsListViewType)type {
-    NSDictionary *urlResult = @{
-                                @(THNGoodsListViewTypeEditors):      @"/column/explore_recommend",
-                                @(THNGoodsListViewTypeNewProduct):   @"/column/explore_new",
-                                @(THNGoodsListViewTypeGather):       @"/column/affordable_goods",
-                                @(THNGoodsListViewTypeDesign):       @"/column/preferential_design",
-                                @(THNGoodsListViewTypeGoodThing):    @"/column/affordable_goods",
-                                @(THNGoodsListViewTypeOptimal):      @"/column/handpick_optimization",
-                                @(THNGoodsListViewTypeRecommend):    @"/column/handpick_recommend",
-                                @(THNGoodsListViewTypeSearch):       @"/core_platforms/search/products",
-                                @(THNGoodsListViewTypeFreeShipping): @"/products/free_postage"
-                                };
+    NSDictionary *urlResult = @{@(THNGoodsListViewTypeEditors)      : @"/column/explore_recommend",
+                                @(THNGoodsListViewTypeNewProduct)   : @"/column/explore_new",
+                                @(THNGoodsListViewTypeGather)       : @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeDesign)       : @"/column/preferential_design",
+                                @(THNGoodsListViewTypeGoodThing)    : @"/column/affordable_goods",
+                                @(THNGoodsListViewTypeOptimal)      : @"/column/handpick_optimization",
+                                @(THNGoodsListViewTypeRecommend)    : @"/column/handpick_recommend",
+                                @(THNGoodsListViewTypeSearch)       : @"/core_platforms/search/products",
+                                @(THNGoodsListViewTypeFreeShipping) : @"/products/free_postage",
+                                @(THNGoodsListViewTypeNewExpress)   : @""};
     
     return urlResult[@(type)];
 }
@@ -605,18 +607,17 @@ static NSString *const kKeyUid              = @"uid";
  不同商品的数量 api 地址（筛选）
  */
 - (NSString *)thn_getProductsCountUrlWithListType:(THNGoodsListViewType)type {
-    NSDictionary *urlResult = @{
-                                 @(THNGoodsListViewTypeEditors):        @"/column/explore_recommend/count",
-                                 @(THNGoodsListViewTypeNewProduct):     @"/column/explore_new/count",
-                                 @(THNGoodsListViewTypeDesign):         @"/column/preferential_design/count",
-                                 @(THNGoodsListViewTypeOptimal):        @"/column/handpick_optimization/count",
-                                 @(THNGoodsListViewTypeRecommend):      @"/column/handpick_recommend/count",
-                                 @(THNGoodsListViewTypeCategory):       @"/category/products/count",
-                                 @(THNGoodsListViewTypeProductCenter):  @"/fx_distribute/choose_center/count",
-                                 @(THNGoodsListViewTypeSearch):         @"/core_platforms/search/products/count",
-                                 @(THNGoodsListViewTypeStore):          @"/core_platforms/products/by_store/count",
-                                 @(THNGoodsListViewTypeFreeShipping):   @"/products/free_postage/count",
-                                 };
+    NSDictionary *urlResult = @{@(THNGoodsListViewTypeEditors)      : @"/column/explore_recommend/count",
+                                @(THNGoodsListViewTypeNewProduct)   : @"/column/explore_new/count",
+                                @(THNGoodsListViewTypeDesign)       : @"/column/preferential_design/count",
+                                @(THNGoodsListViewTypeOptimal)      : @"/column/handpick_optimization/count",
+                                @(THNGoodsListViewTypeRecommend)    : @"/column/handpick_recommend/count",
+                                @(THNGoodsListViewTypeCategory)     : @"/category/products/count",
+                                @(THNGoodsListViewTypeProductCenter): @"/fx_distribute/choose_center/count",
+                                @(THNGoodsListViewTypeSearch)       : @"/core_platforms/search/products/count",
+                                @(THNGoodsListViewTypeStore)        : @"/core_platforms/products/by_store/count",
+                                @(THNGoodsListViewTypeFreeShipping) : @"/products/free_postage/count",
+                                @(THNGoodsListViewTypeNewExpress)   : @"/column/handpick_new_express/count"};
     
     return urlResult[@(type)];
 }
@@ -625,10 +626,10 @@ static NSString *const kKeyUid              = @"uid";
  获取栏目商品的编码
  */
 - (NSString *)thn_getColumnCodeWithListType:(THNGoodsListViewType)type {
-    NSDictionary *codeResult = @{@(THNGoodsListViewTypeEditors):    @"e_recommend",
-                                 @(THNGoodsListViewTypeNewProduct): @"e_new",
-                                 @(THNGoodsListViewTypeDesign):     @"preferential_design",
-                                 @(THNGoodsListViewTypeGoodThing):  @"affordable_goods"};
+    NSDictionary *codeResult = @{@(THNGoodsListViewTypeEditors)     : @"e_recommend",
+                                 @(THNGoodsListViewTypeNewProduct)  : @"e_new",
+                                 @(THNGoodsListViewTypeDesign)      : @"preferential_design",
+                                 @(THNGoodsListViewTypeGoodThing)   : @"affordable_goods"};
 
     return codeResult[@(type)];
 }

@@ -23,7 +23,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
 /// 商品信息内容视图
 @property (nonatomic, strong) UIView *infoView;
 /// 商品标题
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) YYLabel *titleLabel;
 /// 商品价格&喜欢数量
 @property (nonatomic, strong) YYLabel *priceLabel;
 /// 视图类型
@@ -55,7 +55,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     
     if (show) {
         self.infoView.hidden = NO;
-        self.titleLabel.text = goodsModel.name;
+        [self thn_setTitleText:goodsModel];
         [self thn_setPriceLabelTextWithPrice:goodsModel.minSalePrice ? goodsModel.minSalePrice : goodsModel.minPrice
                                    likeValue:goodsModel.likeCount];
     };
@@ -84,6 +84,28 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     self.priceLabel.attributedText = priceAtt;
 }
 
+- (void)thn_setTitleText:(THNGoodsModel *)model {
+    NSMutableAttributedString *titleAtt = [[NSMutableAttributedString alloc] initWithString:model.name];
+    UIFont *titleFont = [UIFont systemFontOfSize:12];
+    titleAtt.color = [UIColor colorWithHexString:@"#333333"];
+    titleAtt.font = titleFont;
+    
+    // 包邮标签
+    UIImage *iconImage = [UIImage imageNamed:@"icon_express_free"];
+    
+    if (model.isFreePostage) {
+        NSMutableAttributedString *iconAtt = [NSMutableAttributedString attachmentStringWithContent:iconImage
+                                                                                        contentMode:UIViewContentModeLeft
+                                                                                     attachmentSize:CGSizeMake(25, 12)
+                                                                                        alignToFont:titleFont
+                                                                                          alignment:YYTextVerticalAlignmentCenter];
+        
+        [titleAtt insertAttributedString:iconAtt atIndex:0];
+    }
+    
+    self.titleLabel.attributedText = titleAtt;
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     [self addSubview:self.goodsImageView];
@@ -107,7 +129,7 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
         make.top.mas_equalTo(9);
-        make.height.mas_equalTo(12);
+        make.height.mas_equalTo(14);
     }];
     
     [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -157,11 +179,9 @@ static NSString *const kTextLikePrefix = @"喜欢 +";
     return _infoView;
 }
 
-- (UILabel *)titleLabel {
+- (YYLabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
-        _titleLabel.font = [UIFont systemFontOfSize:12];
+        _titleLabel = [[YYLabel alloc] init];
     }
     return _titleLabel;
 }

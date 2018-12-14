@@ -18,6 +18,7 @@
 #import "THNBaseNavigationController.h"
 #import <UMPush/UMessage.h>
 #import <UMShare/UMShare.h>
+#import <DateTools/DateTools.h>
 #import "THNSaveTool.h"
 
 #define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
@@ -149,6 +150,9 @@ MJCodingImplementation
 - (void)getUserProfile:(void (^)(THNResponse *data, NSError *error))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUserProfile requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"用户资料 --- %@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
@@ -297,10 +301,13 @@ MJCodingImplementation
 - (void)setUMAlias:(NSDictionary *)result {
     NSString *uid = result[@"uid"];
     [THNSaveTool setObject:uid forKey:kUid];
-    //绑定友盟别名
-    [UMessage addAlias:uid type:@"lexi" response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+    
+    // 绑定友盟别名
+    [UMessage addAlias:uid
+                  type:@"lexi"
+              response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
         
-    }];
+              }];
 }
 
 /**
@@ -318,7 +325,7 @@ MJCodingImplementation
     // 客户端清空缓存的 token
     self.token = nil;
     
-    //移除别名
+    // 移除别名
     [UMessage removeAlias:[THNSaveTool objectForKey:kUid]
                      type:@"lexi"
                  response:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
@@ -351,6 +358,25 @@ MJCodingImplementation
     BOOL expiration = expirationTime - intervalTime == 0 ? YES : NO;
     
     return expiration;
+}
+
+/**
+ 当日首次启动
+ */
+- (BOOL)isTodayFirstLaunch {
+//    // 开始时间
+//    NSDate *startDate = [NSDate date];
+//    NSString *startTimeStr = [NSString stringWithFormat:@"%zi.%zi.%zi", startDate.year, startDate.month, startDate.day];
+//
+//    // 结束时间
+//    NSDate *endDate = [startDate dateByAddingDays:kMaxCouponDay];
+//    NSString *endTimeStr = [NSString stringWithFormat:@"%zi.%zi.%zi", endDate.year, endDate.month, endDate.day];
+//
+//
+//    NSTimeInterval intervalTime = [NSString comparisonStartTimestamp:[THNLoginManager sharedManager].loginTime
+//                                                        endTimestamp:[NSString getTimestamp]];
+    
+    return YES;
 }
 
 /**

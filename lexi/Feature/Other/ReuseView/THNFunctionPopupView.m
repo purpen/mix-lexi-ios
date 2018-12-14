@@ -271,18 +271,18 @@ static NSString *const kTHNFunctionSortTableViewCellId = @"kTHNFunctionSortTable
                    kKeyMaxPrice: @(self.maxPrice)};
         
     } else if (self.goodsListType == THNGoodsListViewTypeStore){
-        params = @{kKeyId: self.categoryId,
-                   kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
-                   kKeyMinPrice: @(self.minPrice),
-                   kKeyMaxPrice: @(self.maxPrice),
-                   kKeySid : self.sid};
+        params = @{kKeyId       : self.categoryId,
+                   kKeyCids     : [self.categoryIdArr componentsJoinedByString:@","],
+                   kKeyMinPrice : @(self.minPrice),
+                   kKeyMaxPrice : @(self.maxPrice),
+                   kKeySid      : self.sid};
         
     } else {
-        params = @{kKeyId: self.categoryId,
-                   kKeyCids: [self.categoryIdArr componentsJoinedByString:@","],
-                   kKeyMinPrice: @(self.minPrice),
-                   kKeyMaxPrice: @(self.maxPrice),
-                   kKeyQk: self.keyword};
+        params = @{kKeyId       : self.categoryId,
+                   kKeyCids     : [self.categoryIdArr componentsJoinedByString:@","],
+                   kKeyMinPrice : @(self.minPrice),
+                   kKeyMaxPrice : @(self.maxPrice),
+                   kKeyQk       : self.keyword};
     }
     
     [self.paramsDict setValuesForKeysWithDictionary:params];

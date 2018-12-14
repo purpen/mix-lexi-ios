@@ -16,6 +16,7 @@
 #import <Masonry/Masonry.h>
 
 static NSString *const kTextHint        = @"待结算金额需用户确认签收订单后，7个工作日内未发生退款，则可入账并提现。如在7日内有退款行为，扣除相应收益。";
+static NSString *const kTextHint1       = @"待结算奖励为好友销售订单还未完成交易，完成后即可入账，如交易失败奖励金额退还。";
 static NSString *const kTextSaveImage   = @"保存图片";
 static NSString *const kTextCash        = @"提现到微信零钱包";
 
@@ -88,8 +89,10 @@ static NSString *const kTextCash        = @"提现到微信零钱包";
 #pragma mark - private methods
 - (void)thn_showView {
     switch (self.actionType) {
-        case THNLifeActionTypeText: {
+        case THNLifeActionTypeText:
+        case THNLifeActionTypeInvite: {
             self.hintLabel.hidden = NO;
+            [self thn_showHintText];
         }
             break;
          
@@ -127,13 +130,26 @@ static NSString *const kTextCash        = @"提现到微信零钱包";
 }
 
 - (CGFloat)getContainerHeight {
-    NSDictionary *heightDict = @{@(THNLifeActionTypeText) : @(115),
-                                 @(THNLifeActionTypeImage): @(284),
-                                 @(THNLifeActionTypeCash) : @(260)};
+    NSDictionary *heightDict = @{@(THNLifeActionTypeText)   : @(115),
+                                 @(THNLifeActionTypeInvite) : @(115),
+                                 @(THNLifeActionTypeImage)  : @(284),
+                                 @(THNLifeActionTypeCash)   : @(260)};
     
     CGFloat height = [(NSNumber *)heightDict[@(self.actionType)] floatValue];
     
     return height;
+}
+
+- (void)thn_showHintText {
+    NSDictionary *hintText = @{@(THNLifeActionTypeText)   : kTextHint,
+                               @(THNLifeActionTypeInvite) : kTextHint1};
+    
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:hintText[@(self.actionType)]];
+    att.font = [UIFont systemFontOfSize:12];
+    att.color = [UIColor colorWithHexString:@"#333333"];
+    att.lineSpacing = 5;
+    
+    self.hintLabel.attributedText = att;
 }
 
 #pragma mark - setup UI
@@ -240,13 +256,6 @@ static NSString *const kTextCash        = @"提现到微信零钱包";
     if (!_hintLabel) {
         _hintLabel = [[YYLabel alloc] init];
         _hintLabel.numberOfLines = 0;
-        
-        NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:kTextHint];
-        att.font = [UIFont systemFontOfSize:12];
-        att.color = [UIColor colorWithHexString:@"#333333"];
-        att.lineSpacing = 5;
-        
-        _hintLabel.attributedText = att;
         _hintLabel.hidden = YES;
     }
     return _hintLabel;

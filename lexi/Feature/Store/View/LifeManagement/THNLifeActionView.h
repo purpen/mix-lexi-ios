@@ -12,6 +12,7 @@ typedef NS_ENUM(NSUInteger, THNLifeActionType) {
     THNLifeActionTypeText = 0,  //  提示文字
     THNLifeActionTypeImage,     //  展示图片
     THNLifeActionTypeCash,      //  提现
+    THNLifeActionTypeInvite,    //  邀请好友提现
 };
 
 @protocol THNLifeActionViewDelegate <NSObject>

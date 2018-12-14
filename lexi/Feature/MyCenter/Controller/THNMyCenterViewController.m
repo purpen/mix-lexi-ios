@@ -923,7 +923,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (UIScrollView *)containerView {
     if (!_containerView) {
         _containerView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-        _containerView.backgroundColor = [UIColor orangeColor];
+        _containerView.backgroundColor = [UIColor whiteColor];
         _containerView.showsHorizontalScrollIndicator = NO;
         _containerView.pagingEnabled = YES;
         _containerView.scrollEnabled = NO;

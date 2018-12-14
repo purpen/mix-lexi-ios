@@ -18,6 +18,9 @@ static NSString *const kTitleInvitation     = @"邀请好友";
 static NSString *const kTextShare           = @"开一个能赚钱的生活馆";
 static NSString *const kShareSuccessTitle   = @"分享成功";
 static NSString *const kShareFailureTitle   = @"分享失败";
+static NSString *const kShareContent        = @"安利个我很喜欢的应用，报道先拿35元，汇聚了全球原创手作的暖心好设计";
+static NSString *const kShareContent1       = @"做颗喜糖，拿35元现金，边玩边赚钱，逛全球优质设计师手作人社群。";
+static NSString *const kShareContent2       = @"你还没有参加吗？安装乐喜app，挑全球原创手作好物，每天都可以赚现金。";
 /// url
 static NSString *const kURLInvitation   = @"https://h5.lexivip.com/invitation?uid=";
 static NSString *const kURLShareUrl     = @"https://h5.lexivip.com/redenvelope?uid=";
@@ -69,8 +72,10 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 - (void)thn_openShareController {
     if (!self.userModel.uid.length) return;
     
+    NSArray *shareTitles = @[kShareContent, kShareContent1, kShareContent2];
+    
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
-    [shareVC shareObjectWithTitle:kTextShare
+    [shareVC shareObjectWithTitle:shareTitles[arc4random_uniform(3)]
                             descr:@""
                         thumImage:self.userModel.avatar
                            webUrl:[self thn_getShareUrl]];

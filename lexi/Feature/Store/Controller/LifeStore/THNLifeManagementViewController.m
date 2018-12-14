@@ -21,6 +21,9 @@
 #import "THNLifeActionViewController.h"
 #import "THNShareViewController.h"
 #import "THNAlertView.h"
+#import "THNLifeInviteView.h"
+#import "THNInvitationFriendViewController.h"
+#import "THNMyAwardViewController.h"
 
 #define kTextInTitle(obj) [NSString stringWithFormat:@"@%@邀请你一起来乐喜", obj]
 
@@ -37,7 +40,8 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     UITableViewDataSource,
     THNLifeHintViewDelegate,
     THNLifeDataViewDelegate,
-    THNEarningsViewDelegate
+    THNEarningsViewDelegate,
+    THNLifeInviteViewDelegate
 >
 
 // 用户信息视图
@@ -50,8 +54,10 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 @property (nonatomic, strong) THNLifeDataView *dataView;
 // 提示视图
 @property (nonatomic, strong) THNLifeHintView *hintView;
-// 客服电话
-@property (nonatomic, strong) UIButton *phoneButton;
+// 邀请数据视图
+@property (nonatomic, strong) THNLifeInviteView *inviteView;
+// 加入关注群
+@property (nonatomic, strong) UIButton *joinButton;
 // 头部视图
 @property (nonatomic, strong) UIView *headerView;
 // 尾部视图
@@ -93,6 +99,22 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (void)thn_showCashHintText {
     THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeText)];
+    actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:actionVC animated:NO completion:nil];
+}
+
+- (void)thn_lifeInviteCheckFriend {
+    THNInvitationFriendViewController *friendVC = [[THNInvitationFriendViewController alloc] init];
+    [self.navigationController pushViewController:friendVC animated:YES];
+}
+
+- (void)thn_lifeInviteCheckMoney {
+    THNMyAwardViewController *awardVC = [[THNMyAwardViewController alloc] init];
+    [self.navigationController pushViewController:awardVC animated:YES];
+}
+
+- (void)thn_lifeInviteMoneyHint {
+    THNLifeActionViewController *actionVC = [[THNLifeActionViewController alloc] initWithType:(THNLifeActionTypeInvite)];
     actionVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:actionVC animated:NO completion:nil];
 }
@@ -177,13 +199,18 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     [alertView show];
 }
 
+#pragma mark - event response
+- (void)joinButtonAction:(UIButton *)button {
+    [self thn_copyWechat];
+}
+
 #pragma mark - tableView datasource & delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -195,28 +222,24 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44.0;
+    return 0.01;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    THNLifeManagementTextTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTextTableViewCellId];
-    if (!cell) {
-        cell = [[THNLifeManagementTextTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kTextTableViewCellId];
-    }
+//    THNLifeManagementTextTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTextTableViewCellId];
+//    if (!cell) {
+//        cell = [[THNLifeManagementTextTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kTextTableViewCellId];
+//    }
+//
+//    cell.hintText = indexPath.row == 0 ? kTextFriends : kTextWechat;
+//    cell.iconImage = indexPath.row == 0 ? [UIImage imageNamed:@"icon_friends_main"] : [UIImage new];
+//
+//    return cell;
     
-    cell.hintText = indexPath.row == 0 ? kTextFriends : kTextWechat;
-    cell.iconImage = indexPath.row == 0 ? [UIImage imageNamed:@"icon_friends_main"] : [UIImage new];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTextTableViewCellId];
+    cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kTextTableViewCellId];
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        [self thn_openShareImageController];
-        
-    } else {
-        [self thn_copyWechat];
-    }
 }
 
 #pragma mark - setup UI
@@ -226,8 +249,10 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     [self.headerView addSubview:self.earningsView];
     [self.headerView addSubview:self.dataView];
     [self.headerView addSubview:self.hintView];
+    [self.footerView addSubview:self.inviteView];
+    [self.footerView addSubview:self.joinButton];
+    
     self.lifeInfoTable.tableHeaderView = self.headerView;
-//    [self.footerView addSubview:self.phoneButton];
     self.lifeInfoTable.tableFooterView = self.footerView;
     [self.view addSubview:self.lifeInfoTable];
 }
@@ -256,11 +281,10 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 #pragma mark - getters and setters
 - (UITableView *)lifeInfoTable {
     if (!_lifeInfoTable) {
-        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectZero
-                                                      style:(UITableViewStylePlain)];
+        _lifeInfoTable = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
         _lifeInfoTable.delegate = self;
         _lifeInfoTable.dataSource = self;
-        _lifeInfoTable.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
+        _lifeInfoTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _lifeInfoTable.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
         _lifeInfoTable.showsVerticalScrollIndicator = NO;
         _lifeInfoTable.separatorColor = [UIColor colorWithHexString:@"#E9E9E9"];
@@ -270,7 +294,7 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (UIView *)headerView {
     if (!_headerView) {
-        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 545)];
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 585)];
         _headerView.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF"];
     }
     return _headerView;
@@ -293,7 +317,7 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (THNEarningsView *)earningsView {
     if (!_earningsView) {
-        _earningsView = [[THNEarningsView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(self.userView.frame) - 20, SCREEN_WIDTH - 40, 140)];
+        _earningsView = [[THNEarningsView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(self.userView.frame) - 20, SCREEN_WIDTH - 40, 180)];
         _earningsView.delegate = self;
     }
     return _earningsView;
@@ -315,27 +339,37 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     return _hintView;
 }
 
+- (THNLifeInviteView *)inviteView {
+    if (!_inviteView) {
+        _inviteView = [[THNLifeInviteView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 165)];
+        _inviteView.delegate = self;
+    }
+    return _inviteView;
+}
+
 - (UIView *)footerView {
     if (!_footerView) {
-        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
-        _footerView.backgroundColor = [UIColor colorWithHexString:@"#F7F9FB"];
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 250)];
+        _footerView.backgroundColor = [UIColor whiteColor];
     }
     return _footerView;
 }
 
-- (UIButton *)phoneButton {
-    if (!_phoneButton) {
-        _phoneButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, SCREEN_WIDTH - 40, 44)];
-        _phoneButton.backgroundColor = [UIColor whiteColor];
-        _phoneButton.layer.cornerRadius = 4;
-        _phoneButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.1].CGColor;
-        _phoneButton.layer.shadowOffset = CGSizeMake(0, 0);
-        _phoneButton.layer.shadowRadius = 8;
-        _phoneButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_phoneButton setTitleColor:[UIColor colorWithHexString:kColorMain] forState:(UIControlStateNormal)];
-        [_phoneButton setTitle:kTextPhone forState:(UIControlStateNormal)];
+- (UIButton *)joinButton {
+    if (!_joinButton) {
+        _joinButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 185, SCREEN_WIDTH - 40, 44)];
+        _joinButton.backgroundColor = [UIColor whiteColor];
+        _joinButton.layer.cornerRadius = 4;
+        _joinButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:1].CGColor;
+        _joinButton.layer.shadowOffset = CGSizeMake(0, 0);
+        _joinButton.layer.shadowRadius = 4;
+        _joinButton.layer.shadowOpacity = 0.2;
+        _joinButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [_joinButton setTitleColor:[UIColor colorWithHexString:kColorMain] forState:(UIControlStateNormal)];
+        [_joinButton setTitle:kTextWechat forState:(UIControlStateNormal)];
+        [_joinButton addTarget:self action:@selector(joinButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
-    return _phoneButton;
+    return _joinButton;
 }
 
 @end

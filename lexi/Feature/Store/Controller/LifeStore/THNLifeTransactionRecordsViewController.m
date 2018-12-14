@@ -208,7 +208,7 @@ static NSString *const kKeyDate     = @"date_range";
 
 - (UIView *)headerView {
     if (!_headerView) {
-        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 245)];
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 285)];
         _headerView.backgroundColor = [UIColor whiteColor];
     }
     return _headerView;
@@ -216,7 +216,7 @@ static NSString *const kKeyDate     = @"date_range";
 
 - (THNEarningsView *)earningsView {
     if (!_earningsView) {
-        _earningsView = [[THNEarningsView alloc] initWithFrame:CGRectMake(20, 15, SCREEN_WIDTH - 40, 140)];
+        _earningsView = [[THNEarningsView alloc] initWithFrame:CGRectMake(20, 15, SCREEN_WIDTH - 40, 180)];
         _earningsView.delegate = self;
     }
     return _earningsView;

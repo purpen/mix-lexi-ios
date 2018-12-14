@@ -543,6 +543,12 @@
 		D87D8B4921BFBD1600F678B0 /* THNCashRecordDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */; };
 		D87D8B4C21C2005600F678B0 /* THNInvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */; };
 		D87D8B4F21C236BC00F678B0 /* THNAdvertInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */; };
+		D87D8B5221C3760800F678B0 /* THNLifeInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87D8B5121C3760800F678B0 /* THNLifeInviteView.m */; };
+		D88BC7DF21C38F2D00DF3C4F /* THNInvitationFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7DE21C38F2D00DF3C4F /* THNInvitationFriendViewController.m */; };
+		D88BC7E221C390A000DF3C4F /* THNInvitationFriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7E121C390A000DF3C4F /* THNInvitationFriendTableViewCell.m */; };
+		D88BC7E521C397F400DF3C4F /* THNMyAwardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7E421C397F400DF3C4F /* THNMyAwardViewController.m */; };
+		D88BC7E821C398D700DF3C4F /* THNInvitationAwardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7E721C398D700DF3C4F /* THNInvitationAwardTableViewCell.m */; };
+		D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */; };
 		D8AA52A021A00AA2003F2111 /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529F21A00AA2003F2111 /* THNSelectWindowProductViewController.m */; };
@@ -1548,6 +1554,18 @@
 		D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNInvitationViewController.m; sourceTree = "<group>"; };
 		D87D8B4D21C236BC00F678B0 /* THNAdvertInviteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertInviteView.h; sourceTree = "<group>"; };
 		D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertInviteView.m; sourceTree = "<group>"; };
+		D87D8B5021C3760800F678B0 /* THNLifeInviteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLifeInviteView.h; sourceTree = "<group>"; };
+		D87D8B5121C3760800F678B0 /* THNLifeInviteView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLifeInviteView.m; sourceTree = "<group>"; };
+		D88BC7DD21C38F2D00DF3C4F /* THNInvitationFriendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNInvitationFriendViewController.h; sourceTree = "<group>"; };
+		D88BC7DE21C38F2D00DF3C4F /* THNInvitationFriendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNInvitationFriendViewController.m; sourceTree = "<group>"; };
+		D88BC7E021C390A000DF3C4F /* THNInvitationFriendTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNInvitationFriendTableViewCell.h; sourceTree = "<group>"; };
+		D88BC7E121C390A000DF3C4F /* THNInvitationFriendTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNInvitationFriendTableViewCell.m; sourceTree = "<group>"; };
+		D88BC7E321C397F400DF3C4F /* THNMyAwardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNMyAwardViewController.h; sourceTree = "<group>"; };
+		D88BC7E421C397F400DF3C4F /* THNMyAwardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNMyAwardViewController.m; sourceTree = "<group>"; };
+		D88BC7E621C398D700DF3C4F /* THNInvitationAwardTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNInvitationAwardTableViewCell.h; sourceTree = "<group>"; };
+		D88BC7E721C398D700DF3C4F /* THNInvitationAwardTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNInvitationAwardTableViewCell.m; sourceTree = "<group>"; };
+		D88BC7E921C3999A00DF3C4F /* THNCashAwardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashAwardView.h; sourceTree = "<group>"; };
+		D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashAwardView.m; sourceTree = "<group>"; };
 		D88E1E2721841A65008B7DD9 /* UIScrollView+THNMJRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+THNMJRefresh.h"; sourceTree = "<group>"; };
 		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
@@ -1772,6 +1790,7 @@
 				4BECF061217F1401008E5E28 /* Search */,
 				4BECF08D217F1401008E5E28 /* Setting */,
 				4BECF09C217F1401008E5E28 /* Share */,
+				D86073EB21BE419200DC257B /* Cash */,
 				4BECF0A3217F1401008E5E28 /* Store */,
 				4B24D39D219A673900525A05 /* ReleaseWindow */,
 				4BECF11D217F1401008E5E28 /* Window */,
@@ -2527,6 +2546,10 @@
 				D8011B862181A13D00619240 /* THNUserCenterViewController.m */,
 				D87D8B4A21C2005600F678B0 /* THNInvitationViewController.h */,
 				D87D8B4B21C2005600F678B0 /* THNInvitationViewController.m */,
+				D88BC7DD21C38F2D00DF3C4F /* THNInvitationFriendViewController.h */,
+				D88BC7DE21C38F2D00DF3C4F /* THNInvitationFriendViewController.m */,
+				D88BC7E321C397F400DF3C4F /* THNMyAwardViewController.h */,
+				D88BC7E421C397F400DF3C4F /* THNMyAwardViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2941,7 +2964,6 @@
 		4BECF0A4217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D86073EB21BE419200DC257B /* Cash */,
 				4BECF0A5217F1401008E5E28 /* ApplyStore */,
 				4BECF0AC217F1401008E5E28 /* LifeStore */,
 			);
@@ -3292,6 +3314,8 @@
 				D80515E721ABC5CD002460A5 /* THNLifeManagementUserView.m */,
 				D80515EA21ABC5CD002460A5 /* THNLifeSegmentView.h */,
 				D80515C221ABC5CD002460A5 /* THNLifeSegmentView.m */,
+				D87D8B5021C3760800F678B0 /* THNLifeInviteView.h */,
+				D87D8B5121C3760800F678B0 /* THNLifeInviteView.m */,
 			);
 			path = LifeManagement;
 			sourceTree = "<group>";
@@ -3384,6 +3408,10 @@
 				D82C0170219AB0E0009F905F /* THNNewShippingAddressTableViewCell.xib */,
 				D82C0172219AB0E0009F905F /* THNUserListTableViewCell.h */,
 				D82C0178219AB0E0009F905F /* THNUserListTableViewCell.m */,
+				D88BC7E021C390A000DF3C4F /* THNInvitationFriendTableViewCell.h */,
+				D88BC7E121C390A000DF3C4F /* THNInvitationFriendTableViewCell.m */,
+				D88BC7E621C398D700DF3C4F /* THNInvitationAwardTableViewCell.h */,
+				D88BC7E721C398D700DF3C4F /* THNInvitationAwardTableViewCell.m */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -3740,6 +3768,8 @@
 				D87D8B4521BFB81100F678B0 /* THNCashInfoView.m */,
 				D87D8B4721BFBD1600F678B0 /* THNCashRecordDefaultView.h */,
 				D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */,
+				D88BC7E921C3999A00DF3C4F /* THNCashAwardView.h */,
+				D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4234,6 +4264,7 @@
 				4B27B37C218717D1004AF42F /* THNBaseTabBarController.m in Sources */,
 				4B27B37D218717D1004AF42F /* THNBaseTableViewController.m in Sources */,
 				4B27B37E218717D1004AF42F /* THNBaseViewController.m in Sources */,
+				D87D8B5221C3760800F678B0 /* THNLifeInviteView.m in Sources */,
 				D82C0188219AB0E0009F905F /* THNLikedGoodsTableViewCell.m in Sources */,
 				4B27B37F218717D1004AF42F /* THNTableViewCells.m in Sources */,
 				D8B434CD219AC711009D2434 /* THNDynamicContentTableViewCell.m in Sources */,
@@ -4306,6 +4337,7 @@
 				4B309381219E84A5009D42A8 /* THNAddShowWindowViewController.m in Sources */,
 				4B27B3AA218717D1004AF42F /* THNFeaturedBrandModel.m in Sources */,
 				4B27B3AB218717D1004AF42F /* THNSetModel.m in Sources */,
+				D88BC7DF21C38F2D00DF3C4F /* THNInvitationFriendViewController.m in Sources */,
 				4B27B3AC218717D1004AF42F /* THNBannerView.m in Sources */,
 				D8D7D004219437DB00948247 /* THNBrandCouponCollectionViewCell.m in Sources */,
 				4B27B3AD218717D1004AF42F /* THNBannnerCollectionViewCell.m in Sources */,
@@ -4471,6 +4503,7 @@
 				D85AD66D21A7F05200776D34 /* THNGoodsModel.m in Sources */,
 				4B27B441218717D1004AF42F /* THNLogisticsPriceView.m in Sources */,
 				4B36A226218C9771007F670E /* main.m in Sources */,
+				D88BC7E221C390A000DF3C4F /* THNInvitationFriendTableViewCell.m in Sources */,
 				D86073FD21BE57C500DC257B /* THNCashMoneyView.m in Sources */,
 				4B27B442218717D1004AF42F /* THNLogisticsTableViewCell.m in Sources */,
 				D85AD67321A7F05300776D34 /* THNGoodsModelAssets.m in Sources */,
@@ -4480,6 +4513,7 @@
 				4B27B446218717D1004AF42F /* THNOrderDetailPayView.m in Sources */,
 				4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */,
 				4B27B447218717D1004AF42F /* THNOrderDetailProductView.m in Sources */,
+				D88BC7E821C398D700DF3C4F /* THNInvitationAwardTableViewCell.m in Sources */,
 				CDF3D33621B01A1A003D841A /* THNAdvertCouponTableViewCell.m in Sources */,
 				4B27B448218717D1004AF42F /* THNOrderDetailTableViewCell.m in Sources */,
 				4B27B449218717D1004AF42F /* THNOrderPayView.m in Sources */,
@@ -4668,10 +4702,12 @@
 				4B27B4D5218717D2004AF42F /* NSTimer+Addition.m in Sources */,
 				D8409315219ECD7C00EF1F70 /* THNHotKeywordModel.m in Sources */,
 				4B27B4D6218717D2004AF42F /* UIBarButtonItem+Helper.m in Sources */,
+				D88BC7E521C397F400DF3C4F /* THNMyAwardViewController.m in Sources */,
 				4B27B4D7218717D2004AF42F /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
 				4B27B4D8218717D2004AF42F /* UIColor+Extension.m in Sources */,
 				D860740621BE614800DC257B /* THNCashBaseView.m in Sources */,
 				4B27B4D9218717D2004AF42F /* UIImage+Helper.m in Sources */,
+				D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */,
 				4B27B4DA218717D2004AF42F /* UIImage+GIF.m in Sources */,
 				D85E2B5621BA5D400092732E /* YBIBWebImageManager.m in Sources */,
 				4B27B4DB218717D2004AF42F /* UIImageView+SDWedImage.m in Sources */,

@@ -12,10 +12,11 @@
 #import "UIView+Helper.h"
 #import "UIColor+Extension.h"
 
-static NSString *const kTextTitle       = @"生活馆累计收益";
+static NSString *const kTextTitle       = @"生活馆销售额";
 static NSString *const kTextTitleSub    = @"（元）";
 static NSString *const kTextTotay       = @"今日：";
 static NSString *const kTextWait        = @"待结算：";
+static NSString *const kTextTotal       = @"累计收益 ";
 
 @interface THNEarningsView ()
 
@@ -29,6 +30,8 @@ static NSString *const kTextWait        = @"待结算：";
 @property (nonatomic, strong) UIButton *showButton;
 // 总收益
 @property (nonatomic, strong) UILabel *totalLabel;
+// 销售额
+@property (nonatomic, strong) UILabel *salelabel;
 // 今日收益
 @property (nonatomic, strong) UILabel *todayLabel;
 // 待结算收益
@@ -54,7 +57,8 @@ static NSString *const kTextWait        = @"待结算：";
 - (void)thn_setLifeSaleColleciton:(THNLifeSaleCollectModel *)model {
     self.saleModel = model;
     
-    self.totalLabel.text = [NSString stringWithFormat:@"%.2f", model.total_commission_price];
+    self.salelabel.text = [NSString stringWithFormat:@"%.2f", model.total_commission_price];
+    self.totalLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextTotal, model.total_commission_price];
     self.todayLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextTotay, model.today_commission_price];
     self.waitLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextWait, model.pending_commission_price];
 }
@@ -72,6 +76,7 @@ static NSString *const kTextWait        = @"待结算：";
         
     } else {
         self.totalLabel.text = @"＊＊＊＊";
+        self.salelabel.text = @"＊＊＊＊";
         self.todayLabel.text = [NSString stringWithFormat:@"%@＊＊＊", kTextTotay];
         self.waitLabel.text = [NSString stringWithFormat:@"%@＊＊＊", kTextWait];
     }
@@ -93,6 +98,7 @@ static NSString *const kTextWait        = @"待结算：";
     [self addSubview:self.backgroundColorView];
     [self addSubview:self.titleLabel];
     [self addSubview:self.showButton];
+    [self addSubview:self.salelabel];
     [self addSubview:self.totalLabel];
     [self addSubview:self.cutLineView];
     [self addSubview:self.todayLabel];
@@ -116,8 +122,15 @@ static NSString *const kTextWait        = @"待结算：";
         make.right.mas_equalTo(-15);
     }];
     
-    [self.totalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.salelabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(20);
+        make.right.mas_equalTo(-20);
+        make.height.mas_equalTo(26);
+    }];
+    
+    [self.totalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.salelabel.mas_bottom).with.offset(10);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(26);
@@ -185,10 +198,20 @@ static NSString *const kTextWait        = @"待结算：";
     return _showButton;
 }
 
+- (UILabel *)salelabel {
+    if (!_salelabel) {
+        _salelabel = [[UILabel alloc] init];
+        _salelabel.font = [UIFont systemFontOfSize:24 weight:(UIFontWeightSemibold)];
+        _salelabel.textColor = [UIColor whiteColor];
+        _salelabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _salelabel;
+}
+
 - (UILabel *)totalLabel {
     if (!_totalLabel) {
         _totalLabel = [[UILabel alloc] init];
-        _totalLabel.font = [UIFont systemFontOfSize:24 weight:(UIFontWeightSemibold)];
+        _totalLabel.font = [UIFont systemFontOfSize:14];
         _totalLabel.textColor = [UIColor whiteColor];
         _totalLabel.textAlignment = NSTextAlignmentCenter;
     }
