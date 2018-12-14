@@ -119,6 +119,10 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     [self presentViewController:actionVC animated:NO completion:nil];
 }
 
+- (void)thn_lifeInviteApplyStore {
+    [self thn_openShareImageController];
+}
+
 #pragma mark - network
 - (void)thn_setLifeStoreUserData {
     WEAKSELF;

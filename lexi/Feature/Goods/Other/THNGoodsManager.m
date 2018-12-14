@@ -598,7 +598,7 @@ static NSString *const kKeyUid              = @"uid";
                                 @(THNGoodsListViewTypeRecommend)    : @"/column/handpick_recommend",
                                 @(THNGoodsListViewTypeSearch)       : @"/core_platforms/search/products",
                                 @(THNGoodsListViewTypeFreeShipping) : @"/products/free_postage",
-                                @(THNGoodsListViewTypeNewExpress)   : @""};
+                                @(THNGoodsListViewTypeNewExpress)   : @"/column/handpick_new_express"};
     
     return urlResult[@(type)];
 }

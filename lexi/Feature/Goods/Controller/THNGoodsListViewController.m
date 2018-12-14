@@ -347,7 +347,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         case THNGoodsListViewTypeNewProduct:
         case THNGoodsListViewTypeDesign:
         case THNGoodsListViewTypeGoodThing:
-        case THNGoodsListViewTypeFreeShipping: {
+        case THNGoodsListViewTypeFreeShipping:
+        case THNGoodsListViewTypeNewExpress: {
             [self thn_getColumnProductsWithType:self.goodsListType params:self.paramDict loadMore:loadMore];
         }
             break;

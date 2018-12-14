@@ -8,6 +8,7 @@
 
 #import "THNLivingHallHeadLineView.h"
 #import "THNLivingHallHeadLineTableView.h"
+#import "THNMarco.h"
 
 @interface THNLivingHallHeadLineView ()
 
@@ -26,7 +27,7 @@
 
 - (THNLivingHallHeadLineTableView *)headLineTableView {
     if (!_headLineTableView) {
-        _headLineTableView = [[THNLivingHallHeadLineTableView alloc]initWithFrame:CGRectMake(214, 30, 112, 70)];
+        _headLineTableView = [[THNLivingHallHeadLineTableView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 162, 30, 112, 70)];
     }
     return _headLineTableView;
 }

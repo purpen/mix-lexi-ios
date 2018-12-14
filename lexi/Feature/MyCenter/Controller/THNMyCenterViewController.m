@@ -288,7 +288,11 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self thn_setTableViewBgColor];
     
     [self.tableView reloadData];
-    [self thn_showInvitationView];
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self thn_showInvitationView];
+    });
 }
 
 /**

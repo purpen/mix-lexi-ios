@@ -37,6 +37,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
         [self setContentOffset:CGPointMake(0, 0) animated:YES];
         self.scrollEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self loadLivingHallHeadLineData];
         
     }

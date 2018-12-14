@@ -90,6 +90,12 @@ static NSString *const kTextInvite      = @"组队赚钱，收益速增";
     }
 }
 
+- (void)inviteButtonAction:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(thn_lifeInviteApplyStore)]) {
+        [self.delegate thn_lifeInviteApplyStore];
+    }
+}
+
 #pragma mark - private methods
 - (void)thn_setTotalMoneyLabelTextWithCashPrice:(CGFloat)price {
     NSMutableAttributedString *att = [[NSMutableAttributedString alloc] initWithString:kTextTotal];
@@ -285,6 +291,7 @@ static NSString *const kTextInvite      = @"组队赚钱，收益速增";
         _inviteButton.titleLabel.font = [UIFont systemFontOfSize:14];
         [_inviteButton setTitle:@"邀请" forState:(UIControlStateNormal)];
         _inviteButton.layer.cornerRadius = 4;
+        [_inviteButton addTarget:self action:@selector(inviteButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _inviteButton;
 }

@@ -13,6 +13,7 @@
 - (void)thn_lifeInviteCheckFriend;
 - (void)thn_lifeInviteCheckMoney;
 - (void)thn_lifeInviteMoneyHint;
+- (void)thn_lifeInviteApplyStore;
 
 @end
 

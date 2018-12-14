@@ -71,6 +71,8 @@ static NSString *const kParamVerifyCode = @"verify_code";
         return;
     }
     
+    [SVProgressHUD thn_show];
+    
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
     [paramDict setObject:self.wechatOpenId forKey:kKeyOpenId];
     
@@ -101,12 +103,12 @@ static NSString *const kParamVerifyCode = @"verify_code";
     } else {
         [self thn_loginSuccessBack];
     }
-    
-    [THNAdvertManager checkIsNewUserBonus];
 }
 
 - (void)thn_loginSuccessBack {
     [SVProgressHUD thn_show];
+    
+    [THNAdvertManager checkIsNewUserBonus];
     
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {

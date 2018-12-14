@@ -34,7 +34,7 @@ CGFloat const kCellTodayHeight = 195;
 CGFloat const kCellPopularHeight = 330;
 CGFloat const kCellLifeAestheticsHeight = 293.5;
 CGFloat const kCellOptimalHeight = 200;
-CGFloat const kCellGrassListHeight = 158;
+CGFloat const kCellGrassListHeight = 168;
 
 @interface THNFeatureTableViewCell()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
