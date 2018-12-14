@@ -98,6 +98,14 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 }
 
 - (void)loadLifeStoreData:(LoadLifeStoreDataSuccessBlock)lifeStoreDataSuccess {
+    
+    if (self.loginManger.storeRid.length == 0) {
+        if (lifeStoreDataSuccess) {
+            lifeStoreDataSuccess(NO);
+        }
+        return;
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.loginManger.storeRid;
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeStore requestDictionary:params delegate:nil];
@@ -125,7 +133,6 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
                 } else {
                     [self layoutOpenedPromptView];
                 }
-                
             }
         } else {
             [THNSaveTool setBool:YES forKey:kIsCloseLivingHallView];
@@ -136,11 +143,17 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
             self.promptView.hidden = YES;
         }
         
-        
         self.noProductView.hidden = storeModel.has_product ?: NO;
-        lifeStoreDataSuccess(storeModel.has_product);
+        
+        if (lifeStoreDataSuccess) {
+            lifeStoreDataSuccess(storeModel.has_product);
+        }
         
     } failure:^(THNRequest *request, NSError *error) {
+        
+        if (lifeStoreDataSuccess) {
+            lifeStoreDataSuccess(NO);
+        }
         
     }];
 }

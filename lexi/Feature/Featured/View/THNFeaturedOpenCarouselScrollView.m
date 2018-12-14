@@ -60,10 +60,12 @@
     
     [titleArray enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [tmpArray addObject:obj];
+        // 将两个一组重新组合
         if ((idx +1) % 2 == 0) {
             [finalArray addObject:[NSArray arrayWithArray:tmpArray]];
             [tmpArray removeAllObjects];
         } else {
+            // 处理最后一个数据为奇数的情况
             if (idx == (titleArray.count - 1)) {
                 [finalArray addObject:[NSArray arrayWithArray:tmpArray]];
                 [tmpArray removeAllObjects];
@@ -77,8 +79,8 @@
 }
 
 - (void)removeTimer {
-    [self.timer invalidate];
     self.timer = nil;
+    [self.timer invalidate];
 }
 
 - (void)setDataWithIndex:(int)index{
@@ -92,8 +94,8 @@
     }
     //根据单双数设置单行和双行Label的显示和隐藏
     if (array.count == 1) {
-        self.firstLabel1.hidden = YES;
-        self.firstLable2.hidden = YES;
+        self.firstLabel1.attributedText = array[0];
+        self.firstLable2.hidden = NO;
     } else {
         self.firstLabel1.attributedText = array[0];
         self.firstLable2.attributedText = array[1];
@@ -103,14 +105,14 @@
     
     NSArray *nextArray = nil;      //数组循环
     
-    if (index==self.titles.count-1) {
+    if (index == self.titles.count - 1) {
         nextArray = self.titles[0];
     } else {
-        nextArray = self.titles[index+1];
+        nextArray = self.titles[index + 1];
     }
     
     if (nextArray.count == 1) {
-        self.secondLabel1.hidden = YES;
+        self.secondLabel1.attributedText = nextArray[0];
         self.secondLabel2.hidden = YES;
     } else {
         self.secondLabel1.attributedText = nextArray[0];
@@ -127,13 +129,14 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y==ViewHeight) {
+    if (scrollView.contentOffset.y == ViewHeight) {
         
         if (self.index == self.titles.count-1) {
             self.index = 0;
         }else{
             self.index++;
         }
+        
         [self setDataWithIndex:self.index];
         [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
     }

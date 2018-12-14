@@ -11,8 +11,9 @@
 @protocol THNActivityViewDelegate <NSObject>
 
 @optional
-- (void)pushGoodList;
+- (void)pushGoodListShipping;
 - (void)pushCouponsCenter;
+- (void)pushGoodListOrderCustomization;
 
 @end
 

@@ -7,15 +7,34 @@
 //
 
 #import "THNLivingHallHeadLineView.h"
+#import "THNLivingHallHeadLineTableView.h"
+
+@interface THNLivingHallHeadLineView ()
+
+@property (nonatomic, strong) THNLivingHallHeadLineTableView *headLineTableView;
+@property (weak, nonatomic) IBOutlet UIButton *openStoreButton;
+
+@end
 
 @implementation THNLivingHallHeadLineView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self addSubview:self.headLineTableView];
+    self.openStoreButton.layer.cornerRadius = 4;
 }
-*/
+
+- (THNLivingHallHeadLineTableView *)headLineTableView {
+    if (!_headLineTableView) {
+        _headLineTableView = [[THNLivingHallHeadLineTableView alloc]initWithFrame:CGRectMake(214, 30, 112, 70)];
+    }
+    return _headLineTableView;
+}
+
+- (IBAction)openStore:(id)sender {
+    if (self.headLineViewBlock) {
+        self.headLineViewBlock();
+    }
+}
 
 @end

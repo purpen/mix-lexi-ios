@@ -32,8 +32,14 @@
 #import "UIColor+Extension.h"
 #import "THNLivingHallHeadLineView.h"
 #import "THNExploreTableViewCell.h"
+#import "THNSignInViewController.h"
+#import "THNApplyStoreViewController.h"
+#import "THNBaseNavigationController.h"
+#import "THNAdvertManager.h"
+#import "THNAdvertCouponViewController.h"
+#import "THNGoodsListViewController.h"
 
-static CGFloat const livingHallHeaderViewHeight = 544;
+static CGFloat const livingHallHeaderViewHeight = 554;
 static NSString *const kLivingHallRecommendProductSetCellIdentifier = @"kLivingHallRecommendProductSetCellIdentifier";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
@@ -54,12 +60,11 @@ THNExploreTableViewCellDelegate
 // 本周最受人气欢迎Cell
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
 @property (nonatomic, strong)  THNLivingHallExpandView *expandView;
-@property (nonatomic, strong) NSMutableArray *weekPopularArray;
+@property (nonatomic, strong) NSArray *weekPopularArray;
 @property (nonatomic, strong) NSArray *expressNewProductArray;
 @property (nonatomic, strong) NSArray *likeProductUserArray;
 @property (nonatomic, assign) CGFloat recommenLabelHegiht;
 @property (nonatomic, assign) NSInteger weekPopularPerPageCount;
-@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, assign) BOOL isLoadMoreData;
 @property (nonatomic, assign) CGFloat footerViewHeight;
 @property (nonatomic, assign) CGFloat featureCellHeight;
@@ -80,8 +85,8 @@ THNExploreTableViewCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshCuratorRecommendedData) name:kShelfSuccess object:nil];
-    [self setupUI];
     self.isNeedsHud = YES;
+    [self setupUI];
     [self loadData];
 }
 
@@ -90,6 +95,7 @@ THNExploreTableViewCellDelegate
     [self hiddenHud];
 }
 
+// 刷新馆长推荐数据
 - (void)refreshCuratorRecommendedData {
     THNLivingRecommendProductSetTableViewCell *recommendProductSetCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     recommendProductSetCell.isMergeRecommendData = NO;
@@ -100,49 +106,43 @@ THNExploreTableViewCellDelegate
     
     [self.livingHallHeaderView setLifeStore];
     
+    
+    if (self.isNeedsHud) {
+        self.isAddWindow = YES;
+        self.isFromMain = YES;
+        self.loadViewY = 130;
+        [self showHud];
+    }
+    
     [self.livingHallHeaderView loadLifeStoreData:^(BOOL isHaveRecommendData) {
         self.isHaveRecommendData = isHaveRecommendData;
         if (self.isHaveRecommendData) {
             [self.dataArray addObject:@(LivingHallCellTypeRecommend)];
         }
-    }];
-    
-    //创建信号量
-    self.semaphore = dispatch_semaphore_create(0);
-    //创建全局并行队列
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_group_t group = dispatch_group_create();
-    self.isAddWindow = YES;
-    self.isFromMain = YES;
-    self.loadViewY = 130;
-    
-    if (self.isNeedsHud) {
-        [self showHud];
-    }
-    
-    dispatch_group_async(group, queue, ^{
+        
         [self loadNewExpressProductData];
-    });
-    dispatch_group_async(group, queue, ^{
-        [self loadWeekPopularData];
-    });
-    
-    dispatch_group_notify(group, queue, ^{
-        
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self hiddenHud];
-            [self.tableView endHeaderRefresh];
-            [self.tableView reloadData];
-        });
-    });
+       
+    }];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.headLineView.frame = CGRectMake(20, 107, SCREEN_WIDTH - 40, 110);
+}
+
+/**
+ 展示新用户领红包视图
+ */
+- (void)thn_showNewUserBonusAdvertView {
+    if (![THNAdvertManager canGetBonus]) {
+        return;
+        
+    } else {
+        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
+        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
+        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:navVC animated:NO completion:nil];
+    }
 }
 
 // 解决HeaderView和footerView悬停的问题
@@ -159,7 +159,7 @@ THNExploreTableViewCellDelegate
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
-    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+//    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     [self.tableView resetCurrentPageNumber];
     self.currentPage = 1;
@@ -175,10 +175,14 @@ THNExploreTableViewCellDelegate
 
 // 新品速递
 - (void)loadNewExpressProductData {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickNewExpress requestDictionary:params delegate:nil];
+    
+    THNRequest *request = [THNAPI getWithUrlString:kUrlColumnHandpickNewExpress requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        dispatch_semaphore_signal(self.semaphore);
+        [self.tableView endHeaderRefresh];
+        if (self.isNeedsHud) {
+            [self hiddenHud];
+        }
+        
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -193,8 +197,15 @@ THNExploreTableViewCellDelegate
         self.title = result.data[@"title"];
         [self.tableView reloadData];
         
+        // 等HUD隐藏后并且第一次进行弹出
+        if (self.isNeedsHud) {
+            [self thn_showNewUserBonusAdvertView];
+        }
+        
+        [self loadWeekPopularData];
+        
     } failure:^(THNRequest *request, NSError *error) {
-        dispatch_semaphore_signal(self.semaphore);
+    
     }];
 }
 
@@ -202,15 +213,16 @@ THNExploreTableViewCellDelegate
 - (void)loadWeekPopularData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.currentPage);
+    params[@"per_page"] = @(20);
     THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        dispatch_semaphore_signal(self.semaphore);
+        
         if (!result.success) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
         }
         
-        [self.weekPopularArray addObjectsFromArray:result.data[@"products"]];
+        self.weekPopularArray = result.data[@"products"];
         
 //        for (int i = 1; i <= self.weekPopularArray.count; i++) {
 //            if ( i % 5 == 0) {
@@ -222,21 +234,20 @@ THNExploreTableViewCellDelegate
 //            self.featureCellHeight += i % 2 == 0 || i % 5 == 0 ? 10 : 0;
 //        }
         
-        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * self.weekPopularArray.count / 2 + 80;
+        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * self.weekPopularArray.count / 2 + 90 - 9;
         
-        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
-        
-        if (![result.data[@"next"] boolValue] && self.weekPopularArray.count != 0) {
-            
-            [self.tableView noMoreData];
-        }
+//        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+//        if (![result.data[@"next"] boolValue] && self.weekPopularArray.count != 0) {
+//
+//            [self.tableView noMoreData];
+//        }
         
         self.title = result.data[@"title"];
         [self.featureCell setCellTypeStyle:FeaturedNo initWithDataArray:self.weekPopularArray initWithTitle:@"本周最受欢迎"];
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
-        dispatch_semaphore_signal(self.semaphore);
+
     }];
 }
 
@@ -348,6 +359,19 @@ THNExploreTableViewCellDelegate
         UIView *headerView = [[UIView alloc]initWithFrame:self.noLivingHallHeaderView.frame];
         [headerView addSubview:self.noLivingHallHeaderView];
         [self.noLivingHallHeaderView addSubview:self.headLineView];
+        
+        self.headLineView.headLineViewBlock = ^{
+            if (![THNLoginManager isLogin]) {
+                THNSignInViewController *signInVC = [[THNSignInViewController alloc] init];
+                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:signInVC];
+                [weakSelf presentViewController:navController animated:YES completion:nil];
+                
+            } else {
+                THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
+                [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
+            }
+        };
+        
         [headerView addSubview:self.noLivingHallHeaderView];
         return headerView;
     }
@@ -355,7 +379,7 @@ THNExploreTableViewCellDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,self.footerViewHeight)];
-    self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH,self.featureCellHeight);
+    self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH, self.featureCellHeight);
     self.featureCell.backgroundColor = [UIColor whiteColor];
     [footerView addSubview:self.featureCell];
     return footerView;
@@ -373,14 +397,14 @@ THNExploreTableViewCellDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
-//    // 解决一直上拉搜索动画导致闪动的问题
-//    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
+    // 解决一直上拉搜索动画导致闪动的问题,下拉刷新界面需设置bounces为YES
+    self.tableView.bounces = scrollView.contentOffset.y < 0 ?: NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.lastContentOffset = scrollView.contentOffset.y;
     // 解决下拉搜索框位置无法改变的问题
     self.tableView.bounces = YES;
-    self.lastContentOffset = scrollView.contentOffset.y;
 }
 
 #pragma mark - THNFeatureTableViewCellDelegate
@@ -388,6 +412,13 @@ THNExploreTableViewCellDelegate
 - (void)pushGoodInfo:(NSString *)rid {
     THNGoodsInfoViewController *goodInfo = [[THNGoodsInfoViewController alloc]initWithGoodsId:rid];
     [self.navigationController pushViewController:goodInfo animated:YES];
+}
+
+
+#pragma mark- THNExploreTableViewCellDelegate
+- (void)lookAllWithType:(ExploreCellType)cellType {
+    THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewExpress title:@"新品速递"];
+    [self.navigationController pushViewController:goodsList animated:YES];
 }
 
 #pragma makr - THNMJRefreshDelegate
@@ -400,6 +431,7 @@ THNExploreTableViewCellDelegate
 - (void)beginRefreshing {
     self.isNeedsHud = NO;
     self.featureCellHeight = 0;
+    [self.dataArray removeAllObjects];
     [self loadData];
 }
 
@@ -423,12 +455,12 @@ THNExploreTableViewCellDelegate
     return _featureCell;
 }
 
-- (NSMutableArray *)weekPopularArray {
-    if (!_weekPopularArray) {
-        _weekPopularArray = [NSMutableArray array];
-    }
-    return _weekPopularArray;
-}
+//- (NSMutableArray *)weekPopularArray {
+//    if (!_weekPopularArray) {
+//        _weekPopularArray = [NSMutableArray array];
+//    }
+//    return _weekPopularArray;
+//}
 
 - (UIView *)noLivingHallHeaderView {
     if (!_noLivingHallHeaderView) {

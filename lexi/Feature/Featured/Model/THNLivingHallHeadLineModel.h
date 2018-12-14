@@ -29,6 +29,7 @@ typedef NS_ENUM(NSUInteger, HeadlineShowType) {
 @property (nonatomic, strong) NSString *time;
 // 时间后缀
 @property (nonatomic, strong) NSString *time_info;
+@property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, assign) NSInteger quantity;
 

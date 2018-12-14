@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^HeadLineViewBlock)(void);
+
 @interface THNLivingHallHeadLineView : UIView
+
+@property (nonatomic, copy) HeadLineViewBlock headLineViewBlock;
 
 @end

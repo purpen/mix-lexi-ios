@@ -34,8 +34,6 @@
 #import "THNCouponsCenterViewController.h"
 #import "THNShopWindowDetailViewController.h"
 #import "UIViewController+THNHud.h"
-#import "THNAdvertManager.h"
-#import "THNAdvertCouponViewController.h"
 #import "THNBaseNavigationController.h"
 #import "THNHomeSearchView.h"
 #import "THNSelectButtonView.h"
@@ -202,24 +200,8 @@ THNMJRefreshDelegate
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView endHeaderRefresh];
             [self.tableView reloadData];
-            [self thn_showNewUserBonusAdvertView];
         });
     });
-}
-
-/**
- 展示新用户领红包视图
- */
-- (void)thn_showNewUserBonusAdvertView {
-    if (![THNAdvertManager canGetBonus]) {
-        return;
-        
-    } else {
-        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
-        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
-        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:navVC animated:NO completion:nil];
-    }
 }
 
 #pragma mark - 请求数据
@@ -375,15 +357,17 @@ THNMJRefreshDelegate
     if (section == 0) {
         UIView *headerView;
         
-        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
-             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
-             [headerView addSubview:self.openingView];
-             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
-            
-        } else {
-             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.featuredCollectionView.frame) + 10)];
-        }
+        // 业务调整，去掉该开馆头条
+//        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+//             headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.openingView.frame) + 10)];
+//             [headerView addSubview:self.openingView];
+//             [self.openingView loadLivingHallHeadLineData:FeatureOpeningTypeMain];
+//
+//        } else {
         
+//        }
+        
+        headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.featuredCollectionView.frame) + 10)];
         self.featuredCollectionView.featuredDelegate = self;
         headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:self.featuredCollectionView];
@@ -399,8 +383,6 @@ THNMJRefreshDelegate
             } else {
                 THNApplyStoreViewController *applyStoreVC = [[THNApplyStoreViewController alloc] init];
                 [weakSelf.navigationController pushViewController:applyStoreVC animated:YES];
-//                THNBaseNavigationController *navController = [[THNBaseNavigationController alloc] initWithRootViewController:applyStoreVC];
-//                [weakSelf presentViewController:navController animated:YES completion:nil];
             }
         };
         return headerView;
@@ -412,12 +394,12 @@ THNMJRefreshDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         
-        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
-             return CGRectGetMaxY(self.openingView.frame) + 10;
-        } else {
-             return CGRectGetMaxY(self.featuredCollectionView.frame) + 10;
-        }
-       
+//        if (![THNLoginManager sharedManager].openingUser && ![THNLoginManager sharedManager].supplier) {
+//             return CGRectGetMaxY(self.openingView.frame) + 10;
+//        } else {
+        
+//        }
+       return CGRectGetMaxY(self.featuredCollectionView.frame) + 10;
     } else {
         return 0;
     }
@@ -432,7 +414,7 @@ THNMJRefreshDelegate
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    // 业务隐藏
+    
     if (section == 0) {
         return self.activityView;
     } else if (section == 1){
@@ -681,9 +663,15 @@ THNMJRefreshDelegate
 
 #pragma mark - THNActivityViewDelegate
 
-- (void)pushGoodList {
+- (void)pushGoodListShipping {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeFreeShipping title:@"包邮专区"];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)pushGoodListOrderCustomization {
+    THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeCustomization title:@"接单定制"];
+    [self.navigationController pushViewController:goodsListVC animated:YES];
+
 }
 
 - (void)pushCouponsCenter {

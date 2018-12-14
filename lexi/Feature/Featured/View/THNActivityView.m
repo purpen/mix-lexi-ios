@@ -12,7 +12,9 @@
 
 // 活动
 - (IBAction)activity:(id)sender {
-    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushGoodListOrderCustomization)]) {
+        [self.delegate pushGoodListOrderCustomization];
+    }
 }
 
 // 领劵
@@ -24,8 +26,8 @@
 
 // 包邮专区
 - (IBAction)freeShippingArea:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pushGoodList)]) {
-        [self.delegate pushGoodList];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pushGoodListShipping)]) {
+        [self.delegate pushGoodListShipping];
     }
 }
 

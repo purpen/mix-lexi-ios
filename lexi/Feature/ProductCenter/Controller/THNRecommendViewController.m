@@ -81,8 +81,8 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:THNRecommendVCRemoveTimer object:nil];
     [self.featuredCollectionView removeTimer];
+    [[NSNotificationCenter defaultCenter] postNotificationName:THNRecommendVCRemoveTimer object:nil];
     [self hiddenHud];
 }
 
