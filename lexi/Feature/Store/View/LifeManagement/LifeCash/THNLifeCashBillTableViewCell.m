@@ -51,6 +51,18 @@ static NSString *const kTextError   = @"提现失败";
     self.statusLabel.textColor = [UIColor colorWithHexString:statusColors[model.status - 1]];
 }
 
+- (void)thn_setWinCashRecordData:(NSDictionary *)data {
+    THNLifeCashBillModel *model = [THNLifeCashBillModel mj_objectWithKeyValues:data];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
+    self.timeLabel.text = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", model.actual_amount];
+    NSArray *statusArr = @[@"提现成功", @"提现失败", @"审核中"];
+    NSArray *statusColors = @[@"#5FE4B1", @"#FF6666", @"#FB9013"];
+    self.statusLabel.text = statusArr[model.status - 1];
+    self.statusLabel.textColor = [UIColor colorWithHexString:statusColors[model.status - 1]];
+}
+
 #pragma mark - setup UI
 - (void)setupCellViewUI {
     self.backgroundColor = [UIColor whiteColor];

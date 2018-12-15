@@ -12,6 +12,8 @@
 #import "THNLoginManager.h"
 
 static NSString *const kTitleInfo = @"提现详情";
+/// api
+static NSString *const kURLWallet = @"/win_cash/withdrawal_detail";
 
 @interface THNCashInfoViewController ()
 
@@ -40,15 +42,19 @@ static NSString *const kTitleInfo = @"提现详情";
     [SVProgressHUD thn_show];
     
     WEAKSELF;
+    THNRequest *request = [THNAPI getWithUrlString:kURLWallet requestDictionary:@{@"rid": billId} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
     
-    [THNLifeManager getLifeCashBillDetailWithRid:[THNLoginManager sharedManager].storeRid
-                                        recordId:billId
-                                      completion:^(THNLifeCashBillModel *model, NSError *error) {
-                                          if (error) return;
-                                          
-                                          [weakSelf.infoView thn_setLifeCashBillDetailData:model];
-                                          [SVProgressHUD dismiss];
-                                      }];
+        THNCashInfoModel *model = [[THNCashInfoModel alloc] initWithDictionary:result.data];
+        [weakSelf.infoView thn_setWinCashInfoModel:model];
+
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
 }
 
 #pragma mark - setup UI

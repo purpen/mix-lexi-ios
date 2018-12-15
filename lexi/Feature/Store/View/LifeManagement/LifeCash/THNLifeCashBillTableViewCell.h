@@ -13,5 +13,6 @@
 @interface THNLifeCashBillTableViewCell : UITableViewCell
 
 - (void)thn_setLifeCashRecordData:(NSDictionary *)dict;
+- (void)thn_setWinCashRecordData:(NSDictionary *)data;
 
 @end

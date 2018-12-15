@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *record_id;
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, assign) NSInteger store_rid;
+@property (nonatomic, assign) NSInteger rid;
 @property (nonatomic, strong) NSDictionary *order_info;
 
 @end

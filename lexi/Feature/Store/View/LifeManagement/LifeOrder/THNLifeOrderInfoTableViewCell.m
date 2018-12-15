@@ -42,7 +42,7 @@ static NSString *const kTextMoney  = @"预计收益：";
     self.numberLabel.text = [NSString stringWithFormat:@"%@%@", kTextNumber, model.rid];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
     self.timeLabel.text = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [self thn_setLifeOrderMoney:model.pay_amount];
+    [self thn_setLifeOrderMoney:model.order_total_commission_price];
 }
 
 #pragma mark - private methods

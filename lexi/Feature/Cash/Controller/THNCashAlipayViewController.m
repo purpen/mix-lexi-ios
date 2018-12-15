@@ -41,7 +41,7 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
         [SVProgressHUD thn_showSuccessWithStatus:@"提现成功"];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 

@@ -20,6 +20,9 @@ static NSString *const kTextRecord   = @"提现记录";
 static NSString *const kTextWechat   = @"即将提现到你的微信账号";
 /// api
 static NSString *const kURLCashMoney = @"/win_cash/cash_money";
+static NSString *const kURLWinCash   = @"/win_cash/get_real_friends_count";
+/// key
+static NSString *const kKeyCashMoney = @"can_carry_amount";
 
 @interface THNCashViewController () <THNCashViewDelegate>
 
@@ -27,6 +30,7 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
 @property (nonatomic, strong) THNCashView *cashView;
 @property (nonatomic, strong) THNUserDataModel *userModel;
 @property (nonatomic, assign) CGFloat cashAmount;
+@property (nonatomic, assign) CGFloat canCashAmount;
 
 @end
 
@@ -36,6 +40,7 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
     [super viewDidLoad];
     
     [self setupUI];
+    [self requestWinCashMoneyData];
 }
 
 #pragma mark - network
@@ -54,7 +59,33 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
         [SVProgressHUD thn_showSuccessWithStatus:@"提现成功"];
         
     } failure:^(THNRequest *request, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+/**
+ 获取可提现金额
+ */
+- (void)requestWinCashMoneyData {
+    [SVProgressHUD thn_show];
+    
+    WEAKSELF;
+    THNRequest *request = [THNAPI getWithUrlString:kURLWinCash requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+//        THNLog(@"可提现金额 === %@", result.responseDict);
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return;
+        }
+        
+        if (![result.data[kKeyCashMoney] isKindOfClass:[NSNull class]]) {
+            weakSelf.canCashAmount = [result.data[kKeyCashMoney] floatValue];
+            weakSelf.cashView.cashAmount = weakSelf.canCashAmount;
+        }
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
 
@@ -144,8 +175,6 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
 
 #pragma mark - setup UI
 - (void)setupUI {
-    self.cashView.cashAmount = 99999;
-    
     [self.containerView addSubview:self.cashView];
     [self.view addSubview:self.containerView];
 }

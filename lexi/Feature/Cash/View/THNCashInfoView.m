@@ -42,14 +42,16 @@ static NSString *const kTextTime    = @"提现时间";
     return self;
 }
 
-- (void)thn_setLifeCashBillDetailData:(THNLifeCashBillModel *)model {
-    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", model.actual_amount];
-    NSArray *statusArr = @[@"审核中", @"提现成功", @"提现失败"];
+- (void)thn_setWinCashInfoModel:(THNCashInfoModel *)model {
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", model.actualAmount];
+    NSArray *statusArr = @[@"提现成功", @"提现失败", @"审核中"];
     self.statusLabel.text = statusArr[model.status - 1];
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[model.created_at doubleValue]];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%zi", model.createdAt] doubleValue]];
     NSString *time = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [self thn_creatInfoTextWithData:@[@"微信", @"fynn", time]];
+    
+    NSArray *cashMode = @[@"微信", @"支付宝"];
+    [self thn_creatInfoTextWithData:@[cashMode[(model.receiveTarget - 1)], model.userAccount, time]];
 }
 
 /**
@@ -76,7 +78,7 @@ static NSString *const kTextTime    = @"提现时间";
     }
     
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(20, 135, CGRectGetWidth(self.frame) - 40, 0.5)];
-    line.backgroundColor = [UIColor colorWithHexString:@"#E9E9E9"];
+    line.backgroundColor = [UIColor colorWithHexString:@"#E9E9E9" alpha:0.7];
     [self.containerView addSubview:line];
 }
 
