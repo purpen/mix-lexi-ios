@@ -57,7 +57,7 @@ static NSString *const kTextTotal       = @"累计收益 ";
 - (void)thn_setLifeSaleColleciton:(THNLifeSaleCollectModel *)model {
     self.saleModel = model;
     
-    self.salelabel.text = [NSString stringWithFormat:@"%.2f", model.total_commission_price];
+    self.salelabel.text = [NSString stringWithFormat:@"%.2f", model.total_payed_amount];
     self.totalLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextTotal, model.total_commission_price];
     self.todayLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextTotay, model.today_commission_price];
     self.waitLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextWait, model.pending_commission_price];

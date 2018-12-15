@@ -8,12 +8,16 @@
 
 #import "THNInvitationFriendViewController.h"
 #import "THNInvitationFriendTableViewCell.h"
+#import "UIScrollView+THNMJRefresh.h"
 
+/// text
 static NSString *kTitleFriend = @"我的朋友";
-///
+/// cell id
 static NSString *const kUserTableViewCellId = @"THNInvitationFriendTableViewCellId";
+/// api
+static NSString *const kURLFriends = @"/invite_life/friends";
 
-@interface THNInvitationFriendViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface THNInvitationFriendViewController () <UITableViewDelegate, UITableViewDataSource, THNMJRefreshDelegate>
 
 @property (nonatomic, strong) UITableView *userTableView;
 @property (nonatomic, strong) NSMutableArray *modelArr;
@@ -26,11 +30,65 @@ static NSString *const kUserTableViewCellId = @"THNInvitationFriendTableViewCell
     [super viewDidLoad];
     
     [self setupUI];
+    [SVProgressHUD thn_show];
+    [self requestInviteFriendsDataWithPage:1];
+}
+
+#pragma mark - custom delegate
+- (void)beginRefreshing {
+    [self.modelArr removeAllObjects];
+    [self.userTableView resetCurrentPageNumber];
+    [self.userTableView resetNoMoreData];
+    [self requestInviteFriendsDataWithPage:1];
+}
+
+- (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    [self requestInviteFriendsDataWithPage:currentPage.integerValue];
+}
+
+#pragma mark - network
+- (void)requestInviteFriendsDataWithPage:(NSInteger)page {
+    NSDictionary *params = @{@"page"    : @(page),
+                             @"per_page": @(10)};
+    
+    WEAKSELF;
+    THNRequest *request = [THNAPI getWithUrlString:kURLFriends requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        [self.userTableView endHeaderRefresh];
+        
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            [weakSelf.userTableView endFooterRefreshAndCurrentPageChange:NO];
+            return ;
+        }
+
+        THNLog(@"邀请的朋友：%@", [NSString jsonStringWithObject:result.responseDict]);
+        [weakSelf.userTableView endFooterRefreshAndCurrentPageChange:YES];
+        THNInviteFriendsModel *model = [[THNInviteFriendsModel alloc] initWithDictionary:result.data];
+        if (model.friends.count) {
+            [weakSelf.modelArr addObjectsFromArray:model.friends];
+            
+        } else {
+            [weakSelf.userTableView noMoreData];
+        }
+        
+        [weakSelf.userTableView reloadData];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+        [weakSelf.userTableView endHeaderRefreshAndCurrentPageChange:NO];
+        [weakSelf.userTableView endFooterRefreshAndCurrentPageChange:NO];
+    }];
 }
 
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.userTableView];
+    
+    [self.userTableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
+    [self.userTableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.userTableView resetCurrentPageNumber];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -42,8 +100,7 @@ static NSString *const kUserTableViewCellId = @"THNInvitationFriendTableViewCell
 
 #pragma mark - dataSource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return self.modelArr.count;
-    return 10;
+    return self.modelArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -57,21 +114,10 @@ static NSString *const kUserTableViewCellId = @"THNInvitationFriendTableViewCell
     }
     
     if (self.modelArr.count) {
-//        [cell thn_setUserListCellModel:self.modelArr[indexPath.row]];
+        [cell thn_setInviteFriendModel:self.modelArr[indexPath.row]];
     }
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    THNUserModel *model = [THNUserModel mj_objectWithKeyValues:self.modelArr[indexPath.row]];
-//
-//    if ([[THNLoginManager sharedManager].userId isEqualToString:model.uid]) {
-//        return;
-//    }
-//
-//    THNUserCenterViewController *userCenterVC = [[THNUserCenterViewController alloc] initWithUserId:model.uid];
-//    [self.navigationController pushViewController:userCenterVC animated:YES];
 }
 
 #pragma mark - getters and setters

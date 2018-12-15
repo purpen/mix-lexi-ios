@@ -19,7 +19,7 @@ static NSString *const kTextTitle   = @"累计获得奖励（元）";
 static NSString *const kTextWait    = @"待结算：";
 static NSString *const kTextAlready = @"已提现：";
 ///
-static CGFloat const minCashMoney = 10;
+static CGFloat const minCashMoney   = 3;
 
 @interface THNCashAwardView ()
 
@@ -39,6 +39,8 @@ static CGFloat const minCashMoney = 10;
 @property (nonatomic, strong) UILabel *moneyLabel;
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UIButton *doneButton;
+///
+@property (nonatomic, strong) THNInviteAmountModel *amountModel;
 
 @end
 
@@ -48,26 +50,33 @@ static CGFloat const minCashMoney = 10;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
-        [self setMoney];
-        [self thn_setLife];
     }
     return self;
 }
 
-- (void)setMoney {
-    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", 24.2];
+- (void)thn_setLifeInviteAmountModel:(THNInviteAmountModel *)model {
+    self.amountModel = model;
+    
+    [self thn_cashMoneyButtonWithAmount:model.cashAmount];
+    self.totalLabel.text = [NSString stringWithFormat:@"%.2f", model.rewardPrice];
+    self.alreadyLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextAlready, model.cumulativeCashAmount];
+    self.waitLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextWait, model.pendingPrice];
 }
 
-- (void)thn_setLife {
-    self.totalLabel.text = [NSString stringWithFormat:@"%.2f", 66.1];
-    self.alreadyLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextAlready, 12.4];
-    self.waitLabel.text = [NSString stringWithFormat:@"%@%.2f", kTextWait, 88.1];
+#pragma mark - private methods
+- (void)thn_cashMoneyButtonWithAmount:(CGFloat)amount {
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f", amount];
+    
+    BOOL canCash = amount > minCashMoney;
+    
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:kColorMain alpha:canCash ? 1 : 0.5];
+    self.doneButton.userInteractionEnabled = canCash;
 }
 
 #pragma mark - event response
 - (void)showButtonAction:(UIButton *)button {
     if (button.selected) {
-        [self thn_setLife];
+        [self thn_setLifeInviteAmountModel:self.amountModel];
         
     } else {
         self.totalLabel.text = @"＊＊＊＊";

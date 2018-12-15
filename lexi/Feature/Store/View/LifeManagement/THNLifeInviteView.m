@@ -55,20 +55,18 @@ static NSString *const kTextInvite      = @"组队赚钱，收益速增";
     self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
-        [self thn_setLifeInviteFriend];
-        [self thn_setLifeInviteMoney];
     }
     return self;
 }
 
-- (void)thn_setLifeInviteFriend {
-    [self.friendCountButton setTitle:[NSString stringWithFormat:@"%i", 99] forState:(UIControlStateNormal)];
-    self.todayFriendLabel.text = [NSString stringWithFormat:@"%@%i", kTextToday, 19];
+- (void)thn_setLifeInviteCountModel:(THNInviteCountModel *)model {
+    [self.friendCountButton setTitle:[NSString stringWithFormat:@"%zi", model.inviteCount] forState:(UIControlStateNormal)];
+    self.todayFriendLabel.text = [NSString stringWithFormat:@"%@%zi", kTextToday, model.todayCount];
 }
 
-- (void)thn_setLifeInviteMoney {
-    [self.getMoneyButton setTitle:[NSString stringWithFormat:@"%.2f", 99.9] forState:(UIControlStateNormal)];
-    [self thn_setTotalMoneyLabelTextWithCashPrice:12];
+- (void)thn_setLifeInviteAmountModel:(THNInviteAmountModel *)model {
+    [self.getMoneyButton setTitle:[NSString stringWithFormat:@"%.2f", model.rewardPrice] forState:(UIControlStateNormal)];
+    [self thn_setTotalMoneyLabelTextWithCashPrice:model.pendingPrice];
 }
 
 #pragma mark - event response

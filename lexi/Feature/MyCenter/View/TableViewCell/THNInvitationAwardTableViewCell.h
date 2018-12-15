@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "THNInviteRewardsModel.h"
 
 @interface THNInvitationAwardTableViewCell : UITableViewCell
 
-@end
+- (void)thn_setInviteRewardUserModel:(THNInviteRewardsModelRewards *)model;
 
-NS_ASSUME_NONNULL_END
+@end

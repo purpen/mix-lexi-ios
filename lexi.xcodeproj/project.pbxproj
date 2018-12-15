@@ -558,6 +558,12 @@
 		D88BC7E821C398D700DF3C4F /* THNInvitationAwardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7E721C398D700DF3C4F /* THNInvitationAwardTableViewCell.m */; };
 		D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
+		D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */; };
+		D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75121C5267700948438 /* THNInviteCountModel.m */; };
+		D8A1A75821C52A1C00948438 /* THNInviteFriendsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75421C52A1B00948438 /* THNInviteFriendsModel.m */; };
+		D8A1A75921C52A1C00948438 /* THNInviteFriendsModelFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75621C52A1B00948438 /* THNInviteFriendsModelFriends.m */; };
+		D8A1A75E21C532D000948438 /* THNInviteRewardsModelRewards.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75A21C532D000948438 /* THNInviteRewardsModelRewards.m */; };
+		D8A1A75F21C532D000948438 /* THNInviteRewardsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75C21C532D000948438 /* THNInviteRewardsModel.m */; };
 		D8AA529C21A00679003F2111 /* THNShopWindowResultHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529A21A00678003F2111 /* THNShopWindowResultHeaderView.m */; };
 		D8AA52A021A00AA2003F2111 /* THNSelectWindowProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AA529F21A00AA2003F2111 /* THNSelectWindowProductViewController.m */; };
 		D8B36C602174916000A6009F /* image_life_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B36C5F2174916000A6009F /* image_life_wechat.png */; };
@@ -1591,6 +1597,18 @@
 		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
 		D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNDynamicActionTableViewCell+Action.m"; sourceTree = "<group>"; };
+		D8A1A74E21C5267600948438 /* THNInviteAmountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteAmountModel.h; sourceTree = "<group>"; };
+		D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteAmountModel.m; sourceTree = "<group>"; };
+		D8A1A75021C5267600948438 /* THNInviteCountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteCountModel.h; sourceTree = "<group>"; };
+		D8A1A75121C5267700948438 /* THNInviteCountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteCountModel.m; sourceTree = "<group>"; };
+		D8A1A75421C52A1B00948438 /* THNInviteFriendsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteFriendsModel.m; sourceTree = "<group>"; };
+		D8A1A75521C52A1B00948438 /* THNInviteFriendsModelFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteFriendsModelFriends.h; sourceTree = "<group>"; };
+		D8A1A75621C52A1B00948438 /* THNInviteFriendsModelFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteFriendsModelFriends.m; sourceTree = "<group>"; };
+		D8A1A75721C52A1C00948438 /* THNInviteFriendsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteFriendsModel.h; sourceTree = "<group>"; };
+		D8A1A75A21C532D000948438 /* THNInviteRewardsModelRewards.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteRewardsModelRewards.m; sourceTree = "<group>"; };
+		D8A1A75B21C532D000948438 /* THNInviteRewardsModelRewards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteRewardsModelRewards.h; sourceTree = "<group>"; };
+		D8A1A75C21C532D000948438 /* THNInviteRewardsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNInviteRewardsModel.m; sourceTree = "<group>"; };
+		D8A1A75D21C532D000948438 /* THNInviteRewardsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteRewardsModel.h; sourceTree = "<group>"; };
 		D8A97ADA2170782200A7FAF6 /* UIImage+GIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
 		D8A97ADB2170782200A7FAF6 /* UIImage+GIF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
 		D8AA529921A00678003F2111 /* THNShopWindowResultHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNShopWindowResultHeaderView.h; sourceTree = "<group>"; };
@@ -3043,6 +3061,7 @@
 		4BECF0BD217F1401008E5E28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D8A1A74D21C5259500948438 /* LifeInvite */,
 				4BECF0BE217F1401008E5E28 /* LifeCash */,
 				4BECF0C5217F1401008E5E28 /* LifeInfo */,
 				4BECF0CE217F1401008E5E28 /* LifeOrder */,
@@ -3853,6 +3872,25 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		D8A1A74D21C5259500948438 /* LifeInvite */ = {
+			isa = PBXGroup;
+			children = (
+				D8A1A74E21C5267600948438 /* THNInviteAmountModel.h */,
+				D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */,
+				D8A1A75021C5267600948438 /* THNInviteCountModel.h */,
+				D8A1A75121C5267700948438 /* THNInviteCountModel.m */,
+				D8A1A75721C52A1C00948438 /* THNInviteFriendsModel.h */,
+				D8A1A75421C52A1B00948438 /* THNInviteFriendsModel.m */,
+				D8A1A75521C52A1B00948438 /* THNInviteFriendsModelFriends.h */,
+				D8A1A75621C52A1B00948438 /* THNInviteFriendsModelFriends.m */,
+				D8A1A75D21C532D000948438 /* THNInviteRewardsModel.h */,
+				D8A1A75C21C532D000948438 /* THNInviteRewardsModel.m */,
+				D8A1A75B21C532D000948438 /* THNInviteRewardsModelRewards.h */,
+				D8A1A75A21C532D000948438 /* THNInviteRewardsModelRewards.m */,
+			);
+			path = LifeInvite;
+			sourceTree = "<group>";
+		};
 		D8B434AF219AC711009D2434 /* Dynamic */ = {
 			isa = PBXGroup;
 			children = (
@@ -4529,6 +4567,7 @@
 				4B27B437218717D1004AF42F /* THNSelectLogisticsViewController.m in Sources */,
 				4B27B439218717D1004AF42F /* THNOrderDetailModel.m in Sources */,
 				4B27B43A218717D1004AF42F /* THNOrdersItemsModel.m in Sources */,
+				D8A1A75F21C532D000948438 /* THNInviteRewardsModel.m in Sources */,
 				D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */,
 				D82C018C219AB0E0009F905F /* THNLikedWindowCollectionViewCell.m in Sources */,
 				4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */,
@@ -4667,6 +4706,7 @@
 				4B27B490218717D2004AF42F /* THNLifeSaleCollectModel.m in Sources */,
 				4B27B491218717D2004AF42F /* THNLifeStoreModel.m in Sources */,
 				4B27B492218717D2004AF42F /* THNLifeOrderDataModel.m in Sources */,
+				D8A1A75821C52A1C00948438 /* THNInviteFriendsModel.m in Sources */,
 				4B2DEB2F21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m in Sources */,
 				4B27B493218717D2004AF42F /* THNLifeOrderItemModel.m in Sources */,
 				4B27B494218717D2004AF42F /* THNLifeOrderModel.m in Sources */,
@@ -4734,6 +4774,7 @@
 				4B27B4CF218717D2004AF42F /* THNRequest.m in Sources */,
 				4B27B4D0218717D2004AF42F /* THNResponse.m in Sources */,
 				D85E2B5421BA5D400092732E /* YBImageBrowseCellData.m in Sources */,
+				D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */,
 				D805160E21ABC5CE002460A5 /* THNApplySuccessView.m in Sources */,
 				4B27B4D1218717D2004AF42F /* THNQiNiuUpload.m in Sources */,
 				4B27B4D2218717D2004AF42F /* NSDictionary+Helper.m in Sources */,
@@ -4747,6 +4788,7 @@
 				D88BC7E521C397F400DF3C4F /* THNMyAwardViewController.m in Sources */,
 				4B27B4D7218717D2004AF42F /* UICollectionViewFlowLayout+THN_flowLayout.m in Sources */,
 				4B27B4D8218717D2004AF42F /* UIColor+Extension.m in Sources */,
+				D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */,
 				D860740621BE614800DC257B /* THNCashBaseView.m in Sources */,
 				4B27B4D9218717D2004AF42F /* UIImage+Helper.m in Sources */,
 				D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */,
@@ -4759,7 +4801,9 @@
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,
 				4B27B4E0218717D2004AF42F /* YYLabel+Helper.m in Sources */,
+				D8A1A75921C52A1C00948438 /* THNInviteFriendsModelFriends.m in Sources */,
 				4BC7D1AB21A6948100F22440 /* THNSearchWindowLabelResultViewController.m in Sources */,
+				D8A1A75E21C532D000948438 /* THNInviteRewardsModelRewards.m in Sources */,
 				4B27B4E1218717D2004AF42F /* UITableView+Helper.m in Sources */,
 				4B27B4E2218717D2004AF42F /* UIViewController+THNHud.m in Sources */,
 				4B27B4E3218717D2004AF42F /* SVProgressHUD+Helper.m in Sources */,

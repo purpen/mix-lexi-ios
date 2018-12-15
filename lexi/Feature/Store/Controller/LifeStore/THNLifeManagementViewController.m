@@ -29,11 +29,14 @@
 
 static NSString *const kTextTableViewCellId = @"THNLifeManagementTextTableViewCellId";
 static NSString *const kURLApplyStore       = @"https://h5.lexivip.com/shop/guide";
-///
-static NSString *const kTextFriends     = @"邀请好友开馆赚钱";
-static NSString *const kTextInvitation  = @"开一个能赚钱的生活馆";
-static NSString *const kTextWechat      = @"加入馆主群，获取赚钱攻略";
-static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
+/// text
+static NSString *const kTextFriends         = @"邀请好友开馆赚钱";
+static NSString *const kTextInvitation      = @"开一个能赚钱的生活馆";
+static NSString *const kTextWechat          = @"加入馆主群，获取赚钱攻略";
+static NSString *const kTextPhone           = @"客服电话 400-2345-0000";
+/// api
+static NSString *const kURLCount            = @"/invite_life_count";
+static NSString *const kURLReward           = @"/invite_life_reward";
 
 @interface THNLifeManagementViewController () <
     UITableViewDelegate,
@@ -124,9 +127,17 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 }
 
 #pragma mark - network
+- (void)thn_requestLifeStoreData {
+    [self thn_setLifeStoreUserData];
+    [self thn_getLifeTransactionData];
+    [self thn_getLifeOrdersCollectData];
+    [self thn_getLifeCashCollectData];
+    [self requestInviteLifeCount];
+    [self requestInviteLifeReward];
+}
+
 - (void)thn_setLifeStoreUserData {
     WEAKSELF;
-    
     [THNLifeManager getLifeStoreInfoWithRid:[THNLoginManager sharedManager].storeRid
                                  completion:^(THNLifeStoreModel *model, NSError *error) {
                                      if (error) return;
@@ -139,7 +150,6 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (void)thn_getLifeTransactionData {
     WEAKSELF;
-    
     [THNLifeManager getLifeOrdersSaleCollectWithRid:[THNLoginManager sharedManager].storeRid
                                          completion:^(THNLifeSaleCollectModel *model, NSError *error) {
                                              if (error) return;
@@ -150,7 +160,6 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (void)thn_getLifeOrdersCollectData {
     WEAKSELF;
-    
     [THNLifeManager getLifeOrdersCollectWithRid:[THNLoginManager sharedManager].storeRid
                                      completion:^(THNLifeOrdersCollectModel *model, NSError *error) {
                                          if (error) return;
@@ -161,13 +170,44 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
 
 - (void)thn_getLifeCashCollectData {
     WEAKSELF;
-    
     [THNLifeManager getLifeCashCollectWithRid:[THNLoginManager sharedManager].storeRid
                                    completion:^(THNLifeCashCollectModel *model, NSError *error) {
                                        if (error) return;
                                        
                                        [weakSelf.dataView thn_setLifeCashCollectModel:model];
                                    }];
+}
+
+- (void)requestInviteLifeCount {
+    WEAKSELF;
+    THNRequest *request = [THNAPI getWithUrlString:kURLCount requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        THNInviteCountModel *model = [[THNInviteCountModel alloc] initWithDictionary:result.data];
+        [weakSelf.inviteView thn_setLifeInviteCountModel:model];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
+- (void)requestInviteLifeReward {
+    WEAKSELF;
+    THNRequest *request = [THNAPI getWithUrlString:kURLReward requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        THNInviteAmountModel *model = [[THNInviteAmountModel alloc] initWithDictionary:result.data];
+        [weakSelf.inviteView thn_setLifeInviteAmountModel:model];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
 }
 
 #pragma mark - private methods
@@ -266,14 +306,9 @@ static NSString *const kTextPhone       = @"客服电话 400-2345-0000";
     
     self.navigationBarView.hidden = YES;
     
-    if (![THNLoginManager sharedManager].openingUser) {
-        return;
-    }
+    if (![THNLoginManager sharedManager].openingUser) return;
     
-    [self thn_setLifeStoreUserData];
-    [self thn_getLifeTransactionData];
-    [self thn_getLifeOrdersCollectData];
-    [self thn_getLifeCashCollectData];
+    [self thn_requestLifeStoreData];
 }
 
 - (void)viewDidLayoutSubviews {

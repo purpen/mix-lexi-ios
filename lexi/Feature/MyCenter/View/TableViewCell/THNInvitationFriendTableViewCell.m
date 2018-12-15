@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNInvitationFriendTableViewCell ()
 
@@ -29,16 +30,15 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setupCellViewUI];
-        
-        [self settext];
     }
     return self;
 }
 
-- (void)settext {
-    self.nameLabel.text = @"Fynn";
-    [self thn_setFriendStatus:0];
-    self.moneyLabel.text = [NSString formatFloat:99.9];
+- (void)thn_setInviteFriendModel:(THNInviteFriendsModelFriends *)model {
+    [self.headImageView downloadImage:model.userLogo];
+    self.nameLabel.text = model.userName;
+    [self thn_setFriendStatus:(model.phases - 1)];
+    self.moneyLabel.text = [NSString formatFloat:model.amount];
     self.hintLabel.text = @"生活馆销售额";
 }
 

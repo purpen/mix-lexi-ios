@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNInviteCountModel.h"
+#import "THNInviteAmountModel.h"
 
 @protocol THNLifeInviteViewDelegate <NSObject>
 
@@ -20,5 +22,8 @@
 @interface THNLifeInviteView : UIView
 
 @property (nonatomic, weak) id <THNLifeInviteViewDelegate> delegate;
+
+- (void)thn_setLifeInviteCountModel:(THNInviteCountModel *)model;
+- (void)thn_setLifeInviteAmountModel:(THNInviteAmountModel *)model;
 
 @end

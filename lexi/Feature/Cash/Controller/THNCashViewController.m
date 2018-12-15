@@ -46,7 +46,7 @@ static NSString *const kURLCashMoney = @"/win_cash/cash_money";
     
     THNRequest *request = [THNAPI postWithUrlString:kURLCashMoney requestDictionary:[self thn_getRequestParams] delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"微信提现 === %@", result.responseDict);
+//        THNLog(@"微信提现 === %@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;

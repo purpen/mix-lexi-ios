@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "THNInviteFriendsModel.h"
 
 @interface THNInvitationFriendTableViewCell : UITableViewCell
 
-@end
+- (void)thn_setInviteFriendModel:(THNInviteFriendsModelFriends *)model;
 
-NS_ASSUME_NONNULL_END
+@end

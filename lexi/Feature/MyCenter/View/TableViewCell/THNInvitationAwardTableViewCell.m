@@ -9,9 +9,11 @@
 #import "THNInvitationAwardTableViewCell.h"
 #import "UIColor+Extension.h"
 #import <Masonry/Masonry.h>
+#import <DateTools/DateTools.h>
 #import "NSString+Helper.h"
 #import "UIView+Helper.h"
 #import "THNConst.h"
+#import "UIImageView+WebImage.h"
 
 @interface THNInvitationAwardTableViewCell ()
 
@@ -30,17 +32,18 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setupCellViewUI];
-        
-        [self settext];
     }
     return self;
 }
 
-- (void)settext {
-    self.timeLabel.text = @"2018-08-07 12:39:21";
-    [self thn_setFriendStatus:0];
-    self.moneyLabel.text = [NSString stringWithFormat:@"+%.2f", 99.1];
-    self.hintLabel.text = @"邀请好友开馆奖励";
+- (void)thn_setInviteRewardUserModel:(THNInviteRewardsModelRewards *)model {
+    [self.headImageView downloadImage:model.userLogo];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%zi", model.createdAt] doubleValue]];
+    self.timeLabel.text = [date formattedDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [self thn_setFriendStatus:(model.status - 1)];
+    NSString *prefix = model.status == 3 ? @"-" : @"+";
+    self.moneyLabel.text = [NSString stringWithFormat:@"%@%.2f", prefix, model.amount];
+    self.hintLabel.text = model.title;
 }
 
 #pragma mark - private methods

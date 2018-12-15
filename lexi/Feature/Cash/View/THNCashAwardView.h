@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THNInviteAmountModel.h"
 
 @protocol THNCashAwardViewDelegate <NSObject>
 
@@ -18,5 +19,7 @@
 @interface THNCashAwardView : UIView
 
 @property (nonatomic, weak) id <THNCashAwardViewDelegate> delegate;
+
+- (void)thn_setLifeInviteAmountModel:(THNInviteAmountModel *)model;
 
 @end
