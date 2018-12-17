@@ -214,12 +214,18 @@ UITextFieldDelegate
             return;
         }
         
-        if (result.data.count == 0 && !self.isSaveCustom) {
-            self.isShowCardView = NO;
-            
+        if (self.isFromMycenter) {
+            self.isShowCardView = result.data.count > 0 ?: NO;
         } else {
-            self.isShowCardView = YES;
+            self.isShowCardView = self.isSaveCustom;
+        }
+        
+        if (self.isShowCardView) {
             self.cardView.cardTextField.text = result.data[@"id_card"];
+            self.positiveImageID = [result.data[@"id_card_front"][@"id"] integerValue];
+            self.negativeImageID = [result.data[@"id_card_back"][@"id"] integerValue];
+            
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
                 UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];

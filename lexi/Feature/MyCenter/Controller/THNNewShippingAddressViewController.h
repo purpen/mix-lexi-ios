@@ -20,5 +20,6 @@
  后台是否保存海关信息
  */
 @property (nonatomic, assign) BOOL isSaveCustom;
+@property (nonatomic, assign) BOOL isFromMycenter;
 
 @end

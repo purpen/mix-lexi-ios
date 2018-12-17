@@ -126,7 +126,7 @@ static NSString *const kKeyData     = @"data";
     if (indexPath.section == 0) {
         newAddressVC.addressModel = self.addressArr[indexPath.row];
     }
-    newAddressVC.isSaveCustom = NO;
+    newAddressVC.isFromMycenter = YES;
     [self.navigationController pushViewController:newAddressVC animated:YES];
 }
 
