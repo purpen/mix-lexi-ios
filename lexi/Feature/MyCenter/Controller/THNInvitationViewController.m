@@ -18,9 +18,12 @@ static NSString *const kTitleInvitation     = @"邀请好友";
 static NSString *const kTextShare           = @"开一个能赚钱的生活馆";
 static NSString *const kShareSuccessTitle   = @"分享成功";
 static NSString *const kShareFailureTitle   = @"分享失败";
-static NSString *const kShareContent        = @"安利个我很喜欢的应用，报道先拿35元，汇聚了全球原创手作的暖心好设计";
-static NSString *const kShareContent1       = @"做颗喜糖，拿35元现金，边玩边赚钱，逛全球优质设计师手作人社群。";
-static NSString *const kShareContent2       = @"你还没有参加吗？安装乐喜app，挑全球原创手作好物，每天都可以赚现金。";
+static NSString *const kShareContent        = @"安利个我很喜欢的应用给你，报道先拿35元";
+static NSString *const kShareDes            = @"挑选全球原创手作好物";
+static NSString *const kShareContent1       = @"你还没有参加吗？安装乐喜app，挑全球原创手作好物";
+static NSString *const kShareDes1           = @"每天都可以赚现金";
+static NSString *const kShareContent2       = @"做颗喜糖，拿35元现金，逛全球优质设计师手作社群";
+static NSString *const kShareDes2           = @"边玩边赚钱";
 /// url
 static NSString *const kURLInvitation   = @"https://h5.lexivip.com/invitation?uid=";
 static NSString *const kURLShareUrl     = @"https://h5.lexivip.com/redenvelope?uid=";
@@ -72,12 +75,12 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 - (void)thn_openShareController {
     if (!self.userModel.uid.length) return;
     
-    NSArray *shareTitles = @[kShareContent, kShareContent1, kShareContent2];
+    NSString *shareTitle = [self thn_getShareTitle];
     
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
-    [shareVC shareObjectWithTitle:shareTitles[arc4random_uniform(3)]
-                            descr:@""
-                        thumImage:self.userModel.avatar
+    [shareVC shareObjectWithTitle:shareTitle
+                            descr:[self thn_getShareDesWithTitle:shareTitle]
+                        thumImage:[self thn_getShareThumImage]
                            webUrl:[self thn_getShareUrl]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
@@ -94,10 +97,13 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
  友盟分享 url
  */
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType {
+    UIImage *shareImage = [UIImage imageNamed:[self thn_getShareThumImage]];
+    NSString *shareTitle = [self thn_getShareTitle];
+    
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:kTextShare
-                                                                             descr:@""
-                                                                         thumImage:self.userModel.avatar];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:shareTitle
+                                                                             descr:[self thn_getShareDesWithTitle:shareTitle]
+                                                                         thumImage:shareImage];
     shareObject.webpageUrl = [self thn_getShareUrl];
     messageObject.shareObject = shareObject;
     
@@ -135,6 +141,26 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     }
     
     return kURLShareUrl;
+}
+
+- (NSString *)thn_getShareTitle {
+    NSArray *shareTitles = @[kShareContent, kShareContent1, kShareContent2];
+    
+    return shareTitles[arc4random_uniform(3)];
+}
+
+- (NSString *)thn_getShareDesWithTitle:(NSString *)title {
+    NSDictionary *shareDec = @{kShareContent : kShareDes,
+                               kShareContent1: kShareDes1,
+                               kShareContent2: kShareDes2};
+    
+    return shareDec[title];
+}
+
+- (NSString *)thn_getShareThumImage {
+    NSArray *thumImages = @[@"img_share_invite_0", @"img_share_invite_1", @"img_share_invite_2"];
+    
+    return thumImages[arc4random_uniform(3)];
 }
 
 #pragma mark - setup UI

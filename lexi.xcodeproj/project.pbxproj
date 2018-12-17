@@ -3629,15 +3629,15 @@
 		D85DA7D02106030100A36A71 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */,
-				4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */,
-				D8B36C5F2174916000A6009F /* image_life_wechat.png */,
-				D8F998862137D6440012AED3 /* loading.gif */,
 				D81A7235211967400056D8B8 /* apply_header_image@2x.png */,
 				D81A72342119673F0056D8B8 /* apply_header_image@3x.png */,
+				4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */,
+				D8B36C5F2174916000A6009F /* image_life_wechat.png */,
+				D8F998862137D6440012AED3 /* loading.gif */,
 				D85DA7D12106030100A36A71 /* login_background_image_x@3x.png */,
-				D85DA7D22106030100A36A71 /* login_background_image@3x.png */,
 				D85DA7D32106030100A36A71 /* login_background_image@2x.png */,
+				D85DA7D22106030100A36A71 /* login_background_image@3x.png */,
+				4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */,
 			);
 			path = Images;
 			sourceTree = "<group>";

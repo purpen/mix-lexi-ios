@@ -36,10 +36,10 @@
     [self addSubview:self.titleLabel];
     [self addSubview:self.subTitleLabel];
 
-    [self setMasonryLayout];
+    [self setBaseMasonryLayout];
 }
 
-- (void)setMasonryLayout {
+- (void)setBaseMasonryLayout {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(250, 30));
         make.left.mas_equalTo(20);
