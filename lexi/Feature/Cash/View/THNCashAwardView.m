@@ -122,8 +122,9 @@ static CGFloat const minCashMoney   = 3;
 
 - (void)setMasonryLayout {
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(335, 138));
+        make.height.mas_equalTo(138);
         make.left.mas_equalTo(20);
+        make.right.mas_equalTo(-20);
         make.top.mas_equalTo(10);
     }];
     
@@ -147,7 +148,7 @@ static CGFloat const minCashMoney   = 3;
     }];
     
     [self.cutLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
+        make.left.right.equalTo(self.containerView).with.offset(0);
         make.bottom.mas_equalTo(-50);
         make.height.mas_equalTo(1);
     }];
@@ -297,7 +298,7 @@ static CGFloat const minCashMoney   = 3;
 
 - (UIView *)backgroundColorView {
     if (!_backgroundColorView) {
-        _backgroundColorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 335, 138)];
+        _backgroundColorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame) - 40, 138)];
         
         UIView *colorView = [[UIView alloc] initWithFrame:_backgroundColorView.bounds];
         [colorView.layer addSublayer:[UIColor colorGradientWithView:self colors:@[@"#8069f9", @"#d288ff"]]];
