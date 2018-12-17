@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -123,7 +123,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Of-Tp-7m0">
-                            <rect key="frame" x="248" y="52.5" width="139" height="36"/>
+                            <rect key="frame" x="248" y="59.5" width="69" height="22"/>
                             <state key="normal" image="icon_copy_wechat"/>
                             <connections>
                                 <action selector="copyWechat:" destination="iN0-l3-epB" eventType="touchUpInside" id="f6a-y8-33O"/>
@@ -359,6 +359,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="avatarCollectionView" destination="P9o-52-VUX" id="2dz-mG-3G3"/>
+                <outlet property="backgroundImageView" destination="8yg-VH-YNi" id="4o3-zP-b3m"/>
                 <outlet property="browseCountLabel" destination="ys7-MW-oJE" id="tH6-xF-JKR"/>
                 <outlet property="browseMaxShowLabel" destination="qyf-En-kMm" id="QLC-xT-3tc"/>
                 <outlet property="desLabel" destination="LNW-cG-t0x" id="q86-Nb-a6T"/>
@@ -384,17 +385,17 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_copy_wechat" width="139" height="36"/>
-        <image name="icon_edit_gray" width="13.5" height="15.5"/>
+        <image name="icon_copy_wechat" width="69" height="18"/>
+        <image name="icon_edit_gray" width="13" height="15"/>
         <image name="icon_hint_close" width="18" height="18"/>
-        <image name="icon_livingHall_headBackground" width="750" height="284"/>
+        <image name="icon_livingHall_headBackground" width="375" height="142"/>
         <image name="icon_photo_circle" width="17" height="17"/>
         <image name="icon_selected_main" width="20" height="20"/>
         <image name="icon_selection" width="335" height="60"/>
-        <image name="icon_selection_right indicator" width="77.5" height="28"/>
+        <image name="icon_selection_right indicator" width="77" height="28"/>
         <image name="icon_share_circle" width="23" height="23"/>
         <image name="icon_shopping_bag" width="30" height="30"/>
-        <image name="icon_store_practice" width="16" height="16.5"/>
+        <image name="icon_store_practice" width="16" height="16"/>
         <image name="icon_wechat_circle" width="40" height="40"/>
         <image name="share_button_shadow" width="55" height="39"/>
     </resources>

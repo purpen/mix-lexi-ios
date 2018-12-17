@@ -21,5 +21,6 @@
 @property (nonatomic, copy) NSString *created_at;
 // 是否有推荐商品
 @property (nonatomic, assign) BOOL has_product;
+@property (nonatomic, strong) NSString *bgcover;
 
 @end

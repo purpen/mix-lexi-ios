@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="348" height="101"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_livingHallHeadLineView_bg" translatesAutoresizingMaskIntoConstraints="NO" id="78o-6O-rP5">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="78o-6O-rP5">
                     <rect key="frame" x="0.0" y="11" width="348" height="90"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_icon_livingHallHeadLineView_tint" translatesAutoresizingMaskIntoConstraints="NO" id="Dbp-tP-s3t">
@@ -55,6 +55,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="backgroundImageView" destination="78o-6O-rP5" id="Yp5-zH-4RS"/>
                 <outlet property="openStoreButton" destination="4LU-Ht-WiG" id="TpW-qQ-S2a"/>
             </connections>
             <point key="canvasLocation" x="20" y="-229.5"/>
@@ -62,6 +63,5 @@
     </objects>
     <resources>
         <image name="icon_icon_livingHallHeadLineView_tint" width="77" height="21"/>
-        <image name="icon_livingHallHeadLineView_bg" width="335" height="100"/>
     </resources>
 </document>

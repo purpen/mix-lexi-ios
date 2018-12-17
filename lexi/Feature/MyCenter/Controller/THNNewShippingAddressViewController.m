@@ -29,7 +29,6 @@ static NSString *const kUrlGetaddressCustoms = @"/address/custom";
 static NSString *const kName = @"name";
 static NSString *const kOid = @"oid";
 
-
 @interface THNNewShippingAddressViewController () <
 UITableViewDelegate,
 UITableViewDataSource,
@@ -236,7 +235,7 @@ UITextFieldDelegate
                     if (negativeImage) {
                         [self.cardView.negativeButton setImage:negativeImage forState:UIControlStateNormal];
                     }
-                   
+                    
                     
                 });
             });
@@ -615,7 +614,7 @@ UITextFieldDelegate
             break;
     }
     
-    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0 && self.zipcode.length > 0 ) {
+    if (self.name.length > 0 && self.mobile.length > 0 && self.streetAddress.length > 0) {
         self.saveButton.enabled = YES;
         self.saveButton.alpha = 1;
     } else {

@@ -327,6 +327,7 @@
 		4B2DEB2F21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2DEB2D21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m */; };
 		4B2DEB3021C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B2DEB2E21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.xib */; };
 		4B2DEB3321C3601400200120 /* THNLivingHallHeadLineTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2DEB3221C3601400200120 /* THNLivingHallHeadLineTableView.m */; };
+		4B2DEB3521C75EFE00200120 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2DEB3421C75EFD00200120 /* NullSafe.m */; };
 		4B309381219E84A5009D42A8 /* THNAddShowWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B309380219E84A5009D42A8 /* THNAddShowWindowViewController.m */; };
 		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
 		4B93FA9221C2115600FF56BA /* THNLivingRecommendProductSetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B93FA9021C2115600FF56BA /* THNLivingRecommendProductSetTableViewCell.m */; };
@@ -637,6 +638,7 @@
 		4B2DEB2E21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = THNLivingHallHeadLineTableViewCell.xib; sourceTree = "<group>"; };
 		4B2DEB3121C3601400200120 /* THNLivingHallHeadLineTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallHeadLineTableView.h; sourceTree = "<group>"; };
 		4B2DEB3221C3601400200120 /* THNLivingHallHeadLineTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLivingHallHeadLineTableView.m; sourceTree = "<group>"; };
+		4B2DEB3421C75EFD00200120 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		4B2EC3FE21AB8B32002ED842 /* lexi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = lexi.entitlements; sourceTree = "<group>"; };
 		4B30937F219E84A5009D42A8 /* THNAddShowWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAddShowWindowViewController.h; sourceTree = "<group>"; };
 		4B309380219E84A5009D42A8 /* THNAddShowWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAddShowWindowViewController.m; sourceTree = "<group>"; };
@@ -3864,6 +3866,7 @@
 				D87672432186B88800EDD442 /* THNNotification.m */,
 				D803BC222189C5D8007A5FF0 /* THNImageUrl.h */,
 				D803BC232189C5D8007A5FF0 /* THNImageUrl.m */,
+				4B2DEB3421C75EFD00200120 /* NullSafe.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -4610,6 +4613,7 @@
 				4B27B444218717D1004AF42F /* THNNoLogisticsView.m in Sources */,
 				4B27B445218717D1004AF42F /* THNOrderDetailLogisticsView.m in Sources */,
 				4B27B446218717D1004AF42F /* THNOrderDetailPayView.m in Sources */,
+				4B2DEB3521C75EFE00200120 /* NullSafe.m in Sources */,
 				4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */,
 				4B27B447218717D1004AF42F /* THNOrderDetailProductView.m in Sources */,
 				D88BC7E821C398D700DF3C4F /* THNInvitationAwardTableViewCell.m in Sources */,
