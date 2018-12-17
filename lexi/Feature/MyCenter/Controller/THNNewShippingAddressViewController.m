@@ -110,6 +110,7 @@ UITextFieldDelegate
     if (self.addressModel) {
         self.isDefaultAddress = self.addressModel.isDefault;
         [self loadGetaddressCustomData];
+//        self.negativeImageID = self.addressModel
         self.navigationBarView.title = @"编辑收货地址";
         
     } else {
@@ -221,6 +222,8 @@ UITextFieldDelegate
         } else {
             self.isShowCardView = YES;
             self.cardView.cardTextField.text = result.data[@"id_card"];
+            self.negativeImageID = [result.data[@"id_card_back"][@"id"] integerValue];
+            self.positiveImageID = [result.data[@"id_card_front"][@"id"] integerValue];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
                 UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];
@@ -401,6 +404,7 @@ UITextFieldDelegate
             [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:self.negativeImageData
                                                            compltion:^(NSDictionary *result) {
                                                               self.negativeImageID = [result[@"ids"][0]integerValue];
+                                                              NSLog(@"------------ negativeImageID = %ld",self.negativeImageID);
                                                            }];
         }
         

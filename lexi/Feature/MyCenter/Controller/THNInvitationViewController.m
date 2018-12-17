@@ -82,6 +82,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
                             descr:[self thn_getShareDesWithTitle:shareTitle]
                         thumImage:[self thn_getShareThumImage]
                            webUrl:[self thn_getShareUrl]];
+    
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }
@@ -91,6 +92,30 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
  */
 - (void)thn_singleShareWithIndex:(NSInteger)index {
     [self shareWebPageToPlatformType:[self thn_getShareTypeWithIndex:index]];
+}
+
+/**
+ 分享到微博
+ */
+- (void)thn_shareToWeibo {
+    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+    shareObject.thumbImage = [UIImage imageNamed:@"img_share_invite_wb"];
+    [shareObject setShareImage:[UIImage imageNamed:@"img_share_invite_wb"]];
+    
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    messageObject.text = [NSString stringWithFormat:@"%@%@", [self thn_getShareTitle], [self thn_getShareUrl]];
+    messageObject.shareObject = shareObject;
+    
+    [[UMSocialManager defaultManager] shareToPlatform:UMSocialPlatformType_Sina
+                                        messageObject:messageObject
+                                currentViewController:self completion:^(id data, NSError *error) {
+                                    if (error) {
+                                        [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
+                                        
+                                    } else{
+                                        [SVProgressHUD thn_showSuccessWithStatus:kShareSuccessTitle];
+                                    }
+                                }];
 }
 
 /**
@@ -203,7 +228,12 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         
     } else if ([message.name isEqualToString:kScriptShareF]) {
         NSInteger index = [message.body integerValue];
-        [self thn_singleShareWithIndex:index];
+        if (index == 2) {
+            [self thn_shareToWeibo];
+            
+        } else {
+            [self thn_singleShareWithIndex:index];
+        }
     }
 }
 

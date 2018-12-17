@@ -24,6 +24,7 @@
 #import "THNLifeInviteView.h"
 #import "THNInvitationFriendViewController.h"
 #import "THNMyAwardViewController.h"
+#import "THNLifeInviteStoreViewController.h"
 
 #define kTextInTitle(obj) [NSString stringWithFormat:@"@%@邀请你一起来乐喜", obj]
 
@@ -123,7 +124,8 @@ static NSString *const kURLReward           = @"/invite_life_reward";
 }
 
 - (void)thn_lifeInviteApplyStore {
-    [self thn_openShareImageController];
+    THNLifeInviteStoreViewController *inviteLifeVC = [[THNLifeInviteStoreViewController alloc] init];
+    [self.navigationController pushViewController:inviteLifeVC animated:YES];
 }
 
 #pragma mark - network
