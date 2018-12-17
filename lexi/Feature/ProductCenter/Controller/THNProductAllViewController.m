@@ -143,7 +143,7 @@ static CGFloat interitemSpacing = 10;
         self.producrConditionParams = @{@"profit_type" : @(type )};
     }
     
-    [self loadProdctCenterAllData];
+    [self refreshData];
 }
 
 #pragma mark UICollectionViewDataSource

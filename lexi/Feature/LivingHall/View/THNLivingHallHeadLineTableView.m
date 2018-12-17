@@ -29,7 +29,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     if (self == [super initWithFrame:frame]) {
         self.frame = frame;
         self.dataSource = self;
-        self.rowHeight = 30;
+        self.rowHeight = 25;
         [self registerNib:[UINib nibWithNibName:@"THNLivingHallHeadLineTableViewCell" bundle:nil] forCellReuseIdentifier:livingHallHeadLineCellIdentifier];
         self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
         [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop]
@@ -70,6 +70,7 @@ static NSString *const kUrlLivingHallHeadLine = @"/store/store_headline";
     self.count ++;
     //(25.0 / 30.0) * (float)self.count) ---> (tableview需要滚动的contentOffset / 一共调用的次数) * 第几次调用
     //contentOffset最大值为 = cell的高度 * cell的个数 ,5秒执行一个循环则调用次数为 300,没1/60秒 count计数器加1,当count=300时,重置count为0,实现循环滚动.
+    
     [self setContentOffset:CGPointMake(0, ((20.0 / 50.0) * (float)self.count)) animated:NO];
     
     if (self.count >= 50 * 60) {

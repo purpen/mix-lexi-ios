@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, MessagePushType) {
             THNLifeOrderRecordViewController *lifeOrderRecordVC = [[THNLifeOrderRecordViewController alloc]init];
             [navi pushViewController:lifeOrderRecordVC animated:YES];
             break;
-        }
+        }  
     }
 }
 

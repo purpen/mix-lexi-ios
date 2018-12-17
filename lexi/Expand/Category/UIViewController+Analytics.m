@@ -20,6 +20,7 @@
         swizzleMethod(class, @selector(viewWillAppear:), @selector(aop_viewWillAppear:));
         swizzleMethod(class, @selector(viewWillDisappear:), @selector(aop_viewWillDisappear:));
     });
+    
 }
 
 void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)   {

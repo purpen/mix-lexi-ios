@@ -9,11 +9,18 @@
 #import "THNLivingHallHeadLineView.h"
 #import "THNLivingHallHeadLineTableView.h"
 #import "THNMarco.h"
+#import "THNAPI.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIView+Helper.h"
+
+static NSString *kUrlHeadLineBg = @"/banners/wxa_lifestore_bg";
+
 
 @interface THNLivingHallHeadLineView ()
 
 @property (nonatomic, strong) THNLivingHallHeadLineTableView *headLineTableView;
 @property (weak, nonatomic) IBOutlet UIButton *openStoreButton;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
 
@@ -21,8 +28,20 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self addSubview:self.headLineTableView];
     self.openStoreButton.layer.cornerRadius = 4;
+    [self addSubview:self.headLineTableView];
+    [self loadBackgroundImage];
+}
+
+- (void)loadBackgroundImage {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlHeadLineBg requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        NSString *imageUrl = result.data[@"banner_images"][0][@"image"];
+        [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+        [self.backgroundImageView drawCornerWithType:0 radius:4];
+    } failure:^(THNRequest *request, NSError *error) {
+            
+    }];
 }
 
 - (THNLivingHallHeadLineTableView *)headLineTableView {

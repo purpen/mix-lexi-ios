@@ -61,6 +61,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 @property (weak, nonatomic) IBOutlet UILabel *promptContentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *promptWechatButton;
 @property (nonatomic, strong) THNLifeStoreModel *storeModel;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
 
@@ -93,6 +94,11 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 - (void)setLifeStore {
     THNLoginManager *loginManger = [THNLoginManager sharedManager];
     self.loginManger = loginManger;
+    
+    if (self.loginManger.storeRid.length == 0) {
+        return;
+    }
+    
     [self loadLifeStoreVisitorData];
     [self loadSelectProductCenterData];
 }
@@ -120,6 +126,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
         NSString *storeName = storeModel.name;
         self.storeAvatarUrl = storeModel.logo;
         self.desLabel.text = storeModel.des;
+        [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:storeModel.bgcover]];
         [self.storeAvatarImageView loadImageWithUrl:[storeModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
         self.storeNameLabel.text = storeName;
         // 生活馆阶段: 1、实习馆主  2、达人馆主
@@ -199,7 +206,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     THNRequest *request = [THNAPI getWithUrlString:requestUrl requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (!result.success) {
-            [SVProgressHUD showWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showWithStatus:result.statusMessage];
             return;
         }
         
@@ -233,7 +240,7 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [SVProgressHUD dismiss];
         if (!result.success) {
-            [SVProgressHUD showWithStatus:result.statusMessage];
+            [SVProgressHUD thn_showWithStatus:result.statusMessage];
             return;
         }
         

@@ -38,12 +38,14 @@
 #import "THNAdvertManager.h"
 #import "THNAdvertCouponViewController.h"
 #import "THNGoodsListViewController.h"
+#import "UIImageView+WebCache.h"
 
 static CGFloat const livingHallHeaderViewHeight = 554;
 static NSString *const kLivingHallRecommendProductSetCellIdentifier = @"kLivingHallRecommendProductSetCellIdentifier";
 // 本周最受欢迎
 static NSString *const kUrlWeekPopular = @"/fx_distribute/week_popular";
 static NSString *const kUrlColumnHandpickNewExpress = @"/column/handpick_new_express";
+static NSString *const kUrlBannersLifestoreHead = @"/banners/wxa_lifestore_head";
 
 typedef NS_ENUM(NSUInteger, LivingHallCellType) {
     LivingHallCellTypeRecommend,
@@ -77,6 +79,7 @@ THNExploreTableViewCellDelegate
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) LivingHallCellType livingHallCellType;
 @property (nonatomic, assign) BOOL isHaveRecommendData;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 
 @end
 
@@ -104,8 +107,8 @@ THNExploreTableViewCellDelegate
 
 - (void)loadData {
     
+    [self loadNoHeaderViewBackgroundImage];
     [self.livingHallHeaderView setLifeStore];
-    
     
     if (self.isNeedsHud) {
         self.isAddWindow = YES;
@@ -127,7 +130,7 @@ THNExploreTableViewCellDelegate
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.headLineView.frame = CGRectMake(20, 107, SCREEN_WIDTH - 40, 110);
+    self.headLineView.frame = CGRectMake(20, 160, SCREEN_WIDTH - 40, 110);
 }
 
 /**
@@ -248,6 +251,17 @@ THNExploreTableViewCellDelegate
         
     } failure:^(THNRequest *request, NSError *error) {
 
+    }];
+}
+
+- (void)loadNoHeaderViewBackgroundImage {
+    THNRequest *request = [THNAPI getWithUrlString:kUrlBannersLifestoreHead requestDictionary:nil delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        
+        [self.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:result.data[@"banner_images"][0][@"image"]]];
+       
+    } failure:^(THNRequest *request, NSError *error) {
+        
     }];
 }
 
@@ -464,16 +478,16 @@ THNExploreTableViewCellDelegate
 
 - (UIView *)noLivingHallHeaderView {
     if (!_noLivingHallHeaderView) {
-        _noLivingHallHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 240)];
+        _noLivingHallHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 290)];
         _noLivingHallHeaderView.backgroundColor = [UIColor whiteColor];
-        UIImageView *backGroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 214)];
-        backGroundImageView.image = [UIImage imageNamed:@"icon_noLivingHall_back"];
-        UILabel *tintLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 27, SCREEN_WIDTH, 20)];
-        tintLabel.text = @"自己买省钱 卖出去赚钱";
-        tintLabel.textColor = [UIColor colorWithHexString:@"32CDBD"];
-        tintLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:20];
-        [_noLivingHallHeaderView addSubview:backGroundImageView];
-        [_noLivingHallHeaderView addSubview:tintLabel];
+        UIImageView *backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 214)];
+        self.backgroundImageView = backgroundImageView;
+//        UILabel *tintLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 27, SCREEN_WIDTH, 20)];
+//        tintLabel.text = @"自己买省钱 卖出去赚钱";
+//        tintLabel.textColor = [UIColor colorWithHexString:@"32CDBD"];
+//        tintLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:20];
+        [_noLivingHallHeaderView addSubview:backgroundImageView];
+//        [_noLivingHallHeaderView addSubview:tintLabel];
     }
     return _noLivingHallHeaderView;
 }
