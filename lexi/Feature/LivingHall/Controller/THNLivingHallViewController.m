@@ -119,6 +119,7 @@ THNExploreTableViewCellDelegate
     
     [self.livingHallHeaderView loadLifeStoreData:^(BOOL isHaveRecommendData) {
         self.isHaveRecommendData = isHaveRecommendData;
+        // 请求完馆长推荐再按顺序请求其他数据
         if (self.isHaveRecommendData) {
             [self.dataArray addObject:@(LivingHallCellTypeRecommend)];
         }
@@ -431,7 +432,7 @@ THNExploreTableViewCellDelegate
 
 #pragma mark- THNExploreTableViewCellDelegate
 - (void)lookAllWithType:(ExploreCellType)cellType {
-    THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:@"新品速递"];
+    THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewExpress title:@"新品速递"];
     [self.navigationController pushViewController:goodsList animated:YES];
 }
 

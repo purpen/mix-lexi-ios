@@ -314,7 +314,9 @@ UITextFieldDelegate
                 [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
                 return;
             }
+            
             [self.navigationController popViewControllerAnimated:YES];
+            
         } failure:^(THNRequest *request, NSError *error) {
             
         }];
