@@ -105,7 +105,8 @@ static NSString *const kUrlEditLifeStoreLogo = @"/store/update_life_store_logo";
 
 - (void)loadLifeStoreData:(LoadLifeStoreDataSuccessBlock)lifeStoreDataSuccess {
     
-    if (self.loginManger.storeRid.length == 0) {
+    // 没有登录或者大B直接返回
+    if (self.loginManger.storeRid.length == 0 || self.loginManger.supplier) {
         if (lifeStoreDataSuccess) {
             lifeStoreDataSuccess(NO);
         }

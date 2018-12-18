@@ -182,6 +182,7 @@ CGFloat const kCellGrassListHeight = 168;
     }
     
     [self.productCollectionView setCollectionViewLayout:flowLayout];
+    [self.productCollectionView reloadData];
 }
 
 #pragma mark UICollectionViewDelegateFlowLayout method 实现

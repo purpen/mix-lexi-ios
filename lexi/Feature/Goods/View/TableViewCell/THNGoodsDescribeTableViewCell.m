@@ -148,8 +148,12 @@ static NSString *const kTitleSalesReturn = @"退货政策";
                                                                 content:[NSString stringWithFormat:@"仅剩最后%zi件", model.stockCount]
                                                                showIcon:showIcon]];
     }
+    
+    // 售罄
     if (isSellOut) {
-        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量" content:@"已售罄" showIcon:showIcon]];
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量"
+                                                                content:@"已售罄"
+                                                               showIcon:showIcon]];
     }
     
     textAtt.lineSpacing = 7;

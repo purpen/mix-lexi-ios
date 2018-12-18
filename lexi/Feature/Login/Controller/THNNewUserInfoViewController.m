@@ -123,7 +123,7 @@ static NSString *const kParamAvatarId           = @"avatar_id";
 #pragma mark - getters and setters
 - (THNNewUserInfoView *)newUserInfoView {
     if (!_newUserInfoView) {
-        _newUserInfoView = [[THNNewUserInfoView alloc] init];
+        _newUserInfoView = [[THNNewUserInfoView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _newUserInfoView.delegate = self;
     }
     return _newUserInfoView;

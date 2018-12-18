@@ -49,8 +49,8 @@ static NSString *const kParamGender     = @"gender";
 
 @implementation THNNewUserInfoView
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         [self setupViewUI];
     }
@@ -175,10 +175,9 @@ static NSString *const kParamGender     = @"gender";
     [self addSubview:self.hintLabel];
     [self addSubview:self.nameTextField];
     [self addSubview:self.dayTextField];
-    
-    [self thn_initMultipleOptionButtons:@[kSexWoman, kSexMan]];
     [self addSubview:self.sexView];
     [self addSubview:self.doneButton];
+    [self thn_initMultipleOptionButtons:@[kSexWoman, kSexMan]];
     
     [self setMasonryLayout];
 }
@@ -355,6 +354,19 @@ static NSString *const kParamGender     = @"gender";
     return _sexView;
 }
 
+- (THNDoneButton *)doneButton {
+    if (!_doneButton) {
+        WEAKSELF;
+        
+        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
+                                                     title:kDoneButtonTitle
+                                                completion:^{
+                                                    [weakSelf thn_doneButtonAction];
+                                                }];
+    }
+    return _doneButton;
+}
+
 /**
  创建多个选项按钮
 
@@ -397,19 +409,6 @@ static NSString *const kParamGender     = @"gender";
     [optionButtonArr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.sexView);
     }];
-}
-
-- (THNDoneButton *)doneButton {
-    if (!_doneButton) {
-        WEAKSELF;
-        
-        _doneButton = [[THNDoneButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, 75)
-                                                     title:kDoneButtonTitle
-                                                completion:^{
-                                                    [weakSelf thn_doneButtonAction];
-                                                }];
-    }
-    return _doneButton;
 }
 
 @end

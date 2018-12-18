@@ -49,7 +49,7 @@ static NSInteger const kActionTag = 534;
 #pragma mark - setup UI
 - (void)setupViewUI {
     self.title = kTitleMoney;
-    self.moneyArr = @[@(1), @(2), @(3), @(4), @(10), @(20)];
+    self.moneyArr = @[@(1), @(5), @(10), @(30), @(50), @(100)];
     self.cashAmount = [self.moneyArr[0] floatValue];
     
     [self thn_createCashMoneyButtonWithValues:self.moneyArr];

@@ -109,14 +109,80 @@
  获取商品描述的高度
  */
 - (CGFloat)thn_getGoodsFeaturesHeightWithModel:(THNGoodsModel *)model {
-    CGFloat contentH = 50.0;
+    CGFloat contentH = 70.0;
+
+    NSMutableAttributedString *textAtt = [[NSMutableAttributedString alloc] init];
     
-    contentH += model.features.length > 0 ? [self thn_getContentHeightWithText:model.features] + 10 : 0;
-    contentH += model.isCustomService ? 30 : 0;
-    contentH += model.materialName.length ? 30 : 0;
-    contentH += model.stockCount < 10 ? 30 : 0;
+    // 亮点
+    BOOL showFeatures = model.features.length > 0;
+    if (showFeatures) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"亮点" content:model.features]];
+    }
     
-    return contentH == 50.0 ? 0.01 : contentH;
+    // 材质
+    BOOL showMaterial = model.materialName.length > 0;
+    if (showMaterial) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"材质" content:model.materialName]];
+    }
+    
+    // 特点
+    if (model.isCustomService) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"特点" content:@"可提供订制化服务"]];
+    }
+    
+    // 数量
+    BOOL showCount = model.stockCount < 10;
+    BOOL isSellOut = model.stockCount == 0;
+    if (showCount) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量" content:[NSString stringWithFormat:@"仅剩最后%zi件", model.stockCount]]];
+    }
+    
+    // 售罄
+    if (isSellOut) {
+        [textAtt appendAttributedString:[self thn_getDescribePrefixText:@"数量" content:@"已售罄"]];
+    }
+    
+    textAtt.lineSpacing = 7;
+    textAtt.paragraphSpacing = 3;
+    
+    YYTextContainer *container = [YYTextContainer new];
+    container.size = CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX);
+    container.maximumNumberOfRows = 0;
+    
+    // 生成排版结果
+    YYTextLayout *textLayout = [YYTextLayout layoutWithContainer:container text:textAtt];
+    contentH += textLayout.textBoundingSize.height;
+    
+    return contentH;
+}
+
+/**
+ 描述内容
+ */
+- (NSMutableAttributedString *)thn_getDescribePrefixText:(NSString *)text content:(NSString *)content {
+    NSMutableAttributedString *prefixAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@：", text]];
+    prefixAtt.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
+    prefixAtt.color = [UIColor colorWithHexString:@"#333333"];
+    
+    NSMutableAttributedString *contentAtt = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", content]];
+    contentAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightRegular)];
+    contentAtt.color = [UIColor colorWithHexString:@"#333333"];
+    
+    [prefixAtt appendAttributedString:contentAtt];
+    [prefixAtt insertAttributedString:[self thn_getSymbolText] atIndex:0];
+    
+    return prefixAtt;
+}
+
+/**
+ 前缀符号
+ */
+- (NSMutableAttributedString *)thn_getSymbolText {
+    NSMutableAttributedString *symbolAtt = [[NSMutableAttributedString alloc] initWithString:@"·  "];
+    symbolAtt.font = [UIFont systemFontOfSize:14 weight:(UIFontWeightBold)];
+    symbolAtt.color = [UIColor colorWithHexString:kColorMain];
+    
+    return symbolAtt;
 }
 
 /**

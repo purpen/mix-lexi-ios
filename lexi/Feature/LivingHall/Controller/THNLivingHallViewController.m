@@ -61,8 +61,8 @@ THNExploreTableViewCellDelegate
 @property (nonatomic, strong) THNLivingHallHeaderView *livingHallHeaderView;
 // 本周最受人气欢迎Cell
 @property (nonatomic, strong) THNFeatureTableViewCell *featureCell;
-@property (nonatomic, strong)  THNLivingHallExpandView *expandView;
-@property (nonatomic, strong) NSArray *weekPopularArray;
+@property (nonatomic, strong) THNLivingHallExpandView *expandView;
+@property (nonatomic, strong) NSMutableArray *weekPopularArray;
 @property (nonatomic, strong) NSArray *expressNewProductArray;
 @property (nonatomic, strong) NSArray *likeProductUserArray;
 @property (nonatomic, assign) CGFloat recommenLabelHegiht;
@@ -163,7 +163,7 @@ THNExploreTableViewCellDelegate
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
-//    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.tableView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.tableView setRefreshHeaderWithClass:nil beginRefresh:NO animation:NO delegate:self];
     [self.tableView resetCurrentPageNumber];
     self.currentPage = 1;
@@ -217,7 +217,7 @@ THNExploreTableViewCellDelegate
 - (void)loadWeekPopularData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"page"] = @(self.currentPage);
-    params[@"per_page"] = @(20);
+    params[@"per_page"] = @(10);
     THNRequest *request = [THNAPI getWithUrlString:kUrlWeekPopular requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         
@@ -226,8 +226,8 @@ THNExploreTableViewCellDelegate
             return;
         }
         
-        self.weekPopularArray = result.data[@"products"];
-        
+
+        [self.weekPopularArray addObjectsFromArray:result.data[@"products"]];
 //        for (int i = 1; i <= self.weekPopularArray.count; i++) {
 //            if ( i % 5 == 0) {
 //                self.featureCellHeight += SCREEN_WIDTH - 40 + 46;
@@ -238,16 +238,18 @@ THNExploreTableViewCellDelegate
 //            self.featureCellHeight += i % 2 == 0 || i % 5 == 0 ? 10 : 0;
 //        }
         
-        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 9) * self.weekPopularArray.count / 2 + 90 - 9;
+        NSInteger showCellCount = self.weekPopularArray.count % 2 == 0 ? self.weekPopularArray.count / 2 : self.weekPopularArray.count / 2 + 1;
+        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 10) * showCellCount + 70;
         
-//        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
-//        if (![result.data[@"next"] boolValue] && self.weekPopularArray.count != 0) {
-//
-//            [self.tableView noMoreData];
-//        }
-        
-        self.title = result.data[@"title"];
         [self.featureCell setCellTypeStyle:FeaturedNo initWithDataArray:self.weekPopularArray initWithTitle:@"本周最受欢迎"];
+        
+        [self.tableView endFooterRefreshAndCurrentPageChange:YES];
+        
+        if (![result.data[@"next"] boolValue] && self.weekPopularArray.count != 0) {
+
+            [self.tableView noMoreData];
+        }
+        
         [self.tableView reloadData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -393,7 +395,7 @@ THNExploreTableViewCellDelegate
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,self.footerViewHeight)];
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,self.footerViewHeight + 15)];
     self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH, self.featureCellHeight);
     self.featureCell.backgroundColor = [UIColor whiteColor];
     [footerView addSubview:self.featureCell];
@@ -401,7 +403,6 @@ THNExploreTableViewCellDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    
     // featureCell距footerView的间距
     return self.featureCellHeight + 15;
 }
@@ -447,6 +448,9 @@ THNExploreTableViewCellDelegate
     self.isNeedsHud = NO;
     self.featureCellHeight = 0;
     [self.dataArray removeAllObjects];
+    [self.weekPopularArray removeAllObjects];
+    self.currentPage = 1;
+    [self.tableView resetCurrentPageNumber];
     [self loadData];
 }
 
@@ -470,12 +474,12 @@ THNExploreTableViewCellDelegate
     return _featureCell;
 }
 
-//- (NSMutableArray *)weekPopularArray {
-//    if (!_weekPopularArray) {
-//        _weekPopularArray = [NSMutableArray array];
-//    }
-//    return _weekPopularArray;
-//}
+- (NSMutableArray *)weekPopularArray {
+    if (!_weekPopularArray) {
+        _weekPopularArray = [NSMutableArray array];
+    }
+    return _weekPopularArray;
+}
 
 - (UIView *)noLivingHallHeaderView {
     if (!_noLivingHallHeaderView) {

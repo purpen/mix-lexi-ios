@@ -209,6 +209,7 @@ UITextFieldDelegate
     
     THNRequest *request = [THNAPI getWithUrlString:kUrlGetaddressCustoms requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+//        THNLog(@"获取海关信息 === %@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;
@@ -225,10 +226,9 @@ UITextFieldDelegate
             self.positiveImageID = [result.data[@"id_card_front"][@"id"] integerValue];
             self.negativeImageID = [result.data[@"id_card_back"][@"id"] integerValue];
             
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
-                UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];
+                UIImage *negativeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_back"][@"view_url"]]]];
+                UIImage *positiveImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:result.data[@"id_card_front"][@"view_url"]]]];
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     
                     if (positiveImage) {
@@ -238,8 +238,6 @@ UITextFieldDelegate
                     if (negativeImage) {
                         [self.cardView.negativeButton setImage:negativeImage forState:UIControlStateNormal];
                     }
-                    
-                    
                 });
             });
             
@@ -303,6 +301,7 @@ UITextFieldDelegate
     params[@"is_overseas"] = @(self.isSaveCustom);
     params[@"id_card"] = self.cardView.cardTextField.text;
     
+//    THNLog(@"保存海关信息：%@", params);
     [SVProgressHUD thn_show];
     
     if (self.addressModel.rid) {
@@ -310,6 +309,7 @@ UITextFieldDelegate
         THNRequest *request = [THNAPI putWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
             [SVProgressHUD dismiss];
+//            THNLog(@"更新收货地址 --- %@", result.responseDict);
             if (!result.success) {
                 [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
                 return;
@@ -320,6 +320,7 @@ UITextFieldDelegate
         } failure:^(THNRequest *request, NSError *error) {
             
         }];
+        
     } else {
         THNRequest *request = [THNAPI postWithUrlString:kUrlAddress requestDictionary:params delegate:nil];
         [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
@@ -365,7 +366,7 @@ UITextFieldDelegate
         [self presentViewController:_imagePickerController animated:YES completion:nil];
     }
     else{
-        NSLog(@"没有摄像头");
+//        NSLog(@"没有摄像头");
     }
 }
 
@@ -377,10 +378,10 @@ UITextFieldDelegate
     {
         _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:_imagePickerController animated:YES completion:^{
-            NSLog(@"打开相册");
+//            NSLog(@"打开相册");
         }];
     }else{
-        NSLog(@"不能打开相册");
+//        NSLog(@"不能打开相册");
     }
 }
 
@@ -408,6 +409,7 @@ UITextFieldDelegate
             [[THNQiNiuUpload sharedManager] uploadQiNiuWithImageData:self.negativeImageData
                                                            compltion:^(NSDictionary *result) {
                                                               self.negativeImageID = [result[@"ids"][0]integerValue];
+//                                                              NSLog(@"身份证背面ID --- %ld",self.negativeImageID);
                                                            }];
         }
         

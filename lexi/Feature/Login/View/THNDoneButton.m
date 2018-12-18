@@ -48,7 +48,9 @@
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
-    self.doneHandle();
+    if (self.doneHandle) {
+        self.doneHandle();
+    }
 }
 
 #pragma mark - getters and setters
