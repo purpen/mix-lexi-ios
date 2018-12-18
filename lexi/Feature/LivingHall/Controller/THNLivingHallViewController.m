@@ -431,7 +431,8 @@ THNExploreTableViewCellDelegate
 
 #pragma mark- THNExploreTableViewCellDelegate
 - (void)lookAllWithType:(ExploreCellType)cellType {
-    THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeOptimal title:@"新品速递"];
+    THNGoodsListViewController *goodsList = [[THNGoodsListViewController alloc]initWithGoodsListType:THNGoodsListViewTypeNewExpress
+                                                                                               title:@"新品速递"];
     [self.navigationController pushViewController:goodsList animated:YES];
 }
 
