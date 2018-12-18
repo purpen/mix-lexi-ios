@@ -78,6 +78,11 @@ typedef NS_ENUM(NSUInteger, THNLoginModeType) {
 + (BOOL)isFirstLogin;
 
 /**
+ 当日首次启动
+ */
++ (BOOL)isTodayFirstLaunch;
+
+/**
  保存登录信息
  */
 - (void)saveLoginInfo;

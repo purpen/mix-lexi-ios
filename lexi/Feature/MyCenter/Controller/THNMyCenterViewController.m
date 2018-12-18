@@ -289,10 +289,12 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self.tableView reloadData];
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self thn_showInvitationView];
-    });
+    if ([THNLoginManager isTodayFirstLaunch]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self thn_showInvitationView];
+        });
+    }
 }
 
 /**

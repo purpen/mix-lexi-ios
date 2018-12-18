@@ -559,6 +559,8 @@
 		D88BC7E821C398D700DF3C4F /* THNInvitationAwardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7E721C398D700DF3C4F /* THNInvitationAwardTableViewCell.m */; };
 		D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */; };
 		D89A252121C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252021C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m */; };
+		D89A252421C8E98C002E5BF2 /* THNCashCertificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */; };
+		D89A252721C8EAAB002E5BF2 /* THNCashCertificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */; };
 		D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75121C5267700948438 /* THNInviteCountModel.m */; };
@@ -1603,6 +1605,10 @@
 		D88E1E2821841A65008B7DD9 /* UIScrollView+THNMJRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+THNMJRefresh.m"; sourceTree = "<group>"; };
 		D89A251F21C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLifeInviteStoreViewController.h; sourceTree = "<group>"; };
 		D89A252021C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNLifeInviteStoreViewController.m; sourceTree = "<group>"; };
+		D89A252221C8E98C002E5BF2 /* THNCashCertificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashCertificationViewController.h; sourceTree = "<group>"; };
+		D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationViewController.m; sourceTree = "<group>"; };
+		D89A252521C8EAAB002E5BF2 /* THNCashCertificationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashCertificationView.h; sourceTree = "<group>"; };
+		D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationView.m; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
 		D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNDynamicActionTableViewCell+Action.m"; sourceTree = "<group>"; };
 		D8A1A74E21C5267600948438 /* THNInviteAmountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteAmountModel.h; sourceTree = "<group>"; };
@@ -3810,6 +3816,8 @@
 				D86073F021BE463600DC257B /* THNCashRecordViewController.m */,
 				D86073F521BE477300DC257B /* THNCashInfoViewController.h */,
 				D86073F621BE477300DC257B /* THNCashInfoViewController.m */,
+				D89A252221C8E98C002E5BF2 /* THNCashCertificationViewController.h */,
+				D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3839,6 +3847,8 @@
 				D87D8B4821BFBD1600F678B0 /* THNCashRecordDefaultView.m */,
 				D88BC7E921C3999A00DF3C4F /* THNCashAwardView.h */,
 				D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */,
+				D89A252521C8EAAB002E5BF2 /* THNCashCertificationView.h */,
+				D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4397,6 +4407,7 @@
 				4B27B391218717D1004AF42F /* THNBrandHallHeaderView.m in Sources */,
 				D85E2B5121BA5D400092732E /* YBImageBrowserTipView.m in Sources */,
 				D860740F21BF724D00DC257B /* THNCashHintView.m in Sources */,
+				D89A252721C8EAAB002E5BF2 /* THNCashCertificationView.m in Sources */,
 				D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */,
 				4B27B392218717D1004AF42F /* THNBrandHallInfoTableViewCell.m in Sources */,
 				4B27B393218717D1004AF42F /* THNBrandHallUserInfoTableViewCell.m in Sources */,
@@ -4505,6 +4516,7 @@
 				4B27B3E8218717D1004AF42F /* THNGoodsUserTableViewCell.m in Sources */,
 				CDF3D33421B01A1A003D841A /* THNAdvertCouponViewController.m in Sources */,
 				D87D8B4C21C2005600F678B0 /* THNInvitationViewController.m in Sources */,
+				D89A252421C8E98C002E5BF2 /* THNCashCertificationViewController.m in Sources */,
 				4B27B3E9218717D1004AF42F /* THNCartButton.m in Sources */,
 				4B27B3EA218717D1004AF42F /* THNGoodsCouponTableViewCell.m in Sources */,
 				D8409310219ECD7300EF1F70 /* THNSelectPruductCoverCollectionViewCell.m in Sources */,

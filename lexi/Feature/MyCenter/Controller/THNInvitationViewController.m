@@ -9,6 +9,7 @@
 #import "THNInvitationViewController.h"
 #import <WebKit/WebKit.h>
 #import "THNCashViewController.h"
+#import "THNCashCertificationViewController.h"
 #import "THNShareViewController.h"
 #import "THNLoginManager.h"
 #import <UMShare/UMShare.h>
@@ -67,6 +68,11 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 - (void)thn_openCashMoneyController {
     THNCashViewController *cashVC = [[THNCashViewController alloc] init];
     [self.navigationController pushViewController:cashVC animated:YES];
+}
+
+- (void)thn_openCashCertificationController {
+    THNCashCertificationViewController *certificationVC = [[THNCashCertificationViewController alloc] init];
+    [self.navigationController pushViewController:certificationVC animated:YES];
 }
 
 /**
@@ -224,7 +230,8 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         [self thn_openShareController];
         
     } else if ([message.name isEqualToString:kScriptCash]) {
-        [self thn_openCashMoneyController];
+//        [self thn_openCashMoneyController];
+        [self thn_openCashCertificationController];
         
     } else if ([message.name isEqualToString:kScriptShareF]) {
         NSInteger index = [message.body integerValue];
