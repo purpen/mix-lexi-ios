@@ -37,7 +37,9 @@ static NSString *const kURLAppStore = @"https://itunes.apple.com/cn/app/%E4%B9%9
     WEAKSELF;
     THNRequest *request = [THNAPI getWithUrlString:kURLUpdate requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"版本更新的内容：%@", result.responseDict);
+#ifdef DEBUG
+        THNLog(@"版本更新的内容：%@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [self dismissViewControllerAnimated:NO completion:nil];
             return ;

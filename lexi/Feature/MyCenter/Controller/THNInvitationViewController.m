@@ -33,6 +33,7 @@ static NSString *const kURLInvitation   = @"https://h5.lexivip.com/invitation?ui
 static NSString *const kURLShareUrl     = @"https://h5.lexivip.com/redenvelope?uid=";
 static NSString *const kURLCashCount    = @"/cash_money/count";
 static NSString *const kKeyCashCount    = @"cash_count";
+static NSString *const kKeyIdCard       = @"id_card";
 /// script
 static NSString *const kScriptShare     = @"share";
 static NSString *const kScriptCash      = @"cashMoney";
@@ -65,17 +66,21 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 
 #pragma mark - network
 - (void)requestTodayCashMoneyCount {
+    [SVProgressHUD thn_show];
+    
     THNRequest *request = [THNAPI getWithUrlString:kURLCashCount requestDictionary:@{} delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"提现验证：%@", result.responseDict);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
         }
         
-        if(![result.data[kKeyCashCount] isKindOfClass:[NSNull class]]){
-            self.cashCount = [result.data[kKeyCashCount] integerValue];
-        }
-        
+        [self thn_selectedToCashWithData:result.data];
+        [SVProgressHUD dismiss];
+
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
@@ -89,14 +94,30 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     [self.webView loadRequest:urlRequest];
 }
 
-- (void)thn_openCashMoneyController {
+/**
+ 去提现
+ */
+- (void)thn_selectedToCashWithData:(NSDictionary *)data {
+    if(![data[kKeyCashCount] isKindOfClass:[NSNull class]]){
+        self.cashCount = [data[kKeyCashCount] integerValue];
+    }
+    
     if (self.cashCount < maxCashCount) {
-        THNCashViewController *cashVC = [[THNCashViewController alloc] init];
-        [self.navigationController pushViewController:cashVC animated:YES];
+        if ([self thn_checkCertificateWithData:data[kKeyIdCard]]) {
+            [self thn_openCashMoneyController];
+            
+        } else {
+            [self thn_openCashCertificationController];
+        }
         
     } else {
         [self thn_overCashCountAlert];
     }
+}
+
+- (void)thn_openCashMoneyController {
+    THNCashViewController *cashVC = [[THNCashViewController alloc] init];
+    [self.navigationController pushViewController:cashVC animated:YES];
 }
 
 - (void)thn_openCashCertificationController {
@@ -234,6 +255,17 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     return thumImages[arc4random_uniform(3)];
 }
 
+/**
+ 检查是否实名认证
+ */
+- (BOOL)thn_checkCertificateWithData:(NSDictionary *)data {
+    if (data[kKeyIdCard] && ![data[kKeyIdCard] isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -246,7 +278,6 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     
     self.navigationBarView.title = kTitleInvitation;
     
-    [self requestTodayCashMoneyCount];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShare];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptCash];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShareF];
@@ -271,8 +302,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         [self thn_openShareController];
         
     } else if ([message.name isEqualToString:kScriptCash]) {
-//        [self thn_openCashMoneyController];
-        [self thn_openCashCertificationController];
+        [self requestTodayCashMoneyCount];
         
     } else if ([message.name isEqualToString:kScriptShareF]) {
         NSInteger index = [message.body integerValue];

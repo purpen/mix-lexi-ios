@@ -61,12 +61,15 @@ static NSString *const kTextDone     = @"提交";
 
 #pragma mark - event response
 - (void)doneButtonAction:(UIButton *)button {
-    if (!self.nameTextField.text.length) {
+    NSString *name = self.nameTextField.text;
+    NSString *card = self.cardTextField.text;
+    
+    if (!name.length) {
         [SVProgressHUD thn_showInfoWithStatus:kTextName];
         return;
     }
     
-    if (!self.cardTextField.text.length) {
+    if (!card.length) {
         [SVProgressHUD thn_showInfoWithStatus:kTextCard];
         return;
     }
@@ -77,17 +80,20 @@ static NSString *const kTextDone     = @"提交";
     }
     
     if ([self.delegate respondsToSelector:@selector(thn_cashCommitCertificationInfo:)]) {
-        [self.delegate thn_cashCommitCertificationInfo:@{}];
+        [self.delegate thn_cashCommitCertificationInfo:@{@"name"    : name,
+                                                         @"id_card" : card}];
     }
 }
 
 - (void)uploadFrontImageAction:(UITapGestureRecognizer *)tap {
+    [self endEditing:YES];
     if ([self.delegate respondsToSelector:@selector(thn_cashUploadFrontIDCardImage)]) {
         [self.delegate thn_cashUploadFrontIDCardImage];
     }
 }
 
 - (void)uploadBackImageAction:(UITapGestureRecognizer *)tap {
+    [self endEditing:YES];
     if ([self.delegate respondsToSelector:@selector(thn_cashUploadBackIDCardImage)]) {
         [self.delegate thn_cashUploadBackIDCardImage];
     }

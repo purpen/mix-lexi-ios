@@ -14,9 +14,13 @@
 
 static NSString *const kTitleCertification = @"实名认证";
 
+static NSString *const kURLIdCard = @"/users/cash_id_card";
+
 @interface THNCashCertificationViewController () <THNCashCertificationViewDelegate>
 
 @property (nonatomic, strong) THNCashCertificationView *certificationView;
+@property (nonatomic, strong) NSString *idCardFront;
+@property (nonatomic, strong) NSString *idCardBack;
 
 @end
 
@@ -28,10 +32,29 @@ static NSString *const kTitleCertification = @"实名认证";
     [self setupUI];
 }
 
+#pragma mark - network
+- (void)requestCommitIDCardWithParams:(NSDictionary *)params {
+    THNRequest *request = [THNAPI postWithUrlString:kURLIdCard requestDictionary:params delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        [self thn_openStatusController];
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
 #pragma mark - custom delegate
 - (void)thn_cashCommitCertificationInfo:(NSDictionary *)info {
-    NSLog(@"提交认证的信息： %@", info);
-    [self thn_openStatusController];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:info];
+    [params setObject:self.idCardFront forKey:@"id_card_front"];
+    [params setObject:self.idCardBack forKey:@"id_card_back"];
+    
+    [self requestCommitIDCardWithParams:params];
 }
 
 - (void)thn_cashUploadFrontIDCardImage {
@@ -58,8 +81,10 @@ static NSString *const kTitleCertification = @"实名认证";
             NSArray *idsArray = result[@"ids"];
             if (isFront) {
                 NSLog(@"上传到七牛的正面图片id === %@", idsArray);
+                self.idCardFront = idsArray[0];
             } else {
                 NSLog(@"上传到七牛的背面图片id === %@", idsArray);
+                self.idCardBack = idsArray[0];
             }
             
             [SVProgressHUD dismiss];
