@@ -42,6 +42,9 @@ static NSString *const kRequestIsSmallB     = @"is_small_b";
 static NSString *const kRequestProfile      = @"profile";
 static NSString *const kRequestUserId       = @"uid";
 static NSString *const kRequestSupplier     = @"is_supplier";
+/// key
+static NSString *const kKeyToday = @"save_today";
+static NSString *const kKeyHour  = @"save_hour";
 
 @implementation THNLoginManager
 
@@ -293,6 +296,22 @@ MJCodingImplementation
     }
     
     return NO;
+}
+
+/**
+ 今天首次启动
+ */
++ (BOOL)isTodayFirstLaunch {
+    NSDate *todayDate = [NSDate date];
+    
+    [THNSaveTool setObject:@(todayDate.day) forKey:kKeyToday];
+    NSInteger saveDay = [[THNSaveTool objectForKey:kKeyToday] integerValue];
+    
+    if (todayDate.day == saveDay) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 /**

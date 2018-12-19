@@ -206,7 +206,7 @@ THNMJRefreshDelegate
     THNRequest *request = [THNAPI getWithUrlString:kUrlCategorie requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         dispatch_semaphore_signal(self.semaphore);
-        THNLog(@"-------- %@", result.responseDict);
+//        THNLog(@"-------- %@", result.responseDict);
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return;

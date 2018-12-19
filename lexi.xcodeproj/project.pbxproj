@@ -328,6 +328,14 @@
 		4B2E826E21C8DC0E00DFBD48 /* NSObject+EnumManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E826621C8DC0E00DFBD48 /* NSObject+EnumManagement.m */; };
 		4B2E826F21C8DC0E00DFBD48 /* THNConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E826821C8DC0E00DFBD48 /* THNConst.m */; };
 		4B2E827021C8DC0E00DFBD48 /* THNTextConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E826A21C8DC0E00DFBD48 /* THNTextConst.m */; };
+		4B2E82B121CA4DC400DFBD48 /* THNLikedWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82AF21CA4DC100DFBD48 /* THNLikedWindowViewController.m */; };
+		4B2E82B621CA4E0900DFBD48 /* THNCashCertificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82B221CA4E0800DFBD48 /* THNCashCertificationViewController.m */; };
+		4B2E82B721CA4E0900DFBD48 /* THNCertificationStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82B521CA4E0800DFBD48 /* THNCertificationStatusViewController.m */; };
+		4B2E82BA21CA4E1800DFBD48 /* THNCashCertificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82B921CA4E1800DFBD48 /* THNCashCertificationView.m */; };
+		4B2E82BD21CA4E9E00DFBD48 /* THNAdvertUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82BB21CA4E9D00DFBD48 /* THNAdvertUpdateViewController.m */; };
+		4B2E82C221CA4EBB00DFBD48 /* THNAdvertUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82BF21CA4EBB00DFBD48 /* THNAdvertUpdateView.m */; };
+		4B2E82C321CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82C021CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.m */; };
+		4B2E82C621CA4F0500DFBD48 /* THNCertificationStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E82C521CA4F0500DFBD48 /* THNCertificationStatusView.m */; };
 		4B309381219E84A5009D42A8 /* THNAddShowWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B309380219E84A5009D42A8 /* THNAddShowWindowViewController.m */; };
 		4B36A226218C9771007F670E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B36A225218C9771007F670E /* main.m */; };
 		4B93FA9221C2115600FF56BA /* THNLivingRecommendProductSetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B93FA9021C2115600FF56BA /* THNLivingRecommendProductSetTableViewCell.m */; };
@@ -647,6 +655,22 @@
 		4B2E826A21C8DC0E00DFBD48 /* THNTextConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNTextConst.m; sourceTree = "<group>"; };
 		4B2E826C21C8DC0E00DFBD48 /* THNMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNMarco.h; sourceTree = "<group>"; };
 		4B2E826D21C8DC0E00DFBD48 /* THNPch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNPch.h; sourceTree = "<group>"; };
+		4B2E82AF21CA4DC100DFBD48 /* THNLikedWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNLikedWindowViewController.m; sourceTree = "<group>"; };
+		4B2E82B021CA4DC400DFBD48 /* THNLikedWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNLikedWindowViewController.h; sourceTree = "<group>"; };
+		4B2E82B221CA4E0800DFBD48 /* THNCashCertificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationViewController.m; sourceTree = "<group>"; };
+		4B2E82B321CA4E0800DFBD48 /* THNCertificationStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCertificationStatusViewController.h; sourceTree = "<group>"; };
+		4B2E82B421CA4E0800DFBD48 /* THNCashCertificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCashCertificationViewController.h; sourceTree = "<group>"; };
+		4B2E82B521CA4E0800DFBD48 /* THNCertificationStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCertificationStatusViewController.m; sourceTree = "<group>"; };
+		4B2E82B821CA4E1800DFBD48 /* THNCashCertificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCashCertificationView.h; sourceTree = "<group>"; };
+		4B2E82B921CA4E1800DFBD48 /* THNCashCertificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationView.m; sourceTree = "<group>"; };
+		4B2E82BB21CA4E9D00DFBD48 /* THNAdvertUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateViewController.m; sourceTree = "<group>"; };
+		4B2E82BC21CA4E9E00DFBD48 /* THNAdvertUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateViewController.h; sourceTree = "<group>"; };
+		4B2E82BE21CA4EBA00DFBD48 /* THNAdvertUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateView.h; sourceTree = "<group>"; };
+		4B2E82BF21CA4EBB00DFBD48 /* THNAdvertUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateView.m; sourceTree = "<group>"; };
+		4B2E82C021CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateTableViewCell.m; sourceTree = "<group>"; };
+		4B2E82C121CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateTableViewCell.h; sourceTree = "<group>"; };
+		4B2E82C421CA4F0500DFBD48 /* THNCertificationStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCertificationStatusView.h; sourceTree = "<group>"; };
+		4B2E82C521CA4F0500DFBD48 /* THNCertificationStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCertificationStatusView.m; sourceTree = "<group>"; };
 		4B2EC3FE21AB8B32002ED842 /* lexi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = lexi.entitlements; sourceTree = "<group>"; };
 		4B30937F219E84A5009D42A8 /* THNAddShowWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAddShowWindowViewController.h; sourceTree = "<group>"; };
 		4B309380219E84A5009D42A8 /* THNAddShowWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAddShowWindowViewController.m; sourceTree = "<group>"; };
@@ -2632,6 +2656,8 @@
 		4BECEF96217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B2E82B021CA4DC400DFBD48 /* THNLikedWindowViewController.h */,
+				4B2E82AF21CA4DC100DFBD48 /* THNLikedWindowViewController.m */,
 				4BECEF9D217F1401008E5E28 /* THNMyCenterViewController.h */,
 				4BECEF9E217F1401008E5E28 /* THNMyCenterViewController.m */,
 				4BECEF97217F1401008E5E28 /* THNAddressViewController.h */,
@@ -3325,6 +3351,8 @@
 		CDF3D32B21B01A18003D841A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B2E82BC21CA4E9E00DFBD48 /* THNAdvertUpdateViewController.h */,
+				4B2E82BB21CA4E9D00DFBD48 /* THNAdvertUpdateViewController.m */,
 				CDF3D32C21B01A18003D841A /* THNAdvertCouponViewController.h */,
 				CDF3D32D21B01A18003D841A /* THNAdvertCouponViewController.m */,
 			);
@@ -3340,6 +3368,10 @@
 				CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */,
 				D87D8B4D21C236BC00F678B0 /* THNAdvertInviteView.h */,
 				D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */,
+				4B2E82C121CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.h */,
+				4B2E82C021CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.m */,
+				4B2E82BE21CA4EBA00DFBD48 /* THNAdvertUpdateView.h */,
+				4B2E82BF21CA4EBB00DFBD48 /* THNAdvertUpdateView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3803,6 +3835,10 @@
 		D86073F821BE4BBA00DC257B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B2E82B421CA4E0800DFBD48 /* THNCashCertificationViewController.h */,
+				4B2E82B221CA4E0800DFBD48 /* THNCashCertificationViewController.m */,
+				4B2E82B321CA4E0800DFBD48 /* THNCertificationStatusViewController.h */,
+				4B2E82B521CA4E0800DFBD48 /* THNCertificationStatusViewController.m */,
 				D86073EC21BE41A200DC257B /* THNCashViewController.h */,
 				D86073ED21BE41A200DC257B /* THNCashViewController.m */,
 				D86073F221BE471600DC257B /* THNCashAlipayViewController.h */,
@@ -3818,6 +3854,10 @@
 		D86073F921BE4BD500DC257B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B2E82B821CA4E1800DFBD48 /* THNCashCertificationView.h */,
+				4B2E82B921CA4E1800DFBD48 /* THNCashCertificationView.m */,
+				4B2E82C421CA4F0500DFBD48 /* THNCertificationStatusView.h */,
+				4B2E82C521CA4F0500DFBD48 /* THNCertificationStatusView.m */,
 				D860740A21BE633000DC257B /* THNCashView.h */,
 				D860740B21BE633000DC257B /* THNCashView.m */,
 				D85F266621BF8EC700DF246F /* THNCashAlipayView.h */,
@@ -4371,6 +4411,7 @@
 				4B27B378218717D1004AF42F /* THNSetDetailViewController.m in Sources */,
 				4B27B379218717D1004AF42F /* THNCollectionModel.m in Sources */,
 				4B27B37A218717D1004AF42F /* THNAllsetTableViewCell.m in Sources */,
+				4B2E82C621CA4F0500DFBD48 /* THNCertificationStatusView.m in Sources */,
 				4B27B37B218717D1004AF42F /* THNBaseNavigationController.m in Sources */,
 				D860740021BE57DC00DC257B /* THNCashModeView.m in Sources */,
 				D8B434CC219AC711009D2434 /* THNDynamicImagesTableViewCell.m in Sources */,
@@ -4473,6 +4514,7 @@
 				D8B434CB219AC711009D2434 /* THNDynamicActionTableViewCell.m in Sources */,
 				D85E2B5521BA5D400092732E /* YBImageBrowseCell.m in Sources */,
 				D82C018F219AB0E0009F905F /* THNAddressIDCardView.m in Sources */,
+				4B2E82BA21CA4E1800DFBD48 /* THNCashCertificationView.m in Sources */,
 				4B27B3BB218717D1004AF42F /* THNFeaturedCollectionView.m in Sources */,
 				4B27B3BC218717D1004AF42F /* THNCollectionViewFlowLayout.m in Sources */,
 				4B27B3BD218717D1004AF42F /* THNFeaturedOpenCarouselScrollView.m in Sources */,
@@ -4497,6 +4539,7 @@
 				D85AD68821A7F06600776D34 /* THNSkuModel.m in Sources */,
 				4B27B3D4218717D1004AF42F /* THNGoodsTableViewCells.m in Sources */,
 				4B27B3D5218717D1004AF42F /* THNSkuFilter.m in Sources */,
+				4B2E82B121CA4DC400DFBD48 /* THNLikedWindowViewController.m in Sources */,
 				4B27B3D6218717D1004AF42F /* THNGoodsActionButton+SelfManager.m in Sources */,
 				4B27B3D7218717D1004AF42F /* THNGoodsActionButton.m in Sources */,
 				CDF3D34421B021C2003D841A /* THNGuideCollectionViewCell.m in Sources */,
@@ -4612,6 +4655,7 @@
 				D8D7CFBD219423B400948247 /* THNFollowUserButton+SelfManager.m in Sources */,
 				D82C018C219AB0E0009F905F /* THNLikedWindowCollectionViewCell.m in Sources */,
 				4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */,
+				4B2E82BD21CA4E9E00DFBD48 /* THNAdvertUpdateViewController.m in Sources */,
 				4B27B43C218717D1004AF42F /* THNOrderStoreModel.m in Sources */,
 				D85AD64D21A7CE7400776D34 /* THNFollowUserButton.m in Sources */,
 				4B27B43D218717D1004AF42F /* THNAddressTableViewCell.m in Sources */,
@@ -4660,6 +4704,7 @@
 				4B27B456218717D2004AF42F /* THNFunctionButton.m in Sources */,
 				4B27B457218717D2004AF42F /* THNFunctionButtonView.m in Sources */,
 				4B27B458218717D2004AF42F /* THNFunctionCollectionView.m in Sources */,
+				4B2E82B621CA4E0900DFBD48 /* THNCashCertificationViewController.m in Sources */,
 				4B27B459218717D2004AF42F /* THNFunctionCollectionViewCell.m in Sources */,
 				4B27B45A218717D2004AF42F /* THNFunctionPopupView.m in Sources */,
 				4B27B45B218717D2004AF42F /* THNFunctionSortTableViewCell.m in Sources */,
@@ -4807,6 +4852,7 @@
 				4B27B4C7218717D2004AF42F /* WBEmoticonInputView.m in Sources */,
 				4B27B4CB218717D2004AF42F /* THNNotification.m in Sources */,
 				D82C018A219AB0E0009F905F /* THNLikedWindowTableViewCell.m in Sources */,
+				4B2E82C221CA4EBB00DFBD48 /* THNAdvertUpdateView.m in Sources */,
 				D8D7D001219437DB00948247 /* THNCouponGoodsView.m in Sources */,
 				4B27B4CC218717D2004AF42F /* THNSaveTool.m in Sources */,
 				D805160121ABC5CE002460A5 /* THNLifeCashBillInfoTableViewCell.m in Sources */,
@@ -4832,6 +4878,7 @@
 				D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */,
 				D860740621BE614800DC257B /* THNCashBaseView.m in Sources */,
 				4B27B4D9218717D2004AF42F /* UIImage+Helper.m in Sources */,
+				4B2E82B721CA4E0900DFBD48 /* THNCertificationStatusViewController.m in Sources */,
 				D89A252121C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m in Sources */,
 				D88BC7EB21C3999A00DF3C4F /* THNCashAwardView.m in Sources */,
 				4B27B4DA218717D2004AF42F /* UIImage+GIF.m in Sources */,
@@ -4843,6 +4890,7 @@
 				D85AD68A21A7F06600776D34 /* THNSkuModelColor.m in Sources */,
 				4B27B4DD218717D2004AF42F /* UIView+HandyAutoLayout.m in Sources */,
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
+				4B2E82C321CA4EBB00DFBD48 /* THNAdvertUpdateTableViewCell.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,
 				4B27B4E0218717D2004AF42F /* YYLabel+Helper.m in Sources */,
 				D8A1A75921C52A1C00948438 /* THNInviteFriendsModelFriends.m in Sources */,

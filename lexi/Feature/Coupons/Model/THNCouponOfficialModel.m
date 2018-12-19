@@ -18,6 +18,7 @@ NSString *const kTHNCouponOfficialModelStartDate = @"start_date";
 NSString *const kTHNCouponOfficialModelSurplusCount = @"surplus_count";
 NSString *const kTHNCouponOfficialModelTypeText = @"type_text";
 NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
+NSString *const kTHNCouponOfficialModelCategoryName = @"category_name";
 
 @interface THNCouponOfficialModel ()
 @end
@@ -75,9 +76,13 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 	if(![dictionary[kTHNCouponOfficialModelTypeText] isKindOfClass:[NSNull class]]){
 		self.typeText = dictionary[kTHNCouponOfficialModelTypeText];
 	}	
-	if(![dictionary[kTHNCouponOfficialModelUseCount] isKindOfClass:[NSNull class]]){
-		self.useCount = [dictionary[kTHNCouponOfficialModelUseCount] integerValue];
-	}
+    if(![dictionary[kTHNCouponOfficialModelUseCount] isKindOfClass:[NSNull class]]){
+        self.useCount = [dictionary[kTHNCouponOfficialModelUseCount] integerValue];
+    }
+    
+    if(![dictionary[kTHNCouponOfficialModelCategoryName] isKindOfClass:[NSNull class]]){
+        self.categoryName = dictionary[kTHNCouponOfficialModelCategoryName];
+    }
 
 	return self;
 }
@@ -101,6 +106,9 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 	dictionary[kTHNCouponOfficialModelPickupCount] = @(self.pickupCount);
 	dictionary[kTHNCouponOfficialModelStartDate] = @(self.startDate);
 	dictionary[kTHNCouponOfficialModelSurplusCount] = @(self.surplusCount);
+    if (self.categoryName != nil) {
+        dictionary[kTHNCouponOfficialModelCategoryName] = self.categoryName;
+    }
 	if(self.typeText != nil){
 		dictionary[kTHNCouponOfficialModelTypeText] = self.typeText;
 	}
@@ -120,6 +128,9 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 	[aCoder encodeObject:@(self.amount) forKey:kTHNCouponOfficialModelAmount];	if(self.code != nil){
 		[aCoder encodeObject:self.code forKey:kTHNCouponOfficialModelCode];
 	}
+    if (self.categoryName != nil) {
+        [aCoder encodeObject:self.categoryName forKey:kTHNCouponOfficialModelCategoryName];
+    }
 	[aCoder encodeObject:@(self.count) forKey:kTHNCouponOfficialModelCount];	[aCoder encodeObject:@(self.createdAt) forKey:kTHNCouponOfficialModelCreatedAt];	[aCoder encodeObject:@(self.endDate) forKey:kTHNCouponOfficialModelEndDate];	[aCoder encodeObject:@(self.isGrant) forKey:kTHNCouponOfficialModelIsGrant];	[aCoder encodeObject:@(self.minAmount) forKey:kTHNCouponOfficialModelMinAmount];	[aCoder encodeObject:@(self.pickupCount) forKey:kTHNCouponOfficialModelPickupCount];	[aCoder encodeObject:@(self.startDate) forKey:kTHNCouponOfficialModelStartDate];	[aCoder encodeObject:@(self.surplusCount) forKey:kTHNCouponOfficialModelSurplusCount];	if(self.typeText != nil){
 		[aCoder encodeObject:self.typeText forKey:kTHNCouponOfficialModelTypeText];
 	}
@@ -134,6 +145,7 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 	self = [super init];
 	self.amount = [[aDecoder decodeObjectForKey:kTHNCouponOfficialModelAmount] integerValue];
 	self.code = [aDecoder decodeObjectForKey:kTHNCouponOfficialModelCode];
+    self.categoryName = [aDecoder decodeObjectForKey:kTHNCouponOfficialModelCategoryName];
 	self.count = [[aDecoder decodeObjectForKey:kTHNCouponOfficialModelCount] integerValue];
 	self.createdAt = [[aDecoder decodeObjectForKey:kTHNCouponOfficialModelCreatedAt] integerValue];
 	self.endDate = [[aDecoder decodeObjectForKey:kTHNCouponOfficialModelEndDate] integerValue];
@@ -157,6 +169,7 @@ NSString *const kTHNCouponOfficialModelUseCount = @"use_count";
 
 	copy.amount = self.amount;
 	copy.code = [self.code copy];
+    copy.categoryName = [self.categoryName copy];
 	copy.count = self.count;
 	copy.createdAt = self.createdAt;
 	copy.endDate = self.endDate;

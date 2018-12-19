@@ -14,6 +14,7 @@
 @property (nonatomic, assign) NSInteger surplusCount;
 @property (nonatomic, strong) NSString * typeText;
 @property (nonatomic, assign) NSInteger useCount;
+@property (nonatomic, strong) NSString *categoryName;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

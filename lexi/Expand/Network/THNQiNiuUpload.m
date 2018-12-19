@@ -31,8 +31,6 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
 - (void)uploadQiNiuWithImageData:(NSData *)imageData compltion:(void (^)(NSDictionary *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLUpToken requestDictionary:nil delegate:nil];
     
-    [SVProgressHUD thn_show];
-    
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         if (![result hasData]) return;
         
@@ -71,8 +69,6 @@ static NSString *const kURLUpToken      = @"/assets/user_upload_token";
                       }
                   }
                     option:opt];
-        
-        [SVProgressHUD dismiss];
         
     } failure:^(THNRequest *request, NSError *error) {
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];

@@ -38,6 +38,7 @@
 #import "UIScrollView+THNMJRefresh.h"
 #import "THNInvitationViewController.h"
 #import "THNAdvertInviteView.h"
+#import "THNAdvertUpdateViewController.h"
 
 #define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
@@ -99,9 +100,10 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.recordUid = [THNLoginManager sharedManager].userId;
     [self setupUI];
     [self thn_switchCurrentListDataWithType:THNHeaderViewSelectedTypeLiked];
-    self.recordUid = [THNLoginManager sharedManager].userId;
+    [self thn_openUpdateController];
 }
 
 #pragma mark - custom delegate
@@ -289,10 +291,12 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     
     [self.tableView reloadData];
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self thn_showInvitationView];
-    });
+    if ([THNLoginManager isTodayFirstLaunch]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self thn_showInvitationView];
+        });
+    }
 }
 
 /**
@@ -707,7 +711,7 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
  */
 - (void)thn_openInvitationController {
     if (!self.userModel.uid) return;
-    
+
     THNInvitationViewController *invitationVC = [[THNInvitationViewController alloc] initWithUserModel:self.userModel];
     [self.navigationController pushViewController:invitationVC animated:YES];
 }
@@ -755,6 +759,15 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc] init];
     shopWindowDetail.shopWindowModel = shopWindowModel;
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
+}
+
+/**
+ 打开版本更新视图
+ */
+- (void)thn_openUpdateController {
+    THNAdvertUpdateViewController *updateVC = [[THNAdvertUpdateViewController alloc] init];
+    updateVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:updateVC animated:NO completion:nil];
 }
 
 #pragma mark - tableView dataSource

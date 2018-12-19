@@ -37,6 +37,7 @@
 #import "THNBaseNavigationController.h"
 #import "THNGoodsListViewController.h"
 #import "UIImageView+WebCache.h"
+#import "THNAdvertUpdateViewController.h"
 
 static CGFloat const livingHallHeaderViewHeight = 554;
 static NSString *const kLivingHallRecommendProductSetCellIdentifier = @"kLivingHallRecommendProductSetCellIdentifier";
@@ -168,6 +169,7 @@ THNExploreTableViewCellDelegate
         [self.tableView endHeaderRefresh];
         if (self.isNeedsHud) {
             [self hiddenHud];
+            [self thn_openUpdateController];
         }
         
         if (!result.success) {
@@ -189,6 +191,15 @@ THNExploreTableViewCellDelegate
     } failure:^(THNRequest *request, NSError *error) {
     
     }];
+}
+
+/**
+ 打开版本更新视图
+ */
+- (void)thn_openUpdateController {
+    THNAdvertUpdateViewController *updateVC = [[THNAdvertUpdateViewController alloc] init];
+    updateVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:updateVC animated:NO completion:nil];
 }
 
 // 本周最受人气欢迎

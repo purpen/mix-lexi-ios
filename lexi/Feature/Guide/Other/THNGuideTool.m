@@ -16,17 +16,12 @@
 @implementation THNGuideTool
 
 + (UIViewController *)chooseRootViewController {
-
     NSString *newVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
-
     NSString *oldVersion = [THNSaveTool objectForKey:kClientVersionKey];
-
     UIViewController *rootVC;
 
     if (![newVersion isEqualToString:oldVersion]) {
-
         rootVC = [[THNGuideCollectionViewController alloc] init];
-
         [THNSaveTool setObject:newVersion forKey:kClientVersionKey];
 
     } else {
@@ -34,7 +29,6 @@
     }
 
     return rootVC;
-
 }
 
 @end

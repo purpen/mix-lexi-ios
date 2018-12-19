@@ -23,6 +23,7 @@
 @property (nonatomic, strong) YYLabel *hintLabel;
 @property (nonatomic, strong) YYLabel *moneyLabel;
 @property (nonatomic, strong) YYLabel *conditionLabel;
+@property (nonatomic, strong) YYLabel *categoryLabel;
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIImageView *noneImageView;
 @property (nonatomic, strong) THNCouponOfficialModel *couponModel;
@@ -44,6 +45,7 @@
     
     [self thn_setCouponAmoutTextWithValue:model.amount];
     self.conditionLabel.text = [NSString stringWithFormat:@"满%.0f元可用", model.minAmount];
+    self.categoryLabel.text = [NSString stringWithFormat:@"·%@·", model.categoryName];
     [self thn_setCouponStatusWithCount:model.count];
     [self thn_setDoneButtonStatus:self.couponModel.isGrant];
 }
@@ -112,6 +114,7 @@
     [self addSubview:self.hintLabel];
     [self.containerView addSubview:self.moneyLabel];
     [self.containerView addSubview:self.conditionLabel];
+    [self.containerView addSubview:self.categoryLabel];
     [self.containerView addSubview:self.doneButton];
     [self addSubview:self.containerView];
     [self addSubview:self.noneImageView];
@@ -121,7 +124,7 @@
 
 - (void)setMasonryLayout {
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 128));
+        make.size.mas_equalTo(CGSizeMake(100, 143));
         make.left.top.mas_equalTo(0);
     }];
     
@@ -145,7 +148,14 @@
     [self.conditionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(5);
         make.right.mas_equalTo(-5);
-        make.top.equalTo(self.moneyLabel.mas_bottom).with.offset(10);
+        make.top.equalTo(self.moneyLabel.mas_bottom).with.offset(9);
+        make.height.mas_equalTo(12);
+    }];
+    
+    [self.categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(5);
+        make.right.mas_equalTo(-5);
+        make.top.equalTo(self.conditionLabel.mas_bottom).with.offset(9);
         make.height.mas_equalTo(12);
     }];
     
@@ -204,6 +214,16 @@
         _conditionLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _conditionLabel;
+}
+
+- (YYLabel *)categoryLabel {
+    if (!_categoryLabel) {
+        _categoryLabel = [[YYLabel alloc] init];
+        _categoryLabel.font = [UIFont systemFontOfSize:10 weight:(UIFontWeightMedium)];
+        _categoryLabel.textColor = [UIColor colorWithHexString:@"#A82D11"];
+        _categoryLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _categoryLabel;
 }
 
 - (UIButton *)doneButton {
