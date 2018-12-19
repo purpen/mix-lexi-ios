@@ -230,8 +230,8 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         [self thn_openShareController];
         
     } else if ([message.name isEqualToString:kScriptCash]) {
-//        [self thn_openCashMoneyController];
-        [self thn_openCashCertificationController];
+        [self thn_openCashMoneyController];
+//        [self thn_openCashCertificationController];
         
     } else if ([message.name isEqualToString:kScriptShareF]) {
         NSInteger index = [message.body integerValue];

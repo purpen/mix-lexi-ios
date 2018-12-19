@@ -10,6 +10,7 @@
 #import "THNCashCertificationView.h"
 #import "THNQiNiuUpload.h"
 #import "THNPhotoManager.h"
+#import "THNCertificationStatusViewController.h"
 
 static NSString *const kTitleCertification = @"实名认证";
 
@@ -29,7 +30,8 @@ static NSString *const kTitleCertification = @"实名认证";
 
 #pragma mark - custom delegate
 - (void)thn_cashCommitCertificationInfo:(NSDictionary *)info {
-    [SVProgressHUD thn_showInfoWithStatus:@"提交的信息"];
+    NSLog(@"提交认证的信息： %@", info);
+    [self thn_openStatusController];
 }
 
 - (void)thn_cashUploadFrontIDCardImage {
@@ -63,6 +65,11 @@ static NSString *const kTitleCertification = @"实名认证";
             [SVProgressHUD dismiss];
         }];
     }];
+}
+
+- (void)thn_openStatusController {
+    THNCertificationStatusViewController *statusVC = [[THNCertificationStatusViewController alloc] init];
+    [self.navigationController pushViewController:statusVC animated:YES];
 }
 
 #pragma mark - setup UI

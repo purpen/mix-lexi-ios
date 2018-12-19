@@ -344,7 +344,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (collectionView == self.recommendCollectionView) {
         if (indexPath.section == 0) {
-            return CGSizeMake(SCREEN_WIDTH - 30, self.officialCouponArr.count ? 128 : 0.01);
+            return CGSizeMake(SCREEN_WIDTH - 30, self.officialCouponArr.count ? 143 : 0.01);
             
         } else if (indexPath.section == 1) {
             return [self thn_getBrandCouponCellSizeWithIndexPath:indexPath];

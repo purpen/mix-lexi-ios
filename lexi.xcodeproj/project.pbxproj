@@ -561,6 +561,10 @@
 		D89A252121C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252021C7A2E2002E5BF2 /* THNLifeInviteStoreViewController.m */; };
 		D89A252421C8E98C002E5BF2 /* THNCashCertificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */; };
 		D89A252721C8EAAB002E5BF2 /* THNCashCertificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */; };
+		D89A252A21C9E1FA002E5BF2 /* THNCertificationStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252921C9E1FA002E5BF2 /* THNCertificationStatusView.m */; };
+		D89A252D21C9E77C002E5BF2 /* THNCertificationStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252C21C9E77C002E5BF2 /* THNCertificationStatusViewController.m */; };
+		D89A253021C9E989002E5BF2 /* THNAdvertUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252F21C9E989002E5BF2 /* THNAdvertUpdateViewController.m */; };
+		D89A253321C9E9A8002E5BF2 /* THNAdvertUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */; };
 		D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75121C5267700948438 /* THNInviteCountModel.m */; };
@@ -1609,6 +1613,14 @@
 		D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationViewController.m; sourceTree = "<group>"; };
 		D89A252521C8EAAB002E5BF2 /* THNCashCertificationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCashCertificationView.h; sourceTree = "<group>"; };
 		D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCashCertificationView.m; sourceTree = "<group>"; };
+		D89A252821C9E1FA002E5BF2 /* THNCertificationStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCertificationStatusView.h; sourceTree = "<group>"; };
+		D89A252921C9E1FA002E5BF2 /* THNCertificationStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCertificationStatusView.m; sourceTree = "<group>"; };
+		D89A252B21C9E77C002E5BF2 /* THNCertificationStatusViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNCertificationStatusViewController.h; sourceTree = "<group>"; };
+		D89A252C21C9E77C002E5BF2 /* THNCertificationStatusViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNCertificationStatusViewController.m; sourceTree = "<group>"; };
+		D89A252E21C9E989002E5BF2 /* THNAdvertUpdateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateViewController.h; sourceTree = "<group>"; };
+		D89A252F21C9E989002E5BF2 /* THNAdvertUpdateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateViewController.m; sourceTree = "<group>"; };
+		D89A253121C9E9A8002E5BF2 /* THNAdvertUpdateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateView.h; sourceTree = "<group>"; };
+		D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateView.m; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
 		D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNDynamicActionTableViewCell+Action.m"; sourceTree = "<group>"; };
 		D8A1A74E21C5267600948438 /* THNInviteAmountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteAmountModel.h; sourceTree = "<group>"; };
@@ -3299,6 +3311,8 @@
 		CDF3D32B21B01A18003D841A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D89A252E21C9E989002E5BF2 /* THNAdvertUpdateViewController.h */,
+				D89A252F21C9E989002E5BF2 /* THNAdvertUpdateViewController.m */,
 				CDF3D32C21B01A18003D841A /* THNAdvertCouponViewController.h */,
 				CDF3D32D21B01A18003D841A /* THNAdvertCouponViewController.m */,
 			);
@@ -3314,6 +3328,8 @@
 				CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */,
 				D87D8B4D21C236BC00F678B0 /* THNAdvertInviteView.h */,
 				D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */,
+				D89A253121C9E9A8002E5BF2 /* THNAdvertUpdateView.h */,
+				D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3818,6 +3834,8 @@
 				D86073F621BE477300DC257B /* THNCashInfoViewController.m */,
 				D89A252221C8E98C002E5BF2 /* THNCashCertificationViewController.h */,
 				D89A252321C8E98C002E5BF2 /* THNCashCertificationViewController.m */,
+				D89A252B21C9E77C002E5BF2 /* THNCertificationStatusViewController.h */,
+				D89A252C21C9E77C002E5BF2 /* THNCertificationStatusViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3849,6 +3867,8 @@
 				D88BC7EA21C3999A00DF3C4F /* THNCashAwardView.m */,
 				D89A252521C8EAAB002E5BF2 /* THNCashCertificationView.h */,
 				D89A252621C8EAAB002E5BF2 /* THNCashCertificationView.m */,
+				D89A252821C9E1FA002E5BF2 /* THNCertificationStatusView.h */,
+				D89A252921C9E1FA002E5BF2 /* THNCertificationStatusView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4608,6 +4628,7 @@
 				D82C018C219AB0E0009F905F /* THNLikedWindowCollectionViewCell.m in Sources */,
 				4B27B43B218717D1004AF42F /* THNOrdersModel.m in Sources */,
 				4B27B43C218717D1004AF42F /* THNOrderStoreModel.m in Sources */,
+				D89A253021C9E989002E5BF2 /* THNAdvertUpdateViewController.m in Sources */,
 				D85AD64D21A7CE7400776D34 /* THNFollowUserButton.m in Sources */,
 				4B27B43D218717D1004AF42F /* THNAddressTableViewCell.m in Sources */,
 				4B27B43E218717D1004AF42F /* THNBuyProgressView.m in Sources */,
@@ -4780,6 +4801,7 @@
 				4B27B4B7218717D2004AF42F /* THNShopWindowDetailViewController.m in Sources */,
 				4B27B4B8218717D2004AF42F /* THNShopWindowViewController.m in Sources */,
 				4B27B4B9218717D2004AF42F /* THNShopWindowModel.m in Sources */,
+				D89A252A21C9E1FA002E5BF2 /* THNCertificationStatusView.m in Sources */,
 				4B27B4BA218717D2004AF42F /* THNWindowModel.m in Sources */,
 				4B27B4BB218717D2004AF42F /* THNWindowModelProducts.m in Sources */,
 				4B27B4BC218717D2004AF42F /* THNWindowModelShopWindows.m in Sources */,
@@ -4803,6 +4825,7 @@
 				4B27B4C9218717D2004AF42F /* THNTextConst.m in Sources */,
 				4B27B4CA218717D2004AF42F /* NSObject+EnumManagement.m in Sources */,
 				4B27B4CB218717D2004AF42F /* THNNotification.m in Sources */,
+				D89A253321C9E9A8002E5BF2 /* THNAdvertUpdateView.m in Sources */,
 				D82C018A219AB0E0009F905F /* THNLikedWindowTableViewCell.m in Sources */,
 				D8D7D001219437DB00948247 /* THNCouponGoodsView.m in Sources */,
 				4B27B4CC218717D2004AF42F /* THNSaveTool.m in Sources */,
@@ -4813,6 +4836,7 @@
 				4B27B4D0218717D2004AF42F /* THNResponse.m in Sources */,
 				D85E2B5421BA5D400092732E /* YBImageBrowseCellData.m in Sources */,
 				D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */,
+				D89A252D21C9E77C002E5BF2 /* THNCertificationStatusViewController.m in Sources */,
 				D805160E21ABC5CE002460A5 /* THNApplySuccessView.m in Sources */,
 				4B27B4D1218717D2004AF42F /* THNQiNiuUpload.m in Sources */,
 				4B27B4D2218717D2004AF42F /* NSDictionary+Helper.m in Sources */,

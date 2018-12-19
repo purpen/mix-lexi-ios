@@ -72,7 +72,7 @@ static NSString *const kOfficialCouponCollectionViewCellId = @"THNOfficialCoupon
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumLineSpacing = 10;
         flowLayout.minimumInteritemSpacing = 10;
-        flowLayout.itemSize = CGSizeMake(100, 128);
+        flowLayout.itemSize = CGSizeMake(100, 143);
         flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
