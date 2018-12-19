@@ -10,6 +10,9 @@
 #import "THNMarco.h"
 #import "THNConst.h"
 #import "UIColor+Extension.h"
+#import "THNAdvertUpdateTableViewCell.h"
+
+static NSString *const kAdvertUpdateTableViewCell = @"THNAdvertUpdateTableViewCellID";
 
 static NSString *const kTextHint    = @"【新版本更新】";
 static NSString *const kTextDone    = @"立即更新";
@@ -24,6 +27,7 @@ static NSString *const kTableViewCellID = @"TableViewCellID";
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) NSMutableArray *contentArr;
 
 @end
 
@@ -35,6 +39,15 @@ static NSString *const kTableViewCellID = @"TableViewCellID";
         [self setupViewUI];
     }
     return self;
+}
+
+- (void)thn_setUpdateContents:(NSArray *)contents {
+    if (!contents.count) return;
+    
+    self.contentArr = [NSMutableArray arrayWithArray:contents];
+    [self.contentArr insertObject:kTextHint atIndex:0];
+    
+    [self.contentTable reloadData];
 }
 
 #pragma mark - event response
@@ -54,6 +67,7 @@ static NSString *const kTableViewCellID = @"TableViewCellID";
 - (void)setupViewUI {
     self.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
     
+    [self addSubview:self.iconImageView];
     [self addSubview:self.contentTable];
     [self.containerView addSubview:self.doneButton];
     [self.containerView addSubview:self.cancelButton];
@@ -62,42 +76,51 @@ static NSString *const kTableViewCellID = @"TableViewCellID";
 
 #pragma mark - tableView datasource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return self.contentArr.count ? self.contentArr.count : 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44.0;
+    if (self.contentArr.count && self.contentArr.count < 3) {
+        return 118 / self.contentArr.count;
+    }
+    
+    return indexPath.row == 0 ? 30 : 44;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTableViewCellID];
+    THNAdvertUpdateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAdvertUpdateTableViewCell];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kTableViewCellID];
+        cell = [[THNAdvertUpdateTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:kAdvertUpdateTableViewCell];
+    }
+    
+    if (self.contentArr.count) {
+        [cell thn_setUpdateContent:self.contentArr[indexPath.row]];
     }
     
     return cell;
 }
 
 #pragma mark - getters and setters
+- (UIImageView *)iconImageView {
+    if (!_iconImageView) {
+        _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 260) / 2, (SCREEN_HEIGHT - 340) / 2, 260, 105)];
+        _iconImageView.image = [UIImage imageNamed:@"advert_update_bg"];
+    }
+    return _iconImageView;
+}
+
 - (UITableView *)contentTable {
     if (!_contentTable) {
-        _contentTable = [[UITableView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 260) / 2, (SCREEN_HEIGHT - 340) / 2, 260, 237)
+        _contentTable = [[UITableView alloc] initWithFrame: \
+                         CGRectMake((SCREEN_WIDTH - 260) / 2, CGRectGetMaxY(self.iconImageView.frame), 260, 118)
                                                      style:(UITableViewStylePlain)];
         _contentTable.delegate = self;
         _contentTable.dataSource = self;
         _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _contentTable.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0];
-        _contentTable.tableHeaderView = self.iconImageView;
+        _contentTable.backgroundColor = [UIColor whiteColor];
+        _contentTable.showsVerticalScrollIndicator = NO;
     }
     return _contentTable;
-}
-
-- (UIImageView *)iconImageView {
-    if (!_iconImageView) {
-        _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 260, 105)];
-        _iconImageView.image = [UIImage imageNamed:@"advert_update_bg"];
-    }
-    return _iconImageView;
 }
 
 - (UIView *)containerView {

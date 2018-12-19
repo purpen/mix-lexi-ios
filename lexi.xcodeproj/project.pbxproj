@@ -565,6 +565,7 @@
 		D89A252D21C9E77C002E5BF2 /* THNCertificationStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252C21C9E77C002E5BF2 /* THNCertificationStatusViewController.m */; };
 		D89A253021C9E989002E5BF2 /* THNAdvertUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A252F21C9E989002E5BF2 /* THNAdvertUpdateViewController.m */; };
 		D89A253321C9E9A8002E5BF2 /* THNAdvertUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */; };
+		D89A253621CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D89A253521CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.m */; };
 		D89D82D8219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */; };
 		D8A1A75221C5267700948438 /* THNInviteAmountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A74F21C5267600948438 /* THNInviteAmountModel.m */; };
 		D8A1A75321C5267700948438 /* THNInviteCountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A1A75121C5267700948438 /* THNInviteCountModel.m */; };
@@ -1621,6 +1622,8 @@
 		D89A252F21C9E989002E5BF2 /* THNAdvertUpdateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateViewController.m; sourceTree = "<group>"; };
 		D89A253121C9E9A8002E5BF2 /* THNAdvertUpdateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateView.h; sourceTree = "<group>"; };
 		D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateView.m; sourceTree = "<group>"; };
+		D89A253421CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNAdvertUpdateTableViewCell.h; sourceTree = "<group>"; };
+		D89A253521CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNAdvertUpdateTableViewCell.m; sourceTree = "<group>"; };
 		D89D82D6219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THNDynamicActionTableViewCell+Action.h"; sourceTree = "<group>"; };
 		D89D82D7219C017200CC5A09 /* THNDynamicActionTableViewCell+Action.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "THNDynamicActionTableViewCell+Action.m"; sourceTree = "<group>"; };
 		D8A1A74E21C5267600948438 /* THNInviteAmountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNInviteAmountModel.h; sourceTree = "<group>"; };
@@ -3330,6 +3333,8 @@
 				D87D8B4E21C236BC00F678B0 /* THNAdvertInviteView.m */,
 				D89A253121C9E9A8002E5BF2 /* THNAdvertUpdateView.h */,
 				D89A253221C9E9A8002E5BF2 /* THNAdvertUpdateView.m */,
+				D89A253421CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.h */,
+				D89A253521CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4863,6 +4868,7 @@
 				D85AD68A21A7F06600776D34 /* THNSkuModelColor.m in Sources */,
 				4B27B4DD218717D2004AF42F /* UIView+HandyAutoLayout.m in Sources */,
 				4B27B4DE218717D2004AF42F /* UIView+Helper.m in Sources */,
+				D89A253621CA2022002E5BF2 /* THNAdvertUpdateTableViewCell.m in Sources */,
 				4B27B4DF218717D2004AF42F /* UIView+LayoutMethods.m in Sources */,
 				4B27B4E0218717D2004AF42F /* YYLabel+Helper.m in Sources */,
 				D8A1A75921C52A1C00948438 /* THNInviteFriendsModelFriends.m in Sources */,

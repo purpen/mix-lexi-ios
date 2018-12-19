@@ -13,7 +13,9 @@
 #import "THNShareViewController.h"
 #import "THNLoginManager.h"
 #import <UMShare/UMShare.h>
+#import "THNAlertView.h"
 
+static NSInteger const maxCashCount         = 3;
 /// text
 static NSString *const kTitleInvitation     = @"邀请好友";
 static NSString *const kTextShare           = @"开一个能赚钱的生活馆";
@@ -25,9 +27,12 @@ static NSString *const kShareContent1       = @"你还没有参加吗？安装�
 static NSString *const kShareDes1           = @"每天都可以赚现金";
 static NSString *const kShareContent2       = @"做颗喜糖，拿35元现金，逛全球优质设计师手作社群";
 static NSString *const kShareDes2           = @"边玩边赚钱";
+static NSString *const kTextHint            = @"你今日提现已达三次\n明日再来吧!";
 /// url
 static NSString *const kURLInvitation   = @"https://h5.lexivip.com/invitation?uid=";
 static NSString *const kURLShareUrl     = @"https://h5.lexivip.com/redenvelope?uid=";
+static NSString *const kURLCashCount    = @"/cash_money/count";
+static NSString *const kKeyCashCount    = @"cash_count";
 /// script
 static NSString *const kScriptShare     = @"share";
 static NSString *const kScriptCash      = @"cashMoney";
@@ -37,6 +42,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) THNUserModel *userModel;
+@property (nonatomic, assign) NSInteger cashCount;
 
 @end
 
@@ -57,6 +63,24 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     [self loadInvitation];
 }
 
+#pragma mark - network
+- (void)requestTodayCashMoneyCount {
+    THNRequest *request = [THNAPI getWithUrlString:kURLCashCount requestDictionary:@{} delegate:nil];
+    [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        if (!result.isSuccess) {
+            [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
+            return ;
+        }
+        
+        if(![result.data[kKeyCashCount] isKindOfClass:[NSNull class]]){
+            self.cashCount = [result.data[kKeyCashCount] integerValue];
+        }
+        
+    } failure:^(THNRequest *request, NSError *error) {
+        [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+    }];
+}
+
 #pragma mark - private methods
 - (void)loadInvitation {
     NSString *loadUrl = [NSString stringWithFormat:@"%@%@", kURLInvitation, self.userModel.uid];
@@ -66,13 +90,29 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
 }
 
 - (void)thn_openCashMoneyController {
-    THNCashViewController *cashVC = [[THNCashViewController alloc] init];
-    [self.navigationController pushViewController:cashVC animated:YES];
+    if (self.cashCount < maxCashCount) {
+        THNCashViewController *cashVC = [[THNCashViewController alloc] init];
+        [self.navigationController pushViewController:cashVC animated:YES];
+        
+    } else {
+        [self thn_overCashCountAlert];
+    }
 }
 
 - (void)thn_openCashCertificationController {
     THNCashCertificationViewController *certificationVC = [[THNCashCertificationViewController alloc] init];
     [self.navigationController pushViewController:certificationVC animated:YES];
+}
+
+- (void)thn_overCashCountAlert {
+    THNAlertView *alertView = [THNAlertView initAlertViewTitle:kTextHint message:@""];
+    alertView.mainActionColor = [UIColor whiteColor];
+    alertView.mainTitleColor = [UIColor colorWithHexString:kColorMain];
+    [alertView addActionButtonWithTitle:@"确定" handler:^(UIButton *actionButton, NSInteger index) {
+        
+    }];
+    
+    [alertView show];
 }
 
 /**
@@ -206,6 +246,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     
     self.navigationBarView.title = kTitleInvitation;
     
+    [self requestTodayCashMoneyCount];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShare];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptCash];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:kScriptShareF];
@@ -230,8 +271,8 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         [self thn_openShareController];
         
     } else if ([message.name isEqualToString:kScriptCash]) {
-        [self thn_openCashMoneyController];
-//        [self thn_openCashCertificationController];
+//        [self thn_openCashMoneyController];
+        [self thn_openCashCertificationController];
         
     } else if ([message.name isEqualToString:kScriptShareF]) {
         NSInteger index = [message.body integerValue];

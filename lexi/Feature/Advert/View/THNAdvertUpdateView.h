@@ -19,4 +19,6 @@
 
 @property (nonatomic, weak) id <THNAdvertUpdateViewDelegate> delegate;
 
+- (void)thn_setUpdateContents:(NSArray *)contents;
+
 @end

@@ -39,8 +39,6 @@
 #import "THNInvitationViewController.h"
 #import "THNAdvertInviteView.h"
 
-#import "THNAdvertUpdateViewController.h"
-
 #define kShareUserInfo(obj) [NSString stringWithFormat:@"@%@在#乐喜#悄悄收藏了一些原创精品好物", obj]
 
 /// seciton header 默认的标题
@@ -104,14 +102,6 @@ static NSString *const kStoreGodsTableViewCellId    = @"StoreGodsTableViewCellId
     [self setupUI];
     [self thn_switchCurrentListDataWithType:THNHeaderViewSelectedTypeLiked];
     self.recordUid = [THNLoginManager sharedManager].userId;
-    
-    [self thn_openUpdateController];
-}
-
-- (void)thn_openUpdateController {
-    THNAdvertUpdateViewController *updateVC = [[THNAdvertUpdateViewController alloc] init];
-    updateVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [self presentViewController:updateVC animated:NO completion:nil];
 }
 
 #pragma mark - custom delegate
