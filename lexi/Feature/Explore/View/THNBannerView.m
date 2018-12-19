@@ -15,6 +15,7 @@
 #import "THNBannnerCollectionViewCell.h"
 #import "THNBannerModel.h"
 #import <MJExtension/MJExtension.h>
+#import <WXApi.h>
 
 static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
 
@@ -157,9 +158,32 @@ static NSString *const kBannerCellIdentifier = @"kBannerCellIdentifier";
             break;
         case BannerContentTypeSpecialTopic:
             break;
-        default:
+        case BannerContentTypeArticle:
             if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushArticle:)]) {
                 [self.delegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeGrassList:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushArticle:)]) {
+                [self.delegate bannerPushArticle:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeApplets:{
+            WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
+            launchMiniProgramReq.userName = @"乐喜Lite";  //拉起的小程序的username
+            launchMiniProgramReq.path = bannerModel.link;    //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+            launchMiniProgramReq.miniProgramType = WXMiniProgramTypeRelease; //拉起小程序的类型
+            [WXApi sendReq:launchMiniProgramReq];
+            break;
+        }
+        case BannerContentTypeSet:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushSet:)]) {
+                [self.delegate bannerPushSet:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeShopWindow:
+            if (self.delegate && [self.delegate respondsToSelector:@selector(bannerPushShowWindow:)]) {
+                [self.delegate bannerPushShowWindow:bannerModel.link];
             }
             break;
     }

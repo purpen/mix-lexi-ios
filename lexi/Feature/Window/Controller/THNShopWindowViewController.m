@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, ShowWindowType) {
     
 };
 
-static CGFloat const showImageViewHeight = 200;
+static CGFloat const showImageViewHeight = 181;
 static NSString *const kShopWindowCellIdentifier = @"kShopWindowCellIdentifier";
 static NSString *const kShopWindowsRecommend = @"/shop_windows/recommend";
 static NSString *const kShopWindowsFollow = @"/shop_windows/follow";

@@ -310,6 +310,7 @@ THNShopWindowTableViewCellDelegate
             return;
         }
         
+        [self.tableView reloadData];
         [self loadShowWindowGuessLikeData];
 
     } failure:^(THNRequest *request, NSError *error) {

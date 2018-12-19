@@ -22,6 +22,8 @@
 #import "THNGoodsListViewController.h"
 #import "THNWebKitViewViewController.h"
 #import "UIViewController+THNHud.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNSetDetailViewController.h"
 
 static NSString *const kUrGuessLikes = @"/life_records/guess_likes";
 static NSString *const kUrWonderfulStories = @"/life_records/wonderful_stories";
@@ -308,6 +310,18 @@ static NSString *const kUrlDiscoverBanner = @"/banners/discover_ad";
 - (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)bannerPushSet:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
+}
+
+- (void)bannerPushShowWindow:(NSString *)shopWindowRid {
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.rid = shopWindowRid;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 #pragma mark -lazy

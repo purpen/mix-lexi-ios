@@ -21,6 +21,8 @@
 #import "UIViewController+THNHud.h"
 #import "THNWebKitViewViewController.h"
 #import "UIView+Helper.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNSetDetailViewController.h"
 
 static NSString *const kUrlBrandHallFeatured = @"/column/handpick_store";
 static NSString *const kUrlBrandHallBannerStore = @"/banners/store_ad";
@@ -165,6 +167,18 @@ static NSString *const kBrandHallFeaturedCollectionCellIdentifier = @"kBrandHall
 - (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)bannerPushSet:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
+}
+
+- (void)bannerPushShowWindow:(NSString *)shopWindowRid {
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.rid = shopWindowRid;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 #pragma mark - lazy

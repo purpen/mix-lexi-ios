@@ -27,6 +27,8 @@
 #import "UIViewController+THNHud.h"
 #import "THNLoginManager.h"
 #import "THNWebKitViewViewController.h"
+#import "THNShopWindowDetailViewController.h"
+#import "THNSetDetailViewController.h"
 
 static NSString *const kCenterProductCellIdentifier = @"kCenterProductCellIdentifier";
 static NSString *const kUrlDistributeHot = @"/fx_distribute/hot";
@@ -246,6 +248,18 @@ static NSString *const kUrlDistributeLatest = @"/fx_distribute/latest";
 - (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)bannerPushSet:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
+}
+
+- (void)bannerPushShowWindow:(NSString *)shopWindowRid {
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.rid = shopWindowRid;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

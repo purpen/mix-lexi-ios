@@ -35,8 +35,6 @@
 #import "THNSignInViewController.h"
 #import "THNApplyStoreViewController.h"
 #import "THNBaseNavigationController.h"
-#import "THNAdvertManager.h"
-#import "THNAdvertCouponViewController.h"
 #import "THNGoodsListViewController.h"
 #import "UIImageView+WebCache.h"
 
@@ -134,21 +132,6 @@ THNExploreTableViewCellDelegate
     self.headLineView.frame = CGRectMake(20, 160, SCREEN_WIDTH - 40, 110);
 }
 
-/**
- 展示新用户领红包视图
- */
-- (void)thn_showNewUserBonusAdvertView {
-    if (![THNAdvertManager canGetBonus]) {
-        return;
-        
-    } else {
-        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
-        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
-        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:navVC animated:NO completion:nil];
-    }
-}
-
 // 解决HeaderView和footerView悬停的问题
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     return [super initWithStyle:UITableViewStyleGrouped];
@@ -201,11 +184,6 @@ THNExploreTableViewCellDelegate
         self.title = result.data[@"title"];
         [self.tableView reloadData];
         
-        // 等HUD隐藏后并且第一次进行弹出
-        if (self.isNeedsHud) {
-            [self thn_showNewUserBonusAdvertView];
-        }
-        
         [self loadWeekPopularData];
         
     } failure:^(THNRequest *request, NSError *error) {
@@ -239,8 +217,11 @@ THNExploreTableViewCellDelegate
 //        }
         
         NSInteger showCellCount = self.weekPopularArray.count % 2 == 0 ? self.weekPopularArray.count / 2 : self.weekPopularArray.count / 2 + 1;
-        self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 10) * showCellCount + 70;
         
+        if (showCellCount > 0) {
+            self.featureCellHeight = ((SCREEN_WIDTH - 49) / 2 + 46 + 10) * showCellCount + 70;
+        }
+     
         [self.featureCell setCellTypeStyle:FeaturedNo initWithDataArray:self.weekPopularArray initWithTitle:@"本周最受欢迎"];
         
         [self.tableView endFooterRefreshAndCurrentPageChange:YES];
@@ -396,15 +377,19 @@ THNExploreTableViewCellDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,self.footerViewHeight + 15)];
-    self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH, self.featureCellHeight);
-    self.featureCell.backgroundColor = [UIColor whiteColor];
-    [footerView addSubview:self.featureCell];
+    
+    if (self.featureCellHeight > 0) {
+        self.featureCell.frame = CGRectMake(0, 15, SCREEN_WIDTH, self.featureCellHeight);
+        self.featureCell.backgroundColor = [UIColor whiteColor];
+        [footerView addSubview:self.featureCell];
+    }
+   
     return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // featureCell距footerView的间距
-    return self.featureCellHeight + 15;
+    return self.featureCellHeight > 0 ? self.featureCellHeight + 15 : 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

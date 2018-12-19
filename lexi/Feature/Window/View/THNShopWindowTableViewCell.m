@@ -223,6 +223,8 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
         self.shopWindowModel.like_count--;
     }
     
+    self.likeLabel.hidden = self.shopWindowModel.like_count == 0 ?: NO;
+    
     self.likeLabel.text = [NSString stringWithFormat:@"%ld喜欢",self.shopWindowModel.like_count];
 }
 

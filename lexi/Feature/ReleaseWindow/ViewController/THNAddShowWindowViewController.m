@@ -29,7 +29,8 @@ static NSString *const kShopWindowsSearchKeywords = @"/shop_windows/search/keywo
 UICollectionViewDelegate,
 UICollectionViewDataSource,
 THNSearchViewDelegate,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+THNMJRefreshDelegate
 >
 
 @property (nonatomic, strong) THNSearchView *searchView;
@@ -38,8 +39,9 @@ UICollectionViewDelegateFlowLayout
 @property (nonatomic, strong) NSArray *historyWords;
 @property (nonatomic, assign) AddShowWindowCellType showWindowCellType;
 @property (nonatomic, strong) NSMutableArray *sections;
-@property (nonatomic, strong) NSArray *hotKeyWords;
+@property (nonatomic, strong) NSMutableArray *hotKeyWords;
 @property (nonatomic, strong) THNSearchWindowLabelResultViewController *searchIndexVC;
+@property(nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -58,6 +60,9 @@ UICollectionViewDelegateFlowLayout
     [self.view addSubview:self.searchView];
     [self.searchView layoutSearchView:SearchViewTypeNoCancel withSearchKeyword:nil];
     [self.view addSubview:self.collectionView];
+    [self.collectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.collectionView resetCurrentPageNumber];
+    self.currentPage = 1;
 }
 
 - (void)loadData {
@@ -65,8 +70,14 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)loadPopulatSearchKeywordData {
-    [self showHud];
-    THNRequest *request = [THNAPI getWithUrlString:kShopWindowsHotSearchKeywords requestDictionary:nil delegate:nil];
+    
+    if (self.currentPage == 1) {
+        [self showHud];
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"page"] = @(self.currentPage);
+    THNRequest *request = [THNAPI getWithUrlString:kShopWindowsHotSearchKeywords requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
         [self hiddenHud];
         if (!result.success) {
@@ -74,11 +85,17 @@ UICollectionViewDelegateFlowLayout
             return;
         }
 
-        self.hotKeyWords = [THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]];
+        [self.hotKeyWords addObjectsFromArray:[THNHotKeywordModel mj_objectArrayWithKeyValuesArray:result.data[@"keywords"]]];
         
-        if (self.hotKeyWords.count > 0) {
+        if (self.hotKeyWords.count > 0 && ![self.searchTypes containsObject:@(AddShowWindowCellTypePopular)]) {
             [self.searchTypes addObject:@(AddShowWindowCellTypePopular)];
             [self.sections addObject:self.hotKeyWords];
+        }
+        
+        [self.collectionView endFooterRefreshAndCurrentPageChange:YES];
+        if (![result.data[@"next"] boolValue] && self.hotKeyWords.count != 0) {
+            
+            [self.collectionView noMoreData];
         }
         
         [self.collectionView reloadData];
@@ -277,6 +294,12 @@ UICollectionViewDelegateFlowLayout
     }
 }
 
+#pragma mark - THNMJRefreshDelegate
+-(void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
+    self.currentPage = currentPage.integerValue;
+    [self loadData];
+}
+
 #pragma mark - THNSearchViewDelegate
 - (void)loadSearchHistory:(NSArray *)historyShowSearchArr {
     self.historyWords = historyShowSearchArr;
@@ -337,6 +360,13 @@ UICollectionViewDelegateFlowLayout
         _searchIndexVC.view.frame = CGRectMake(0, CGRectGetMaxY(self.searchView.frame) + 10, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     return _searchIndexVC;
+}
+
+- (NSMutableArray *)hotKeyWords {
+    if (!_hotKeyWords) {
+        _hotKeyWords = [NSMutableArray array];
+    }
+    return _hotKeyWords;
 }
 
 @end

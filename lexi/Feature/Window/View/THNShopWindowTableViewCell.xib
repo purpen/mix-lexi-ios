@@ -73,22 +73,28 @@
                         <rect key="frame" x="0.0" y="315" width="547" height="22"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-lp-hIh">
-                                <rect key="frame" x="20" y="0.0" width="22" height="22"/>
+                                <rect key="frame" x="20" y="0.0" width="47" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="vbT-si-DNl"/>
+                                </constraints>
                                 <state key="normal" image="icon_unflow"/>
                                 <state key="selected" image="icon_flow"/>
                                 <connections>
                                     <action selector="like:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="nb9-DQ-Alf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ado-0J-fbv">
-                                <rect key="frame" x="67" y="0.0" width="22" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ado-0J-fbv">
+                                <rect key="frame" x="67" y="0.0" width="50" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="bSp-9E-ITA"/>
+                                </constraints>
                                 <state key="normal" image="icon_comment"/>
                                 <connections>
                                     <action selector="content:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zzF-LL-Xhw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRz-Dj-fu9">
-                                <rect key="frame" x="509" y="0.0" width="18" height="22"/>
+                                <rect key="frame" x="507" y="0.0" width="20" height="22"/>
                                 <state key="normal" image="icon_share"/>
                                 <connections>
                                     <action selector="share:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WYd-JD-23n"/>
@@ -106,7 +112,7 @@
                             <constraint firstItem="MGx-lp-hIh" firstAttribute="top" secondItem="p4s-yd-R1L" secondAttribute="top" id="O0H-0g-g3J"/>
                             <constraint firstAttribute="bottom" secondItem="Ado-0J-fbv" secondAttribute="bottom" id="lzL-8w-hmI"/>
                             <constraint firstAttribute="height" constant="22" id="qdj-Xy-PtV"/>
-                            <constraint firstItem="Ado-0J-fbv" firstAttribute="leading" secondItem="MGx-lp-hIh" secondAttribute="trailing" constant="25" id="wf6-je-Zfg"/>
+                            <constraint firstItem="Ado-0J-fbv" firstAttribute="leading" secondItem="MGx-lp-hIh" secondAttribute="trailing" id="wf6-je-Zfg"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eIA-GB-siH">
@@ -194,7 +200,7 @@
     <resources>
         <image name="icon_comment" width="22" height="22"/>
         <image name="icon_flow" width="22" height="22"/>
-        <image name="icon_share" width="18" height="18"/>
+        <image name="icon_share" width="20" height="20"/>
         <image name="icon_talent" width="13" height="13"/>
         <image name="icon_unflow" width="22" height="22"/>
         <image name="icon_wechat_circle" width="40" height="40"/>

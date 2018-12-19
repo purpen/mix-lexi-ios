@@ -77,7 +77,6 @@
     __weak typeof(self)weakSelf = self;
     
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"...阅读更多"];
-    
     YYTextHighlight *hi = [YYTextHighlight new];
     [hi setColor:[UIColor colorWithHexString:@"6ED7AF"]];
     
@@ -90,7 +89,6 @@
     
     
     [text setColor:[UIColor colorWithHexString:@"6ED7AF"] range:[text.string rangeOfString:@"阅读更多"]];
-    
     [text setTextHighlight:hi range:[text.string rangeOfString:@"阅读更多"]];
     text.font = [UIFont fontWithName:@"PingFangSC-Regular" size:14];
     

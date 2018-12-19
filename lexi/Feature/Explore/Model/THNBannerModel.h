@@ -16,7 +16,7 @@
  - BannerContentTypeProduct: 商品
  - BannerContentTypeCatogories: 分类
  - BannerContentTypeBrandHall: 品牌
- - BannerContentTypeSpecialTopic: 品牌
+ - BannerContentTypeSpecialTopic: 专题
  - BannerContentTypeArticle: 文章
  */
 typedef NS_ENUM(NSUInteger, BannerContentType) {
@@ -25,7 +25,11 @@ typedef NS_ENUM(NSUInteger, BannerContentType) {
     BannerContentTypeCatogories,
     BannerContentTypeBrandHall,
     BannerContentTypeSpecialTopic,
-    BannerContentTypeArticle
+    BannerContentTypeArticle,
+    BannerContentTypeGrassList,
+    BannerContentTypeApplets,
+    BannerContentTypeSet,
+    BannerContentTypeShopWindow
 };
 
 @interface THNBannerModel : NSObject

@@ -31,9 +31,20 @@
 - (void)setCategoriesModel:(THNCategoriesModel *)categoriesModel {
     _categoriesModel = categoriesModel;
     self.desLabel.text = categoriesModel.name;
-    self.peopleNumberLabel.text = [NSString stringWithFormat:@"%ld 人",categoriesModel.browse_count];
+    
     [self.categoriesImageView loadImageWithUrl:[categoriesModel.cover loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     
+    NSString *numberStr;
+    
+    if (categoriesModel.browse_count > 100000) {
+        
+        NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f", floor(categoriesModel.browse_count)/ 10000]];
+        numberStr = [NSString stringWithFormat:@"%@w", number];
+    } else {
+        numberStr = [NSString stringWithFormat:@"%ld", categoriesModel.browse_count];
+    }
+    
+    self.peopleNumberLabel.text = [NSString stringWithFormat:@"%@ 人", numberStr];
 }
 
 @end

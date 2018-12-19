@@ -48,6 +48,9 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
     
     if (banners.count == 0) {
         return;
+    } else if (banners.count == 1) {
+        [self reloadData];
+        return;
     }
     
     [self addTimer];
@@ -194,9 +197,16 @@ static NSString *const kFeatureTopBannerCellIdentifier = @"kFeatureTopBannerCell
             break;
         case BannerContentTypeSpecialTopic:
             break;
-        default:
-            if (self.featuredDelegate && [self.featuredDelegate respondsToSelector:@selector(bannerPushArticle:)]) {
-                [self.featuredDelegate bannerPushArticle:[bannerModel.link integerValue]];
+        case BannerContentTypeApplets:
+            break;
+        case BannerContentTypeSet:
+            if (self.featuredDelegate && [self.delegate respondsToSelector:@selector(bannerPushSet:)]) {
+                [self.featuredDelegate bannerPushSet:[bannerModel.link integerValue]];
+            }
+            break;
+        case BannerContentTypeShopWindow:
+            if (self.featuredDelegate && [self.delegate respondsToSelector:@selector(bannerPushShowWindow:)]) {
+                [self.featuredDelegate bannerPushShowWindow:bannerModel.link];
             }
             break;
     }

@@ -21,6 +21,8 @@ typedef NS_ENUM(NSUInteger, BannerType) {
 - (void)bannerPushBrandHall:(NSString *)rid;
 - (void)bannerPushArticle:(NSInteger)rid;
 - (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID;
+- (void)bannerPushSet:(NSInteger)collectionID;
+- (void)bannerPushShowWindow:(NSString *)shopWindowRid;
 
 @end
 

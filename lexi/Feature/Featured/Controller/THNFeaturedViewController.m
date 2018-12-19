@@ -37,6 +37,8 @@
 #import "THNBaseNavigationController.h"
 #import "THNHomeSearchView.h"
 #import "THNSelectButtonView.h"
+#import "THNAdvertManager.h"
+#import "THNAdvertCouponViewController.h"
 
 // cell共用上下的高
 static CGFloat const kFeaturedCellTopBottomHeight = 80;
@@ -199,6 +201,7 @@ THNMJRefreshDelegate
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView endHeaderRefresh];
+            [self thn_showNewUserBonusAdvertView];
             [self.tableView reloadData];
         });
     });
@@ -350,6 +353,21 @@ THNMJRefreshDelegate
     } failure:^(THNRequest *request, NSError *error) {
         dispatch_semaphore_signal(self.semaphore);
     }];
+}
+
+/**
+ 展示新用户领红包视图
+ */
+- (void)thn_showNewUserBonusAdvertView {
+    if (![THNAdvertManager canGetBonus]) {
+        return;
+        
+    } else {
+        THNAdvertCouponViewController *advertVC = [[THNAdvertCouponViewController alloc] init];
+        THNBaseNavigationController *navVC = [[THNBaseNavigationController alloc] initWithRootViewController:advertVC];
+        navVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:navVC animated:NO completion:nil];
+    }
 }
 
 #pragma mark - UITableView mehtod 实现
@@ -659,6 +677,18 @@ THNMJRefreshDelegate
 - (void)bannerPushCategorie:(NSString *)name initWithCategoriesID:(NSString *)categorieID {
     THNGoodsListViewController *goodsListVC = [[THNGoodsListViewController alloc] initWithCategoryId:categorieID categoryName:name];
     [self.navigationController pushViewController:goodsListVC animated:YES];
+}
+
+- (void)bannerPushSet:(NSInteger)collectionID {
+    THNSetDetailViewController *setDetailVC = [[THNSetDetailViewController alloc]init];
+    setDetailVC.collectionID = collectionID;
+    [self.navigationController pushViewController:setDetailVC animated:YES];
+}
+
+- (void)bannerPushShowWindow:(NSString *)shopWindowRid {
+    THNShopWindowDetailViewController *shopWindowDetail = [[THNShopWindowDetailViewController alloc]init];
+    shopWindowDetail.rid = shopWindowRid;
+    [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
 #pragma mark - THNActivityViewDelegate
