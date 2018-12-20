@@ -476,6 +476,17 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     return NO;
 }
 
+/**
+ 显示回滚到顶部按钮
+ */
+- (void)thn_showBackTopButton:(BOOL)show {
+    CGFloat originL = show ? 60 : 0;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.backTopButton.frame = CGRectMake(SCREEN_WIDTH - originL, SCREEN_HEIGHT - 100, 45, 45);
+    }];
+}
+
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.modelArray.count;
@@ -530,6 +541,13 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     THNGoodsModel *model = self.modelArray[indexPath.row];
     THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:model.rid];
     [self.navigationController pushViewController:goodsInfoVC animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    BOOL maxOffset = offsetY <= 88;
+    
+    [self thn_showBackTopButton:!maxOffset];
 }
 
 #pragma mark - setup UI
