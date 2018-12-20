@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MJExtension/MJExtension.h>
+#import <UIKit/UIKit.h>
 
 /**
  用户身份
@@ -56,5 +57,7 @@ typedef NS_ENUM(NSUInteger, UserIdentityType) {
 // 是否达人
 @property (nonatomic, assign) BOOL is_expert;
 @property (nonatomic, strong) NSString *uid;
+@property (nonatomic, assign) BOOL isOpening;
+@property (nonatomic, assign) CGFloat cellHeight;
 
 @end

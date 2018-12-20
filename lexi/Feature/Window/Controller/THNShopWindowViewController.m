@@ -224,6 +224,11 @@ THNShopWindowTableViewCellDelegate
     [self.navigationController pushViewController:shopWindowDetail animated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNShopWindowModel *shopWindowModel = self.showWindows[indexPath.row];
+    return shopWindowModel.cellHeight;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 //    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
 //    if (scrollView.contentOffset.y > maxY) {
@@ -248,8 +253,7 @@ THNShopWindowTableViewCellDelegate
     [[NSNotificationCenter defaultCenter] postNotificationName:THNHomeVCDidScrollView object:nil userInfo:@{kScrollDistance : @(scrollView.contentOffset.y - self.lastContentOffset)}];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.lastContentOffset = scrollView.contentOffset.y;
 }
 
@@ -336,6 +340,12 @@ THNShopWindowTableViewCellDelegate
     [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
+- (void)refreshDesLabelContent:(THNShopWindowTableViewCell *)cell {
+    NSIndexPath * indexPath = [self.tableView indexPathForCell:cell];
+    THNShopWindowModel *shopWindowModel = self.showWindows[indexPath.row];
+    shopWindowModel.isOpening = !shopWindowModel.isOpening;
+    [self.tableView reloadData];
+}
 
 #pragma mark - lazy
 - (THNSelectButtonView *)selectButtonView {
@@ -372,7 +382,6 @@ THNShopWindowTableViewCellDelegate
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc]init];
-        _tableView.estimatedRowHeight = 500;
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

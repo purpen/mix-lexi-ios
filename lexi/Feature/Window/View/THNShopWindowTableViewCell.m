@@ -23,8 +23,10 @@
 #import "SVProgressHUD+Helper.h"
 #import "THNLoginManager.h"
 #import "THNConst.h"
+#import <CoreText/CoreText.h>
 
 NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
+static NSInteger maxDesLabelMaxShowCount = 3;
 
 @interface THNShopWindowTableViewCell()
 
@@ -77,7 +79,7 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     [self.avatarImageView loadImageWithUrl:[shopWindowModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
                                   circular:YES];
     self.titleLabel.text = shopWindowModel.title;
-    self.desLabel.text = shopWindowModel.des;
+    
     [self createLabelWithArray:shopWindowModel.keywords FontSize:12 SpcX:5 SpcY:20];
     self.keywordViewHeightConstraint.constant =  shopWindowModel.keywords.count > 0 ? CGRectGetMaxY(self.keywordLabel.frame) : 0;
     self.likeLabel.hidden = shopWindowModel.like_count == 0 ?: NO;
@@ -95,8 +97,32 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {
         self.threeImageStitchingView.isHaveUserInteractionEnabled = YES;
         self.titleLabel.numberOfLines = 0;
+        self.desLabel.text = shopWindowModel.des;
         [self hiddenShowWindowDetail];
     } else {
+        
+        self.desLabel.numberOfLines = shopWindowModel.isOpening ? 0 : maxDesLabelMaxShowCount;
+        self.desLabel.text = shopWindowModel.des;
+        NSArray *array = [self getSeparatedLinesFromLabel:self.desLabel];
+        
+        if (array.count > maxDesLabelMaxShowCount) {
+            NSString *fourLineStr = array[maxDesLabelMaxShowCount - 1];
+            NSString *showText = shopWindowModel.isOpening ? shopWindowModel.des : [NSString stringWithFormat:@"%@%@%@...", array[0], array[1], [fourLineStr substringToIndex:fourLineStr.length > 5 ? fourLineStr.length - 5 : 0]];
+            //创建NSTextAttachment 拼接图片
+            NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+            attachment.image = shopWindowModel.isOpening ? [UIImage imageNamed:@"icon_shopWindowContent_close"] : [UIImage imageNamed:@"icon_shopWindowContent_open"];
+            attachment.bounds = CGRectMake(0, -1.5, 42.5, 12.5);
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:showText];
+            NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+            [attributedString appendAttributedString:attachmentString];
+            self.desLabel.attributedText = attributedString;
+            self.desLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(layoutDesLaelContent)];
+            [self.desLabel addGestureRecognizer:tap];
+        } else {
+            self.desLabel.userInteractionEnabled = NO;
+        }
+       
         self.titleLabel.numberOfLines = 1;
         self.threeImageStitchingView.isHaveUserInteractionEnabled = NO;
     }
@@ -148,6 +174,43 @@ NSString *const kUrlShopWindowsUserLikes = @"/shop_windows/user_likes";
     
     [self.flowButton selfManagerFollowUserStatus:shopWindowModel.is_follow shopWindowModel:shopWindowModel];
     
+}
+
+- (void)layoutDesLaelContent {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(refreshDesLabelContent:)]) {
+        [self.delegate refreshDesLabelContent:self];
+    }
+}
+
+// 获取label内容的各行内容
+- (NSArray *)getSeparatedLinesFromLabel:(UILabel *)label {
+    NSString *text = [label text];
+    UIFont *font = [label font];
+    CGRect rect = [label frame];
+    CTFontRef myFont = CTFontCreateWithName((__bridge CFStringRef)([font fontName]), [font pointSize], NULL);
+    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:text];
+    [attStr addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)myFont range:NSMakeRange(0, attStr.length)];
+    
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attStr);
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, CGRectMake(0,0,rect.size.width,100000));
+    
+    CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, NULL);
+    
+    NSArray *lines = (__bridge NSArray *)CTFrameGetLines(frame);
+    NSMutableArray *linesArray = [[NSMutableArray alloc]init];
+    
+    for (id line in lines)
+    {
+        CTLineRef lineRef = (__bridge CTLineRef )line;
+        CFRange lineRange = CTLineGetStringRange(lineRef);
+        NSRange range = NSMakeRange(lineRange.location, lineRange.length);
+        
+        NSString *lineString = [text substringWithRange:range];
+        [linesArray addObject:lineString];
+    }
+    return linesArray;
 }
 
 // 调用代理方法

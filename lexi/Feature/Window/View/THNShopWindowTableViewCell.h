@@ -11,6 +11,7 @@
 UIKIT_EXTERN NSString *const kUrlShopWindowsUserLikes;
 
 @class THNShopWindowModel;
+@class THNShopWindowTableViewCell;
 
 typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
     ShopWindowImageTypeThree,
@@ -26,6 +27,7 @@ typedef NS_ENUM(NSUInteger, ShopWindowImageType) {
 - (void)clickImageViewWithRid:(NSString *)productRid;
 - (void)showWindowShare:(THNShopWindowModel *)shopWindowModel;
 - (void)clickAvatarImageView:(NSString *)userRid;
+- (void)refreshDesLabelContent:(THNShopWindowTableViewCell *)cell;
 
 @end
 
