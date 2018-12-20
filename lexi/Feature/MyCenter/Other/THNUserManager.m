@@ -167,7 +167,7 @@ static NSString *const kKeyUid          = @"uid";
 - (void)requestUserOfficialCouponWithParams:(NSDictionary *)param completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponOfficial requestDictionary:param delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        THNLog(@"--------- %@", result.responseDict);
+//        THNLog(@"--------- %@", result.responseDict);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return ;

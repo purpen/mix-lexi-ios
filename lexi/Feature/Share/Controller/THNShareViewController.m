@@ -164,13 +164,14 @@ static NSString *const kShareFailureTitle = @"分享失败";
  友盟分享 url
  */
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType {
-    BOOL isInvitationUser = self.posterType == THNSharePosterTypeInvitationUser;
-    
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
     if (platformType == UMSocialPlatformType_Sina) {
-        UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+        // 邀请好友分享时，微博图片为本地资源
+        BOOL isInvitationUser = self.posterType == THNSharePosterTypeInvitationUser;
         UIImage *shareImage = isInvitationUser ? [UIImage imageNamed:@"img_share_invite_wb"] : self.thumImage;
+        
+        UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
         shareObject.thumbImage = shareImage;
         [shareObject setShareImage:shareImage];
         
