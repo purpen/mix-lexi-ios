@@ -112,10 +112,7 @@ static NSString *const kShareFailureTitle = @"分享失败";
     UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         
-        if (completed) {
-            [SVProgressHUD thn_showInfoWithStatus:kShareSuccessTitle];
-            
-        } else {
+        if (!completed) {
             [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
         }
 
@@ -182,9 +179,6 @@ static NSString *const kShareFailureTitle = @"分享失败";
                                            completion:^(id data, NSError *error) {
                                                if (error) {
                                                    [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
-                                                   
-                                               } else {
-                                                   [SVProgressHUD thn_showSuccessWithStatus:kShareSuccessTitle];
                                                }
         
                                                [weakSelf thn_showAnimation:NO];
@@ -213,9 +207,6 @@ static NSString *const kShareFailureTitle = @"分享失败";
                                            completion:^(id data, NSError *error) {
                                                if (error) {
                                                    [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
-                                                   
-                                               } else {
-                                                   [SVProgressHUD thn_showSuccessWithStatus:kShareSuccessTitle];
                                                }
                                                
                                                [weakSelf thn_showAnimation:NO];

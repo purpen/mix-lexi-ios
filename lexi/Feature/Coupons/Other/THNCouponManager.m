@@ -69,7 +69,7 @@ static NSString *const kKeyCoupons        = @"coupons";
 - (void)requestCouponsCenterOfOfficialWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponsOfficial requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"===== 官方优惠券：%@", [NSString jsonStringWithObject:result.data]);
+        THNLog(@"===== 官方优惠券：%@", [NSString jsonStringWithObject:result.data]);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
