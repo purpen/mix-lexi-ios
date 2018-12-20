@@ -164,12 +164,26 @@ static NSString *const kShareFailureTitle = @"分享失败";
  友盟分享 url
  */
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType {
+    BOOL isInvitationUser = self.posterType == THNSharePosterTypeInvitationUser;
+    
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle
-                                                                             descr:self.shareDescr
-                                                                         thumImage:self.thumImage];
-    shareObject.webpageUrl = self.shareUrl;
-    messageObject.shareObject = shareObject;
+    
+    if (platformType == UMSocialPlatformType_Sina) {
+        UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+        UIImage *shareImage = isInvitationUser ? [UIImage imageNamed:@"img_share_invite_wb"] : self.thumImage;
+        shareObject.thumbImage = shareImage;
+        [shareObject setShareImage:shareImage];
+        
+        messageObject.text = [NSString stringWithFormat:@"%@%@", self.shareTitle, self.shareUrl];
+        messageObject.shareObject = shareObject;
+        
+    } else {
+        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle
+                                                                                 descr:self.shareDescr
+                                                                             thumImage:self.thumImage];
+        shareObject.webpageUrl = self.shareUrl;
+        messageObject.shareObject = shareObject;
+    }
     
     WEAKSELF;
     

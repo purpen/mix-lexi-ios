@@ -56,7 +56,7 @@ THNMJRefreshDelegate
     WEAKSELF;
     [self.navigationBarView didNavigationRightButtonCompletion:^{
         THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeBrandStore)];
-        [shareVC shareObjectWithTitle:weakSelf.title
+        [shareVC shareObjectWithTitle:weakSelf.setTitle
                                 descr:weakSelf.subTitle
                             thumImage:weakSelf.cover
                                webUrl:[kShareCollectionPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",weakSelf.collectionID]]];
