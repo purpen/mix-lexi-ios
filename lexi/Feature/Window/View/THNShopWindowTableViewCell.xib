@@ -75,7 +75,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-lp-hIh">
                                 <rect key="frame" x="20" y="0.0" width="47" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="47" id="vbT-si-DNl"/>
+                                    <constraint firstAttribute="width" constant="47" id="LFO-ov-jON"/>
                                 </constraints>
                                 <state key="normal" image="icon_unflow"/>
                                 <state key="selected" image="icon_flow"/>
@@ -86,7 +86,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ado-0J-fbv">
                                 <rect key="frame" x="67" y="0.0" width="50" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="bSp-9E-ITA"/>
+                                    <constraint firstAttribute="width" constant="50" id="r4Z-V2-sIR"/>
                                 </constraints>
                                 <state key="normal" image="icon_comment"/>
                                 <connections>
@@ -182,7 +182,7 @@
                 <outlet property="avatarImageView" destination="Yd1-JJ-jx7" id="OsS-Yz-nGM"/>
                 <outlet property="buttonView" destination="p4s-yd-R1L" id="L6K-i0-F3b"/>
                 <outlet property="commentLabel" destination="ZHM-SD-eqg" id="fDU-qJ-cvN"/>
-                <outlet property="desLabel" destination="zfq-Lp-Dw2" id="kdg-db-09X"/>
+                <outlet property="desLabel" destination="zfq-Lp-Dw2" id="oBw-BU-gY8"/>
                 <outlet property="flowButton" destination="dph-2D-z6F" id="4vB-gI-WJG"/>
                 <outlet property="identityImageView" destination="avv-LQ-FyR" id="2vO-Gr-Tuk"/>
                 <outlet property="imageViewStitchingViewHeightConstraint" destination="DjC-NQ-ex0" id="J7z-hN-3Ld"/>

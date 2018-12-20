@@ -174,6 +174,12 @@ static NSString *const kShareFailureTitle = @"分享失败";
     shareObject.webpageUrl = self.shareUrl;
     messageObject.shareObject = shareObject;
     
+    if (platformType == UMSocialPlatformType_Sina) {
+        UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+        shareObject.thumbImage = self.thumImage;
+        [shareObject setShareImage:self.thumImage];
+    }
+    
     WEAKSELF;
     
     [[UMSocialManager defaultManager] shareToPlatform:platformType
