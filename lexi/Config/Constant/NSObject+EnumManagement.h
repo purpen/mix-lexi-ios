@@ -67,12 +67,13 @@ typedef NS_ENUM(NSUInteger, THNDealContentType) {
 };
 
 typedef NS_ENUM(NSUInteger, THNSharePosterType) {
-    THNSharePosterTypeNone = 0,     // 没有海报
-    THNSharePosterTypeGoods,        // 分享商品
-    THNSharePosterTypeLifeStore,    // 生活馆
-    THNSharePosterTypeWindow,       // 橱窗
-    THNSharePosterTypeInvitation,   // 邀请
-    THNSharePosterTypeBrandStore,   // 品牌馆
+    THNSharePosterTypeNone = 0,      // 没有海报
+    THNSharePosterTypeGoods,         // 分享商品
+    THNSharePosterTypeLifeStore,     // 生活馆
+    THNSharePosterTypeWindow,        // 橱窗
+    THNSharePosterTypeInvitation,    // 邀请
+    THNSharePosterTypeBrandStore,    // 品牌馆
+    THNSharePosterTypeInvitationUser // 邀请用户
 };
 
 @interface NSObject (EnumManagement)

@@ -144,7 +144,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     
     NSString *shareTitle = [self thn_getShareTitle];
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeInvitationUser) requestId:@"1"];
     [shareVC shareObjectWithTitle:shareTitle
                             descr:[self thn_getShareDesWithTitle:shareTitle]
                         thumImage:[self thn_getShareThumImage]
