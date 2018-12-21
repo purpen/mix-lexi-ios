@@ -324,7 +324,7 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 
 #pragma mark - event response
 - (void)backTopButtonAction:(UIButton *)button {
-    [self.goodsCollectionView scrollToTopAnimated:YES];
+    [self.goodsCollectionView scrollToTop];
 }
 
 #pragma mark - private methods

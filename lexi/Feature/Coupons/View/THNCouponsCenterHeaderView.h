@@ -11,7 +11,7 @@
 @protocol THNCouponsCenterHeaderViewDelegate <NSObject>
 
 /// 选择主分类
-- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index categoryId:(NSString *)categoryId;
+- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index categoryId:(NSString *)categoryId name:(NSString *)name;
 /// 选择优惠券的类型：0:同享券；1:单品券
 - (void)thn_didSelectedCouponType:(NSInteger)type categoryId:(NSString *)categoryId;
 

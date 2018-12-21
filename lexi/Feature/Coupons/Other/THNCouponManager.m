@@ -69,7 +69,9 @@ static NSString *const kKeyCoupons        = @"coupons";
 - (void)requestCouponsCenterOfOfficialWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponsOfficial requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
         THNLog(@"===== 官方优惠券：%@", [NSString jsonStringWithObject:result.data]);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -86,7 +88,9 @@ static NSString *const kKeyCoupons        = @"coupons";
 - (void)requestCouponsCenterOfBrandWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponsBrand requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"===== 品牌券：%@", [NSString jsonStringWithObject:result.data]);
+#ifdef DEBUG
+        THNLog(@"===== 品牌券：%@", [NSString jsonStringWithObject:result.data]);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;
@@ -103,7 +107,9 @@ static NSString *const kKeyCoupons        = @"coupons";
 - (void)requestCouponsCenterOfProductWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     THNRequest *request = [THNAPI getWithUrlString:kURLCouponsProduct requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"===== 商品券：%@", [NSString jsonStringWithObject:result.data]);
+#ifdef DEBUG
+        THNLog(@"===== 商品券：%@", [NSString jsonStringWithObject:result.data]);
+#endif
         if (!result.isSuccess) {
             [SVProgressHUD thn_showErrorWithStatus:result.statusMessage];
             return;

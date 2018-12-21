@@ -28,6 +28,7 @@ static NSInteger const kGoodsViewTag = 1625;
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, strong) UIView *goodsView;
 @property (nonatomic, strong) NSMutableArray *goodsIdArr;
+@property (nonatomic, strong) NSMutableArray *goodsViewArr;
 @property (nonatomic, strong) THNCouponSharedModel *couponModel;
 
 @end
@@ -48,7 +49,7 @@ static NSInteger const kGoodsViewTag = 1625;
     [self.storeLogoImageView loadImageWithUrl:[model.storeLogo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = model.storeName;
     [self thn_setCouponAmoutTextWithValue:model.amount minAmout:model.minAmount];
-    [self thn_createGoodsViewWithSkus:model.productSku];
+    [self thn_updateGoodsViewData:model.productSku];
 }
 
 #pragma mark - event response
@@ -117,6 +118,7 @@ static NSInteger const kGoodsViewTag = 1625;
     [self.containerView addSubview:self.doneButton];
     [self.containerView addSubview:self.goodsView];
     [self addSubview:self.containerView];
+    [self thn_createGoodsViewWithCount:3];
     
     [self setMasonryLayout];
 }
@@ -238,25 +240,31 @@ static NSInteger const kGoodsViewTag = 1625;
     return _goodsView;
 }
 
-- (void)thn_createGoodsViewWithSkus:(NSArray *)skus {
-    if (self.goodsView.subviews.count > 1) {
-        return;
-    }
+- (void)thn_createGoodsViewWithCount:(NSInteger)count {
+    CGFloat viewW = (SCREEN_WIDTH - 72) / count;
     
-    CGFloat viewW = (SCREEN_WIDTH - 72) / skus.count;
-    
-    for (NSUInteger idx = 0; idx < skus.count; idx ++) {
-        THNCouponSharedModelProductSku *skuModel = (THNCouponSharedModelProductSku *)skus[idx];
+    for (NSUInteger idx = 0; idx < count; idx ++) {
         THNCouponGoodsView *goodsView = [[THNCouponGoodsView alloc] initWithFrame: \
                                          CGRectMake(11 + (viewW + 10) * idx, 15, viewW, viewW * 1.53)];
         goodsView.tag = kGoodsViewTag + idx;
-        [goodsView thn_setStoreCouponGoodsSku:skuModel];
-        [self.goodsIdArr addObject:skuModel.productRid];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goodsViewAction:)];
         [goodsView addGestureRecognizer:tap];
         
         [self.goodsView addSubview:goodsView];
+        [self.goodsViewArr addObject:goodsView];
+    }
+}
+
+- (void)thn_updateGoodsViewData:(NSArray *)skus {
+    [self.goodsIdArr removeAllObjects];
+    
+    for (NSUInteger idx = 0; idx < skus.count; idx ++) {
+        THNCouponSharedModelProductSku *skuModel = (THNCouponSharedModelProductSku *)skus[idx];
+        THNCouponGoodsView *goodsView = (THNCouponGoodsView *)self.goodsViewArr[idx];
+        
+        [goodsView thn_setStoreCouponGoodsSku:skuModel];
+        [self.goodsIdArr addObject:skuModel.productRid];
     }
 }
 
@@ -265,6 +273,13 @@ static NSInteger const kGoodsViewTag = 1625;
         _goodsIdArr = [NSMutableArray array];
     }
     return _goodsIdArr;
+}
+
+- (NSMutableArray *)goodsViewArr {
+    if (!_goodsViewArr) {
+        _goodsViewArr = [NSMutableArray array];
+    }
+    return _goodsViewArr;
 }
 
 @end

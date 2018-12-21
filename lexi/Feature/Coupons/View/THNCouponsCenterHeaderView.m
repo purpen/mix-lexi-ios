@@ -25,6 +25,7 @@ static NSInteger const kMenuButtonTag = 1351;
 @property (nonatomic, strong) NSMutableArray *menuButtonArr;
 @property (nonatomic, strong) NSMutableArray *categoryModelArr;
 @property (nonatomic, strong) NSMutableArray *categoryIdArr;
+@property (nonatomic, strong) NSMutableArray *categoryNameArr;
 @property (nonatomic, strong) NSString *selectedCategory;
 
 @end
@@ -43,18 +44,17 @@ static NSInteger const kMenuButtonTag = 1351;
 - (void)thn_setCategoryData:(NSArray *)category {
     if (self.categoryModelArr.count) return;
     
-    NSMutableArray *titleArr = [NSMutableArray array];
     for (NSDictionary *dict in category) {
         THNCategoriesModel *model = [THNCategoriesModel mj_objectWithKeyValues:dict];
         [self.categoryModelArr addObject:model];
         [self.categoryIdArr addObject:model.category_id];
-        [titleArr addObject:model.name];
+        [self.categoryNameArr addObject:model.name];
     }
     
-    [titleArr insertObject:@"推荐" atIndex:0];
+    [self.categoryNameArr insertObject:@"推荐" atIndex:0];
     [self.categoryIdArr insertObject:@"0" atIndex:0];
     
-    [self.segmentControl setSectionTitles:titleArr];
+    [self.segmentControl setSectionTitles:self.categoryNameArr];
     self.segmentControl.segmentWidthStyle = HMSegmentedControlSegmentWidthStyleDynamic;
     self.segmentControl.hidden = NO;
 }
@@ -68,8 +68,8 @@ static NSInteger const kMenuButtonTag = 1351;
         self.menuView.alpha = index == 0 ? 0 : 1;
     }];
     
-    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCategoryWithIndex:categoryId:)]) {
-        [self.delegate thn_didSelectedCategoryWithIndex:index categoryId:self.selectedCategory];
+    if ([self.delegate respondsToSelector:@selector(thn_didSelectedCategoryWithIndex:categoryId:name:)]) {
+        [self.delegate thn_didSelectedCategoryWithIndex:index categoryId:self.selectedCategory name:self.categoryNameArr[index]];
     }
 }
 
@@ -206,6 +206,13 @@ static NSInteger const kMenuButtonTag = 1351;
         _categoryIdArr = [NSMutableArray array];
     }
     return _categoryIdArr;
+}
+
+- (NSMutableArray *)categoryNameArr {
+    if (!_categoryNameArr) {
+        _categoryNameArr = [NSMutableArray array];
+    }
+    return _categoryNameArr;
 }
 
 @end
