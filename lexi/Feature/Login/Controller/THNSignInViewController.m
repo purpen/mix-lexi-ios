@@ -86,7 +86,6 @@ static NSString *const kTextSkip            = @"跳过";
 
 - (void)thn_loginSuccessBack {
     [SVProgressHUD thn_show];
-    
     [[THNLoginManager sharedManager] getUserProfile:^(THNResponse *result, NSError *error) {
         if (error) {
             [self.signInView thn_setErrorHintText:[error localizedDescription]];
@@ -133,6 +132,7 @@ static NSString *const kTextSkip            = @"跳过";
 
 #pragma mark - custom delegate
 - (void)thn_signInWithParam:(NSDictionary *)param loginModeType:(THNLoginModeType)type {
+    [SVProgressHUD thn_show];
     [THNLoginManager userLoginWithParams:param
                                 modeType:type
                               completion:^(THNResponse *result, NSError *error) {

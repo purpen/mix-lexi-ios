@@ -146,6 +146,9 @@ THNShopWindowTableViewCellDelegate
         [self hiddenHud];
         [SVProgressHUD dismiss];
         [self.tableView endHeaderRefresh];
+#ifdef DEBUG
+        THNLog(@"首页橱窗列表：%@", [NSString jsonStringWithObject:result.responseDict]);
+#endif
         if (!result.success) {
             [SVProgressHUD showWithStatus:result.statusMessage];
             return;

@@ -112,10 +112,7 @@ static NSString *const kShareFailureTitle = @"分享失败";
     UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         
-        if (completed) {
-            [SVProgressHUD thn_showInfoWithStatus:kShareSuccessTitle];
-            
-        } else {
+        if (!completed) {
             [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
         }
 
@@ -168,11 +165,26 @@ static NSString *const kShareFailureTitle = @"分享失败";
  */
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType {
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle
-                                                                             descr:self.shareDescr
-                                                                         thumImage:self.thumImage];
-    shareObject.webpageUrl = self.shareUrl;
-    messageObject.shareObject = shareObject;
+    
+    if (platformType == UMSocialPlatformType_Sina) {
+        // 邀请好友分享时，微博图片为本地资源
+        BOOL isInvitationUser = self.posterType == THNSharePosterTypeInvitationUser;
+        UIImage *shareImage = isInvitationUser ? [UIImage imageNamed:@"img_share_invite_wb"] : self.thumImage;
+        
+        UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+        shareObject.thumbImage = shareImage;
+        [shareObject setShareImage:shareImage];
+        
+        messageObject.text = [NSString stringWithFormat:@"%@%@", self.shareTitle, self.shareUrl];
+        messageObject.shareObject = shareObject;
+        
+    } else {
+        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle
+                                                                                 descr:self.shareDescr
+                                                                             thumImage:self.thumImage];
+        shareObject.webpageUrl = self.shareUrl;
+        messageObject.shareObject = shareObject;
+    }
     
     if (platformType == UMSocialPlatformType_Sina) {
         UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
@@ -188,9 +200,6 @@ static NSString *const kShareFailureTitle = @"分享失败";
                                            completion:^(id data, NSError *error) {
                                                if (error) {
                                                    [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
-                                                   
-                                               } else {
-                                                   [SVProgressHUD thn_showSuccessWithStatus:kShareSuccessTitle];
                                                }
         
                                                [weakSelf thn_showAnimation:NO];
@@ -219,9 +228,6 @@ static NSString *const kShareFailureTitle = @"分享失败";
                                            completion:^(id data, NSError *error) {
                                                if (error) {
                                                    [SVProgressHUD thn_showInfoWithStatus:kShareFailureTitle];
-                                                   
-                                               } else {
-                                                   [SVProgressHUD thn_showSuccessWithStatus:kShareSuccessTitle];
                                                }
                                                
                                                [weakSelf thn_showAnimation:NO];

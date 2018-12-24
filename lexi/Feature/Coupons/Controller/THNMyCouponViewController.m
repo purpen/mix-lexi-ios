@@ -59,6 +59,7 @@ static NSString *const kKeyPage     = @"page";
     
     [self.couponDataArr removeAllObjects];
     [self.couponTable reloadData];
+    [self.couponTable resetCurrentPageNumber];
     [self.couponTable beginHeaderRefresh];
     [self thn_getUserCouponDataWithPage:1 refresh:YES];
 }
@@ -77,17 +78,13 @@ static NSString *const kKeyPage     = @"page";
     [THNUserManager getUserCouponDataWithType:self.couponType
                                        params:@{kKeyPage: @(page)}
                                    completion:^(NSArray *couponData, NSError *error) {
+                                       [self.couponTable endHeaderRefresh];
+                                       
                                        if (error) {
                                            [self thn_reloadTableStatus];
-                                           
-                                           if (refresh) {
-                                               [self.couponTable endHeaderRefreshAndCurrentPageChange:NO];
-                                               
-                                           } else {
-                                               [self.couponTable endFooterRefreshAndCurrentPageChange:NO];
-                                           }
-                                           
+                                           [self.couponTable endFooterRefreshAndCurrentPageChange:NO];
                                            [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
+                                           
                                            return ;
                                        }
                                        
@@ -99,7 +96,6 @@ static NSString *const kKeyPage     = @"page";
                                            
                                        } else {
                                            [self.couponTable endFooterRefreshAndCurrentPageChange:YES];
-                                           
                                            if (couponData.count) {
                                                [self thn_getCouponModelOfData:couponData];
                                                
@@ -206,6 +202,7 @@ static NSString *const kKeyPage     = @"page";
     // 添加刷新&加载更多
     [self.couponTable setRefreshHeaderWithClass:nil beginRefresh:YES animation:YES delegate:self];
     [self.couponTable setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
+    [self.couponTable resetCurrentPageNumber];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

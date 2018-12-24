@@ -106,8 +106,6 @@ static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remov
  打开分享视图
  */
 - (void)thn_openShareController:(THNProductModel *)productModel {
-    if (productModel) return;
-    
     THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)
                                                                          requestId:productModel.rid];
     [shareVC shareObjectWithTitle:productModel.name

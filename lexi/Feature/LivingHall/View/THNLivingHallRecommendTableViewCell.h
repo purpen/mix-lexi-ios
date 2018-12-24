@@ -11,7 +11,7 @@
 @class THNProductModel;
 
 typedef void(^DeleteProductBlock)(UITableViewCell *cell);
-typedef void(^ShareProductBlock)(THNProductModel *)productModel;
+typedef void(^ShareProductBlock)(THNProductModel *productModel);
 
 @class THNProductModel;
 

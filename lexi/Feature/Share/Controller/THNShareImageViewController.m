@@ -19,6 +19,7 @@
 static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
 static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
 static NSString *const kURLInvite      = @"/market/share/invite_poster";
+static NSString *const kURLInviteUser  = @"/market/invitation/user";
 
 /// key
 static NSString *const kKeyRid       = @"rid";
@@ -87,10 +88,11 @@ static NSString *const kTextSaveImage = @"保存到本地相册";
 }
 
 - (NSString *)thn_getRequestUrl {
-    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods)     : kURLWxaPoster,
-                              @(THNSharePosterTypeWindow)    : kURLShopWindow,
-                              @(THNSharePosterTypeInvitation): kURLInvite,
-                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster};
+    NSDictionary *urlDict = @{@(THNSharePosterTypeGoods)         : kURLWxaPoster,
+                              @(THNSharePosterTypeWindow)        : kURLShopWindow,
+                              @(THNSharePosterTypeInvitation)    : kURLInvite,
+                              @(THNSharePosterTypeLifeStore)     : kURLWxaPoster,
+                              @(THNSharePosterTypeInvitationUser): kURLInviteUser};
     
     return urlDict[@(self.posterType)];
 }

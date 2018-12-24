@@ -54,6 +54,8 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
 @property (nonatomic, strong) NSString *userId;
 /// 栏目浏览人数
 @property (nonatomic, assign) NSInteger userCount;
+/// 返回顶部按钮
+@property (nonatomic, strong) UIButton *backTopButton;
 
 @end
 
@@ -320,6 +322,11 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     [self.functionView thn_setFunctionButtonSelected:NO];
 }
 
+#pragma mark - event response
+- (void)backTopButtonAction:(UIButton *)button {
+    [self.goodsCollectionView scrollToTop];
+}
+
 #pragma mark - private methods
 // 刷新商品数据
 - (void)thn_reloadGoodsDataWithPage:(NSInteger)page loadMore:(BOOL)loadMore {
@@ -469,6 +476,17 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     return NO;
 }
 
+/**
+ 显示回滚到顶部按钮
+ */
+- (void)thn_showBackTopButton:(BOOL)show {
+    CGFloat originL = show ? 60 : 0;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.backTopButton.frame = CGRectMake(SCREEN_WIDTH - originL, SCREEN_HEIGHT - 100, 45, 45);
+    }];
+}
+
 #pragma mark - collectionView delegate & dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.modelArray.count;
@@ -525,11 +543,18 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
     [self.navigationController pushViewController:goodsInfoVC animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    BOOL maxOffset = offsetY <= 88;
+    
+    [self thn_showBackTopButton:!maxOffset];
+}
+
 #pragma mark - setup UI
 - (void)setupUI {
     [self.view addSubview:self.goodsCollectionView];
     [self.view addSubview:self.functionView];
-    
+    [self.view addSubview:self.backTopButton];
     [self.goodsCollectionView setRefreshFooterWithClass:nil automaticallyRefresh:YES delegate:self];
     [self.goodsCollectionView resetCurrentPageNumber];
     
@@ -592,6 +617,19 @@ static NSString *const kDefualtCollectionViewHeaderViewId = @"kDefualtCollection
         _popupView.delegate = self;
     }
     return _popupView;
+}
+
+- (UIButton *)backTopButton {
+    if (!_backTopButton) {
+        _backTopButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 100, 45, 45)];
+        [_backTopButton setImage:[UIImage imageNamed:@"icon_back_top"] forState:(UIControlStateNormal)];
+        _backTopButton.layer.shadowColor = [UIColor colorWithHexString:@"#000000"].CGColor;
+        _backTopButton.layer.shadowOpacity = 0.2;
+        _backTopButton.layer.shadowOffset = CGSizeMake(0, 0);
+        _backTopButton.layer.shadowRadius = 4;
+        [_backTopButton addTarget:self action:@selector(backTopButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _backTopButton;
 }
 
 - (NSMutableDictionary *)paramDict {

@@ -144,7 +144,7 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
     
     NSString *shareTitle = [self thn_getShareTitle];
     
-    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeNone)];
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeInvitationUser) requestId:@"1"];
     [shareVC shareObjectWithTitle:shareTitle
                             descr:[self thn_getShareDesWithTitle:shareTitle]
                         thumImage:[self thn_getShareThumImage]
@@ -327,12 +327,13 @@ static NSString *const kScriptShareF    = @"handleShareFriend";
         webConfig.preferences = preferences;
         webConfig.userContentController = [[WKUserContentController alloc] init];
         
-        _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:webConfig];
+        CGFloat originY = kDeviceiPhoneX ? 88 : 64;
+        _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, originY, SCREEN_WIDTH, SCREEN_HEIGHT - originY) configuration:webConfig];
         _webView.navigationDelegate = self;
         _webView.UIDelegate = self;
         _webView.backgroundColor = [UIColor whiteColor];
         _webView.scrollView.bounces = NO;
-        _webView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        _webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _webView.scrollView.showsVerticalScrollIndicator = NO;
     }
     return _webView;

@@ -24,13 +24,14 @@ static NSString *const kTextOfficial        = @"乐喜官方券";
 static NSString *const kTextBrand           = @"精选品牌券";
 static NSString *const kTextProduct         = @"精选商品券";
 ///
-static NSString *const kRecommendCollectionCellId    = @"kRecommendCollectionCell";
-static NSString *const kCollectionHeaderViewId       = @"kCollectionHeaderView";
-static NSString *const kCollectionSectionViewId      = @"kCollectionSectionView";
-static NSString *const kOfficialCollectionViewCellId = @"THNOfficialCollectionViewCellId";
-static NSString *const kBrandCollectionViewCellId    = @"THNBrandCouponCollectionViewCellId";
-static NSString *const kProductCollectionViewCellId  = @"THNProductCouponCollectionViewCellId";
-static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectionViewCellId";
+static NSString *const kRecommendCollectionCellId       = @"kRecommendCollectionCell";
+static NSString *const kCollectionHeaderViewId          = @"kCollectionHeaderView";
+static NSString *const kCollectionSectionViewId         = @"kCollectionSectionView";
+static NSString *const kCollectionDefaultSectionViewId  = @"kCollectionDefaultSectionView";
+static NSString *const kOfficialCollectionViewCellId    = @"THNOfficialCollectionViewCellId";
+static NSString *const kBrandCollectionViewCellId       = @"THNBrandCouponCollectionViewCellId";
+static NSString *const kProductCollectionViewCellId     = @"THNProductCouponCollectionViewCellId";
+static NSString *const kStoreCollectionViewCellId       = @"THNStoreCouponCollectionViewCellId";
 
 @interface THNCouponsCenterViewController () <
     UICollectionViewDelegate,
@@ -46,6 +47,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 @property (nonatomic, assign) CGFloat originY;
 @property (nonatomic, strong) THNNoneCouponView *defaultView;
 @property (nonatomic, strong) UIButton *myCouponButton;
+@property (nonatomic, strong) NSString *categoryName;
 /// 推荐优惠券
 @property (nonatomic, strong) UICollectionView *recommendCollectionView;
 @property (nonatomic, strong) NSArray *officialCouponArr;
@@ -55,6 +57,8 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 @property (nonatomic, strong) UICollectionView *couponsCollectionView;
 @property (nonatomic, strong) NSMutableArray *sharedCouponArr;
 @property (nonatomic, strong) NSMutableArray *singleCouponArr;
+// 官方分类优惠券
+@property (nonatomic, strong) NSMutableArray *claOfficialCouponArr;
 
 @end
 
@@ -182,7 +186,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 
 #pragma mark - custom delegate
 // 切换分类
-- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index categoryId:(NSString *)categoryId {
+- (void)thn_didSelectedCategoryWithIndex:(NSInteger)index categoryId:(NSString *)categoryId name:(NSString *)name {
     [self thn_changeCollectionViewFrameWithIndex:index];
     [self thn_fixedHeaderView];
     
@@ -191,6 +195,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         self.defaultView.alpha = 0;
         
     } else {
+        self.categoryName = name;
         [self.couponsCollectionView setContentOffset:CGPointMake(0, -343) animated:NO];
         [self.sharedCouponArr removeAllObjects];
         [self.singleCouponArr removeAllObjects];
@@ -319,7 +324,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
 
 #pragma mark - collection detasource & delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return collectionView == self.recommendCollectionView ? 3 : 1;
+    return collectionView == self.recommendCollectionView ? 3 : 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -335,7 +340,12 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         }
     
     } else if (collectionView == self.couponsCollectionView) {
-        return [self thn_getCouponsCollectionViewItemsCount];
+        if (section == 0) {
+            return 1;
+            
+        } else {
+            return [self thn_getCouponsCollectionViewItemsCount];
+        }
     }
     
     return 0;
@@ -354,25 +364,14 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         }
         
     } else if (collectionView == self.couponsCollectionView) {
-        return [self thn_getSharedOrSingleCouponCellSizeWithIndexPath:indexPath];
-    }
-
-    return CGSizeZero;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (collectionView == self.recommendCollectionView) {
-        if (section == 0) {
-            return CGSizeMake(SCREEN_WIDTH, self.officialCouponArr.count ? 75 : 0.01);
+        if (indexPath.section == 0) {
+            return CGSizeMake(SCREEN_WIDTH - 30, self.claOfficialCouponArr.count ? 143 : 0.01);
             
-        } else if (section == 1) {
-            return CGSizeMake(SCREEN_WIDTH, self.brandCouponArr.count ? 75 : 0.01);
-            
-        } else if (section == 2) {
-            return CGSizeMake(SCREEN_WIDTH, self.productCouponArr.count ? 75 : 0.01);
+        } else {
+            return [self thn_getSharedOrSingleCouponCellSizeWithIndexPath:indexPath];
         }
     }
-    
+
     return CGSizeZero;
 }
 
@@ -422,37 +421,49 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         }
     
     } else if (collectionView == self.couponsCollectionView) {
-        if (_couponType == THNCouponsTypeShared) {
-            if (indexPath.row % 3) {
-                THNBrandCouponCollectionViewCell *brandCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandCollectionViewCellId
-                                                                                                        forIndexPath:indexPath];
-                if (self.sharedCouponArr.count) {
-                    [brandCell thn_setBrandCouponModel:self.sharedCouponArr[indexPath.row]];
-                    brandCell.currentVC = self;
-                }
-                
-                return brandCell;
-                
-            } else {
-                THNStoreCouponCollectionViewCell *storeCell = [collectionView dequeueReusableCellWithReuseIdentifier:kStoreCollectionViewCellId
-                                                                                                        forIndexPath:indexPath];
-                if (self.sharedCouponArr.count) {
-                    [storeCell thn_setStoreCouponModel:self.sharedCouponArr[indexPath.row]];
-                    storeCell.currentVC = self;
-                }
-                
-                return storeCell;
+        if (indexPath.section == 0) {
+            THNOfficialCollectionViewCell *officialCell = [collectionView dequeueReusableCellWithReuseIdentifier:kOfficialCollectionViewCellId
+                                                                                                    forIndexPath:indexPath];
+            if (self.claOfficialCouponArr.count) {
+                [officialCell thn_setOfficialCouponData:self.claOfficialCouponArr];
+                officialCell.currentVC = self;
             }
+            
+            return officialCell;
             
         } else {
-            THNProductCouponCollectionViewCell *productCell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCollectionViewCellId
-                                                                                                        forIndexPath:indexPath];
-            if (self.singleCouponArr.count) {
-                [productCell thn_setProductCouponModel:self.singleCouponArr[indexPath.row]];
-                productCell.currentVC = self;
+            if (_couponType == THNCouponsTypeShared) {
+                if (indexPath.row % 3) {
+                    THNBrandCouponCollectionViewCell *brandCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBrandCollectionViewCellId
+                                                                                                            forIndexPath:indexPath];
+                    if (self.sharedCouponArr.count) {
+                        [brandCell thn_setBrandCouponModel:self.sharedCouponArr[indexPath.row]];
+                        brandCell.currentVC = self;
+                    }
+                    
+                    return brandCell;
+                    
+                } else {
+                    THNStoreCouponCollectionViewCell *storeCell = [collectionView dequeueReusableCellWithReuseIdentifier:kStoreCollectionViewCellId
+                                                                                                            forIndexPath:indexPath];
+                    if (self.sharedCouponArr.count) {
+                        [storeCell thn_setStoreCouponModel:self.sharedCouponArr[indexPath.row]];
+                        storeCell.currentVC = self;
+                    }
+                    
+                    return storeCell;
+                }
+                
+            } else {
+                THNProductCouponCollectionViewCell *productCell = [collectionView dequeueReusableCellWithReuseIdentifier:kProductCollectionViewCellId
+                                                                                                            forIndexPath:indexPath];
+                if (self.singleCouponArr.count) {
+                    [productCell thn_setProductCouponModel:self.singleCouponArr[indexPath.row]];
+                    productCell.currentVC = self;
+                }
+                
+                return productCell;
             }
-            
-            return productCell;
         }
     }
     
@@ -467,17 +478,50 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         sectionView.title = self.sectionTitles[indexPath.section];
         
         return sectionView;
+        
+    } else if (collectionView == self.couponsCollectionView) {
+        if (indexPath.section == 0) {
+            THNCouponCenterSectionView *sectionView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                                         withReuseIdentifier:kCollectionSectionViewId
+                                                                                                forIndexPath:indexPath];
+            sectionView.title = self.categoryName;
+            
+            return sectionView;
+            
+        } else {
+            UICollectionReusableView *sectionView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                                       withReuseIdentifier:kCollectionDefaultSectionViewId
+                                                                                              forIndexPath:indexPath];
+            
+            return sectionView;
+        }
     }
     
     return [UICollectionReusableView new];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat offsetY = scrollView.contentOffset.y;
-    
-    if (offsetY <= self.originY) {
-        [self thn_fixedHeaderViewWithOriginY:scrollView.contentOffset.y];
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    if (collectionView == self.recommendCollectionView) {
+        if (section == 0) {
+            return CGSizeMake(SCREEN_WIDTH, self.officialCouponArr.count ? 75 : 0.01);
+            
+        } else if (section == 1) {
+            return CGSizeMake(SCREEN_WIDTH, self.brandCouponArr.count ? 75 : 0.01);
+            
+        } else if (section == 2) {
+            return CGSizeMake(SCREEN_WIDTH, self.productCouponArr.count ? 75 : 0.01);
+        }
+        
+    } else if (collectionView == self.couponsCollectionView) {
+        if (section == 0) {
+            return CGSizeMake(SCREEN_WIDTH, self.claOfficialCouponArr.count ? 75 : 0.01);
+            
+        } else {
+            return CGSizeMake(SCREEN_WIDTH, self.claOfficialCouponArr.count ? 30 : 0.01);
+        }
     }
+    
+    return CGSizeZero;
 }
 
 #pragma mark - setup UI
@@ -506,6 +550,14 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
     [super viewWillDisappear:animated];
     
     self.recommendCollectionView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    
+    if (offsetY <= self.originY) {
+        [self thn_fixedHeaderViewWithOriginY:scrollView.contentOffset.y];
+    }
 }
 
 #pragma mark - getters and setters
@@ -564,7 +616,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumLineSpacing = 15;
         flowLayout.minimumInteritemSpacing = 9;
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 15, 0, 15);
+        flowLayout.sectionInset = UIEdgeInsetsMake(10, 15, 0, 15);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
         _couponsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -573,7 +625,7 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         _couponsCollectionView.dataSource = self;
         _couponsCollectionView.backgroundColor = [UIColor colorWithHexString:@"#FFBD9F"];
         _couponsCollectionView.showsVerticalScrollIndicator = NO;
-        _couponsCollectionView.contentInset = UIEdgeInsetsMake(240 + 44 + 15, 0, 15, 0);
+        _couponsCollectionView.contentInset = UIEdgeInsetsMake(240 + 44, 0, 15, 0);
         
         [_couponsCollectionView registerClass:[THNBrandCouponCollectionViewCell class]
                    forCellWithReuseIdentifier:kBrandCollectionViewCellId];
@@ -584,9 +636,16 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         [_couponsCollectionView registerClass:[THNProductCouponCollectionViewCell class]
                    forCellWithReuseIdentifier:kProductCollectionViewCellId];
         
-        [_couponsCollectionView registerClass:[UICollectionReusableView class]
+        [_couponsCollectionView registerClass:[THNOfficialCollectionViewCell class]
+                     forCellWithReuseIdentifier:kOfficialCollectionViewCellId];
+        
+        [_couponsCollectionView registerClass:[THNCouponCenterSectionView class]
                    forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                           withReuseIdentifier:kCollectionSectionViewId];
+        
+        [_couponsCollectionView registerClass:[UICollectionReusableView class]
+                   forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                          withReuseIdentifier:kCollectionDefaultSectionViewId];
     }
     return _couponsCollectionView;
 }
@@ -627,6 +686,13 @@ static NSString *const kStoreCollectionViewCellId    = @"THNStoreCouponCollectio
         _singleCouponArr = [NSMutableArray array];
     }
     return _singleCouponArr;
+}
+
+- (NSMutableArray *)claOfficialCouponArr {
+    if (!_claOfficialCouponArr) {
+        _claOfficialCouponArr = [NSMutableArray array];
+    }
+    return _claOfficialCouponArr;
 }
 
 @end

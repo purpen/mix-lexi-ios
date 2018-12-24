@@ -17,6 +17,7 @@ static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
 static NSString *const kURLShopWindow  = @"/market/share/shop_window_poster";
 static NSString *const kURLInvite      = @"/market/share/invite_poster";
 static NSString *const kURLBrand       = @"/market/share/store_poster";
+static NSString *const kURLInviteUser  = @"/market/invitation/user";
 
 /// key
 static NSString *const kKeyRid       = @"rid";
@@ -67,17 +68,22 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
 }
 
 - (NSString *)thn_getRequestUrl {
-    NSDictionary *urlDict = @{@(THNSharePosterTypeNone)      : kURLInvite,
-                              @(THNSharePosterTypeGoods)     : kURLWxaPoster,
-                              @(THNSharePosterTypeWindow)    : kURLShopWindow,
-                              @(THNSharePosterTypeInvitation): kURLInvite,
-                              @(THNSharePosterTypeLifeStore) : kURLWxaPoster,
-                              @(THNSharePosterTypeBrandStore): kURLBrand,};
+    NSDictionary *urlDict = @{@(THNSharePosterTypeNone)          : kURLInvite,
+                              @(THNSharePosterTypeGoods)         : kURLWxaPoster,
+                              @(THNSharePosterTypeWindow)        : kURLShopWindow,
+                              @(THNSharePosterTypeInvitation)    : kURLInvite,
+                              @(THNSharePosterTypeLifeStore)     : kURLWxaPoster,
+                              @(THNSharePosterTypeBrandStore)    : kURLBrand,
+                              @(THNSharePosterTypeInvitationUser): kURLInviteUser};
     
     return urlDict[@(self.posterType)];
 }
 
 - (NSDictionary *)thn_getRequestParams {
+    if (self.posterType == THNSharePosterTypeInvitationUser) {
+        return @{};
+    }
+    
     if (self.requestId.length) {
         NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
                                        kKeyScene    : [self thn_paramsScene],
