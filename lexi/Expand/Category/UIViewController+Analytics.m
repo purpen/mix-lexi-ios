@@ -42,6 +42,23 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)   {
     }
 }
 
+- (UINavigationController*)imy_navigationController
+{
+    UINavigationController* nav = nil;
+    if ([self isKindOfClass:[UINavigationController class]]) {
+        nav = (id)self;
+    }
+    else {
+        if ([self isKindOfClass:[UITabBarController class]]) {
+            nav = [((UITabBarController*)self).selectedViewController imy_navigationController];
+        }
+        else {
+            nav = self.navigationController;
+        }
+    }
+    return nav;
+}
+
 - (void)aop_viewWillAppear:(BOOL)animated {
     [self aop_viewWillAppear:animated];
     [MobClick beginLogPageView:NSStringFromClass([self class])];

@@ -63,6 +63,9 @@ THNNavigationBarViewDelegate
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
 @property (nonatomic, strong) NSMutableArray *productRids;
+@property (nonatomic, strong) IQKeyboardManager *keyboardManager;
+@property (nonatomic, assign) CGFloat changeKeyboardScrollHeight;
+@property (nonatomic, assign) CGFloat fltTextHeight;
 
 @end
 
@@ -113,7 +116,7 @@ THNNavigationBarViewDelegate
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.trailing.equalTo(self.postContentView).with.offset(-3);
         make.top.equalTo(self.postContentView).with.offset(30);
-        make.height.equalTo(@(100));
+        make.height.equalTo(@(2000));
     }];
     
     self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
@@ -127,11 +130,11 @@ THNNavigationBarViewDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
     
     // 设置键盘距textView的间距
-    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
-    keyboardManager.enable = YES;
+    self.keyboardManager = [IQKeyboardManager sharedManager];
+    self.keyboardManager.enable = YES;
     // 禁用点击视图关闭键盘
-    keyboardManager.shouldResignOnTouchOutside = NO;
-    keyboardManager.keyboardDistanceFromTextField = 50;
+    self.keyboardManager.shouldResignOnTouchOutside = NO;
+    self.keyboardManager.keyboardDistanceFromTextField = 50;
 }
 
 - (void)releaseWindow {
@@ -456,25 +459,16 @@ THNNavigationBarViewDelegate
 // 动态改变TextView的高度
 - (void)textViewDidChange:(YYTextView *)textView {
     CGFloat fltTextHeight = textView.textLayout.textBoundingSize.height;
+    self.fltTextHeight = fltTextHeight;
     textView.scrollEnabled = NO; //必须设置为NO
     
     [UIView performWithoutAnimation:^{
         textView.height = fltTextHeight;
         // 24为标题控件的高度
         self.postContenViewHeightConstraint.constant = textView.height + 24;
-        CGFloat height = 0.0;
-        // 待优化一下 6 : 604 plus :630 5s : 568 x:570
-        if (SCREEN_HEIGHT == 568) {
-            height = 568;
-        } else if (SCREEN_HEIGHT == 667) {
-            height = 604;
-        } else if (SCREEN_HEIGHT == 736) {
-            height = 630;
-        } else if (SCREEN_HEIGHT == 812) {
-            height = 570;
-        }
         
-        [self.scrollView scrollRectToVisible:CGRectMake(0, fltTextHeight, SCREEN_WIDTH, height) animated:NO];
+        // scrollView移动的距离为键盘弹出Scrollview滚动的的距离 + 文字改变的高度，第一次输入高度不变，所以减去32
+        [self.scrollView setContentOffset:CGPointMake(0, self.changeKeyboardScrollHeight + fltTextHeight - 32) animated:NO];
     }];
 }
 
@@ -486,15 +480,27 @@ THNNavigationBarViewDelegate
     } else {
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption | UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.toolbar.bottom = CGRectGetMinY(toFrame);
-        } completion:NULL];
+            
+        } completion:^(BOOL finished) {
+            if (self.fltTextHeight) {
+                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y - self.fltTextHeight + 32;
+            } else {
+                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y ;
+            }
+            
+             NSLog(@"-====================== %.2f",self.scrollView.contentOffset.y);
+        }];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  
 }
 
 - (void)dealloc {
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 #pragma mark - THNToolBarViewDelegate
 - (void)changeKeyboardType:(UIButton *)button {

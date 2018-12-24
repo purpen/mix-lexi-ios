@@ -319,6 +319,8 @@
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
 		4B282A15219C325D00E1436B /* THNCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B282A12219C325C00E1436B /* THNCommentView.m */; };
 		4B282A16219C325D00E1436B /* THNCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B282A13219C325C00E1436B /* THNCommentView.xib */; };
+		4B2ADC9521CCF2CD0036B62E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */; };
+		4B2ADC9821CCF58E0036B62E /* THNADLaunch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */; };
 		4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */; };
 		4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */; };
 		4B2DEB2F21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2DEB2D21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m */; };
@@ -612,7 +614,6 @@
 		D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */; };
 		D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
-		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
 		D8F0CE3321B7ADD400ACF0EC /* THNImagesToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */; };
 		D8F0CE3721B7DB7E00ACF0EC /* THNPosterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3621B7DB7E00ACF0EC /* THNPosterManager.m */; };
@@ -639,6 +640,9 @@
 		4B282A12219C325C00E1436B /* THNCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentView.m; sourceTree = "<group>"; };
 		4B282A13219C325C00E1436B /* THNCommentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNCommentView.xib; sourceTree = "<group>"; };
 		4B282A14219C325C00E1436B /* THNCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentView.h; sourceTree = "<group>"; };
+		4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNADLaunch.m; sourceTree = "<group>"; };
+		4B2ADC9721CCF58E0036B62E /* THNADLaunch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNADLaunch.h; sourceTree = "<group>"; };
 		4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
 		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B2DEB2C21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallHeadLineTableViewCell.h; sourceTree = "<group>"; };
@@ -1734,7 +1738,6 @@
 		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8EECAD320D9E7F900BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8F0CE3121B7ADD400ACF0EC /* THNImagesToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImagesToolBar.h; sourceTree = "<group>"; };
 		D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImagesToolBar.m; sourceTree = "<group>"; };
@@ -3391,6 +3394,8 @@
 			children = (
 				CDF3D33C21B01D21003D841A /* THNGuideTool.h */,
 				CDF3D33D21B01D21003D841A /* THNGuideTool.m */,
+				4B2ADC9721CCF58E0036B62E /* THNADLaunch.h */,
+				4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -4146,8 +4151,8 @@
 				4B2E826321C8DC0E00DFBD48 /* Config */,
 				D85DA7A92106030100A36A71 /* Expand */,
 				D8EECACD20D9E7F800BB63F4 /* Main.storyboard */,
-				D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */,
 				D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */,
+				4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */,
 			);
 			path = lexi;
 			sourceTree = "<group>";
@@ -4234,6 +4239,7 @@
 				4BECF1E7217F1401008E5E28 /* THNLivingHallExpandView.xib in Resources */,
 				D82C0189219AB0E0009F905F /* THNNewShippingAddressTableViewCell.xib in Resources */,
 				4BECF165217F1401008E5E28 /* THNBrandHallDefaultView.xib in Resources */,
+				4B2ADC9521CCF2CD0036B62E /* Assets.xcassets in Resources */,
 				4BECF18A217F1401008E5E28 /* THNDiscoverSetCollectionViewCell.xib in Resources */,
 				4BECF1B0217F1401008E5E28 /* THNGrassListCollectionViewCell.xib in Resources */,
 				4BECF279217F1402008E5E28 /* THNSearchHotSearchCollectionViewCell.xib in Resources */,
@@ -4291,7 +4297,6 @@
 				4BECF23F217F1401008E5E28 /* THNOrderDetailLogisticsView.xib in Resources */,
 				4BECF1AE217F1401008E5E28 /* THNFeatureTableViewCell.xib in Resources */,
 				4BC7D1A821A6944900F22440 /* THNShopWindowResultHeaderView.xib in Resources */,
-				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
 				4BECF188217F1401008E5E28 /* THNDidcoverSetView.xib in Resources */,
 				4BECF16F217F1401008E5E28 /* THNBrandHallUserInfoTableViewCell.xib in Resources */,
 				4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */,
@@ -4454,6 +4459,7 @@
 				4B27B391218717D1004AF42F /* THNBrandHallHeaderView.m in Sources */,
 				D85E2B5121BA5D400092732E /* YBImageBrowserTipView.m in Sources */,
 				D860740F21BF724D00DC257B /* THNCashHintView.m in Sources */,
+				4B2ADC9821CCF58E0036B62E /* THNADLaunch.m in Sources */,
 				D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */,
 				4B27B392218717D1004AF42F /* THNBrandHallInfoTableViewCell.m in Sources */,
 				4B27B393218717D1004AF42F /* THNBrandHallUserInfoTableViewCell.m in Sources */,
