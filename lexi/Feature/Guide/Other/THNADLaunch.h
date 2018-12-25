@@ -1,9 +1,9 @@
 //
-//  IMYADLaunchDemo.h
-//  IMYADLaunchDemo
+//  THNADLaunch.m
+//  lexi
 //
-//  Created by ljh on 16/6/27.
-//  Copyright © 2016年 ljh. All rights reserved.
+//  Created by HongpingRao on 2018/12/25.
+//  Copyright © 2018年 taihuoniao. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

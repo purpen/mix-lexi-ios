@@ -32,7 +32,6 @@ static NSString *const kURLAppStore = @"https://itunes.apple.com/cn/app/%E4%B9%9
 
 #pragma mark - network
 - (void)requestUpdateContentData {
-    [SVProgressHUD thn_show];
     
     WEAKSELF;
     THNRequest *request = [THNAPI getWithUrlString:kURLUpdate requestDictionary:@{} delegate:nil];

@@ -232,6 +232,8 @@ THNShopWindowTableViewCellDelegate
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    业务调整
+//    滑动列表导航栏样式变换的动画
 //    CGFloat maxY = kDeviceiPhoneX ? 260 - 110 : 260 - 64;
 //    if (scrollView.contentOffset.y > maxY) {
 //        self.navigationBarView.transparent = NO;

@@ -78,8 +78,7 @@ THNNavigationBarViewDelegate
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    IQKeyboardManager *keyboardManager = [IQKeyboardManager sharedManager];
-    keyboardManager.shouldResignOnTouchOutside = YES;
+    self.keyboardManager.shouldResignOnTouchOutside = YES;
 }
 
 - (void)setupUI {
@@ -112,12 +111,7 @@ THNNavigationBarViewDelegate
     }];
     
     [self.postContentView addSubview:self.textView];
-    
-    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.trailing.equalTo(self.postContentView).with.offset(-3);
-        make.top.equalTo(self.postContentView).with.offset(30);
-        make.height.equalTo(@(2000));
-    }];
+    self.textView.frame = CGRectMake(-3, 30, self.postContentView.viewWidth, 40);
     
     self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
@@ -134,7 +128,7 @@ THNNavigationBarViewDelegate
     self.keyboardManager.enable = YES;
     // 禁用点击视图关闭键盘
     self.keyboardManager.shouldResignOnTouchOutside = NO;
-    self.keyboardManager.keyboardDistanceFromTextField = 50;
+    self.keyboardManager.keyboardDistanceFromTextField = 120;
 }
 
 - (void)releaseWindow {
@@ -482,19 +476,19 @@ THNNavigationBarViewDelegate
             self.toolbar.bottom = CGRectGetMinY(toFrame);
             
         } completion:^(BOOL finished) {
-            if (self.fltTextHeight) {
-                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y - self.fltTextHeight + 32;
-            } else {
-                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y ;
-            }
-            
-             NSLog(@"-====================== %.2f",self.scrollView.contentOffset.y);
+//            if (self.fltTextHeight) {
+//                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y - self.fltTextHeight + 32;
+//            } else {
+//                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y;
+//            }
+//
+//             NSLog(@"-====================== %.2f",self.scrollView.contentOffset.y);
         }];
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  
+    NSLog(@"-------------- %.2f",self.scrollView.contentOffset.y);
 }
 
 - (void)dealloc {
