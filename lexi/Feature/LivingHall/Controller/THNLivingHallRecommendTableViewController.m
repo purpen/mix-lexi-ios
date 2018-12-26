@@ -102,6 +102,20 @@ static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remov
     }];
 }
 
+/**
+ 打开分享视图
+ */
+- (void)thn_openShareController:(THNProductModel *)productModel {
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:(THNSharePosterTypeGoods)
+                                                                         requestId:productModel.rid];
+    [shareVC shareObjectWithTitle:productModel.name
+                            descr:productModel.stick_text
+                        thumImage:productModel.cover
+                           webUrl:[NSString stringWithFormat:@"%@%@", kShareProductUrlPrefix, productModel.rid]];
+    shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:shareVC animated:NO completion:nil];
+}
+
 #pragma mark - UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.recommendedmutableArray.count;
@@ -124,10 +138,8 @@ static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remov
         [weakSelf deleteProduct:productModel.rid initCellIndex:indexPath.row];
     };
     
-    cell.shareProductBlock = ^{
-        THNShareViewController *shareVC = [[THNShareViewController alloc]init];
-        shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [weakSelf presentViewController:shareVC animated:NO completion:nil];
+    cell.shareProductBlock = ^(THNProductModel *productModel) {
+        [weakSelf thn_openShareController:productModel];
     };
     
     return cell;

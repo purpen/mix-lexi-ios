@@ -30,6 +30,7 @@
 #import "THNGoodsInfoViewController.h"
 #import "THNBrandHallViewController.h"
 #import "THNGuideTool.h"
+#import <AvoidCrash/AvoidCrash.h>
 
 static NSString *const kCancelPayOrderTitle = @"取消支付";
 static NSString *const kRedirectURL = @"https://lite.lexivip.com/";
@@ -41,6 +42,7 @@ static NSString *const kRedirectURL = @"https://lite.lexivip.com/";
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self setAvoidCarshConfig];
     [self setRootViewController];
     [self setThirdExpandConfig];
     [self configUSharePlatforms];
@@ -265,6 +267,36 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
             [[NSNotificationCenter defaultCenter]postNotificationName:THNPayMentVCPayCallback object:nil];
         }
     }
+}
+
+#pragma AvoidCrash - 防止崩溃设置
+- (void)setAvoidCarshConfig {
+#ifdef DEBUG
+    //do sth.
+#else
+    // 配合以下在对数组越界，空字典等等还扩展了unrecognized selector sent to instance的处理
+    [AvoidCrash makeAllEffective];
+    
+    // 对以下类”unrecognized selector sent to instance”防止崩溃的处理
+    NSArray *noneSelClassStrings = @[
+                                     @"THNLivingHallViewController",
+                                     @"THNFeaturedViewController",
+                                     @"THNExploresViewController",
+                                     @"THNShopWindowViewController"
+                                     ];
+    
+    // 防止后台数据格式错乱导致的崩溃, unrecognized selector sent to instance
+    NSArray *noneSelStrings = @[
+                                @"NSNull",
+                                @"NSNumber",
+                                @"NSString",
+                                @"NSDictionary",
+                                @"NSArray"
+                                ];
+    
+    [AvoidCrash setupNoneSelClassStringsArr:noneSelStrings];
+    [AvoidCrash setupNoneSelClassStringPrefixsArr:noneSelClassStrings];
+#endif
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

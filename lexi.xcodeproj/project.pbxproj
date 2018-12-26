@@ -319,6 +319,8 @@
 		4B27B4F32187222A004AF42F /* THNUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B27B4ED21872229004AF42F /* THNUserManager.m */; };
 		4B282A15219C325D00E1436B /* THNCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B282A12219C325C00E1436B /* THNCommentView.m */; };
 		4B282A16219C325D00E1436B /* THNCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B282A13219C325C00E1436B /* THNCommentView.xib */; };
+		4B2ADC9521CCF2CD0036B62E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */; };
+		4B2ADC9821CCF58E0036B62E /* THNADLaunch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */; };
 		4B2C89A821957A43003CF486 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */; };
 		4B2C89A921957A43003CF486 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */; };
 		4B2DEB2F21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2DEB2D21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.m */; };
@@ -443,7 +445,7 @@
 		4BF3D78C21916EA5001B67E2 /* THNCommentSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78B21916EA5001B67E2 /* THNCommentSectionHeaderView.xib */; };
 		4BF3D79021928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF3D78E21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m */; };
 		4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78F21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib */; };
-		CDF3D32521A05556003D841A /* (null) in Resources */ = {isa = PBXBuildFile; };
+		CDF3D32521A05556003D841A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		CDF3D33321B01A1A003D841A /* THNAdvertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32921B01A18003D841A /* THNAdvertManager.m */; };
 		CDF3D33421B01A1A003D841A /* THNAdvertCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32D21B01A18003D841A /* THNAdvertCouponViewController.m */; };
 		CDF3D33521B01A1A003D841A /* THNAdvertCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */; };
@@ -612,7 +614,6 @@
 		D8DF16DB218BECEC006AAB9E /* THNCouponOfficialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DA218BECEC006AAB9E /* THNCouponOfficialModel.m */; };
 		D8DF16DE218C3DE9006AAB9E /* THNMyCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DF16DC218C3DE8006AAB9E /* THNMyCouponViewController.m */; };
 		D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECACD20D9E7F800BB63F4 /* Main.storyboard */; };
-		D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */; };
 		D8EECAD420D9E7F900BB63F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */; };
 		D8F0CE3321B7ADD400ACF0EC /* THNImagesToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */; };
 		D8F0CE3721B7DB7E00ACF0EC /* THNPosterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F0CE3621B7DB7E00ACF0EC /* THNPosterManager.m */; };
@@ -639,6 +640,9 @@
 		4B282A12219C325C00E1436B /* THNCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNCommentView.m; sourceTree = "<group>"; };
 		4B282A13219C325C00E1436B /* THNCommentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THNCommentView.xib; sourceTree = "<group>"; };
 		4B282A14219C325C00E1436B /* THNCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNCommentView.h; sourceTree = "<group>"; };
+		4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THNADLaunch.m; sourceTree = "<group>"; };
+		4B2ADC9721CCF58E0036B62E /* THNADLaunch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THNADLaunch.h; sourceTree = "<group>"; };
 		4B2C89A621957A43003CF486 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
 		4B2C89A721957A43003CF486 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		4B2DEB2C21C35F4D00200120 /* THNLivingHallHeadLineTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNLivingHallHeadLineTableViewCell.h; sourceTree = "<group>"; };
@@ -1734,7 +1738,6 @@
 		D8EDD9B32178734600916506 /* SVProgressHUD+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Helper.m"; sourceTree = "<group>"; };
 		D8EECAC420D9E7F800BB63F4 /* lexi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lexi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EECACE20D9E7F800BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8EECAD320D9E7F900BB63F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8F0CE3121B7ADD400ACF0EC /* THNImagesToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THNImagesToolBar.h; sourceTree = "<group>"; };
 		D8F0CE3221B7ADD400ACF0EC /* THNImagesToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THNImagesToolBar.m; sourceTree = "<group>"; };
@@ -1858,6 +1861,252 @@
 			path = Marco;
 			sourceTree = "<group>";
 		};
+		4B31CE5121D31BDC00ED07BF /* Evaluation */ = {
+			isa = PBXGroup;
+			children = (
+				4B31CE5321D31BDC00ED07BF /* Model */,
+				4B31CE5421D31BDC00ED07BF /* View */,
+				4B31CE5221D31BDC00ED07BF /* Controller */,
+			);
+			name = Evaluation;
+			path = lexi/Feature/Evaluation;
+			sourceTree = SOURCE_ROOT;
+		};
+		4B31CE5221D31BDC00ED07BF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFD0217F1401008E5E28 /* THNEvaluationViewController.h */,
+				4BECEFD1217F1401008E5E28 /* THNEvaluationViewController.m */,
+				4BECEFD2217F1401008E5E28 /* THNEvaluationViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B31CE5321D31BDC00ED07BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B31CE5421D31BDC00ED07BF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFF5217F1401008E5E28 /* THNEvaluationTableViewCell.h */,
+				4BECEFF6217F1401008E5E28 /* THNEvaluationTableViewCell.m */,
+				4BECEFF7217F1401008E5E28 /* THNEvaluationTableViewCell.xib */,
+				4BECF01D217F1401008E5E28 /* THNPhotoCollectionViewCell.h */,
+				4BECF01E217F1401008E5E28 /* THNPhotoCollectionViewCell.m */,
+				4BECF01F217F1401008E5E28 /* THNPhotoCollectionViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B31CE5521D31D1000ED07BF /* SelectAddress */ = {
+			isa = PBXGroup;
+			children = (
+				4B31CE5A21D31D1000ED07BF /* Model */,
+				4B31CE5B21D31D1000ED07BF /* View */,
+				4B31CE5621D31D1000ED07BF /* Controller */,
+			);
+			path = SelectAddress;
+			sourceTree = "<group>";
+		};
+		4B31CE5621D31D1000ED07BF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFE0217F1401008E5E28 /* THNSelectAddressViewController.h */,
+				4BECEFE1217F1401008E5E28 /* THNSelectAddressViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B31CE5A21D31D1000ED07BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D803BC302189E753007A5FF0 /* THNAddressModel.h */,
+				D803BC2F2189E753007A5FF0 /* THNAddressModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B31CE5B21D31D1000ED07BF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFF1217F1401008E5E28 /* THNAddressTableViewCell.h */,
+				4BECEFF2217F1401008E5E28 /* THNAddressTableViewCell.m */,
+				4BECEFF3217F1401008E5E28 /* THNBuyProgressView.h */,
+				4BECEFF4217F1401008E5E28 /* THNBuyProgressView.m */,
+				4BECEFFF217F1401008E5E28 /* THNNewlyAddressTableViewCell.h */,
+				4BECF000217F1401008E5E28 /* THNNewlyAddressTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B31CE6321D3208200ED07BF /* OrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				4B31CE6521D3208200ED07BF /* Model */,
+				4B31CE6621D3208200ED07BF /* View */,
+				4B31CE6421D3208200ED07BF /* Controller */,
+			);
+			path = OrderDetail;
+			sourceTree = "<group>";
+		};
+		4B31CE6421D3208200ED07BF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFD6217F1401008E5E28 /* THNOrderDetailViewController.h */,
+				4BECEFD7217F1401008E5E28 /* THNOrderDetailViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B31CE6521D3208200ED07BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFE8217F1401008E5E28 /* THNOrderDetailModel.h */,
+				4BECEFE9217F1401008E5E28 /* THNOrderDetailModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B31CE6621D3208200ED07BF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BECF004217F1401008E5E28 /* THNOrderDetailLogisticsView.h */,
+				4BECF005217F1401008E5E28 /* THNOrderDetailLogisticsView.m */,
+				4BECF006217F1401008E5E28 /* THNOrderDetailLogisticsView.xib */,
+				4BECF00A217F1401008E5E28 /* THNOrderDetailProductView.h */,
+				4BECF00B217F1401008E5E28 /* THNOrderDetailProductView.m */,
+				4BECF00C217F1401008E5E28 /* THNOrderDetailProductView.xib */,
+				4BECF007217F1401008E5E28 /* THNOrderDetailPayView.h */,
+				4BECF008217F1401008E5E28 /* THNOrderDetailPayView.m */,
+				4BECF009217F1401008E5E28 /* THNOrderDetailPayView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B31CE6721D322D500ED07BF /* Logistics */ = {
+			isa = PBXGroup;
+			children = (
+				4B31CE6921D322D500ED07BF /* Model */,
+				4B31CE6A21D322D500ED07BF /* View */,
+				4B31CE6821D322D500ED07BF /* Controller */,
+			);
+			path = Logistics;
+			sourceTree = "<group>";
+		};
+		4B31CE6821D322D500ED07BF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFD3217F1401008E5E28 /* THNLogisticsViewController.h */,
+				4BECEFD4217F1401008E5E28 /* THNLogisticsViewController.m */,
+				4BECEFD5217F1401008E5E28 /* THNLogisticsViewController.xib */,
+				4BECEFE2217F1401008E5E28 /* THNSelectLogisticsViewController.h */,
+				4BECEFE3217F1401008E5E28 /* THNSelectLogisticsViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B31CE6921D322D500ED07BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFEA217F1401008E5E28 /* THNOrdersItemsModel.h */,
+				4BECEFEB217F1401008E5E28 /* THNOrdersItemsModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B31CE6A21D322D500ED07BF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFF8217F1401008E5E28 /* THNLogisticsPlaceTableViewCell.h */,
+				4BECEFF9217F1401008E5E28 /* THNLogisticsPlaceTableViewCell.m */,
+				4BECEFFA217F1401008E5E28 /* THNLogisticsPriceView.h */,
+				4BECEFFB217F1401008E5E28 /* THNLogisticsPriceView.m */,
+				4BECF029217F1401008E5E28 /* THNSelectLogisticsTableViewCell.h */,
+				4BECF02A217F1401008E5E28 /* THNSelectLogisticsTableViewCell.m */,
+				4BECEFFC217F1401008E5E28 /* THNLogisticsTableViewCell.h */,
+				4BECEFFD217F1401008E5E28 /* THNLogisticsTableViewCell.m */,
+				4BECEFFE217F1401008E5E28 /* THNLogisticsTableViewCell.xib */,
+				4BECF001217F1401008E5E28 /* THNNoLogisticsView.h */,
+				4BECF002217F1401008E5E28 /* THNNoLogisticsView.m */,
+				4BECF003217F1401008E5E28 /* THNNoLogisticsView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B31CE6B21D3272400ED07BF /* PayOrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				4BC7D1A421A66DE300F22440 /* Other */,
+				4B31CE6D21D3272400ED07BF /* Model */,
+				4B31CE6E21D3272400ED07BF /* View */,
+				4B31CE6C21D3272400ED07BF /* Controller */,
+			);
+			path = PayOrderDetail;
+			sourceTree = "<group>";
+		};
+		4B31CE6C21D3272400ED07BF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BECEFD8217F1401008E5E28 /* THNOrderPreviewViewController.h */,
+				4BECEFD9217F1401008E5E28 /* THNOrderPreviewViewController.m */,
+				4BECEFDC217F1401008E5E28 /* THNPaymentViewController.h */,
+				4BECEFDD217F1401008E5E28 /* THNPaymentViewController.m */,
+				4BECEFDE217F1401008E5E28 /* THNPaySuccessViewController.h */,
+				4BECEFDF217F1401008E5E28 /* THNPaySuccessViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B31CE6D21D3272400ED07BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4BCAF8DE21893A4400EF9491 /* THNPayModel.h */,
+				4BCAF8DF21893A4400EF9491 /* THNPayModel.m */,
+				D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */,
+				D803BC272189E730007A5FF0 /* THNOrderPayModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B31CE6E21D3272400ED07BF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BECF00D217F1401008E5E28 /* THNOrderDetailTableViewCell.h */,
+				4BECF00E217F1401008E5E28 /* THNOrderDetailTableViewCell.m */,
+				4BECF00F217F1401008E5E28 /* THNOrderDetailTableViewCell.xib */,
+				4BECF019217F1401008E5E28 /* THNPaymentPriceView.h */,
+				4BECF01A217F1401008E5E28 /* THNPaymentPriceView.m */,
+				4BECF01B217F1401008E5E28 /* THNPaymentTableViewCell.h */,
+				4BECF01C217F1401008E5E28 /* THNPaymentTableViewCell.m */,
+				4BECF020217F1401008E5E28 /* THNPreViewTableViewCell.h */,
+				4BECF021217F1401008E5E28 /* THNPreViewTableViewCell.m */,
+				4BECF022217F1401008E5E28 /* THNPreViewTableViewCell.xib */,
+				4BECF023217F1401008E5E28 /* THNSelectCouponTableViewCell.h */,
+				4BECF024217F1401008E5E28 /* THNSelectCouponTableViewCell.m */,
+				4BECF025217F1401008E5E28 /* THNSelectCouponTableViewCell.xib */,
+				4BECF026217F1401008E5E28 /* THNSelectCouponView.h */,
+				4BECF027217F1401008E5E28 /* THNSelectCouponView.m */,
+				4BECF028217F1401008E5E28 /* THNSelectCouponView.xib */,
+				4BECF02B217F1401008E5E28 /* THNSelectOfficalCouponView.h */,
+				4BECF02C217F1401008E5E28 /* THNSelectOfficalCouponView.m */,
+				4BECF02D217F1401008E5E28 /* THNSelectOfficalCouponView.xib */,
+				4BC70ACB218BD7F40073A9F0 /* THNPaySuccessTableViewCell.h */,
+				4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */,
+				4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */,
+				4BC70AD5218C05880073A9F0 /* THNPaySuccessTintView.h */,
+				4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */,
+				4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */,
+				4BC7D1A021A568D200F22440 /* THNOrderPayTableViewCell.h */,
+				4BC7D19F21A568D200F22440 /* THNOrderPayTableViewCell.m */,
+				4BC7D1A121A568D300F22440 /* THNOrderPayTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		4BC7D17521A4FA0F00F22440 /* Alipay */ = {
 			isa = PBXGroup;
 			children = (
@@ -1881,28 +2130,33 @@
 			children = (
 				4BECEE16217F1401008E5E28 /* Base */,
 				4BECEF3B217F1401008E5E28 /* Home */,
+				4BECF061217F1401008E5E28 /* Search */,
+				4BECEF49217F1401008E5E28 /* LivingHall */,
+				4BECF052217F1401008E5E28 /* ProductCenter */,
 				4BECEEB1217F1401008E5E28 /* Featured */,
 				4BECEE90217F1401008E5E28 /* Explore */,
-				4BECEF49217F1401008E5E28 /* LivingHall */,
+				4BECEE09217F1401008E5E28 /* AllSet */,
+				4BECEE2C217F1401008E5E28 /* BrandHall */,
+				4BECF11D217F1401008E5E28 /* Window */,
+				4B24D39D219A673900525A05 /* ReleaseWindow */,
+				4BECEED9217F1401008E5E28 /* Goods */,
 				4BECEE71217F1401008E5E28 /* Discover */,
 				4BECEE61217F1401008E5E28 /* Cart */,
 				4BECEF95217F1401008E5E28 /* MyCenter */,
-				4BECEE09217F1401008E5E28 /* AllSet */,
-				4BECEE2C217F1401008E5E28 /* BrandHall */,
-				4BECEED9217F1401008E5E28 /* Goods */,
 				D8767246218700CF00EDD442 /* Coupons */,
 				4BECEF45217F1401008E5E28 /* Inbox */,
 				4BECEF60217F1401008E5E28 /* Login */,
 				D8B434AF219AC711009D2434 /* Dynamic */,
+				4B31CE6B21D3272400ED07BF /* PayOrderDetail */,
+				4B31CE5521D31D1000ED07BF /* SelectAddress */,
 				4BECEFCE217F1401008E5E28 /* Order */,
-				4BECF052217F1401008E5E28 /* ProductCenter */,
-				4BECF061217F1401008E5E28 /* Search */,
+				4B31CE6321D3208200ED07BF /* OrderDetail */,
+				4B31CE5121D31BDC00ED07BF /* Evaluation */,
+				4B31CE6721D322D500ED07BF /* Logistics */,
 				4BECF08D217F1401008E5E28 /* Setting */,
 				4BECF09C217F1401008E5E28 /* Share */,
 				D86073EB21BE419200DC257B /* Cash */,
 				4BECF0A3217F1401008E5E28 /* Store */,
-				4B24D39D219A673900525A05 /* ReleaseWindow */,
-				4BECF11D217F1401008E5E28 /* Window */,
 				CDF3D32721B01A18003D841A /* Advert */,
 				CDF3D33721B01CB6003D841A /* Guide */,
 				4BECF02E217F1401008E5E28 /* Other */,
@@ -2711,10 +2965,9 @@
 		4BECEFCE217F1401008E5E28 /* Order */ = {
 			isa = PBXGroup;
 			children = (
-				4BC7D1A421A66DE300F22440 /* Other */,
-				4BECEFCF217F1401008E5E28 /* Controller */,
 				4BECEFE4217F1401008E5E28 /* Model */,
 				4BECEFF0217F1401008E5E28 /* View */,
+				4BECEFCF217F1401008E5E28 /* Controller */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -2722,26 +2975,8 @@
 		4BECEFCF217F1401008E5E28 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEFD0217F1401008E5E28 /* THNEvaluationViewController.h */,
-				4BECEFD1217F1401008E5E28 /* THNEvaluationViewController.m */,
-				4BECEFD2217F1401008E5E28 /* THNEvaluationViewController.xib */,
-				4BECEFD3217F1401008E5E28 /* THNLogisticsViewController.h */,
-				4BECEFD4217F1401008E5E28 /* THNLogisticsViewController.m */,
-				4BECEFD5217F1401008E5E28 /* THNLogisticsViewController.xib */,
-				4BECEFD6217F1401008E5E28 /* THNOrderDetailViewController.h */,
-				4BECEFD7217F1401008E5E28 /* THNOrderDetailViewController.m */,
-				4BECEFD8217F1401008E5E28 /* THNOrderPreviewViewController.h */,
-				4BECEFD9217F1401008E5E28 /* THNOrderPreviewViewController.m */,
 				4BECEFDA217F1401008E5E28 /* THNOrderViewController.h */,
 				4BECEFDB217F1401008E5E28 /* THNOrderViewController.m */,
-				4BECEFDC217F1401008E5E28 /* THNPaymentViewController.h */,
-				4BECEFDD217F1401008E5E28 /* THNPaymentViewController.m */,
-				4BECEFDE217F1401008E5E28 /* THNPaySuccessViewController.h */,
-				4BECEFDF217F1401008E5E28 /* THNPaySuccessViewController.m */,
-				4BECEFE0217F1401008E5E28 /* THNSelectAddressViewController.h */,
-				4BECEFE1217F1401008E5E28 /* THNSelectAddressViewController.m */,
-				4BECEFE2217F1401008E5E28 /* THNSelectLogisticsViewController.h */,
-				4BECEFE3217F1401008E5E28 /* THNSelectLogisticsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2749,19 +2984,10 @@
 		4BECEFE4217F1401008E5E28 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D803BC2E2189E753007A5FF0 /* Address */,
-				D803BC2B2189E735007A5FF0 /* THNOrderPayModel.h */,
-				D803BC272189E730007A5FF0 /* THNOrderPayModel.m */,
-				4BECEFE8217F1401008E5E28 /* THNOrderDetailModel.h */,
-				4BECEFE9217F1401008E5E28 /* THNOrderDetailModel.m */,
-				4BECEFEA217F1401008E5E28 /* THNOrdersItemsModel.h */,
-				4BECEFEB217F1401008E5E28 /* THNOrdersItemsModel.m */,
 				4BECEFEC217F1401008E5E28 /* THNOrdersModel.h */,
 				4BECEFED217F1401008E5E28 /* THNOrdersModel.m */,
 				4BECEFEE217F1401008E5E28 /* THNOrderStoreModel.h */,
 				4BECEFEF217F1401008E5E28 /* THNOrderStoreModel.m */,
-				4BCAF8DE21893A4400EF9491 /* THNPayModel.h */,
-				4BCAF8DF21893A4400EF9491 /* THNPayModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2769,37 +2995,6 @@
 		4BECEFF0217F1401008E5E28 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4BECEFF1217F1401008E5E28 /* THNAddressTableViewCell.h */,
-				4BECEFF2217F1401008E5E28 /* THNAddressTableViewCell.m */,
-				4BECEFF3217F1401008E5E28 /* THNBuyProgressView.h */,
-				4BECEFF4217F1401008E5E28 /* THNBuyProgressView.m */,
-				4BECEFF5217F1401008E5E28 /* THNEvaluationTableViewCell.h */,
-				4BECEFF6217F1401008E5E28 /* THNEvaluationTableViewCell.m */,
-				4BECEFF7217F1401008E5E28 /* THNEvaluationTableViewCell.xib */,
-				4BECEFF8217F1401008E5E28 /* THNLogisticsPlaceTableViewCell.h */,
-				4BECEFF9217F1401008E5E28 /* THNLogisticsPlaceTableViewCell.m */,
-				4BECEFFA217F1401008E5E28 /* THNLogisticsPriceView.h */,
-				4BECEFFB217F1401008E5E28 /* THNLogisticsPriceView.m */,
-				4BECEFFC217F1401008E5E28 /* THNLogisticsTableViewCell.h */,
-				4BECEFFD217F1401008E5E28 /* THNLogisticsTableViewCell.m */,
-				4BECEFFE217F1401008E5E28 /* THNLogisticsTableViewCell.xib */,
-				4BECEFFF217F1401008E5E28 /* THNNewlyAddressTableViewCell.h */,
-				4BECF000217F1401008E5E28 /* THNNewlyAddressTableViewCell.m */,
-				4BECF001217F1401008E5E28 /* THNNoLogisticsView.h */,
-				4BECF002217F1401008E5E28 /* THNNoLogisticsView.m */,
-				4BECF003217F1401008E5E28 /* THNNoLogisticsView.xib */,
-				4BECF004217F1401008E5E28 /* THNOrderDetailLogisticsView.h */,
-				4BECF005217F1401008E5E28 /* THNOrderDetailLogisticsView.m */,
-				4BECF006217F1401008E5E28 /* THNOrderDetailLogisticsView.xib */,
-				4BECF007217F1401008E5E28 /* THNOrderDetailPayView.h */,
-				4BECF008217F1401008E5E28 /* THNOrderDetailPayView.m */,
-				4BECF009217F1401008E5E28 /* THNOrderDetailPayView.xib */,
-				4BECF00A217F1401008E5E28 /* THNOrderDetailProductView.h */,
-				4BECF00B217F1401008E5E28 /* THNOrderDetailProductView.m */,
-				4BECF00C217F1401008E5E28 /* THNOrderDetailProductView.xib */,
-				4BECF00D217F1401008E5E28 /* THNOrderDetailTableViewCell.h */,
-				4BECF00E217F1401008E5E28 /* THNOrderDetailTableViewCell.m */,
-				4BECF00F217F1401008E5E28 /* THNOrderDetailTableViewCell.xib */,
 				4BECF010217F1401008E5E28 /* THNOrderPayView.h */,
 				4BECF011217F1401008E5E28 /* THNOrderPayView.m */,
 				4BECF012217F1401008E5E28 /* THNOrderPayView.xib */,
@@ -2809,36 +3004,6 @@
 				4BECF016217F1401008E5E28 /* THNOrderTableViewCell.h */,
 				4BECF017217F1401008E5E28 /* THNOrderTableViewCell.m */,
 				4BECF018217F1401008E5E28 /* THNOrderTableViewCell.xib */,
-				4BECF019217F1401008E5E28 /* THNPaymentPriceView.h */,
-				4BECF01A217F1401008E5E28 /* THNPaymentPriceView.m */,
-				4BECF01B217F1401008E5E28 /* THNPaymentTableViewCell.h */,
-				4BECF01C217F1401008E5E28 /* THNPaymentTableViewCell.m */,
-				4BECF01D217F1401008E5E28 /* THNPhotoCollectionViewCell.h */,
-				4BECF01E217F1401008E5E28 /* THNPhotoCollectionViewCell.m */,
-				4BECF01F217F1401008E5E28 /* THNPhotoCollectionViewCell.xib */,
-				4BECF020217F1401008E5E28 /* THNPreViewTableViewCell.h */,
-				4BECF021217F1401008E5E28 /* THNPreViewTableViewCell.m */,
-				4BECF022217F1401008E5E28 /* THNPreViewTableViewCell.xib */,
-				4BECF023217F1401008E5E28 /* THNSelectCouponTableViewCell.h */,
-				4BECF024217F1401008E5E28 /* THNSelectCouponTableViewCell.m */,
-				4BECF025217F1401008E5E28 /* THNSelectCouponTableViewCell.xib */,
-				4BECF026217F1401008E5E28 /* THNSelectCouponView.h */,
-				4BECF027217F1401008E5E28 /* THNSelectCouponView.m */,
-				4BECF028217F1401008E5E28 /* THNSelectCouponView.xib */,
-				4BECF029217F1401008E5E28 /* THNSelectLogisticsTableViewCell.h */,
-				4BECF02A217F1401008E5E28 /* THNSelectLogisticsTableViewCell.m */,
-				4BECF02B217F1401008E5E28 /* THNSelectOfficalCouponView.h */,
-				4BECF02C217F1401008E5E28 /* THNSelectOfficalCouponView.m */,
-				4BECF02D217F1401008E5E28 /* THNSelectOfficalCouponView.xib */,
-				4BC70ACB218BD7F40073A9F0 /* THNPaySuccessTableViewCell.h */,
-				4BC70ACC218BD7F40073A9F0 /* THNPaySuccessTableViewCell.m */,
-				4BC70ACD218BD7F40073A9F0 /* THNPaySuccessTableViewCell.xib */,
-				4BC70AD5218C05880073A9F0 /* THNPaySuccessTintView.h */,
-				4BC70AD6218C05880073A9F0 /* THNPaySuccessTintView.m */,
-				4BC70AD8218C059F0073A9F0 /* THNPaySuccessTintView.xib */,
-				4BC7D1A021A568D200F22440 /* THNOrderPayTableViewCell.h */,
-				4BC7D19F21A568D200F22440 /* THNOrderPayTableViewCell.m */,
-				4BC7D1A121A568D300F22440 /* THNOrderPayTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3391,6 +3556,8 @@
 			children = (
 				CDF3D33C21B01D21003D841A /* THNGuideTool.h */,
 				CDF3D33D21B01D21003D841A /* THNGuideTool.m */,
+				4B2ADC9721CCF58E0036B62E /* THNADLaunch.h */,
+				4B2ADC9621CCF58E0036B62E /* THNADLaunch.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -3411,15 +3578,6 @@
 				CDF3D34021B01EA0003D841A /* THNGuideCollectionViewController.m */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		D803BC2E2189E753007A5FF0 /* Address */ = {
-			isa = PBXGroup;
-			children = (
-				D803BC2F2189E753007A5FF0 /* THNAddressModel.m */,
-				D803BC302189E753007A5FF0 /* THNAddressModel.h */,
-			);
-			path = Address;
 			sourceTree = "<group>";
 		};
 		D80515C121ABC5CD002460A5 /* LifeManagement */ = {
@@ -4146,8 +4304,8 @@
 				4B2E826321C8DC0E00DFBD48 /* Config */,
 				D85DA7A92106030100A36A71 /* Expand */,
 				D8EECACD20D9E7F800BB63F4 /* Main.storyboard */,
-				D8EECAD020D9E7F900BB63F4 /* Assets.xcassets */,
 				D8EECAD220D9E7F900BB63F4 /* LaunchScreen.storyboard */,
+				4B2ADC9421CCF2CD0036B62E /* Assets.xcassets */,
 			);
 			path = lexi;
 			sourceTree = "<group>";
@@ -4234,6 +4392,7 @@
 				4BECF1E7217F1401008E5E28 /* THNLivingHallExpandView.xib in Resources */,
 				D82C0189219AB0E0009F905F /* THNNewShippingAddressTableViewCell.xib in Resources */,
 				4BECF165217F1401008E5E28 /* THNBrandHallDefaultView.xib in Resources */,
+				4B2ADC9521CCF2CD0036B62E /* Assets.xcassets in Resources */,
 				4BECF18A217F1401008E5E28 /* THNDiscoverSetCollectionViewCell.xib in Resources */,
 				4BECF1B0217F1401008E5E28 /* THNGrassListCollectionViewCell.xib in Resources */,
 				4BECF279217F1402008E5E28 /* THNSearchHotSearchCollectionViewCell.xib in Resources */,
@@ -4291,7 +4450,6 @@
 				4BECF23F217F1401008E5E28 /* THNOrderDetailLogisticsView.xib in Resources */,
 				4BECF1AE217F1401008E5E28 /* THNFeatureTableViewCell.xib in Resources */,
 				4BC7D1A821A6944900F22440 /* THNShopWindowResultHeaderView.xib in Resources */,
-				D8EECAD120D9E7F900BB63F4 /* Assets.xcassets in Resources */,
 				4BECF188217F1401008E5E28 /* THNDidcoverSetView.xib in Resources */,
 				4BECF16F217F1401008E5E28 /* THNBrandHallUserInfoTableViewCell.xib in Resources */,
 				4BECF2D9217F1402008E5E28 /* THNThreeImageStitchingView.xib in Resources */,
@@ -4301,7 +4459,7 @@
 				4BC7D19D21A52FBD00F22440 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				4BECF184217F1401008E5E28 /* THNArticleStoreTableViewCell.xib in Resources */,
-				CDF3D32521A05556003D841A /* (null) in Resources */,
+				CDF3D32521A05556003D841A /* BuildFile in Resources */,
 				4BECF16D217F1401008E5E28 /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF169217F1401008E5E28 /* THNBrandHallFeaturesTableViewCell.xib in Resources */,
@@ -4345,6 +4503,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-lexi/Pods-lexi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/AvoidCrash/AvoidCrash.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
 				"${BUILT_PRODUCTS_DIR}/HMSegmentedControl/HMSegmentedControl.framework",
@@ -4362,6 +4521,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AvoidCrash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMSegmentedControl.framework",
@@ -4454,6 +4614,7 @@
 				4B27B391218717D1004AF42F /* THNBrandHallHeaderView.m in Sources */,
 				D85E2B5121BA5D400092732E /* YBImageBrowserTipView.m in Sources */,
 				D860740F21BF724D00DC257B /* THNCashHintView.m in Sources */,
+				4B2ADC9821CCF58E0036B62E /* THNADLaunch.m in Sources */,
 				D805160B21ABC5CE002460A5 /* THNEarningsView.m in Sources */,
 				4B27B392218717D1004AF42F /* THNBrandHallInfoTableViewCell.m in Sources */,
 				4B27B393218717D1004AF42F /* THNBrandHallUserInfoTableViewCell.m in Sources */,
@@ -5062,7 +5223,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
+				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -5166,7 +5327,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
+				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

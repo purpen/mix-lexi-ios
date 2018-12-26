@@ -145,7 +145,7 @@ static NSString *const kUrlProductUserLike = @"/product/userlike";
 
 - (IBAction)shareButton:(id)sender {
     if (self.shareProductBlock) {
-        self.shareProductBlock();
+        self.shareProductBlock(self.productModel);
     }
 }
 

@@ -10,4 +10,6 @@
 
 @interface UIViewController (Analytics)
 
+- (UINavigationController*)imy_navigationController;
+
 @end

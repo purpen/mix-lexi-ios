@@ -99,6 +99,10 @@ THNExploreTableViewCellDelegate
 
 // 刷新馆长推荐数据
 - (void)refreshCuratorRecommendedData {
+    if (self.dataArray[0] != LivingHallCellTypeRecommend) {
+        return;
+    }
+    
     THNLivingRecommendProductSetTableViewCell *recommendProductSetCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     recommendProductSetCell.isMergeRecommendData = NO;
     [recommendProductSetCell loadCuratorRecommendedData];
