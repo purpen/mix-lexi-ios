@@ -25,6 +25,8 @@ NSString *const kWxaHomePath        = @"pages/index/index";
 NSString *const kWxaStoreGuidePath  = @"lifeStore/pages/lifeStoreGuide/lifeStoreGuide";
 NSString *const kWxaProductPath     = @"pages/product/product";
 NSString *const kWxaWindowPath      = @"pages/windowDetail/windowDetail";
+NSString *const kWxaArticlePath     = @"pages/findInfo/findInfo";
+NSString *const kWxaNotePath        = @"pages/plantNoteInfo/plantNoteInfo";
 
 #pragma mark - 分享H5前缀
 // 文章
