@@ -24,4 +24,5 @@ target "lexi" do
  pod 'WechatOpenSDK'
  pod 'MLeaksFinder'
  pod 'YYKit'
+ pod 'AvoidCrash', '~> 2.5.2'
 end

@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - AvoidCrash (2.5.2)
   - DateTools (2.0.0)
   - FBRetainCycleDetector (0.1.4)
   - HappyDNS (0.3.14)
@@ -56,6 +57,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - AvoidCrash (~> 2.5.2)
   - DateTools
   - HMSegmentedControl
   - IQKeyboardManager (~> 4.0.10)
@@ -80,6 +82,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - AvoidCrash
     - DateTools
     - FBRetainCycleDetector
     - HappyDNS
@@ -103,6 +106,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AvoidCrash: 28c6916fe19bd2b84126b8dec7cbe61c9a12741d
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   HappyDNS: dc6a164ee81979093123c241c6353bcf0218add6
@@ -124,6 +128,6 @@ SPEC CHECKSUMS:
   WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: df7f0d4a826bd0c4449d50857c53d9b40613c701
+PODFILE CHECKSUM: 306aa974ceea6114de94dc7650d9b9caab600cdb
 
 COCOAPODS: 1.5.3

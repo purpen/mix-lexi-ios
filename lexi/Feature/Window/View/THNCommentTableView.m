@@ -19,6 +19,7 @@
 #import "THNConst.h"
 #import "THNAPI.h"
 #import "SVProgressHUD+Helper.h"
+
 static NSString *const kUrlShopWindowChildComments = @"/shop_windows/child_comments";
 static NSString *const kUrlShopLiferecordsChildComments = @"/life_records/child_comments";
 

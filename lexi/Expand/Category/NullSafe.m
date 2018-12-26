@@ -33,33 +33,28 @@
 #import <objc/runtime.h>
 #import <Foundation/Foundation.h>
 
-// 测试可以设置为0 禁止
-#ifndef NULLSAFE_ENABLED
-#define NULLSAFE_ENABLED 1
-#endif
-
-
 #pragma clang diagnostic ignored "-Wgnu-conditional-omitted-operand"
 
 
 @implementation NSNull (NullSafe)
 
-#if NULLSAFE_ENABLED
+#ifdef DEBUG
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
-{
+#else
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
     //look up method signature
     NSMethodSignature *signature = [super methodSignatureForSelector:selector];
     if (!signature)
     {
         for (Class someClass in @[
-            [NSMutableArray class],
-            [NSMutableDictionary class],
-            [NSMutableString class],
-            [NSNumber class],
-            [NSDate class],
-            [NSData class]
-        ])
+                                  [NSMutableArray class],
+                                  [NSMutableDictionary class],
+                                  [NSMutableString class],
+                                  [NSNumber class],
+                                  [NSDate class],
+                                  [NSData class]
+                                  ])
         {
             @try
             {
@@ -75,8 +70,7 @@
     return signature;
 }
 
-- (void)forwardInvocation:(NSInvocation *)invocation
-{
+- (void)forwardInvocation:(NSInvocation *)invocation {
     invocation.target = nil;
     [invocation invoke];
 }

@@ -65,7 +65,9 @@ THNNavigationBarViewDelegate
 @property (nonatomic, strong) NSMutableArray *productRids;
 @property (nonatomic, strong) IQKeyboardManager *keyboardManager;
 @property (nonatomic, assign) CGFloat changeKeyboardScrollHeight;
-@property (nonatomic, assign) CGFloat fltTextHeight;
+@property (nonatomic, assign) CGFloat changeTextHeight;
+@property (nonatomic, assign) BOOL isTextViewHeightChange;
+@property (nonatomic, assign) CGFloat defaultTextViewHeight;
 
 @end
 
@@ -74,6 +76,11 @@ THNNavigationBarViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setKeyboardManagerConfig];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -112,6 +119,7 @@ THNNavigationBarViewDelegate
     
     [self.postContentView addSubview:self.textView];
     self.textView.frame = CGRectMake(-3, 30, self.postContentView.viewWidth, 40);
+    self.defaultTextViewHeight = self.textView.textLayout.textBoundingSize.height;
     
     self.imageViewStitchViewHeightConstraint.constant = (SCREEN_WIDTH - 42) / 3 * 2;
     [self.ImageViewStitchingView addSubview:self.threeImageStitchingView];
@@ -122,7 +130,10 @@ THNNavigationBarViewDelegate
     };
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
-    
+    [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)setKeyboardManagerConfig {
     // 设置键盘距textView的间距
     self.keyboardManager = [IQKeyboardManager sharedManager];
     self.keyboardManager.enable = YES;
@@ -335,7 +346,6 @@ THNNavigationBarViewDelegate
     }
 }
 
-
 - (IBAction)addTag:(id)sender {
     THNAddShowWindowViewController *addShowWindowVC = [[THNAddShowWindowViewController alloc]init];
     addShowWindowVC.addShowWindowBlock = ^(NSString *name) {
@@ -376,8 +386,9 @@ THNNavigationBarViewDelegate
 }
 
 //动态添加label方法
-- (void)createLabelWithArray:(NSMutableArray *)titleArr FontSize:(CGFloat)fontSize SpcX:(CGFloat)spcX SpcY:(CGFloat)spcY
-{
+- (void)createLabelWithArray:(NSMutableArray *)titleArr
+                    FontSize:(CGFloat)fontSize
+                        SpcX:(CGFloat)spcX SpcY:(CGFloat)spcY {
     // 清空子视图
     [self.keywordView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     //创建标签位置变量
@@ -428,6 +439,21 @@ THNNavigationBarViewDelegate
     return size;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context {
+    CGPoint currentPoint = [change[@"new"] CGPointValue];
+    
+    
+    if (self.isTextViewHeightChange) {
+        return;
+    }
+    
+    // 记录键盘状态高度scrollView变化的高度,输入内容scrollView加了changeTextHeight ，所以先减去
+    self.changeKeyboardScrollHeight = currentPoint.y - self.changeTextHeight;
+}
+
 #pragma mark - YYTextViewDelegate
 
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
@@ -452,8 +478,10 @@ THNNavigationBarViewDelegate
 
 // 动态改变TextView的高度
 - (void)textViewDidChange:(YYTextView *)textView {
+    self.isTextViewHeightChange = YES;
     CGFloat fltTextHeight = textView.textLayout.textBoundingSize.height;
-    self.fltTextHeight = fltTextHeight;
+    self.changeTextHeight = fltTextHeight - self.defaultTextViewHeight;
+    
     textView.scrollEnabled = NO; //必须设置为NO
     
     [UIView performWithoutAnimation:^{
@@ -461,13 +489,16 @@ THNNavigationBarViewDelegate
         // 24为标题控件的高度
         self.postContenViewHeightConstraint.constant = textView.height + 24;
         
-        // scrollView移动的距离为键盘弹出Scrollview滚动的的距离 + 文字改变的高度，第一次输入高度不变，所以减去32
-        [self.scrollView setContentOffset:CGPointMake(0, self.changeKeyboardScrollHeight + fltTextHeight - 32) animated:NO];
+        // scrollView移动的距离为键盘弹出Scrollview滚动的的距离 + 文字改变的高度，第一次输入高度不变，所以减去默认进来textView的高度
+        [self.scrollView setContentOffset:CGPointMake(0, self.changeKeyboardScrollHeight + self.changeTextHeight) animated:NO];
     }];
 }
 
 #pragma mark @protocol YYTextKeyboardObserver
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
+    
+    self.isTextViewHeightChange = NO;
+    
     CGRect toFrame = [[YYTextKeyboardManager defaultManager] convertRect:transition.toFrame toView:self.view];
     if (transition.animationDuration == 0) {
         self.toolbar.bottom = CGRectGetMinY(toFrame);
@@ -476,24 +507,15 @@ THNNavigationBarViewDelegate
             self.toolbar.bottom = CGRectGetMinY(toFrame);
             
         } completion:^(BOOL finished) {
-//            if (self.fltTextHeight) {
-//                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y - self.fltTextHeight + 32;
-//            } else {
-//                self.changeKeyboardScrollHeight = self.scrollView.contentOffset.y;
-//            }
-//
-//             NSLog(@"-====================== %.2f",self.scrollView.contentOffset.y);
+            
         }];
     }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"-------------- %.2f",self.scrollView.contentOffset.y);
 }
 
 - (void)dealloc {
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
 
 #pragma mark - THNToolBarViewDelegate
