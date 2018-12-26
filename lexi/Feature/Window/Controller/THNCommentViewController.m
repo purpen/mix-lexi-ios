@@ -101,6 +101,9 @@ THNCommentTableViewDelegate
     params[@"rid"] = self.rid;
     THNRequest *request = [THNAPI getWithUrlString:self.requestUrl requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"评论列表：%@", [NSString jsonStringWithObject:result.responseDict]);
+#endif
         if (self.isNeedLocalHud) {
             [SVProgressHUD dismiss];
         } else {

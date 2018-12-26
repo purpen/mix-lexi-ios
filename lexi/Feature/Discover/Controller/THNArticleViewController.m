@@ -155,7 +155,9 @@ THNCommentTableViewDelegate
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"文章详情 ----- %@", [NSString jsonStringWithObject:result.responseDict]);
+#ifdef DEBUG
+        THNLog(@"文章详情 ----- %@", [NSString jsonStringWithObject:result.responseDict]);
+#endif
         [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
