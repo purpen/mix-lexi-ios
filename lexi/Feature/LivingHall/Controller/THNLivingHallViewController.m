@@ -219,7 +219,6 @@ THNExploreTableViewCellDelegate
             return;
         }
         
-
         [self.weekPopularArray addObjectsFromArray:result.data[@"products"]];
 //        for (int i = 1; i <= self.weekPopularArray.count; i++) {
 //            if ( i % 5 == 0) {
@@ -280,7 +279,6 @@ THNExploreTableViewCellDelegate
                                                        }];
     }];
 }
-
 
 #pragma mark - UITableViewDataSource method 实现
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -437,7 +435,7 @@ THNExploreTableViewCellDelegate
     [self.navigationController pushViewController:goodsList animated:YES];
 }
 
-#pragma makr - THNMJRefreshDelegate
+#pragma mark - THNMJRefreshDelegate
 - (void)beginLoadingMoreDataWithCurrentPage:(NSNumber *)currentPage {
     self.currentPage = currentPage.integerValue;
     self.isNeedsHud = NO;
