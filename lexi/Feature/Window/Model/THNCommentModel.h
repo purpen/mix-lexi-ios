@@ -25,5 +25,8 @@
 @property (nonatomic, assign) CGFloat height;
 // 剩余子评论数量
 @property (nonatomic, assign) NSInteger remain_count;
-
+// 上级评论编号
+@property (nonatomic, assign) NSInteger pid;
+// 回复的评论对应的用户名，如果为空代表是评论的是橱窗或者回复一级评论
+@property (nonatomic, strong) NSString *reply_user_name;
 @end

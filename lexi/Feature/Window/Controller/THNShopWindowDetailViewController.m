@@ -493,7 +493,7 @@ THNShopWindowTableViewCellDelegate
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid.length > 0 ? self.rid : self.shopWindowModel.rid;
     if (self.pid) {
-        params[@"pid"] = @(self.pid);
+        params[@"reply_id"] = @(self.pid);
     }
     params[@"content"] = text;
     THNRequest *request = [THNAPI postWithUrlString:kUrlAddComment requestDictionary:params delegate:nil];

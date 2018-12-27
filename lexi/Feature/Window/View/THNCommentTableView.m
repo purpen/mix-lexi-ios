@@ -141,7 +141,6 @@ NSInteger const maxShowSubComment = 2;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.comments.count;
 }
@@ -175,7 +174,6 @@ NSInteger const maxShowSubComment = 2;
         return cell;
     } else {
         THNSecondLevelCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentSecondCellIdentifier forIndexPath:indexPath];
-        
         cell.isShopWindow = self.isShopWindow;
         
         WEAKSELF;
@@ -212,17 +210,6 @@ NSInteger const maxShowSubComment = 2;
         cell.commentModel = self.commentModel;
         [cell setSubCommentModel:subCommentModel];
         return cell;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *sectionSubComments = self.subComments[indexPath.section];
-    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:sectionSubComments[indexPath.row]];
-
-    if (subCommentModel.height == 0) {
-        if (self.commentDelegate && [self.commentDelegate respondsToSelector:@selector(lookAllSubComment)]) {
-            [self.commentDelegate lookAllSubComment];
-        }
     }
 }
 
@@ -304,6 +291,18 @@ NSInteger const maxShowSubComment = 2;
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *sectionSubComments = self.subComments[indexPath.section];
+    THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:sectionSubComments[indexPath.row]];
+    
+    if (subCommentModel.height == 0) {
+        if (self.commentDelegate && [self.commentDelegate respondsToSelector:@selector(lookAllSubComment)]) {
+            [self.commentDelegate lookAllSubComment];
+        }
+    }
+    
+    NSLog(@"回复评论:%zi, 用户名:%@, 回复的用户名:%@", subCommentModel.comment_id, subCommentModel.user_name, subCommentModel.reply_user_name);
+}
 
 #pragma makr - lazy
 - (UIView *)headerView {

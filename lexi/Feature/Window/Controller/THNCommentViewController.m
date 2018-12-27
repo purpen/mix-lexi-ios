@@ -205,7 +205,7 @@ THNCommentTableViewDelegate
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"rid"] = self.rid;
     if (self.isSecondComment) {
-        params[@"pid"] = @(self.pid);
+        params[@"reply_id"] = @(self.pid);
     }
     params[@"content"] = text;
 
