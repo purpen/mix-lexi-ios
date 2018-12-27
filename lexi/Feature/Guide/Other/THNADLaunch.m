@@ -149,6 +149,8 @@ static NSString *const kLastAdUrl = @"lastAdUrl";
 - (void)setupSubviews:(UIWindow*)window {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:window.bounds];
     imageView.image = self.adImage;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.layer.masksToBounds = YES;
     imageView.userInteractionEnabled = YES;
     
 //    ///给非UIControl的子类，增加点击事件

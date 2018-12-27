@@ -145,8 +145,6 @@ THNCommentTableViewDelegate
     [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
-
-
 // 文章详情
 - (void)loadLifeRecordsDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -377,10 +375,26 @@ THNCommentTableViewDelegate
  获取文章类型（种草笔记边距不一样）
  */
 - (THNDealContentType)thn_getArticleContentType {
-    BOOL isGrassNote = [self.grassListModel.channel_name isEqualToString:grassNote];
-    THNDealContentType contentType = isGrassNote ? THNDealContentTypeGrassNote : THNDealContentTypeArticle;
+    THNArticleType articleType = [self thn_getArticleType];
+
+    if (articleType == THNArticleTypeNote) {
+        return THNDealContentTypeGrassNote;
+    }
     
-    return contentType;
+    return THNDealContentTypeArticle;
+}
+
+/**
+ 文章类型，区分“种草笔记“
+ */
+- (THNArticleType)thn_getArticleType {
+    BOOL isGrassNote = [self.grassListModel.channel_name isEqualToString:grassNote];
+    
+    if (isGrassNote) {
+        return THNArticleTypeNote;
+    }
+    
+    return THNArticleTypeDefault;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -576,19 +590,28 @@ THNCommentTableViewDelegate
 }
 
 - (void)shareArticle {
-    THNShareViewController *shareVC = [[THNShareViewController alloc]init];
+    if (!self.rid) {
+        return;
+    }
+    
+    NSString *requestId = [NSString stringWithFormat:@"%zi", self.rid];
+    BOOL isNote = [self thn_getArticleType] == THNArticleTypeNote;
+    THNSharePosterType posterType = isNote  ? THNSharePosterTypeNote : THNSharePosterTypeArticle;
+    
     NSString *shareUrlPrefix;
     
     if (self.grassListModel.type == DisCoverContentTypeArticle) {
         shareUrlPrefix = kShareArticleUrlPrefix;
+        
     } else if (self.grassListModel.type == DisCoverContentTypeGrassList) {
         shareUrlPrefix = kShareGrassUrlPrefix;
     }
 
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:posterType requestId:requestId];
     [shareVC shareObjectWithTitle:self.grassListModel.title
                             descr:self.grassListModel.des
                         thumImage:self.grassListModel.cover
-                           webUrl:[shareUrlPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",self.rid]]];
+                           webUrl:[shareUrlPrefix stringByAppendingString:requestId]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }
