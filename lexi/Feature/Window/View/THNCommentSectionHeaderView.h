@@ -11,7 +11,8 @@
 extern NSString *const kUrlCommentsPraises;
 extern NSString *const kLifeRecordsCommentsPraises;
 
-typedef void(^CommentReplyBlock)(NSInteger pid);
+typedef void(^CommentReplyBlock)(NSInteger pid, NSString*replyUserName);
+typedef void(^SectionHeaderViewLookUserBlock)(NSString *uid);
 
 @class THNCommentModel;
 
@@ -20,5 +21,6 @@ typedef void(^CommentReplyBlock)(NSInteger pid);
 @property (nonatomic, strong) THNCommentModel *commentModel;
 @property (nonatomic, assign) BOOL isShopWindow;
 @property (nonatomic, copy) CommentReplyBlock replyBlcok;
+@property (nonatomic, copy) SectionHeaderViewLookUserBlock lookUserConterBlock;
 
 @end

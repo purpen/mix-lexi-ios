@@ -81,7 +81,7 @@ THNShopWindowTableViewCellDelegate
 @property (nonatomic, assign) BOOL isNeedLocalHud;
 @property (nonatomic, assign) NSInteger likeWindowCount;
 @property (nonatomic, assign) BOOL isLike;
-
+@property (nonatomic, strong) NSString *replyUserName;
 
 @end
 
@@ -92,6 +92,19 @@ THNShopWindowTableViewCellDelegate
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushCommentVC) name:kLookAllCommentData object:nil];
     [self setupUI];
     [self loadData];
+}
+
+// 解决键盘toolView偏移和重复点击闪烁的问题
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable = NO;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
 }
 
 - (void)loadData {
@@ -177,6 +190,13 @@ THNShopWindowTableViewCellDelegate
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.toolbar.delegate = self;
     [self.view addSubview:self.toolbar];
+    
+    if (self.replyUserName.length == 0) {
+        return;
+    }
+    
+    self.toolbar.textView.placeholderText = [NSString stringWithFormat:@"回复 %@:",self.replyUserName];
+    self.toolbar.textView.placeholderFont = [UIFont systemFontOfSize:14];
 }
 
 
@@ -290,7 +310,7 @@ THNShopWindowTableViewCellDelegate
                   
                     THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
                     NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                    subCommentModel.height = [self getSizeByString:contentStr withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12] withMaxWidth:SCREEN_WIDTH - 102];
+                    subCommentModel.height = [self getSizeByString:contentStr withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12] withMaxWidth:SCREEN_WIDTH - 85 - 35];
                     [lessThanSubComments addObject:subCommentModel];
                     [self.lessThanSubComments addObject:subCommentModel];
                     self.subCommentHeight += subCommentModel.height;
@@ -518,14 +538,20 @@ THNShopWindowTableViewCellDelegate
 }
 
 #pragma mark - THNCommentTableViewDelegate
-- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section withReplyUserName:(NSString *)replyUserName {
     self.pid = pid;
     self.section = section;
+    self.replyUserName = replyUserName;
     [self layoutToolView];
 }
 
 - (void)lookAllSubComment {
     [self pushCommentVC];
+}
+
+- (void)lookUserCenter:(NSString *)uid {
+    THNUserCenterViewController *userCentenVC = [[THNUserCenterViewController alloc]initWithUserId:uid];
+    [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
 #pragma mark - THNShopWindowTableViewCellDelegate

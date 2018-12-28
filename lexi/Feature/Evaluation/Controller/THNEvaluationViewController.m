@@ -32,7 +32,6 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     [super viewDidLoad];
     [self setupUI];
     [self setCommentParams];
-    
 }
 
 // 设置提交订单的参数
@@ -85,9 +84,14 @@ static NSString *const kCreateComment = @"/orders/user_comment/create";
     self.tableView.estimatedSectionFooterHeight = 0;
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"F7F9FB"];
     [self.tableView registerNib:[UINib nibWithNibName:@"THNEvaluationTableViewCell" bundle:nil] forCellReuseIdentifier:kEvaluationCellIdentifier];
-    [self.commitButton drawCornerWithType:0 radius:4];
     self.commitButton.alpha = 0.5;
     self.commitButton.enabled = NO;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self.commitButton drawCornerWithType:0 radius:4];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

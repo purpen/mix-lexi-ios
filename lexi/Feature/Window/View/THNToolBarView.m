@@ -114,7 +114,7 @@
         _textView.allowsCopyAttributedString = NO;
         _textView.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
         _textView.delegate = self;
-        _textView.placeholderText = @"添加评论";
+//        _textView.placeholderText = @"添加评论";
         _textView.inputAccessoryView = [UIView new];
     }
     return _textView;

@@ -29,4 +29,7 @@
 @property (nonatomic, assign) NSInteger pid;
 // 回复的评论对应的用户名，如果为空代表是评论的是橱窗或者回复一级评论
 @property (nonatomic, strong) NSString *reply_user_name;
+@property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *reply_user_uid;
+
 @end

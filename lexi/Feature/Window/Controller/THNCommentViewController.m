@@ -18,6 +18,7 @@
 #import "UIViewController+THNHud.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "THNLoginManager.h"
+#import "THNUserCenterViewController.h"
 
 static NSString *const kUrlShopWindowsComments = @"/shop_windows/comments";
 static NSString *const KUrlLifeRecordsComments  = @"/life_records/comments";
@@ -49,6 +50,7 @@ THNCommentTableViewDelegate
 @property (nonatomic, strong) NSString *requestUrl;
 @property (nonatomic, assign) BOOL isSecondComment;
 @property (nonatomic, assign) NSInteger totalCommentCount;
+@property (nonatomic, strong) NSString *replyUserName;
 
 @end
 
@@ -73,6 +75,18 @@ THNCommentTableViewDelegate
     self.currentPage = 1;
     self.commentTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable = NO;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
@@ -171,6 +185,13 @@ THNCommentTableViewDelegate
     // 监听键盘
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     [self.view addSubview:self.toolbar];
+    
+    if (self.replyUserName.length == 0) {
+        return;
+    }
+    
+    self.toolbar.textView.placeholderText = [NSString stringWithFormat:@"回复 %@:",self.replyUserName];
+    self.toolbar.textView.placeholderFont = [UIFont systemFontOfSize:14];
 }
 
 //获取字符串高度的方法
@@ -242,16 +263,22 @@ THNCommentTableViewDelegate
 
 #pragma mark - THNCommentTableViewDelegate
 // 回复评论
-- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section withReplyUserName:(NSString *)replyUserName {
     if (![THNLoginManager isLogin]) {
         [[THNLoginManager sharedManager] openUserLoginController];
         return;
     }
 
     self.isSecondComment = YES;
-    [self layoutToolView];
+    self.replyUserName = replyUserName;
     self.pid = pid;
     self.section = section;
+    [self layoutToolView];
+}
+
+- (void)lookUserCenter:(NSString *)uid {
+    THNUserCenterViewController *userCentenVC = [[THNUserCenterViewController alloc]initWithUserId:uid];
+    [self.navigationController pushViewController:userCentenVC animated:YES];
 }
 
 #pragma mark - lazy

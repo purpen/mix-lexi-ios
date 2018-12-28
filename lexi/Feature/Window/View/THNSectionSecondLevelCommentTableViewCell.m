@@ -32,13 +32,18 @@
 - (void)setSubCommentModel:(THNCommentModel *)subCommentModel {
     _subCommentModel = subCommentModel;
     if (subCommentModel.height) {
-        self.contentLabel.text = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
+        if (subCommentModel.reply_user_name.length > 0) {
+              NSString *secondReplyStr= [NSString stringWithFormat:@"%@ 回复 %@: %@",subCommentModel.user_name, subCommentModel.reply_user_name, subCommentModel.content];
+            self.contentLabel.attributedText = [THNTextTool setTextColor:secondReplyStr initWithColor:@"999999" initWithRange:NSMakeRange(subCommentModel.user_name.length + 1, 2)];
+        } else {
+            self.contentLabel.text = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
+        }
+        
     } else {
         NSString *contentStr = [NSString stringWithFormat:@"%@ 等人共%ld条回复",subCommentModel.user_name, self.subCommentCount];
         NSInteger loc = subCommentModel.user_name.length + 3;
          self.contentLabel.attributedText = [THNTextTool setTextColor:contentStr initWithColor:@"5FE4B1" initWithRange:NSMakeRange(loc, contentStr.length - loc)];
     }
-    
 }
 
 @end

@@ -445,7 +445,7 @@
 		4BF3D78C21916EA5001B67E2 /* THNCommentSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78B21916EA5001B67E2 /* THNCommentSectionHeaderView.xib */; };
 		4BF3D79021928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF3D78E21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.m */; };
 		4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF3D78F21928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib */; };
-		CDF3D32521A05556003D841A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		CDF3D32521A05556003D841A /* (null) in Resources */ = {isa = PBXBuildFile; };
 		CDF3D33321B01A1A003D841A /* THNAdvertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32921B01A18003D841A /* THNAdvertManager.m */; };
 		CDF3D33421B01A1A003D841A /* THNAdvertCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D32D21B01A18003D841A /* THNAdvertCouponViewController.m */; };
 		CDF3D33521B01A1A003D841A /* THNAdvertCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF3D33121B01A18003D841A /* THNAdvertCouponView.m */; };
@@ -4459,7 +4459,7 @@
 				4BC7D19D21A52FBD00F22440 /* THNSelectPruductCoverCollectionViewCell.xib in Resources */,
 				D8EECACF20D9E7F800BB63F4 /* Main.storyboard in Resources */,
 				4BECF184217F1401008E5E28 /* THNArticleStoreTableViewCell.xib in Resources */,
-				CDF3D32521A05556003D841A /* BuildFile in Resources */,
+				CDF3D32521A05556003D841A /* (null) in Resources */,
 				4BECF16D217F1401008E5E28 /* THNBrandHallInfoTableViewCell.xib in Resources */,
 				4BF3D79121928EDD001B67E2 /* THNSectionSecondLevelCommentTableViewCell.xib in Resources */,
 				4BECF169217F1401008E5E28 /* THNBrandHallFeaturesTableViewCell.xib in Resources */,
@@ -5223,7 +5223,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -5327,7 +5327,7 @@
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/lexi/Config/THNPch.h";
+				GCC_PREFIX_HEADER = $SRCROOT/lexi/Config/THNPch.h;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

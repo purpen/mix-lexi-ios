@@ -18,6 +18,7 @@
 #import "THNMarco.h"
 #import "THNCommentSectionHeaderView.h"
 #import "THNLoginManager.h"
+#import "THNTextTool.h"
 
 CGFloat const loadViewHeight = 30;
 CGFloat const allSubCommentHeight = 66;
@@ -39,6 +40,16 @@ CGFloat const allSubCommentHeight = 66;
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(lookUserInfomation)];
+    self.avatarImageView.userInteractionEnabled = YES;
+    [self.avatarImageView addGestureRecognizer:tap];
+}
+
+
+- (void)lookUserInfomation {
+    if (self.secondLevelLookUserBlock) {
+        self.secondLevelLookUserBlock(self.subCommentModel.uid);
+    }
 }
 
 - (void)setSubCommentModel:(THNCommentModel *)subCommentModel {
@@ -47,7 +58,15 @@ CGFloat const allSubCommentHeight = 66;
     [self.avatarImageView loadImageWithUrl:[subCommentModel.user_avatar loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]
                                   circular:YES];
     self.nameLabel.text = subCommentModel.user_name;
-    self.contentLabel.text = subCommentModel.content;
+    
+    NSString *secondReplyStr= [NSString stringWithFormat:@"回复@%@: %@", subCommentModel.reply_user_name, subCommentModel.content];
+    NSRange range = NSMakeRange(2, subCommentModel.reply_user_name.length + 1);
+    if (subCommentModel.reply_user_name.length > 0) {
+        self.contentLabel.attributedText = [THNTextTool setTextColor:secondReplyStr initWithColor:@"666666" initWithRange:range];
+    } else {
+        self.contentLabel.text = subCommentModel.content;
+    }
+    
     self.praisesButton.selected = subCommentModel.is_praise;
     [self layoutPraisesButton:subCommentModel.praise_count initWithSelect:subCommentModel.is_praise];
     NSString *currentTimestamp = [NSString getTimestamp];
