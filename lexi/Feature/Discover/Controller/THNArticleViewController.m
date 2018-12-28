@@ -33,6 +33,7 @@
 #import "THNCommentViewController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "THNShareViewController.h"
+#import "THNUserCenterViewController.h"
 
 static NSString *const kUrlLifeRecordsDetail = @"/life_records/detail";
 static NSString *const kUrlLifeRecordsRecommendProducts = @"/life_records/recommend_products";
@@ -98,7 +99,7 @@ THNCommentTableViewDelegate
 // 点击回复的节头位置
 @property (nonatomic, assign) NSInteger section;
 @property (nonatomic, assign) BOOL isSecondComment;
-
+@property (nonatomic, strong) NSString *replyUserName;
 
 @end
 
@@ -128,6 +129,19 @@ THNCommentTableViewDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+// 解决键盘toolView偏移和重复点击闪烁的问题
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable = NO;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
+}
+
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
     self.toolbar.hidden = YES;
 }
@@ -145,8 +159,6 @@ THNCommentTableViewDelegate
     [self.navigationController pushViewController:goodInfo animated:YES];
 }
 
-
-
 // 文章详情
 - (void)loadLifeRecordsDetailData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -155,7 +167,9 @@ THNCommentTableViewDelegate
     [self showHud];
     THNRequest *request = [THNAPI getWithUrlString:kUrlLifeRecordsDetail requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-//        THNLog(@"文章详情 ----- %@", [NSString jsonStringWithObject:result.responseDict]);
+#ifdef DEBUG
+        THNLog(@"文章详情 ----- %@", [NSString jsonStringWithObject:result.responseDict]);
+#endif
         [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
@@ -205,7 +219,7 @@ THNCommentTableViewDelegate
         }
         
         for (THNCommentModel *commentModel in self.comments) {
-            commentModel.height = [self getHeightByString:commentModel.content AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14]];
+            commentModel.height = [self getSizeByString:commentModel.content withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12] withMaxWidth:SCREEN_WIDTH - 85 - 35];
             self.commentHeight += commentModel.height;
             // 记录单个评论下的子评论
             NSMutableArray *moreThanSubComments = [NSMutableArray array];
@@ -222,8 +236,7 @@ THNCommentTableViewDelegate
 
                     THNCommentModel *subCommentModel = [THNCommentModel mj_objectWithKeyValues:dict];
                     NSString *contentStr = [NSString stringWithFormat:@"%@ : %@",subCommentModel.user_name, subCommentModel.content];
-                    subCommentModel.height = [self getHeightByString:contentStr AndFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12]];
-                    [lessThanSubComments addObject:subCommentModel];
+                    subCommentModel.height = [self getSizeByString:contentStr withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:12] withMaxWidth:SCREEN_WIDTH - 85 - 35];
                     [self.lessThanSubComments addObject:subCommentModel];
                     self.subCommentHeight += subCommentModel.height;
                 }
@@ -362,12 +375,18 @@ THNCommentTableViewDelegate
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.toolbar.delegate = self;
     [self.view addSubview:self.toolbar];
+    
+    if (self.replyUserName.length == 0) {
+        return;
+    }
+    
+    self.toolbar.textView.placeholderText = [NSString stringWithFormat:@"回复 %@:",self.replyUserName];
+    self.toolbar.textView.placeholderFont = [UIFont systemFontOfSize:14];
 }
 
 //获取字符串高度的方法
-- (CGFloat)getHeightByString:(NSString*)string AndFontSize:(UIFont *)font
-{
-    CGSize size = [string boundingRectWithSize:CGSizeMake(SCREEN_WIDTH - 80, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
+- (CGFloat)getSizeByString:(NSString *)string withFontSize:(UIFont *)font withMaxWidth:(CGFloat)maxWidth {
+    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, 999) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     return size.height;
 }
 
@@ -375,10 +394,26 @@ THNCommentTableViewDelegate
  获取文章类型（种草笔记边距不一样）
  */
 - (THNDealContentType)thn_getArticleContentType {
-    BOOL isGrassNote = [self.grassListModel.channel_name isEqualToString:grassNote];
-    THNDealContentType contentType = isGrassNote ? THNDealContentTypeGrassNote : THNDealContentTypeArticle;
+    THNArticleType articleType = [self thn_getArticleType];
+
+    if (articleType == THNArticleTypeNote) {
+        return THNDealContentTypeGrassNote;
+    }
     
-    return contentType;
+    return THNDealContentTypeArticle;
+}
+
+/**
+ 文章类型，区分“种草笔记“
+ */
+- (THNArticleType)thn_getArticleType {
+    BOOL isGrassNote = [self.grassListModel.channel_name isEqualToString:grassNote];
+    
+    if (isGrassNote) {
+        return THNArticleTypeNote;
+    }
+    
+    return THNArticleTypeDefault;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -552,8 +587,9 @@ THNCommentTableViewDelegate
 }
 
 #pragma mark - THNCommentTableViewDelegate
-- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section {
+- (void)replyComment:(NSInteger)pid withSection:(NSInteger)section withReplyUserName:(NSString *)replyUserName {
     self.pid = pid;
+    self.replyUserName = replyUserName;
     self.section = section;
     self.isSecondComment = YES;
     [self layoutToolView];
@@ -573,20 +609,34 @@ THNCommentTableViewDelegate
     [self pushCommentVC];
 }
 
+- (void)lookUserCenter:(NSString *)uid {
+    THNUserCenterViewController *userCentenVC = [[THNUserCenterViewController alloc]initWithUserId:uid];
+    [self.navigationController pushViewController:userCentenVC animated:YES];
+}
+
 - (void)shareArticle {
-    THNShareViewController *shareVC = [[THNShareViewController alloc]init];
+    if (!self.rid) {
+        return;
+    }
+    
+    NSString *requestId = [NSString stringWithFormat:@"%zi", self.rid];
+    BOOL isNote = [self thn_getArticleType] == THNArticleTypeNote;
+    THNSharePosterType posterType = isNote  ? THNSharePosterTypeNote : THNSharePosterTypeArticle;
+    
     NSString *shareUrlPrefix;
     
     if (self.grassListModel.type == DisCoverContentTypeArticle) {
         shareUrlPrefix = kShareArticleUrlPrefix;
+        
     } else if (self.grassListModel.type == DisCoverContentTypeGrassList) {
         shareUrlPrefix = kShareGrassUrlPrefix;
     }
 
+    THNShareViewController *shareVC = [[THNShareViewController alloc] initWithType:posterType requestId:requestId];
     [shareVC shareObjectWithTitle:self.grassListModel.title
                             descr:self.grassListModel.des
                         thumImage:self.grassListModel.cover
-                           webUrl:[shareUrlPrefix stringByAppendingString:[NSString stringWithFormat:@"%ld",self.rid]]];
+                           webUrl:[shareUrlPrefix stringByAppendingString:requestId]];
     shareVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:shareVC animated:NO completion:nil];
 }

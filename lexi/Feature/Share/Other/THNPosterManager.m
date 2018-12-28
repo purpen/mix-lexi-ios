@@ -11,6 +11,8 @@
 #import "THNAPI.h"
 #import "THNConst.h"
 #import "THNLoginManager.h"
+#import "THNMarco.h"
+#import "NSString+Helper.h"
 
 /// url
 static NSString *const kURLWxaPoster   = @"/market/wxa_poster";
@@ -55,6 +57,7 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
                                            delegate:nil];
     
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+        THNLog(@"分享海报请求：=== %@", [NSString jsonStringWithObject:result.responseDict]);
         if (!result.isSuccess) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];
             return ;
@@ -63,6 +66,7 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
         completion(result.data[@"image_url"]);
         
     } failure:^(THNRequest *request, NSError *error) {
+        THNLog(@"error === %@", error);
         [SVProgressHUD thn_showErrorWithStatus:[error localizedDescription]];
     }];
 }
@@ -74,7 +78,9 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
                               @(THNSharePosterTypeInvitation)    : kURLInvite,
                               @(THNSharePosterTypeLifeStore)     : kURLWxaPoster,
                               @(THNSharePosterTypeBrandStore)    : kURLBrand,
-                              @(THNSharePosterTypeInvitationUser): kURLInviteUser};
+                              @(THNSharePosterTypeInvitationUser): kURLInviteUser,
+                              @(THNSharePosterTypeArticle)       : kURLWxaPoster,
+                              @(THNSharePosterTypeNote)          : kURLWxaPoster};
     
     return urlDict[@(self.posterType)];
 }
@@ -88,38 +94,84 @@ static NSString *const kKeyAuthAppId = @"auth_app_id";
         NSDictionary *defaultParam = @{kKeyAuthAppId: kWxaAuthAppId,
                                        kKeyScene    : [self thn_paramsScene],
                                        kKeyRid      : self.requestId};
+
+        NSDictionary *paramType = @{@(THNSharePosterTypeNone)           : @"",
+                                    @(THNSharePosterTypeGoods)          : @(4),
+                                    @(THNSharePosterTypeLifeStore)      : @(2),
+                                    @(THNSharePosterTypeWindow)         : @"",
+                                    @(THNSharePosterTypeInvitation)     : @"",
+                                    @(THNSharePosterTypeBrandStore)     : @"",
+                                    @(THNSharePosterTypeInvitationUser) : @"",
+                                    @(THNSharePosterTypeArticle)        : @(6),
+                                    @(THNSharePosterTypeNote)           : @(5)};
+        
+        NSDictionary *paramPath = @{@(THNSharePosterTypeNone)           : kWxaStoreGuidePath,
+                                    @(THNSharePosterTypeGoods)          : kWxaProductPath,
+                                    @(THNSharePosterTypeLifeStore)      : kWxaHomePath,
+                                    @(THNSharePosterTypeWindow)         : kWxaWindowPath,
+                                    @(THNSharePosterTypeInvitation)     : kWxaStoreGuidePath,
+                                    @(THNSharePosterTypeBrandStore)     : kWxaHomePath,
+                                    @(THNSharePosterTypeInvitationUser) : kWxaHomePath,
+                                    @(THNSharePosterTypeArticle)        : kWxaArticlePath,
+                                    @(THNSharePosterTypeNote)           : kWxaNotePath};
         
         NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:defaultParam];
-        
-        switch (self.posterType) {
-            case THNSharePosterTypeGoods: {
-                [paramDict setObject:@(4) forKey:kKeyType];
-                [paramDict setObject:kWxaProductPath forKey:kKeyPath];
-            }
-                break;
-                
-            case THNSharePosterTypeWindow: {
-                [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
-            }
-                break;
-            
-            case THNSharePosterTypeNone:
-            case THNSharePosterTypeInvitation: {
-                [paramDict setObject:kWxaStoreGuidePath forKey:kKeyPath];
-            }
-                break;
-                
-            case THNSharePosterTypeLifeStore: {
-                [paramDict setObject:@(2) forKey:kKeyType];
-                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
-            }
-                break;
-                
-            default:
-                break;
-        }
+        [paramDict setObject:paramType[@(self.posterType)] forKey:kKeyType];
+        [paramDict setObject:paramPath[@(self.posterType)] forKey:kKeyPath];
         
         return [paramDict copy];
+        
+//        THNSharePosterTypeNone = 0,       // 没有海报
+//        THNSharePosterTypeGoods,          // 分享商品
+//        THNSharePosterTypeLifeStore,      // 生活馆
+//        THNSharePosterTypeWindow,         // 橱窗
+//        THNSharePosterTypeInvitation,     // 邀请
+//        THNSharePosterTypeBrandStore,     // 品牌馆
+//        THNSharePosterTypeInvitationUser, // 邀请用户
+//        THNSharePosterTypeArticle,        // 文章详情
+//        THNSharePosterTypeNote            // 种草笔记
+        
+//        switch (self.posterType) {
+//            case THNSharePosterTypeGoods: {
+//                [paramDict setObject:@(4) forKey:kKeyType];
+//                [paramDict setObject:kWxaProductPath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            case THNSharePosterTypeWindow: {
+//                [paramDict setObject:kWxaWindowPath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            case THNSharePosterTypeNone:
+//            case THNSharePosterTypeInvitation: {
+//                [paramDict setObject:kWxaStoreGuidePath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            case THNSharePosterTypeLifeStore: {
+//                [paramDict setObject:@(2) forKey:kKeyType];
+//                [paramDict setObject:kWxaHomePath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            case THNSharePosterTypeNote: {
+//                [paramDict setObject:@(5) forKey:kKeyType];
+//                [paramDict setObject:kWxaNotePath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            case THNSharePosterTypeArticle: {
+//                [paramDict setObject:@(6) forKey:kKeyType];
+//                [paramDict setObject:kWxaArticlePath forKey:kKeyPath];
+//            }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+//        return [paramDict copy];
     }
     
     return [NSDictionary dictionary];

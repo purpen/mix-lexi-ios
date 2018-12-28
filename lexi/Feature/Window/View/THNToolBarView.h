@@ -16,7 +16,6 @@
 - (void)addComment:(NSString *)text;
 - (void)changeKeyboardType:(UIButton *)button;
 
-
 @end
 
 @interface THNToolBarView : UIView

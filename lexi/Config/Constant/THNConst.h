@@ -24,6 +24,8 @@ UIKIT_EXTERN NSString *const kWxaHomePath;
 UIKIT_EXTERN NSString *const kWxaStoreGuidePath;
 UIKIT_EXTERN NSString *const kWxaProductPath;
 UIKIT_EXTERN NSString *const kWxaWindowPath;
+UIKIT_EXTERN NSString *const kWxaArticlePath;
+UIKIT_EXTERN NSString *const kWxaNotePath;
 
 #pragma mark - 分享H5前缀
 // 文章

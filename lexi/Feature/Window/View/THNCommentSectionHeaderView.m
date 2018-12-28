@@ -31,6 +31,19 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
 
 @implementation THNCommentSectionHeaderView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(lookUserInfomation)];
+    self.avatarImageView.userInteractionEnabled = YES;
+    [self.avatarImageView addGestureRecognizer:tap];
+}
+
+- (void)lookUserInfomation {
+    if (self.lookUserConterBlock) {
+        self.lookUserConterBlock(self.commentModel.uid);
+    }
+}
+
 - (void)setCommentModel:(THNCommentModel *)commentModel {
     _commentModel = commentModel;
 
@@ -131,7 +144,7 @@ NSString *const kLifeRecordsCommentsPraises = @"/life_records/comments/praises";
     }
 
     if (self.replyBlcok) {
-        self.replyBlcok(self.commentModel.comment_id);
+        self.replyBlcok(self.commentModel.comment_id, self.commentModel.user_name);
     }
 }
 

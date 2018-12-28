@@ -8,6 +8,11 @@
 
 #import "THNBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, THNArticleType) {
+    THNArticleTypeDefault = 0,  // 生活志文章
+    THNArticleTypeNote,         // 种草笔记文章
+};
+
 @interface THNArticleViewController : THNBaseViewController
 
 //生活志编号

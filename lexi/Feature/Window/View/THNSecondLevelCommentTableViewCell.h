@@ -16,6 +16,7 @@ extern CGFloat const loadViewHeight;
 extern CGFloat const allSubCommentHeight;
 
 typedef void(^SecondLevelBlock)(THNSecondLevelCommentTableViewCell *cell);
+typedef void(^SecondLevelLookUserBlock)(NSString *uid);
 
 @interface THNSecondLevelCommentTableViewCell : UITableViewCell
 
@@ -23,7 +24,9 @@ typedef void(^SecondLevelBlock)(THNSecondLevelCommentTableViewCell *cell);
 @property (nonatomic, assign) BOOL isHiddenLoadMoreDataView;
 @property (nonatomic, strong) THNCommentModel *commentModel;
 @property (nonatomic, copy) SecondLevelBlock secondLevelBlock;
+@property (nonatomic, copy) SecondLevelLookUserBlock secondLevelLookUserBlock;
 @property (nonatomic, assign) BOOL isShopWindow;
 @property (nonatomic, assign) NSInteger page;
+
 
 @end

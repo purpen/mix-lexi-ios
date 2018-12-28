@@ -71,7 +71,14 @@ static NSString *const kShareFailureTitle = @"分享失败";
     self.shareUrl = url;
     
     if ([thumImageStr isValidUrl]) {
-        self.thumImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL                                          URLWithString:thumImageStr]]];
+        [SVProgressHUD thn_show];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            UIImage *thumImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:thumImageStr]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.thumImage = thumImg;
+                [SVProgressHUD dismiss];
+            });
+        });
         
     } else {
         self.thumImage = [UIImage imageNamed:thumImageStr];
@@ -164,6 +171,11 @@ static NSString *const kShareFailureTitle = @"分享失败";
  友盟分享 url
  */
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType {
+    if (!self.thumImage) {
+        [SVProgressHUD thn_showInfoWithStatus:@"图片正在加载..."];
+        return;
+    }
+    
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
     if (platformType == UMSocialPlatformType_Sina) {

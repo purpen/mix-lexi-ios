@@ -168,7 +168,7 @@ static NSString *const kTextCreate = @"拼贴橱窗";
 - (THNFollowUserButton *)followButton {
     if (!_followButton) {
         _followButton = [[THNFollowUserButton alloc] init];
-        _followButton.layer.cornerRadius = 70 / 2;
+        _followButton.layer.cornerRadius = 30 / 2;
         _followButton.hidden = YES;
     }
     return _followButton;

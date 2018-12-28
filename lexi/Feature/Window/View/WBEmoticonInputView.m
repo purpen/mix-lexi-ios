@@ -86,13 +86,6 @@
 @end
 
 
-
-
-
-
-
-
-
 @protocol WBEmoticonScrollViewDelegate <UICollectionViewDelegate>
 - (void)emoticonScrollViewDidTapCell:(WBEmoticonCell *)cell;
 @end
