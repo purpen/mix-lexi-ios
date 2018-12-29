@@ -31,5 +31,7 @@
 @property (nonatomic, strong) NSString *reply_user_name;
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSString *reply_user_uid;
+// true 代表回复别人的评论，也就是二级回复
+@property (nonatomic, assign) BOOL is_reply_other;
 
 @end

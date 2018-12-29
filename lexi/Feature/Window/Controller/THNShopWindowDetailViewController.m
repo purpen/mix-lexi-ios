@@ -441,7 +441,7 @@ THNShopWindowTableViewCellDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat fixedHeight = self.shopWindowModel.keywords.count == 0 ? 113 : 135;
     CGFloat titleHeight = [self getSizeByString:self.shopWindowModel.title withFontSize:[UIFont fontWithName:@"PingFangSC-Medium" size:15] withMaxWidth:SCREEN_WIDTH - 35];
-    CGFloat contentHeight = [self getSizeByString:self.shopWindowModel.des withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14] withMaxWidth:SCREEN_WIDTH - 35];
+    CGFloat contentHeight = [self getSizeByString:[self.shopWindowModel.des  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withFontSize:[UIFont fontWithName:@"PingFangSC-Regular" size:14] withMaxWidth:SCREEN_WIDTH - 35];
     CGFloat otherHeight = fixedHeight + titleHeight + contentHeight;
     
     switch (self.cellType) {

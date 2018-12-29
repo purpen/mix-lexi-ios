@@ -61,7 +61,8 @@ CGFloat const allSubCommentHeight = 66;
     
     NSString *secondReplyStr= [NSString stringWithFormat:@"回复@%@: %@", subCommentModel.reply_user_name, subCommentModel.content];
     NSRange range = NSMakeRange(2, subCommentModel.reply_user_name.length + 1);
-    if (subCommentModel.reply_user_name.length > 0) {
+    
+    if (subCommentModel.is_reply_other) {
         self.contentLabel.attributedText = [THNTextTool setTextColor:secondReplyStr initWithColor:@"666666" initWithRange:range];
     } else {
         self.contentLabel.text = subCommentModel.content;

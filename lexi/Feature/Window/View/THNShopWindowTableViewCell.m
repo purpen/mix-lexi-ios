@@ -97,12 +97,12 @@ static NSInteger maxDesLabelMaxShowCount = 3;
     if ([self.flag isEqualToString:@"shopWindowDetail"]) {
         self.threeImageStitchingView.isHaveUserInteractionEnabled = YES;
         self.titleLabel.numberOfLines = 0;
-        self.desLabel.text = shopWindowModel.des;
+        self.desLabel.text = [shopWindowModel.des stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [self hiddenShowWindowDetail];
     } else {
         
         self.desLabel.numberOfLines = shopWindowModel.isOpening ? 0 : maxDesLabelMaxShowCount;
-        self.desLabel.text = shopWindowModel.des;
+        self.desLabel.text = [shopWindowModel.des stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *array = [self getSeparatedLinesFromLabel:self.desLabel];
         
         if (array.count > maxDesLabelMaxShowCount) {

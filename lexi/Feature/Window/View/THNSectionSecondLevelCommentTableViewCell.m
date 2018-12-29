@@ -32,7 +32,7 @@
 - (void)setSubCommentModel:(THNCommentModel *)subCommentModel {
     _subCommentModel = subCommentModel;
     if (subCommentModel.height) {
-        if (subCommentModel.reply_user_name.length > 0) {
+        if (subCommentModel.is_reply_other) {
               NSString *secondReplyStr= [NSString stringWithFormat:@"%@ 回复 %@: %@",subCommentModel.user_name, subCommentModel.reply_user_name, subCommentModel.content];
             self.contentLabel.attributedText = [THNTextTool setTextColor:secondReplyStr initWithColor:@"999999" initWithRange:NSMakeRange(subCommentModel.user_name.length + 1, 2)];
         } else {
