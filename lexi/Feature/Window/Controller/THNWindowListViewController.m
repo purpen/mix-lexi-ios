@@ -1,5 +1,5 @@
 //
-//  THNLikedWindowViewController.m
+//  THNWindowListViewController.m
 //  lexi
 //
 //  Created by FLYang on 2018/8/16.
