@@ -13,12 +13,17 @@
 #import <MJExtension/MJExtension.h>
 #import "THNShopWindowDetailViewController.h"
 #import "THNLifeOrderRecordViewController.h"
+#import "THNCommentViewController.h"
+#import "THNLoginViewController.h"
 
 typedef NS_ENUM(NSUInteger, MessagePushType) {
     MessagePushTypeExpress = 1,
     MessagePushTypeBrandHall,
     MessagePushTypeShowWindow,
-    MessagePushTypeLifeManger
+    MessagePushTypeLifeManger,
+    MessagePushTypeThreeDayNologin,
+    MessagePushTypeShowWindowComment,
+    MessagePushTypeArticleComment
 };
 
 @implementation THNMessagePushManger
@@ -56,6 +61,24 @@ typedef NS_ENUM(NSUInteger, MessagePushType) {
             [navi pushViewController:lifeOrderRecordVC animated:YES];
             break;
         }  
+        case MessagePushTypeThreeDayNologin: {
+            THNLoginViewController *loginVC = [[THNLoginViewController alloc]init];
+            [navi pushViewController:loginVC animated:YES];
+            break;
+        }
+        case MessagePushTypeShowWindowComment: {
+            THNCommentViewController *commentVC = [[THNCommentViewController alloc]init];
+            commentVC.isFromShopWindow = YES;
+            commentVC.rid = userInfo[@"shop_window_rid"];
+            [navi pushViewController:commentVC animated:YES];
+            break;
+        }
+        case MessagePushTypeArticleComment: {
+            THNCommentViewController *commentVC = [[THNCommentViewController alloc]init];
+            commentVC.rid = userInfo[@"life_record_rid"];
+            [navi pushViewController:commentVC animated:YES];
+            break;
+        }
     }
 }
 
