@@ -24,8 +24,10 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
 @property (nonatomic, strong) THNGoodsActionButton *wishButton;
 /// 喜欢按钮
 @property (nonatomic, strong) THNGoodsActionButton *putawayButton;
-/// 是否可以上架商品
+/// 是否是上架商品
 @property (nonatomic, assign) BOOL canPutaway;
+/// 是否上架过
+@property (nonatomic, assign) BOOL hasPutaway;
 /// 喜欢人数的宽度
 @property (nonatomic, assign) CGFloat likeCountW;
 
@@ -47,6 +49,7 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
     
     if ([THNLoginManager sharedManager].openingUser && model.isDistributed) {
         self.canPutaway = YES;
+        self.hasPutaway = model.haveDistributed;
     }
     
     self.likeCountW = [self thn_getLikeButtonWidthWithLikeCount:model.likeCount];
@@ -72,12 +75,16 @@ static NSString *const kGoodsActionTableViewCellId = @"kGoodsActionTableViewCell
         [weakSelf setNeedsUpdateConstraints];
     };
     
-    [self.putawayButton setPutawayGoodsStauts:self.canPutaway];
+    [self.putawayButton setPutawayGoodsStauts:model.haveDistributed];
     self.putawayButton.hidden = !self.canPutaway;
 }
 
 #pragma mark - event response
 - (void)putawayButtonAction:(UIButton *)button {
+    if (self.hasPutaway) {
+        return;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(thn_putawayProduct)]) {
         [self.delegate thn_putawayProduct];
     }

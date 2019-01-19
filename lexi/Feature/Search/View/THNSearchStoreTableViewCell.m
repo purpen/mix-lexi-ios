@@ -50,7 +50,7 @@ static NSString *const kSearchStorePooductCellIdentifier = @"kSearchStorePooduct
     [self.storeImageView loadImageWithUrl:[brandModel.logo loadImageUrlWithType:(THNLoadImageUrlTypeAvatar)]];
     self.storeNameLabel.text = brandModel.name;
     self.productCountLabel.text = [NSString stringWithFormat:@"%ld件商品",brandModel.product_count];
-    [self.followButton selfManagerFollowBrandStatus:brandModel.is_followed brandModel:brandModel];
+    [self.followButton selfManagerFollowBrandStatus:brandModel.is_follow_store brandModel:brandModel];
 }
 
 #pragma mark - UICollectionViewDataSource method 实现

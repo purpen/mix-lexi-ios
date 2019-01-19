@@ -50,7 +50,6 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
 }
 
 - (void)loadSearchStoreData {
-
     if (self.currentPage == 1) {
         self.isTransparent = YES;
         [self showHud];
@@ -60,6 +59,9 @@ static NSString *const kSearchStoreCellIdentifier = @"kSearchStoreCellIdentifier
     params[@"qk"] = [THNSaveTool objectForKey:kSearchKeyword];
     THNRequest *request = [THNAPI getWithUrlString:kUrlSearchStore requestDictionary:params delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
+#ifdef DEBUG
+        THNLog(@"搜索到的品牌馆：%@", [NSString jsonStringWithObject:result.responseDict]);
+#endif
         [self hiddenHud];
         if (!result.success) {
             [SVProgressHUD thn_showInfoWithStatus:result.statusMessage];

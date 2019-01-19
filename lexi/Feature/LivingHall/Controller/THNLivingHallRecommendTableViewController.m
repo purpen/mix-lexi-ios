@@ -11,6 +11,7 @@
 #import "THNLoginManager.h"
 #import "THNProductModel.h"
 #import "THNShareViewController.h"
+#import "THNGoodsInfoViewController.h"
 
 static NSString *const kLivingHallRecommendCellIdentifier = @"kLivingHallRecommendCellIdentifier";
 // 馆长推荐
@@ -143,6 +144,12 @@ static NSString *const kUrlDeleteProduct = @"/core_platforms/fx_distribute/remov
     };
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    THNProductModel *productModel = self.recommendedmutableArray[indexPath.row];
+    THNGoodsInfoViewController *goodsInfoVC = [[THNGoodsInfoViewController alloc] initWithGoodsId:productModel.rid];
+    [self.navigationController pushViewController:goodsInfoVC animated:YES];
 }
 
 - (NSMutableArray *)recommendedmutableArray {

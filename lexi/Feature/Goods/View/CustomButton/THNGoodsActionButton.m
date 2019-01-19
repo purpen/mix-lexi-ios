@@ -14,12 +14,13 @@
 #import "YYLabel+Helper.h"
 #import "UIView+Helper.h"
 
-static NSString *const kTextLike    = @"喜欢";
-static NSString *const kTextLiked   = @"已喜欢";
-static NSString *const kTextWish    = @"心愿单";
-static NSString *const kTextAlready = @"已添加";
-static NSString *const kTextBuy     = @"购买";
-static NSString *const kTextPutaway = @"上架";
+static NSString *const kTextLike        = @"喜欢";
+static NSString *const kTextLiked       = @"已喜欢";
+static NSString *const kTextWish        = @"心愿单";
+static NSString *const kTextAlready     = @"已添加";
+static NSString *const kTextBuy         = @"购买";
+static NSString *const kTextPutaway     = @"上架";
+static NSString *const kTextPutawayDone = @"已上架";
 
 @interface THNGoodsActionButton ()
 
@@ -98,11 +99,14 @@ static NSString *const kTextPutaway = @"上架";
 - (void)setPutawayGoodsStauts:(BOOL)putaway {
     self.selected = putaway;
     
-    [self thn_showIcon:YES];
+    [self thn_showIcon:!putaway];
     [self thn_showBorder:YES borderColor:@"#EDEDEF"];
     [self thn_setIconImageName:@"icon_putaway_gray"];
-    [self thn_setTitleLabelText:kTextPutaway textColor:@"#949EA6"];
+    [self thn_setTitleLabelText:putaway ? kTextPutawayDone : kTextPutaway textColor:@"#949EA6"];
     [self thn_setBackgroundColorHex:kColorWhite];
+    if (putaway) {
+        self.textLabel.textAlignment = NSTextAlignmentCenter;
+    }
     
     [self setNeedsUpdateConstraints];
 }
