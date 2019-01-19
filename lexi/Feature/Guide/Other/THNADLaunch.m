@@ -64,8 +64,8 @@ static NSString *const kLastAdUrl = @"lastAdUrl";
 - (void)loadAdData {
     THNRequest *request = [THNAPI getWithUrlString:kUrlAD requestDictionary:nil delegate:nil];
     [request startRequestSuccess:^(THNRequest *request, THNResponse *result) {
-        
-        self.adUrl = result.data[@"small"];
+        // micro=640×1136，small=750×1334，middle=1242×2208， big=1125×2436，
+        self.adUrl = result.data[@"middle"];
         
         // 相同跳过缓存
         if ([self.adUrl isEqualToString:[THNSaveTool objectForKey:kLastAdUrl]]) {
